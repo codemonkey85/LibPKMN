@@ -1,5 +1,6 @@
 #ifndef BASE_PKMN_H
 #define BASE_PKMN_H
+#endif
 
 #include <iostream>
 #include <string>

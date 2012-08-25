@@ -4,7 +4,8 @@
 class base_pkmn
 {
     public:
-        base_pkmn(std::string, int, std::string, std::string, std::string, double, double, double, double, int, int, int, int, int, int, int, int, int, int, int, int);
+        base_pkmn(std::string, int, std::string, std::string, std::string, std::string, std::string,
+                  double, double, double, double, int, int, int, int, int, int, int, int, int, int, int, int);
         std::string get_display_name();
         int get_nat_pokedex_num();
         std::string get_species();
