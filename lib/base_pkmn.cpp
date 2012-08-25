@@ -9,6 +9,7 @@ class base_pkmn
         int get_nat_pokedex_num();
         std::string get_species();
         //std::string * get_types();
+        //std::string * get_abilities();
         double get_height();
         double get_weight();
         double get_chance_male();
@@ -21,6 +22,7 @@ class base_pkmn
         int nat_pokedex_num;
         std::string species;
         std::string type1, type2;
+        std::string ability1, ability2;
         double height; //meters
         double weight; //kilograms
         double chance_male, chance_female; //Gender proportions (both are 0.0 if Pokemon is ungendered)
@@ -29,7 +31,7 @@ class base_pkmn
         //std::string * move_list;
 };
 
-base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1, std::string t2, double ht, double wt, double cm, double cf,
+base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1, std::string t2, std::string a1, std::string a2, double ht, double wt, double cm, double cf,
                         int bhp, int batk, int bdef, int bspd, int bsatk, int bsdef, int ehp, int eatk, int edef, int espd, int esatk, int esdef)
 {
     display_name = name;
@@ -37,6 +39,8 @@ base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1
     species = spec;
     type1 = t1;
     type2 = t2;
+    ability1 = a1;
+    ability2 = a2;
     height = ht;
     weight = wt;
     chance_male = cm;
