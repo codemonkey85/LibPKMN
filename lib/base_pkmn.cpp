@@ -37,19 +37,12 @@ void base_pkmn::print()
 {
     std::cout << display_name << " (#" << nat_pokedex_num << ")" << std::endl;
     std::cout << species << " Pokemon" << std::endl;
+
     std::cout << "Type: " << type1;
-    if(type2 != "")
-    {
-        std::cout << "/" << type2 << std::endl;
-    }
-    else
-    {
-        std::cout << std::endl;
-    }
-    if((ability2 == "") && (ability3 == ""))
-    {
-        std::cout << "Ability: " << ability1 << std::endl;
-    }
+    if(type2 != "") std::cout << "/" << type2 << std::endl;
+    else std::cout << std::endl;
+
+    if((ability2 == "") && (ability3 == "")) std::cout << "Ability: " << ability1 << std::endl;
     else
     {
         std::cout << "Potential Abilities:" << std::endl;
@@ -57,6 +50,27 @@ void base_pkmn::print()
         std::cout << " - " << ability2 << std::endl;
         if(ability3 != "") std::cout << " - " << ability3 << std::endl;
     }
+
+    std::cout << height << " m, " << weight << " kg" << std::endl;
+    if((chance_male + chance_female) == 0.0) std::cout << "Genderless" << std::endl;
+    else
+    {
+        std::cout << (chance_male * 100) << "\% Male, " << (chance_female * 100) << "\% Female" << std::endl;
+    }
+
+    std::cout << "Base Stats:" << std::endl;
+    std::cout << " - Attack: " << baseATK << std::endl;
+    std::cout << " - Defense: " << baseDEF << std::endl;
+    std::cout << " - Speed: " << baseSPD << std::endl;
+    std::cout << " - Special Attack: " << baseSATK << std::endl;
+    std::cout << " - Special Defense: " << baseSDEF << std::endl;
+
+    std::cout << "Effort Value Yields:" << std::endl;
+    std::cout << " - Attack: " << evATK << std::endl;
+    std::cout << " - Defense: " << evDEF << std::endl;
+    std::cout << " - Speed: " << evSPD << std::endl;
+    std::cout << " - Special Attack: " << evSATK << std::endl;
+    std::cout << " - Special Defense: " << evSDEF << std::endl;
 }
 
 std::string base_pkmn::get_display_name() {return display_name;}

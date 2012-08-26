@@ -24,7 +24,4 @@ int main()
     std::cout << std::endl;
     nat_pokedex["squirtle"].print();
     std::cout << std::endl;
-    nat_pokedex["pidgey"].print();
-    std::cout << std::endl;
-    nat_pokedex["mew"].print();
 }
