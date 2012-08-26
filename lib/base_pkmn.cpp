@@ -77,10 +77,54 @@ std::string base_pkmn::get_display_name() {return display_name;}
 int base_pkmn::get_nat_pokedex_num() {return nat_pokedex_num;}
 std::string base_pkmn::get_species() {return species;}
 //get_types
+
+std::string* base_pkmn::get_types()
+{
+    std::string *types = new std::string[2];
+    types[0] = type1;
+    types[1] = type2;
+    return types;
+}
+
+std::string* base_pkmn::get_abilities()
+{
+    std::string *abilities = new std::string[3];
+    abilities[0] = ability1;
+    abilities[1] = ability2;
+    abilities[2] = ability3;
+    return abilities;
+}
+
 double base_pkmn::get_height() {return height;}
 double base_pkmn::get_weight() {return weight;}
 double base_pkmn::get_chance_male() {return chance_male;}
 double base_pkmn::get_chance_female() {return chance_female;}
-//get_base_stats
-//get_ev_yields
+
+int* base_pkmn::get_base_stats()
+{
+    int *stats = new int[6];
+
+    stats[0] = baseHP;
+    stats[1] = baseATK;
+    stats[2] = baseDEF;
+    stats[3] = baseSPD;
+    stats[4] = baseSATK;
+    stats[5] = baseSDEF;
+
+    return stats;
+}
+
+int* base_pkmn::get_ev_yields()
+{
+    int *yields = new int[6];
+
+    yields[0] = evHP;
+    yields[1] = evATK;
+    yields[2] = evDEF;
+    yields[3] = evSPD;
+    yields[4] = evSATK;
+    yields[5] = evSDEF;
+
+    return yields;
+}
 //get_move_list

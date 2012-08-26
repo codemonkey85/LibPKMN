@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
+#include <map>
 #include <time.h>
+#include <math.h>
+#include <stdlib.h>
 #include <pkmnsim/spec_pkmn.hpp>
 
 //Random values
@@ -57,15 +60,15 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
     move3 = "";
     move4 = "";
 
-    nonvolative_status = "OK";
-    std::map<std::string, int> volative_status_map = init_volative_status_map();
+    nonvolatile_status = "OK";
+    std::map<std::string, int> volatile_status_map = init_volatile_status_map();
 }
 
 //Importing specific Pokemon, such as when building a team
-spec_pkmn::spec_pkmn(base b, std::string name, int lvl, char gndr, std::string nat, std::string hld, int hpstat, int atkstat, int defstat, int spdstat,
+spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::string nat, std::string hld, int hpstat, int atkstat, int defstat, int spdstat,
                      int satkstat, int sdefstat, std::string m1, std::string m2, std::string m3, std::string m4) 
 {
-    base b;
+    base = b;
     nickname = name;
     level = lvl;
     gender = gndr;
@@ -87,23 +90,26 @@ spec_pkmn::spec_pkmn(base b, std::string name, int lvl, char gndr, std::string n
     ivSPD = get_iv_from_stat(1,SPD);
     ivSATK = get_iv_from_stat(1,SATK);
     ivSDEF = get_iv_from_stat(1,SDEF);
+
+    nonvolatile_status = "OK";
+    std::map<std::string, int> volatile_status_map = init_volatile_status_map();
 }
 
 char spec_pkmn::determine_gender()
 {
-    if(chance_male + chance_female == 0) return "U";
-    else if(chance_male == 1.0) return "M";
-    else if(chance_female == 1.0) return "F";
+    if(base.get_chance_male() + base.get_chance_female() == 0) return 'U';
+    else if(base.get_chance_male() == 1.0) return 'U';
+    else if(base.get_chance_female() == 1.0) return 'F';
     else
     {
         srand( time(NULL) );
         double val = (rand() % 1000 + 1)/1000;
-        if(val <= chance_male) return "M";
-        else return "F";
+        if(val <= base.get_chance_male()) return 'M';
+        else return 'F';
     }
 }
 
-char spec_pkmn::determine_nature()
+std::string spec_pkmn::determine_nature()
 {
     //May make nature its own class
     std::string nature_pool[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
@@ -112,37 +118,57 @@ char spec_pkmn::determine_nature()
                                  "Bashful","Rash","Calm","Gentle","Sassy","Careful",
                                  "Quirky"};
     srand( time(NULL) );
-    double index = rand() % 25;
+    int index = rand() % 25;
     return nature_pool[index];
 }
 
-int get_hp_from_iv()
+int spec_pkmn::get_hp_from_iv()
 {
-    hp_val = (ivHP + 2(base.get_base_stats()[0]) + 0.25(base.get_ev_yields[0]) + 100)/100 + 10;
+    int *stats;
+    stats = base.get_base_stats();
+    int *yields;
+    yields = base.get_ev_yields();
+
+    int hp_val = floor((ivHP + 2*(stats[0]) + 0.25*(yields[0]) + 100)/100 + 10);
     return hp_val;
 }
 
-int get_stat_from_iv(int arr_index, int ivSTAT)
+int spec_pkmn::get_stat_from_iv(int arr_index, int ivSTAT)
 {
-    int nature_mod = 0; //TODO: generic method
-    stat_val = ((((ivSTAT + 2(base.get_base_stats()[arr_index]) + 0.25(base.get_ev_yields[arr_index])) * level)/100) + 5) * nature_mod;
+    int *stats;
+    stats = base.get_base_stats();
+    int *yields;
+    yields = base.get_ev_yields();
+
+    double nature_mod = 1.0; //TODO: generic method
+    int stat_val = ceil(((((ivSTAT + 2*(stats[arr_index]) + 0.25*(yields[arr_index])) * level)/100) + 5) * nature_mod);
     return stat_val;
 }
 
-int get_iv_from_hp()
+int spec_pkmn::get_iv_from_hp()
 {
-    iv_val = (11(HP - 10))/level - 2(base.get_base_stats()[0]) - 0.25(base.get_ev_yields()[0]) - 100;
+    int *stats;
+    stats = base.get_base_stats();
+    int *yields;
+    yields = base.get_ev_yields();
+
+    int iv_val = floor((11*(HP - 10))/level - 2*(stats[0]) - 0.25*(yields[0]) - 100);
     return iv_val;
 }
 
-int get_iv_from_stat(int arr_index, int STAT)
+int spec_pkmn::get_iv_from_stat(int arr_index, int STAT)
 {
-    nature_mod = 0; //TODO: generic method
-    stat = ((base.get_base_stats()[arr_index]/nature_mod) - 5)(100 / level) - 2(base.get_base_stats()[arr_index]) - 0.25(base.get_ev_yields()[arr_index]);
+    int *stats;
+    stats = base.get_base_stats();
+    int *yields;
+    yields = base.get_ev_yields();
+
+    double nature_mod = 1.0; //TODO: generic method
+    int stat = ceil(((STAT / nature_mod) - 5)*(100 / level) - 2*(stats[arr_index]) - 0.25*(yields[arr_index]));
     return stat;
 }
 
-std::map<std::string, int> init_nonvolative_status_map()
+std::map<std::string, int> spec_pkmn::init_volatile_status_map()
 {
     //TODO: status names copied from Bulbapedia, change later
     std::map<std::string, int> status_map;

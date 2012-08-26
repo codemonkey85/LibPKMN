@@ -12,14 +12,14 @@ class base_pkmn
         std::string get_display_name();
         int get_nat_pokedex_num();
         std::string get_species();
-        //std::string * get_types();
-        //std::string * get_abilities();
+        std::string* get_types();
+        std::string* get_abilities();
         double get_height();
         double get_weight();
         double get_chance_male();
         double get_chance_female();
-        //int * get_base_stats();
-        //int * get_ev_yields();
+        int* get_base_stats();
+        int* get_ev_yields();
         //std::string * get_move_list();
     private:
         std::string display_name;
