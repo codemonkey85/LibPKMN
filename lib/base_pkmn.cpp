@@ -5,7 +5,7 @@
 base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1, std::string t2, std::string a1, std::string a2, std::string a3,
                         double ht, double wt, double cm, double cf,
                         int bhp, int batk, int bdef, int bspd, int bsatk, int bsdef,
-                        int ehp, int eatk, int edef, int espd, int esatk, int esdef)
+                        int ehp, int eatk, int edef, int espd, int esatk, int esdef, int exp)
 {
     display_name = name;
     nat_pokedex_num = num;
@@ -31,6 +31,7 @@ base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1
     evSPD = espd;
     evSATK = esatk;
     evSDEF = esdef;
+    exp_yield = exp;
 }
 
 void base_pkmn::print()
@@ -116,7 +117,7 @@ int* base_pkmn::get_base_stats()
 
 int* base_pkmn::get_ev_yields()
 {
-    int *yields = new int[6];
+    int *yields = new int[7];
 
     yields[0] = evHP;
     yields[1] = evATK;
@@ -124,6 +125,7 @@ int* base_pkmn::get_ev_yields()
     yields[3] = evSPD;
     yields[4] = evSATK;
     yields[5] = evSDEF;
+    yields[6] = exp_yield;
 
     return yields;
 }

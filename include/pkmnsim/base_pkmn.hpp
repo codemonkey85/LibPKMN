@@ -1,3 +1,5 @@
+#ifndef BASE_PKMN_HPP
+#define BASE_PKMN_HPP
 #include <iostream>
 #include <string>
 
@@ -7,7 +9,7 @@ class base_pkmn
         base_pkmn() {};
         base_pkmn(std::string, int, std::string, std::string, std::string, std::string, std::string, std::string,
                   double, double, double, double,
-                  int, int, int, int, int, int, int, int, int, int, int, int);
+                  int, int, int, int, int, int, int, int, int, int, int, int, int);
         void print();
         std::string get_display_name();
         int get_nat_pokedex_num();
@@ -31,6 +33,7 @@ class base_pkmn
         double weight; //kilograms
         double chance_male, chance_female; //Gender proportions (both are 0.0 if Pokemon is ungendered)
         int baseHP, baseATK, baseDEF, baseSPD, baseSATK, baseSDEF; //Base stats
-        int evHP, evATK, evDEF, evSPD, evSATK, evSDEF; //Effort value yield
+        int evHP, evATK, evDEF, evSPD, evSATK, evSDEF, exp_yield; //Effort value yield
         //std::string * move_list;
 };
+#endif /*BASE_PKMN_HPP*/

@@ -1,5 +1,8 @@
+#ifndef SPEC_PKMN_HPP
+#define SPEC_PKMN_HPP
 #include <iostream>
 #include <string>
+#include <map>
 #include <pkmnsim/base_pkmn.hpp>
 
 class spec_pkmn
@@ -10,18 +13,19 @@ class spec_pkmn
         spec_pkmn(base_pkmn, std::string, int, char, std::string, std::string, int, int, int, int,
                   int, int, std::string, std::string, std::string, std::string);
         //base_pkmn get_base_pkmn();
+        void reset_volatile_status_map();
         
     private:
         base_pkmn base;
         std::string nickname;
         int level;
-        char gender; //M = male, F = female, N = neutral
-        std::string nature;
+        char gender; //M = male, F = female, N = nongendered
+        std::string nature; //Will possibly change natures to own class
         std::string held_item;
         int HP, ATK, DEF, SPD, SATK, SDEF;
-        int ivHP, ivATK, ivDEF, ivSPD, ivSATK, ivSDEF; //Individual values, determined in beginning
-        std::string move1, move2, move3, move4; //Will possible change moves to own class
-        int force_vals; //0 = none, -1 = min, 1 = max 
+        int ivHP, ivATK, ivDEF, ivSPD, ivSATK, ivSDEF; //Individual values, determined in constructor
+        std::string move1, move2, move3, move4; //Will possibly change moves to own class
+        int force_vals; //TODO: change to -1=random, 0-31=forced to that value
 
         std::string nonvolatile_status;
         /*
@@ -42,5 +46,5 @@ class spec_pkmn
         int get_stat_from_iv(int,int); //for others besides HP
         int get_iv_from_hp();
         int get_iv_from_stat(int,int); //for others besides HP
-        std::map<std::string, int> init_volatile_status_map(); //Can also reset
 };
+#endif /*SPEC_PKMN_HPP*/

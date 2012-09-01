@@ -1,2 +1,5 @@
-poketest: lib/base_pkmn.cpp lib/pokedex.cpp lib/spec_pkmn.cpp
-    g++ -o poketest lib/base_pkmn.cpp lib/pokedex.cpp lib/spec_pkmn.cpp -I include/
+all:
+	g++ poketest.cpp lib/pokedex.cpp lib/base_pkmn.cpp lib/spec_pkmn.cpp -Iinclude -o poketest
+
+clean:
+	rm -rf poketest
