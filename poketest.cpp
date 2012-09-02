@@ -8,6 +8,9 @@ int main()
 {
     extern std::map<std::string, base_pkmn> nat_pokedex;
 
-    spec_pkmn bulbasaur1 = spec_pkmn(nat_pokedex["bulbasaur"],100,0);
-    std::cout << "Poketest compile" << std::endl;
+    spec_pkmn bulbasaur1 = spec_pkmn(nat_pokedex["bulbasaur"],100,-1);
+    std::cout << "Base Pokemon info" << std::endl << std::endl;
+    bulbasaur1.get_base_pkmn().print();
+    std::cout << std::endl << "Specific Pokemon info" << std::endl << std::endl;
+    bulbasaur1.print();
 }

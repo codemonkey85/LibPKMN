@@ -6,31 +6,12 @@
 #include <stdlib.h>
 #include <pkmnsim/spec_pkmn.hpp>
 #include <boost/assign.hpp>
+#include <boost/format.hpp>
 
 //Random values
 spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
 {
     if(force_vals == -1)
-    {
-        //Minimum IV's
-        ivHP = 0;
-        ivATK = 0;
-        ivDEF = 0;
-        ivSPD = 0;
-        ivSATK = 0;
-        ivSDEF = 0;
-    }
-    else if(force_vals == 1)
-    {
-        //Maximum IV's
-        ivHP = 31;
-        ivATK = 31;
-        ivDEF = 31;
-        ivSPD = 31;
-        ivSATK = 31;
-        ivSDEF = 31;
-    }
-    else
     {
         //Random IV's
         srand ( time(NULL) );
@@ -40,6 +21,15 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
         ivSPD = rand() % 32;
         ivSATK = rand() % 32;
         ivSDEF = rand() % 32;
+    }
+    else
+    {
+        ivHP = force_vals;
+        ivATK = force_vals;
+        ivDEF = force_vals;
+        ivSPD = force_vals;
+        ivSATK = force_vals;
+        ivSDEF = force_vals;
     }
 
     base = b;
@@ -95,7 +85,28 @@ spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::str
 
     nonvolatile_status = "OK";
     reset_volatile_status_map();
+
+    //TODO: check for impossible stats
 }
+
+void spec_pkmn::print()
+{
+    std::cout << boost::format("%s (%s)") % base.get_display_name() % gender << std::endl;
+    std::cout << boost::format("Nickname: %s") % nickname << std::endl;
+    std::cout << boost::format("Level %d") % level << std::endl;
+    std::cout << boost::format("Nature: %s") % nature << std::endl; //TODO: change to reflect new nature class
+    if(held_item == "") std::cout << "Item: None" << std::endl;
+    else std::cout << boost::format("Item: %s") % held_item << std::endl;
+    std::cout << "Stats:" << std::endl;
+    std::cout << boost::format(" - HP: %d (IV: %d)") % HP % ivHP << std::endl;
+    std::cout << boost::format(" - Attack: %d (IV: %d)") % ATK % ivATK << std::endl;
+    std::cout << boost::format(" - Defense: %d (IV: %d)") % DEF % ivDEF << std::endl;
+    std::cout << boost::format(" - Speed: %d (IV: %d)") % SPD % ivSPD << std::endl;
+    std::cout << boost::format(" - Special Attack: %d (IV: %d)") % SATK % ivSATK << std::endl;
+    std::cout << boost::format(" - Special Defense: %d (IV: %d)") % SDEF % ivSDEF << std::endl;
+}
+
+base_pkmn spec_pkmn::get_base_pkmn() {return base;}
 
 char spec_pkmn::determine_gender()
 {

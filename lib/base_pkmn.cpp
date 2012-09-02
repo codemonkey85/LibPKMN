@@ -72,6 +72,7 @@ void base_pkmn::print()
     std::cout << " - Speed: " << evSPD << std::endl;
     std::cout << " - Special Attack: " << evSATK << std::endl;
     std::cout << " - Special Defense: " << evSDEF << std::endl;
+    std::cout << "Experience Yield: " << exp_yield << std::endl;
 }
 
 std::string base_pkmn::get_display_name() {return display_name;}

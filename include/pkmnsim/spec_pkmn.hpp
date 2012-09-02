@@ -12,8 +12,9 @@ class spec_pkmn
         spec_pkmn(base_pkmn, int, int);
         spec_pkmn(base_pkmn, std::string, int, char, std::string, std::string, int, int, int, int,
                   int, int, std::string, std::string, std::string, std::string);
-        //base_pkmn get_base_pkmn();
+        base_pkmn get_base_pkmn();
         void reset_volatile_status_map();
+        void print();
         
     private:
         base_pkmn base;
@@ -25,6 +26,7 @@ class spec_pkmn
         int HP, ATK, DEF, SPD, SATK, SDEF;
         int ivHP, ivATK, ivDEF, ivSPD, ivSATK, ivSDEF; //Individual values, determined in constructor
         std::string move1, move2, move3, move4; //Will possibly change moves to own class
+        //TODO: Incorporate move PP
         int force_vals; //TODO: change to -1=random, 0-31=forced to that value
 
         std::string nonvolatile_status;
