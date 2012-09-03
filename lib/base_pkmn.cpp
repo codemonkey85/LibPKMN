@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <boost/format.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 
 base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1, std::string t2, std::string a1, std::string a2, std::string a3,
@@ -36,43 +37,51 @@ base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1
 
 void base_pkmn::print()
 {
-    std::cout << display_name << " (#" << nat_pokedex_num << ")" << std::endl;
-    std::cout << species << " Pokemon" << std::endl;
+    std::cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << std::endl;
+    if(type2 != "") std::cout << boost::format("Type: %s") % type1 << std::endl;
+    else std::cout << boost::format("Type: %s/%s") % type1 % type2 << std::endl;
+    std::cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") %
+                               baseHP % baseATK % baseDEF % baseSPD % baseSATK % baseSDEF << std::endl;
+}
 
-    std::cout << "Type: " << type1;
-    if(type2 != "") std::cout << "/" << type2 << std::endl;
-    else std::cout << std::endl;
+void base_pkmn::print_verbose()
+{
+    std::cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << std::endl;
+    std::cout << boost::format("%s Pokemon") % species << std::endl;
 
-    if((ability2 == "") && (ability3 == "")) std::cout << "Ability: " << ability1 << std::endl;
+    if(type2 != "") std::cout << boost::format("Type: %s") % type1 << std::endl;
+    else std::cout << boost::format("Type: %s/%s") % type1 % type2 << std::endl;
+
+    if((ability2 == "") && (ability3 == "")) std::cout << boost::format("Ability: %s") % ability1 << std::endl;
     else
     {
         std::cout << "Potential Abilities:" << std::endl;
-        std::cout << " - " << ability1 << std::endl;
-        std::cout << " - " << ability2 << std::endl;
-        if(ability3 != "") std::cout << " - " << ability3 << std::endl;
+        std::cout << boost::format(" - %s") % ability1 << std::endl;
+        if(ability2 != "") std::cout << boost::format(" - %s") % ability2 << std::endl;
+        if(ability3 != "") std::cout << boost::format(" - %s") % ability3 << std::endl;
     }
 
-    std::cout << height << " m, " << weight << " kg" << std::endl;
+    std::cout << boost::format("%d m, %d kg") % height % weight << std::endl;
     if((chance_male + chance_female) == 0.0) std::cout << "Genderless" << std::endl;
-    else
-    {
-        std::cout << (chance_male * 100) << "\% Male, " << (chance_female * 100) << "\% Female" << std::endl;
-    }
+    else std::cout << boost::format("%f\% Male, %f\% Female") % (chance_male*100) % (chance_female*100) << std::endl;
 
     std::cout << "Base Stats:" << std::endl;
-    std::cout << " - Attack: " << baseATK << std::endl;
-    std::cout << " - Defense: " << baseDEF << std::endl;
-    std::cout << " - Speed: " << baseSPD << std::endl;
-    std::cout << " - Special Attack: " << baseSATK << std::endl;
-    std::cout << " - Special Defense: " << baseSDEF << std::endl;
+    std::cout << boost::format(" - HP: %d") % baseHP << std::endl;
+    std::cout << boost::format(" - Attack: %d") % baseATK << std::endl;
+    std::cout << boost::format(" - Defense: %d") % baseDEF << std::endl;
+    std::cout << boost::format(" - Speed: %d") % baseSPD << std::endl;
+    std::cout << boost::format(" - Special Attack: %d") % baseSATK << std::endl;
+    std::cout << boost::format(" - Special Defense: %d") % baseSDEF << std::endl;
 
     std::cout << "Effort Value Yields:" << std::endl;
-    std::cout << " - Attack: " << evATK << std::endl;
-    std::cout << " - Defense: " << evDEF << std::endl;
-    std::cout << " - Speed: " << evSPD << std::endl;
-    std::cout << " - Special Attack: " << evSATK << std::endl;
-    std::cout << " - Special Defense: " << evSDEF << std::endl;
-    std::cout << "Experience Yield: " << exp_yield << std::endl;
+    std::cout << boost::format(" - HP: %d") % evHP << std::endl;
+    std::cout << boost::format(" - Attack: %d") % evATK << std::endl;
+    std::cout << boost::format(" - Defense: %d") % evDEF << std::endl;
+    std::cout << boost::format(" - Speed: %d") % evSPD << std::endl;
+    std::cout << boost::format(" - Special Attack: %d") % evSATK << std::endl;
+    std::cout << boost::format(" - Special Defense: %d") % evSDEF << std::endl;
+
+    std::cout << boost::format("Experience Yield: %d") % exp_yield << std::endl;
 }
 
 std::string base_pkmn::get_display_name() {return display_name;}

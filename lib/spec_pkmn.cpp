@@ -93,6 +93,13 @@ spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::str
 
 void spec_pkmn::print()
 {
+    std::cout << boost::format("%s (%d, %s)") % nickname % level % gender << std::endl;
+    std::cout << base.get_display_name() << std::endl;
+    std::cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") % HP % ATK % DEF % SPD % SATK % SDEF << std::endl;
+}
+
+void spec_pkmn::print_verbose()
+{
     std::cout << boost::format("%s (%s)") % base.get_display_name() % gender << std::endl;
     std::cout << boost::format("Nickname: %s") % nickname << std::endl;
     std::cout << boost::format("Level %d") % level << std::endl;

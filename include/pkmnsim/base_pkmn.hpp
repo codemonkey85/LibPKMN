@@ -11,6 +11,7 @@ class base_pkmn
                   double, double, double, double,
                   int, int, int, int, int, int, int, int, int, int, int, int, int);
         void print();
+        void print_verbose();
         std::string get_display_name();
         int get_nat_pokedex_num();
         std::string get_species();

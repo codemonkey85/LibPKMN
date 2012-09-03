@@ -16,6 +16,7 @@ class spec_pkmn
         base_pkmn get_base_pkmn();
         void reset_volatile_status_map();
         void print();
+        void print_verbose();
         
     private:
         base_pkmn base;
