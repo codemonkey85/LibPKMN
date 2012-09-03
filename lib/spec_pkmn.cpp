@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/pkmn_nature.hpp>
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 
@@ -60,11 +61,12 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
 spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::string nat, std::string hld, int hpstat, int atkstat, int defstat, int spdstat,
                      int satkstat, int sdefstat, std::string m1, std::string m2, std::string m3, std::string m4) 
 {
+    extern std::map<std::string, pkmn_nature> pkmn_nature_map;
     base = b;
     nickname = name;
     level = lvl;
     gender = gndr;
-    nature = nat;
+    nature = pkmn_nature_map[nat];
     held_item = hld;
     ATK = atkstat;
     DEF = defstat;
@@ -94,7 +96,7 @@ void spec_pkmn::print()
     std::cout << boost::format("%s (%s)") % base.get_display_name() % gender << std::endl;
     std::cout << boost::format("Nickname: %s") % nickname << std::endl;
     std::cout << boost::format("Level %d") % level << std::endl;
-    std::cout << boost::format("Nature: %s") % nature << std::endl; //TODO: change to reflect new nature class
+    std::cout << boost::format("Nature: %s") % nature.get_name() << std::endl; //TODO: change to reflect new nature class
     if(held_item == "") std::cout << "Item: None" << std::endl;
     else std::cout << boost::format("Item: %s") % held_item << std::endl;
     std::cout << "Stats:" << std::endl;
@@ -122,17 +124,19 @@ char spec_pkmn::determine_gender()
     }
 }
 
-std::string spec_pkmn::determine_nature()
+//TODO: there has to be a better way to do this...
+pkmn_nature spec_pkmn::determine_nature()
 {
-    //May make nature its own class
-    std::string nature_pool[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
-                                 "Docile","Relaxed","Impish","Lax","Timid","Hasty",
-                                 "Serious","Jolly","Naive","Modest","Mild","Quiet",
-                                 "Bashful","Rash","Calm","Gentle","Sassy","Careful",
-                                 "Quirky"};
+    extern std::map<std::string, pkmn_nature> pkmn_nature_map;
+    std::string nature_names[] = {"hardy","lonely","brave","adamant","naughty","bold",
+                                 "docile","relaxed","impish","lax","timid","hasty",
+                                 "serious","jolly","naive","modest","mild","quiet",
+                                 "bashful","rash","calm","gentle","sassy","careful",
+                                 "quirky"};
     srand( time(NULL) );
     int index = rand() % 25;
-    return nature_pool[index];
+    std::string nature_name = nature_names[index];
+    return pkmn_nature_map[nature_name];
 }
 
 int spec_pkmn::get_hp_from_iv()

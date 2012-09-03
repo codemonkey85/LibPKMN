@@ -1,5 +1,5 @@
 #include <iostream>
-#include <pkmnsim/pokedex.hpp>
+#include <pkmnsim/globals.hpp>
 #include <string>
 #include <map>
 #include <pkmnsim/spec_pkmn.hpp>

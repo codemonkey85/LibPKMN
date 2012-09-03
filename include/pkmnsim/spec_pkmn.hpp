@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/pkmn_nature.hpp>
 
 class spec_pkmn
 {
@@ -21,7 +22,7 @@ class spec_pkmn
         std::string nickname;
         int level;
         char gender; //M = male, F = female, N = nongendered
-        std::string nature; //Will possibly change natures to own class
+        pkmn_nature nature; //Will possibly change natures to own class
         std::string held_item;
         int HP, ATK, DEF, SPD, SATK, SDEF;
         int ivHP, ivATK, ivDEF, ivSPD, ivSATK, ivSDEF; //Individual values, determined in constructor
@@ -43,7 +44,7 @@ class spec_pkmn
         std::map<std::string, int> volatile_status_map; //Condition, number of turns left
 
         char determine_gender();
-        std::string determine_nature();
+        pkmn_nature determine_nature();
         int get_hp_from_iv();
         int get_stat_from_iv(int,int); //for others besides HP
         int get_iv_from_hp();
