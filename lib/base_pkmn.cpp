@@ -49,21 +49,21 @@ void base_pkmn::print_verbose()
     std::cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << std::endl;
     std::cout << boost::format("%s Pokemon") % species << std::endl;
 
-    if(type2 != "") std::cout << boost::format("Type: %s") % type1 << std::endl;
+    if(type2.empty()) std::cout << boost::format("Type: %s") % type1 << std::endl;
     else std::cout << boost::format("Type: %s/%s") % type1 % type2 << std::endl;
 
-    if((ability2 == "") && (ability3 == "")) std::cout << boost::format("Ability: %s") % ability1 << std::endl;
+    if((ability2.empty()) && (ability3.empty())) std::cout << boost::format("Ability: %s") % ability1 << std::endl;
     else
     {
         std::cout << "Potential Abilities:" << std::endl;
         std::cout << boost::format(" - %s") % ability1 << std::endl;
-        if(ability2 != "") std::cout << boost::format(" - %s") % ability2 << std::endl;
-        if(ability3 != "") std::cout << boost::format(" - %s") % ability3 << std::endl;
+        if(!ability2.empty()) std::cout << boost::format(" - %s") % ability2 << std::endl;
+        if(!ability3.empty()) std::cout << boost::format(" - %s") % ability3 << std::endl;
     }
 
     std::cout << boost::format("%d m, %d kg") % height % weight << std::endl;
     if((chance_male + chance_female) == 0.0) std::cout << "Genderless" << std::endl;
-    else std::cout << boost::format("%f\% Male, %f\% Female") % (chance_male*100) % (chance_female*100) << std::endl;
+    else std::cout << boost::format("%2.1f%s Male, %2.1f%s Female") % (chance_male*100) % "%" % (chance_female*100) % "%" << std::endl;
 
     std::cout << "Base Stats:" << std::endl;
     std::cout << boost::format(" - HP: %d") % baseHP << std::endl;

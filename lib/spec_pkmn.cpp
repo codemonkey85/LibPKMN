@@ -12,10 +12,10 @@
 //Random values
 spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
 {
+    srand ( time(NULL) );
     if(force_vals == -1)
     {
         //Random IV's
-        srand ( time(NULL) );
         ivHP = rand() % 32;
         ivATK = rand() % 32;
         ivDEF = rand() % 32;
@@ -33,6 +33,27 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
         ivSDEF = force_vals;
     }
 
+    /*
+     * Random EV's within following rules:
+     *  - Sum <= 510
+     *  - EV <= 255
+     */
+    evHP = 256;
+    evATK = 256;
+    evDEF = 256;
+    evSPD = 256;
+    evSATK = 256;
+    evSDEF = 256;
+    while((evHP+evATK+evDEF+evSPD+evSATK+evSDEF)>510 || evHP>255 || evATK>255 || evDEF>255 || evSPD>255 || evSATK>255 || evSDEF>255)
+    {
+        evHP = rand() % 256;
+        evATK = rand() % 256;
+        evDEF = rand() % 256;
+        evSPD = rand() % 256;
+        evSATK = rand() % 256;
+        evSDEF = rand() % 256;
+    }
+
     base = b;
     nickname = base.get_display_name();
     level = lvl;
@@ -41,12 +62,12 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
     held_item = "";
 
     if(base.get_display_name() == "Shedinja") HP = 1;
-    else HP = get_hp_from_iv();
-    ATK = get_stat_from_iv(1,ivATK);
-    DEF = get_stat_from_iv(2,ivDEF);
-    SPD = get_stat_from_iv(3,ivSPD);
-    SATK = get_stat_from_iv(4,ivSATK);
-    SDEF = get_stat_from_iv(5,ivSDEF);
+    else HP = get_hp_from_iv_ev();
+    ATK = get_stat_from_iv_ev(1,ivATK,evATK);
+    DEF = get_stat_from_iv_ev(2,ivDEF,evDEF);
+    SPD = get_stat_from_iv_ev(3,ivSPD,evSPD);
+    SATK = get_stat_from_iv_ev(4,ivSATK,evSATK);
+    SDEF = get_stat_from_iv_ev(5,ivSDEF,evSATK);
 
     move1 = "";
     move2 = "";
@@ -78,12 +99,13 @@ spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::str
     move3 = m3;
     move4 = m4;
 
-    ivHP = get_iv_from_hp();
-    ivATK = get_iv_from_stat(1,ATK);
-    ivDEF = get_iv_from_stat(1,DEF);
-    ivSPD = get_iv_from_stat(1,SPD);
-    ivSATK = get_iv_from_stat(1,SATK);
-    ivSDEF = get_iv_from_stat(1,SDEF);
+    //Random IV's
+    ivHP = rand() % 32;
+    ivATK = rand() % 32;
+    ivDEF = rand() % 32;
+    ivSPD = rand() % 32;
+    ivSATK = rand() % 32;
+    ivSDEF = rand() % 32;
 
     nonvolatile_status = "OK";
     reset_volatile_status_map();
@@ -103,16 +125,16 @@ void spec_pkmn::print_verbose()
     std::cout << boost::format("%s (%s)") % base.get_display_name() % gender << std::endl;
     std::cout << boost::format("Nickname: %s") % nickname << std::endl;
     std::cout << boost::format("Level %d") % level << std::endl;
-    std::cout << boost::format("Nature: %s") % nature.get_name() << std::endl; //TODO: change to reflect new nature class
+    std::cout << boost::format("Nature: %s") % nature.get_name() << std::endl;
     if(held_item == "") std::cout << "Item: None" << std::endl;
     else std::cout << boost::format("Item: %s") % held_item << std::endl;
     std::cout << "Stats:" << std::endl;
-    std::cout << boost::format(" - HP: %d (IV: %d)") % HP % ivHP << std::endl;
-    std::cout << boost::format(" - Attack: %d (IV: %d)") % ATK % ivATK << std::endl;
-    std::cout << boost::format(" - Defense: %d (IV: %d)") % DEF % ivDEF << std::endl;
-    std::cout << boost::format(" - Speed: %d (IV: %d)") % SPD % ivSPD << std::endl;
-    std::cout << boost::format(" - Special Attack: %d (IV: %d)") % SATK % ivSATK << std::endl;
-    std::cout << boost::format(" - Special Defense: %d (IV: %d)") % SDEF % ivSDEF << std::endl;
+    std::cout << boost::format(" - HP: %d (IV: %d, EV: %d)") % HP % ivHP % evHP << std::endl;
+    std::cout << boost::format(" - Attack: %d (IV: %d, EV: %d)") % ATK % ivATK % evATK << std::endl;
+    std::cout << boost::format(" - Defense: %d (IV: %d, EV: %d)") % DEF % ivDEF % evDEF << std::endl;
+    std::cout << boost::format(" - Speed: %d (IV: %d, EV: %d)") % SPD % ivSPD % evSPD << std::endl;
+    std::cout << boost::format(" - Special Attack: %d (IV: %d, EV: %d)") % SATK % ivSATK % evSATK << std::endl;
+    std::cout << boost::format(" - Special Defense: %d (IV: %d, EV: %d)") % SDEF % ivSDEF % evSDEF << std::endl;
 }
 
 base_pkmn spec_pkmn::get_base_pkmn() {return base;}
@@ -142,54 +164,28 @@ pkmn_nature spec_pkmn::determine_nature()
                                  "quirky"};
     srand( time(NULL) );
     int index = rand() % 25;
+    std::cout << "Index: " << index << std::endl;
     std::string nature_name = nature_names[index];
     return pkmn_nature_map[nature_name];
 }
 
-int spec_pkmn::get_hp_from_iv()
+int spec_pkmn::get_hp_from_iv_ev()
 {
     int *stats;
     stats = base.get_base_stats();
-    int *yields;
-    yields = base.get_ev_yields();
 
-    int hp_val = floor((ivHP + 2*(stats[0]) + 0.25*(yields[0]) + 100)/100 + 10);
+    int hp_val = floor((ivHP + 2*(stats[0]) + 0.25*(evHP) + 100)/100 + 10);
     return hp_val;
 }
 
-int spec_pkmn::get_stat_from_iv(int arr_index, int ivSTAT)
+int spec_pkmn::get_stat_from_iv_ev(int arr_index, int ivSTAT, int evSTAT)
 {
     int *stats;
     stats = base.get_base_stats();
-    int *yields;
-    yields = base.get_ev_yields();
 
-    double nature_mod = 1.0; //TODO: generic method
-    int stat_val = ceil(((((ivSTAT + 2*(stats[arr_index]) + 0.25*(yields[arr_index])) * level)/100) + 5) * nature_mod);
+    double nature_mod = nature.get_mods()[arr_index-1];
+    int stat_val = ceil(((((ivSTAT + 2*(stats[arr_index]) + 0.25*(evSTAT)) * level)/100) + 5) * nature_mod);
     return stat_val;
-}
-
-int spec_pkmn::get_iv_from_hp()
-{
-    int *stats;
-    stats = base.get_base_stats();
-    int *yields;
-    yields = base.get_ev_yields();
-
-    int iv_val = floor((11*(HP - 10))/level - 2*(stats[0]) - 0.25*(yields[0]) - 100);
-    return iv_val;
-}
-
-int spec_pkmn::get_iv_from_stat(int arr_index, int STAT)
-{
-    int *stats;
-    stats = base.get_base_stats();
-    int *yields;
-    yields = base.get_ev_yields();
-
-    double nature_mod = 1.0; //TODO: generic method
-    int stat = ceil(((STAT / nature_mod) - 5)*(100 / level) - 2*(stats[arr_index]) - 0.25*(yields[arr_index]));
-    return stat;
 }
 
 void spec_pkmn::reset_volatile_status_map()

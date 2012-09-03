@@ -27,6 +27,7 @@ class spec_pkmn
         std::string held_item;
         int HP, ATK, DEF, SPD, SATK, SDEF;
         int ivHP, ivATK, ivDEF, ivSPD, ivSATK, ivSDEF; //Individual values, determined in constructor
+        int evHP, evATK, evDEF, evSPD, evSATK, evSDEF; //Effort values, earned via battles, 
         std::string move1, move2, move3, move4; //Will possibly change moves to own class
         //TODO: Incorporate move PP
         int force_vals; //TODO: change to -1=random, 0-31=forced to that value
@@ -46,9 +47,7 @@ class spec_pkmn
 
         char determine_gender();
         pkmn_nature determine_nature();
-        int get_hp_from_iv();
-        int get_stat_from_iv(int,int); //for others besides HP
-        int get_iv_from_hp();
-        int get_iv_from_stat(int,int); //for others besides HP
+        int get_hp_from_iv_ev();
+        int get_stat_from_iv_ev(int,int,int); //for others besides HP
 };
 #endif /*SPEC_PKMN_HPP*/
