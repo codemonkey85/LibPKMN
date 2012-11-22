@@ -346,11 +346,4 @@ map<string, map<string, double> > mod_map = boost::assign::map_list_of
     ("Dragon",  dragon_mods)
     ("Dark",    dark_mods);
 
-double get_type_damage_mod(string off_type, string def_type)
-{
-    double mod = 1.0;
-
-    mod *= mod_map[off_type][def_type];
-
-    return mod;
-}
+double get_type_damage_mod(string off_type, string def_type) {return mod_map[off_type][def_type];}
