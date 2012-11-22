@@ -14,6 +14,3 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(lib)
 #add_subdirectory(bin)
 add_subdirectory(include)
-
-add_executable(poketest poketest.cpp)
-target_link_libraries(poketest pkmnsim boost_program_options)
