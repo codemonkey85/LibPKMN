@@ -17,4 +17,6 @@ class pkmn_nature
         double ATKmod, DEFmod, SPDmod, SATKmod, SDEFmod;
 };
 
+pkmn_nature get_nature(std::string);
+
 #endif /*PKMN_NATURE_HPP*/

@@ -1,5 +1,4 @@
 #include <iostream>
-#include <pkmnsim/globals.hpp>
 #include <string>
 #include <map>
 #include <pkmnsim/spec_pkmn.hpp>
@@ -44,21 +43,11 @@ int main(int argc, char *argv[])
         return ~0;
     }
 
-
-    std::map<std::string,base_pkmn>::iterator iter = nat_pokedex.find(use_pkmn);
-    if(iter != nat_pokedex.end())
-    {
-        spec_pkmn pkmn1 = spec_pkmn(nat_pokedex[use_pkmn],level,force_vals);
-        std::cout << "Base Pokemon info" << std::endl << std::endl;
-        if(verbose) pkmn1.get_base_pkmn().print_verbose();
-        else pkmn1.get_base_pkmn().print();
-        std::cout << std::endl << "Specific Pokemon info" << std::endl << std::endl;
-        if(verbose) pkmn1.print_verbose();
-        else pkmn1.print();
-    }
-    else
-    {
-        std::cout << "Pokemon not in National Pokedex." << std::endl;
-    }
-
+    spec_pkmn pkmn1 = spec_pkmn(get_pokemon(use_pkmn),level,force_vals);
+    std::cout << "Base Pokemon info" << std::endl << std::endl;
+    if(verbose) pkmn1.get_base_pkmn().print_verbose();
+    else pkmn1.get_base_pkmn().print();
+    std::cout << std::endl << "Specific Pokemon info" << std::endl << std::endl;
+    if(verbose) pkmn1.print_verbose();
+    else pkmn1.print();
 }

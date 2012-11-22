@@ -37,4 +37,6 @@ class base_pkmn
         int evHP, evATK, evDEF, evSPD, evSATK, evSDEF, exp_yield; //Effort value yield
         //std::string * move_list;
 };
+
+base_pkmn get_pokemon(std::string);
 #endif /*BASE_PKMN_HPP*/

@@ -87,7 +87,7 @@ spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::str
     nickname = name;
     level = lvl;
     gender = gndr;
-    nature = pkmn_nature_map[nat];
+    nature = get_nature(nat);
     held_item = hld;
     ATK = atkstat;
     DEF = defstat;
@@ -147,7 +147,8 @@ char spec_pkmn::determine_gender()
     else
     {
         srand( time(NULL) );
-        double val = (rand() % 1000 + 1)/1000;
+        double val = (rand() % 1000 + 1)/1000.0;
+        std::cout << "gender val: " << val << std::endl;
         if(val <= base.get_chance_male()) return 'M';
         else return 'F';
     }
@@ -156,7 +157,6 @@ char spec_pkmn::determine_gender()
 //TODO: there has to be a better way to do this...
 pkmn_nature spec_pkmn::determine_nature()
 {
-    extern std::map<std::string, pkmn_nature> pkmn_nature_map;
     std::string nature_names[] = {"hardy","lonely","brave","adamant","naughty","bold",
                                  "docile","relaxed","impish","lax","timid","hasty",
                                  "serious","jolly","naive","modest","mild","quiet",
@@ -164,9 +164,7 @@ pkmn_nature spec_pkmn::determine_nature()
                                  "quirky"};
     srand( time(NULL) );
     int index = rand() % 25;
-    std::cout << "Index: " << index << std::endl;
-    std::string nature_name = nature_names[index];
-    return pkmn_nature_map[nature_name];
+    return get_nature(nature_names[index]);
 }
 
 int spec_pkmn::get_hp_from_iv_ev()
@@ -174,7 +172,7 @@ int spec_pkmn::get_hp_from_iv_ev()
     int *stats;
     stats = base.get_base_stats();
 
-    int hp_val = floor((ivHP + 2*(stats[0]) + 0.25*(evHP) + 100)/100 + 10);
+    int hp_val = floor(((ivHP + (2*stats[0]) + (0.25*evHP) + 100) * level)/100 + 10);
     return hp_val;
 }
 
