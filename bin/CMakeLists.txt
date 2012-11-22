@@ -1,2 +1,2 @@
-ADD_EXECUTABLE(pkmn_type_eval pkmn_type_eval.cpp)
-TARGET_LINK_LIBRARIES(pkmn_type_eval pkmnsim)
+ADD_EXECUTABLE(analyze_pkmn_team analyze_pkmn_team.cpp)
+TARGET_LINK_LIBRARIES(analyze_pkmn_team pkmnsim)
