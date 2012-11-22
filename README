@@ -1,0 +1,12 @@
+Pokemon Sim
+
+Data structures written to construct a Pokemon team, complete with movesets.
+This allows for apps to be written to find type weaknesses in teams, calculate
+damage ranges for different scenarios, and many other in-game situations.
+
+Pokemon info, algorithms, etc., all taken from:
+Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
+
+Tested with GCC 4.6.3 and MSVC 2012.
+
+README last updated: 2012-11-22
