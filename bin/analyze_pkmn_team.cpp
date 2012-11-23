@@ -11,51 +11,31 @@
 
 using namespace std;
 
+struct effectiveness_arr {int arr[4];};
+/*
+ * [0] = No effect
+ * [1] = Not very effective
+ * [2] = No type mod
+ * [3] = Super effective
+ */
+typedef vector<base_pkmn>::iterator team_iter;
+
+string type_list[17] = {"Normal","Fighting","Flying","Poison","Ground","Rock","Bug","Ghost","Steel",
+                        "Fire","Water","Grass","Electric","Psychic","Ice","Dragon","Dark"};
+vector<base_pkmn> pkmn_team;
+map<string,effectiveness_arr> earr_map;
+
 int main(int argc, char *argv[])
 {
-    vector<base_pkmn> pkmn_team;
-    map<string, double> base_effectiveness_map = boost::assign::map_list_of
-        ("Normal",1.0)
-        ("Fighting",1.0)
-        ("Flying",1.0)
-        ("Poison",1.0)
-        ("Ground",1.0)
-        ("Rock",1.0)
-        ("Bug",1.0)
-        ("Ghost",1.0)
-        ("Steel",1.0)
-        ("Fire",1.0)
-        ("Water",1.0)
-        ("Grass",1.0)
-        ("Electric",1.0)
-        ("Psychic",1.0)
-        ("Ice",1.0)
-        ("Dragon",1.0)
-        ("Dark",1.0);
-    map<string, int> base_num_each = boost::assign::map_list_of
-        ("Normal",0)
-        ("Fighting",0)
-        ("Flying",0)
-        ("Poison",0)
-        ("Ground",0)
-        ("Rock",0)
-        ("Bug",0)
-        ("Ghost",0)
-        ("Steel",0)
-        ("Fire",0)
-        ("Water",0)
-        ("Grass",0)
-        ("Electric",0)
-        ("Psychic",0)
-        ("Ice",0)
-        ("Dragon",0)
-        ("Dark",0);
-    map<string, map<string, double> > pkmn_type_mods;
 
     if(argc > 1)
     {
         ifstream team_file(argv[1], ifstream::in);
         string pkmn_name;
+
+        //Populate earr_map
+        effectiveness_arr temp_earr = {0,0,0,0};
+        for(int i = 0; i < 17; i++) earr_map[type_list[i]] = temp_earr;
 
         //Generate vector of Pokemon team to analyze
         int count = 1;
@@ -68,55 +48,32 @@ int main(int argc, char *argv[])
 
         team_file.close();
 
-        //Generate maps of type effectiveness against each Pokemon
-        for(vector<base_pkmn>::iterator vit = pkmn_team.begin(); vit != pkmn_team.end(); ++vit)
+        //Calculations
+        for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti) //For each Pokemon
         {
-            string *types = vit->get_types();
-            map<string, double> temp_map = base_effectiveness_map;
-            for(map<string, double>::iterator mit = temp_map.begin(); mit != temp_map.end(); ++mit)
+            effectiveness_arr temp_earr;
+
+            for(int i = 0; i < 17; i++) //For each type
             {
-                mit->second *= get_type_damage_mod(mit->first, types[0]);
-                if(types[1] != "") mit->second *= get_type_damage_mod(mit->first, types[1]);
-                pkmn_type_mods[vit->get_display_name()] = temp_map;
-            }
+                //Determine type damage mod
+                double mod = 1.0;
+                string *types = ti->get_types();
+                mod *= get_type_damage_mod(type_list[i], types[0]);
+                if(types[1] != "") mod *= get_type_damage_mod(type_list[i], types[1]);
+
+                //Increment appropriate number
+                if(mod == 0.0) earr_map[type_list[i]].arr[0]++;
+                else if(mod > 0.0 and mod < 1.0) earr_map[type_list[i]].arr[1]++;
+                else if(mod == 1.0) earr_map[type_list[i]].arr[2]++;
+                else earr_map[type_list[i]].arr[3]++;
+            } 
         }
 
-        //Consolidate results into numbers of each effectiveness
-        map<string, int> num_super_effective = base_num_each;
-        map<string, int> num_normal = base_num_each;
-        map<string, int> num_not_very_effective = base_num_each;
-        map<string, int> num_zero = base_num_each;
-        for(map<string, map<string,double> >::iterator mit1 = pkmn_type_mods.begin(); mit1 != pkmn_type_mods.end(); ++mit1)
+        //Print output
+        for(int i = 0; i < 17; i++)
         {
-            for(map<string,double>::iterator mit2 = mit1->second.begin(); mit2 != mit1->second.end(); ++mit2)
-            {
-                if(mit2->second == 0.0) num_zero[mit2->first]++;
-                else if(mit2->second > 0.0 && mit2->second < 1.0) num_not_very_effective[mit2->first]++;
-                else if(mit2->second == 1.0) num_normal[mit2->first]++;
-                else num_super_effective[mit2->first]++;
-            }
-        }
-
-        //Print results
-        cout << "Super effective:" << endl;
-        for(map<string, int>::iterator mit = num_super_effective.begin(); mit != num_super_effective.end(); ++mit)
-        {
-            if(mit->second > 1) cout << boost::format(" * %s (%d)\n") % mit->first % mit->second;
-        }
-        cout << "Normal effectiveness:" << endl;
-        for(map<string, int>::iterator mit = num_normal.begin(); mit != num_normal.end(); ++mit)
-        {
-            if(mit->second > 1) cout << boost::format(" * %s (%d)\n") % mit->first % mit->second;
-        }
-        cout << "Not very effective:" << endl;
-        for(map<string, int>::iterator mit = num_not_very_effective.begin(); mit != num_not_very_effective.end(); ++mit)
-        {
-            if(mit->second > 1) cout << boost::format(" * %s (%d)\n") % mit->first % mit->second;
-        }
-        cout << "Has no effect: " << endl;
-        for(map<string, int>::iterator mit = num_zero.begin(); mit != num_zero.end(); ++mit)
-        {
-            if(mit->second > 1) cout << boost::format(" * %s (%d)\n") % mit->first % mit->second;
+            int *earr = earr_map[type_list[i]].arr;
+            cout << boost::format("%s (%d,%d,%d,%d)\n") % type_list[i] % earr[0] % earr[1] % earr[2] % earr[3];
         }
     }
     else throw runtime_error("You must supply a file with one Pokemon name per line (max 6).");
