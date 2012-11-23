@@ -91,7 +91,6 @@ void base_pkmn::print_verbose()
 std::string base_pkmn::get_display_name() {return display_name;}
 int base_pkmn::get_nat_pokedex_num() {return nat_pokedex_num;}
 std::string base_pkmn::get_species() {return species;}
-//get_types
 
 std::string* base_pkmn::get_types()
 {
