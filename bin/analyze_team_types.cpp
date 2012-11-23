@@ -13,6 +13,7 @@
 namespace po = boost::program_options;
 using namespace std;
 
+typedef vector<base_pkmn>::iterator team_iter;
 struct effectiveness_arr {int arr[4];};
 /*
  * [0] = No effect
@@ -20,7 +21,6 @@ struct effectiveness_arr {int arr[4];};
  * [2] = No type mod
  * [3] = Super effective
  */
-typedef vector<base_pkmn>::iterator team_iter;
 
 string type_list[17] = {"Normal","Fighting","Flying","Poison","Ground","Rock","Bug","Ghost","Steel",
                         "Fire","Water","Grass","Electric","Psychic","Ice","Dragon","Dark"};
@@ -55,9 +55,9 @@ string get_max(string *type_list, map<string, effectiveness_arr> earr_map, int i
         if(earr[index] > current_max)
         {
             current_max = earr[index];
-            max_types = type_list[i];
+            max_types = str(boost::format("%s (%d)") % type_list[i] % current_max);
         }
-        else if(earr[index] == current_max) max_types = str(boost::format("%s, %s") % max_types % type_list[i]);
+        else if(earr[index] == current_max) max_types = str(boost::format("%s, %s (%d)") % max_types % type_list[i] % current_max);
     }
     return max_types;
 }
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
     }
 
     //Find maxes
-    string most_dangerous = get_max(type_list, earr_map, 4); //Type(s) with most super effectives
+    string most_dangerous = get_max(type_list, earr_map, 3); //Type(s) with most super effectives
     string no_effect = get_max(type_list, earr_map, 0); //Type(s) with no effect
     string not_very_effective = get_max(type_list, earr_map, 1);
     string least_dangerous = str(boost::format("%s, %s") % no_effect % not_very_effective);
@@ -161,6 +161,11 @@ int main(int argc, char *argv[])
             int *earr = earr_map[type_list[i]].arr;
             if(verbose) cout << boost::format("%s (%d,%d,%d,%d)\n") % type_list[i] % earr[0] % earr[1] % earr[2] % earr[3];
         }
+    }
+    else
+    {
+        cout << endl << "Team:" << endl;
+        for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti) cout << " * " << ti->get_display_name() << endl;
     }
 
     cout << endl << "Most dangerous type(s): " << most_dangerous << endl;
