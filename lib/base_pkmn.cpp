@@ -149,6 +149,9 @@ base_pkmn get_pokemon(std::string pkmn_name)
     boost::algorithm::to_lower(pkmn_name);
 
     std::map<std::string, base_pkmn> nat_pokedex = boost::assign::map_list_of
+        //
+        // Generation 1
+        //
         ("bulbasaur", base_pkmn("Bulbasaur",1,"Seed", "Grass","Poison", "Overgrow","Chlorophyll","",
                                 0.7,6.9, 0.875,0.125, 45,49,49,65,65,45, 0,0,0,1,0,0, 64)) //RBG,FRLG starter
         ("venusaur", base_pkmn("Venusaur",3,"Seed", "Grass","Poison", "Overgrow","Chlorophyll","",
@@ -179,24 +182,36 @@ base_pkmn get_pokemon(std::string pkmn_name)
                               1.9,59.0, 0.875,0.125, 80,105,65,60,75,130, 0,0,0,0,0,2, 202))
         ("snorlax", base_pkmn("Snorlax",143,"Sleeping", "Normal","", "Immunity","Thick Fat","Gluttony",
                               2.1,460.0, 0.875,0.125, 160,110,65,65,110,30, 2,0,0,0,0,0, 154))
+        //
+        // Generation 2
+        //
         ("chikorita", base_pkmn("Chikorita",152,"Leaf", "Grass","", "Overgrow","Leaf Guard","",
                                 0.9,6.4, 0.875,0.125, 45,49,65,49,65,45, 0,0,0,0,1,0, 64)) //GSC,HGSS starter
         ("cyndaquil", base_pkmn("Cyndaquil",155,"Fire Mouse", "Fire","", "Blaze","Flash Fire","",
                                 0.5,7.9, 0.875,0.125, 39,52,43,60,50,65, 0,0,0,0,0,1, 65)) //GSC,HGSS starter
         ("totodile", base_pkmn("Totodile",158,"Big Jaw", "Water","", "Torrent","Sheer Force","",
                                0.6,9.5, 0.875,0.125, 50,65,64,44,48,43, 0,1,0,0,0,0, 66)) //GSC,HGSS starter
+        //
+        // Generation 3
+        //
         ("treecko", base_pkmn("Treecko",252,"Wood Gecko", "Grass","", "Overgrow","Unburden","",
                               0.5,5.0, 0.875,0.125, 40,45,35,65,55,70, 0,0,0,0,0,1, 65)) //RSE starter
         ("torchic", base_pkmn("Torchic",255,"Chick", "Fire","", "Blaze","Speed Boost","",
                               0.4,2.5, 0.875,0.125, 45,60,40,70,50,45, 0,0,0,1,0,0, 65)) //RSE starter
         ("mudkip", base_pkmn("Mudkip",258,"Mud Fish", "Water","", "Torrent","Damp","",
                              0.4,7.6, 0.875,0.125, 50,70,50,50,50,40, 0,1,0,0,0,0, 65)) //RSE starter
+        //
+        // Generation 4
+        //
         ("turtwig", base_pkmn("Turtwig",387,"Tiny Leaf", "Grass","", "Overgrow","Shell Armor","",
                               0.4,10.2, 0.875,0.125, 55,68,64,45,55,31, 0,1,0,0,0,0, 64)) //DPP starter
         ("chimchar", base_pkmn("Chimchar",390,"Chimp", "Fire","", "Blaze","Iron Fist","",
                                0.5,6.2, 0.875,0.125, 44,58,44,58,44,61, 0,0,0,0,0,1, 65)) //DPP starter
         ("piplup", base_pkmn("Piplup",393,"Penguin", "Water","", "Torrent","Defiant","",
                              0.4,5.2, 0.875,0.125, 53,51,53,61,56,40, 0,0,0,1,0,0, 66)) //DPP starter
+        //
+        // Generation 5
+        //
         ("snivy", base_pkmn("Snivy",495,"Grass Snake", "Grass","", "Overgrow","Contrary","",
                             0.6,8.1, 0.875,0.125, 45,45,55,45,55,63, 0,0,0,0,0,1, 28)) //BW,B2W2 starter
         ("tepig", base_pkmn("Tepig",498,"Fire Pig", "Fire","", "Blaze","Thick Fat","",

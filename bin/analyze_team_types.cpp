@@ -43,10 +43,10 @@ void print_help(po::variables_map vm, po::options_description desc)
          << "Dragonite" << endl << endl;
 }
 
-string get_max(string *type_list, map<string, effectiveness_arr> earr_map, int index)
+vector<string> get_max(string *type_list, map<string, effectiveness_arr> earr_map, int index)
 {
     int current_max = 0;
-    string max_types;
+    vector<string> max_types;
 
     for(int i = 0; i < 17; i++)
     {
@@ -55,11 +55,27 @@ string get_max(string *type_list, map<string, effectiveness_arr> earr_map, int i
         if(earr[index] > current_max)
         {
             current_max = earr[index];
-            max_types = str(boost::format("%s (%d)") % type_list[i] % current_max);
+            max_types.clear();
+            max_types.push_back(str(boost::format("%s (%d)") % type_list[i] % current_max));
         }
-        else if(earr[index] == current_max) max_types = str(boost::format("%s, %s (%d)") % max_types % type_list[i] % current_max);
+        else if(earr[index] == current_max) max_types.push_back(str(boost::format("%s (%d)") % type_list[i] % current_max));
     }
     return max_types;
+}
+
+map<string, int> get_type_overlaps(vector<base_pkmn> pkmn_team, string *type_list)
+{
+    map<string, int> nums; //Key = type, val = number of Pokemon with that type
+    for(int i = 0; i < 17; i++) nums[type_list[i]] = 0;
+
+    for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti)
+    {
+        string *types = ti->get_types();
+        nums[types[0]]++;
+        if(types[1] != "") nums[types[1]]++;
+    }
+
+    return nums;
 }
 
 int main(int argc, char *argv[])
@@ -89,11 +105,14 @@ int main(int argc, char *argv[])
     bool verbose = (vm.count("verbose") > 0);
 
     ifstream team_file_input(team_file.c_str(), ifstream::in);
+    if(team_file_input.fail()) throw runtime_error("Specified file doesn't exist.");
     string pkmn_name;
 
     //Populate earr_map
     effectiveness_arr temp_earr = {0,0,0,0};
     for(int i = 0; i < 17; i++) earr_map[type_list[i]] = temp_earr;
+
+    if(verbose) cout << boost::format("\nFound team in file \"%s\"\n\n") % team_file;
 
     //Generate vector of Pokemon team to analyze
     int count = 1;
@@ -147,10 +166,9 @@ int main(int argc, char *argv[])
     }
 
     //Find maxes
-    string most_dangerous = get_max(type_list, earr_map, 3); //Type(s) with most super effectives
-    string no_effect = get_max(type_list, earr_map, 0); //Type(s) with no effect
-    string not_very_effective = get_max(type_list, earr_map, 1);
-    string least_dangerous = str(boost::format("%s, %s") % no_effect % not_very_effective);
+    vector<string> no_effect = get_max(type_list, earr_map, 0); //Type(s) with no effect
+    vector<string> not_very_effective = get_max(type_list, earr_map, 1); //Type(s) with most "not very effective"
+    vector<string> super_effective = get_max(type_list, earr_map, 3); //Type(s) with most "super effective"
 
     //Print output
     if(verbose)
@@ -165,9 +183,33 @@ int main(int argc, char *argv[])
     else
     {
         cout << endl << "Team:" << endl;
-        for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti) cout << " * " << ti->get_display_name() << endl;
+        for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti)
+        {
+            string pkmn_output;
+            pkmn_output = str(boost::format(" * %s") % ti->get_display_name());
+            string *types = ti->get_types();
+            if(types[1] != "") cout << (boost::format("%s (%s/%s)\n") % pkmn_output % types[0] % types[1]);
+            else cout << (boost::format("%s (%s)\n") % pkmn_output % types[0]);
+        }
     }
 
-    cout << endl << "Most dangerous type(s): " << most_dangerous << endl;
-    cout << "Least dangerous type(s): " << least_dangerous << endl << endl;
+    map<string, int> overlaps = get_type_overlaps(pkmn_team, type_list);
+    cout << endl << "Type Overlaps:" << endl;
+    for(int i = 0; i < 17; i++)
+        if(overlaps[type_list[i]] > 1) cout << (boost::format(" * %s (%d)\n") % type_list[i] % overlaps[type_list[i]]);
+
+    cout << endl << "Biggest risk:" << endl;
+    for(vector<string>::iterator vit = super_effective.begin(); vit != super_effective.end(); ++vit)
+        cout << boost::format("* %s\n") % *vit;
+
+    cout << endl << "Little risk: " << endl;
+    for(vector<string>::iterator vit = not_very_effective.begin(); vit != not_very_effective.end(); ++vit)
+        cout << boost::format("* %s\n") % *vit;
+
+    cout << endl << "Almost no risk: " << endl;
+    for(vector<string>::iterator vit = no_effect.begin(); vit != no_effect.end(); ++vit)
+        cout << boost::format("* %s\n") % *vit;
+    cout << endl;
+
+    return EXIT_SUCCESS;
 }
