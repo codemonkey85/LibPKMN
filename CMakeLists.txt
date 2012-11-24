@@ -4,11 +4,14 @@ project(PKMNSIM)
 set(pkmnsim_VERSION_MAJOR 0)
 set(pkmnsim_VERSION_MINOR 1)
 
-FIND_PACKAGE(Boost COMPONENTS program_options)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
+FIND_PACKAGE(Boost COMPONENTS program_options REQUIRED)
+FIND_PACKAGE(Sqlite3 REQUIRED)
 IF(Boost_FOUND)
     INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
     LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 ENDIF(Boost_FOUND)
+
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(lib)
