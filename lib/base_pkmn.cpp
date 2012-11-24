@@ -6,6 +6,7 @@
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 #include <pkmnsim/base_pkmn.hpp>
+#include <sqlite3.h>
 
 base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1, std::string t2, std::string a1, std::string a2, std::string a3,
                         double ht, double wt, double cm, double cf,
