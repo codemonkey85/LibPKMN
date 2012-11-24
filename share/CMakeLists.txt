@@ -1,1 +1,1 @@
-FILE(COPY sample_teams DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+add_subdirectory(pkmnsim)

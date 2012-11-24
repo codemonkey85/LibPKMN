@@ -1,10 +1,11 @@
-# Find Sqlite3
+# Find SQLite3
 # ~~~~~~~~~~~~
 # Copyright (c) 2007, Martin Dobias <wonder.sk at gmail.com>
+# Copyright (c) 2012, Nicholas Corgan <n.corgan at gmail.com>
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
-# CMake module to search for Sqlite3 library
+# CMake module to search for SQLite3 library
 #
 # If it's found it sets SQLITE3_FOUND to TRUE
 # and following variables are set:
@@ -54,21 +55,27 @@ FIND_LIBRARY(SQLITE3_LIBRARY NAMES sqlite3 sqlite3_i PATHS
   )
 FIND_LIBRARY(SQLITE3_LIBRARY NAMES sqlite3)
 
-IF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY)
-   SET(SQLITE3_FOUND TRUE)
-ENDIF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY)
+FIND_PROGRAM(SQLITE3_EXECUTABLE
+    NAMES sqlite3
+    DOC "SQLite3 executable"
+    )
 
+IF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY AND SQLITE3_EXECUTABLE)
+   SET(SQLITE3_FOUND TRUE)
+ENDIF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY AND SQLITE3_EXECUTABLE)
 
 IF (SQLITE3_FOUND)
 
    IF (NOT SQLITE3_FIND_QUIETLY)
-      MESSAGE(STATUS "Found Sqlite3: ${SQLITE3_LIBRARY}")
+      MESSAGE(STATUS "Found SQLite3:")
+      MESSAGE(STATUS "  Library: ${SQLITE3_LIBRARY}")
+      MESSAGE(STATUS "  Executable: ${SQLITE3_EXECUTABLE}")
    ENDIF (NOT SQLITE3_FIND_QUIETLY)
 
 ELSE (SQLITE3_FOUND)
 
    IF (SQLITE3_FIND_REQUIRED)
-      MESSAGE(FATAL_ERROR "Could not find Sqlite3")
+      MESSAGE(FATAL_ERROR "Could not find SQLite3")
    ENDIF (SQLITE3_FIND_REQUIRED)
 
 ENDIF (SQLITE3_FOUND)
