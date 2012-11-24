@@ -60,6 +60,7 @@ vector<string> get_max(string *type_list, map<string, effectiveness_arr> earr_ma
         }
         else if(earr[index] == current_max) max_types.push_back(str(boost::format("%s (%d)") % type_list[i] % current_max));
     }
+    if(current_max == 0) max_types.clear();
     return max_types;
 }
 
