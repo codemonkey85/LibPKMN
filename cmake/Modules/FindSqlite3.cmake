@@ -5,12 +5,13 @@
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
-# CMake module to search for SQLite3 library
+# CMake module to search for SQLite3 library and executable
 #
 # If it's found it sets SQLITE3_FOUND to TRUE
 # and following variables are set:
 #    SQLITE3_INCLUDE_DIR
 #    SQLITE3_LIBRARY
+#    SQLITE3_EXECUTABLE
 
 
 # FIND_PATH and FIND_LIBRARY normally search standard locations

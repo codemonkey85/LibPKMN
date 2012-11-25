@@ -2,4 +2,4 @@ ADD_EXECUTABLE(analyze_team_types analyze_team_types.cpp)
 TARGET_LINK_LIBRARIES(analyze_team_types pkmnsim boost_program_options sqlite3)
 
 ADD_EXECUTABLE(pokedex_db_test pokedex_db_test.cpp)
-TARGET_LINK_LIBRARIES(pokedex_db_test pkmnsim boost_program_options sqlite3)
+TARGET_LINK_LIBRARIES(pokedex_db_test pkmnsim boost_program_options sqlite3 sqlite3pp)

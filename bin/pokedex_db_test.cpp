@@ -1,4 +1,4 @@
-#include <sqlite3.h>
+#include <sqlite3pp.h>
 #include <pkmnsim/base_pkmn.hpp>
 #include <iostream>
 
