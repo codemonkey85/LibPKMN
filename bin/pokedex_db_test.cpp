@@ -1,12 +1,12 @@
-#include <sqlite3pp.h>
 #include <pkmnsim/base_pkmn.hpp>
 #include <iostream>
 
+using namespace std;
+
 int main(int argc, char *argv[])
 {
-    std::string foo = argv[1];
-
-    base_pkmn bar = get_pokemon(foo);
+    base_pkmn foo = get_pokemon(argv[1]);
+    foo.print_verbose();
 
     return 0;
 }

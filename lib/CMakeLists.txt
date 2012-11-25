@@ -3,7 +3,11 @@ ADD_LIBRARY(pkmnsim SHARED
                 pkmn_nature.cpp
                 pkmn_types.cpp
                 spec_pkmn.cpp
-                stat_analysis.cpp)
+                stat_analysis.cpp
+                sqlitecpp/Column.cpp
+                sqlitecpp/Database.cpp
+                sqlitecpp/Statement.cpp
+                sqlitecpp/Transaction.cpp)
 INSTALL(TARGETS pkmnsim
     LIBRARY DESTINATION ${CMAKE_CURRENT_BINARY_DIR} COMPONENT libraries
 )

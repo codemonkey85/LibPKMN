@@ -10,6 +10,10 @@ Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
 Minimum required CMake version: 2.8
 Tested with GCC 4.6.3 and MSVC 2012.
 
+SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) distributed under the MIT license.
 Pokémon © 2002-2012 Pokémon. © 1995-2012 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
-README last updated: 2012-11-23
+Dependencies:
+ * SQLite (http://www.sqlite.org/)
+
+README last updated: 2012-11-25

@@ -2,14 +2,17 @@
 #include <map>
 #include <stdexcept>
 #include <stdio.h>
+#include <sstream>
 #include <string>
 #include <boost/algorithm/string.hpp>
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 #include <pkmnsim/base_pkmn.hpp>
-#include <sqlite3.h>
+#include <sqlitecpp/Database.h>
 
-base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1, std::string t2, std::string a1, std::string a2, std::string a3,
+using namespace std;
+
+base_pkmn::base_pkmn(string name, int num, string spec, string t1, string t2, string a1, string a2, string a3,
                         double ht, double wt, double cm, double cf,
                         int bhp, int batk, int bdef, int bsatk, int bsdef, int bspd,
                         int ehp, int eatk, int edef, int esatk, int esdef, int espd, int exp)
@@ -41,70 +44,123 @@ base_pkmn::base_pkmn(std::string name, int num, std::string spec, std::string t1
     exp_yield = exp;
 }
 
+//Used when grabbing from databases
+base_pkmn::base_pkmn(map<string,string> from_database)
+{
+    //Already strings
+    display_name = from_database["display_name"];
+    species = from_database["species"];
+    type1 = from_database["type1"];
+    type2 = from_database["type2"];
+    ability1 = from_database["ability1"];
+    ability2 = from_database["ability2"];
+    ability3 = from_database["ability3"];
+
+    //Need to be ints
+    stringstream sin_num(from_database["pokedex_num"]);
+    if(not (sin_num >> nat_pokedex_num)) throw runtime_error("Invalid input.");
+    stringstream sin_bhp(from_database["base_hp"]);
+    if(not (sin_bhp >> baseHP)) throw runtime_error("Invalid input.");
+    stringstream sin_batk(from_database["base_atk"]);
+    if(not (sin_batk >> baseATK)) throw runtime_error("Invalid input.");
+    stringstream sin_bdef(from_database["base_def"]);
+    if(not (sin_bdef >> baseDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_bsatk(from_database["base_satk"]);
+    if(not (sin_bsatk >> baseSATK)) throw runtime_error("Invalid input.");
+    stringstream sin_bsdef(from_database["base_sdef"]);
+    if(not (sin_bsdef >> baseSDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_bspd(from_database["base_spd"]);
+    if(not (sin_bspd >> baseSPD)) throw runtime_error("Invalid input.");
+    stringstream sin_ehp(from_database["ev_hp"]);
+    if(not (sin_ehp >> evHP)) throw runtime_error("Invalid input.");
+    stringstream sin_eatk(from_database["ev_atk"]);
+    if(not (sin_eatk >> evATK)) throw runtime_error("Invalid input.");
+    stringstream sin_edef(from_database["ev_def"]);
+    if(not (sin_edef >> evDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_esatk(from_database["ev_satk"]);
+    if(not (sin_esatk >> evSATK)) throw runtime_error("Invalid input.");
+    stringstream sin_esdef(from_database["ev_sdef"]);
+    if(not (sin_esdef >> evSDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_espd(from_database["ev_spd"]);
+    if(not (sin_espd >> evSPD)) throw runtime_error("Invalid input.");
+    stringstream sin_exp(from_database["exp_yield"]);
+    if(not (sin_exp >> exp_yield)) throw runtime_error("Invalid input.");
+
+    //Need to be doubles
+    stringstream sin_ht(from_database["height"]);
+    if(not (sin_ht >> height)) throw runtime_error("Invalid input.");
+    stringstream sin_wt(from_database["weight"]);
+    if(not (sin_wt >> weight)) throw runtime_error("Invalid input.");
+    stringstream sin_cm(from_database["chance_male"]);
+    if(not (sin_cm >> chance_male)) throw runtime_error("Invalid input.");
+    stringstream sin_cf(from_database["chance_female"]);
+    if(not (sin_cf >> chance_female)) throw runtime_error("Invalid input.");
+}
+
 void base_pkmn::print()
 {
-    std::cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << std::endl;
-    if(type2 != "") std::cout << boost::format("Type: %s") % type1 << std::endl;
-    else std::cout << boost::format("Type: %s/%s") % type1 % type2 << std::endl;
-    std::cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") %
-                               baseHP % baseATK % baseDEF % baseSPD % baseSATK % baseSDEF << std::endl;
+    cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
+    if(type2 != "") cout << boost::format("Type: %s") % type1 << endl;
+    else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
+    cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") %
+                               baseHP % baseATK % baseDEF % baseSPD % baseSATK % baseSDEF << endl;
 }
 
 void base_pkmn::print_verbose()
 {
-    std::cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << std::endl;
-    std::cout << boost::format("%s Pokemon") % species << std::endl;
+    cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
+    cout << boost::format("%s Pokemon") % species << endl;
 
-    if(type2.empty()) std::cout << boost::format("Type: %s") % type1 << std::endl;
-    else std::cout << boost::format("Type: %s/%s") % type1 % type2 << std::endl;
+    if(type2.empty()) cout << boost::format("Type: %s") % type1 << endl;
+    else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
 
-    if((ability2.empty()) && (ability3.empty())) std::cout << boost::format("Ability: %s") % ability1 << std::endl;
+    if((ability2.empty()) && (ability3.empty())) cout << boost::format("Ability: %s") % ability1 << endl;
     else
     {
-        std::cout << "Potential Abilities:" << std::endl;
-        std::cout << boost::format(" - %s") % ability1 << std::endl;
-        if(!ability2.empty()) std::cout << boost::format(" - %s") % ability2 << std::endl;
-        if(!ability3.empty()) std::cout << boost::format(" - %s") % ability3 << std::endl;
+        cout << "Potential Abilities:" << endl;
+        cout << boost::format(" - %s") % ability1 << endl;
+        if(!ability2.empty()) cout << boost::format(" - %s") % ability2 << endl;
+        if(!ability3.empty()) cout << boost::format(" - %s") % ability3 << endl;
     }
 
-    std::cout << boost::format("%d m, %d kg") % height % weight << std::endl;
-    if((chance_male + chance_female) == 0.0) std::cout << "Genderless" << std::endl;
-    else std::cout << boost::format("%2.1f%s Male, %2.1f%s Female") % (chance_male*100) % "%" % (chance_female*100) % "%" << std::endl;
+    cout << boost::format("%d m, %d kg") % height % weight << endl;
+    if((chance_male + chance_female) == 0.0) cout << "Genderless" << endl;
+    else cout << boost::format("%2.1f%s Male, %2.1f%s Female") % (chance_male*100) % "%" % (chance_female*100) % "%" << endl;
 
-    std::cout << "Base Stats:" << std::endl;
-    std::cout << boost::format(" - HP: %d") % baseHP << std::endl;
-    std::cout << boost::format(" - Attack: %d") % baseATK << std::endl;
-    std::cout << boost::format(" - Defense: %d") % baseDEF << std::endl;
-    std::cout << boost::format(" - Speed: %d") % baseSPD << std::endl;
-    std::cout << boost::format(" - Special Attack: %d") % baseSATK << std::endl;
-    std::cout << boost::format(" - Special Defense: %d") % baseSDEF << std::endl;
+    cout << "Base Stats:" << endl;
+    cout << boost::format(" - HP: %d") % baseHP << endl;
+    cout << boost::format(" - Attack: %d") % baseATK << endl;
+    cout << boost::format(" - Defense: %d") % baseDEF << endl;
+    cout << boost::format(" - Speed: %d") % baseSPD << endl;
+    cout << boost::format(" - Special Attack: %d") % baseSATK << endl;
+    cout << boost::format(" - Special Defense: %d") % baseSDEF << endl;
 
-    std::cout << "Effort Value Yields:" << std::endl;
-    std::cout << boost::format(" - HP: %d") % evHP << std::endl;
-    std::cout << boost::format(" - Attack: %d") % evATK << std::endl;
-    std::cout << boost::format(" - Defense: %d") % evDEF << std::endl;
-    std::cout << boost::format(" - Speed: %d") % evSPD << std::endl;
-    std::cout << boost::format(" - Special Attack: %d") % evSATK << std::endl;
-    std::cout << boost::format(" - Special Defense: %d") % evSDEF << std::endl;
+    cout << "Effort Value Yields:" << endl;
+    cout << boost::format(" - HP: %d") % evHP << endl;
+    cout << boost::format(" - Attack: %d") % evATK << endl;
+    cout << boost::format(" - Defense: %d") % evDEF << endl;
+    cout << boost::format(" - Speed: %d") % evSPD << endl;
+    cout << boost::format(" - Special Attack: %d") % evSATK << endl;
+    cout << boost::format(" - Special Defense: %d") % evSDEF << endl;
 
-    std::cout << boost::format("Experience Yield: %d") % exp_yield << std::endl;
+    cout << boost::format("Experience Yield: %d") % exp_yield << endl;
 }
 
-std::string base_pkmn::get_display_name() {return display_name;}
+string base_pkmn::get_display_name() {return display_name;}
 int base_pkmn::get_nat_pokedex_num() {return nat_pokedex_num;}
-std::string base_pkmn::get_species() {return species;}
+string base_pkmn::get_species() {return species;}
 
-std::string* base_pkmn::get_types()
+string* base_pkmn::get_types()
 {
-    std::string *types = new std::string[2];
+    string *types = new string[2];
     types[0] = type1;
     types[1] = type2;
     return types;
 }
 
-std::string* base_pkmn::get_abilities()
+string* base_pkmn::get_abilities()
 {
-    std::string *abilities = new std::string[3];
+    string *abilities = new string[3];
     abilities[0] = ability1;
     abilities[1] = ability2;
     abilities[2] = ability3;
@@ -146,35 +202,22 @@ int* base_pkmn::get_ev_yields()
 }
 //get_move_list
 
-static int callback(void *NotUsed, int argc, char **argv, char **azColName)
+base_pkmn get_pokemon(string identifier)
 {
-    for(int i = 0; i < argc; i++) printf("%s\n", argv[i] ? argv[i] : "NULL");
-    return 0;
-}
-
-base_pkmn get_pokemon(std::string pkmn_name)
-{
-    std::string pkmn_fields[] = {"display_name","pokedex_num","species","type1","type2","ability1",
+    string db_fields[] = {"display_name","pokedex_num","species","type1","type2","ability1",
                                "ability2","ability3","height","weight","chance_male","chance_female",
                                "base_hp","base_atk","base_def","base_satk","base_sdef","base_spd",
                                "ev_hp","ev_atk","ev_def","ev_satk","ev_sdef","ev_spd","exp_yield"};
-    sqlite3 *db = 0;
-    int rc;
-    char *db_err = 0;
-    std::string select;
+    map<string,string> from_database;
+    SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pokedex.db");
 
-
-    rc = sqlite3_open_v2("/home/ncorgan/build/pkmnsim/share/pkmnsim/pokedex.db", &db, SQLITE_OPEN_READONLY, NULL);
-    if(rc != SQLITE_OK) fprintf(stderr, "Error opening database: %s\n", sqlite3_errmsg(db));
-
+    transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
     for(int i = 0; i < 25; i++)
     {
-        select = str(boost::format("SELECT %s FROM pokedex WHERE display_name='%s'") % pkmn_fields[i] % pkmn_name);
-        sqlite3_exec(db, select.c_str(), callback, 0, &db_err);
+        string query_string = str(boost::format("SELECT %s FROM pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
+        string result = db.execAndGet(query_string.c_str());
+        from_database[db_fields[i]] = result;
     }
 
-    sqlite3_close(db);
-
-    return base_pkmn("Turtwig",387,"Tiny Leaf", "Grass","", "Overgrow","Shell Armor","",
-                              0.4,10.2, 0.875,0.125, 55,68,64,45,55,31, 0,1,0,0,0,0, 64);
+    return base_pkmn(from_database);
 }
