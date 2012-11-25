@@ -1,7 +1,6 @@
 # Find SQLite3
 # ~~~~~~~~~~~~
 # Copyright (c) 2007, Martin Dobias <wonder.sk at gmail.com>
-# Copyright (c) 2012, Nicholas Corgan <n.corgan at gmail.com>
 # Redistribution and use is allowed according to the terms of the BSD license.
 # For details see the accompanying COPYING-CMAKE-SCRIPTS file.
 #
@@ -55,21 +54,15 @@ FIND_LIBRARY(SQLITE3_LIBRARY NAMES sqlite3 sqlite3_i PATHS
   )
 FIND_LIBRARY(SQLITE3_LIBRARY NAMES sqlite3)
 
-FIND_PROGRAM(SQLITE3_EXECUTABLE
-    NAMES sqlite3
-    DOC "SQLite3 executable"
-    )
-
-IF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY AND SQLITE3_EXECUTABLE)
+IF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY)
    SET(SQLITE3_FOUND TRUE)
-ENDIF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY AND SQLITE3_EXECUTABLE)
+ENDIF (SQLITE3_INCLUDE_DIR AND SQLITE3_LIBRARY)
+
 
 IF (SQLITE3_FOUND)
 
    IF (NOT SQLITE3_FIND_QUIETLY)
-      MESSAGE(STATUS "Found SQLite3:")
-      MESSAGE(STATUS "  Library: ${SQLITE3_LIBRARY}")
-      MESSAGE(STATUS "  Executable: ${SQLITE3_EXECUTABLE}")
+      MESSAGE(STATUS "Found SQLite3: ${SQLITE3_LIBRARY}")
    ENDIF (NOT SQLITE3_FIND_QUIETLY)
 
 ELSE (SQLITE3_FOUND)
