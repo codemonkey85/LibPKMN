@@ -1,1 +1,24 @@
+FILE(COPY pokedex_dump DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+#Read pokedex_dump into pokedex.db
+MESSAGE(STATUS "Reading Pokedex into database file.")
+EXECUTE_PROCESS(
+    COMMAND ${SQLITE3_EXECUTABLE} pokedex.db ".read pokedex_dump"
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+#Test pokedex_dump read into pokedex.db
+EXECUTE_PROCESS(
+    COMMAND ${SQLITE3_EXECUTABLE} pokedex.db "SELECT display_name from pokedex WHERE pokedex_num=208"
+    OUTPUT_VARIABLE STEELIX_DISPLAY_NAME OUTPUT_STRIP_TRAILING_WHITESPACE
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+IF("${STEELIX_DISPLAY_NAME}" STREQUAL "Steelix")
+    MESSAGE(STATUS " * Successful.")
+ELSE("${STEELIX_DISPLAY_NAME}" STREQUAL "Steelix")
+    MESSAGE(STATUS " * Unsuccessful.")
+    MESSAGE(FATAL_ERROR "Database import failed.")
+ENDIF("${STEELIX_DISPLAY_NAME}" STREQUAL "Steelix")
+
+FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pokedex_dump")
 FILE(COPY sample_teams DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

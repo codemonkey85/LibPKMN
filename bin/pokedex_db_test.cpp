@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    std::string foo = "Ivysaur";
+    std::string foo = argv[1];
 
     base_pkmn bar = get_pokemon(foo);
 

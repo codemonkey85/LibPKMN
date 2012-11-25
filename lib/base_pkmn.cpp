@@ -146,17 +146,6 @@ int* base_pkmn::get_ev_yields()
 }
 //get_move_list
 
-/*static int callback(void *NotUsed, int argc, char **argv, char **azColName)
-{
-    int i;
-    for(i=0; i<argc; i++)
-    {
-        printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-    }
-    printf("\n");
-    return 0;
-}*/
-
 static int callback(void *NotUsed, int argc, char **argv, char **azColName)
 {
     for(int i = 0; i < argc; i++) printf("%s\n", argv[i] ? argv[i] : "NULL");
@@ -175,7 +164,7 @@ base_pkmn get_pokemon(std::string pkmn_name)
     std::string select;
 
 
-    rc = sqlite3_open_v2("/home/ncorgan/build/pkmnsim/bin/pokedex.db", &db, SQLITE_OPEN_READONLY, NULL);
+    rc = sqlite3_open_v2("/home/ncorgan/build/pkmnsim/share/pkmnsim/pokedex.db", &db, SQLITE_OPEN_READONLY, NULL);
     if(rc != SQLITE_OK) fprintf(stderr, "Error opening database: %s\n", sqlite3_errmsg(db));
 
     for(int i = 0; i < 25; i++)
