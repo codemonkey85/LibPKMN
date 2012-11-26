@@ -10,6 +10,9 @@
 #include <string>
 #include <vector>
 
+//TODO: take move types into account
+//TODO: confirm "Almost no risk" types, Electric should be classified as effective against Misty
+
 namespace po = boost::program_options;
 using namespace std;
 
