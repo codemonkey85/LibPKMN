@@ -1,5 +1,6 @@
 FILE(COPY pokedex_dump DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pokedex.db")
 #Read pokedex_dump into pokedex.db
 MESSAGE(STATUS "Reading Pokedex into database file.")
 EXECUTE_PROCESS(
