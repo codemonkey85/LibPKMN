@@ -3,4 +3,4 @@ Ninetales
 Charizard
 Magmortar
 Flareon
-Rotom (Heat)
+Rotom_Heat
