@@ -14,6 +14,7 @@ SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) distributed under the MIT lic
 Pokémon © 2002-2012 Pokémon. © 1995-2012 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
 Dependencies:
+ * Boost (http://www.boost.org)
  * SQLite (http://www.sqlite.org/)
 
-README last updated: 2012-11-25
+README last updated: 2012-12-08
