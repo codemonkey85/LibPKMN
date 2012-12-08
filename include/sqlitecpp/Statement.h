@@ -8,6 +8,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#ifndef STATEMENT_H
+#define STATEMENT_H
+
 #pragma once
 
 #include <sqlite3.h>
@@ -127,7 +130,7 @@ public:
 
     /**
      * @brief Return a copie of the column data specified by its index starting at 0 (aIndex >= 0),
-     *        used specifically by get_pokemon()
+     *        used to get better error messages.
      *
      * @warning The resulting Column object must not be copied or memorized as it is only valid for a short time,
      *          only while the row from the Statement remains valid, that is only until next executeStep
@@ -195,3 +198,4 @@ private:
 };
 
 }  // namespace SQLite
+#endif /*STATEMENT_H*/

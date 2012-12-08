@@ -8,7 +8,7 @@
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 #include <pkmnsim/base_pkmn.hpp>
-#include <sqlitecpp/SQLiteC++.h>
+#include <sqlitecpp/SQLiteCPP.h>
 
 using namespace std;
 
@@ -209,7 +209,7 @@ base_pkmn get_pokemon(string identifier)
                           "base_hp","base_atk","base_def","base_satk","base_sdef","base_spd",
                           "ev_hp","ev_atk","ev_def","ev_satk","ev_sdef","ev_spd","exp_yield"};
     map<string,string> from_database;
-    SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pokedex.db");
+    SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pkmnsim.db");
 
     transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
     for(int i = 0; i < 25; i++)

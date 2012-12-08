@@ -8,6 +8,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#ifndef DATABASE_H
+#define DATABASE_H
+
 #pragma once
 
 #include <sqlite3.h>
@@ -90,7 +93,7 @@ public:
      *  This is a shortcut to execute a simple statement with a single result.
      * This should be used only for non reusable queries (else you should use a Statement with bind()).
      * This should be used only for queries with expected results (else an exception is fired).
-     * This is specifically to be used for get_pokemon().
+     * This is used to get better error messages.
      *
      * @warning WARNING: Be very careful with this dangerous method: you have to
      *          make a COPY OF THE result, else it will be destroy before the next line
@@ -157,3 +160,4 @@ private:
 
 
 }  // namespace SQLite
+#endif /*DATABASE_H*/

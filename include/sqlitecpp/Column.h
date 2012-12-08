@@ -8,6 +8,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#ifndef COLUMN_H
+#define COLUMN_H
+
 #pragma once
 
 #include <sqlite3.h>
@@ -93,3 +96,4 @@ private:
 std::ostream& operator<<(std::ostream &stream, const Column& column);
 
 }  // namespace SQLite
+#endif /*COLUMN_H*/

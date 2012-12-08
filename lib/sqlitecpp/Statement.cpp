@@ -201,12 +201,12 @@ Column Statement::getColumn(const int aIndex) const // throw(SQLite::Exception)
 }
 
 // Return a copy of the column data specified by its index starting at 0
-// Used specifically for get_pokemon
+// Used to get better error messages
 Column Statement::getColumn(const int aIndex, std::string identifier) const // throw(SQLite::Exception)
 {
     if (false == mbOk)
     {
-        std::string pkmn_errmsg = str(boost::format("No base_pkmn found for identifier '%s'") % identifier);
+        std::string pkmn_errmsg = str(boost::format("No entry found for identifier '%s'") % identifier);
         throw SQLite::Exception(pkmn_errmsg.c_str());
     }
     else if ((aIndex < 0) || (aIndex >= mColumnCount))

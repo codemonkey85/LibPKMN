@@ -64,7 +64,7 @@ Column Database::execAndGet(const char* apQuery) // throw(SQLite::Exception)
     return query.getColumn(0);
 }
 
-//execAndGet used to produce desired exception for get_pokemon()
+//execAndGet used to produce more detailed error messages
 Column Database::execAndGet(const char* apQuery, std::string identifier) // throw(SQLite::Exception)
 {
     Statement query(*this, apQuery);

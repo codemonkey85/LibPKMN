@@ -8,6 +8,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
+
 #pragma once
 
 #include <stdexcept>
@@ -33,3 +36,4 @@ public:
 
 
 }  // namespace SQLite
+#endif /*EXCEPTION_H*/

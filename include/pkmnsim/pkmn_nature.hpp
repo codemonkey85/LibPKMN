@@ -4,19 +4,22 @@
 #include <string>
 #include <map>
 
+using namespace std;
+
 class pkmn_nature
 {
     public:
         pkmn_nature() {};
-        pkmn_nature(std::string,double,double,double,double,double);
-        std::string get_name();
+        pkmn_nature(string,double,double,double,double,double);
+        pkmn_nature(map<string,string>);
+        string get_name();
         double* get_mods();
         void print();
     private:
-        std::string name;
+        string name;
         double ATKmod, DEFmod, SPDmod, SATKmod, SDEFmod;
 };
 
-pkmn_nature get_nature(std::string);
+pkmn_nature get_nature(string);
 
 #endif /*PKMN_NATURE_HPP*/

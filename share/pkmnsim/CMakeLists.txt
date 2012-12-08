@@ -1,25 +1,38 @@
-FILE(COPY pokedex_dump DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+FUNCTION(TEST_DATABASE TABLE_NAME ENTRY VALUE DESIRED_DISPLAY_NAME)
+    MESSAGE(STATUS "Testing table '${TABLE_NAME}'.")
+    EXECUTE_PROCESS(
+        COMMAND ${SQLITE3_EXECUTABLE} pkmnsim.db "SELECT display_name from ${TABLE_NAME} where ${ENTRY}=${VALUE}"
+        OUTPUT_VARIABLE DISPLAY_NAME OUTPUT_STRIP_TRAILING_WHITESPACE
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    )
+    IF("${DISPLAY_NAME}" STREQUAL "${DESIRED_DISPLAY_NAME}")
+        MESSAGE(STATUS " * Successful.")
+    ELSE("${DISPLAY_NAME}" STREQUAL "${DESIRED_DISPLAY_NAME}")
+        MESSAGE(STATUS " * Unsuccessful.")
+        MESSAGE(FATAL_ERROR "Database import failed.")
+    ENDIF("${DISPLAY_NAME}" STREQUAL "${DESIRED_DISPLAY_NAME}")
+ENDFUNCTION()
 
-FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pokedex.db")
-#Read pokedex_dump into pokedex.db
-MESSAGE(STATUS "Reading Pokedex into database file.")
+FILE(COPY pkmnsim_db_dump DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db")
+#Read pkmnsim_db_dump into pkmnsim.db
+MESSAGE(STATUS "Reading tables into database file.")
 EXECUTE_PROCESS(
-    COMMAND ${SQLITE3_EXECUTABLE} pokedex.db ".read pokedex_dump"
+    COMMAND ${SQLITE3_EXECUTABLE} pkmnsim.db ".read pkmnsim_db_dump"
+    OUTPUT_VARIABLE SQLITE3_READ_OUTPUT OUTPUT_STRIP_TRAILING_WHITESPACE
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
-
-#Test pokedex_dump read into pokedex.db
-EXECUTE_PROCESS(
-    COMMAND ${SQLITE3_EXECUTABLE} pokedex.db "SELECT display_name from pokedex WHERE pokedex_num=208"
-    OUTPUT_VARIABLE STEELIX_DISPLAY_NAME OUTPUT_STRIP_TRAILING_WHITESPACE
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-)
-IF("${STEELIX_DISPLAY_NAME}" STREQUAL "Steelix")
+IF("${SQLITE3_READ_OUTPUT}" STREQUAL "")
     MESSAGE(STATUS " * Successful.")
-ELSE("${STEELIX_DISPLAY_NAME}" STREQUAL "Steelix")
+ELSE("${SQLITE3_READ_OUTPUT}" STREQUAL "")
     MESSAGE(STATUS " * Unsuccessful.")
     MESSAGE(FATAL_ERROR "Database import failed.")
-ENDIF("${STEELIX_DISPLAY_NAME}" STREQUAL "Steelix")
+ENDIF("${SQLITE3_READ_OUTPUT}" STREQUAL "")
 
-FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pokedex_dump")
+#Test pkmnsim_db_dump read into pkmnsim.db
+TEST_DATABASE("pokedex" "pokedex_num" "208" "Steelix")
+TEST_DATABASE("natures" "identifier" "'hardy'" "Hardy")
+
+FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pkmnsim_dump")
 FILE(COPY sample_teams DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

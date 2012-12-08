@@ -8,6 +8,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#ifndef TRANSACTION_H
+#define TRANSACTION_H
+
 #pragma once
 
 #include <sqlite3.h>
@@ -63,3 +66,4 @@ private:
 
 
 }  // namespace SQLite
+#endif /*TRANSACTION_H*/

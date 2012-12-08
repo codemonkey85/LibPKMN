@@ -1,12 +1,15 @@
 #include <iostream>
 #include <string>
 #include <map>
-#include <boost/algorithm/string.hpp>
-#include <boost/assign.hpp>
 #include <boost/format.hpp>
+#include <sstream>
+#include <stdexcept>
 #include <pkmnsim/pkmn_nature.hpp>
+#include <sqlitecpp/SQLiteCPP.h>
 
-pkmn_nature::pkmn_nature(std::string nm, double atk, double def, double spd, double satk, double sdef)
+using namespace std;
+
+pkmn_nature::pkmn_nature(string nm, double atk, double def, double spd, double satk, double sdef)
 {
     name = nm;
     ATKmod = atk;
@@ -16,7 +19,25 @@ pkmn_nature::pkmn_nature(std::string nm, double atk, double def, double spd, dou
     SDEFmod = sdef;
 }
 
-std::string pkmn_nature::get_name() {return name;}
+pkmn_nature::pkmn_nature(map<string,string> from_database)
+{
+    //Already a string
+    name = from_database["display_name"];
+
+    //Need to be doubles
+    stringstream sin_atk(from_database["atk_mod"]);
+    if(not (sin_atk >> ATKmod)) throw runtime_error("Invalid input.");
+    stringstream sin_def(from_database["def_mod"]);
+    if(not (sin_def >> DEFmod)) throw runtime_error("Invalid input.");
+    stringstream sin_spd(from_database["spd_mod"]);
+    if(not (sin_spd >> SPDmod)) throw runtime_error("Invalid input.");
+    stringstream sin_satk(from_database["satk_mod"]);
+    if(not (sin_satk >> SATKmod)) throw runtime_error("Invalid input.");
+    stringstream sin_sdef(from_database["sdef_mod"]);
+    if(not (sin_sdef >> SDEFmod)) throw runtime_error("Invalid input.");
+}
+
+string pkmn_nature::get_name() {return name;}
 
 double* pkmn_nature::get_mods()
 {
@@ -31,46 +52,28 @@ double* pkmn_nature::get_mods()
 
 void pkmn_nature::print()
 {
-    std::cout << boost::format( "Nature: %s") % name << std::endl;
-    std::cout << "Stat Mods:" << std::endl;
-    std::cout << boost::format( " - Attack: %f") % ATKmod << std::endl;
-    std::cout << boost::format( " - Defense: %f") % DEFmod << std::endl;
-    std::cout << boost::format( " - Speed: %f") % SPDmod << std::endl;
-    std::cout << boost::format( " - Special Attack: %f") % SATKmod << std::endl;
-    std::cout << boost::format( " - Special Defense: %f") % SDEFmod << std::endl;
+    cout << boost::format( "Nature: %s") % name << endl;
+    cout << "Stat Mods:" << endl;
+    cout << boost::format( " - Attack: %f") % ATKmod << endl;
+    cout << boost::format( " - Defense: %f") % DEFmod << endl;
+    cout << boost::format( " - Speed: %f") % SPDmod << endl;
+    cout << boost::format( " - Special Attack: %f") % SATKmod << endl;
+    cout << boost::format( " - Special Defense: %f") % SDEFmod << endl;
 }
 
-pkmn_nature get_nature(std::string nature_name)
+pkmn_nature get_nature(string identifier)
 {
-    boost::algorithm::to_lower(nature_name);
+    string db_fields[] = {"display_name","atk_mod","def_mod","spd_mod","satk_mod","sdef_mod"};
+    map<string,string> from_database;
+    SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pkmnsim.db");
 
-    std::map<std::string, pkmn_nature> pkmn_nature_map = boost::assign::map_list_of
-        ("hardy", pkmn_nature("Hardy",     1.0,1.0,1.0,1.0,1.0))
-        ("lonely", pkmn_nature("Lonely",   1.1,0.9,1.0,1.0,1.0))
-        ("brave", pkmn_nature("Brave",     1.1,1.0,0.9,1.0,1.0))
-        ("adamant", pkmn_nature("Adamant", 1.1,1.0,1.0,0.9,1.0))
-        ("naughty", pkmn_nature("Naughty", 1.1,1.0,1.0,1.0,0.9))
-        ("bold", pkmn_nature("Bold",       0.9,1.1,1.0,1.0,1.0))
-        ("docile", pkmn_nature("Docile",   1.0,1.0,1.0,1.0,1.0))
-        ("relaxed", pkmn_nature("Relaxed", 1.0,1.1,0.9,1.0,1.0))
-        ("impish", pkmn_nature("Impish",   1.0,1.1,1.0,0.9,1.0))
-        ("lax", pkmn_nature("Lax",         1.0,1.1,1.0,1.0,0.9))
-        ("timid", pkmn_nature("Timid",     0.9,1.0,1.1,1.0,1.0))
-        ("hasty", pkmn_nature("Hasty",     1.0,0.9,1.1,1.0,1.0))
-        ("serious", pkmn_nature("Serious", 1.0,1.0,1.0,1.0,1.0))
-        ("jolly", pkmn_nature("Jolly",     1.0,1.0,1.1,0.9,1.0))
-        ("naive", pkmn_nature("Naive",     1.0,1.0,1.1,1.0,0.9))
-        ("modest", pkmn_nature("Modest",   0.9,1.0,1.0,1.1,1.0))
-        ("mild", pkmn_nature("Mild",       1.0,0.9,1.0,1.0,1.1))
-        ("quiet", pkmn_nature("Quiet",     1.0,1.0,0.9,1.1,1.0))
-        ("bashful", pkmn_nature("Bashful", 1.0,1.0,1.0,1.0,1.0))
-        ("rash", pkmn_nature("Rash",       1.0,1.0,1.0,1.1,0.9))
-        ("calm", pkmn_nature("Calm",       0.9,1.0,1.0,1.0,1.1))
-        ("gentle", pkmn_nature("Gentle",   1.0,0.9,1.0,1.0,1.1))
-        ("sassy", pkmn_nature("Sassy",     1.0,1.0,0.9,1.0,1.1))
-        ("careful", pkmn_nature("Careful", 1.0,1.0,1.0,0.9,1.1))
-        ("quirky", pkmn_nature("Quirky",   1.0,1.0,1.0,1.0,1.0))
-    ;
+    transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+    for(int i = 0; i < 6; i++)
+    {
+        string query_string = str(boost::format("SELECT %s FROM natures WHERE identifier='%s'") % db_fields[i] % identifier);
+        string result = db.execAndGet(query_string.c_str(), identifier);
+        from_database[db_fields[i]] = result;
+    }
 
-    return pkmn_nature_map[nature_name];
+    return pkmn_nature(from_database);
 }
