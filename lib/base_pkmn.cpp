@@ -8,7 +8,7 @@
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 #include <pkmnsim/base_pkmn.hpp>
-#include <sqlitecpp/Database.h>
+#include <sqlitecpp/SQLiteC++.h>
 
 using namespace std;
 
@@ -205,9 +205,9 @@ int* base_pkmn::get_ev_yields()
 base_pkmn get_pokemon(string identifier)
 {
     string db_fields[] = {"display_name","pokedex_num","species","type1","type2","ability1",
-                               "ability2","ability3","height","weight","chance_male","chance_female",
-                               "base_hp","base_atk","base_def","base_satk","base_sdef","base_spd",
-                               "ev_hp","ev_atk","ev_def","ev_satk","ev_sdef","ev_spd","exp_yield"};
+                          "ability2","ability3","height","weight","chance_male","chance_female",
+                          "base_hp","base_atk","base_def","base_satk","base_sdef","base_spd",
+                          "ev_hp","ev_atk","ev_def","ev_satk","ev_sdef","ev_spd","exp_yield"};
     map<string,string> from_database;
     SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pokedex.db");
 
@@ -215,7 +215,7 @@ base_pkmn get_pokemon(string identifier)
     for(int i = 0; i < 25; i++)
     {
         string query_string = str(boost::format("SELECT %s FROM pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
-        string result = db.execAndGet(query_string.c_str());
+        string result = db.execAndGet(query_string.c_str(), identifier);
         from_database[db_fields[i]] = result;
     }
 

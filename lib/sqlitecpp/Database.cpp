@@ -3,13 +3,14 @@
  * @brief Management of a SQLite Database Connection.
  *
  * Copyright (c) 2012 Sebastien Rombauts (sebastien.rombauts@gmail.com)
+ * Copyright (c) 2012 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "Database.h"
+#include <sqlitecpp/Database.h>
 
-#include "Statement.h"
+#include <sqlitecpp/Statement.h>
 
 namespace SQLite
 {
@@ -61,6 +62,14 @@ Column Database::execAndGet(const char* apQuery) // throw(SQLite::Exception)
     Statement query(*this, apQuery);
     query.executeStep();
     return query.getColumn(0);
+}
+
+//execAndGet used to produce desired exception for get_pokemon()
+Column Database::execAndGet(const char* apQuery, std::string identifier) // throw(SQLite::Exception)
+{
+    Statement query(*this, apQuery);
+    query.executeStep();
+    return query.getColumn(0, identifier);
 }
 
 // Shortcut to test if a table exists.

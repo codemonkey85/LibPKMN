@@ -3,11 +3,12 @@
  * @brief Encapsulation of a Column in a Row of the result.
  *
  * Copyright (c) 2012 Sebastien Rombauts (sebastien.rombauts@gmail.com)
+ * Copyright (c) 2012 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "Column.h"
+#include <sqlitecpp/Column.h>
 
 #include <iostream>
 

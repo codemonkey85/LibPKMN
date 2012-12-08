@@ -3,14 +3,16 @@
  * @brief A prepared SQLite Statement is a compiled SQL query ready to be executed.
  *
  * Copyright (c) 2012 Sebastien Rombauts (sebastien.rombauts@gmail.com)
+ * Copyright (c) 2012 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "Statement.h"
+#include <sqlitecpp/Statement.h>
 
-#include "Database.h"
-#include "Column.h"
+#include <sqlitecpp/Database.h>
+#include <sqlitecpp/Column.h>
+#include <boost/format.hpp>
 #include <iostream>
 
 namespace SQLite
@@ -188,6 +190,24 @@ Column Statement::getColumn(const int aIndex) const // throw(SQLite::Exception)
     if (false == mbOk)
     {
         throw SQLite::Exception("No row to get a column from");
+    }
+    else if ((aIndex < 0) || (aIndex >= mColumnCount))
+    {
+        throw SQLite::Exception("Column index out of range");
+    }
+
+    // Share the Statement Object handle with the new Column created
+    return Column(mpSQLite, mpStmt, mpStmtRefCount, aIndex);
+}
+
+// Return a copy of the column data specified by its index starting at 0
+// Used specifically for get_pokemon
+Column Statement::getColumn(const int aIndex, std::string identifier) const // throw(SQLite::Exception)
+{
+    if (false == mbOk)
+    {
+        std::string pkmn_errmsg = str(boost::format("No base_pkmn found for identifier '%s'") % identifier);
+        throw SQLite::Exception(pkmn_errmsg.c_str());
     }
     else if ((aIndex < 0) || (aIndex >= mColumnCount))
     {

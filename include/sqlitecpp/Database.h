@@ -3,6 +3,7 @@
  * @brief Management of a SQLite Database Connection.
  *
  * Copyright (c) 2012 Sebastien Rombauts (sebastien.rombauts@gmail.com)
+ * Copyright (c) 2012 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -10,6 +11,7 @@
 #pragma once
 
 #include <sqlite3.h>
+#include <string.h>
 #include "Exception.h"
 #include "Column.h"
 
@@ -81,6 +83,24 @@ public:
      * @param[in] apQuery  an UTF-8 encoded SQL query
      */
     Column execAndGet(const char* apQuery); // throw(SQLite::Exception);
+
+    /**
+     * @brief Shortcut to execute a one step query and fetch the first column of the result.
+     *
+     *  This is a shortcut to execute a simple statement with a single result.
+     * This should be used only for non reusable queries (else you should use a Statement with bind()).
+     * This should be used only for queries with expected results (else an exception is fired).
+     * This is specifically to be used for get_pokemon().
+     *
+     * @warning WARNING: Be very careful with this dangerous method: you have to
+     *          make a COPY OF THE result, else it will be destroy before the next line
+     *          (when the underlying temporary Statement and Column objects are destroyed)
+     *
+     * @see also Statement class for handling queries with multiple results
+     *
+     * @param[in] apQuery  an UTF-8 encoded SQL query
+     */
+    Column execAndGet(const char* apQuery, std::string identifier); // throw(SQLite::Exception);
 
     /**
      * @brief Shortcut to test if a table exists.

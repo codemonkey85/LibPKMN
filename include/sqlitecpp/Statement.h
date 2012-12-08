@@ -3,6 +3,7 @@
  * @brief A prepared SQLite Statement is a compiled SQL query ready to be executed.
  *
  * Copyright (c) 2012 Sebastien Rombauts (sebastien.rombauts@gmail.com)
+ * Copyright (c) 2012 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -123,6 +124,15 @@ public:
      *          only while the row from the Statement remains valid, that is only until next executeStep
      */
     Column  getColumn(const int aIndex) const; // throw(SQLite::Exception);
+
+    /**
+     * @brief Return a copie of the column data specified by its index starting at 0 (aIndex >= 0),
+     *        used specifically by get_pokemon()
+     *
+     * @warning The resulting Column object must not be copied or memorized as it is only valid for a short time,
+     *          only while the row from the Statement remains valid, that is only until next executeStep
+     */
+    Column  getColumn(const int aIndex, std::string identifier) const; // throw(SQLite::Exception);
 
     /**
      * @brief Test if the column is NULL

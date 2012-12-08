@@ -1,1 +1,2 @@
 ADD_SUBDIRECTORY(pkmnsim)
+ADD_SUBDIRECTORY(sqlitecpp)

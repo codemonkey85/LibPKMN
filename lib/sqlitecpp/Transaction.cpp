@@ -3,13 +3,14 @@
  * @brief A prepared SQLite Transaction is a compiled SQL query ready to be executed.
  *
  * Copyright (c) 2012 Sebastien Rombauts (sebastien.rombauts@gmail.com)
+ * Copyright (c) 2012 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "Transaction.h"
+#include <sqlitecpp/Transaction.h>
 
-#include "Database.h"
+#include <sqlitecpp/Database.h>
 
 namespace SQLite
 {
