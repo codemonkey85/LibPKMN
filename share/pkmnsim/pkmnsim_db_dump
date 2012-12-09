@@ -282,36 +282,35 @@ INSERT INTO "pokedex" VALUES('ducklett',580,'Ducklett','Water Bird','Water','Fly
 INSERT INTO "pokedex" VALUES('swanna',581,'Swanna','White Bird','Water','Flying','Keen Eye','Big Pecks','Hydration',1.3,24.2,0.5,0.5,75,87,63,87,63,98,0,0,0,0,0,2,166);
 INSERT INTO "pokedex" VALUES('frillish',592,'Frillish','Floating','Water','Ghost','Water Absorb','Cursed Body','Damp',1.2,33.0,0.5,0.5,55,40,50,65,85,40,0,0,0,0,1,0,67);
 INSERT INTO "pokedex" VALUES('jellicent',593,'Jellicent','Floating','Water','Ghost','Water Absorb','Cursed Body','Damp',2.2,135.0,0.5,0.5,100,60,70,85,105,60,0,0,0,0,2,0,168);
-CREATE TABLE natures (identifier   STRING PRIMARY KEY,
-                      display_name STRING,
+CREATE TABLE natures (display_name   STRING PRIMARY KEY,
                       hp_mod       DOUBLE,
                       atk_mod      DOUBLE,
                       spd_mod      DOUBLE,
                       satk_mod     DOUBLE,
                       sdef_mod     DOUBLE);
-INSERT INTO "natures" VALUES('hardy','Hardy',1.0,1.0,1.0,1.0,1.0);
-INSERT INTO "natures" VALUES('lonely','Lonely',1.1,0.9,1.0,1.0,1.0);
-INSERT INTO "natures" VALUES('brave','Brave',1.1,1.0,0.9,1.0,1.0);
-INSERT INTO "natures" VALUES('adamant','Adamant',1.1,1.0,1.0,0.9,1.0);
-INSERT INTO "natures" VALUES('naughty','Naughty',1.1,1.0,1.0,1.0,0.9);
-INSERT INTO "natures" VALUES('bold','Bold',0.9,1.1,1.0,1.0,1.0);
-INSERT INTO "natures" VALUES('docile','Docile',1.0,1.0,1.0,1.0,1.0);
-INSERT INTO "natures" VALUES('relaxed','Relaxed',1.0,1.1,0.9,1.0,1.0);
-INSERT INTO "natures" VALUES('impish','Impish',1.0,1.1,1.0,0.9,1.0);
-INSERT INTO "natures" VALUES('lax','Lax',1.0,1.1,1.0,1.0,0.9);
-INSERT INTO "natures" VALUES('timid','Timid',0.9,1.0,1.1,1.0,1.0);
-INSERT INTO "natures" VALUES('hasty','Hasty',1.0,0.9,1.1,1.0,1.0);
-INSERT INTO "natures" VALUES('serious','Serious',1.0,1.0,1.0,1.0,1.0);
-INSERT INTO "natures" VALUES('jolly','Jolly',1.0,1.0,1.1,0.9,1.0);
-INSERT INTO "natures" VALUES('naive','Naive',1.0,1.0,1.1,1.0,0.9);
-INSERT INTO "natures" VALUES('modest','Modest',0.9,1.0,1.0,1.1,1.0);
-INSERT INTO "natures" VALUES('mild','Mild',1.0,0.9,1.0,1.0,1.1);
-INSERT INTO "natures" VALUES('quiet','Quiet',1.0,1.0,0.9,1.1,1.0);
-INSERT INTO "natures" VALUES('bashful','Bashful',1.0,1.0,1.0,1.0,1.0);
-INSERT INTO "natures" VALUES('rash','Rash',1.0,1.0,1.0,1.1,0.9);
-INSERT INTO "natures" VALUES('calm','Calm',0.9,1.0,1.0,1.0,1.1);
-INSERT INTO "natures" VALUES('gentle','Gentle',1.0,0.9,1.0,1.0,1.1);
-INSERT INTO "natures" VALUES('sassy','Sassy',1.0,1.0,0.9,1.0,1.1);
-INSERT INTO "natures" VALUES('careful','Careful',1.0,1.0,1.0,0.9,1.1);
-INSERT INTO "natures" VALUES('quirky','Quirky',1.0,1.0,1.0,1.0,1.0);
+INSERT INTO "natures" VALUES('Hardy',1.0,1.0,1.0,1.0,1.0);
+INSERT INTO "natures" VALUES('Lonely',1.1,0.9,1.0,1.0,1.0);
+INSERT INTO "natures" VALUES('Brave',1.1,1.0,0.9,1.0,1.0);
+INSERT INTO "natures" VALUES('Adamant',1.1,1.0,1.0,0.9,1.0);
+INSERT INTO "natures" VALUES('Naughty',1.1,1.0,1.0,1.0,0.9);
+INSERT INTO "natures" VALUES('Bold',0.9,1.1,1.0,1.0,1.0);
+INSERT INTO "natures" VALUES('Docile',1.0,1.0,1.0,1.0,1.0);
+INSERT INTO "natures" VALUES('Relaxed',1.0,1.1,0.9,1.0,1.0);
+INSERT INTO "natures" VALUES('Impish',1.0,1.1,1.0,0.9,1.0);
+INSERT INTO "natures" VALUES('Lax',1.0,1.1,1.0,1.0,0.9);
+INSERT INTO "natures" VALUES('Timid',0.9,1.0,1.1,1.0,1.0);
+INSERT INTO "natures" VALUES('Hasty',1.0,0.9,1.1,1.0,1.0);
+INSERT INTO "natures" VALUES('Serious',1.0,1.0,1.0,1.0,1.0);
+INSERT INTO "natures" VALUES('Jolly',1.0,1.0,1.1,0.9,1.0);
+INSERT INTO "natures" VALUES('Naive',1.0,1.0,1.1,1.0,0.9);
+INSERT INTO "natures" VALUES('Modest',0.9,1.0,1.0,1.1,1.0);
+INSERT INTO "natures" VALUES('Mild',1.0,0.9,1.0,1.0,1.1);
+INSERT INTO "natures" VALUES('Quiet',1.0,1.0,0.9,1.1,1.0);
+INSERT INTO "natures" VALUES('Bashful',1.0,1.0,1.0,1.0,1.0);
+INSERT INTO "natures" VALUES('Rash',1.0,1.0,1.0,1.1,0.9);
+INSERT INTO "natures" VALUES('Calm',0.9,1.0,1.0,1.0,1.1);
+INSERT INTO "natures" VALUES('Gentle',1.0,0.9,1.0,1.0,1.1);
+INSERT INTO "natures" VALUES('Sassy',1.0,1.0,0.9,1.0,1.1);
+INSERT INTO "natures" VALUES('Careful',1.0,1.0,1.0,0.9,1.1);
+INSERT INTO "natures" VALUES('Quirky',1.0,1.0,1.0,1.0,1.0);
 COMMIT;

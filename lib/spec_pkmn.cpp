@@ -157,11 +157,11 @@ char spec_pkmn::determine_gender()
 //TODO: there has to be a better way to do this...
 pkmn_nature spec_pkmn::determine_nature()
 {
-    std::string nature_names[] = {"hardy","lonely","brave","adamant","naughty","bold",
-                                 "docile","relaxed","impish","lax","timid","hasty",
-                                 "serious","jolly","naive","modest","mild","quiet",
-                                 "bashful","rash","calm","gentle","sassy","careful",
-                                 "quirky"};
+    std::string nature_names[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
+                                  "Docile","Relaxed","Impish","Lax","Timid","Hasty",
+                                  "Serious","Jolly","Naive","Modest","Mild","Quiet",
+                                  "Bashful","Rash","Calm","Gentle","Sassy","Careful",
+                                  "Quirky"};
     srand( time(NULL) );
     int index = rand() % 25;
     return get_nature(nature_names[index]);

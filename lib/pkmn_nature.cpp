@@ -70,7 +70,7 @@ pkmn_nature get_nature(string identifier)
     transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
     for(int i = 0; i < 6; i++)
     {
-        string query_string = str(boost::format("SELECT %s FROM natures WHERE identifier='%s'") % db_fields[i] % identifier);
+        string query_string = str(boost::format("SELECT %s FROM natures WHERE display_name='%s'") % db_fields[i] % identifier);
         string result = db.execAndGet(query_string.c_str(), identifier);
         from_database[db_fields[i]] = result;
     }
