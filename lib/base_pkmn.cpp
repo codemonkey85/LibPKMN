@@ -100,7 +100,7 @@ base_pkmn::base_pkmn(map<string,string> from_database)
 void base_pkmn::print()
 {
     cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
-    if(type2 != "") cout << boost::format("Type: %s") % type1 << endl;
+    if(type2 != "None") cout << boost::format("Type: %s") % type1 << endl;
     else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
     cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") %
                                baseHP % baseATK % baseDEF % baseSPD % baseSATK % baseSDEF << endl;

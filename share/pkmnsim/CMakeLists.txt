@@ -31,6 +31,7 @@ ELSE("${SQLITE3_READ_OUTPUT}" STREQUAL "")
 ENDIF("${SQLITE3_READ_OUTPUT}" STREQUAL "")
 
 #Test pkmnsim_db_dump read into pkmnsim.db
+TEST_DATABASE("types" "Dark_mod" "0.0" "Psychic")
 TEST_DATABASE("pokedex" "pokedex_num" "208" "Steelix")
 TEST_DATABASE("natures" "display_name" "'Hardy'" "Hardy")
 

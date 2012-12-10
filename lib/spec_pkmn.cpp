@@ -59,7 +59,7 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
     level = lvl;
     gender = determine_gender();
     nature = determine_nature();
-    held_item = "";
+    held_item = "None";
 
     if(base.get_display_name() == "Shedinja") HP = 1;
     else HP = get_hp_from_iv_ev();
@@ -69,10 +69,10 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
     SATK = get_stat_from_iv_ev(4,ivSATK,evSATK);
     SDEF = get_stat_from_iv_ev(5,ivSDEF,evSATK);
 
-    move1 = "";
-    move2 = "";
-    move3 = "";
-    move4 = "";
+    move1 = "None";
+    move2 = "None";
+    move3 = "None";
+    move4 = "None";
 
     nonvolatile_status = "OK";
     reset_volatile_status_map();
@@ -126,7 +126,7 @@ void spec_pkmn::print_verbose()
     std::cout << boost::format("Nickname: %s") % nickname << std::endl;
     std::cout << boost::format("Level %d") % level << std::endl;
     std::cout << boost::format("Nature: %s") % nature.get_name() << std::endl;
-    if(held_item == "") std::cout << "Item: None" << std::endl;
+    if(held_item == "None") std::cout << "Item: None" << std::endl;
     else std::cout << boost::format("Item: %s") % held_item << std::endl;
     std::cout << "Stats:" << std::endl;
     std::cout << boost::format(" - HP: %d (IV: %d, EV: %d)") % HP % ivHP % evHP << std::endl;
