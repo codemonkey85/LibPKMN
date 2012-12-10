@@ -141,8 +141,8 @@ int main(int argc, char *argv[])
             //Determine type damage mod
             double mod = 1.0;
             string *types = ti->get_types();
-            mod *= get_type_damage_mod(type_list[i], types[0]);
-            if(types[1] != "") mod *= get_type_damage_mod(type_list[i], types[1]);
+            mod *= get_type_damage_mod(type_list[i], types[0], false);
+            if(types[1] != "") mod *= get_type_damage_mod(type_list[i], types[1], false);
 
             //Increment appropriate number
             if(mod == 0.0)

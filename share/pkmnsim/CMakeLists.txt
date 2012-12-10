@@ -32,7 +32,9 @@ ENDIF("${SQLITE3_READ_OUTPUT}" STREQUAL "")
 
 #Test pkmnsim_db_dump read into pkmnsim.db
 TEST_DATABASE("types" "Dark_mod" "0.0" "Psychic")
+TEST_DATABASE("gen1_types" "Ice_mod" "0.5" "Ice")
 TEST_DATABASE("pokedex" "pokedex_num" "208" "Steelix")
+TEST_DATABASE("gen1_pokedex" "pokedex_num" "25" "Pikachu")
 TEST_DATABASE("natures" "display_name" "'Hardy'" "Hardy")
 
 FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pkmnsim_dump")
