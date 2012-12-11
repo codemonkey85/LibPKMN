@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -43,4 +44,5 @@ class base_pkmn
 };
 
 base_pkmn get_pokemon(string);
+vector<base_pkmn> get_pkmn_of_type(string,string,bool);
 #endif /*BASE_PKMN_HPP*/

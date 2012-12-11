@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    if(vm.count("team_file") == 0) throw runtime_error("Specify a team file. Run \"analyze_team_types --help\" for information.");
+    if(vm.count("team_file") == 0) throw runtime_error("Specify a team file. Run \"team_analysis --help\" for information.");
     bool verbose = (vm.count("verbose") > 0);
 
     ifstream team_file_input(team_file.c_str(), ifstream::in);

@@ -11,6 +11,7 @@
 #include <sqlitecpp/SQLiteCPP.h>
 
 using namespace std;
+typedef vector<string>::iterator str_iter;
 
 base_pkmn::base_pkmn(string name, int num, string spec, string t1, string t2, string a1, string a2, string a3,
                         double ht, double wt, double cm, double cf,
@@ -100,7 +101,7 @@ base_pkmn::base_pkmn(map<string,string> from_database)
 void base_pkmn::print()
 {
     cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
-    if(type2 != "None") cout << boost::format("Type: %s") % type1 << endl;
+    if(type2 == "None") cout << boost::format("Type: %s") % type1 << endl;
     else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
     cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") %
                                baseHP % baseATK % baseDEF % baseSPD % baseSATK % baseSDEF << endl;
@@ -220,4 +221,24 @@ base_pkmn get_pokemon(string identifier)
     }
 
     return base_pkmn(from_database);
+}
+
+vector<base_pkmn> get_pkmn_of_type(string type1, string type2, bool lax)
+{
+    vector<base_pkmn> pkmn_vector;
+    SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pkmnsim.db");
+    string query_string;
+
+    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE type1='%s'") % type1);
+    else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE type1='%s' AND type2='%s'") % type1 % type2);
+
+    SQLite::Statement query(db, query_string.c_str());
+
+    while(query.executeStep())
+    {
+        string identifier = query.getColumn(0);
+        pkmn_vector.push_back(get_pokemon(identifier));
+    }
+
+    return pkmn_vector;
 }

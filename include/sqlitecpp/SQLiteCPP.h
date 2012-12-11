@@ -14,7 +14,7 @@
 
 
 // SQLiteCPP.h requires sqlite3, and the corresponding library header
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 // Include useful headers of SQLiteCPP
 #include "Database.h"

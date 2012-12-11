@@ -1,2 +1,4 @@
-ADD_EXECUTABLE(analyze_team_types analyze_team_types.cpp)
-TARGET_LINK_LIBRARIES(analyze_team_types pkmnsim boost_program_options sqlite3)
+ADD_EXECUTABLE(team_analysis team_analysis.cpp)
+ADD_EXECUTABLE(search_type_combo search_type_combo.cpp)
+TARGET_LINK_LIBRARIES(team_analysis pkmnsim boost_program_options sqlite3)
+TARGET_LINK_LIBRARIES(search_type_combo pkmnsim boost_program_options sqlite3)
