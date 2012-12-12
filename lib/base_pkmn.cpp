@@ -229,8 +229,9 @@ vector<base_pkmn> get_pkmn_of_type(string type1, string type2, bool lax)
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
     string query_string;
 
-    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE type1='%s'") % type1);
-    else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE type1='%s' AND type2='%s'") % type1 % type2);
+    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE type1='%s' OR type2='%s'") % type1 % type1);
+    else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE (type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')")
+                            % type1 % type2 % type2 % type1);
 
     SQLite::Statement query(db, query_string.c_str());
 
