@@ -2,9 +2,9 @@ INSTALL(FILES
     Column.h
     Database.h
     Exception.h
-    SQLiteC++.h
+    SQLiteCPP.h
     Statement.h
     Transaction.h
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+    DESTINATION ${INCLUDE_DIR}/sqlitecpp
     COMPONENT headers
 )

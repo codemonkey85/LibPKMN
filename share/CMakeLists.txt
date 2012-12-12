@@ -1,1 +1,1 @@
-add_subdirectory(pkmnsim)
+ADD_SUBDIRECTORY(pkmnsim)

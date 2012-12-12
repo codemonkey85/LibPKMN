@@ -210,7 +210,7 @@ base_pkmn get_pokemon(string identifier)
                           "base_hp","base_atk","base_def","base_satk","base_sdef","base_spd",
                           "ev_hp","ev_atk","ev_def","ev_satk","ev_sdef","ev_spd","exp_yield"};
     map<string,string> from_database;
-    SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pkmnsim.db");
+    SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
 
     transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
     for(int i = 0; i < 25; i++)
@@ -226,7 +226,7 @@ base_pkmn get_pokemon(string identifier)
 vector<base_pkmn> get_pkmn_of_type(string type1, string type2, bool lax)
 {
     vector<base_pkmn> pkmn_vector;
-    SQLite::Database db("/home/ncorgan/build/pkmnsim/share/pkmnsim/pkmnsim.db");
+    SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
     string query_string;
 
     if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE type1='%s'") % type1);

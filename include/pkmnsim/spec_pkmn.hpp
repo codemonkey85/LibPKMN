@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <pkmnsim/base_pkmn.hpp>
-#include <pkmnsim/pkmn_nature.hpp>
+#include <pkmnsim/pkmn_natures.hpp>
 
 class spec_pkmn
 {

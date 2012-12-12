@@ -5,7 +5,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <pkmnsim/spec_pkmn.hpp>
-#include <pkmnsim/pkmn_nature.hpp>
+#include <pkmnsim/pkmn_natures.hpp>
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 

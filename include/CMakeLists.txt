@@ -1,2 +1,8 @@
 ADD_SUBDIRECTORY(pkmnsim)
 ADD_SUBDIRECTORY(sqlitecpp)
+
+INSTALL(FILES
+    sqlite3.h
+    DESTINATION ${INCLUDE_DIR}
+    COMPONENT headers
+)

@@ -1,5 +1,5 @@
-#ifndef PKMN_NATURE_HPP
-#define PKMN_NATURE_HPP
+#ifndef PKMN_NATURES_HPP
+#define PKMN_NATURES_HPP
 #include <iostream>
 #include <string>
 #include <map>
@@ -22,4 +22,4 @@ class pkmn_nature
 
 pkmn_nature get_nature(string);
 
-#endif /*PKMN_NATURE_HPP*/
+#endif /*PKMN_NATURES_HPP*/

@@ -1,4 +1,11 @@
-ADD_EXECUTABLE(team_analysis team_analysis.cpp)
-ADD_EXECUTABLE(search_type_combo search_type_combo.cpp)
-TARGET_LINK_LIBRARIES(team_analysis pkmnsim boost_program_options sqlite3)
-TARGET_LINK_LIBRARIES(search_type_combo pkmnsim boost_program_options sqlite3)
+SET(pkmnsim_bin_sources
+    search_type_combo.cpp
+    team_analysis.cpp
+)
+
+FOREACH(bin_src ${pkmnsim_bin_sources})
+    GET_FILENAME_COMPONENT(bin_name ${bin_src} NAME_WE)
+    ADD_EXECUTABLE(${bin_name} ${bin_src})
+    TARGET_LINK_LIBRARIES(${bin_name} pkmnsim boost_program_options sqlite3)
+    INSTALL(TARGETS ${bin_name} RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT utilities)
+ENDFOREACH(bin_src)

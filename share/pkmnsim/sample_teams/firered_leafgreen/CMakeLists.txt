@@ -1,0 +1,6 @@
+FILE(GLOB trainer_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.txt")
+STRING(REGEX REPLACE "CMake[^;]+;?" "" trainer_files "${trainer_files}")
+
+FOREACH(team ${trainer_files})
+    INSTALL(FILES ${team} DESTINATION ${PKG_DATA_DIR}/sample_teams/firered_leafgreen COMPONENT "trainer file")
+ENDFOREACH(team)

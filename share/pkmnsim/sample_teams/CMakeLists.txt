@@ -1,0 +1,3 @@
+ADD_SUBDIRECTORY(black2_white2)
+ADD_SUBDIRECTORY(firered_leafgreen)
+ADD_SUBDIRECTORY(heartgold_soulsilver)
