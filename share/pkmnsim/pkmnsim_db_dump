@@ -402,4 +402,23 @@ INSERT INTO "natures" VALUES('Gentle',1.0,0.9,1.0,1.0,1.1);
 INSERT INTO "natures" VALUES('Sassy',1.0,1.0,0.9,1.0,1.1);
 INSERT INTO "natures" VALUES('Careful',1.0,1.0,1.0,0.9,1.1);
 INSERT INTO "natures" VALUES('Quirky',1.0,1.0,1.0,1.0,1.0);
+CREATE TABLE evolutions (pkmn1_identifier STRING,
+                         pkmn2_identifier STRING,
+                         method STRING,
+                         value INTEGER,
+                         FOREIGN KEY(pkmn1_identifier) REFERENCES pokedex(identifier)
+                         FOREIGN KEY(pkmn2_identifier) REFERENCES pokedex(identifier));
+INSERT INTO "evolutions" VALUES('bulbasaur','ivysaur','level',16);
+INSERT INTO "evolutions" VALUES('ivysaur','venusaur','level',36);
+INSERT INTO "evolutions" VALUES('charmander','charmeleon','level',16);
+INSERT INTO "evolutions" VALUES('charmeleon','charizard','level',36);
+INSERT INTO "evolutions" VALUES('squirtle','wartortle','level',16);
+INSERT INTO "evolutions" VALUES('wartortle','blastoise','level',36);
+INSERT INTO "evolutions" VALUES('caterpie','metapod','level',7);
+INSERT INTO "evolutions" VALUES('metapod','butterfree','level',10);
+INSERT INTO "evolutions" VALUES('weedle','kakuna','level',7);
+INSERT INTO "evolutions" VALUES('kakuna','beedrill','level',10);
+INSERT INTO "evolutions" VALUES('pidgey','pidgeotto','level',16);
+INSERT INTO "evolutions" VALUES('pidgeotto','pidgeot','level',36);
+INSERT INTO "evolutions" VALUES('rattata','raticate','level',20);
 COMMIT;

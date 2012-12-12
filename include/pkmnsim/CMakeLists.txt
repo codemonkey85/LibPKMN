@@ -1,9 +1,5 @@
-INSTALL(FILES
-    base_pkmn.hpp
-    pkmn_natures.hpp
-    pkmn_types.hpp
-    spec_pkmn.hpp
-    stat_analysis.hpp
-    DESTINATION ${INCLUDE_DIR}/pkmnsim
-    COMPONENT headers
-)
+FILE(GLOB pkmnsim_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
+
+FOREACH(header ${pkmnsim_headers})
+    INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim COMPONENT headers)
+ENDFOREACH(header)

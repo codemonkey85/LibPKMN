@@ -1,6 +1,6 @@
-FUNCTION(TEST_DATABASE TABLE_NAME ENTRY VALUE DESIRED_DISPLAY_NAME)
+FUNCTION(TEST_DATABASE_TABLE FIELD TABLE_NAME ENTRY VALUE DESIRED_DISPLAY_NAME)
     EXECUTE_PROCESS(
-        COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db "SELECT display_name from ${TABLE_NAME} where ${ENTRY}=${VALUE}"
+        COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db "SELECT ${FIELD} from ${TABLE_NAME} where ${ENTRY}=${VALUE}"
         OUTPUT_VARIABLE DISPLAY_NAME OUTPUT_STRIP_TRAILING_WHITESPACE
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     )
@@ -22,11 +22,12 @@ EXECUTE_PROCESS(
 
 #Test pkmnsim_db_dump read into pkmnsim.db
 MESSAGE(STATUS "Testing tables.")
-TEST_DATABASE("types" "Dark_mod" "0.0" "Psychic")
-TEST_DATABASE("gen1_types" "Ice_mod" "0.5" "Ice")
-TEST_DATABASE("pokedex" "pokedex_num" "208" "Steelix")
-TEST_DATABASE("gen1_pokedex" "pokedex_num" "25" "Pikachu")
-TEST_DATABASE("natures" "display_name" "'Hardy'" "Hardy")
+TEST_DATABASE_TABLE("display_name" "types" "Dark_mod" "0.0" "Psychic")
+TEST_DATABASE_TABLE("display_name" "gen1_types" "Ice_mod" "0.5" "Ice")
+TEST_DATABASE_TABLE("display_name" "pokedex" "pokedex_num" "208" "Steelix")
+TEST_DATABASE_TABLE("display_name" "gen1_pokedex" "pokedex_num" "25" "Pikachu")
+TEST_DATABASE_TABLE("satk_mod" "natures" "display_name" "'Rash'" "1.1")
+TEST_DATABASE_TABLE("pkmn2_identifier" "evolutions" "pkmn1_identifier" "'charmeleon'" "charizard")
 
 INSTALL(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
