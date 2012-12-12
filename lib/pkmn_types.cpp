@@ -1,5 +1,6 @@
 #include <boost/format.hpp>
 #include <iostream>
+#include <pkmnsim/pkmn_types.hpp>
 #include <sqlitecpp/SQLiteCPP.h>
 #include <sstream>
 #include <stdexcept>

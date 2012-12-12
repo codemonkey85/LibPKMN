@@ -1,5 +1,6 @@
 #ifndef BASE_PKMN_HPP
 #define BASE_PKMN_HPP
+#include <ciso646>
 #include <iostream>
 #include <map>
 #include <string>

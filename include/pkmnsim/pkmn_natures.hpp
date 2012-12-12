@@ -1,5 +1,6 @@
 #ifndef PKMN_NATURES_HPP
 #define PKMN_NATURES_HPP
+#include <ciso646>
 #include <iostream>
 #include <string>
 #include <map>
