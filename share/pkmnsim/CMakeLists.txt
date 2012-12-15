@@ -26,6 +26,7 @@ TEST_DATABASE_TABLE("display_name" "types" "Dark_mod" "0.0" "Psychic")
 TEST_DATABASE_TABLE("display_name" "gen1_types" "Ice_mod" "0.5" "Ice")
 TEST_DATABASE_TABLE("display_name" "pokedex" "pokedex_num" "208" "Steelix")
 TEST_DATABASE_TABLE("display_name" "gen1_pokedex" "pokedex_num" "25" "Pikachu")
+TEST_DATABASE_TABLE("display_name" "gen3_pokedex" "pokedex_num" "315" "Roselia")
 TEST_DATABASE_TABLE("satk_mod" "natures" "display_name" "'Rash'" "1.1")
 TEST_DATABASE_TABLE("pkmn2_identifier" "evolutions" "pkmn1_identifier" "'charmeleon'" "charizard")
 

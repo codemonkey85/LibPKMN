@@ -281,7 +281,6 @@ INSERT INTO "pokedex" VALUES('hariyama',297,'Hariyama','Arm Thrust','Fighting','
 INSERT INTO "pokedex" VALUES('electrike',309,'Electrike','Lightning','Electric','None','Static','Lightningrod','Minus',0.6,15.2,0.5,0.5,40,45,40,65,40,65,0,0,0,0,0,1,104);
 INSERT INTO "pokedex" VALUES('manectric',310,'Manectric','Discharge','Electric','None','Static','Lightningrod','Minus',1.5,40.2,0.5,0.5,70,75,65,105,60,105,0,0,0,0,0,2,168);
 INSERT INTO "pokedex" VALUES('roselia',315,'Roselia','Thorn','Grass','Poison','Natural Cure','Poison Point','Leaf Guard',0.3,2.0,0.5,0.5,50,60,45,100,80,65,0,0,0,2,0,0,152);
-INSERT INTO "pokedex" VALUES('roselia_gen3',315,'Roselia','Thorn','Grass','Poison','Natural Cure','Poison Point','Leaf Guard',0.3,2.0,0.5,0.5,50,60,45,100,80,65,0,0,0,1,0,0,152);
 INSERT INTO "pokedex" VALUES('gulpin',316,'Gulpin','Stomach','Poison','None','Liquid Ooze','Sticky Hold','Gluttony',0.4,10.3,0.5,0.5,70,43,53,43,53,40,1,0,0,0,0,0,75);
 INSERT INTO "pokedex" VALUES('swalot',317,'Swalot','Poison Bag','Poison','None','Liquid Ooze','Sticky Hold','Gluttony',1.7,80.0,0.5,0.5,100,73,83,73,83,55,2,0,0,0,0,0,168);
 INSERT INTO "pokedex" VALUES('numel',322,'Numel','Numb','Fire','Ground','Oblivious','Simple','Own Tempo',0.7,24.0,0.5,0.5,60,60,40,65,45,35,0,0,0,1,0,0,88);
@@ -371,6 +370,35 @@ CREATE TABLE gen1_pokedex (identifier     STRING PRIMARY KEY,
                       FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
                       FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
 INSERT INTO "gen1_pokedex" VALUES('pikachu',25,'Pikachu','Mouse','Electric','None',0.4,6.0,35,55,30,50,90,82);
+CREATE TABLE gen3_pokedex (identifier     STRING PRIMARY KEY,
+                      pokedex_num    INTEGER,
+                      display_name   STRING,
+                      species        STRING,
+                      type1          STRING,
+                      type2          STRING,
+                      ability1       STRING,
+                      ability2       STRING,
+                      ability3       STRING,
+                      height         DOUBLE,
+                      weight         DOUBLE,
+                      chance_male    DOUBLE,
+                      chance_female  DOUBLE,
+                      base_hp        INTEGER,
+                      base_atk       INTEGER,
+                      base_def       INTEGER,
+                      base_satk      INTEGER,
+                      base_sdef      INTEGER,
+                      base_spd       INTEGER,
+                      ev_hp          INTEGER,
+                      ev_atk         INTEGER,
+                      ev_def         INTEGER,
+                      ev_satk        INTEGER,
+                      ev_sdef        INTEGER,
+                      ev_spd         INTEGER,
+                      exp_yield      INTEGER,
+                      FOREIGN KEY(type1) REFERENCES types(display_name)
+                      FOREIGN KEY(type2) REFERENCES types(display_name));
+INSERT INTO "gen3_pokedex" VALUES('roselia',315,'Roselia','Thorn','Grass','Poison','Natural Cure','Poison Point','Leaf Guard',0.3,2.0,0.5,0.5,50,60,45,100,80,65,0,0,0,1,0,0,152);
 CREATE TABLE natures (display_name   STRING PRIMARY KEY,
                       hp_mod       DOUBLE,
                       atk_mod      DOUBLE,
