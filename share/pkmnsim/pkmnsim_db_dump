@@ -180,7 +180,7 @@ INSERT INTO "pokedex" VALUES('slowpoke',79,'Slowpoke','Dopey','Water','Psychic',
 INSERT INTO "pokedex" VALUES('slowbro',80,'Slowbro','Hermit Crab','Water','Psychic','Oblivious','Own Tempo','Regenerator',1.6,78.5,0.5,0.5,95,75,110,100,80,30,0,0,2,0,0,0,164);
 INSERT INTO "pokedex" VALUES('magnemite',81,'Magnemite','Magnet','Electric','Steel','Magnet Pull','Sturdy','Analytic',0.3,6.0,0.0,0.0,25,35,70,95,55,45,0,0,0,1,0,0,89);
 INSERT INTO "pokedex" VALUES('magneton',82,'Magneton','Magnet','Electric','Steel','Magnet Pull','Sturdy','Analytic',1.0,60.0,0.0,0.0,50,60,95,120,70,70,0,0,0,2,0,0,161);
-INSERT INTO "pokedex" VALUES('farfetch''d',83,'Farfetch''d','Wild Duck','Normal','Flying','Keen Eye','Inner Focus','Defiant',0.8,15.0,0.5,0.5,52,65,55,58,62,60,0,1,0,0,0,0,94);
+INSERT INTO "pokedex" VALUES('farfetchd',83,"Farfetch'd",'Wild Duck','Normal','Flying','Keen Eye','Inner Focus','Defiant',0.8,15.0,0.5,0.5,52,65,55,58,62,60,0,1,0,0,0,0,94);
 INSERT INTO "pokedex" VALUES('doduo',84,'Doduo','Twin Bird','Normal','Flying','Run Away','Early Bird','Tangled Feet',1.4,39.2,0.5,0.5,35,85,45,35,35,75,0,1,0,0,0,0,96);
 INSERT INTO "pokedex" VALUES('dodrio',85,'Dodrio','Triple Bird','Normal','Flying','Run Away','Early Bird','Tangled Feet',1.8,85.2,0.5,0.5,60,110,70,60,60,100,0,2,0,0,0,0,158);
 INSERT INTO "pokedex" VALUES('seel',86,'Seel','Sea Lion','Water','None','Thick Fat','Hydration','Ice Body',1.1,90.0,0.5,0.5,65,45,55,45,70,45,0,0,0,0,1,0,100);
