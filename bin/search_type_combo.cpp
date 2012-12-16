@@ -34,12 +34,14 @@ struct stat
 int main(int argc, char *argv[])
 {
     //Taking in user options
+    int gen;
     string type1;
     string type2;
 
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "Display this help message.")
+        ("gen", po::value<int>(&gen)->default_value(5), "Which generation to use")
         ("type1", po::value<string>(&type1)->default_value("None"), "Type 1 to search for")
         ("type2", po::value<string>(&type2)->default_value("None"), "Type 2 to search for, default=None")
         ("lax", "If only specifying one type, specify '--lax' to include any type combination with that type")
@@ -55,6 +57,11 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     bool lax = vm.count("lax");
+    if(gen < 3 or gen > 5)
+    {
+        cout << "\nOption --gen must be >2 and <5 (Gen 1,2 unimplemented)." << endl;
+        return EXIT_FAILURE;
+    }
     if(type1 == "None")
     {
         cout << "\nSpecify a type with type1=(type)." << endl;
@@ -69,9 +76,9 @@ int main(int argc, char *argv[])
     highest_stats[3] = stat("Speed");
     highest_stats[4] = stat("Special Attack");
     highest_stats[5] = stat("Special Defense");
-    stat lowest_stats[6];
+    stat lowest_stats[6] = highest_stats;
 
-    vector<base_pkmn> pkmn_vector = get_pkmn_of_type(type1,type2,lax);
+    vector<base_pkmn> pkmn_vector = get_pkmn_of_type(type1,type2,gen,lax);
     if(pkmn_vector.begin() == pkmn_vector.end())
     {
         cout << "\nNo Pokemon of specified type.\n";

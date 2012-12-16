@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
     while(getline(team_file_input,pkmn_name))
     {
         if(count > 6) break;
-        pkmn_team.push_back(get_pokemon(pkmn_name));
+        pkmn_team.push_back(get_pokemon(pkmn_name,5));
         if(verbose) cout << "Successfully added Pokemon: " << pkmn_name << endl;
         count++;
     }

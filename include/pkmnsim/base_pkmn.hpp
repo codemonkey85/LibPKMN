@@ -44,6 +44,6 @@ class base_pkmn
         //string * move_list;
 };
 
-base_pkmn get_pokemon(string);
-vector<base_pkmn> get_pkmn_of_type(string,string,bool);
+base_pkmn get_pokemon(string,int);
+vector<base_pkmn> get_pkmn_of_type(string,string,int,bool);
 #endif /*BASE_PKMN_HPP*/

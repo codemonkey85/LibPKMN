@@ -203,7 +203,7 @@ int* base_pkmn::get_ev_yields()
 }
 //get_move_list
 
-base_pkmn get_pokemon(string identifier)
+base_pkmn get_pokemon(string identifier, int gen)
 {
     string db_fields[] = {"display_name","pokedex_num","species","type1","type2","ability1",
                           "ability2","ability3","height","weight","chance_male","chance_female",
@@ -211,11 +211,30 @@ base_pkmn get_pokemon(string identifier)
                           "ev_hp","ev_atk","ev_def","ev_satk","ev_sdef","ev_spd","exp_yield"};
     map<string,string> from_database;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
+    string query_string;
+    string pokedex_str = str(boost::format("gen%d_pokedex") % gen);
 
     transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+
+    try
+    {
+        query_string = str(boost::format("SELECT display_name FROM %s WHERE identifier='%s'") % pokedex_str % identifier);
+        SQLite::Statement query(db, query_string.c_str());
+        query.executeStep();
+        query.getColumn(0);
+    }
+    catch(SQLite::Exception& e)
+    {
+        query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier);
+        SQLite::Statement query(db, query_string.c_str());
+        query.executeStep();
+        query.getColumn(0);
+        pokedex_str = "pokedex";
+    }
+
     for(int i = 0; i < 25; i++)
     {
-        string query_string = str(boost::format("SELECT %s FROM pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
+        query_string = str(boost::format("SELECT %s FROM %s WHERE identifier='%s'") % db_fields[i] % pokedex_str % identifier);
         string result = db.execAndGet(query_string.c_str(), identifier);
         from_database[db_fields[i]] = result;
     }
@@ -223,22 +242,33 @@ base_pkmn get_pokemon(string identifier)
     return base_pkmn(from_database);
 }
 
-vector<base_pkmn> get_pkmn_of_type(string type1, string type2, bool lax)
+vector<base_pkmn> get_pkmn_of_type(string type1, string type2, int gen, bool lax)
 {
+    map<int,int> pokedex_bounds = boost::assign::map_list_of
+        (1,151) //Gen1: Kanto
+        (2,251) //Gen2: Johto
+        (3,386) //Gen3: Hoenn
+        (4,494) //Gen4: Sinnoh
+        (5,649) //Gen5: Unova
+    ;
+
     vector<base_pkmn> pkmn_vector;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
     string query_string;
+    string pokedex_str;
+    int max_pokedex_num;
 
-    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE type1='%s' OR type2='%s'") % type1 % type1);
-    else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE (type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')")
-                            % type1 % type2 % type2 % type1);
+    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE (type1='%s' OR type2='%s') AND pokedex_num <= %d") %
+                                                   type1 % type1 % pokedex_bounds[gen]);
+    else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE ((type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')) AND pokedex_num <= %d")
+                            % type1 % type2 % type2 % type1 % pokedex_bounds[gen]);
 
     SQLite::Statement query(db, query_string.c_str());
 
     while(query.executeStep())
     {
         string identifier = query.getColumn(0);
-        pkmn_vector.push_back(get_pokemon(identifier));
+        pkmn_vector.push_back(get_pokemon(identifier,gen));
     }
 
     return pkmn_vector;
