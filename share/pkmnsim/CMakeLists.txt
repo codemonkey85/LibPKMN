@@ -24,6 +24,7 @@ EXECUTE_PROCESS(
 MESSAGE(STATUS "Testing tables.")
 TEST_DATABASE_TABLE("display_name" "types" "Dark_mod" "0.0" "Psychic")
 TEST_DATABASE_TABLE("display_name" "gen1_types" "Ice_mod" "0.5" "Ice")
+TEST_DATABASE_TABLE("first_gen" "abilities" "display_name" "'Rivalry'" "4")
 TEST_DATABASE_TABLE("display_name" "pokedex" "pokedex_num" "208" "Steelix")
 TEST_DATABASE_TABLE("display_name" "gen1_pokedex" "pokedex_num" "25" "Pikachu")
 TEST_DATABASE_TABLE("display_name" "gen3_pokedex" "pokedex_num" "315" "Roselia")
