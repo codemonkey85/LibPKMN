@@ -569,6 +569,26 @@ CREATE TABLE gen1_pokedex (identifier     STRING PRIMARY KEY,
                       FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
                       FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
 INSERT INTO "gen1_pokedex" VALUES('pikachu',25,'Pikachu','Mouse','Electric','None',0.4,6.0,35,55,30,50,90,82);
+CREATE TABLE gen2_pokedex (identifier     STRING PRIMARY KEY,
+                      pokedex_num    INTEGER,
+                      display_name   STRING,
+                      species        STRING,
+                      type1          STRING,
+                      type2          STRING,
+                      height         DOUBLE,
+                      weight         DOUBLE,
+                      chance_male    DOUBLE,
+                      chance_female  DOUBLE,
+                      base_hp        INTEGER,
+                      base_atk       INTEGER,
+                      base_def       INTEGER,
+                      base_satk      INTEGER,
+                      base_sdef      INTEGER,
+                      base_spd       INTEGER,
+                      exp_yield      INTEGER,
+                      FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
+                      FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
+INSERT INTO "gen2_pokedex" VALUES('chikorita',152,'Chikorita','Leaf','Grass','None',0.9,6.4,0.875,0.125,45,49,65,49,65,45,64);
 CREATE TABLE gen3_pokedex (identifier     STRING PRIMARY KEY,
                       pokedex_num    INTEGER,
                       display_name   STRING,

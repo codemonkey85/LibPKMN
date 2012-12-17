@@ -10,6 +10,16 @@ CONFIGURE_FILE(
 @ONLY)
 
 CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_gen1pkmn.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_gen1pkmn.cpp
+@ONLY)
+
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_gen2pkmn.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_gen2pkmn.cpp
+@ONLY)
+
+CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_natures.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/pkmn_natures.cpp
 @ONLY)
@@ -21,6 +31,8 @@ CONFIGURE_FILE(
 
 LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_gen1pkmn.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_gen2pkmn.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/pkmn_natures.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/pkmn_types.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn.cpp

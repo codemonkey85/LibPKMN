@@ -203,8 +203,17 @@ int* base_pkmn::get_ev_yields()
 }
 //get_move_list
 
+map<int,int> pokedex_bounds = boost::assign::map_list_of
+    (3,386) //Gen3: Hoenn
+    (4,494) //Gen4: Sinnoh
+    (5,649) //Gen5: Unova
+;
+
 base_pkmn get_pokemon(string identifier, int gen)
 {
+    if(gen == 1) throw runtime_error("For Generation 1 Pokemon, use base_gen1pkmn class instead.");
+    else if(gen == 2) throw runtime_error("For Generation 2 Pokemon, use base_gen2pkmn class instead.");
+
     string db_fields[] = {"display_name","pokedex_num","species","type1","type2","ability1",
                           "ability2","ability3","height","weight","chance_male","chance_female",
                           "base_hp","base_atk","base_def","base_satk","base_sdef","base_spd",
@@ -244,18 +253,9 @@ base_pkmn get_pokemon(string identifier, int gen)
 
 vector<base_pkmn> get_pkmn_of_type(string type1, string type2, int gen, bool lax)
 {
-    map<int,int> pokedex_bounds = boost::assign::map_list_of
-        (1,151) //Gen1: Kanto
-        (2,251) //Gen2: Johto
-        (3,386) //Gen3: Hoenn
-        (4,494) //Gen4: Sinnoh
-        (5,649) //Gen5: Unova
-    ;
-
     vector<base_pkmn> pkmn_vector;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
     string query_string;
-    string pokedex_str;
     int max_pokedex_num;
 
     if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE (type1='%s' OR type2='%s') AND pokedex_num <= %d") %
