@@ -82,7 +82,6 @@ spec_pkmn::spec_pkmn(base_pkmn b, int lvl, int force_vals)
 spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::string nat, std::string hld, int hpstat, int atkstat, int defstat, int spdstat,
                      int satkstat, int sdefstat, std::string m1, std::string m2, std::string m3, std::string m4) 
 {
-    extern std::map<std::string, pkmn_nature> pkmn_nature_map;
     base = b;
     nickname = name;
     level = lvl;
@@ -115,26 +114,26 @@ spec_pkmn::spec_pkmn(base_pkmn b, std::string name, int lvl, char gndr, std::str
 
 void spec_pkmn::print()
 {
-    std::cout << boost::format("%s (%d, %s)") % nickname % level % gender << std::endl;
+    std::cout << boost::format("%s (%d, %s)\n") % nickname % level % gender;
     std::cout << base.get_display_name() << std::endl;
-    std::cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") % HP % ATK % DEF % SPD % SATK % SDEF << std::endl;
+    std::cout << boost::format("Stats: %d,%d,%d,%d,%d,%d\n") % HP % ATK % DEF % SPD % SATK % SDEF;
 }
 
 void spec_pkmn::print_verbose()
 {
-    std::cout << boost::format("%s (%s)") % base.get_display_name() % gender << std::endl;
-    std::cout << boost::format("Nickname: %s") % nickname << std::endl;
-    std::cout << boost::format("Level %d") % level << std::endl;
-    std::cout << boost::format("Nature: %s") % nature.get_name() << std::endl;
+    std::cout << boost::format("%s (%s)\n") % base.get_display_name() % gender;
+    std::cout << boost::format("Nickname: %s\n") % nickname;
+    std::cout << boost::format("Level %d\n") % level;
+    std::cout << boost::format("Nature: %s\n") % nature.get_name();
     if(held_item == "None") std::cout << "Item: None" << std::endl;
-    else std::cout << boost::format("Item: %s") % held_item << std::endl;
+    else std::cout << boost::format("Item: %s\n") % held_item;
     std::cout << "Stats:" << std::endl;
-    std::cout << boost::format(" - HP: %d (IV: %d, EV: %d)") % HP % ivHP % evHP << std::endl;
-    std::cout << boost::format(" - Attack: %d (IV: %d, EV: %d)") % ATK % ivATK % evATK << std::endl;
-    std::cout << boost::format(" - Defense: %d (IV: %d, EV: %d)") % DEF % ivDEF % evDEF << std::endl;
-    std::cout << boost::format(" - Speed: %d (IV: %d, EV: %d)") % SPD % ivSPD % evSPD << std::endl;
-    std::cout << boost::format(" - Special Attack: %d (IV: %d, EV: %d)") % SATK % ivSATK % evSATK << std::endl;
-    std::cout << boost::format(" - Special Defense: %d (IV: %d, EV: %d)") % SDEF % ivSDEF % evSDEF << std::endl;
+    std::cout << boost::format(" - HP: %d (IV: %d, EV: %d)\n") % HP % ivHP % evHP;
+    std::cout << boost::format(" - Attack: %d (IV: %d, EV: %d)\n") % ATK % ivATK % evATK;
+    std::cout << boost::format(" - Defense: %d (IV: %d, EV: %d)\n") % DEF % ivDEF % evDEF;
+    std::cout << boost::format(" - Speed: %d (IV: %d, EV: %d)\n") % SPD % ivSPD % evSPD;
+    std::cout << boost::format(" - Special Attack: %d (IV: %d, EV: %d)\n") % SATK % ivSATK % evSATK;
+    std::cout << boost::format(" - Special Defense: %d (IV: %d, EV: %d)\n") % SDEF % ivSDEF % evSDEF;
 }
 
 base_pkmn spec_pkmn::get_base_pkmn() {return base;}
@@ -194,7 +193,7 @@ void spec_pkmn::reset_volatile_status_map()
         ("embargo",0)
         ("encore",0)
         ("flinch",0)
-        ("heal_block",0)
+        ("heal block",0)
         ("identification",0)
         ("infatuation",0)
         ("nightmare",0)
