@@ -37,6 +37,7 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_BINARY_DIR}/pkmn_types.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_gen1pkmn.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/spec_gen2pkmn.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/stat_analysis.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Column.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Database.cpp
