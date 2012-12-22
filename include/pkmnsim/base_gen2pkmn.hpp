@@ -39,6 +39,6 @@ class base_gen2pkmn
         //std::string * move_list;
 };
 
-base_gen2pkmn get_pokemon(std::string,int);
-std::vector<base_gen2pkmn> get_pkmn_of_type(std::string,std::string,int,bool);
+base_gen2pkmn get_gen2_pokemon(std::string,int);
+std::vector<base_gen2pkmn> get_gen2_pkmn_of_type(std::string,std::string,bool);
 #endif /*BASE_GEN2PKMN_HPP*/

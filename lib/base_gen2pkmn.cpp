@@ -141,7 +141,7 @@ base_gen2pkmn get_gen2_pokemon(string identifier)
     return base_gen2pkmn(from_database);
 }
 
-vector<base_gen2pkmn> get_pkmn_of_type(string type1, string type2, bool lax)
+vector<base_gen2pkmn> get_gen2_pkmn_of_type(string type1, string type2, bool lax)
 {
     vector<base_gen2pkmn> pkmn_vector;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
