@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     bool lax = vm.count("lax");
     if(gen < 3 or gen > 5)
     {
-        cout << "\nOption --gen must be >2 and <5 (Gen 1,2 unimplemented)." << endl;
+        cout << "\nOption --gen must be >2 and <=5 (Gen 1,2 unimplemented)." << endl;
         return EXIT_FAILURE;
     }
     if(type1 == "None")
