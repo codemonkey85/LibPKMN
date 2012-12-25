@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
             else type_str = str(boost::format("%s/%s") % type1 % type2);
             cout << boost::format("Stat analysis for Pokemon of type(s): %s (Generation 1)\n\n") % type_str;
 
-            for(int i = 0; i < 6; i++)
+            for(int i = 0; i < 5; i++)
             {
                 cout << boost::format("%s\n") % gen1highest_stats[i].stat_name;
                 cout << boost::format(" * Highest: %s (%d)\n") % gen1highest_stats[i].pkmn_name % gen1highest_stats[i].stat_value;
