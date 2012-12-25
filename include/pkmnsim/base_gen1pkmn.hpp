@@ -18,8 +18,11 @@ class base_gen1pkmn: public base_pkmn
         base_gen1pkmn(std::map<std::string, std::string> from_database);
         void print();
         void print_verbose();
+        std::string get_display_name();        
         int get_nat_pokedex_num();
         std::string get_species();
+        double get_height();
+        double get_weight();
         int* get_base_stats();
         int* get_ev_yields();
 

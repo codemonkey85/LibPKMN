@@ -127,13 +127,12 @@ base_gen2pkmn get_gen2_pokemon(string identifier)
                           "base_def","base_satk","base_sdef","base_spd","exp_yield"};
     map<string,string> from_database;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
-    string query_string;
 
     transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
 
     for(int i = 0; i < 16; i++)
     {
-        query_string = str(boost::format("SELECT %s FROM gen2_pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
+        string query_string = str(boost::format("SELECT %s FROM gen2_pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
         string result = db.execAndGet(query_string.c_str(), identifier);
         from_database[db_fields[i]] = result;
     }

@@ -43,6 +43,8 @@ base_gen1pkmn::base_gen1pkmn(std::map<std::string,std::string> from_database)
     if(not (sin_batk >> baseATK)) throw runtime_error("Invalid input.");
     stringstream sin_bdef(from_database["base_def"]);
     if(not (sin_bdef >> baseDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_bspd(from_database["base_spd"]);
+    if(not (sin_bspd >> baseSPD)) throw runtime_error("Invalid input.");
     stringstream sin_bspcl(from_database["base_spcl"]);
     if(not (sin_bspcl >> baseSPCL)) throw runtime_error("Invalid input.");
     stringstream sin_exp(from_database["exp_yield"]);
@@ -84,8 +86,11 @@ void base_gen1pkmn::print_verbose()
     cout << boost::format("Experience Yield: %d") % exp_yield << endl;
 }
 
+string base_gen1pkmn::get_display_name() {return display_name;}
 int base_gen1pkmn::get_nat_pokedex_num() {return nat_pokedex_num;}
 string base_gen1pkmn::get_species() {return species;}
+double base_gen1pkmn::get_height() {return height;}
+double base_gen1pkmn::get_weight() {return weight;}
 
 int* base_gen1pkmn::get_base_stats()
 {
@@ -104,7 +109,7 @@ int* base_gen1pkmn::get_ev_yields() {return get_base_stats();}
 
 base_gen1pkmn get_gen1_pokemon(string identifier)
 {
-    string db_fields[] = {"pokedex_num","display_name","species","type1","type2","height",
+    string db_fields[] = {"display_name","pokedex_num","species","type1","type2","height",
                           "weight","base_hp","base_atk","base_def","base_spcl","base_spd",
                           "exp_yield"};
     map<string,string> from_database;
