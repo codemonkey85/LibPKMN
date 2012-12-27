@@ -31,6 +31,7 @@ TEST_DATABASE_TABLE("display_name" "gen2_pokedex" "pokedex_num" "152" "Chikorita
 TEST_DATABASE_TABLE("display_name" "gen3_pokedex" "pokedex_num" "315" "Roselia")
 TEST_DATABASE_TABLE("satk_mod" "natures" "display_name" "'Rash'" "1.1")
 TEST_DATABASE_TABLE("pkmn2_identifier" "evolutions" "pkmn1_identifier" "'charmeleon'" "charizard")
+TEST_DATABASE_TABLE("in_gen4" "items" "display_name" "'BlackGlasses'" "1")
 
 INSTALL(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db

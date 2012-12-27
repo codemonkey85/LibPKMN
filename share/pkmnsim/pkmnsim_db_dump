@@ -1,24 +1,24 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
-CREATE TABLE types (display_name STRING PRIMARY KEY,
+CREATE TABLE types (display_name         STRING PRIMARY KEY,
                     gen_2_3_phys_or_spec STRING,
-                    Normal_mod DOUBLE,
-                    Fighting_mod DOUBLE,
-                    Flying_mod DOUBLE,
-                    Poison_mod DOUBLE,
-                    Ground_mod DOUBLE,
-                    Rock_mod DOUBLE,
-                    Bug_mod DOUBLE,
-                    Ghost_mod DOUBLE,
-                    Steel_mod DOUBLE,
-                    Fire_mod DOUBLE,
-                    Water_mod DOUBLE,
-                    Grass_mod DOUBLE,
-                    Electric_mod DOUBLE,
-                    Psychic_mod DOUBLE,
-                    Ice_mod DOUBLE,
-                    Dragon_mod DOUBLE,
-                    Dark_mod DOUBLE);
+                    Normal_mod           DOUBLE,
+                    Fighting_mod         DOUBLE,
+                    Flying_mod           DOUBLE,
+                    Poison_mod           DOUBLE,
+                    Ground_mod           DOUBLE,
+                    Rock_mod             DOUBLE,
+                    Bug_mod              DOUBLE,
+                    Ghost_mod            DOUBLE,
+                    Steel_mod            DOUBLE,
+                    Fire_mod             DOUBLE,
+                    Water_mod            DOUBLE,
+                    Grass_mod            DOUBLE,
+                    Electric_mod         DOUBLE,
+                    Psychic_mod          DOUBLE,
+                    Ice_mod              DOUBLE,
+                    Dragon_mod           DOUBLE,
+                    Dark_mod             DOUBLE);
 INSERT INTO "types" VALUES('None','Physical',1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0);
 INSERT INTO "types" VALUES('???','Physical',1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0);
 INSERT INTO "types" VALUES('Normal','Physical',1.0,1.0,1.0,1.0,1.0,0.5,1.0,0.0,0.5,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0);
@@ -40,21 +40,21 @@ INSERT INTO "types" VALUES('Dragon','Special',1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.
 INSERT INTO "types" VALUES('Dark','Special',1.0,0.5,1.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,1.0,1.0,1.0,2.0,1.0,1.0,0.5);
 CREATE TABLE gen1_types (display_name STRING PRIMARY KEY,
                          phys_or_spec STRING,
-                         Normal_mod DOUBLE,
+                         Normal_mod   DOUBLE,
                          Fighting_mod DOUBLE,
-                         Flying_mod DOUBLE,
-                         Poison_mod DOUBLE,
-                         Ground_mod DOUBLE,
-                         Rock_mod DOUBLE,
-                         Bug_mod DOUBLE,
-                         Ghost_mod DOUBLE,
-                         Fire_mod DOUBLE,
-                         Water_mod DOUBLE,
-                         Grass_mod DOUBLE,
+                         Flying_mod   DOUBLE,
+                         Poison_mod   DOUBLE,
+                         Ground_mod   DOUBLE,
+                         Rock_mod     DOUBLE,
+                         Bug_mod      DOUBLE,
+                         Ghost_mod    DOUBLE,
+                         Fire_mod     DOUBLE,
+                         Water_mod    DOUBLE,
+                         Grass_mod    DOUBLE,
                          Electric_mod DOUBLE,
-                         Psychic_mod DOUBLE,
-                         Ice_mod DOUBLE,
-                         Dragon_mod DOUBLE);
+                         Psychic_mod  DOUBLE,
+                         Ice_mod      DOUBLE,
+                         Dragon_mod   DOUBLE);
 INSERT INTO "gen1_types" VALUES('Normal','Physical',1.0,1.0,1.0,1.0,1.0,0.5,1.0,0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0);
 INSERT INTO "gen1_types" VALUES('Fighting','Physical',2.0,1.0,0.5,0.5,1.0,2.0,0.5,0.0,1.0,1.0,1.0,1.0,0.5,2.0,1.0);
 INSERT INTO "gen1_types" VALUES('Flying','Physical',1.0,2.0,1.0,1.0,1.0,0.5,2.0,1.0,1.0,1.0,2.0,0.5,1.0,1.0,1.0);
@@ -71,7 +71,7 @@ INSERT INTO "gen1_types" VALUES('Psychic','Special',1.0,2.0,1.0,2.0,1.0,1.0,1.0,
 INSERT INTO "gen1_types" VALUES('Ice','Special',1.0,1.0,2.0,1.0,2.0,1.0,1.0,1.0,1.0,0.5,2.0,1.0,1.0,0.5,2.0);
 INSERT INTO "gen1_types" VALUES('Dragon','Special',1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0);
 CREATE TABLE abilities (display_name STRING PRIMARY KEY,
-                        first_gen INTEGER);
+                        first_gen    INTEGER);
 INSERT INTO "abilities" VALUES('Stench',3);
 INSERT INTO "abilities" VALUES('Drizzle',3);
 INSERT INTO "abilities" VALUES('Speed Boost',3);
@@ -262,8 +262,8 @@ CREATE TABLE pokedex (identifier     STRING PRIMARY KEY,
                       ev_sdef        INTEGER,
                       ev_spd         INTEGER,
                       exp_yield      INTEGER,
-                      FOREIGN KEY(type1) REFERENCES types(display_name)
-                      FOREIGN KEY(type2) REFERENCES types(display_name)
+                      FOREIGN KEY(type1)    REFERENCES types(display_name)
+                      FOREIGN KEY(type2)    REFERENCES types(display_name)
                       FOREIGN KEY(ability1) REFERENCES abilities(display_name)
                       FOREIGN KEY(ability2) REFERENCES abilities(display_name)
                       FOREIGN KEY(ability3) REFERENCES abilities(display_name));
@@ -651,8 +651,8 @@ INSERT INTO "natures" VALUES('Careful',1.0,1.0,1.0,0.9,1.1);
 INSERT INTO "natures" VALUES('Quirky',1.0,1.0,1.0,1.0,1.0);
 CREATE TABLE evolutions (pkmn1_identifier STRING,
                          pkmn2_identifier STRING,
-                         method STRING,
-                         value INTEGER,
+                         method           STRING,
+                         value            INTEGER,
                          FOREIGN KEY(pkmn1_identifier) REFERENCES pokedex(identifier)
                          FOREIGN KEY(pkmn2_identifier) REFERENCES pokedex(identifier));
 INSERT INTO "evolutions" VALUES('bulbasaur','ivysaur','level',16);
@@ -668,4 +668,62 @@ INSERT INTO "evolutions" VALUES('kakuna','beedrill','level',10);
 INSERT INTO "evolutions" VALUES('pidgey','pidgeotto','level',16);
 INSERT INTO "evolutions" VALUES('pidgeotto','pidgeot','level',36);
 INSERT INTO "evolutions" VALUES('rattata','raticate','level',20);
+CREATE TABLE items (display_name    PRIMARY KEY,
+                    has_held_effect BOOLEAN,
+                    in_gen2         BOOLEAN,
+                    in_gen3         BOOLEAN,
+                    in_gen4         BOOLEAN,
+                    in_gen5         BOOLEAN);
+INSERT INTO "items" VALUES('Black Belt',1,1,1,1,1);
+INSERT INTO "items" VALUES('BlackGlasses',1,1,1,1,1);
+INSERT INTO "items" VALUES('Charcoal',1,1,1,1,1);
+INSERT INTO "items" VALUES('Dragon Fang',1,1,1,1,1);
+INSERT INTO "items" VALUES('Hard Stone',1,1,1,1,1);
+INSERT INTO "items" VALUES('Magnet',1,1,1,1,1);
+INSERT INTO "items" VALUES('Metal Coat',1,1,1,1,1);
+INSERT INTO "items" VALUES('Miracle Seed',1,1,1,1,1);
+INSERT INTO "items" VALUES('Mystic Water',1,1,1,1,1);
+INSERT INTO "items" VALUES('NeverMeltIce',1,1,1,1,1);
+INSERT INTO "items" VALUES('Pink Bow',1,1,0,0,0);
+INSERT INTO "items" VALUES('Poison Barb',1,1,1,1,1);
+INSERT INTO "items" VALUES('Polkadot Bow',1,1,0,0,0);
+INSERT INTO "items" VALUES('Sharp Beak',1,1,1,1,1);
+INSERT INTO "items" VALUES('Silk Scarf',0,1,1,1,1);
+INSERT INTO "items" VALUES('SilverPowder',1,1,1,1,1);
+INSERT INTO "items" VALUES('Soft Sand',1,1,1,1,1);
+INSERT INTO "items" VALUES('Spell Tag',1,1,1,1,1);
+INSERT INTO "items" VALUES('TwistedSpoon',1,1,1,1,1);
+INSERT INTO "items" VALUES('Adamant Orb',1,0,0,1,1);
+INSERT INTO "items" VALUES('Lustrous Orb',1,0,0,1,1);
+INSERT INTO "items" VALUES('Griseous Orb',1,0,0,1,1);
+INSERT INTO "items" VALUES('Draco Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Dread Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Earth Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Fist Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Flame Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Icicle Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Insect Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Iron Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Meadow Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Mind Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Sky Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Splash Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Spooky Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Stone Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Toxic Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Zap Plate',1,0,0,1,1);
+INSERT INTO "items" VALUES('Burn Drive',1,0,0,0,1);
+INSERT INTO "items" VALUES('Chill Drive',1,0,0,0,1);
+INSERT INTO "items" VALUES('Douse Drive',1,0,0,0,1);
+INSERT INTO "items" VALUES('Shock Drive',1,0,0,0,1);
+INSERT INTO "items" VALUES('Berry',1,1,0,0,0);
+INSERT INTO "items" VALUES('Bitter Berry',1,1,0,0,0);
+INSERT INTO "items" VALUES('Burnt Berry',1,1,0,0,0);
+INSERT INTO "items" VALUES('Gold Berry',1,1,0,0,0);
+INSERT INTO "items" VALUES('Ice Berry',1,1,0,0,0);
+INSERT INTO "items" VALUES('Mint Berry',1,1,0,0,0);
+INSERT INTO "items" VALUES('MiracleBerry',1,1,0,0,0);
+INSERT INTO "items" VALUES('MysteryBerry',1,1,0,0,0);
+INSERT INTO "items" VALUES('PRZCureBerry',1,1,0,0,0);
+INSERT INTO "items" VALUES('PSNCureBerry',1,1,0,0,0);
 COMMIT;
