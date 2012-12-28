@@ -421,7 +421,11 @@ INSERT INTO "pokedex" VALUES('dragonite',149,'Dragonite','Dragon','Dragon','Flyi
 INSERT INTO "pokedex" VALUES('mewtwo',150,'Mewtwo','Genetic','Psychic','None','Pressure','Unnerve','None',2.0,122.0,0.0,0.0,106,110,94,154,90,130,0,0,0,3,0,0,220);
 INSERT INTO "pokedex" VALUES('mew',151,'Mew','New Species','Psychic','None','Synchronize','None','None',0.4,4.0,0.0,0.0,100,100,100,100,100,100,3,0,0,0,0,0,64);
 INSERT INTO "pokedex" VALUES('chikorita',152,'Chikorita','Leaf','Grass','None','Overgrow','Leaf Guard','None',0.9,6.4,0.875,0.125,45,49,65,49,65,45,0,0,0,0,1,0,64);
+INSERT INTO "pokedex" VALUES('bayleef',153,'Bayleef','Leaf','Grass','None','Overgrow','Leaf Guard','None',1.2,15.8,0.875,0.125,60,62,80,63,80,60,0,0,1,0,1,0,141);
+INSERT INTO "pokedex" VALUES('meganium',154,'Meganium','Herb','Grass','None','Overgrow','Leaf Guard','None',1.8,100.5,0.875,0.125,80,82,100,83,100,80,0,0,1,0,2,0,208);
 INSERT INTO "pokedex" VALUES('cyndaquil',155,'Cyndaquil','Fire Mouse','Fire','None','Blaze','Flash Fire','None',0.5,7.9,0.875,0.125,39,52,43,60,50,65,0,0,0,0,0,1,65);
+INSERT INTO "pokedex" VALUES('quilava',156,'Quilava','Volcano','Fire','None','Blaze','Flash Fire','None',0.9,19.0,0.875,0.125,58,64,58,80,65,80,0,0,0,1,0,1,142);
+INSERT INTO "pokedex" VALUES('typhlosion',157,'Typhlosion','Volcano','Fire','None','Blaze','Flash Fire','None',1.7,79.5,0.875,0.125,78,84,78,109,85,100,0,0,0,3,0,0,209);
 INSERT INTO "pokedex" VALUES('totodile',158,'Totodile','Big Jaw','Water','None','Torrent','Sheer Force','None',0.6,9.5,0.875,0.125,50,65,64,44,48,43,0,1,0,0,0,0,66);
 INSERT INTO "pokedex" VALUES('spinarak',167,'Spinarak','String Spit','Bug','Poison','Swarm','Insomnia','Sniper',0.5,8.5,0.5,0.5,40,60,40,40,40,30,0,1,0,0,0,0,54);
 INSERT INTO "pokedex" VALUES('ariados',168,'Ariados','Long Leg','Bug','Poison','Swarm','Insomnia','Sniper',1.1,33.5,0.5,0.5,70,90,70,60,60,40,0,2,0,0,0,0,134);
@@ -664,7 +668,7 @@ CREATE TABLE evolutions (pkmn1_identifier STRING,
                          FOREIGN KEY(pkmn1_identifier) REFERENCES pokedex(identifier)
                          FOREIGN KEY(pkmn2_identifier) REFERENCES pokedex(identifier));
 INSERT INTO "evolutions" VALUES('bulbasaur','ivysaur','level','16');
-INSERT INTO "evolutions" VALUES('ivysaur','venusaur','level','36');
+INSERT INTO "evolutions" VALUES('ivysaur','venusaur','level','32');
 INSERT INTO "evolutions" VALUES('charmander','charmeleon','level','16');
 INSERT INTO "evolutions" VALUES('charmeleon','charizard','level','36');
 INSERT INTO "evolutions" VALUES('squirtle','wartortle','level','16');
@@ -767,6 +771,10 @@ INSERT INTO "evolutions" VALUES('kabuto','kabutops','level','40');
 INSERT INTO "evolutions" VALUES('munchlax','snorlax','level+happiness','Any+High');
 INSERT INTO "evolutions" VALUES('dratini','dragonair','level','30');
 INSERT INTO "evolutions" VALUES('dragonair','dragonite','level','55');
+INSERT INTO "evolutions" VALUES('chikorita','bayleef','level','16');
+INSERT INTO "evolutions" VALUES('bayleef','meganium','level','32');
+INSERT INTO "evolutions" VALUES('cyndaquil','quilava','level','14');
+INSERT INTO "evolutions" VALUES('quilava','typhlosion','level','36');
 CREATE TABLE items (display_name    PRIMARY KEY,
                     has_held_effect BOOLEAN,
                     in_gen1         BOOLEAN,
