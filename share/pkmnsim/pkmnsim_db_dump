@@ -427,6 +427,14 @@ INSERT INTO "pokedex" VALUES('cyndaquil',155,'Cyndaquil','Fire Mouse','Fire','No
 INSERT INTO "pokedex" VALUES('quilava',156,'Quilava','Volcano','Fire','None','Blaze','Flash Fire','None',0.9,19.0,0.875,0.125,58,64,58,80,65,80,0,0,0,1,0,1,142);
 INSERT INTO "pokedex" VALUES('typhlosion',157,'Typhlosion','Volcano','Fire','None','Blaze','Flash Fire','None',1.7,79.5,0.875,0.125,78,84,78,109,85,100,0,0,0,3,0,0,209);
 INSERT INTO "pokedex" VALUES('totodile',158,'Totodile','Big Jaw','Water','None','Torrent','Sheer Force','None',0.6,9.5,0.875,0.125,50,65,64,44,48,43,0,1,0,0,0,0,66);
+INSERT INTO "pokedex" VALUES('croconaw',159,'Croconaw','Big Jaw','Water','None','Torrent','Sheer Force','None',1.1,25.0,0.875,0.125,65,80,80,59,63,58,0,1,1,0,0,0,143);
+INSERT INTO "pokedex" VALUES('feraligatr',160,'Feraligatr','Big Jaw','Water','None','Torrent','Sheer Force','None',2.3,88.8,0.875,0.125,85,105,100,79,83,78,0,2,1,0,0,0,210);
+INSERT INTO "pokedex" VALUES('sentret',161,'Sentret','Scout','Normal','None','Run Away','Keen Eye','Frisk',0.8,6.0,0.5,0.5,35,46,34,35,45,20,0,1,0,0,0,0,57);
+INSERT INTO "pokedex" VALUES('furret',162,'Furret','Long Body','Normal','None','Run Away','Keen Eye','Frisk',1.8,32.5,0.5,0.5,85,76,64,45,55,90,0,0,0,0,0,2,116);
+INSERT INTO "pokedex" VALUES('hoothoot',163,'Hoothoot','Owl','Normal','Flying','Insomnia','Keen Eye','Tinted Lens',0.7,21.2,0.5,0.5,60,30,30,36,56,50,1,0,0,0,0,0,58);
+INSERT INTO "pokedex" VALUES('noctowl',164,'Noctowl','Owl','Normal','Flying','Insomnia','Keen Eye','Tinted Lens',1.6,40.8,0.5,0.5,100,50,50,76,96,70,2,0,0,0,0,0,162);
+INSERT INTO "pokedex" VALUES('ledyba',165,'Ledyba','Five Star','Bug','Flying','Swarm','Early Bird','Rattled',1.0,10.8,0.5,0.5,40,20,30,40,80,55,0,0,0,0,1,0,54);
+INSERT INTO "pokedex" VALUES('ledian',166,'Ledian','Five Star','Bug','Flying','Swarm','Early Bird','Iron Fist',1.4,14.6,0.5,0.5,55,35,50,55,110,85,0,0,0,0,2,0,134);
 INSERT INTO "pokedex" VALUES('spinarak',167,'Spinarak','String Spit','Bug','Poison','Swarm','Insomnia','Sniper',0.5,8.5,0.5,0.5,40,60,40,40,40,30,0,1,0,0,0,0,54);
 INSERT INTO "pokedex" VALUES('ariados',168,'Ariados','Long Leg','Bug','Poison','Swarm','Insomnia','Sniper',1.1,33.5,0.5,0.5,70,90,70,60,60,40,0,2,0,0,0,0,134);
 INSERT INTO "pokedex" VALUES('crobat',169,'Crobat','Bat','Poison','Flying','Inner Focus','Infiltrator','None',1.8,75.0,0.5,0.5,85,90,80,70,80,130,0,0,0,0,0,3,204);
@@ -435,14 +443,25 @@ INSERT INTO "pokedex" VALUES('lanturn',171,'Lanturn','Light','Water','Electric',
 INSERT INTO "pokedex" VALUES('pichu',172,'Pichu','Tiny Mouse','Electric','None','Static','Lightningrod','None',0.3,2.0,0.5,0.5,20,40,15,35,35,60,0,0,0,0,0,1,42);
 INSERT INTO "pokedex" VALUES('cleffa',173,'Cleffa','Star Shape','Normal','None','Cute Charm','Magic Guard','Friend Guard',0.3,3.0,0.25,0.75,50,25,25,45,55,15,0,0,0,0,1,0,37);
 INSERT INTO "pokedex" VALUES('igglybuff',174,'Igglybuff','Balloon','Normal','None','Cute Charm','Friend Guard','None',0.3,1.0,0.25,0.75,90,30,15,40,20,15,1,0,0,0,0,0,30);
+INSERT INTO "pokedex" VALUES('togepi',175,'Togepi','Spike Ball','Normal','None','Hustle','Serene Grace','Super Luck',0.3,1.5,0.875,0.125,35,20,65,40,65,20,0,0,0,0,1,0,74);
+INSERT INTO "pokedex" VALUES('togetic',176,'Togetic','Happiness','Normal','Flying','Hustle','Serene Grace','Super Luck',0.6,3.2,0.875,0.125,55,40,85,80,105,40,0,0,0,0,2,0,114);
+INSERT INTO "pokedex" VALUES('natu',177,'Natu','Tiny Bird','Psychic','Flying','Synchronize','Early Bird','Magic Bounce',0.2,2.0,0.5,0.5,40,50,45,70,45,70,0,0,0,1,0,0,73);
+INSERT INTO "pokedex" VALUES('xatu',178,'Xatu','Mystic','Psychic','Flying','Synchronize','Early Bird','Magic Bounce',1.5,15.0,0.5,0.5,65,75,70,95,70,95,0,0,0,1,0,1,171);
 INSERT INTO "pokedex" VALUES('mareep',179,'Mareep','Wool','Electric','None','Static','Plus','None',0.6,7.8,0.5,0.5,55,40,40,65,45,35,0,0,0,1,0,0,59);
 INSERT INTO "pokedex" VALUES('flaaffy',180,'Flaaffy','Wool','Electric','None','Static','Plus','None',0.8,13.0,0.5,0.5,70,55,55,80,60,45,0,0,0,2,0,0,117);
 INSERT INTO "pokedex" VALUES('ampharos',181,'Ampharos','Light','Electric','None','Static','Plus','None',1.4,61.5,0.5,0.5,90,75,75,115,90,55,0,0,0,3,0,0,194);
 INSERT INTO "pokedex" VALUES('bellossom',182,'Bellossom','Flower','Grass','None','Chlorophyll','Healer','None',0.4,5.8,0.5,0.5,75,80,85,90,100,50,0,0,0,0,3,0,184);
+INSERT INTO "pokedex" VALUES('marill',183,'Marill','Aqua Mouse','Water','None','Thick Fat','Huge Power','Sap Sipper',0.4,8.5,0.5,0.5,70,20,50,20,50,40,2,0,0,0,0,0,58);
+INSERT INTO "pokedex" VALUES('azumarill',184,'Azumarill','Aqua Rabbit','Water','None','Thick Fat','Huge Power','Sap Sipper',0.8,28.5,0.5,0.5,100,50,80,50,80,50,3,0,0,0,0,0,153);
+INSERT INTO "pokedex" VALUES('sudowoodo',185,'Sudowoodo','Imitation','Rock','None','Sturdy','Rock Head','Rattled',1.2,38.0,0.5,0.5,70,100,115,30,65,30,0,0,2,0,0,0,135);
 INSERT INTO "pokedex" VALUES('politoed',186,'Politoed','Frog','Water','None','Water Absorb','Damp','Drizzle',1.1,33.9,0.5,0.5,90,75,75,90,100,70,0,0,0,0,3,0,185);
 INSERT INTO "pokedex" VALUES('hoppip',187,'Hoppip','Cottonweed','Grass','Flying','Chlorophyll','Leaf Guard','Infiltrator',0.4,0.5,0.5,0.5,35,35,40,35,50,50,0,0,0,0,1,0,74);
 INSERT INTO "pokedex" VALUES('skiploom',188,'Skiploom','Cottonweed','Grass','Flying','Chlorophyll','Leaf Guard','Infiltrator',0.6,1.0,0.5,0.5,55,45,50,45,65,80,0,0,0,0,0,2,136);
 INSERT INTO "pokedex" VALUES('jumpluff',189,'Jumpluff','Cottonweed','Grass','Flying','Chlorophyll','Leaf Guard','Infiltrator',0.8,3.0,0.5,0.5,75,55,70,55,85,110,0,0,0,0,0,3,176);
+INSERT INTO "pokedex" VALUES('aipom',190,'Aipom','Long Tail','Normal','None','Run Away','Pickup','Skill Link',0.8,11.5,0.5,0.5,55,70,55,40,55,85,0,0,0,0,0,1,94);
+INSERT INTO "pokedex" VALUES('sunkern',191,'Sunkern','Seed','Grass','None','Chlorophyll','Solar Power','Early Bird',0.3,1.8,0.5,0.5,30,30,30,30,30,30,0,0,0,1,0,0,52);
+INSERT INTO "pokedex" VALUES('sunflora',192,'Sunflora','Sun','Grass','None','Chlorophyll','Solar Power','Early Bird',0.8,8.5,0.5,0.5,75,75,55,105,85,30,0,0,0,2,0,0,146);
+INSERT INTO "pokedex" VALUES('yanma',193,'Yanma','Clear Wing','Bug','Flying','Speed Boost','Compoundeyes','Frisk',1.2,38.0,0.5,0.5,65,65,45,75,45,95,0,0,0,0,0,1,147);
 INSERT INTO "pokedex" VALUES('wooper',194,'Wooper','Water Fish','Water','Ground','Damp','Water Absorb','Unaware',0.4,8.5,0.5,0.5,55,45,45,25,25,15,1,0,0,0,0,0,52);
 INSERT INTO "pokedex" VALUES('quagsire',195,'Quagsire','Water Fish','Water','Ground','Damp','Water Absorb','Unaware',1.4,75.0,0.5,0.5,95,85,85,65,65,35,2,0,0,0,0,0,137);
 INSERT INTO "pokedex" VALUES('espeon',196,'Espeon','Sun','Psychic','None','Synchronize','Magic Bounce','None',0.9,26.5,0.875,0.125,65,65,60,130,95,110,0,0,0,2,0,0,197);
@@ -450,30 +469,57 @@ INSERT INTO "pokedex" VALUES('umbreon',197,'Umbreon','Moonlight','Dark','None','
 INSERT INTO "pokedex" VALUES('murkrow',198,'Murkrow','Darkness','Dark','Flying','Insomnia','Super Luck','Prankster',0.5,2.1,0.5,0.5,60,85,42,85,42,91,0,0,0,0,0,1,107);
 INSERT INTO "pokedex" VALUES('slowking',199,'Slowking','Royal','Water','Psychic','Oblivious','Own Tempo','Regenerator',2.0,79.5,0.5,0.5,95,75,80,100,110,30,0,0,0,0,3,0,164);
 INSERT INTO "pokedex" VALUES('misdreavus',200,'Misdreavus','Screech','Ghost','None','Levitate','None','None',0.7,1.0,0.5,0.5,60,60,60,85,85,85,0,0,0,0,1,0,147);
+INSERT INTO "pokedex" VALUES('unown',201,'Unown','Symbol','Psychic','None','Levitate','None','None',0.5,5.0,0.0,0.0,48,72,48,72,48,48,0,1,0,1,0,0,61);
 INSERT INTO "pokedex" VALUES('wobbuffet',202,'Wobbuffet','Patient','Psychic','None','Shadow Tag','Telepathy','None',1.3,28.5,0.5,0.5,190,33,58,33,58,33,2,0,0,0,0,0,177);
+INSERT INTO "pokedex" VALUES('girafarig',203,'Girafarig','Long Neck','Psychic','None','Inner Focus','Early Bird','Sap Sipper',1.5,41.5,0.5,0.5,70,80,65,90,65,85,0,0,0,2,0,0,149);
 INSERT INTO "pokedex" VALUES('pineco',204,'Pineco','Bagworm','Bug','None','Sturdy','Overcoat','None',0.6,7.2,0.5,0.5,50,65,90,35,35,15,0,0,1,0,0,0,60);
 INSERT INTO "pokedex" VALUES('forretress',205,'Forretress','Bagworm','Bug','Steel','Sturdy','Overcoat','None',1.2,125.8,0.5,0.5,75,90,140,60,60,40,0,0,2,0,0,0,118);
+INSERT INTO "pokedex" VALUES('dunsparce',206,'Dunsparce','Land Snake','Normal','None','Serene Grace','Run Away','Rattled',1.5,14.0,0.5,0.5,100,70,70,65,65,45,1,0,0,0,0,0,125);
 INSERT INTO "pokedex" VALUES('gligar',207,'Gligar','FlyScorpion','Ground','Flying','Hyper Cutter','Sand Veil','Immunity',1.1,64.8,0.5,0.5,65,75,105,35,65,85,0,0,1,0,0,0,108);
 INSERT INTO "pokedex" VALUES('steelix',208,'Steelix','Iron Snake','Steel','Ground','Rock Head','Sturdy','Sheer Force',9.2,400.0,0.5,0.5,75,85,200,55,65,30,0,0,2,0,0,0,196);
+INSERT INTO "pokedex" VALUES('snubbull',209,'Snubbull','Fairy','Normal','None','Intimidate','Run Away','Rattled',0.6,7.8,0.25,0.75,60,80,50,40,40,30,0,1,0,0,0,0,63);
+INSERT INTO "pokedex" VALUES('granbull',210,'Granbull','Fairy','Normal','None','Intimidate','Quick Feet','Rattled',1.4,48.7,0.25,0.75,90,120,75,60,60,45,0,2,0,0,0,0,178);
+INSERT INTO "pokedex" VALUES('qwilfish',211,'Qwilfish','Balloon','Water','Poison','Poison Point','Swift Swim','Intimidate',0.5,3.9,0.5,0.5,65,95,75,55,55,85,0,1,0,0,0,0,100);
 INSERT INTO "pokedex" VALUES('scizor',212,'Scizor','Pincer','Bug','Steel','Swarm','Technician','Light Metal',1.8,118.0,0.5,0.5,70,130,100,55,80,65,0,2,0,0,0,0,200);
+INSERT INTO "pokedex" VALUES('shuckle',213,'Shuckle','Mold','Bug','Rock','Sturdy','Gluttony','Contrary',0.6,20.5,0.5,0.5,20,10,230,10,230,5,0,0,1,0,1,0,80);
 INSERT INTO "pokedex" VALUES('heracross',214,'Heracross','Single Horn','Bug','Fighting','Swarm','Guts','Moxie',1.5,54.0,0.5,0.5,80,125,75,40,95,85,0,2,0,0,0,0,200);
+INSERT INTO "pokedex" VALUES('sneasel',215,'Sneasel','Sharp Claw','Dark','Ice','Inner Focus','Keen Eye','Pickpocket',0.9,28.0,0.5,0.5,55,95,55,35,75,115,0,0,0,0,0,1,132);
+INSERT INTO "pokedex" VALUES('teddiursa',216,'Teddiursa','Little Bear','Normal','None','Pickup','Quick Feet','Honey Gather',0.6,8.8,0.5,0.5,60,80,50,50,50,40,0,1,0,0,0,0,124);
+INSERT INTO "pokedex" VALUES('ursaring',217,'Ursaring','Hibernator','Normal','None','Guts','Quick Feet','Unnerve',1.8,125.8,0.5,0.5,90,130,75,75,75,55,0,2,0,0,0,0,189);
 INSERT INTO "pokedex" VALUES('slugma',218,'Slugma','Lava','Fire','None','Magma Armor','Flame Body','Weak Armor',0.7,35.0,0.5,0.5,40,40,40,70,40,20,0,0,0,1,0,0,78);
 INSERT INTO "pokedex" VALUES('magcargo',219,'Magcargo','Lava','Fire','Rock','Magma Armor','Flame Body','Weak Armor',0.8,55.0,0.5,0.5,50,50,120,80,80,30,0,0,2,0,0,0,154);
 INSERT INTO "pokedex" VALUES('swinub',220,'Swinub','Pig','Ice','Ground','Oblivious','Snow Cloak','Thick Fat',0.4,6.5,0.5,0.5,50,50,40,30,30,50,0,1,0,0,0,0,78);
 INSERT INTO "pokedex" VALUES('piloswine',221,'Piloswine','Swine','Ice','Ground','Oblivious','Snow Cloak','Thick Fat',1.1,55.8,0.5,0.5,100,100,80,60,60,50,1,1,0,0,0,0,160);
+INSERT INTO "pokedex" VALUES('corsola',222,'Corsola','Coral','Water','Rock','Hustle','Natural Cure','Regenerator',0.6,5.0,0.25,0.75,55,55,85,65,85,35,0,0,1,0,1,0,113);
+INSERT INTO "pokedex" VALUES('remoraid',223,'Remoraid','Jet','Water','None','Hustle','Sniper','Moody',0.6,12.0,0.5,0.5,35,65,35,65,35,65,0,0,0,1,0,0,78);
+INSERT INTO "pokedex" VALUES('octillery',224,'Octillery','Jet','Water','None','Suction Cups','Sniper','Moody',0.9,28.5,0.5,0.5,75,105,75,105,75,45,0,1,0,1,0,0,164);
+INSERT INTO "pokedex" VALUES('delibird',225,'Delibird','Delivery','Ice','Flying','Vital Spirit','Hustle','Insomnia',0.9,16.0,0.5,0.5,45,55,45,65,45,75,0,0,0,0,0,1,183);
+INSERT INTO "pokedex" VALUES('mantine',226,'Mantine','Kite','Water','Flying','Swift Swim','Water Absorb','Water Veil',2.1,220.0,0.5,0.5,65,40,70,80,140,70,0,0,0,0,2,0,168);
+INSERT INTO "pokedex" VALUES('skarmory',227,'Skarmory','Armor Bird','Steel','Flying','Keen Eye','Sturdy','Weak Armor',1.7,50.5,0.5,0.5,65,80,140,40,70,70,0,0,2,0,0,0,168);
 INSERT INTO "pokedex" VALUES('houndour',228,'Houndour','Dark','Dark','Fire','Early Bird','Flash Fire','Unnerve',0.6,10.8,0.5,0.5,45,60,30,80,50,65,0,0,0,1,0,0,114);
 INSERT INTO "pokedex" VALUES('houndoom',229,'Houndoom','Dark','Dark','Fire','Early Bird','Flash Fire','Unnerve',1.4,35.0,0.5,0.5,75,90,50,110,80,95,0,0,0,2,0,0,204);
 INSERT INTO "pokedex" VALUES('kingdra',230,'Kingdra','Dragon','Water','Dragon','Swift Swim','Sniper','Damp',1.8,152.0,0.5,0.5,75,95,95,95,95,85,0,1,0,1,1,0,207);
+INSERT INTO "pokedex" VALUES('phanpy',231,'Phanpy','Long Nose','Ground','None','Pickup','Sand Veil','None',0.5,33.5,0.5,0.5,90,60,60,40,40,40,1,0,0,0,0,0,124);
+INSERT INTO "pokedex" VALUES('donphan',232,'Donphan','Armor','Ground','None','Sturdy','Sand Veil','None',1.1,120.0,0.5,0.5,90,120,120,60,60,50,0,1,1,0,0,0,189);
 INSERT INTO "pokedex" VALUES('porygon2',233,'Porygon2','Virtual','Normal','None','Trace','Download','Analytic',0.6,32.5,0.0,0.0,85,80,90,105,95,60,0,0,0,2,0,0,180);
+INSERT INTO "pokedex" VALUES('stantler',234,'Stantler','Big Horn','Normal','None','Intimidate','Frisk','Sap Sipper',1.4,71.2,0.5,0.5,73,95,62,85,65,85,0,1,0,0,0,0,165);
+INSERT INTO "pokedex" VALUES('smeargle',235,'Smeargle','Painter','Normal','None','Own Tempo','Technician','Moody',1.2,58.0,0.5,0.5,55,20,35,20,45,75,0,0,0,0,0,1,106);
 INSERT INTO "pokedex" VALUES('tyrogue',236,'Tyrogue','Scuffle','Fighting','None','Guts','Steadfast','Vital Spirit',0.7,21.0,1.0,0.0,35,35,35,35,35,35,0,1,0,0,0,0,91);
 INSERT INTO "pokedex" VALUES('hitmontop',237,'Hitmontop','Handstand','Fighting','None','Intimidate','Technician','Steadfast',1.4,48.0,1.0,0.0,50,95,95,35,110,70,0,0,0,0,2,0,138);
 INSERT INTO "pokedex" VALUES('smoochum',238,'Smoochum','Kiss','Ice','Psychic','Oblivious','Forewarn','Hydration',0.4,6.0,0.0,1.0,45,30,15,85,65,65,0,0,0,1,0,0,87);
 INSERT INTO "pokedex" VALUES('elekid',239,'Elekid','Electric','Electric','None','Static','Vital Spirit','None',0.6,23.5,0.75,0.25,45,63,37,65,55,95,0,0,0,0,0,1,106);
 INSERT INTO "pokedex" VALUES('magby',240,'Magby','Live Coal','Fire','None','Flame Body','Vital Spirit','None',0.7,21.4,0.75,0.25,45,75,37,70,55,83,0,0,0,0,0,1,117);
+INSERT INTO "pokedex" VALUES('miltank',241,'Miltank','Milk Cow','Normal','None','Thick Fat','Scrappy','Sap Sipper',1.2,75.5,0.0,1.0,95,80,105,40,70,100,0,0,2,0,0,0,200);
 INSERT INTO "pokedex" VALUES('blissey',242,'Blissey','Happiness','Normal','None','Natural Cure','Serene Grace','Healer',1.5,46.8,0.0,1.0,255,10,10,75,135,55,3,0,0,0,0,0,608);
+INSERT INTO "pokedex" VALUES('raikou',243,'Raikou','Thunder','Electric','None','Pressure','Volt Absorb','None',1.9,178.0,0.0,0.0,90,85,75,115,100,115,0,0,0,1,0,2,216);
+INSERT INTO "pokedex" VALUES('entei',244,'Entei','Volcano','Fire','None','Pressure','Flash Fire','None',2.1,198.0,0.0,0.0,115,155,85,90,75,100,1,2,0,0,0,0,217);
+INSERT INTO "pokedex" VALUES('suicune',245,'Suicune','Aurora','Water','None','Pressure','Water Absorb','None',2.0,187.0,0.0,0.0,100,75,115,90,115,85,0,0,1,0,2,0,215);
 INSERT INTO "pokedex" VALUES('larvitar',246,'Larvitar','Rock Skin','Rock','Ground','Guts','Sand Veil','None',0.6,72.0,0.5,0.5,50,64,50,45,50,41,0,1,0,0,0,0,67);
 INSERT INTO "pokedex" VALUES('pupitar',247,'Pupitar','Hard Shell','Rock','Ground','Shed Skin','None','None',1.2,152.0,0.5,0.5,70,84,70,65,70,51,0,2,0,0,0,0,144);
 INSERT INTO "pokedex" VALUES('tyranitar',248,'Tyranitar','Armor','Rock','Dark','Sand Stream','Unnerve','None',2.2,202.0,0.5,0.5,100,134,110,95,100,61,0,3,0,0,0,0,218);
+INSERT INTO "pokedex" VALUES('lugia',249,'Lugia','Diving','Psychic','Flying','Pressure','Multiscale','None',5.2,216.0,0.0,0.0,106,90,130,90,154,110,0,0,0,0,3,0,220);
+INSERT INTO "pokedex" VALUES('ho-oh',250,'Ho-Oh','Rainbow','Fire','Flying','Pressure','Regenerator','None',3.8,199.0,0.0,0.0,106,130,90,110,154,90,0,0,0,0,3,0,220);
+INSERT INTO "pokedex" VALUES('celebi',251,'Celebi','Time Travel','Psychic','Grass','Natural Cure','None','None',0.6,5.0,0.0,0.0,100,100,100,100,100,100,3,0,0,0,0,0,64);
 INSERT INTO "pokedex" VALUES('treecko',252,'Treecko','Wood Gecko','Grass','None','Overgrow','Unburden','None',0.5,5.0,0.875,0.125,40,45,35,65,55,70,0,0,0,0,0,1,65);
 INSERT INTO "pokedex" VALUES('torchic',255,'Torchic','Chick','Fire','None','Blaze','Speed Boost','None',0.4,2.5,0.875,0.125,45,60,40,70,50,45,0,0,0,1,0,0,65);
 INSERT INTO "pokedex" VALUES('mudkip',258,'Mudkip','Mud Fish','Water','None','Torrent','Damp','None',0.4,7.6,0.875,0.125,50,70,50,50,50,40,0,1,0,0,0,0,65);
@@ -485,6 +531,7 @@ INSERT INTO "pokedex" VALUES('kirlia',281,'Kirlia','Emotion','Psychic','None','S
 INSERT INTO "pokedex" VALUES('gardevoir',282,'Gardevoir','Embrace','Psychic','None','Synchronize','Trace','Telepathy',1.58,48.4,0.5,0.5,68,65,65,125,115,80,0,0,0,3,0,0,208);
 INSERT INTO "pokedex" VALUES('makuhita',296,'Makuhita','Guts','Fighting','None','Thick Fat','Guts','Sheer Force',1.0,86.4,0.75,0.25,72,60,30,20,30,25,1,0,0,0,0,0,87);
 INSERT INTO "pokedex" VALUES('hariyama',297,'Hariyama','Arm Thrust','Fighting','None','Thick Fat','Guts','Sheer Force',2.3,253.8,0.75,0.25,144,120,60,40,60,50,2,0,0,0,0,0,184);
+INSERT INTO "pokedex" VALUES('azurill',298,'Azurill','Polka Dot','Normal','None','Thick Fat','Huge Power','Sap Sipper',0.2,2.0,0.25,0.75,50,20,40,20,40,20,1,0,0,0,0,0,33);
 INSERT INTO "pokedex" VALUES('electrike',309,'Electrike','Lightning','Electric','None','Static','Lightningrod','Minus',0.6,15.2,0.5,0.5,40,45,40,65,40,65,0,0,0,0,0,1,104);
 INSERT INTO "pokedex" VALUES('manectric',310,'Manectric','Discharge','Electric','None','Static','Lightningrod','Minus',1.5,40.2,0.5,0.5,70,75,65,105,60,105,0,0,0,0,0,2,168);
 INSERT INTO "pokedex" VALUES('roselia',315,'Roselia','Thorn','Grass','Poison','Natural Cure','Poison Point','Leaf Guard',0.3,2.0,0.5,0.5,50,60,45,100,80,65,0,0,0,2,0,0,152);
@@ -512,10 +559,12 @@ INSERT INTO "pokedex" VALUES('rampardos',409,'Rampardos','Head Butt','Rock','Non
 INSERT INTO "pokedex" VALUES('pachirisu',417,'Pachirisu','EleSquirrel','Electric','None','Run Away','Pickup','Volt Absorb',0.4,3.9,0.5,0.5,60,45,70,45,90,95,0,0,0,0,0,1,120);
 INSERT INTO "pokedex" VALUES('buizel',418,'Buizel','Sea Weasel','Water','None','Swift Swim','Water Veil','None',0.7,29.5,0.5,0.5,55,65,35,60,30,85,0,0,0,0,0,1,75);
 INSERT INTO "pokedex" VALUES('floatzel',419,'Floatzel','Sea Weasel','Water','None','Swift Swim','Water Veil','None',1.1,33.5,0.5,0.5,85,105,55,85,50,115,0,0,0,0,0,2,178);
+INSERT INTO "pokedex" VALUES('ambipom',424,'Ambipom','Long Tail','Normal','None','Technician','Pickup','Skill Link',1.2,20.3,0.5,0.5,75,100,66,60,66,115,0,0,0,0,0,2,186);
 INSERT INTO "pokedex" VALUES('mismagius',429,'Mismagius','Magical','Ghost','None','Levitate','None','None',0.9,4.4,0.5,0.5,60,60,60,105,105,105,0,0,0,1,1,0,187);
 INSERT INTO "pokedex" VALUES('honchkrow',430,'Honchkrow','Big Boss','Dark','Flying','Insomnia','Super Luck','Moxie',0.9,27.3,0.5,0.5,100,125,52,105,52,71,0,2,0,0,0,0,187);
 INSERT INTO "pokedex" VALUES('stunky',434,'Stunky','Skunk','Poison','Dark','Stench','Aftermath','Keen Eye',0.4,19.2,0.5,0.5,63,63,47,41,41,74,0,0,0,0,0,1,79);
 INSERT INTO "pokedex" VALUES('skuntank',435,'Skuntank','Skunk','Poison','Dark','Stench','Aftermath','Keen Eye',1.0,38.0,0.5,0.5,103,93,67,71,61,85,2,0,0,0,0,0,209);
+INSERT INTO "pokedex" VALUES('bonsly',436,'Bonsly','Bonsai','Rock','None','Sturdy','Rock Head','Rattled',0.5,15.0,0.5,0.5,50,80,95,10,45,10,0,0,1,0,0,0,68);
 INSERT INTO "pokedex" VALUES('mime jr.',439,'Mime Jr.','Mime','Psychic','None','Soundproof','Filter','Technician',0.6,13.0,0.5,0.5,20,25,45,70,90,60,0,0,0,0,1,0,78);
 INSERT INTO "pokedex" VALUES('happiny',440,'Happiny','Playhouse','Normal','None','Natural Cure','Serene Grace','Friend Guard',0.6,24.4,0.0,1.0,100,5,5,15,65,30,1,0,0,0,0,0,255);
 INSERT INTO "pokedex" VALUES('gible',443,'Gible','Land Shark','Dragon','Ground','Sand Veil','Rough Skin','None',0.7,20.5,0.5,0.5,58,70,45,40,45,42,0,1,0,0,0,0,67);
@@ -528,14 +577,18 @@ INSERT INTO "pokedex" VALUES('hippopotas',449,'Hippopotas','Hippo','Ground','Non
 INSERT INTO "pokedex" VALUES('hippowdon',450,'Hippowdon','Heavyweight','Ground','None','Sand Stream','Sand Force','None',2.0,300.0,0.5,0.5,108,112,118,68,72,47,0,0,2,0,0,0,108);
 INSERT INTO "pokedex" VALUES('croagunk',453,'Croagunk','Toxic Mouth','Poison','Fighting','Anticipation','Dry Skin','Poison Touch',0.7,23.0,0.5,0.5,48,61,40,61,40,50,0,1,0,0,0,0,83);
 INSERT INTO "pokedex" VALUES('toxicroak',454,'Toxicroak','Toxic Mouth','Poison','Fighting','Anticipation','Dry Skin','Poison Touch',1.3,44.4,0.5,0.5,83,106,65,86,65,85,0,2,0,0,0,0,181);
+INSERT INTO "pokedex" VALUES('mantyke',458,'Mantyke','Kite','Water','Flying','Swift Swim','Water Absorb','Water Veil',1.0,65.0,0.5,0.5,45,20,50,60,120,50,0,0,0,0,1,0,108);
 INSERT INTO "pokedex" VALUES('snover',459,'Snover','Frost Tree','Grass','Ice','Snow Warning','Soundproof','None',1.0,50.5,0.5,0.5,60,62,50,62,60,40,0,1,0,0,0,0,131);
 INSERT INTO "pokedex" VALUES('abomasnow',460,'Abomasnow','Frost Tree','Grass','Ice','Snow Warning','Soundproof','None',2.2,135.5,0.5,0.5,90,92,75,92,85,60,0,1,0,1,0,0,214);
+INSERT INTO "pokedex" VALUES('weavile',461,'Weavile','Sharp Claw','Dark','Ice','Pressure','Pickpocket','None',1.1,34.0,0.5,0.5,70,120,65,45,85,125,0,1,0,0,0,1,199);
 INSERT INTO "pokedex" VALUES('magnezone',462,'Magnezone','Magnet Area','Electric','Steel','Magnet Pull','Sturdy','Analytic',1.2,180.0,0.0,0.0,70,70,115,130,90,60,0,0,0,3,0,0,211);
 INSERT INTO "pokedex" VALUES('rhyperior',464,'Rhyperior','Drill','Ground','Rock','Lightningrod','Rock Head','Reckless',2.4,282.8,0.5,0.5,115,140,130,55,55,40,0,3,0,0,0,0,217);
 INSERT INTO "pokedex" VALUES('tangrowth',465,'Tangrowth','Vine','Grass','None','Chlorophyll','Leaf Guard','Regenerator',2.0,128.6,0.5,0.5,100,100,125,110,50,50,0,0,2,0,0,0,211);
 INSERT INTO "pokedex" VALUES('electivire',466,'Electivire','Electric','Electric','None','Static','Vital Spirit','None',1.8,138.6,0.75,0.25,75,123,67,95,85,95,0,3,0,0,0,0,199);
 INSERT INTO "pokedex" VALUES('magmortar',467,'Magmortar','Blast','Fire','None','Flame Body','Vital Spirit','None',1.6,68.0,0.75,0.25,75,95,67,125,95,83,0,0,0,3,0,0,199);
+INSERT INTO "pokedex" VALUES('yanmega',469,'Yanmega','Ogre Darner','Bug','Flying','Speed Boost','Tinted Lens','Frisk',1.9,51.5,0.5,0.5,86,76,86,116,56,95,0,2,0,0,0,0,198);
 INSERT INTO "pokedex" VALUES('leafeon',470,'Leafeon','Verdant','Grass','None','Leaf Guard','Chlorophyll','None',1.0,25.5,0.875,0.125,65,110,130,60,65,95,0,0,2,0,0,0,196);
+INSERT INTO "pokedex" VALUES('togekiss',468,'Togekiss','Jubilee','Normal','Flying','Hustle','Serene Grace','Super Luck',1.5,38.0,0.875,0.125,85,50,95,120,115,80,0,0,0,2,1,0,220);
 INSERT INTO "pokedex" VALUES('glaceon',471,'Glaceon','Fresh Snow','Ice','None','Snow Cloak','Ice Body','None',0.8,25.9,0.875,0.125,65,60,110,130,95,65,0,0,0,2,0,0,196);
 INSERT INTO "pokedex" VALUES('gliscor',472,'Gliscor','Fang Scorp','Ground','Flying','Hyper Cutter','Sand Veil','Poison Heal',2.0,42.5,0.5,0.5,75,95,125,45,75,95,0,0,2,0,0,0,192);
 INSERT INTO "pokedex" VALUES('mamoswine',473,'Mamoswine','Twin Tusk','Ice','Ground','Oblivious','Snow Cloak','Thick Fat',2.5,291.0,0.5,0.5,110,130,80,70,60,80,0,3,0,0,0,0,207);
@@ -565,70 +618,70 @@ INSERT INTO "pokedex" VALUES('swanna',581,'Swanna','White Bird','Water','Flying'
 INSERT INTO "pokedex" VALUES('frillish',592,'Frillish','Floating','Water','Ghost','Water Absorb','Cursed Body','Damp',1.2,33.0,0.5,0.5,55,40,50,65,85,40,0,0,0,0,1,0,67);
 INSERT INTO "pokedex" VALUES('jellicent',593,'Jellicent','Floating','Water','Ghost','Water Absorb','Cursed Body','Damp',2.2,135.0,0.5,0.5,100,60,70,85,105,60,0,0,0,0,2,0,168);
 CREATE TABLE gen1_pokedex (identifier     STRING PRIMARY KEY,
-                      pokedex_num    INTEGER,
-                      display_name   STRING,
-                      species        STRING,
-                      type1          STRING,
-                      type2          STRING,
-                      height         DOUBLE,
-                      weight         DOUBLE,
-                      base_hp        INTEGER,
-                      base_atk       INTEGER,
-                      base_def       INTEGER,
-                      base_spcl      INTEGER,
-                      base_spd       INTEGER,
-                      exp_yield      INTEGER,
-                      FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
-                      FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
+                           pokedex_num    INTEGER,
+                           display_name   STRING,
+                           species        STRING,
+                           type1          STRING,
+                           type2          STRING,
+                           height         DOUBLE,
+                           weight         DOUBLE,
+                           base_hp        INTEGER,
+                           base_atk       INTEGER,
+                           base_def       INTEGER,
+                           base_spcl      INTEGER,
+                           base_spd       INTEGER,
+                           exp_yield      INTEGER,
+                           FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
+                           FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
 INSERT INTO "gen1_pokedex" VALUES('pikachu',25,'Pikachu','Mouse','Electric','None',0.4,6.0,35,55,30,50,90,82);
 CREATE TABLE gen2_pokedex (identifier     STRING PRIMARY KEY,
-                      pokedex_num    INTEGER,
-                      display_name   STRING,
-                      species        STRING,
-                      type1          STRING,
-                      type2          STRING,
-                      height         DOUBLE,
-                      weight         DOUBLE,
-                      chance_male    DOUBLE,
-                      chance_female  DOUBLE,
-                      base_hp        INTEGER,
-                      base_atk       INTEGER,
-                      base_def       INTEGER,
-                      base_satk      INTEGER,
-                      base_sdef      INTEGER,
-                      base_spd       INTEGER,
-                      exp_yield      INTEGER,
-                      FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
-                      FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
+                           pokedex_num    INTEGER,
+                           display_name   STRING,
+                           species        STRING,
+                           type1          STRING,
+                           type2          STRING,
+                           height         DOUBLE,
+                           weight         DOUBLE,
+                           chance_male    DOUBLE,
+                           chance_female  DOUBLE,
+                           base_hp        INTEGER,
+                           base_atk       INTEGER,
+                           base_def       INTEGER,
+                           base_satk      INTEGER,
+                           base_sdef      INTEGER,
+                           base_spd       INTEGER,
+                           exp_yield      INTEGER,
+                           FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
+                           FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
 INSERT INTO "gen2_pokedex" VALUES('chikorita',152,'Chikorita','Leaf','Grass','None',0.9,6.4,0.875,0.125,45,49,65,49,65,45,64);
 CREATE TABLE gen3_pokedex (identifier     STRING PRIMARY KEY,
-                      pokedex_num    INTEGER,
-                      display_name   STRING,
-                      species        STRING,
-                      type1          STRING,
-                      type2          STRING,
-                      ability1       STRING,
-                      ability2       STRING,
-                      ability3       STRING,
-                      height         DOUBLE,
-                      weight         DOUBLE,
-                      chance_male    DOUBLE,
-                      chance_female  DOUBLE,
-                      base_hp        INTEGER,
-                      base_atk       INTEGER,
-                      base_def       INTEGER,
-                      base_satk      INTEGER,
-                      base_sdef      INTEGER,
-                      base_spd       INTEGER,
-                      ev_hp          INTEGER,
-                      ev_atk         INTEGER,
-                      ev_def         INTEGER,
-                      ev_satk        INTEGER,
-                      ev_sdef        INTEGER,
-                      ev_spd         INTEGER,
-                      exp_yield      INTEGER,
-                      FOREIGN KEY(type1) REFERENCES types(display_name)
-                      FOREIGN KEY(type2) REFERENCES types(display_name));
+                           pokedex_num    INTEGER,
+                           display_name   STRING,
+                           species        STRING,
+                           type1          STRING,
+                           type2          STRING,
+                           ability1       STRING,
+                           ability2       STRING,
+                           ability3       STRING,
+                           height         DOUBLE,
+                           weight         DOUBLE,
+                           chance_male    DOUBLE,
+                           chance_female  DOUBLE,
+                           base_hp        INTEGER,
+                           base_atk       INTEGER,
+                           base_def       INTEGER,
+                           base_satk      INTEGER,
+                           base_sdef      INTEGER,
+                           base_spd       INTEGER,
+                           ev_hp          INTEGER,
+                           ev_atk         INTEGER,
+                           ev_def         INTEGER,
+                           ev_satk        INTEGER,
+                           ev_sdef        INTEGER,
+                           ev_spd         INTEGER,
+                           exp_yield      INTEGER,
+                           FOREIGN KEY(type1) REFERENCES types(display_name)
+                           FOREIGN KEY(type2) REFERENCES types(display_name));
 INSERT INTO "gen3_pokedex" VALUES('roselia',315,'Roselia','Thorn','Grass','Poison','Natural Cure','Poison Point','Leaf Guard',0.3,2.0,0.5,0.5,50,60,45,100,80,65,0,0,0,1,0,0,152);
 CREATE TABLE natures (display_name   STRING PRIMARY KEY,
                       hp_mod       DOUBLE,
@@ -682,20 +735,20 @@ INSERT INTO "evolutions" VALUES('pidgeotto','pidgeot','level','36');
 INSERT INTO "evolutions" VALUES('rattata','raticate','level','20');
 INSERT INTO "evolutions" VALUES('spearow','fearow','level','20');
 INSERT INTO "evolutions" VALUES('ekans','arbok','level','22');
-INSERT INTO "evolutions" VALUES('pichu','pikachu','level+happiness','Any+High');
+INSERT INTO "evolutions" VALUES('pichu','pikachu','level+friendship','any+high');
 INSERT INTO "evolutions" VALUES('pikachu','raichu','item','Thunderstone');
 INSERT INTO "evolutions" VALUES('sandshrew','sandslash','level','22');
 INSERT INTO "evolutions" VALUES('nidoran_f','nidorina','level','16');
 INSERT INTO "evolutions" VALUES('nidorina','nidoqueen','item','Moon Stone');
 INSERT INTO "evolutions" VALUES('nidoran_m','nidorino','level','16');
 INSERT INTO "evolutions" VALUES('nidorino','nidoking','item','Moon Stone');
-INSERT INTO "evolutions" VALUES('cleffa','clefairy','level+happiness','Any+High');
+INSERT INTO "evolutions" VALUES('cleffa','clefairy','level+friendship','any+high');
 INSERT INTO "evolutions" VALUES('clefairy','clefable','item','Moon Stone');
 INSERT INTO "evolutions" VALUES('vulpix','ninetales','item','Fire Stone');
-INSERT INTO "evolutions" VALUES('igglybuff','jigglypuff','level+happiness','Any+High');
+INSERT INTO "evolutions" VALUES('igglybuff','jigglypuff','level+friendship','any+high');
 INSERT INTO "evolutions" VALUES('jigglypuff','wigglytuff','item','Moon Stone');
 INSERT INTO "evolutions" VALUES('zubat','golbat','level','22');
-INSERT INTO "evolutions" VALUES('golbat','crobat','level+happiness','Any+High');
+INSERT INTO "evolutions" VALUES('golbat','crobat','level+friendship','any+high');
 INSERT INTO "evolutions" VALUES('oddish','gloom','level','21');
 INSERT INTO "evolutions" VALUES('gloom','vileplume','item','Leaf Stone');
 INSERT INTO "evolutions" VALUES('gloom','bellossom','item','Sun Stone');
@@ -722,7 +775,7 @@ INSERT INTO "evolutions" VALUES('ponyta','rapidash','level','40');
 INSERT INTO "evolutions" VALUES('slowpoke','slowbro','level','37');
 INSERT INTO "evolutions" VALUES('slowpoke','slowking','trade+item',"None+King's Rock");
 INSERT INTO "evolutions" VALUES('magnemite','magneton','level','30');
-INSERT INTO "evolutions" VALUES('magneton','magnezone','level+location','Any+(Mt. Coronet|Chargestone Cave)');
+INSERT INTO "evolutions" VALUES('magneton','magnezone','level+location','any+(Mt. Coronet|Chargestone Cave)');
 INSERT INTO "evolutions" VALUES('doduo','dodrio','level','31');
 INSERT INTO "evolutions" VALUES('seel','dewgong','level','34');
 INSERT INTO "evolutions" VALUES('grimer','muk','level','38');
@@ -738,18 +791,18 @@ INSERT INTO "evolutions" VALUES('cubone','marowak','level','28');
 INSERT INTO "evolutions" VALUES('tyrogue','hitmonlee','level+stat inequality','20+(ATK>DEF)');
 INSERT INTO "evolutions" VALUES('tyrogue','hitmonchan','level+stat inequality','20+(ATK<DEF)');
 INSERT INTO "evolutions" VALUES('tyrogue','hitmontop','level+stat inequality','20+(ATK=DEF)');
-INSERT INTO "evolutions" VALUES('lickitung','lickilicky','level+move','Any+Rollout');
+INSERT INTO "evolutions" VALUES('lickitung','lickilicky','level+move','any+Rollout');
 INSERT INTO "evolutions" VALUES('koffing','weezing','level','35');
 INSERT INTO "evolutions" VALUES('rhyhorn','rhydon','level','42');
 INSERT INTO "evolutions" VALUES('rhydon','rhyperior','trade+item','None+Protector');
-INSERT INTO "evolutions" VALUES('happiny','chansey','level+item','Any+Oval Stone');
-INSERT INTO "evolutions" VALUES('chansey','blissey','level+happiness','Any+High');
-INSERT INTO "evolutions" VALUES('tangela','tangrowth','level+move','Any+Ancientpower');
+INSERT INTO "evolutions" VALUES('happiny','chansey','level+item','any+Oval Stone');
+INSERT INTO "evolutions" VALUES('chansey','blissey','level+friendship','any+high');
+INSERT INTO "evolutions" VALUES('tangela','tangrowth','level+move','any+Ancientpower');
 INSERT INTO "evolutions" VALUES('horsea','seadra','level','32');
 INSERT INTO "evolutions" VALUES('seadra','kingdra','trade+item','None+Dragon Scale');
 INSERT INTO "evolutions" VALUES('goldeen','seaking','level','33');
 INSERT INTO "evolutions" VALUES('staryu','starmie','item','Water Stone');
-INSERT INTO "evolutions" VALUES('mime jr.','mr. mime','level+move','Any+Mimic');
+INSERT INTO "evolutions" VALUES('mime jr.','mr. mime','level+move','any+Mimic');
 INSERT INTO "evolutions" VALUES('scyther','scizor','trade+item','None+Metal Coat');
 INSERT INTO "evolutions" VALUES('smoochum','jynx','level','30');
 INSERT INTO "evolutions" VALUES('elekid','electabuzz','level','30');
@@ -760,21 +813,59 @@ INSERT INTO "evolutions" VALUES('magikarp','gyarados','level','20');
 INSERT INTO "evolutions" VALUES('eevee','vaporeon','item','Water Stone');
 INSERT INTO "evolutions" VALUES('eevee','jolteon','item','Thunderstone');
 INSERT INTO "evolutions" VALUES('eevee','flareon','item','Fire Stone');
-INSERT INTO "evolutions" VALUES('eevee','espeon','level+happiness+time','Any+High+day');
-INSERT INTO "evolutions" VALUES('eevee','umbreon','level+happiness+time','Any+High+night');
-INSERT INTO "evolutions" VALUES('eevee','leafeon','level+near','Any+Moss Rock');
-INSERT INTO "evolutions" VALUES('eevee','glaceon','level+near','Any+Ice Rock');
+INSERT INTO "evolutions" VALUES('eevee','espeon','level+friendship+time','any+high+day');
+INSERT INTO "evolutions" VALUES('eevee','umbreon','level+friendship+time','any+high+night');
+INSERT INTO "evolutions" VALUES('eevee','leafeon','level+near','any+Moss Rock');
+INSERT INTO "evolutions" VALUES('eevee','glaceon','level+near','any+Ice Rock');
 INSERT INTO "evolutions" VALUES('porygon','porygon2','trade+item','None+Up-Grade');
 INSERT INTO "evolutions" VALUES('porygon2','porygon-z','trade+item','None+Dubious Disc');
 INSERT INTO "evolutions" VALUES('omanyte','omastar','level','40');
 INSERT INTO "evolutions" VALUES('kabuto','kabutops','level','40');
-INSERT INTO "evolutions" VALUES('munchlax','snorlax','level+happiness','Any+High');
+INSERT INTO "evolutions" VALUES('munchlax','snorlax','level+friendship','any+high');
 INSERT INTO "evolutions" VALUES('dratini','dragonair','level','30');
 INSERT INTO "evolutions" VALUES('dragonair','dragonite','level','55');
 INSERT INTO "evolutions" VALUES('chikorita','bayleef','level','16');
 INSERT INTO "evolutions" VALUES('bayleef','meganium','level','32');
 INSERT INTO "evolutions" VALUES('cyndaquil','quilava','level','14');
 INSERT INTO "evolutions" VALUES('quilava','typhlosion','level','36');
+INSERT INTO "evolutions" VALUES('totodile','croconaw','level','18');
+INSERT INTO "evolutions" VALUES('croconaw','feraligatr','level','30');
+INSERT INTO "evolutions" VALUES('sentret','furret','level','15');
+INSERT INTO "evolutions" VALUES('hoothoot','noctowl','level','20');
+INSERT INTO "evolutions" VALUES('ledyba','ledian','level','20');
+INSERT INTO "evolutions" VALUES('spinarak','ariados','level','22');
+INSERT INTO "evolutions" VALUES('chinchou','lanturn','level','27');
+INSERT INTO "evolutions" VALUES('togepi','togetic','level+friendship','any+high');
+INSERT INTO "evolutions" VALUES('togetic','togekiss','item','Shiny Stone');
+INSERT INTO "evolutions" VALUES('natu','xatu','level','25');
+INSERT INTO "evolutions" VALUES('mareep','flaaffy','level','15');
+INSERT INTO "evolutions" VALUES('flaaffy','ampharos','level','30');
+INSERT INTO "evolutions" VALUES('azurill','marill','level+friendship','any+high');
+INSERT INTO "evolutions" VALUES('marill','azumarill','level','18');
+INSERT INTO "evolutions" VALUES('bonsly','sudowoodo','level+move','any+Mimic');
+INSERT INTO "evolutions" VALUES('hoppip','skiploom','level','18');
+INSERT INTO "evolutions" VALUES('skiploom','jumpluff','level','27');
+INSERT INTO "evolutions" VALUES('aipom','ambipom','level+move','any+Double Hit');
+INSERT INTO "evolutions" VALUES('sunkern','sunflora','item','Sun Stone');
+INSERT INTO "evolutions" VALUES('yanma','yanmega','level+move','any+AncientPower');
+INSERT INTO "evolutions" VALUES('wooper','quagsire','level','20');
+INSERT INTO "evolutions" VALUES('murkrow','honchkrow','item','Dusk Stone');
+INSERT INTO "evolutions" VALUES('misdreavus','mismagius','item','Dusk Stone');
+INSERT INTO "evolutions" VALUES('wynaut','wobbuffet','level','15');
+INSERT INTO "evolutions" VALUES('pineco','forretress','level','31');
+INSERT INTO "evolutions" VALUES('gligar','gliscor','level+item+time','any+Razor Fang+night');
+INSERT INTO "evolutions" VALUES('snubbull','granbull','level','23');
+INSERT INTO "evolutions" VALUES('sneasel','weavile','level+item+time','any+Razor Fang+night');
+INSERT INTO "evolutions" VALUES('teddiursa','ursaring','level','30');
+INSERT INTO "evolutions" VALUES('slugma','magcargo','level','38');
+INSERT INTO "evolutions" VALUES('swinub','piloswine','level','33');
+INSERT INTO "evolutions" VALUES('piloswine','mamoswine','level+move','any+AncientPower');
+INSERT INTO "evolutions" VALUES('remoraid','octillery','level','25');
+INSERT INTO "evolutions" VALUES('mantyke','mantine','level+party','any+remoraid');
+INSERT INTO "evolutions" VALUES('houndour','houndoom','level','24');
+INSERT INTO "evolutions" VALUES('phanpy','donphan','level','25');
+INSERT INTO "evolutions" VALUES('larvitar','pupitar','level','30');
+INSERT INTO "evolutions" VALUES('pupitar','tyranitar','level','55');
 CREATE TABLE items (display_name    PRIMARY KEY,
                     has_held_effect BOOLEAN,
                     in_gen1         BOOLEAN,
