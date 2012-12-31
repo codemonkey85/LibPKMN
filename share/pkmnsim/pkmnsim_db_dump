@@ -242,11 +242,11 @@ CREATE TABLE pokedex (identifier     STRING PRIMARY KEY,
                       pokedex_num    INTEGER,
                       display_name   STRING,
                       species        STRING,
-                      type1          STRING,
-                      type2          STRING,
-                      ability1       STRING,
-                      ability2       STRING,
-                      ability3       STRING,
+                      type1          STRING REFERENCES types(display_name),
+                      type2          STRING REFERENCES types(display_name),
+                      ability1       STRING REFERENCES abilities(display_name),
+                      ability2       STRING REFERENCES abilities(display_name),
+                      ability3       STRING REFERENCES abilities(display_name),
                       height         DOUBLE,
                       weight         DOUBLE,
                       chance_male    DOUBLE,
@@ -263,12 +263,7 @@ CREATE TABLE pokedex (identifier     STRING PRIMARY KEY,
                       ev_satk        INTEGER,
                       ev_sdef        INTEGER,
                       ev_spd         INTEGER,
-                      exp_yield      INTEGER,
-                      FOREIGN KEY(type1)    REFERENCES types(display_name)
-                      FOREIGN KEY(type2)    REFERENCES types(display_name)
-                      FOREIGN KEY(ability1) REFERENCES abilities(display_name)
-                      FOREIGN KEY(ability2) REFERENCES abilities(display_name)
-                      FOREIGN KEY(ability3) REFERENCES abilities(display_name));
+                      exp_yield      INTEGER);
 INSERT INTO "pokedex" VALUES('bulbasaur',1,'Bulbasaur','Seed','Grass','Poison','Overgrow','Chlorophyll','None',0.7,6.9,0.875,0.125,45,49,49,65,65,45,0,0,0,1,0,0,64);
 INSERT INTO "pokedex" VALUES('ivysaur',2,'Ivysaur','Seed','Grass','Poison','Overgrow','Chlorophyll','None',1.0,13.0,0.875,0.125,60,62,64,80,80,60,0,0,0,1,1,0,142);
 INSERT INTO "pokedex" VALUES('venusaur',3,'Venusaur','Seed','Grass','Poison','Overgrow','Chlorophyll','None',2.0,100.0,0.875,0.125,80,82,83,100,100,80,0,0,0,2,1,0,236);
@@ -798,8 +793,8 @@ CREATE TABLE gen1_pokedex (identifier     STRING PRIMARY KEY,
                            pokedex_num    INTEGER,
                            display_name   STRING,
                            species        STRING,
-                           type1          STRING,
-                           type2          STRING,
+                           type1          STRING REFERENCES gen1_types(display_name),
+                           type2          STRING REFERENCES gen1_types(display_name),
                            height         DOUBLE,
                            weight         DOUBLE,
                            base_hp        INTEGER,
@@ -807,16 +802,14 @@ CREATE TABLE gen1_pokedex (identifier     STRING PRIMARY KEY,
                            base_def       INTEGER,
                            base_spcl      INTEGER,
                            base_spd       INTEGER,
-                           exp_yield      INTEGER,
-                           FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
-                           FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
+                           exp_yield      INTEGER);
 INSERT INTO "gen1_pokedex" VALUES('pikachu',25,'Pikachu','Mouse','Electric','None',0.4,6.0,35,55,30,50,90,82);
 CREATE TABLE gen2_pokedex (identifier     STRING PRIMARY KEY,
                            pokedex_num    INTEGER,
                            display_name   STRING,
                            species        STRING,
-                           type1          STRING,
-                           type2          STRING,
+                           type1          STRING REFERENCES types(display_name),
+                           type2          STRING REFERENCES types(display_name),
                            height         DOUBLE,
                            weight         DOUBLE,
                            chance_male    DOUBLE,
@@ -827,19 +820,17 @@ CREATE TABLE gen2_pokedex (identifier     STRING PRIMARY KEY,
                            base_satk      INTEGER,
                            base_sdef      INTEGER,
                            base_spd       INTEGER,
-                           exp_yield      INTEGER,
-                           FOREIGN KEY(type1) REFERENCES gen1_types(display_name)
-                           FOREIGN KEY(type2) REFERENCES gen1_types(display_name));
+                           exp_yield      INTEGER);
 INSERT INTO "gen2_pokedex" VALUES('chikorita',152,'Chikorita','Leaf','Grass','None',0.9,6.4,0.875,0.125,45,49,65,49,65,45,64);
 CREATE TABLE gen3_pokedex (identifier     STRING PRIMARY KEY,
                            pokedex_num    INTEGER,
                            display_name   STRING,
                            species        STRING,
-                           type1          STRING,
-                           type2          STRING,
-                           ability1       STRING,
-                           ability2       STRING,
-                           ability3       STRING,
+                           type1          STRING REFERENCES types(display_name),
+                           type2          STRING REFERENCES types(display_name),
+                           ability1       STRING REFERENCES abilities(display_name),
+                           ability2       STRING REFERENCES abilities(display_name),
+                           ability3       STRING REFERENCES abilities(display_name),
                            height         DOUBLE,
                            weight         DOUBLE,
                            chance_male    DOUBLE,
@@ -856,20 +847,18 @@ CREATE TABLE gen3_pokedex (identifier     STRING PRIMARY KEY,
                            ev_satk        INTEGER,
                            ev_sdef        INTEGER,
                            ev_spd         INTEGER,
-                           exp_yield      INTEGER,
-                           FOREIGN KEY(type1) REFERENCES types(display_name)
-                           FOREIGN KEY(type2) REFERENCES types(display_name));
+                           exp_yield      INTEGER);
 INSERT INTO "gen3_pokedex" VALUES('beautifly',267,'Beautifly','Butterfly','Bug','Flying','Swarm','Rivalry','None',1.0,28.4,0.5,0.5,60,70,50,90,50,65,0,0,0,3,0,0,161);
 INSERT INTO "gen3_pokedex" VALUES('roselia',315,'Roselia','Thorn','Grass','Poison','Natural Cure','Poison Point','Leaf Guard',0.3,2.0,0.5,0.5,50,60,45,100,80,65,0,0,0,1,0,0,152);
 CREATE TABLE gen4_pokedex (identifier     STRING PRIMARY KEY,
                            pokedex_num    INTEGER,
                            display_name   STRING,
                            species        STRING,
-                           type1          STRING,
-                           type2          STRING,
-                           ability1       STRING,
-                           ability2       STRING,
-                           ability3       STRING,
+                           type1          STRING REFERENCES types(display_name),
+                           type2          STRING REFERENCES types(display_name),
+                           ability1       STRING REFERENCES abilities(display_name),
+                           ability2       STRING REFERENCES abilities(display_name),
+                           ability3       STRING REFERENCES abilities(display_name),
                            height         DOUBLE,
                            weight         DOUBLE,
                            chance_male    DOUBLE,
@@ -886,9 +875,7 @@ CREATE TABLE gen4_pokedex (identifier     STRING PRIMARY KEY,
                            ev_satk        INTEGER,
                            ev_sdef        INTEGER,
                            ev_spd         INTEGER,
-                           exp_yield      INTEGER,
-                           FOREIGN KEY(type1) REFERENCES types(display_name)
-                           FOREIGN KEY(type2) REFERENCES types(display_name));
+                           exp_yield      INTEGER);
 INSERT INTO "gen4_pokedex" VALUES('beautifly',267,'Beautifly','Butterfly','Bug','Flying','Swarm','Rivalry','None',1.0,28.4,0.5,0.5,60,70,50,90,50,65,0,0,0,3,0,0,161);
 CREATE TABLE natures (display_name   STRING PRIMARY KEY,
                       hp_mod       DOUBLE,
@@ -921,12 +908,10 @@ INSERT INTO "natures" VALUES('Gentle',1.0,0.9,1.0,1.0,1.1);
 INSERT INTO "natures" VALUES('Sassy',1.0,1.0,0.9,1.0,1.1);
 INSERT INTO "natures" VALUES('Careful',1.0,1.0,1.0,0.9,1.1);
 INSERT INTO "natures" VALUES('Quirky',1.0,1.0,1.0,1.0,1.0);
-CREATE TABLE evolutions (pkmn1_identifier STRING,
-                         pkmn2_identifier STRING,
+CREATE TABLE evolutions (pkmn1_identifier STRING REFERENCES pokedex(identifier),
+                         pkmn2_identifier STRING REFERENCES pokedex(identifier),
                          method_key       STRING,
-                         method_value     STRING,
-                         FOREIGN KEY(pkmn1_identifier) REFERENCES pokedex(identifier)
-                         FOREIGN KEY(pkmn2_identifier) REFERENCES pokedex(identifier));
+                         method_value     STRING);
 INSERT INTO "evolutions" VALUES('bulbasaur','ivysaur','level','16');
 INSERT INTO "evolutions" VALUES('ivysaur','venusaur','level','32');
 INSERT INTO "evolutions" VALUES('charmander','charmeleon','level','16');
