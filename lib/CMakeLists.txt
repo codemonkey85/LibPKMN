@@ -47,6 +47,7 @@ LIST(APPEND libpkmnsim_sources
 
 
 ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
+TARGET_LINK_LIBRARIES(pkmnsim ${SQLITE3_LIBRARY})
 INSTALL(TARGETS pkmnsim
     LIBRARY DESTINATION ${LIBRARY_DIR} COMPONENT libraries #.so
     ARCHIVE DESTINATION ${LIBRARY_DIR} COMPONENT libraries #.lib
