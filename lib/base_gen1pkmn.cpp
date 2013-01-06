@@ -45,7 +45,7 @@ base_gen1pkmn::base_gen1pkmn(std::map<std::string,std::string> from_database)
     if(not (sin_bdef >> baseDEF)) throw runtime_error("Invalid input.");
     stringstream sin_bspd(from_database["base_spd"]);
     if(not (sin_bspd >> baseSPD)) throw runtime_error("Invalid input.");
-    stringstream sin_bspcl(from_database["base_spcl"]);
+    stringstream sin_bspcl(from_database["base_gen1spcl"]);
     if(not (sin_bspcl >> baseSPCL)) throw runtime_error("Invalid input.");
     stringstream sin_exp(from_database["exp_yield"]);
     if(not (sin_exp >> exp_yield)) throw runtime_error("Invalid input.");
@@ -110,7 +110,7 @@ int* base_gen1pkmn::get_ev_yields() {return get_base_stats();}
 base_gen1pkmn get_gen1_pokemon(string identifier)
 {
     string db_fields[] = {"display_name","pokedex_num","species","type1","type2","height",
-                          "weight","base_hp","base_atk","base_def","base_spcl","base_spd",
+                          "weight","base_hp","base_atk","base_def","base_gen1spcl","base_spd",
                           "exp_yield"};
     map<string,string> from_database;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
@@ -119,7 +119,7 @@ base_gen1pkmn get_gen1_pokemon(string identifier)
 
     for(int i = 0; i < 13; i++)
     {
-        string query_string = str(boost::format("SELECT %s FROM gen1_pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
+        string query_string = str(boost::format("SELECT %s FROM pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
         string result = db.execAndGet(query_string.c_str(), identifier);
         from_database[db_fields[i]] = result;
     }
@@ -134,9 +134,9 @@ vector<base_gen1pkmn> get_gen1_pkmn_of_type(string type1, string type2, bool lax
     string query_string;
     int max_pokedex_num;
 
-    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM gen1_pokedex WHERE (type1='%s' OR type2='%s') AND pokedex_num <= 151") %
+    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE (type1='%s' OR type2='%s') AND pokedex_num <= 151") %
                                                    type1 % type1);
-    else query_string = str(boost::format("SELECT identifier FROM gen1_pokedex WHERE ((type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')) AND pokedex_num <= 151")
+    else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE ((type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')) AND pokedex_num <= 151")
                             % type1 % type2 % type2 % type1);
 
     SQLite::Statement query(db, query_string.c_str());

@@ -132,7 +132,7 @@ base_gen2pkmn get_gen2_pokemon(string identifier)
 
     for(int i = 0; i < 16; i++)
     {
-        string query_string = str(boost::format("SELECT %s FROM gen2_pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
+        string query_string = str(boost::format("SELECT %s FROM pokedex WHERE identifier='%s'") % db_fields[i] % identifier);
         string result = db.execAndGet(query_string.c_str(), identifier);
         from_database[db_fields[i]] = result;
     }
@@ -147,9 +147,9 @@ vector<base_gen2pkmn> get_gen2_pkmn_of_type(string type1, string type2, bool lax
     string query_string;
     int max_pokedex_num;
 
-    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM gen2_pokedex WHERE (type1='%s' OR type2='%s') AND pokedex_num <= 251") %
+    if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE (type1='%s' OR type2='%s') AND pokedex_num <= 251") %
                                                    type1 % type1);
-    else query_string = str(boost::format("SELECT identifier FROM gen2_pokedex WHERE ((type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')) AND pokedex_num <= 251")
+    else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE ((type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')) AND pokedex_num <= 251")
                             % type1 % type2 % type2 % type1);
 
     SQLite::Statement query(db, query_string.c_str());
