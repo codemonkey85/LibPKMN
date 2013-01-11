@@ -31,7 +31,7 @@ TEST_DATABASE_TABLE("display_name" "gen4_pokedex" "pokedex_num" "267" "Beautifly
 TEST_DATABASE_TABLE("satk_mod" "natures" "display_name" "'Rash'" "1.1")
 TEST_DATABASE_TABLE("pkmn2_identifier" "evolutions" "pkmn1_identifier" "'charmeleon'" "charizard")
 TEST_DATABASE_TABLE("in_gen4" "items" "display_name" "'BlackGlasses'" "1")
-
+TEST_DATABASE_TABLE("pp" "moves" "display_name" "'Bubble'" "30")
 INSTALL(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
     DESTINATION ${PKG_DATA_DIR}
