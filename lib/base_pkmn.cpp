@@ -100,9 +100,9 @@ base_pkmn::base_pkmn(map<string,string> from_database)
 
 void base_pkmn::print()
 {
-    cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
-    if(type2 == "None") cout << boost::format("Type: %s") % type1 << endl;
-    else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
+    cout << boost::format("%s (#%d)") % display_name.c_str() % nat_pokedex_num << endl;
+    if(type2 == "None") cout << boost::format("Type: %s") % type1.c_str() << endl;
+    else cout << boost::format("Type: %s/%s") % type1.c_str() % type2.c_str() << endl;
     cout << boost::format("Stats: %d,%d,%d,%d,%d,%d") %
                                baseHP % baseATK % baseDEF % baseSPD % baseSATK % baseSDEF << endl;
 }
@@ -251,9 +251,8 @@ base_pkmn get_pokemon(string identifier, int gen)
     return base_pkmn(from_database);
 }
 
-vector<base_pkmn> get_pkmn_of_type(string type1, string type2, int gen, bool lax)
+void get_pkmn_of_type(std::vector<base_pkmn> &v, string type1, string type2, int gen, bool lax)
 {
-    vector<base_pkmn> pkmn_vector;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
     string query_string;
     int max_pokedex_num;
@@ -268,8 +267,6 @@ vector<base_pkmn> get_pkmn_of_type(string type1, string type2, int gen, bool lax
     while(query.executeStep())
     {
         string identifier = query.getColumn(0);
-        pkmn_vector.push_back(get_pokemon(identifier,gen));
+        v.push_back(get_pokemon(identifier,gen));
     }
-
-    return pkmn_vector;
 }

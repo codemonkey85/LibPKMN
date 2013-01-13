@@ -44,6 +44,6 @@ class base_pkmn
 };
 
 base_pkmn get_pokemon(std::string,int);
-std::vector<base_pkmn> get_pkmn_of_type(std::string,std::string,int,bool);
+void get_pkmn_of_type(std::vector<base_pkmn>&,std::string,std::string,int,bool);
 
 #endif /*BASE_PKMN_HPP*/

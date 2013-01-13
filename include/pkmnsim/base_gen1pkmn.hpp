@@ -26,6 +26,6 @@ class base_gen1pkmn: public base_pkmn
 };
 
 base_gen1pkmn get_gen1_pkmn(std::string);
-std::vector<base_gen1pkmn> get_gen1_pkmn_of_type(std::string, std::string, bool);
+void get_gen1_pkmn_of_type(std::vector<base_pkmn>&, std::string, std::string, bool);
 
 #endif /*BASE_GEN1PKMN_HPP*/

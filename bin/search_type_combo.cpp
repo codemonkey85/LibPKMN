@@ -72,24 +72,59 @@ int main(int argc, char *argv[])
     highest_stats[1] = stat("Attack");
     highest_stats[2] = stat("Defense");
     highest_stats[3] = stat("Speed");
-    highest_stats[4] = stat("Special Attack");
-    highest_stats[5] = stat("Special Defense");
+    if(gen == 1) highest_stats[4] = stat("Special");
+    else
+    {
+        highest_stats[4] = stat("Special Attack");
+        highest_stats[5] = stat("Special Defense");
+    }
     stat lowest_stats[6] = highest_stats;
-
-    stat gen1highest_stats[5];
-    gen1highest_stats[0] = stat("HP");
-    gen1highest_stats[1] = stat("Attack");
-    gen1highest_stats[2] = stat("Defense");
-    gen1highest_stats[3] = stat("Speed");
-    gen1highest_stats[4] = stat("Special");
-    stat gen1lowest_stats[5] = gen1highest_stats;
 
     vector<base_gen1pkmn> gen1pkmn_vector;
     vector<base_gen2pkmn> gen2pkmn_vector;
     vector<base_pkmn> pkmn_vector;
     string type_str;
 
+    int num_stats = 6;
     switch(gen)
+    {
+        case 1:
+            //Generation 1
+
+            num_stats = 5;
+
+            get_gen1_pkmn_of_type(pkmn_vector, type1, type2, lax);
+            break;
+
+        case 2:
+            //Generation 2
+
+            get_gen2_pkmn_of_type(pkmn_vector, type1, type2, lax);
+            break;
+
+        default:
+            //Generation 3-5
+
+            get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
+            break;
+    }
+    if(pkmn_vector.size() == 0)
+    {
+        cout << boost::format("\nNo Pokemon of specified type in Generation %d.\n") % gen;
+        return EXIT_FAILURE;
+    }
+    //pkmn_vector[0]->print();
+    /*for(int i = 0; i < pkmn_vector.size(); i++)
+    {
+        cout << i << endl;
+        //int* pkmn_stats = pkmn_vector[i].get_base_stats();
+        for(int i = 0; i < num_stats; i++)
+        {
+            cout << highest_stats[i].stat_name << endl;
+        }
+    }*/
+
+    /*switch(gen)
     {
         case 1:
             gen1pkmn_vector = get_gen1_pkmn_of_type(type1,type2,lax);
@@ -206,7 +241,7 @@ int main(int argc, char *argv[])
                 cout << boost::format(" * Highest: %s (%d)\n") % highest_stats[i].pkmn_name % highest_stats[i].stat_value;
                 cout << boost::format(" * Lowest: %s (%d)\n\n") % lowest_stats[i].pkmn_name % lowest_stats[i].stat_value;
             }
-    }
+    }*/
 
     return EXIT_SUCCESS;
 }

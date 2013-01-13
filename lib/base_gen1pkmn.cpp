@@ -121,9 +121,8 @@ base_gen1pkmn get_gen1_pokemon(string identifier)
     return base_gen1pkmn(from_database);
 }
 
-vector<base_gen1pkmn> get_gen1_pkmn_of_type(string type1, string type2, bool lax)
+void get_gen1_pkmn_of_type(vector<base_pkmn> &v, string type1, string type2, bool lax)
 {
-    vector<base_gen1pkmn> pkmn_vector;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
     string query_string;
     int max_pokedex_num;
@@ -138,8 +137,6 @@ vector<base_gen1pkmn> get_gen1_pkmn_of_type(string type1, string type2, bool lax
     while(query.executeStep())
     {
         string identifier = query.getColumn(0);
-        pkmn_vector.push_back(get_gen1_pokemon(identifier));
+        v.push_back(get_gen1_pokemon(identifier));
     }
-
-    return pkmn_vector;
 }

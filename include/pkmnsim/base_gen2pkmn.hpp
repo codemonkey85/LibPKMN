@@ -23,6 +23,6 @@ class base_gen2pkmn: public base_pkmn
 };
 
 base_gen2pkmn get_gen2_pokemon(std::string,int);
-std::vector<base_gen2pkmn> get_gen2_pkmn_of_type(std::string,std::string,bool);
+void get_gen2_pkmn_of_type(std::vector<base_pkmn>&,std::string,std::string,bool);
 
 #endif /*BASE_GEN2PKMN_HPP*/
