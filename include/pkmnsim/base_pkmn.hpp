@@ -15,20 +15,20 @@ class base_pkmn
                   double, double, double, double,
                   int, int, int, int, int, int, int, int, int, int, int, int, int);
         base_pkmn(std::map<std::string,std::string>);
-        void print();
-        void print_verbose();
+        virtual void print();
+        virtual void print_verbose();
         std::string get_display_name();
         int get_nat_pokedex_num();
         std::string get_species();
-        std::string* get_types();
+        virtual std::string* get_types();
         std::string* get_abilities();
         double get_height();
         double get_weight();
         double get_chance_male();
         double get_chance_female();
-        int* get_base_stats();
-        int* get_ev_yields();
-        //std::string * get_move_list();
+        virtual int* get_base_stats();
+        virtual int* get_ev_yields();
+        //virtual std::string * get_move_list();
     protected:
         std::string display_name;
         int nat_pokedex_num;

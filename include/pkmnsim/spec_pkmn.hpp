@@ -15,9 +15,9 @@ class spec_pkmn
         spec_pkmn(base_pkmn, std::string, int, char, std::string, std::string, int, int, int, int,
                   int, int, std::string, std::string, std::string, std::string);
         base_pkmn get_base_pkmn();
-        void reset_volatile_status_map();
-        void print();
-        void print_verbose();
+        virtual void reset_volatile_status_map();
+        virtual void print();
+        virtual void print_verbose();
         
     protected:
         base_pkmn base;
