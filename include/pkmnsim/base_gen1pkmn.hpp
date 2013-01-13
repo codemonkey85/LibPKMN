@@ -21,14 +21,7 @@ class base_gen1pkmn: public base_pkmn
         int* get_ev_yields();
 
     private:
-        string display_name;
-        int nat_pokedex_num;
-        string species;
-        string type1, type2;
-        double height; //meters
-        double weight; //kilograms
-        int baseHP, baseATK, baseDEF, baseSPD, baseSPCL; //Base stats
-        int exp_yield;
+        int baseSPCL; //Generation 1 has Special stat instead of Special Attack/Defense
 
 };
 

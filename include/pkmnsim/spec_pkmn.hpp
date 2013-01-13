@@ -1,5 +1,6 @@
 #ifndef SPEC_PKMN_HPP
 #define SPEC_PKMN_HPP
+
 #include <iostream>
 #include <string>
 #include <map>
@@ -18,7 +19,7 @@ class spec_pkmn
         void print();
         void print_verbose();
         
-    private:
+    protected:
         base_pkmn base;
         std::string nickname;
         int level;
@@ -50,4 +51,5 @@ class spec_pkmn
         int get_hp_from_iv_ev();
         int get_stat_from_iv_ev(int,int,int); //for others besides HP
 };
+
 #endif /*SPEC_PKMN_HPP*/

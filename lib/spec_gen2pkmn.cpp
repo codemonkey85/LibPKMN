@@ -120,21 +120,6 @@ void spec_gen2pkmn::print_verbose()
 
 base_gen2pkmn spec_gen2pkmn::get_base_gen2pkmn() {return base;}
 
-char spec_gen2pkmn::determine_gender()
-{
-    if(base.get_chance_male() + base.get_chance_female() == 0) return 'N';
-    else if(base.get_chance_male() == 1.0) return 'M';
-    else if(base.get_chance_female() == 1.0) return 'F';
-    else
-    {
-        srand( time(NULL) );
-        double val = (rand() % 1000 + 1)/1000.0;
-        std::cout << "gender val: " << val << std::endl;
-        if(val <= base.get_chance_male()) return 'M';
-        else return 'F';
-    }
-}
-
 int spec_gen2pkmn::get_hp_from_iv_ev()
 {
     int *stats;
