@@ -24,14 +24,15 @@ EXECUTE_PROCESS(
 MESSAGE(STATUS "Testing tables.")
 TEST_DATABASE_TABLE("display_name" "types" "Dark_mod" "0.0" "Psychic")
 TEST_DATABASE_TABLE("display_name" "gen1_types" "Ice_mod" "0.5" "Ice")
+TEST_DATABASE_TABLE("display_name" "gen3_types" "Shadow_mod" "0.5" "Shadow")
 TEST_DATABASE_TABLE("first_gen" "abilities" "display_name" "'Rivalry'" "4")
+TEST_DATABASE_TABLE("pp" "moves" "display_name" "'Bubble'" "30")
 TEST_DATABASE_TABLE("display_name" "pokedex" "pokedex_num" "208" "Steelix")
 TEST_DATABASE_TABLE("display_name" "gen3_pokedex" "pokedex_num" "315" "Roselia")
 TEST_DATABASE_TABLE("display_name" "gen4_pokedex" "pokedex_num" "267" "Beautifly")
 TEST_DATABASE_TABLE("satk_mod" "natures" "display_name" "'Rash'" "1.1")
 TEST_DATABASE_TABLE("pkmn2_identifier" "evolutions" "pkmn1_identifier" "'charmeleon'" "charizard")
 TEST_DATABASE_TABLE("in_gen4" "items" "display_name" "'BlackGlasses'" "1")
-TEST_DATABASE_TABLE("pp" "moves" "display_name" "'Bubble'" "30")
 INSTALL(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
     DESTINATION ${PKG_DATA_DIR}
