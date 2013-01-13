@@ -1009,6 +1009,10 @@ INSERT INTO "gen4_moves" VALUES('Icicle Spear','Grass','Physical',30,10,1.0,3);
 INSERT INTO "gen4_moves" VALUES('Covet','Normal','Physical',40,40,1.0,3);
 INSERT INTO "gen4_moves" VALUES('Rock Blast','Rock','Physical',10,25,0.8,3);
 INSERT INTO "gen4_moves" VALUES('Doom Desire','Steel','Physical',5,120,0.85,3);
+INSERT INTO "gen4_moves" VALUES('Feint','Normal','Physical',10,50,1.0,4);
+INSERT INTO "gen4_moves" VALUES('Last Resort','Normal','Physical',5,130,1.0,4);
+INSERT INTO "gen4_moves" VALUES('Drain Punch','Fighting','Physical',5,60,1.0,4);
+INSERT INTO "gen4_moves" VALUES('Magma Storm','Fire','Special',5,120,0.7,4);
 CREATE TABLE pokedex (identifier     STRING PRIMARY KEY,
                       pokedex_num    INTEGER,
                       display_name   STRING,
