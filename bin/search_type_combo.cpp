@@ -8,11 +8,11 @@
 #include <stdexcept>
 #include <vector>
 
+using namespace std;
 namespace po = boost::program_options;
 typedef vector<base_pkmn>::iterator pkmn_iter;
 typedef vector<base_gen1pkmn>::iterator gen1pkmn_iter;
 typedef vector<base_gen2pkmn>::iterator gen2pkmn_iter;
-using namespace std;
 
 struct stat
 {
