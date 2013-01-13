@@ -1,11 +1,13 @@
 #ifndef SPEC_GEN2PKMN_HPP
 #define SPEC_GEN2PKMN_HPP
+
 #include <iostream>
 #include <string>
 #include <map>
 #include <pkmnsim/base_gen2pkmn.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
 
-class spec_gen2pkmn
+class spec_gen2pkmn: public spec_pkmn
 {
     public:
         spec_gen2pkmn() {};
@@ -47,4 +49,5 @@ class spec_gen2pkmn
         int get_hp_from_iv_ev();
         int get_stat_from_iv_ev(int,int,int); //for others besides HP
 };
+
 #endif /*SPEC_GEN2PKMN_HPP*/

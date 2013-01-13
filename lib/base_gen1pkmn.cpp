@@ -86,12 +86,6 @@ void base_gen1pkmn::print_verbose()
     cout << boost::format("Experience Yield: %d") % exp_yield << endl;
 }
 
-string base_gen1pkmn::get_display_name() {return display_name;}
-int base_gen1pkmn::get_nat_pokedex_num() {return nat_pokedex_num;}
-string base_gen1pkmn::get_species() {return species;}
-double base_gen1pkmn::get_height() {return height;}
-double base_gen1pkmn::get_weight() {return weight;}
-
 int* base_gen1pkmn::get_base_stats()
 {
     int *stats = new int[5];

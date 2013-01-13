@@ -4,8 +4,9 @@
 #include <string>
 #include <map>
 #include <pkmnsim/base_gen1pkmn.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
 
-class spec_gen1pkmn
+class spec_gen1pkmn: public spec_pkmn
 {
     public:
         spec_gen1pkmn() {};

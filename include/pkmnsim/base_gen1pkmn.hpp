@@ -8,7 +8,6 @@
 #include <map>
 #include <string>
 
-
 class base_gen1pkmn: public base_pkmn
 {
     public:
@@ -18,11 +17,6 @@ class base_gen1pkmn: public base_pkmn
         base_gen1pkmn(std::map<std::string, std::string> from_database);
         void print();
         void print_verbose();
-        std::string get_display_name();        
-        int get_nat_pokedex_num();
-        std::string get_species();
-        double get_height();
-        double get_weight();
         int* get_base_stats();
         int* get_ev_yields();
 
@@ -39,6 +33,6 @@ class base_gen1pkmn: public base_pkmn
 };
 
 base_gen1pkmn get_gen1_pkmn(std::string);
-vector<base_gen1pkmn> get_gen1_pkmn_of_type(std::string, std::string, bool);
+std::vector<base_gen1pkmn> get_gen1_pkmn_of_type(std::string, std::string, bool);
 
 #endif /*BASE_GEN1PKMN_HPP*/
