@@ -914,6 +914,17 @@ INSERT INTO "gen2_moves" VALUES('Glare','Normal','Status',30,0,0.75,1);
 INSERT INTO "gen2_moves" VALUES('Poison Gas','Poison','Status',40,0,0.55,1);
 INSERT INTO "gen2_moves" VALUES('Flash','Normal','Status',20,0,0.7,1);
 INSERT INTO "gen2_moves" VALUES('Crabhammer','Water','Physical',10,90,0.85,1);
+INSERT INTO "gen2_moves" VALUES('Curse','???','Status',10,0,0.0,2);
+INSERT INTO "gen2_moves" VALUES('Cotton Spore','Grass','Status',40,0,0.85,2);
+INSERT INTO "gen2_moves" VALUES('Scary Face','Normal','Status',10,0,1.0,2);
+INSERT INTO "gen2_moves" VALUES('Bone Rush','Ground','Physical',10,25,0.8,2);
+INSERT INTO "gen2_moves" VALUES('Outrage','Dragon','Physical',15,90,1.0,2);
+INSERT INTO "gen2_moves" VALUES('Giga Drain','Grass','Special',5,60,1.0,2);
+INSERT INTO "gen2_moves" VALUES('Fury Cutter','Bug','Physical',20,10,0.95,2);
+INSERT INTO "gen2_moves" VALUES('Future Sight','Psychic','Special',15,80,0.9,2);
+INSERT INTO "gen2_moves" VALUES('Rock Smash','Fighting','Physical',15,20,1.0,2);
+INSERT INTO "gen2_moves" VALUES('Whirlpool','Water','Special',15,20,0.7,2);
+INSERT INTO "gen2_moves" VALUES('Beat Up','Dark','Physical',10,10,1.0,2);
 CREATE TABLE gen3_moves (display_name STRING PRIMARY KEY,
                          type         STRING REFERENCES gen3_types(display_name),
                          phys_or_spec STRING,
@@ -942,6 +953,17 @@ INSERT INTO "gen3_moves" VALUES('Glare','Normal','Status',30,0,0.75,1);
 INSERT INTO "gen3_moves" VALUES('Poison Gas','Poison','Status',40,0,0.55,1);
 INSERT INTO "gen3_moves" VALUES('Flash','Normal','Status',20,0,0.7,1);
 INSERT INTO "gen3_moves" VALUES('Crabhammer','Water','Physical',10,90,0.85,1);
+INSERT INTO "gen3_moves" VALUES('Curse','???','Status',10,0,0.0,2);
+INSERT INTO "gen3_moves" VALUES('Cotton Spore','Grass','Status',40,0,0.85,2);
+INSERT INTO "gen3_moves" VALUES('Scary Face','Normal','Status',10,0,1.0,2);
+INSERT INTO "gen3_moves" VALUES('Bone Rush','Ground','Physical',10,25,0.8,2);
+INSERT INTO "gen3_moves" VALUES('Outrage','Dragon','Physical',15,90,1.0,2);
+INSERT INTO "gen3_moves" VALUES('Giga Drain','Grass','Special',5,60,1.0,2);
+INSERT INTO "gen3_moves" VALUES('Fury Cutter','Bug','Physical',20,10,0.95,2);
+INSERT INTO "gen3_moves" VALUES('Future Sight','Psychic','Special',15,80,0.9,2);
+INSERT INTO "gen3_moves" VALUES('Rock Smash','Fighting','Physical',15,20,1.0,2);
+INSERT INTO "gen3_moves" VALUES('Whirlpool','Water','Special',15,20,0.7,2);
+INSERT INTO "gen3_moves" VALUES('Beat Up','Dark','Physical',10,10,1.0,2);
 CREATE TABLE gen4_moves (display_name STRING PRIMARY KEY,
                          type         STRING REFERENCES types(display_name),
                          phys_or_spec STRING,
@@ -964,6 +986,15 @@ INSERT INTO "gen4_moves" VALUES('Hi Jump Kick','Fighting','Physical',20,100,0.9,
 INSERT INTO "gen4_moves" VALUES('Glare','Normal','Status',30,0,0.75,1);
 INSERT INTO "gen4_moves" VALUES('Poison Gas','Poison','Status',40,0,0.55,1);
 INSERT INTO "gen4_moves" VALUES('Crabhammer','Water','Physical',10,90,0.85,1);
+INSERT INTO "gen4_moves" VALUES('Curse','???','Status',10,0,0.0,2);
+INSERT INTO "gen4_moves" VALUES('Cotton Spore','Grass','Status',40,0,0.85,2);
+INSERT INTO "gen4_moves" VALUES('Scary Face','Normal','Status',10,0,1.0,2);
+INSERT INTO "gen4_moves" VALUES('Bone Rush','Ground','Physical',10,25,0.8,2);
+INSERT INTO "gen4_moves" VALUES('Giga Drain','Grass','Special',10,60,1.0,2);
+INSERT INTO "gen4_moves" VALUES('Fury Cutter','Bug','Physical',20,10,0.95,2);
+INSERT INTO "gen4_moves" VALUES('Future Sight','Psychic','Special',15,80,0.9,2);
+INSERT INTO "gen4_moves" VALUES('Whirlpool','Water','Special',15,20,0.7,2);
+INSERT INTO "gen4_moves" VALUES('Beat Up','Dark','Physical',10,10,1.0,2);
 CREATE TABLE pokedex (identifier     STRING PRIMARY KEY,
                       pokedex_num    INTEGER,
                       display_name   STRING,
