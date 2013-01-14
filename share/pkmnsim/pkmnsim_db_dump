@@ -1031,7 +1031,7 @@ CREATE TABLE pokedex (identifier     STRING PRIMARY KEY,
                       base_def       INTEGER,
                       base_satk      INTEGER,
                       base_sdef      INTEGER,
-                      base_gen1spcl  INTEGER,
+                      base_spcl      INTEGER,
                       base_spd       INTEGER,
                       ev_hp          INTEGER,
                       ev_atk         INTEGER,
@@ -1437,7 +1437,7 @@ INSERT INTO "pokedex" VALUES('grotle',388,'Grotle','Grove','Grass','None','Overg
 INSERT INTO "pokedex" VALUES('torterra',389,'Torterra','Continent','Grass','Ground','Overgrow','None','Shell Armor',2.2,310.0,0.875,0.125,95,109,105,75,85,0,56,0,2,1,0,0,0,208);
 INSERT INTO "pokedex" VALUES('chimchar',390,'Chimchar','Chimp','Fire','None','Blaze','None','Iron Fist',0.5,6.2,0.875,0.125,44,58,44,58,44,0,61,0,0,0,0,0,1,65);
 INSERT INTO "pokedex" VALUES('monferno',391,'Monferno','Playful','Fire','Fighting','Blaze','None','Iron Fist',0.9,22.0,0.875,0.125,64,78,52,78,52,0,81,0,0,0,1,0,1,142);
-INSERT INTO "pokedex" VALUES('infernape',392,'Infernape','Flame','Fire','Flying','Blaze','None','Iron Fist',1.2,55.0,0.875,0.125,76,104,71,104,71,0,108,0,1,0,1,0,1,209);
+INSERT INTO "pokedex" VALUES('infernape',392,'Infernape','Flame','Fire','Fighting','Blaze','None','Iron Fist',1.2,55.0,0.875,0.125,76,104,71,104,71,0,108,0,1,0,1,0,1,209);
 INSERT INTO "pokedex" VALUES('piplup',393,'Piplup','Penguin','Water','None','Torrent','None','Defiant',0.4,5.2,0.875,0.125,53,51,53,61,56,0,40,0,0,0,1,0,0,66);
 INSERT INTO "pokedex" VALUES('prinplup',394,'Prinplup','Penguin','Water','None','Torrent','None','Defiant',0.8,23.0,0.875,0.125,64,66,68,81,76,0,50,0,0,0,2,0,0,143);
 INSERT INTO "pokedex" VALUES('empoleon',395,'Empoleon','Emperor','Water','Steel','Torrent','None','Defiant',1.7,84.5,0.875,0.125,84,86,88,111,101,0,60,0,0,0,3,0,0,210);

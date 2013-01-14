@@ -52,4 +52,41 @@ class spec_pkmn
         int get_stat_from_iv_ev(int,int,int); //for others besides HP
 };
 
+class spec_gen1pkmn: public spec_pkmn
+{
+    public:
+        spec_gen1pkmn() {};
+        spec_gen1pkmn(base_gen1pkmn, int, int);
+        spec_gen1pkmn(base_gen1pkmn, std::string, int, int, int, int, int, int,
+                  std::string, std::string, std::string, std::string);
+        base_gen1pkmn get_base_gen1pkmn();
+        void reset_volatile_status_map();
+        void print();
+        void print_verbose();
+        
+    private:
+        base_gen1pkmn base;
+        int SPCL, ivSPCL, evSPCL;
+        int get_hp_from_iv_ev();
+        int get_stat_from_iv_ev(int,int,int); //for others besides HP
+};
+
+class spec_gen2pkmn: public spec_pkmn
+{
+    public:
+        spec_gen2pkmn() {};
+        spec_gen2pkmn(base_gen2pkmn, int, int);
+        spec_gen2pkmn(base_gen2pkmn, std::string, int, char, std::string, int, int, int, int,
+                  int, int, std::string, std::string, std::string, std::string);
+        base_gen2pkmn get_base_gen2pkmn();
+        void reset_volatile_status_map();
+        void print();
+        void print_verbose();
+
+    private:
+        base_gen2pkmn base;
+        int get_hp_from_iv_ev();
+        int get_stat_from_iv_ev(int,int,int); //for others besides HP
+};
+
 #endif /*SPEC_PKMN_HPP*/

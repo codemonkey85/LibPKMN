@@ -43,6 +43,37 @@ class base_pkmn
         //std::string * move_list;
 };
 
+class base_gen1pkmn: public base_pkmn
+{
+    public:
+        base_gen1pkmn() {};
+        base_gen1pkmn(std::string, int, std::string, std::string, std::string, double, double,
+                      int, int, int, int, int, int);
+        base_gen1pkmn(std::map<std::string, std::string> from_database);
+        void print();
+        void print_verbose();
+        int* get_base_stats();
+        int* get_ev_yields();
+
+    private:
+        int baseSPCL; //Generation 1 has Special stat instead of Special Attack/Defense
+
+};
+
+class base_gen2pkmn: public base_pkmn
+{
+    public:
+        base_gen2pkmn() {};
+        base_gen2pkmn(std::string, int, std::string, std::string, std::string,
+                      double, double, double, double,
+                      int, int, int, int, int, int, int);
+        base_gen2pkmn(std::map<std::string,std::string>);
+        void print_verbose();
+        int* get_base_stats();
+        int* get_ev_yields();
+        //std::string * get_move_list();
+};
+
 base_pkmn get_pokemon(std::string,int);
 void get_pkmn_of_type(std::vector<base_pkmn>&,std::string,std::string,int,bool);
 

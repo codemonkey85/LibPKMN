@@ -204,20 +204,217 @@ int* base_pkmn::get_ev_yields()
 //get_move_list
 
 map<int,int> pokedex_bounds = boost::assign::map_list_of
+    (1,151) //Gen1: Kanto
+    (2,251) //Gen2: Johto
     (3,386) //Gen3: Hoenn
     (4,494) //Gen4: Sinnoh
     (5,649) //Gen5: Unova
 ;
 
+base_gen1pkmn::base_gen1pkmn(string name, int num, string spec, string t1, string t2, double ht,
+                             double wt, int bhp, int batk, int bdef, int bspcl, int bspd, int exp)
+{
+    display_name = name;
+    nat_pokedex_num = num;
+    species = spec;
+    type1 = t1;
+    type2 = t2;
+    height = ht;
+    weight = wt;
+    baseHP = bhp;
+    baseATK = batk;
+    baseDEF = bdef;
+    baseSPCL = bspcl;
+    baseSPD = bspd;
+    exp_yield = exp;
+}
+
+base_gen1pkmn::base_gen1pkmn(std::map<std::string,std::string> from_database)
+{
+    //Already strings
+    display_name = from_database["display_name"];
+    species = from_database["species"];
+    type1 = from_database["type1"];
+    type2 = from_database["type2"];
+
+    //Need to be ints
+    stringstream sin_num(from_database["pokedex_num"]);
+    if(not (sin_num >> nat_pokedex_num)) throw runtime_error("Invalid input.");
+    stringstream sin_bhp(from_database["base_hp"]);
+    if(not (sin_bhp >> baseHP)) throw runtime_error("Invalid input.");
+    stringstream sin_batk(from_database["base_atk"]);
+    if(not (sin_batk >> baseATK)) throw runtime_error("Invalid input.");
+    stringstream sin_bdef(from_database["base_def"]);
+    if(not (sin_bdef >> baseDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_bspd(from_database["base_spd"]);
+    if(not (sin_bspd >> baseSPD)) throw runtime_error("Invalid input.");
+    stringstream sin_bspcl(from_database["base_spcl"]);
+    if(not (sin_bspcl >> baseSPCL)) throw runtime_error("Invalid input.");
+    stringstream sin_exp(from_database["exp_yield"]);
+    if(not (sin_exp >> exp_yield)) throw runtime_error("Invalid input.");
+
+    //Need to be doubles
+    stringstream sin_ht(from_database["height"]);
+    if(not (sin_ht >> height)) throw runtime_error("Invalid input.");
+    stringstream sin_wt(from_database["weight"]);
+    if(not (sin_wt >> weight)) throw runtime_error("Invalid input.");
+}
+
+void base_gen1pkmn::print()
+{
+    cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
+    if(type2 == "None") cout << boost::format("Type: %s") % type1 << endl;
+    else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
+    cout << boost::format("Stats: %d,%d,%d,%d,%d") %
+                               baseHP % baseATK % baseDEF % baseSPD % baseSPCL << endl;
+}
+
+void base_gen1pkmn::print_verbose()
+{
+    cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
+    cout << boost::format("%s Pokemon") % species << endl;
+
+    if(type2.empty()) cout << boost::format("Type: %s") % type1 << endl;
+    else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
+
+    cout << boost::format("%d m, %d kg") % height % weight << endl;
+
+    cout << "Base Stats:" << endl;
+    cout << boost::format(" - HP: %d") % baseHP << endl;
+    cout << boost::format(" - Attack: %d") % baseATK << endl;
+    cout << boost::format(" - Defense: %d") % baseDEF << endl;
+    cout << boost::format(" - Speed: %d") % baseSPD << endl;
+    cout << boost::format(" - Special: %d") % baseSPCL << endl;
+
+    cout << boost::format("Experience Yield: %d") % exp_yield << endl;
+}
+
+int* base_gen1pkmn::get_base_stats()
+{
+    int *stats = new int[5];
+
+    stats[0] = baseHP;
+    stats[1] = baseATK;
+    stats[2] = baseDEF;
+    stats[3] = baseSPD;
+    stats[4] = baseSPCL;
+
+    return stats;
+}
+
+int* base_gen1pkmn::get_ev_yields() {return get_base_stats();}
+
+base_gen2pkmn::base_gen2pkmn(string name, int num, string spec, string t1, string t2,
+                        double ht, double wt, double cm, double cf,
+                        int bhp, int batk, int bdef, int bsatk, int bsdef, int bspd,
+                        int exp)
+{
+    display_name = name;
+    nat_pokedex_num = num;
+    species = spec;
+    type1 = t1;
+    type2 = t2;
+    height = ht;
+    weight = wt;
+    chance_male = cm;
+    chance_female = cf;
+    baseHP = bhp;
+    baseATK = batk;
+    baseDEF = bdef;
+    baseSATK = bsatk;
+    baseSDEF = bsdef;
+    baseSPD = bspd;
+    exp_yield = exp;
+}
+
+//Used when grabbing from databases
+base_gen2pkmn::base_gen2pkmn(map<string,string> from_database)
+{
+    //Already strings
+    display_name = from_database["display_name"];
+    species = from_database["species"];
+    type1 = from_database["type1"];
+    type2 = from_database["type2"];
+
+    //Need to be ints
+    stringstream sin_num(from_database["pokedex_num"]);
+    if(not (sin_num >> nat_pokedex_num)) throw runtime_error("Invalid input.");
+    stringstream sin_bhp(from_database["base_hp"]);
+    if(not (sin_bhp >> baseHP)) throw runtime_error("Invalid input.");
+    stringstream sin_batk(from_database["base_atk"]);
+    if(not (sin_batk >> baseATK)) throw runtime_error("Invalid input.");
+    stringstream sin_bdef(from_database["base_def"]);
+    if(not (sin_bdef >> baseDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_bsatk(from_database["base_satk"]);
+    if(not (sin_bsatk >> baseSATK)) throw runtime_error("Invalid input.");
+    stringstream sin_bsdef(from_database["base_sdef"]);
+    if(not (sin_bsdef >> baseSDEF)) throw runtime_error("Invalid input.");
+    stringstream sin_bspd(from_database["base_spd"]);
+    if(not (sin_bspd >> baseSPD)) throw runtime_error("Invalid input.");
+    stringstream sin_exp(from_database["exp_yield"]);
+    if(not (sin_exp >> exp_yield)) throw runtime_error("Invalid input.");
+
+    //Need to be doubles
+    stringstream sin_ht(from_database["height"]);
+    if(not (sin_ht >> height)) throw runtime_error("Invalid input.");
+    stringstream sin_wt(from_database["weight"]);
+    if(not (sin_wt >> weight)) throw runtime_error("Invalid input.");
+    stringstream sin_cm(from_database["chance_male"]);
+    if(not (sin_cm >> chance_male)) throw runtime_error("Invalid input.");
+    stringstream sin_cf(from_database["chance_female"]);
+    if(not (sin_cf >> chance_female)) throw runtime_error("Invalid input.");
+}
+
+void base_gen2pkmn::print_verbose()
+{
+    cout << boost::format("%s (#%d)") % display_name % nat_pokedex_num << endl;
+    cout << boost::format("%s Pokemon") % species << endl;
+
+    if(type2.empty()) cout << boost::format("Type: %s") % type1 << endl;
+    else cout << boost::format("Type: %s/%s") % type1 % type2 << endl;
+
+    cout << boost::format("%d m, %d kg") % height % weight << endl;
+    if((chance_male + chance_female) == 0.0) cout << "Genderless" << endl;
+    else cout << boost::format("%2.1f%s Male, %2.1f%s Female") % (chance_male*100) % "%" % (chance_female*100) % "%" << endl;
+
+    cout << "Base Stats:" << endl;
+    cout << boost::format(" - HP: %d") % baseHP << endl;
+    cout << boost::format(" - Attack: %d") % baseATK << endl;
+    cout << boost::format(" - Defense: %d") % baseDEF << endl;
+    cout << boost::format(" - Speed: %d") % baseSPD << endl;
+    cout << boost::format(" - Special Attack: %d") % baseSATK << endl;
+    cout << boost::format(" - Special Defense: %d") % baseSDEF << endl;
+
+    cout << boost::format("Experience Yield: %d") % exp_yield << endl;
+}
+
+int* base_gen2pkmn::get_base_stats()
+{
+    int *stats = new int[6];
+
+    stats[0] = baseHP;
+    stats[1] = baseATK;
+    stats[2] = baseDEF;
+    stats[3] = baseSPD;
+    stats[4] = baseSATK;
+    stats[5] = baseSDEF;
+
+    return stats;
+}
+
+int* base_gen2pkmn::get_ev_yields() {return get_base_stats();}
+
 base_pkmn get_pokemon(string identifier, int gen)
 {
-    if(gen == 1) throw runtime_error("For Generation 1 Pokemon, use base_gen1pkmn class instead.");
-    else if(gen == 2) throw runtime_error("For Generation 2 Pokemon, use base_gen2pkmn class instead.");
+    string base_db_fields[] = {"display_name","pokedex_num","species","type1","type2","height","weight",
+                               "base_hp","base_atk","base_def","base_spd","exp_yield"};
 
-    string db_fields[] = {"display_name","pokedex_num","species","type1","type2","ability1",
-                          "ability2","ability3","height","weight","chance_male","chance_female",
-                          "base_hp","base_atk","base_def","base_satk","base_sdef","base_spd",
-                          "ev_hp","ev_atk","ev_def","ev_satk","ev_sdef","ev_spd","exp_yield"};
+    string gen2_db_fields[] = {"chance_male","chance_female","base_satk","base_sdef","ev_satk","ev_sdef",
+                               "base_satk","base_sdef"}; //Generation 2+
+
+    string gen3_db_fields[] = {"ability1","ability2","ability3","ev_hp","ev_atk","ev_def","ev_satk","ev_sdef",
+                               "ev_spd"}; //Generation 3+
+    
     map<string,string> from_database;
     SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
     string query_string;
@@ -227,27 +424,53 @@ base_pkmn get_pokemon(string identifier, int gen)
 
     try
     {
-        query_string = str(boost::format("SELECT display_name FROM %s WHERE identifier='%s'") % pokedex_str % identifier);
+        query_string = str(boost::format("SELECT display_name FROM %s WHERE identifier='%s'") % pokedex_str.c_str() % identifier.c_str());
         SQLite::Statement query(db, query_string.c_str());
         query.executeStep();
         query.getColumn(0);
     }
     catch(SQLite::Exception& e)
     {
-        query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier);
+        query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
         SQLite::Statement query(db, query_string.c_str());
         query.executeStep();
         query.getColumn(0);
         pokedex_str = "pokedex";
     }
 
-    for(int i = 0; i < 25; i++)
+    for(int i = 0; i < 12; i++)
     {
-        query_string = str(boost::format("SELECT %s FROM %s WHERE identifier='%s'") % db_fields[i] % pokedex_str % identifier);
+        query_string = str(boost::format("SELECT %s FROM %s WHERE identifier='%s'") % base_db_fields[i].c_str() % pokedex_str.c_str() % identifier.c_str());
         string result = db.execAndGet(query_string.c_str(), identifier);
-        from_database[db_fields[i]] = result;
+        from_database[base_db_fields[i]] = result;
     }
 
+    if(gen == 1)
+    {
+        query_string = str(boost::format("SELECT base_spcl FROM %s WHERE identifier='%s'") % pokedex_str.c_str() % identifier.c_str());
+        string result = db.execAndGet(query_string.c_str(), identifier);
+        from_database["base_spcl"] = result;
+        
+        return base_gen1pkmn(from_database);
+    }
+    else if(gen >= 2)
+    {
+        for(int i = 0; i < 8; i++)
+        {
+            query_string = str(boost::format("SELECT %s FROM %s WHERE identifier='%s'") % gen2_db_fields[i].c_str() % pokedex_str.c_str() % identifier.c_str());
+            string result = db.execAndGet(query_string.c_str(), identifier);
+            from_database[gen2_db_fields[i]] = result;
+        }
+
+        if(gen == 2) return base_gen2pkmn(from_database);
+    }
+
+    for(int i = 0; i < 9; i++)
+    {
+        query_string = str(boost::format("SELECT %s FROM %s WHERE identifier='%s'") % gen3_db_fields[i].c_str() % pokedex_str.c_str() % identifier.c_str());
+        string result = db.execAndGet(query_string.c_str(), identifier);
+        from_database[gen3_db_fields[i]] = result;
+    }
     return base_pkmn(from_database);
 }
 

@@ -3,16 +3,12 @@
 #include <boost/program_options.hpp>
 #include <map>
 #include <pkmnsim/base_pkmn.hpp>
-#include <pkmnsim/base_gen1pkmn.hpp>
-#include <pkmnsim/base_gen2pkmn.hpp>
 #include <stdexcept>
 #include <vector>
 
 using namespace std;
 namespace po = boost::program_options;
 typedef vector<base_pkmn>::iterator pkmn_iter;
-typedef vector<base_gen1pkmn>::iterator gen1pkmn_iter;
-typedef vector<base_gen2pkmn>::iterator gen2pkmn_iter;
 
 struct stat
 {
@@ -80,38 +76,24 @@ int main(int argc, char *argv[])
     }
     stat lowest_stats[6] = highest_stats;
 
-    vector<base_gen1pkmn> gen1pkmn_vector;
-    vector<base_gen2pkmn> gen2pkmn_vector;
     vector<base_pkmn> pkmn_vector;
     string type_str;
 
-    int num_stats = 6;
-    switch(gen)
-    {
-        case 1:
-            //Generation 1
+    int num_stats;
+    if(gen == 1) num_stats = 5;
+    else num_stats = 6;
 
-            num_stats = 5;
+    get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
 
-            get_gen1_pkmn_of_type(pkmn_vector, type1, type2, lax);
-            break;
-
-        case 2:
-            //Generation 2
-
-            get_gen2_pkmn_of_type(pkmn_vector, type1, type2, lax);
-            break;
-
-        default:
-            //Generation 3-5
-
-            get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
-            break;
-    }
     if(pkmn_vector.size() == 0)
     {
         cout << boost::format("\nNo Pokemon of specified type in Generation %d.\n") % gen;
         return EXIT_FAILURE;
+    }
+    for(int i = 0; i < pkmn_vector.size(); i++)
+    {
+        pkmn_vector[i].print();
+        cout << endl;
     }
     //pkmn_vector[0]->print();
     /*for(int i = 0; i < pkmn_vector.size(); i++)
