@@ -35,7 +35,7 @@ SET(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING "")
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(include)
 add_subdirectory(lib)
-add_subdirectory(bin)
+#add_subdirectory(bin)
 add_subdirectory(share)
 
 MESSAGE(STATUS "")
