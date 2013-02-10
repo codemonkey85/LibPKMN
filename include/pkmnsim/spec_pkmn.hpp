@@ -5,88 +5,147 @@
 #include <string>
 #include <map>
 #include <pkmnsim/base_pkmn.hpp>
-#include <pkmnsim/pkmn_natures.hpp>
+//#include <pkmnsim/pkmn_natures.hpp>
 
-class spec_pkmn
+namespace pkmnsim
 {
-    public:
-        spec_pkmn() {};
-        spec_pkmn(base_pkmn, int, int);
-        spec_pkmn(base_pkmn, std::string, int, char, std::string, std::string, int, int, int, int,
-                  int, int, std::string, std::string, std::string, std::string);
-        base_pkmn get_base_pkmn();
-        virtual void reset_volatile_status_map();
-        virtual void print();
-        virtual void print_verbose();
-        
-    protected:
-        base_pkmn base;
-        std::string nickname;
-        int level;
-        char gender; //M = male, F = female, N = nongendered
-        pkmn_nature nature; //Will possibly change natures to own class
-        std::string held_item;
-        int HP, ATK, DEF, SPD, SATK, SDEF;
-        int ivHP, ivATK, ivDEF, ivSPD, ivSATK, ivSDEF; //Individual values, determined in constructor
-        int evHP, evATK, evDEF, evSPD, evSATK, evSDEF; //Effort values, earned via battles, 
-        std::string move1, move2, move3, move4; //Will possibly change moves to own class
-        //TODO: Incorporate move PP
-        int force_vals; //TODO: change to -1=random, 0-31=forced to that value
+    /*!
+     * Specific Pokemon class
+     *
+     * This class generates an object that represents a specific
+     * Pokemon, with its own stats, effort values, and individual
+     * values.
+     *
+     * This class depends on two values: a base_pkmn, which
+     * provides the base stats for the Pokemon, gender ratios, etc., 
+     * and gen, which tells the class what algorithms to use to
+     * determine its specific values.
+     */
+    class spec_pkmn
+    {
+        public:
 
-        std::string nonvolatile_status;
-        /*
-            Only one of the following:
-            OK  = None
-            BRN = Burn
-            FRZ = Freeze
-            PRZ = Paralysis
-            PSN = Poison
-            BP# = Bad Poison # (number of turns)
-            SLP = Sleep
-        */
-        std::map<std::string, int> volatile_status_map; //Condition, number of turns left
+            typedef boost::shared_ptr<spec_pkmn> sptr;
 
-        char determine_gender();
-        pkmn_nature determine_nature();
-        int get_hp_from_iv_ev();
-        int get_stat_from_iv_ev(int,int,int); //for others besides HP
-};
+            /*!
+             * Make a new specific Pokemon with random values.
+             * \param pkmn This Pokemon's base Pokemon.
+             * \param gen The generation whose algorithms to use.
+             * \return A new specific Pokemon shared pointer
+             */
+            static sptr make(const std::string identifier, const int gen);
 
-class spec_gen1pkmn: public spec_pkmn
-{
-    public:
-        spec_gen1pkmn() {};
-        spec_gen1pkmn(base_gen1pkmn, int, int);
-        spec_gen1pkmn(base_gen1pkmn, std::string, int, int, int, int, int, int,
-                  std::string, std::string, std::string, std::string);
-        base_gen1pkmn get_base_gen1pkmn();
-        void reset_volatile_status_map();
-        void print();
-        void print_verbose();
-        
-    private:
-        base_gen1pkmn base;
-        int SPCL, ivSPCL, evSPCL;
-        int get_hp_from_iv_ev();
-        int get_stat_from_iv_ev(int,int,int); //for others besides HP
-};
+            /*!
+             * Get the base Pokemon used to generate this Pokemon.
+             * \return Base Pokemon shared pointer
+             */
+            pkmnsim::base_pkmn::sptr get_base_pkmn(void) {return base;}
 
-class spec_gen2pkmn: public spec_pkmn
-{
-    public:
-        spec_gen2pkmn() {};
-        spec_gen2pkmn(base_gen2pkmn, int, int);
-        spec_gen2pkmn(base_gen2pkmn, std::string, int, char, std::string, int, int, int, int,
-                  int, int, std::string, std::string, std::string, std::string);
-        base_gen2pkmn get_base_gen2pkmn();
-        void reset_volatile_status_map();
-        void print();
-        void print_verbose();
+            /*!
+             * Get the Pokemon's nickname.
+             * \return String with Pokemon's nickname
+             */
+            std::string get_nickname(void) {return nickname;}
 
-    private:
-        base_gen2pkmn base;
-        int get_hp_from_iv_ev();
-        int get_stat_from_iv_ev(int,int,int); //for others besides HP
-};
+            /*!
+             * Get the Pokemon's level.
+             * \return Int with Pokemon's level
+             */
+            int get_level(void) {return level;}
 
-#endif /*SPEC_PKMN_HPP*/
+            /*!
+             * Get the Pokemon's stats.
+             * \return List of ints with stats
+             */
+            virtual std::map<std::string, int> get_stats(void) = 0;
+
+            /*!
+             * Get the Pokemon's individual values.
+             * Note: These values are sometimes randomly generated.
+             * \return List of ints with IVs
+             */
+            virtual std::map<std::string, int> get_IVs(void) = 0;
+
+            /*!
+             * Get the Pokemon's effort values.
+             * Note: These values are sometimes randomly generated.
+             * \return List of ints with EVs
+             */
+            virtual std::map<std::string, int> get_EVs(void) = 0;
+
+            /*
+             * Get the names of the Pokemon's moves.
+             * \return List of strings with names of Pokemon's moves.
+             */
+            std::string * get_moves(void)
+            {
+                std::string * moves = new std::string[4];
+                moves[0] = move1;
+                moves[1] = move2;
+                moves[2] = move3;
+                moves[3] = move4;
+
+                return moves;
+            }
+
+            /*
+             * Get the PP of the Pokemon's moves.
+             * \return List of ints with PP of the Pokemon's moves.
+             */
+            std::map<std::string, int> get_move_PPs(void)
+            {
+                std::map<std::string, int> movePPs;
+                movePPs[move1] = move1PP;
+                movePPs[move2] = move2PP;
+                movePPs[move3] = move3PP;
+                movePPs[move4] = move4PP;
+
+                return movePPs;
+            }
+
+            /*!
+             * Get a string with basic information on the Pokemon.
+             * \return String with basic Pokemon info
+             */
+            virtual std::string get_info(void) = 0;
+
+            /*!
+             * Get a string with all information on the Pokemon.
+             * \return String with all Pokemon info
+             */
+            virtual std::string get_info_verbose(void) = 0;
+
+            /*!
+             * Reset map of volatile statuses (confusion, infatuation, etc.).
+             * This map varies with the generation.
+             */
+            virtual void reset_volatile_status_map(void) = 0;
+
+        protected:
+            pkmnsim::base_pkmn::sptr base;
+            std::string nickname;
+            int level;
+            int HP, ATK, DEF, SPD;
+            int ivHP, ivATK, ivDEF, ivSPD;
+            int evHP, evATK, evDEF, evSPD;
+            std::map<std::string, int> volatile_status_map;
+            std::string nonvolatile_status;
+            /*
+                Nonvolatile Status: only one of the following:
+                OK  = None
+                BRN = Burn
+                FRZ = Freeze
+                PRZ = Paralysis
+                PSN = Poison
+                BP# = Bad Poison # (number of turns)
+                SLP = Sleep
+            */
+            std::string move1, move2, move3, move4; //Will change moves to their own classes
+            int move1PP, move2PP, move3PP, move4PP;
+
+            virtual int get_hp_from_iv_ev() = 0;
+            virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm
+    };
+
+}
+#endif

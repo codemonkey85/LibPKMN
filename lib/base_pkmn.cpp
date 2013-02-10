@@ -445,6 +445,15 @@ class base_pkmn_gen3impl: public base_pkmn
             return stats;
         }
 
+        string * get_abilities()
+        {
+            string * abilities = new string[3];
+            abilities[0] = ability1;
+            abilities[1] = ability2;
+            abilities[2] = ability3;
+            return abilities;
+        }
+
     private:
         string ability1, ability2, ability3;
         int baseSATK, baseSDEF;

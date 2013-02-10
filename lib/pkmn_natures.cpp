@@ -7,6 +7,7 @@
 #include <pkmnsim/pkmn_natures.hpp>
 #include <sqlitecpp/SQLiteCPP.h>
 
+using namespace pkmnsim;
 using namespace std;
 
 pkmn_nature::pkmn_nature(string nm, double atk, double def, double spd, double satk, double sdef)
@@ -39,15 +40,15 @@ pkmn_nature::pkmn_nature(map<string,string> from_database)
 
 string pkmn_nature::get_name() {return name;}
 
-double* pkmn_nature::get_mods()
+map<string, double> pkmn_nature::get_mods()
 {
-    double *mod_list = new double[5];
-    mod_list[0] = ATKmod;
-    mod_list[1] = DEFmod;
-    mod_list[2] = SPDmod;
-    mod_list[3] = SATKmod;
-    mod_list[4] = SDEFmod;
-    return mod_list;
+    map<string, double> mod_map;
+    mod_map["ATK"] = ATKmod;
+    mod_map["DEF"] = DEFmod;
+    mod_map["SPD"] = SPDmod;
+    mod_map["SATK"] = SATKmod;
+    mod_map["SDEF"] = SDEFmod;
+    return mod_map;
 }
 
 void pkmn_nature::print()

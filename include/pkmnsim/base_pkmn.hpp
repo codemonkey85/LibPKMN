@@ -5,6 +5,7 @@
 #include <ciso646>
 #include <iostream>
 #include <map>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -27,48 +28,47 @@ namespace pkmnsim
      * 2-3. Therefore, a Gen 1 Pikachu will be very different than a
      * Gen 3 Pikachu.
      */
-
     class base_pkmn
     {
-        typedef boost::shared_ptr<base_pkmn> sptr;
-
         public:
+
+            typedef boost::shared_ptr<base_pkmn> sptr;
 
             /*!
              * Make a new base Pokemon.
-             * \identifier The Pokemon's identifier in the database
+             * \param identifier The Pokemon's identifier in the database
              * \param gen This generation's implementation of the Pokemon.
-             * \return A new base Pokemon object
+             * \return A new base Pokemon shared pointer
             */
             static sptr make(const std::string identifier, const int gen);
 
             /*!
              * Get a string with basic information on the Pokemon.
-             * \return string with basic information on the Pokemon
+             * \return String with basic Pokemon info
              */
             virtual std::string get_info(void) = 0;
 
             /*!
              * Get a string with all information on the Pokemon.
-             * \return string with all information on the Pokemon
+             * \return String with all Pokemon info
              */
             virtual std::string get_info_verbose(void) = 0;
 
             /*!
              * Return Pokemon's display name (e.g. Bulbasaur).
-             * \return string with display name
+             * \return String with display name
              */
             std::string get_display_name(void) {return display_name;}
 
             /*!
              * Return Pokemon's National Pokedex number (1-649, as of Gen 5).
-             * \return int with National Pokedex number
+             * \return Int with National Pokedex number
              */
             int get_nat_pokedex_num(void) {return nat_pokedex_num;}
 
             /*!
              * Return Pokemon's types.
-             * \return list of strings with types
+             * \return List of strings with types
              */
             virtual std::string * get_types(void)
             {
@@ -80,28 +80,49 @@ namespace pkmnsim
 
             /*!
              * Return Pokemon's height (in meters).
-             * \return int with Pokemon height
+             * \return Int with Pokemon height
              */
             int get_height(void) {return height;}
 
             /*!
              * Return Pokemon's weight (in kilograms).
-             * \return int with Pokemon weight
+             * \return Int with Pokemon weight
              */
             int get_weight(void) {return weight;}
 
             /*!
              * Return Pokemon's base stats.
-             * \return list of ints with base stats
+             * \return List of ints with base stats
              */
             virtual std::map<std::string,int> get_base_stats(void) = 0;
 
             /*!
              * Return Pokemon's EV yields.
              * In Gen 1-2, simply calls get_base_stats().
-             * \return string with display name
+             * \return String with display name
              */
             virtual std::map<std::string,int> get_ev_yields(void) = 0;
+
+            /*!
+             * Return Pokemon's chance of being male.
+             * NOTE: Will throw an error unless overridden.
+             * \return Double with Pokemon's chance of being male
+             */
+            virtual double get_chance_male(void) {throw std::runtime_error("Not valid in this generation.");}
+
+            /*!
+             * Return Pokemon's chance of being female.
+             * NOTE: Will throw an error unless overridden.
+             * \return Double with Pokemon's chance of being female
+             */
+            virtual double get_chance_female(void) {throw std::runtime_error("Not valid in this generation.");}
+
+            /*!
+             * Return Pokemon's potential abilities.
+             * NOTE: Will throw an error unless overriden.
+             * \return List of strings with Pokemon's abilities
+             */
+            virtual std::string * get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
 
         protected:
             std::string display_name;
