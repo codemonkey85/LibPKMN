@@ -9,7 +9,7 @@
 using namespace pkmnsim;
 using namespace std;
 
-double get_type_damage_mod(string type1, string type2, bool gen1)
+double pkmnsim::get_type_damage_mod(string type1, string type2, bool gen1)
 {
     double damage_mod;
     string query_string;

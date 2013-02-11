@@ -33,7 +33,7 @@ namespace pkmnsim
              * \param gen The generation whose algorithms to use.
              * \return A new specific Pokemon shared pointer
              */
-            static sptr make(const std::string identifier, const int gen);
+            static sptr make(std::string identifier, int gen);
 
             /*!
              * Get the base Pokemon used to generate this Pokemon.

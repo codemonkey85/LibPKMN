@@ -62,11 +62,11 @@ void pkmn_nature::print()
     cout << boost::format( " - Special Defense: %f") % SDEFmod << endl;
 }
 
-pkmn_nature get_nature(string identifier)
+pkmn_nature pkmnsim::get_nature(string identifier)
 {
     string db_fields[] = {"display_name","atk_mod","def_mod","spd_mod","satk_mod","sdef_mod"};
     map<string,string> from_database;
-    SQLite::Database db("@PKMNSIM_PKG_DATA_PATH@/pkmnsim.db");
+    SQLite::Database db("@PKMNSIM_DB@");
 
     transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
     for(int i = 0; i < 6; i++)

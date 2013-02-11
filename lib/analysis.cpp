@@ -1,9 +1,11 @@
 #include <math.h>
 #include <pkmnsim/base_pkmn.hpp>
-#include <pkmnsim/stat_analysis.hpp>
+#include <pkmnsim/analysis.hpp>
 
 using namespace pkmnsim;
 using namespace std;
+
+//Base stat calculations
 
 int return_min_possible_stat(base_pkmn::sptr bpkmn, string stat, int level)
 {
@@ -25,3 +27,5 @@ bool is_stat_possible(base_pkmn::sptr bpkmn, int stat_value, string stat, int le
 {
     return (stat_value > return_min_possible_stat(bpkmn,stat,level) and stat_value < return_max_possible_stat(bpkmn,stat,level));
 }
+
+

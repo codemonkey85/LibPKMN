@@ -40,7 +40,7 @@ namespace pkmnsim
              * \param gen This generation's implementation of the Pokemon.
              * \return A new base Pokemon shared pointer
             */
-            static sptr make(const std::string identifier, const int gen);
+            static sptr make(std::string identifier, int gen);
 
             /*!
              * Get a string with basic information on the Pokemon.
@@ -70,7 +70,7 @@ namespace pkmnsim
              * Return Pokemon's types.
              * \return List of strings with types
              */
-            virtual std::string * get_types(void)
+            std::string * get_types(void)
             {
                 std::string * types = new std::string[2];
                 types[0] = type1;

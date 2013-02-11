@@ -12,6 +12,7 @@
 
 #include <sqlitecpp/Statement.h>
 
+
 namespace SQLite
 {
 
@@ -70,6 +71,15 @@ Column Database::execAndGet(const char* apQuery, std::string identifier) // thro
     Statement query(*this, apQuery);
     query.executeStep();
     return query.getColumn(0, identifier);
+}
+
+//execAndGet used to specifically get std::strings
+std::string Database::execAndGetStr(const char* apQuery, std::string identifier) // throw(SQLite::Exception)
+{
+    Statement query(*this, apQuery);
+    query.executeStep();
+    std::string result = query.getColumn(0, identifier);
+    return result;
 }
 
 // Shortcut to test if a table exists.

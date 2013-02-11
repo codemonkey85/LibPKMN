@@ -14,9 +14,9 @@
 //TODO: confirm "Almost no risk" types, Electric should be classified as effective against Misty
 
 namespace po = boost::program_options;
+using namespace pkmnsim;
 using namespace std;
 
-typedef vector<base_pkmn>::iterator team_iter;
 struct effectiveness_arr {int arr[4];};
 /*
  * [0] = No effect
@@ -27,7 +27,6 @@ struct effectiveness_arr {int arr[4];};
 
 string type_list[17] = {"Normal","Fighting","Flying","Poison","Ground","Rock","Bug","Ghost","Steel",
                         "Fire","Water","Grass","Electric","Psychic","Ice","Dragon","Dark"};
-vector<base_pkmn> pkmn_team;
 map<string, effectiveness_arr> earr_map;
 
 void print_help(po::variables_map vm, po::options_description desc)
@@ -67,16 +66,16 @@ vector<string> get_max(string *type_list, map<string, effectiveness_arr> earr_ma
     return max_types;
 }
 
-map<string, int> get_type_overlaps(vector<base_pkmn> pkmn_team, string *type_list)
+map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, string *type_list)
 {
     map<string, int> nums; //Key = type, val = number of Pokemon with that type
     for(int i = 0; i < 17; i++) nums[type_list[i]] = 0;
 
-    for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti)
+    for(int i = 0; i < pkmn_team.size(); i++)
     {
-        string *types = ti->get_types();
+        string * types = pkmn_team[i]->get_types();
         nums[types[0]]++;
-        if(types[1] != "") nums[types[1]]++;
+        if(types[1] != "None") nums[types[1]]++;
     }
 
     return nums;
@@ -87,12 +86,13 @@ int main(int argc, char *argv[])
     //Taking in and processing user options
 
     string team_file;
+    int gen;
 
     po::options_description desc("Allowed Options");
     desc.add_options()
         ("help", "Display this help message.")
         ("team_file", po::value<string>(&team_file), "Specify a file with a Pokemon team.")
-        ("early_gens", "Use type chart from Gen. 1-2. (unimplemented)")
+        ("gen", po::value<int>(&gen)->default_value(5), "Specify a generation (1-5).")
         ("verbose", "Enable verbosity.")
     ;
     po::variables_map vm;
@@ -106,6 +106,7 @@ int main(int argc, char *argv[])
     }
 
     if(vm.count("team_file") == 0) throw runtime_error("Specify a team file. Run \"team_analysis --help\" for information.");
+    if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
     bool verbose = (vm.count("verbose") > 0);
 
     ifstream team_file_input(team_file.c_str(), ifstream::in);
@@ -119,11 +120,12 @@ int main(int argc, char *argv[])
     if(verbose) cout << boost::format("\nFound team in file \"%s\"\n\n") % team_file;
 
     //Generate vector of Pokemon team to analyze
+    vector<base_pkmn::sptr> pkmn_team;
     int count = 1;
     while(getline(team_file_input,pkmn_name))
     {
         if(count > 6) break;
-        pkmn_team.push_back(get_pokemon(pkmn_name,5));
+        pkmn_team.push_back(base_pkmn::make(pkmn_name,gen));
         if(verbose) cout << "Successfully added Pokemon: " << pkmn_name << endl;
         count++;
     }
@@ -132,38 +134,38 @@ int main(int argc, char *argv[])
     team_file_input.close();
 
     //Calculations
-    for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti) //For each Pokemon
+    for(int i = 0; i < pkmn_team.size(); i++) //For each Pokemon
     {
         effectiveness_arr temp_earr;
+        string * types = pkmn_team[i]->get_types();
         
-        for(int i = 0; i < 17; i++) //For each type
+        for(int j = 0; j < 17; j++) //For each type
         {
             //Determine type damage mod
             double mod = 1.0;
-            string *types = ti->get_types();
             mod *= get_type_damage_mod(type_list[i], types[0], false);
-            if(types[1] != "") mod *= get_type_damage_mod(type_list[i], types[1], false);
+            if(types[1] != "None") mod *= get_type_damage_mod(type_list[i], types[1], false);
 
             //Increment appropriate number
             if(mod == 0.0)
             {
                 earr_map[type_list[i]].arr[0]++;
-                if(verbose) cout << boost::format("%s has no effect on %s\n") % type_list[i] % ti->get_display_name();
+                if(verbose) cout << boost::format("%s has no effect on %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
             else if(mod > 0.0 and mod < 1.0)
             {
                 earr_map[type_list[i]].arr[1]++;
-                if(verbose) cout << boost::format("%s is not very effective against %s\n") % type_list[i] % ti->get_display_name();
+                if(verbose) cout << boost::format("%s is not very effective against %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
             else if(mod == 1.0)
             {
                 earr_map[type_list[i]].arr[2]++;
-                if(verbose) cout << boost::format("%s has normal effect on %s\n") % type_list[i] % ti->get_display_name();
+                if(verbose) cout << boost::format("%s has normal effect on %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
             else
             {
                 earr_map[type_list[i]].arr[3]++;
-                if(verbose) cout << boost::format("%s is super effective against %s\n") % type_list[i] % ti->get_display_name();
+                if(verbose) cout << boost::format("%s is super effective against %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
         } 
         if(verbose) cout << endl;
@@ -187,12 +189,12 @@ int main(int argc, char *argv[])
     else
     {
         cout << endl << "Team:" << endl;
-        for(team_iter ti = pkmn_team.begin(); ti != pkmn_team.end(); ++ti)
+        for(int i = 0; i < pkmn_team.size(); i++)
         {
             string pkmn_output;
-            pkmn_output = str(boost::format(" * %s") % ti->get_display_name());
-            string *types = ti->get_types();
-            if(types[1] != "") cout << (boost::format("%s (%s/%s)\n") % pkmn_output % types[0] % types[1]);
+            pkmn_output = str(boost::format(" * %s") % pkmn_team[i]->get_display_name());
+            string * types = pkmn_team[i]->get_types();
+            if(types[1] != "None") cout << (boost::format("%s (%s/%s)\n") % pkmn_output % types[0] % types[1]);
             else cout << (boost::format("%s (%s)\n") % pkmn_output % types[0]);
         }
     }

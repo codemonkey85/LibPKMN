@@ -2,7 +2,6 @@
 #include <map>
 #include <stdio.h>
 #include <string>
-#include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include <sqlitecpp/SQLiteCPP.h>
@@ -23,37 +22,43 @@ class base_pkmn_gen1impl: public base_pkmn
             SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
             string query_string;
 
-            query_string = str(boost::format("SELECT string display_name FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
-            string display_name = db.execAndGet(query_string.c_str(), identifier);
+            query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            display_name = db.execAndGetStr(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT pokedex_num FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
+            query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             nat_pokedex_num = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT species FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
-            string species = db.execAndGet(query_string.c_str(), identifier);
+            query_string = str(boost::format("SELECT species FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            species = db.execAndGetStr(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT type1 FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
-            string type1 = db.execAndGet(query_string.c_str(), identifier);
+            query_string = str(boost::format("SELECT height FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            height = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT type2 FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
-            string type2 = db.execAndGet(query_string.c_str(), identifier);
+            query_string = str(boost::format("SELECT weight FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            weight = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT base_hp FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
+            query_string = str(boost::format("SELECT type1 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            type1 = db.execAndGetStr(query_string.c_str(), identifier);
+
+            query_string = str(boost::format("SELECT type2 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            type2 = db.execAndGetStr(query_string.c_str(), identifier);
+
+            query_string = str(boost::format("SELECT base_hp FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             baseHP = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT base_atk FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
+            query_string = str(boost::format("SELECT base_atk FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             baseATK = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT base_def FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
+            query_string = str(boost::format("SELECT base_def FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             baseDEF = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT base_spcl FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
+            query_string = str(boost::format("SELECT base_spcl FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             baseSPCL = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT base_spd FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
+            query_string = str(boost::format("SELECT base_spd FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             baseSPD = db.execAndGet(query_string.c_str(), identifier);
 
-            query_string = str(boost::format("SELECT exp_yield FROM gen1_pokedex WHERE identifier='%s'") % identifier.c_str());
+            query_string = str(boost::format("SELECT exp_yield FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             exp_yield = db.execAndGet(query_string.c_str(), identifier);
         }
 
@@ -136,20 +141,26 @@ class base_pkmn_gen2impl: public base_pkmn
             SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
             string query_string;
 
-            query_string = str(boost::format("SELECT string display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string display_name = db.execAndGet(query_string.c_str(), identifier);
+            query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            display_name = db.execAndGetStr(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             nat_pokedex_num = db.execAndGet(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT species FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string species = db.execAndGet(query_string.c_str(), identifier);
+            species = db.execAndGetStr(query_string.c_str(), identifier);
+
+            query_string = str(boost::format("SELECT height FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            height = db.execAndGet(query_string.c_str(), identifier);
+
+            query_string = str(boost::format("SELECT weight FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            weight = db.execAndGet(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT type1 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string type1 = db.execAndGet(query_string.c_str(), identifier);
+            type1 = db.execAndGetStr(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT type2 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string type2 = db.execAndGet(query_string.c_str(), identifier);
+            type2 = db.execAndGetStr(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT base_hp FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             baseHP = db.execAndGet(query_string.c_str(), identifier);
@@ -283,25 +294,31 @@ class base_pkmn_gen2impl: public base_pkmn
 class base_pkmn_gen3impl: public base_pkmn
 {
     public:
-        base_pkmn_gen3impl(string identifier, int gen)
+        base_pkmn_gen3impl(string identifier)
         {
             SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
             string query_string;
 
-            query_string = str(boost::format("SELECT string display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string display_name = db.execAndGet(query_string.c_str(), identifier);
+            query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            display_name = db.execAndGetStr(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             nat_pokedex_num = db.execAndGet(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT species FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string species = db.execAndGet(query_string.c_str(), identifier);
+            species = db.execAndGetStr(query_string.c_str(), identifier);
+
+            query_string = str(boost::format("SELECT height FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            height = db.execAndGet(query_string.c_str(), identifier);
+
+            query_string = str(boost::format("SELECT weight FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+            weight = db.execAndGet(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT type1 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string type1 = db.execAndGet(query_string.c_str(), identifier);
+            type1 = db.execAndGetStr(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT type2 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string type2 = db.execAndGet(query_string.c_str(), identifier);
+            type2 = db.execAndGetStr(query_string.c_str(), identifier);
 
             query_string = str(boost::format("SELECT base_hp FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             baseHP = db.execAndGet(query_string.c_str(), identifier);
@@ -351,15 +368,20 @@ class base_pkmn_gen3impl: public base_pkmn
             query_string = str(boost::format("SELECT ability1 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
             string ability1 = db.execAndGet(query_string.c_str(), identifier); //First ability guaranteed to be available in Gen 3
 
-            query_string = str(boost::format("SELECT ability2 FROM pokedex WHERE identifier='%s' AND first_gen<=%d") % identifier.c_str() % gen);
-            string ability2 = db.execAndGet(query_string.c_str(), identifier); //Second ability may or may not be in selected generation
+            /*string ability2;
+            query_string = str(boost::format("SELECT ability2 FROM pokedex WHERE display_name='%s'") % identifier.c_str());
+            string temp_ability2 = db.execAndGet(query_string.c_str(), identifier);
+            query_string = str(boost::format("SELECT first_gen FROM abilities WHERE display_name='%s'") % temp_ability2.c_str());
+            int first_gen = db.execAndGet(query_string.c_str(), identifier);
+            if(first_gen <= gen) ability2 = temp_ability2;
+            else ability2 = "None";
 
             if(gen == 5)
             {
                 query_string = str(boost::format("SELECT ability3 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
                 string ability3 = db.execAndGet(query_string.c_str(), identifier); //Third/hidden ability only in Gen 5
             }
-            else string ability3 = "None";
+            else string ability3 = "None";*/
         }
 
         string get_info()
@@ -462,9 +484,11 @@ class base_pkmn_gen3impl: public base_pkmn
 
 };
 
-base_pkmn::sptr base_pkmn::make(const string identifier, const int gen)
+base_pkmn::sptr base_pkmn::make(string identifier, int gen)
 {
-    if(gen <= 1 or gen >= 5) throw runtime_error("Gen must be 1-5.");
+    transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+
+    if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
     switch(gen)
     {
@@ -475,6 +499,6 @@ base_pkmn::sptr base_pkmn::make(const string identifier, const int gen)
             return sptr(new base_pkmn_gen2impl(identifier));
 
         default:
-            return sptr(new base_pkmn_gen3impl(identifier, gen));
+            return sptr(new base_pkmn_gen3impl(identifier));
     }
 }
