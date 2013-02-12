@@ -1,10 +1,12 @@
 #include <boost/assign.hpp>
+#include <boost/format.hpp>
+#include <math.h>
 #include "spec_pkmn_gen3impl.hpp"
 #include <time.h>
 
 using namespace std;
 
-namepace pkmnsim
+namespace pkmnsim
 {
     spec_pkmn_gen3impl::spec_pkmn_gen3impl(base_pkmn::sptr b, string n, int lvl)
     {

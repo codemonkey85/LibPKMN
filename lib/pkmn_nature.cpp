@@ -4,7 +4,7 @@
 #include <boost/format.hpp>
 #include <sstream>
 #include <stdexcept>
-#include <pkmnsim/pkmn_natures.hpp>
+#include <pkmnsim/pkmn_nature.hpp>
 #include <sqlitecpp/SQLiteCPP.h>
 
 using namespace pkmnsim;

@@ -8,7 +8,7 @@
 
 namespace pkmnsim
 {
-    class spec_pkmn_gen1impl
+    class spec_pkmn_gen1impl: public spec_pkmn
     {
         public:
             spec_pkmn_gen1impl(base_pkmn::sptr, std::string, int);
@@ -21,6 +21,7 @@ namespace pkmnsim
         private:
             int SPCL, ivSPCL, evSPCL;
             std::map<std::string, int> volatile_status_map;
+
             void reset_volatile_status_map();
             int get_hp_from_iv_ev();
             int get_stat_from_iv_ev(std::string, int, int);

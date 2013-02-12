@@ -1,4 +1,6 @@
 #include <boost/assign.hpp>
+#include <boost/format.hpp>
+#include <math.h>
 #include "spec_pkmn_gen1impl.hpp"
 #include <time.h>
 
@@ -51,7 +53,7 @@ namespace pkmnsim
         
     }
 
-    map<string, int> get_stats()
+    map<string, int> spec_pkmn_gen1impl::get_stats()
     {
         map<string, int> stats;
         stats["HP"] = HP;
@@ -75,7 +77,7 @@ namespace pkmnsim
         return stats;
     }
 
-    map<string, int> get_EVs()
+    map<string, int> spec_pkmn_gen1impl::get_EVs()
     {
         map<string, int> stats;
         stats["HP"] = evHP;

@@ -9,7 +9,7 @@
 
 namespace pkmnsim
 {
-    class spec_pkmn_gen3impl
+    class spec_pkmn_gen3impl: public spec_pkmn
     {
         public:
             spec_pkmn_gen3impl(base_pkmn::sptr, std::string, int);
@@ -18,13 +18,19 @@ namespace pkmnsim
             std::map<std::string, int> get_EVs();
             std::string get_info();
             std::string get_info_verbose();
+            char get_gender();
 
         private:
             int SATK, SDEF;
             int ivSATK, ivSDEF;
             int evSATK, evSDEF;
-            std::map<char, std::string> get_gender_map();
+            char gender;
+            std::string ability;
+            std::string held_item;
+            pkmn_nature nature;
             std::map<std::string, int> volatile_status_map;
+
+            std::map<char, std::string> get_gender_map();
             void reset_volatile_status_map();
             int get_hp_from_iv_ev();
             int get_stat_from_iv_ev(std::string, int, int);

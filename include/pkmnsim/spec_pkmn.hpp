@@ -1,11 +1,12 @@
 #ifndef SPEC_PKMN_HPP
 #define SPEC_PKMN_HPP
 
+#include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <string>
 #include <map>
 #include <pkmnsim/base_pkmn.hpp>
-//#include <pkmnsim/pkmn_natures.hpp>
+#include <pkmnsim/pkmn_nature.hpp>
 
 namespace pkmnsim
 {
@@ -39,7 +40,7 @@ namespace pkmnsim
              * Get the base Pokemon used to generate this Pokemon.
              * \return Base Pokemon shared pointer
              */
-            pkmnsim::base_pkmn::sptr get_base_pkmn(void) {return base;}
+            base_pkmn::sptr get_base_pkmn(void) {return base;}
 
             /*!
              * Get the Pokemon's nickname.
@@ -115,11 +116,6 @@ namespace pkmnsim
              */
             virtual std::string get_info_verbose(void) = 0;
 
-            /*!
-             * Reset map of volatile statuses (confusion, infatuation, etc.).
-             * This map varies with the generation.
-             */
-            virtual void reset_volatile_status_map(void) = 0;
 
         protected:
             pkmnsim::base_pkmn::sptr base;
@@ -145,6 +141,12 @@ namespace pkmnsim
 
             virtual int get_hp_from_iv_ev() = 0;
             virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm
+
+            /*!
+             * Reset map of volatile statuses (confusion, infatuation, etc.).
+             * This map varies with the generation.
+             */
+            virtual void reset_volatile_status_map(void) = 0;
     };
 
 }

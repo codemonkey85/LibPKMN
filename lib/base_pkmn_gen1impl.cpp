@@ -1,8 +1,9 @@
 #include "base_pkmn_gen1impl.hpp"
 #include <boost/format.hpp>
+#include <sqlitecpp/SQLiteCPP.h>
 #include <stdio.h>
 
-using namespace pkmnsim;
+using namespace std;
 
 namespace pkmnsim
 {

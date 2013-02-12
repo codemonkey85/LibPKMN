@@ -48,7 +48,17 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Transaction.cpp
 )
 
+#FILE(GLOB pkmnsim_lib_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
+#FOREACH(header ${pkmnsim_lib_headers})
+#    FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/${header}")
+#    INSTALL(FILES
+#        ${CMAKE_CURRENT_SOURCE_DIR}/${header}
+#        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+#        COMPONENT "headers"
+#    )
+#ENDFOREACH(header)
 
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/lib)
 ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
 TARGET_LINK_LIBRARIES(pkmnsim ${SQLITE3_LIBRARY})
 INSTALL(TARGETS pkmnsim

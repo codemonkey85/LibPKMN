@@ -1,4 +1,5 @@
 #include "base_pkmn_gen2impl.hpp"
+#include <boost/format.hpp>
 #include <sqlitecpp/SQLiteCPP.h>
 #include <stdio.h>
 

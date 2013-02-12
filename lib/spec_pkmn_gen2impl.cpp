@@ -1,4 +1,6 @@
 #include <boost/assign.hpp>
+#include <boost/format.hpp>
+#include <math.h>
 #include "spec_pkmn_gen2impl.hpp"
 #include <time.h>
 
