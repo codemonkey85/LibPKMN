@@ -143,28 +143,28 @@ int main(int argc, char *argv[])
         {
             //Determine type damage mod
             double mod = 1.0;
-            mod *= get_type_damage_mod(type_list[i], types[0], false);
-            if(types[1] != "None") mod *= get_type_damage_mod(type_list[i], types[1], false);
+            mod *= get_type_damage_mod(type_list[j], types[0], false);
+            if(types[1] != "None") mod *= get_type_damage_mod(type_list[j], types[1], false);
 
             //Increment appropriate number
             if(mod == 0.0)
             {
-                earr_map[type_list[i]].arr[0]++;
+                earr_map[type_list[j]].arr[0]++;
                 if(verbose) cout << boost::format("%s has no effect on %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
             else if(mod > 0.0 and mod < 1.0)
             {
-                earr_map[type_list[i]].arr[1]++;
+                earr_map[type_list[j]].arr[1]++;
                 if(verbose) cout << boost::format("%s is not very effective against %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
             else if(mod == 1.0)
             {
-                earr_map[type_list[i]].arr[2]++;
+                earr_map[type_list[j]].arr[2]++;
                 if(verbose) cout << boost::format("%s has normal effect on %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
             else
             {
-                earr_map[type_list[i]].arr[3]++;
+                earr_map[type_list[j]].arr[3]++;
                 if(verbose) cout << boost::format("%s is super effective against %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
             }
         } 
