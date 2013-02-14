@@ -18,6 +18,12 @@ namespace pkmnsim
         query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % identifier.c_str());
         nat_pokedex_num = db.execAndGet(query_string.c_str(), identifier);
 
+        if(nat_pokedex_num > 151)
+        {
+            string error_message = str(boost::format("%s not present in Generation 1.") % identifier.c_str());
+            throw runtime_error(error_message.c_str());
+        }
+
         query_string = str(boost::format("SELECT species FROM pokedex WHERE identifier='%s'") % identifier.c_str());
         species = db.execAndGetStr(query_string.c_str(), identifier);
 

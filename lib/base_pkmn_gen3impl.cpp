@@ -8,6 +8,11 @@ namespace pkmnsim
 {
     base_pkmn_gen3impl::base_pkmn_gen3impl(string identifier, int gen)
     {
+        map<int,int> gen_bounds;
+        gen_bounds[3] = 386;
+        gen_bounds[4] = 493;
+        gen_bounds[5] = 649; //Will never be higher, but would break program otherwise
+
         SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
         string query_string;
 
@@ -16,6 +21,12 @@ namespace pkmnsim
 
         query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % identifier.c_str());
         nat_pokedex_num = db.execAndGet(query_string.c_str(), identifier);
+
+        if(nat_pokedex_num > gen_bounds[gen])
+        {
+            string error_message = str(boost::format("%s not present in Generation %d.") % identifier.c_str() % gen);
+            throw runtime_error(error_message.c_str());
+        }
 
         query_string = str(boost::format("SELECT species FROM pokedex WHERE identifier='%s'") % identifier.c_str());
         species = db.execAndGetStr(query_string.c_str(), identifier);
