@@ -17,6 +17,8 @@ namespace po = boost::program_options;
 using namespace pkmnsim;
 using namespace std;
 
+typedef map<string, int>::iterator iter;
+
 struct effectiveness_arr {int arr[4];};
 /*
  * [0] = No effect
@@ -25,8 +27,6 @@ struct effectiveness_arr {int arr[4];};
  * [3] = Super effective
  */
 
-string type_list[17] = {"Normal","Fighting","Flying","Poison","Ground","Rock","Bug","Ghost","Steel",
-                        "Fire","Water","Grass","Electric","Psychic","Ice","Dragon","Dark"};
 map<string, effectiveness_arr> earr_map;
 
 void print_help(po::variables_map vm, po::options_description desc)
@@ -45,37 +45,23 @@ void print_help(po::variables_map vm, po::options_description desc)
          << "Dragonite" << endl << endl;
 }
 
-vector<string> get_max(string *type_list, map<string, effectiveness_arr> earr_map, int index)
-{
-    int current_max = 0;
-    vector<string> max_types;
-
-    for(int i = 0; i < 17; i++)
-    {
-        int *earr = earr_map[type_list[i]].arr; 
-
-        if(earr[index] > current_max)
-        {
-            current_max = earr[index];
-            max_types.clear();
-            max_types.push_back(str(boost::format("%s (%d)") % type_list[i] % current_max));
-        }
-        else if(earr[index] == current_max) max_types.push_back(str(boost::format("%s (%d)") % type_list[i] % current_max));
-    }
-    if(current_max == 0) max_types.clear();
-    return max_types;
-}
-
-map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, string *type_list)
+map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<string> type_list)
 {
     map<string, int> nums; //Key = type, val = number of Pokemon with that type
-    for(int i = 0; i < 17; i++) nums[type_list[i]] = 0;
+    for(int i = 0; i < type_list.size(); i++) nums[type_list[i]] = 0;
 
+    //Generate vector with number of occurrences of each type
     for(int i = 0; i < pkmn_team.size(); i++)
     {
         string * types = pkmn_team[i]->get_types();
         nums[types[0]]++;
         if(types[1] != "None") nums[types[1]]++;
+    }
+
+    //Delete map entries for non-overlapping types
+    for(int i = 0; i < type_list.size(); i++)
+    {
+        if(nums[type_list[i]] < 2) nums.erase(type_list[i]);
     }
 
     return nums;
@@ -113,15 +99,9 @@ int main(int argc, char *argv[])
     if(team_file_input.fail()) throw runtime_error("Specified file doesn't exist.");
     string pkmn_name;
 
-    //Populate earr_map
-    effectiveness_arr temp_earr = {0,0,0,0};
-    for(int i = 0; i < 17; i++) earr_map[type_list[i]] = temp_earr;
-
-    if(verbose) cout << boost::format("\nFound team in file \"%s\"\n\n") % team_file;
-
-    //Generate vector of Pokemon team to analyze
+    //Get Pokemon team and output
     vector<base_pkmn::sptr> pkmn_team;
-    int count = 1;
+    int count = 0;
     while(getline(team_file_input,pkmn_name))
     {
         if(count > 6) break;
@@ -130,92 +110,95 @@ int main(int argc, char *argv[])
         count++;
     }
     if(verbose) cout << endl;
-
     team_file_input.close();
 
-    //Calculations
-    for(int i = 0; i < pkmn_team.size(); i++) //For each Pokemon
+    cout << endl << "Team:" << endl;
+    for(int i = 0; i < pkmn_team.size(); i++)
     {
-        effectiveness_arr temp_earr;
         string * types = pkmn_team[i]->get_types();
-        
-        for(int j = 0; j < 17; j++) //For each type
-        {
-            //Determine type damage mod
-            double mod = 1.0;
-            mod *= get_type_damage_mod(type_list[j], types[0], false);
-            if(types[1] != "None") mod *= get_type_damage_mod(type_list[j], types[1], false);
-
-            //Increment appropriate number
-            if(mod == 0.0)
-            {
-                earr_map[type_list[j]].arr[0]++;
-                if(verbose) cout << boost::format("%s has no effect on %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
-            }
-            else if(mod > 0.0 and mod < 1.0)
-            {
-                earr_map[type_list[j]].arr[1]++;
-                if(verbose) cout << boost::format("%s is not very effective against %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
-            }
-            else if(mod == 1.0)
-            {
-                earr_map[type_list[j]].arr[2]++;
-                if(verbose) cout << boost::format("%s has normal effect on %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
-            }
-            else
-            {
-                earr_map[type_list[j]].arr[3]++;
-                if(verbose) cout << boost::format("%s is super effective against %s\n") % type_list[i] % pkmn_team[i]->get_display_name();
-            }
-        } 
-        if(verbose) cout << endl;
+        if(types[1] == "None") cout << boost::format(" * %s (%s)\n") % pkmn_team[i]->get_display_name() % types[0];
+        else cout << boost::format(" * %s (%s/%s)\n") % pkmn_team[i]->get_display_name() % types[0] % types[1];
     }
-
-    //Find maxes
-    vector<string> no_effect = get_max(type_list, earr_map, 0); //Type(s) with no effect
-    vector<string> not_very_effective = get_max(type_list, earr_map, 1); //Type(s) with most "not very effective"
-    vector<string> super_effective = get_max(type_list, earr_map, 3); //Type(s) with most "super effective"
-
-    //Print output
-    if(verbose)
-    {
-        cout << "Type (No Effect, Not Very Effective, No Mod, Super Effective)" << endl;
-        for(int i = 0; i < 17; i++)
-        {
-            int *earr = earr_map[type_list[i]].arr;
-            if(verbose) cout << boost::format("%s (%d,%d,%d,%d)\n") % type_list[i] % earr[0] % earr[1] % earr[2] % earr[3];
-        }
-    }
-    else
-    {
-        cout << endl << "Team:" << endl;
-        for(int i = 0; i < pkmn_team.size(); i++)
-        {
-            string pkmn_output;
-            pkmn_output = str(boost::format(" * %s") % pkmn_team[i]->get_display_name());
-            string * types = pkmn_team[i]->get_types();
-            if(types[1] != "None") cout << (boost::format("%s (%s/%s)\n") % pkmn_output % types[0] % types[1]);
-            else cout << (boost::format("%s (%s)\n") % pkmn_output % types[0]);
-        }
-    }
-
-    map<string, int> overlaps = get_type_overlaps(pkmn_team, type_list);
-    cout << endl << "Type Overlaps:" << endl;
-    for(int i = 0; i < 17; i++)
-        if(overlaps[type_list[i]] > 1) cout << (boost::format(" * %s (%d)\n") % type_list[i] % overlaps[type_list[i]]);
-
-    cout << endl << "Biggest risk:" << endl;
-    for(vector<string>::iterator vit = super_effective.begin(); vit != super_effective.end(); ++vit)
-        cout << boost::format("* %s\n") % *vit;
-
-    cout << endl << "Little risk: " << endl;
-    for(vector<string>::iterator vit = not_very_effective.begin(); vit != not_very_effective.end(); ++vit)
-        cout << boost::format("* %s\n") % *vit;
-
-    cout << endl << "Almost no risk: " << endl;
-    for(vector<string>::iterator vit = no_effect.begin(); vit != no_effect.end(); ++vit)
-        cout << boost::format("* %s\n") % *vit;
     cout << endl;
 
-    return EXIT_SUCCESS;
+    //Get type overlaps and output
+    vector<string> type_list = get_type_names(gen);
+    map<string, int> type_overlaps = get_type_overlaps(pkmn_team, type_list);
+
+    cout << "Type overlaps:" << endl;
+    for(iter i = type_overlaps.begin(); i != type_overlaps.end(); ++i)
+    {
+        cout << boost::format(" * %s (%d)\n") % i->first % i->second;
+    }
+
+    //Get type mods for each Pokemon
+    map<string, map<string, double> > team_mod_map;
+    for(int i = 0; i < pkmn_team.size(); i++) //Iterate over Pokemon team
+    {
+        string pkmn_name = pkmn_team[i]->get_display_name();
+
+        map<string, double> mod_map;
+        for(int j = 0; j < type_list.size(); j++) //Iterate over type list
+        {
+            string type_name = type_list[j];
+            string pkmn_type1 = pkmn_team[i]->get_types()[0];
+            string pkmn_type2 = pkmn_team[i]->get_types()[1];
+            bool is_gen1 = (gen == 1);
+
+            mod_map[type_name] = get_type_damage_mod(type_name, pkmn_type1, is_gen1);
+            if(pkmn_type2 != "None")
+            {
+                mod_map[type_name] *= get_type_damage_mod(type_name, pkmn_type2, is_gen1);
+            }
+        }
+        team_mod_map[pkmn_name] = mod_map;
+    }
+
+    //Get number of super effective types, normally effective types, and not very effective types, and output all
+    map<string, int> super_effective_map;
+    map<string, int> normal_effective_map;
+    map<string, int> not_very_effective_map;
+    map<string, int> useless_map;
+    for(int i = 0; i < pkmn_team.size(); i++)
+    {
+        string pkmn_name = pkmn_team[i]->get_display_name();
+
+        for(int j = 0; j < type_list.size(); j++)
+        {
+            string type_name = type_list[j];
+
+            if(type_name != "???" and type_name != "None" and type_name != "???") //Don't use nonstandard types
+            {
+                if(team_mod_map[pkmn_name][type_name] == 0.0) useless_map[type_name]++; //Immune to this type
+                else if(team_mod_map[pkmn_name][type_name] < 1.0) not_very_effective_map[type_name]++; //Not very effective
+                else if(team_mod_map[pkmn_name][type_name] > 1.0) super_effective_map[type_name]++;
+                else normal_effective_map[type_name]++;
+            }
+        }
+    }
+    cout << endl << "Super Effective:" << endl;
+    for(int i = 0; i < type_list.size(); i++)
+    {
+        string type_name = type_list[i];
+
+        if(super_effective_map[type_name] > 0) cout << boost::format(" * %s (%d)\n")
+                                                           % type_name % super_effective_map[type_name];
+    }
+    cout << endl << "Not Very Effective:" << endl;
+    for(int i = 0; i < type_list.size(); i++)
+    {
+        string type_name = type_list[i];
+
+        if(not_very_effective_map[type_name] > 0) cout << boost::format(" * %s (%d)\n")
+                                                           % type_name % not_very_effective_map[type_name];
+    } 
+    cout << endl << "Useless:" << endl;
+    for(int i = 0; i < type_list.size(); i++)
+    {
+        string type_name = type_list[i];
+
+        if(useless_map[type_name] > 0) cout << boost::format(" * %s (%d)\n")
+                                                           % type_name % useless_map[type_name];
+    }
+    cout << endl; 
 }

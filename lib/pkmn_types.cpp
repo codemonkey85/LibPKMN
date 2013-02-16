@@ -5,12 +5,17 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
-using namespace pkmnsim;
 using namespace std;
 
 double pkmnsim::get_type_damage_mod(string type1, string type2, bool gen1)
 {
+    if(gen1 and (type1 == "Dark" or type1 == "Steel" or type2 == "Dark" or type2 == "Steel"))
+    {
+        throw runtime_error("Dark and Steel types invalid for Generation 1.");
+    }
+
     double damage_mod;
     string query_string;
 
@@ -28,5 +33,20 @@ double pkmnsim::get_type_damage_mod(string type1, string type2, bool gen1)
         return damage_mod;
     }
     else return 1.0;
+}
 
+vector<string> pkmnsim::get_type_names(int gen)
+{
+    SQLite::Database db("@PKMNSIM_DB@");
+    string table = (gen == 1) ? "gen1_types" : "types";
+    string query_string = str(boost::format("SELECT display_name FROM %s") % table);
+    SQLite::Statement query(db, query_string.c_str());
+    vector<string> types;
+
+    while(query.executeStep())
+    {
+        string type = query.getColumn(0);
+        types.push_back(type);
+    }
+    return types;
 }
