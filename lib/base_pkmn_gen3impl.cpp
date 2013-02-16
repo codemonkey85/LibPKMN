@@ -16,6 +16,17 @@ namespace pkmnsim
         SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
         string query_string;
 
+        //Check database tables for non-standard Pokemon entries
+        string pokedex_str = str(boost::format("gen%d_pokedex") % gen);
+        try
+        {
+            query_string = str(boost::format("SELECT display_name FROM %s WHERE identifier='%s'") % pokedex_str.c_str() % identifier.c_str());
+            SQLite::Statement query(db, query_string.c_str());
+            query.executeStep();
+            query.getColumn(0);
+        }
+        catch(SQLite::Exception& e) {pokedex_str = "pokedex";}
+
         query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
         display_name = db.execAndGetStr(query_string.c_str(), identifier);
 
