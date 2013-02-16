@@ -11,23 +11,13 @@
 #include <vector>
 
 //TODO: take move types into account
-//TODO: confirm "Almost no risk" types, Electric should be classified as effective against Misty
 
 namespace po = boost::program_options;
 using namespace pkmnsim;
 using namespace std;
 
-typedef map<string, int>::iterator iter;
-
-struct effectiveness_arr {int arr[4];};
-/*
- * [0] = No effect
- * [1] = Not very effective
- * [2] = No type mod
- * [3] = Super effective
- */
-
-map<string, effectiveness_arr> earr_map;
+typedef map<string, int>::iterator si_iter;
+typedef map<string, double>::iterator sd_iter;
 
 void print_help(po::variables_map vm, po::options_description desc)
 {
@@ -65,6 +55,67 @@ map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<str
     }
 
     return nums;
+}
+
+string get_pkmn_effectiveness_string(string pkmn_name, map<string, double> &effectiveness_map)
+{
+    string output_string = str(boost::format(" * %s") % pkmn_name);
+    string good_types_str = "   * Use:";
+    string bad_types_str = "   * Don't use:";
+
+    //Iterate over map and add to good/bad_types_str as appropriate
+    for(sd_iter i = effectiveness_map.begin(); i != effectiveness_map.end(); ++i)
+    {
+        if(i->second > 1.0) good_types_str = str(boost::format("%s %s,")
+                                                 % good_types_str % i->first);
+        else if(i->second < 1.0) bad_types_str = str(boost::format("%s %s,")
+                                                     % bad_types_str % i->first);
+    }
+
+    //Cut off final comma from good/bad_types_str
+    good_types_str = good_types_str.substr(0, good_types_str.size()-1);
+    bad_types_str = bad_types_str.substr(0, bad_types_str.size()-1);
+
+    //Only add good/bad_types_str onto output string if applicable
+    if(good_types_str != " * Use") output_string = str(boost::format("%s\n%s") %
+                                                       output_string % good_types_str);
+    if(bad_types_str != " * Don't use") output_string = str(boost::format("%s\n%s") %
+                                                       output_string % bad_types_str);
+
+    return output_string;
+}
+
+void trim_effectiveness_maps(map<string, int> &super_effective_map, map<string, int> &not_very_effective_map)
+{
+    for(si_iter i = super_effective_map.begin(); i != super_effective_map.end(); ++i)
+    {
+        string type_name = i->first;
+        if(i->second > not_very_effective_map[type_name]) not_very_effective_map[type_name] = 0;
+        else if(i->second < not_very_effective_map[type_name]) i->second = 0;
+        else //Equal number, neither are a trend
+        {
+            i->second = 0;
+            not_very_effective_map[type_name] = 0;
+        }
+    }
+}
+
+string get_trends_string(map<string, int> &super_effective_map, map<string, int> &not_very_effective_map)
+{
+    string output_string = " * Use:";
+    for(si_iter i = super_effective_map.begin(); i != super_effective_map.end(); ++i)
+    {
+        if(i->second > 1) output_string = str(boost::format("%s %s,") % output_string % i->first);
+    }
+    output_string = output_string.substr(0, output_string.size()-1);
+    output_string = str(boost::format("%s\n * Don't use:") % output_string);
+    for(si_iter i = not_very_effective_map.begin(); i != not_very_effective_map.end(); ++i)
+    {
+        if(i->second > 1) output_string = str(boost::format("%s %s,") % output_string % i->first);
+    }
+    output_string = output_string.substr(0, output_string.size()-1);
+
+    return output_string;
 }
 
 int main(int argc, char *argv[])
@@ -115,9 +166,13 @@ int main(int argc, char *argv[])
     cout << endl << "Team:" << endl;
     for(int i = 0; i < pkmn_team.size(); i++)
     {
-        string * types = pkmn_team[i]->get_types();
-        if(types[1] == "None") cout << boost::format(" * %s (%s)\n") % pkmn_team[i]->get_display_name() % types[0];
-        else cout << boost::format(" * %s (%s/%s)\n") % pkmn_team[i]->get_display_name() % types[0] % types[1];
+        string pkmn_name = pkmn_team[i]->get_display_name();
+        string type1 = pkmn_team[i]->get_types()[0];
+        string type2 = pkmn_team[i]->get_types()[1];
+        
+
+        if(type2 == "None") cout << boost::format(" * %s (%s)\n") % pkmn_name % type1;
+        else cout << boost::format(" * %s (%s/%s)\n") % pkmn_name % type1 % type2;
     }
     cout << endl;
 
@@ -126,12 +181,12 @@ int main(int argc, char *argv[])
     map<string, int> type_overlaps = get_type_overlaps(pkmn_team, type_list);
 
     cout << "Type overlaps:" << endl;
-    for(iter i = type_overlaps.begin(); i != type_overlaps.end(); ++i)
+    for(si_iter i = type_overlaps.begin(); i != type_overlaps.end(); ++i)
     {
         cout << boost::format(" * %s (%d)\n") % i->first % i->second;
     }
 
-    //Get type mods for each Pokemon
+    //Get type mods for each Pokemon and output
     map<string, map<string, double> > team_mod_map;
     for(int i = 0; i < pkmn_team.size(); i++) //Iterate over Pokemon team
     {
@@ -154,11 +209,18 @@ int main(int argc, char *argv[])
         team_mod_map[pkmn_name] = mod_map;
     }
 
-    //Get number of super effective types, normally effective types, and not very effective types, and output all
+    cout << endl << "Individual weaknesses/resistances:" << endl;
+    for(int i = 0; i < pkmn_team.size(); i++)
+    {
+        string pkmn_name = pkmn_team[i]->get_display_name();
+        string output_string = get_pkmn_effectiveness_string(pkmn_name, team_mod_map[pkmn_name]);
+
+        cout << output_string << endl;
+    }
+
+    //Get number of super effective types and not very effective types
     map<string, int> super_effective_map;
-    map<string, int> normal_effective_map;
     map<string, int> not_very_effective_map;
-    map<string, int> useless_map;
     for(int i = 0; i < pkmn_team.size(); i++)
     {
         string pkmn_name = pkmn_team[i]->get_display_name();
@@ -169,36 +231,13 @@ int main(int argc, char *argv[])
 
             if(type_name != "???" and type_name != "None" and type_name != "???") //Don't use nonstandard types
             {
-                if(team_mod_map[pkmn_name][type_name] == 0.0) useless_map[type_name]++; //Immune to this type
-                else if(team_mod_map[pkmn_name][type_name] < 1.0) not_very_effective_map[type_name]++; //Not very effective
+                if(team_mod_map[pkmn_name][type_name] < 1.0) not_very_effective_map[type_name]++; //Not very effective
                 else if(team_mod_map[pkmn_name][type_name] > 1.0) super_effective_map[type_name]++;
-                else normal_effective_map[type_name]++;
             }
         }
     }
-    cout << endl << "Super Effective:" << endl;
-    for(int i = 0; i < type_list.size(); i++)
-    {
-        string type_name = type_list[i];
+    trim_effectiveness_maps(super_effective_map, not_very_effective_map);
+    string trends_string = get_trends_string(super_effective_map, not_very_effective_map);
 
-        if(super_effective_map[type_name] > 0) cout << boost::format(" * %s (%d)\n")
-                                                           % type_name % super_effective_map[type_name];
-    }
-    cout << endl << "Not Very Effective:" << endl;
-    for(int i = 0; i < type_list.size(); i++)
-    {
-        string type_name = type_list[i];
-
-        if(not_very_effective_map[type_name] > 0) cout << boost::format(" * %s (%d)\n")
-                                                           % type_name % not_very_effective_map[type_name];
-    } 
-    cout << endl << "Useless:" << endl;
-    for(int i = 0; i < type_list.size(); i++)
-    {
-        string type_name = type_list[i];
-
-        if(useless_map[type_name] > 0) cout << boost::format(" * %s (%d)\n")
-                                                           % type_name % useless_map[type_name];
-    }
-    cout << endl; 
+    cout << endl << "Trends:" << endl << trends_string << endl << endl;
 }
