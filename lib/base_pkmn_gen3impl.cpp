@@ -100,9 +100,9 @@ namespace pkmnsim
         chance_female = atof(db.execAndGet(query_string.c_str(), identifier));
 
         query_string = str(boost::format("SELECT ability1 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        string ability1 = db.execAndGetStr(query_string.c_str(), identifier); //First ability guaranteed to be available in Gen 3
+        ability1 = db.execAndGetStr(query_string.c_str(), identifier); //First ability guaranteed to be available in Gen 3
 
-        string ability2;
+        ability2;
         query_string = str(boost::format("SELECT ability2 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
         string temp_ability2 = db.execAndGetStr(query_string.c_str(), identifier);
         query_string = str(boost::format("SELECT first_gen FROM abilities WHERE display_name='%s'") % temp_ability2.c_str());
@@ -113,9 +113,9 @@ namespace pkmnsim
         if(gen == 5)
         {
             query_string = str(boost::format("SELECT ability3 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            string ability3 = db.execAndGetStr(query_string.c_str(), identifier); //Third/hidden ability only in Gen 5
+            ability3 = db.execAndGetStr(query_string.c_str(), identifier); //Third/hidden ability only in Gen 5
         }
-        else string ability3 = "None";
+        else ability3 = "None";
     }
 
     string base_pkmn_gen3impl::get_info()

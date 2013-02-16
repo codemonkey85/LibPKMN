@@ -135,5 +135,7 @@ namespace pkmnsim
             int exp_yield;
 
     };
+
+    void get_pkmn_of_type(std::vector<base_pkmn::sptr>&, std::string, std::string, int, bool);
 }
 #endif

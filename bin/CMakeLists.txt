@@ -1,5 +1,5 @@
 SET(pkmnsim_bin_sources
-    #search_type_combo.cpp
+    get_type_stats.cpp
     team_analysis.cpp
 )
 

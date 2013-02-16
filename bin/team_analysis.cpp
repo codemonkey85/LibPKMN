@@ -240,4 +240,6 @@ int main(int argc, char *argv[])
     string trends_string = get_trends_string(super_effective_map, not_very_effective_map);
 
     cout << endl << "Trends:" << endl << trends_string << endl << endl;
+
+    return EXIT_SUCCESS;
 }

@@ -6,6 +6,11 @@ MESSAGE(STATUS "Full package data directory: ${PKMNSIM_PKG_DATA_PATH}")
 MESSAGE(STATUS "")
 
 CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn.cpp
+@ONLY)
+
+CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen1impl.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen1impl.cpp
 @ONLY)
@@ -31,7 +36,7 @@ CONFIGURE_FILE(
 @ONLY)
 
 LIST(APPEND libpkmnsim_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen1impl.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen2impl.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen3impl.cpp
