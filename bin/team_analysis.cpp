@@ -11,6 +11,7 @@
 #include <vector>
 
 //TODO: take move types into account
+//TODO: take counter-effectiveness into account
 
 namespace po = boost::program_options;
 using namespace pkmnsim;
@@ -156,7 +157,7 @@ int main(int argc, char *argv[])
     while(getline(team_file_input,pkmn_name))
     {
         if(count > 6) break;
-        pkmn_team.push_back(base_pkmn::make(pkmn_name,gen));
+        pkmn_team.push_back(get_base_pkmn(pkmn_name, gen));
         if(verbose) cout << "Successfully added Pokemon: " << pkmn_name << endl;
         count++;
     }
@@ -229,7 +230,7 @@ int main(int argc, char *argv[])
         {
             string type_name = type_list[j];
 
-            if(type_name != "???" and type_name != "None" and type_name != "???") //Don't use nonstandard types
+            if(type_name != "Shadow" and type_name != "None" and type_name != "???") //Don't use nonstandard types
             {
                 if(team_mod_map[pkmn_name][type_name] < 1.0) not_very_effective_map[type_name]++; //Not very effective
                 else if(team_mod_map[pkmn_name][type_name] > 1.0) super_effective_map[type_name]++;

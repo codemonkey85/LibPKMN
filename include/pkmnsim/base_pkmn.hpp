@@ -136,6 +136,7 @@ namespace pkmnsim
 
     };
 
+    base_pkmn::sptr PKMNSIM_API get_base_pkmn(std::string, int);
     void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>&, std::string, std::string, int, bool);
 }
 #endif

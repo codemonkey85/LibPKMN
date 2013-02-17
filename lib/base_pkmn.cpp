@@ -31,6 +31,11 @@ namespace pkmnsim
         }
     }
 
+    base_pkmn::sptr get_base_pkmn(string identifier, int gen) //More user-friendly
+    {
+        return base_pkmn::make(identifier, gen);
+    }
+
     void get_pkmn_of_type(vector<base_pkmn::sptr> &pkmn_vector, string type1, string type2, int gen, bool lax)
     {
         map<int,int> gen_bounds;
