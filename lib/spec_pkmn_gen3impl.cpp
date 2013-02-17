@@ -201,6 +201,8 @@ namespace pkmnsim
         gender_map['M'] = "Male";
         gender_map['F'] = "Female";
         gender_map['U'] = "Ungendered";
+		
+		return gender_map;
     }
 
     int spec_pkmn_gen3impl::get_hp_from_iv_ev()
@@ -300,5 +302,7 @@ namespace pkmnsim
             while(num != 1) num = rand() % 2;
             ability = abilities[num];
         }
+		
+		return ability;
     }
 }

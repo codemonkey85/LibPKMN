@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/config.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
 
 namespace pkmnsim
@@ -22,7 +23,7 @@ namespace pkmnsim
      * and gen, which tells the class what algorithms to use to
      * determine its specific values.
      */
-    class spec_pkmn
+    class PKMNSIM_API spec_pkmn
     {
         public:
 

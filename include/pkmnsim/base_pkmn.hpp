@@ -2,9 +2,9 @@
 #define BASE_PKMN_HPP
 
 #include <boost/shared_ptr.hpp>
-#include <ciso646>
 #include <iostream>
 #include <map>
+#include <pkmnsim/config.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -28,7 +28,7 @@ namespace pkmnsim
      * 2-3. Therefore, a Gen 1 Pikachu will be very different than a
      * Gen 3 Pikachu.
      */
-    class base_pkmn
+    class PKMNSIM_API base_pkmn
     {
         public:
 
@@ -136,6 +136,6 @@ namespace pkmnsim
 
     };
 
-    void get_pkmn_of_type(std::vector<base_pkmn::sptr>&, std::string, std::string, int, bool);
+    void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>&, std::string, std::string, int, bool);
 }
 #endif

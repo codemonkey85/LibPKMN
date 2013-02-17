@@ -8,7 +8,7 @@
 
 namespace pkmnsim
 {
-    class spec_pkmn_gen2impl: public spec_pkmn
+    class PKMNSIM_API spec_pkmn_gen2impl: public spec_pkmn
     {
         public:
             spec_pkmn_gen2impl(base_pkmn::sptr, std::string, int);

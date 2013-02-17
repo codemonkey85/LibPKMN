@@ -10,24 +10,13 @@ using namespace pkmnsim;
 using namespace std;
 namespace po = boost::program_options;
 
-struct stat
+struct stat_st
 {
     string stat_name;
     string pkmn_name;
     int stat_value;
 
-    stat()
-    {
-        pkmn_name = "Missingno.";
-        stat_value = -1;
-    }
-
-    stat(string sn)
-    {
-        stat_name = sn;
-        pkmn_name = "Missingno.";
-        stat_value = -1;
-    }
+    stat_st(string sn): stat_name(sn), pkmn_name("Missingno."), stat_value(-1) {}
 };
 
 //The values are what the base_pkmn subclasses return in get_base_stats()
@@ -73,24 +62,18 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    stat highest_stats[6];
-    int num_stats;
-    highest_stats[0] = stat("HP");
-    highest_stats[1] = stat("Attack");
-    highest_stats[2] = stat("Defense");
-    highest_stats[3] = stat("Speed");
-    if(gen == 1)
-    {
-        highest_stats[4] = stat("Special");
-        num_stats = 5;
-    }
-    else
-    {
-        highest_stats[4] = stat("Special Attack");
-        highest_stats[5] = stat("Special Defense");
-        num_stats = 6;
-    }
-    stat lowest_stats[6] = highest_stats;
+	vector<stat_st> highest_stats;
+	highest_stats.push_back(stat_st("HP"));
+	highest_stats.push_back(stat_st("Attack"));
+	highest_stats.push_back(stat_st("Defense"));
+	highest_stats.push_back(stat_st("Speed"));
+	if(gen == 1) highest_stats.push_back(stat_st("Special"));
+	else
+	{
+		highest_stats.push_back(stat_st("Special Attack"));
+		highest_stats.push_back(stat_st("Special Defense"));
+	}
+	vector<stat_st> lowest_stats = highest_stats;
 
     vector<base_pkmn::sptr> pkmn_vector;
 
@@ -114,7 +97,7 @@ int main(int argc, char *argv[])
         string pkmn_name = pkmn_vector[i]->get_display_name();
         map<string, int> stats = pkmn_vector[i]->get_base_stats();
 
-        for(int j = 0; j < num_stats; j++)
+        for(int j = 0; j < highest_stats.size(); j++)
         {
             string stat_name = stat_map[highest_stats[j].stat_name];
 
@@ -143,7 +126,7 @@ int main(int argc, char *argv[])
     //Output highest/lowest stats
     cout << boost::format("\nHighest/lowest stats for type %s (Generation %d)\n") % type_str.c_str() % gen;
 
-    for(int i = 0; i < num_stats; i++)
+    for(int i = 0; i < highest_stats.size(); i++)
     {
         cout << boost::format("\n%s:\n") % highest_stats[i].stat_name.c_str();
         cout << boost::format(" * Highest: %s (%d)\n") % highest_stats[i].pkmn_name.c_str() % highest_stats[i].stat_value;

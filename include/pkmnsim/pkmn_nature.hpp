@@ -1,14 +1,14 @@
 #ifndef PKMN_NATURES_HPP
 #define PKMN_NATURES_HPP
 
-#include <ciso646>
 #include <iostream>
 #include <string>
 #include <map>
+#include <pkmnsim/config.hpp>
 
 namespace pkmnsim
 {
-    class pkmn_nature
+    class PKMNSIM_API pkmn_nature
     {
         public:
             pkmn_nature() {};

@@ -181,6 +181,8 @@ namespace pkmnsim
         gender_map['M'] = "Male";
         gender_map['F'] = "Female";
         gender_map['U'] = "Ungendered";
+		
+		return gender_map;
     }
 
     void spec_pkmn_gen2impl::reset_volatile_status_map()
