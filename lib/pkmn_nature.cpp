@@ -66,6 +66,8 @@ std::string pkmn_nature::get_info()
     info_string += str(boost::format( " - Speed: %f") % SPDmod);
     info_string += str(boost::format( " - Special Attack: %f") % SATKmod);
     info_string += str(boost::format( " - Special Defense: %f") % SDEFmod);
+	
+	return info_string;
 }
 
 pkmn_nature pkmnsim::get_nature(string identifier)
