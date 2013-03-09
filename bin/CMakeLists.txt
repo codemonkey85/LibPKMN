@@ -1,3 +1,10 @@
+#
+# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+#
+# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# or copy at http://opensource.org/licenses/MIT)
+#
+
 SET(pkmnsim_bin_sources
     get_type_stats.cpp
     team_analysis.cpp

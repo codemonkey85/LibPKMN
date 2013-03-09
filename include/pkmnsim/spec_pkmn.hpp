@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ *
+ * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+ * or copy at http://opensource.org/licenses/MIT)
+ */
 #ifndef SPEC_PKMN_HPP
 #define SPEC_PKMN_HPP
 

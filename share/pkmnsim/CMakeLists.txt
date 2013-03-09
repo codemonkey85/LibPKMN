@@ -1,3 +1,9 @@
+#
+# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+#
+# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# or copy at http://opensource.org/licenses/MIT)
+#
 FUNCTION(TEST_DATABASE_TABLE FIELD TABLE_NAME ENTRY VALUE DESIRED_DISPLAY_NAME)
     EXECUTE_PROCESS(
         COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db "SELECT ${FIELD} from ${TABLE_NAME} where ${ENTRY}=${VALUE}"
