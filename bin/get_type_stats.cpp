@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);
 
+    //Process help or user mistake
     if(vm.count("help") > 0)
     {
         cout << "\nSearch Type Combo - " << desc << endl;
@@ -68,6 +69,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
+    //Preparing stat_st vectors
 	vector<stat_st> highest_stats;
 	highest_stats.push_back(stat_st("HP"));
 	highest_stats.push_back(stat_st("Attack"));
@@ -107,6 +109,7 @@ int main(int argc, char *argv[])
         {
             string stat_name = stat_map[highest_stats[j].stat_name];
 
+            //TODO: account for case of stats being equal by appending pkmn_name strings
             if(highest_stats[j].pkmn_name == "Missingno." or highest_stats[j].stat_value < stats[stat_name])
             {
                 highest_stats[j].pkmn_name = pkmn_name;
@@ -122,10 +125,10 @@ int main(int argc, char *argv[])
 
     //Format output
     string type_str;
-    if(type2 != "None") type_str = str(boost::format("%s/%s") % type1 % type2);
+    if(type2 != "None") type_str = str(boost::format("%s/%s") % type1.c_str() % type2.c_str());
     else
     {
-        if(lax) type_str = str(boost::format("%s/Any") % type1);
+        if(lax) type_str = str(boost::format("%s/Any") % type1.c_str());
         else type_str = type1;
     }
 

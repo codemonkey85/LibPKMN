@@ -14,21 +14,49 @@
 
 namespace pkmnsim
 {
+    /*
+     * Pokemon Nature Class
+     *
+     * This class generates an object representing a specific Pokemon's
+     * nature. This affects two of its stats, increasing one by 10%
+     * and decreasing another by 10%. A specific Pokemon's nature is
+     * randomly chosen upon creation.
+     */
     class PKMNSIM_API pkmn_nature
     {
         public:
             pkmn_nature() {};
             pkmn_nature(std::string, double, double, double, double, double);
             pkmn_nature(std::map<std::string, std::string>);
+
+            /*
+             * Get the nature's name.
+             * \return Nature's name
+             */
             std::string get_name();
+
+            /*
+             * Get the mods for each stat type.
+             * \return a map whose keys=stat names and vals=mods
+             */
             std::map<std::string, double> get_mods();
-            void print();
+
+            /*
+             * Get a string with all information on this nature.
+             * \return a string with all nature fields
+             */
+            std::string get_info();
         private:
             std::string name;
             double ATKmod, DEFmod, SPDmod, SATKmod, SDEFmod;
     };
 
-    pkmn_nature get_nature(std::string);
+    /*
+     * User-friendly function to get a Pokemon nature.
+     * \param identifier Nature's name in the database.
+     * \return Pokemon nature
+     */
+    pkmn_nature get_nature(std::string identifier);
 }
 
 #endif /*PKMN_NATURES_HPP*/

@@ -45,7 +45,7 @@ namespace pkmnsim
              * \param identifier The Pokemon's identifier in the database
              * \param gen This generation's implementation of the Pokemon.
              * \return A new base Pokemon shared pointer
-            */
+             */
             static sptr make(std::string identifier, int gen);
 
             /*!
@@ -142,7 +142,22 @@ namespace pkmnsim
 
     };
 
-    base_pkmn::sptr PKMNSIM_API get_base_pkmn(std::string, int);
-    void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>&, std::string, std::string, int, bool);
+    /*!
+     * User-friendly wrapper for base_pkmn::make
+     * \param identifier The Pokemon's identifier in the database.
+     * \param gen This generation's implementation of the Pokemon
+     * \return A new base Pokemon shared pointer
+     */
+    base_pkmn::sptr PKMNSIM_API get_base_pkmn(std::string identifier, int gen);
+
+    /*!
+     * Return a vector with all base Pokemon of specified type combo.
+     * \param pkmn_vector A reference to a vector in which to place list of Pokemon.
+     * \param type1 The type (or one of the types) of Pokemon to return
+     * \param type2 The second type of the type combo of Pokemon to return
+     * \param gen Only return Pokemon present in this generation.
+     * \param lax If only one type specified, use all type combos with this type
+     */
+    void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>& pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
 }
 #endif

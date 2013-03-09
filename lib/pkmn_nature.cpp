@@ -57,15 +57,15 @@ map<string, double> pkmn_nature::get_mods()
     return mod_map;
 }
 
-void pkmn_nature::print()
+std::string pkmn_nature::get_info()
 {
-    cout << boost::format( "Nature: %s") % name << endl;
-    cout << "Stat Mods:" << endl;
-    cout << boost::format( " - Attack: %f") % ATKmod << endl;
-    cout << boost::format( " - Defense: %f") % DEFmod << endl;
-    cout << boost::format( " - Speed: %f") % SPDmod << endl;
-    cout << boost::format( " - Special Attack: %f") % SATKmod << endl;
-    cout << boost::format( " - Special Defense: %f") % SDEFmod << endl;
+    std::string info_string = str(boost::format( "Nature: %s\n") % name.c_str());
+    info_string += "Stat Mods:\n";
+    info_string += str(boost::format( " - Attack: %f") % ATKmod);
+    info_string += str(boost::format( " - Defense: %f") % DEFmod);
+    info_string += str(boost::format( " - Speed: %f") % SPDmod);
+    info_string += str(boost::format( " - Special Attack: %f") % SATKmod);
+    info_string += str(boost::format( " - Special Defense: %f") % SDEFmod);
 }
 
 pkmn_nature pkmnsim::get_nature(string identifier)

@@ -143,6 +143,7 @@ int main(int argc, char *argv[])
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);
 
+    //Process help or user mistake
     if(vm.count("help") > 0)
     {
         print_help(vm, desc);
