@@ -19,13 +19,13 @@ namespace pkmnsim
 {
 
     /*!
-     * Base Pokemon Class
+     * Base Pokémon Class
      *
      * This class generates an object with all of the information for
-     * a Pokemon, common to all Pokemon of this species. This information
+     * a Pokémon, common to all Pokémon of this species. This information
      * includes name, Pokedex number, height, weight, etc.
      *
-     * The information generated for a base Pokemon class is dependent on
+     * The information generated for a base Pokémon class is dependent on
      * the "identifier" parameter, which tells the program what to look for
      * in the database, as well as the "gen" parameter, which specifies the
      * generation from which to grab stats. This is important because certain
@@ -41,39 +41,39 @@ namespace pkmnsim
             typedef boost::shared_ptr<base_pkmn> sptr;
 
             /*!
-             * Make a new base Pokemon.
-             * \param identifier The Pokemon's identifier in the database
-             * \param gen This generation's implementation of the Pokemon.
-             * \return A new base Pokemon shared pointer
+             * Make a new base Pokémon.
+             * \param identifier The Pokémon's identifier in the database
+             * \param gen This generation's implementation of the Pokémon.
+             * \return A new base Pokémon shared pointer
              */
             static sptr make(std::string identifier, int gen);
 
             /*!
-             * Get a string with basic information on the Pokemon.
-             * \return String with basic Pokemon info
+             * Get a string with basic information on the Pokémon.
+             * \return String with basic Pokémon info
              */
             virtual std::string get_info(void) = 0;
 
             /*!
-             * Get a string with all information on the Pokemon.
-             * \return String with all Pokemon info
+             * Get a string with all information on the Pokémon.
+             * \return String with all Pokémon info
              */
             virtual std::string get_info_verbose(void) = 0;
 
             /*!
-             * Return Pokemon's display name (e.g. Bulbasaur).
+             * Return Pokémon's display name (e.g. Bulbasaur).
              * \return String with display name
              */
             std::string get_display_name(void) {return display_name;}
 
             /*!
-             * Return Pokemon's National Pokedex number (1-649, as of Gen 5).
+             * Return Pokémon's National Pokedex number (1-649, as of Gen 5).
              * \return Int with National Pokedex number
              */
             int get_nat_pokedex_num(void) {return nat_pokedex_num;}
 
             /*!
-             * Return Pokemon's types.
+             * Return Pokémon's types.
              * \return List of strings with types
              */
             std::string * get_types(void)
@@ -85,60 +85,60 @@ namespace pkmnsim
             }
 
             /*!
-             * Return Pokemon's height (in meters).
-             * \return Int with Pokemon height
+             * Return Pokémon's height (in meters).
+             * \return Int with Pokémon height
              */
             int get_height(void) {return height;}
 
             /*!
-             * Return Pokemon's weight (in kilograms).
-             * \return Int with Pokemon weight
+             * Return Pokémon's weight (in kilograms).
+             * \return Int with Pokémon weight
              */
             int get_weight(void) {return weight;}
 
             /*!
-             * Return Pokemon's base stats.
+             * Return Pokémon's base stats.
              * \return List of ints with base stats
              */
             virtual std::map<std::string,int> get_base_stats(void) = 0;
 
             /*!
-             * Return Pokemon's EV yields.
+             * Return Pokémon's EV yields.
              * In Gen 1-2, simply calls get_base_stats().
              * \return String with display name
              */
             virtual std::map<std::string,int> get_ev_yields(void) = 0;
 
             /*!
-             * Return Pokemon's chance of being male.
+             * Return Pokémon's chance of being male.
              * NOTE: Will throw an error unless overridden.
-             * \return Double with Pokemon's chance of being male
+             * \return Double with Pokémon's chance of being male
              */
             virtual double get_chance_male(void) {throw std::runtime_error("Not valid in this generation.");}
 
             /*!
-             * Return Pokemon's chance of being female.
+             * Return Pokémon's chance of being female.
              * NOTE: Will throw an error unless overridden.
-             * \return Double with Pokemon's chance of being female
+             * \return Double with Pokémon's chance of being female
              */
             virtual double get_chance_female(void) {throw std::runtime_error("Not valid in this generation.");}
 
             /*!
-             * Return Pokemon's potential abilities.
+             * Return Pokémon's potential abilities.
              * NOTE: Will throw an error unless overriden.
-             * \return List of strings with Pokemon's abilities
+             * \return List of strings with Pokémon's abilities
              */
             virtual std::string * get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
 			
 			/*!
-			 * If Pokemon is fully evolved, returns true. If it can evolve further, returns false.
-			 * \return Bool showing if Pokemon is fully evolved
+			 * If Pokémon is fully evolved, returns true. If it can evolve further, returns false.
+			 * \return Bool showing if Pokémon is fully evolved
 			 */
 			bool is_fully_evolved();
 			
 			/*!
-			 * If Pokemon can be evolved, returns vector of base_pkmn objects of all evolutions.
-			 * \param evolution_vec A refernce to a vector in which to place list of Pokemon.
+			 * If Pokémon can be evolved, returns vector of base_pkmn objects of all evolutions.
+			 * \param evolution_vec A refernce to a vector in which to place list of Pokémon.
 			 */
 			void get_evolutions(std::vector<sptr>& evolution_vec);
 
@@ -158,18 +158,18 @@ namespace pkmnsim
 
     /*!
      * User-friendly wrapper for base_pkmn::make
-     * \param identifier The Pokemon's identifier in the database.
-     * \param gen This generation's implementation of the Pokemon
-     * \return A new base Pokemon shared pointer
+     * \param identifier The Pokémon's identifier in the database.
+     * \param gen This generation's implementation of the Pokémon
+     * \return A new base Pokémon shared pointer
      */
     base_pkmn::sptr PKMNSIM_API get_base_pkmn(std::string identifier, int gen);
 
     /*!
-     * Return a vector with all base Pokemon of specified type combo.
-     * \param pkmn_vector A reference to a vector in which to place list of Pokemon.
-     * \param type1 The type (or one of the types) of Pokemon to return
-     * \param type2 The second type of the type combo of Pokemon to return
-     * \param gen Only return Pokemon present in this generation.
+     * Return a vector with all base Pokémon of specified type combo.
+     * \param pkmn_vector A reference to a vector in which to place list of Pokémon.
+     * \param type1 The type (or one of the types) of Pokémon to return
+     * \param type2 The second type of the type combo of Pokémon to return
+     * \param gen Only return Pokémon present in this generation.
      * \param lax If only one type specified, use all type combos with this type
      */
     void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>& pkmn_vector, std::string type1, std::string type2, int gen, bool lax);

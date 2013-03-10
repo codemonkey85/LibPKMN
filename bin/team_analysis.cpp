@@ -28,10 +28,10 @@ typedef map<string, double>::iterator sd_iter;
 
 void print_help(po::variables_map vm, po::options_description desc)
 {
-    cout << endl << "Analyze Pokemon Team - " << desc << endl;
+    cout << endl << "Analyze Pokémon Team - " << desc << endl;
 
     cout << "Point the --team_file option at a file with" << endl
-         << "one Pokemon name on each line. Using Lance's" << endl
+         << "one Pokémon name on each line. Using Lance's" << endl
          << "first team from Fire Red/Leaf Green as an" << endl
          << "example:" << endl << endl
 
@@ -44,7 +44,7 @@ void print_help(po::variables_map vm, po::options_description desc)
 
 map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<string> type_list)
 {
-    map<string, int> nums; //Key = type, val = number of Pokemon with that type
+    map<string, int> nums; //Key = type, val = number of Pokémon with that type
     for(int i = 0; i < type_list.size(); i++) nums[type_list[i]] = 0;
 
     //Generate vector with number of occurrences of each type
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
     po::options_description desc("Allowed Options");
     desc.add_options()
         ("help", "Display this help message.")
-        ("team_file", po::value<string>(&team_file), "Specify a file with a Pokemon team.")
+        ("team_file", po::value<string>(&team_file), "Specify a file with a Pokémon team.")
         ("gen", po::value<int>(&gen)->default_value(5), "Specify a generation (1-5).")
         ("verbose", "Enable verbosity.")
     ;
@@ -158,14 +158,14 @@ int main(int argc, char *argv[])
     if(team_file_input.fail()) throw runtime_error("Specified file doesn't exist.");
     string pkmn_name;
 
-    //Get Pokemon team and output
+    //Get Pokémon team and output
     vector<base_pkmn::sptr> pkmn_team;
     int count = 0;
     while(getline(team_file_input,pkmn_name))
     {
         if(count > 6) break;
         pkmn_team.push_back(get_base_pkmn(pkmn_name, gen));
-        if(verbose) cout << "Successfully added Pokemon: " << pkmn_name << endl;
+        if(verbose) cout << "Successfully added Pokémon: " << pkmn_name << endl;
         count++;
     }
     if(verbose) cout << endl;
@@ -194,9 +194,9 @@ int main(int argc, char *argv[])
         cout << boost::format(" * %s (%d)\n") % i->first % i->second;
     }
 
-    //Get type mods for each Pokemon and output
+    //Get type mods for each Pokémon and output
     map<string, map<string, double> > team_mod_map;
-    for(int i = 0; i < pkmn_team.size(); i++) //Iterate over Pokemon team
+    for(int i = 0; i < pkmn_team.size(); i++) //Iterate over Pokémon team
     {
         string pkmn_name = pkmn_team[i]->get_display_name();
 

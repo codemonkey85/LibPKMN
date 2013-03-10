@@ -15,11 +15,11 @@
 namespace pkmnsim
 {
     /*
-     * Pokemon Nature Class
+     * Pokémon Nature Class
      *
-     * This class generates an object representing a specific Pokemon's
+     * This class generates an object representing a specific Pokémon's
      * nature. This affects two of its stats, increasing one by 10%
-     * and decreasing another by 10%. A specific Pokemon's nature is
+     * and decreasing another by 10%. A specific Pokémon's nature is
      * randomly chosen upon creation.
      */
     class PKMNSIM_API pkmn_nature
@@ -52,9 +52,9 @@ namespace pkmnsim
     };
 
     /*
-     * User-friendly function to get a Pokemon nature.
+     * User-friendly function to get a Pokémon nature.
      * \param identifier Nature's name in the database.
-     * \return Pokemon nature
+     * \return Pokémon nature
      */
     pkmn_nature get_nature(std::string identifier);
 }

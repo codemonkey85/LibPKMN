@@ -26,7 +26,7 @@ namespace pkmnsim
         SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
         string query_string;
 
-        //Check database tables for non-standard Pokemon entries
+        //Check database tables for non-standard Pokémon entries
         string pokedex_str = str(boost::format("gen%d_pokedex") % gen);
         try
         {
@@ -159,7 +159,7 @@ namespace pkmnsim
 
         return str(boost::format(
             "%s (#%d)\n"
-            "%s Pokemon\n"
+            "%s Pokémon\n"
             "Type: %s\n"
             "%d m, %d kg\n"
             "Ability: %s\n"

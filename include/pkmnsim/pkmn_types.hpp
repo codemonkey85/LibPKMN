@@ -14,7 +14,7 @@
 namespace pkmnsim
 {
     /*
-     * Return the damage mod an attack of type1 would have against a Pokemon of type2.
+     * Return the damage mod an attack of type1 would have against a Pokémon of type2.
      * \param type1 Offensive type
      * \param type2 Defensive type
      * \param Double with type mod

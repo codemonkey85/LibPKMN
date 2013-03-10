@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
         ("type1", po::value<string>(&type1)->default_value("None"), "Type 1 to search for")
         ("type2", po::value<string>(&type2)->default_value("None"), "Type 2 to search for, default=None")
         ("lax", "If only specifying one type, specify '--lax' to include any type combination with that type")
-        ("evolved", "Only check fully evolved Pokemon")
+        ("evolved", "Only check fully evolved Pokémon")
     ;
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -104,11 +104,11 @@ int main(int argc, char *argv[])
 	vector<stat_st> lowest_stats = highest_stats;
     vector<base_pkmn::sptr> pkmn_vector;
 
-    //Get relevant Pokemon and determine validity of options
+    //Get relevant Pokémon and determine validity of options
     get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
     if(pkmn_vector.size() == 0)
     {
-        cout << boost::format("\nNo Pokemon of specified type combination in Generation %d.\n") % gen;
+        cout << boost::format("\nNo Pokémon of specified type combination in Generation %d.\n") % gen;
         return EXIT_FAILURE;
     }
 	if(evolved) remove_unevolved_pokemon(pkmn_vector);

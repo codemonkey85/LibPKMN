@@ -118,7 +118,7 @@ namespace pkmnsim
 
         return str(boost::format(
             "%s (#%d)\n"
-            "%s Pokemon\n"
+            "%s Pokémon\n"
             "Type: %s\n"
             "%d m, %d kg\n"
             "Base Stats:\n"
