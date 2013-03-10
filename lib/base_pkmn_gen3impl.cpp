@@ -14,10 +14,14 @@ namespace pkmnsim
 {
     base_pkmn_gen3impl::base_pkmn_gen3impl(string identifier, int gen)
     {
+	
         map<int,int> gen_bounds;
         gen_bounds[3] = 386;
         gen_bounds[4] = 493;
         gen_bounds[5] = 649; //Will never be higher, but would break program otherwise
+		
+		from_gen = gen;
+		database_identifier = identifier;
 
         SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
         string query_string;

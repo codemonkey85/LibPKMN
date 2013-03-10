@@ -15,6 +15,9 @@ namespace pkmnsim
 {
     base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier)
     {
+		from_gen = 1;
+		database_identifier = identifier;
+	
         SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
         string query_string;
 

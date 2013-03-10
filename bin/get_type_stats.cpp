@@ -35,6 +35,24 @@ map<string, string> stat_map = boost::assign::map_list_of
     ("Special","SPCL")
     ("Speed","SPD");
 
+void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
+{
+	vector<int> to_erase; //Gathering vector indices to erase
+	
+	for(int i = 0; i < pkmn_vector.size(); i++)
+	{
+		if(not pkmn_vector[i]->is_fully_evolved())
+		{
+			to_erase.push_back(i);
+		}
+	}
+	
+	for(vector<int>::iterator iter = to_erase.end(); iter != to_erase.begin(); --iter)
+	{
+		pkmn_vector.erase(pkmn_vector.begin() + *iter);
+	}
+}
+
 int main(int argc, char *argv[])
 {
     //Taking in user options
@@ -49,19 +67,21 @@ int main(int argc, char *argv[])
         ("type1", po::value<string>(&type1)->default_value("None"), "Type 1 to search for")
         ("type2", po::value<string>(&type2)->default_value("None"), "Type 2 to search for, default=None")
         ("lax", "If only specifying one type, specify '--lax' to include any type combination with that type")
-        ("evolved", "Only check fully evolved Pokemon (unimplemented)")
+        ("evolved", "Only check fully evolved Pokemon")
     ;
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);
 
+	bool lax = (vm.count("lax") > 0);
+	bool evolved = (vm.count("evolved") > 0);
+	
     //Process help or user mistake
     if(vm.count("help") > 0)
     {
         cout << "\nSearch Type Combo - " << desc << endl;
         return EXIT_FAILURE;
     }
-    bool lax = vm.count("lax");
     if(type1 == "None")
     {
         cout << "\nSpecify a type with type1=(type)." << endl;
@@ -86,7 +106,8 @@ int main(int argc, char *argv[])
     vector<base_pkmn::sptr> pkmn_vector;
 
     get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
-
+	if(evolved) remove_unevolved_pokemon(pkmn_vector);
+	
     if(pkmn_vector.size() == 0)
     {
         cout << boost::format("\nNo Pokemon of specified type combination in Generation %d.\n") % gen;
