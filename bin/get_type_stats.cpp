@@ -47,9 +47,9 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
 		}
 	}
 	
-	for(vector<int>::iterator iter = to_erase.end(); iter != to_erase.begin(); --iter)
+	for(int j = to_erase.size()-1; j >= 0; j--)
 	{
-		pkmn_vector.erase(pkmn_vector.begin() + *iter);
+		pkmn_vector.erase(pkmn_vector.begin() + to_erase[j]);
 	}
 }
 
@@ -102,25 +102,17 @@ int main(int argc, char *argv[])
 		highest_stats.push_back(stat_st("Special Defense"));
 	}
 	vector<stat_st> lowest_stats = highest_stats;
-
     vector<base_pkmn::sptr> pkmn_vector;
 
+    //Get relevant Pokemon and determine validity of options
     get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
-	if(evolved) remove_unevolved_pokemon(pkmn_vector);
-	
     if(pkmn_vector.size() == 0)
     {
         cout << boost::format("\nNo Pokemon of specified type combination in Generation %d.\n") % gen;
         return EXIT_FAILURE;
     }
-
-    get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
-    if(pkmn_vector.begin() == pkmn_vector.end())
-    {
-        cout << "\nNo Pokemon of specified type.\n";
-        return EXIT_FAILURE;
-    }
-
+	if(evolved) remove_unevolved_pokemon(pkmn_vector);
+	
     for(int i = 0; i < pkmn_vector.size(); i++)
     {
         string pkmn_name = pkmn_vector[i]->get_display_name();

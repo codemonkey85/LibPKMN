@@ -49,35 +49,29 @@ namespace pkmnsim
 		SQLite::Database db("@PKMNSIM_DB@");
 		string query_string;
 		
-		try
-		{
-			vector<string> evolution_names;
-			vector<int> to_erase;
-			query_string = str(boost::format("SELECT pkmn2_identifier FROM evolutions WHERE pkmn1_identifier='%s'") % database_identifier.c_str());
-			SQLite::Statement query(db, query_string.c_str());
-			while(query.executeStep())
-			{
-				string identifier = query.getColumn(0); //If fully evolved, this will fail
-				evolution_names.push_back(identifier);
-			}
-			
-			//Even if evolutions exist, they may not in specified generation
-			for(int i = 0; i < evolution_names.size(); i++)
-			{
-				query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % evolution_names[i].c_str());
-				int num = db.execAndGet(query_string.c_str(), evolution_names[i].c_str());
-				if(num > gen_bounds[from_gen]) to_erase.push_back(i);
-				
-				for(vector<int>::iterator iter = to_erase.end(); iter != to_erase.begin(); --i)
-				{
-					evolution_names.erase(evolution_names.begin() + *iter);
-				}
-				if(evolution_names.begin() == evolution_names.end()) return false;
-			}
-			
-			return true;
-		}
-		catch(SQLite::Exception& e) {return false;}
+        vector<string> evolution_names;
+        vector<int> to_erase;
+        query_string = str(boost::format("SELECT pkmn2_identifier FROM evolutions WHERE pkmn1_identifier='%s'") % database_identifier.c_str());
+        SQLite::Statement query(db, query_string.c_str());
+        while(query.executeStep())
+        {
+            string identifier = query.getColumn(0);
+            evolution_names.push_back(identifier);
+        }
+
+        //Evolutions may not be present in specified generation
+        for(int i = 0; i < evolution_names.size(); i++)
+        {
+            query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % evolution_names[i].c_str());
+            int num = db.execAndGet(query_string.c_str(), database_identifier);
+            if(num > gen_bounds[from_gen]) to_erase.push_back(i);
+        }
+        for(int j = to_erase.size()-1; j >= 0; j--)
+        {
+            evolution_names.erase(evolution_names.begin() + to_erase[j]);
+        }
+
+        return (evolution_names.begin() == evolution_names.end()); //Empty vector of evolution names
 	}
 	
 	void base_pkmn::get_evolutions(vector<sptr>& evolution_vec)
