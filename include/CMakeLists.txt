@@ -5,4 +5,3 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 ADD_SUBDIRECTORY(pkmnsim)
-ADD_SUBDIRECTORY(sqlitecpp)

@@ -8,10 +8,10 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include <sqlitecpp/Statement.h>
+#include "Statement.h"
 
-#include <sqlitecpp/Database.h>
-#include <sqlitecpp/Column.h>
+#include "Database.h"
+#include "Column.h"
 #include <boost/format.hpp>
 #include <iostream>
 

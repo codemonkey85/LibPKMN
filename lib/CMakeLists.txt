@@ -12,6 +12,8 @@ STRING(REPLACE "\\" "\\\\" PKMNSIM_DB ${PKMNSIM_DB})
 MESSAGE(STATUS "Full package data directory: ${PKMNSIM_PKG_DATA_PATH}")
 MESSAGE(STATUS "")
 
+add_subdirectory(sqlitecpp)
+
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn.cpp

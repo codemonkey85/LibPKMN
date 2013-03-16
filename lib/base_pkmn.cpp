@@ -11,7 +11,7 @@
 #include "base_pkmn_gen2impl.hpp"
 #include "base_pkmn_gen3impl.hpp"
 #include <pkmnsim/base_pkmn.hpp>
-#include <sqlitecpp/SQLiteCPP.h>
+#include "sqlitecpp/SQLiteCPP.h"
 #include <vector>
 
 using namespace std;

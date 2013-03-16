@@ -8,9 +8,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include <sqlitecpp/Transaction.h>
+#include "Transaction.h"
 
-#include <sqlitecpp/Database.h>
+#include "Database.h"
 
 namespace SQLite
 {
