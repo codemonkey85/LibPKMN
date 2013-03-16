@@ -24,7 +24,6 @@ namespace pkmnsim
 
         private:
             int baseSATK, baseSDEF;
-            int evHP, evATK, evDEF, evSATK, evSDEF, evSPD;
             double chance_male, chance_female;
     };
 }

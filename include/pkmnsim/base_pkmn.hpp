@@ -40,6 +40,9 @@ namespace pkmnsim
 
             typedef boost::shared_ptr<base_pkmn> sptr;
 
+			base_pkmn() {};
+			base_pkmn(std::string identifier, int gen);
+			
             /*!
              * Make a new base Pokémon.
              * \param identifier The Pokémon's identifier in the database
