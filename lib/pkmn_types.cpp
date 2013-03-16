@@ -9,44 +9,55 @@
 
 using namespace std;
 
-double pkmnsim::get_type_damage_mod(string type1, string type2, bool gen1)
+namespace pkmnsim
 {
-    if(gen1 and (type1 == "Dark" or type1 == "Steel" or type2 == "Dark" or type2 == "Steel"))
+    double get_type_damage_mod(string type1, string type2, bool gen1)
     {
-        throw runtime_error("Dark and Steel types invalid for Generation 1.");
+        if(gen1 and (type1 == "Dark" or type1 == "Steel" or type2 == "Dark" or type2 == "Steel"))
+        {
+            throw runtime_error("Dark and Steel types invalid for Generation 1.");
+        }
+
+        double damage_mod;
+        string query_string;
+
+        if(type1 != "None" and type1 != "???" and type2 != "None" and type2 != "???" and type1 != "Shadow" and type2 != "Shadow")
+        {
+            SQLite::Database db("@PKMNSIM_DB@");
+
+            //Get type IDs
+            query_string = str(boost::format("SELECT type_id FROM type_names WHERE name='%s'")
+                                             % type1);
+            int type1_id = db.execAndGet(query_string.c_str(), type1);
+            query_string = str(boost::format("SELECT type_id FROM type_names WHERE name='%s'")
+                                             % type2);
+            int type2_id = db.execAndGet(query_string.c_str(), type1);
+
+            //Get damage mod from database
+            query_string = str(boost::format("SELECT damage_factor FROM type_efficacy WHERE damage_type_id=%d AND target_type_id=%d")
+                                             % type1_id % type2_id);
+            damage_mod = db.execAndGet(query_string.c_str());
+
+            //Verify
+            damage_mod /= 100; //Stored as 50, 100, or 200 in database
+
+            return damage_mod;
+        }
+        else return 1.0;
     }
 
-    double damage_mod;
-    string query_string;
-
-    if(type1 != "None" and type1 != "???" and type2 != "None" and type2 != "???")
+    vector<string> get_type_names(int gen)
     {
         SQLite::Database db("@PKMNSIM_DB@");
+        string query_string = "SELECT name FROM type_names WHERE local_language_id=9";
+        vector<string> types;
 
-        if(gen1) query_string = str(boost::format("SELECT %s_mod from gen1_types WHERE display_name='%s'") % type2 % type1);
-        else query_string = str(boost::format("SELECT %s_mod from types WHERE display_name='%s'") % type2 % type1);
-        string result = db.execAndGet(query_string.c_str(), type2);
-
-        stringstream sin(result);
-        if(not (sin >> damage_mod)) throw runtime_error("Error acquiring damage mod.");
-
-        return damage_mod;
+        SQLite::Statement query(db, query_string.c_str());
+        while(query.executeStep())
+        {
+            string type = query.getColumn(0);
+            if(not (gen == 1 and (type == "Steel" or type == "Dark")))types.push_back(type);
+        }
+        return types;
     }
-    else return 1.0;
-}
-
-vector<string> pkmnsim::get_type_names(int gen)
-{
-    SQLite::Database db("@PKMNSIM_DB@");
-    string table = (gen == 1) ? "gen1_types" : "types";
-    string query_string = str(boost::format("SELECT display_name FROM %s") % table);
-    SQLite::Statement query(db, query_string.c_str());
-    vector<string> types;
-
-    while(query.executeStep())
-    {
-        string type = query.getColumn(0);
-        types.push_back(type);
-    }
-    return types;
 }

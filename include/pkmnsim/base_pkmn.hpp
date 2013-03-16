@@ -131,20 +131,22 @@ namespace pkmnsim
             virtual std::string * get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
 			
 			/*!
-			 * If Pokémon is fully evolved, returns true. If it can evolve further, returns false.
-			 * \return Bool showing if Pokémon is fully evolved
-			 */
-			bool is_fully_evolved();
-			
-			/*!
 			 * If Pokémon can be evolved, returns vector of base_pkmn objects of all evolutions.
 			 * \param evolution_vec A refernce to a vector in which to place list of Pokémon.
 			 */
 			void get_evolutions(std::vector<sptr>& evolution_vec);
 
+			/*!
+			 * If Pokémon is fully evolved, returns true. If it can evolve further, returns false.
+			 * \return Bool showing if Pokémon is fully evolved
+			 */
+			bool is_fully_evolved();
+			
+
         protected:
             std::string display_name;
 			std::string database_identifier;
+            int pkmn_id, species_id; //Database values
 			int from_gen;
             int nat_pokedex_num;
             std::string species;

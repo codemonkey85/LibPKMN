@@ -14,118 +14,197 @@ namespace pkmnsim
 {
     base_pkmn_gen3impl::base_pkmn_gen3impl(string identifier, int gen)
     {
-	
-        map<int,int> gen_bounds;
-        gen_bounds[3] = 386;
-        gen_bounds[4] = 493;
-        gen_bounds[5] = 649; //Will never be higher, but would break program otherwise
-		
-		from_gen = gen;
-		database_identifier = identifier;
-
+        from_gen = gen;
+        database_identifier = identifier;
+    
         SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
         string query_string;
 
-        //Check database tables for non-standard Pokémon entries
-        string pokedex_str = str(boost::format("gen%d_pokedex") % gen);
-        try
+        //Fail if Pokémon's generation_id > 1
+        query_string = str(boost::format("SELECT generation_id FROM pokemon_species WHERE identifier='%s'")
+                                         % identifier.c_str());
+        int gen_id = db.execAndGet(query_string.c_str(), identifier);
+        if(gen_id > gen)
         {
-            query_string = str(boost::format("SELECT display_name FROM %s WHERE identifier='%s'") % pokedex_str.c_str() % identifier.c_str());
-            SQLite::Statement query(db, query_string.c_str());
-            query.executeStep();
-            query.getColumn(0);
-        }
-        catch(SQLite::Exception& e) {pokedex_str = "pokedex";}
-
-        query_string = str(boost::format("SELECT display_name FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        display_name = db.execAndGetStr(query_string.c_str(), identifier);
-
-        query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        nat_pokedex_num = db.execAndGet(query_string.c_str(), identifier);
-
-        if(nat_pokedex_num > gen_bounds[gen])
-        {
-            string error_message = str(boost::format("%s not present in Generation %d.") % identifier.c_str() % gen);
+            string error_message = str(boost::format("%s not present in Generation %d.")
+                                                     % identifier.c_str() % gen);
             throw runtime_error(error_message.c_str());
         }
 
-        query_string = str(boost::format("SELECT species FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+        //Get relevant database IDs
+        query_string = str(boost::format("SELECT id FROM pokemon_species WHERE identifier='%s'")
+                                         % identifier.c_str());
+        species_id = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT id FROM pokemon WHERE species_id=%d")
+                                         % species_id);
+        pkmn_id = db.execAndGet(query_string.c_str(), identifier);
+
+        //National Pokedex number same as species ID
+        nat_pokedex_num = species_id;
+
+        //Display name and species are in same table
+        query_string = str(boost::format("SELECT name FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9")
+                                         % species_id);
+        display_name = db.execAndGetStr(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT genus FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9")
+                                         % species_id);
         species = db.execAndGetStr(query_string.c_str(), identifier);
 
-        query_string = str(boost::format("SELECT height FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+        //Height and weight are stored as integers and must be divided by 10
+        query_string = str(boost::format("SELECT height FROM pokemon WHERE id=%d")
+                                         % pkmn_id);
         height = db.execAndGet(query_string.c_str(), identifier);
-
-        query_string = str(boost::format("SELECT weight FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+        height /= 10;
+        query_string = str(boost::format("SELECT weight FROM pokemon WHERE id=%d")
+                                         % pkmn_id);
         weight = db.execAndGet(query_string.c_str(), identifier);
+        weight /= 10;
 
-        query_string = str(boost::format("SELECT type1 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+        //Type 1
+        query_string = str(boost::format("SELECT type_id FROM pokemon_types WHERE pokemon_id=%d AND slot=1")
+                                         % pkmn_id);
+        int type1_id = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
+                                         % type1_id);
         type1 = db.execAndGetStr(query_string.c_str(), identifier);
+        
+        //Type 2 (may be empty)
+        query_string = str(boost::format("SELECT type_id FROM pokemon_types WHERE pokemon_id=%d AND slot=2")
+                                         % pkmn_id);
+        int type2_id;
+        SQLite::Statement query(db, query_string.c_str());
+        if(query.executeStep()) //Will be false if no database entry exists
+        {
+            type2_id = query.getColumn(0);
+            query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
+                                             % type2_id);
+            type2 = db.execAndGetStr(query_string.c_str(), identifier);
+        }
+        else type2 = "None";
+       
+        //Stats
+        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=1")
+                                         % pkmn_id);
+        baseHP = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT type2 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        type2 = db.execAndGetStr(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=2")
+                                         % pkmn_id);
+        baseATK = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_hp FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        baseHP = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=3")
+                                         % pkmn_id);
+        baseDEF = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_atk FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        baseATK = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
+                                         % pkmn_id);
+        baseSATK = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_def FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        baseDEF = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=5")
+                                         % pkmn_id);
+        baseSDEF = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_satk FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        baseSATK = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=6")
+                                         % pkmn_id);
+        baseSPD = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_sdef FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        baseSDEF = db.execAndGet(query_string.c_str(), identifier);
+        //Effort yields
+        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=1")
+                                         % pkmn_id);
+        evHP = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_spd FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        baseSPD = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=2")
+                                         % pkmn_id);
+        evATK = db.execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT exp_yield FROM pokedex WHERE identifier='%s'") % identifier.c_str());
+        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=3")
+                                         % pkmn_id);
+        evDEF = db.execAndGet(query_string.c_str(), identifier); 
+
+        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
+                                         % pkmn_id);
+        evSATK = db.execAndGet(query_string.c_str(), identifier); 
+
+        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=5")
+                                         % pkmn_id);
+        evSDEF = db.execAndGet(query_string.c_str(), identifier); 
+
+        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=6")
+                                         % pkmn_id);
+        evSPD = db.execAndGet(query_string.c_str(), identifier); 
+
+        query_string = str(boost::format("SELECT base_experience FROM pokemon WHERE id='%s'")
+                                         % pkmn_id);
         exp_yield = db.execAndGet(query_string.c_str(), identifier);
 
-        query_string = str(boost::format("SELECT ev_hp FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        evHP = db.execAndGet(query_string.c_str(), identifier);
+        //Gender rates
+        map<int, double> gender_val_map; //Double is percentage male
+        gender_val_map[0] = 1.0;
+        gender_val_map[1] = 0.875;
+        gender_val_map[2] = 0.75;
+        gender_val_map[4] = 0.5;
+        gender_val_map[6] = 0.25;
+        gender_val_map[8] = 0.0;
 
-        query_string = str(boost::format("SELECT ev_atk FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        evATK = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT gender_rate FROM pokemon_species WHERE id=%d")
+                                         % species_id);
+        int gender_val = db.execAndGet(query_string.c_str(), identifier);
 
-        query_string = str(boost::format("SELECT ev_def FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        evDEF = db.execAndGet(query_string.c_str(), identifier);
+        if(gender_val == -1)
+        {
+            chance_male = 0.0;
+            chance_female = 0.0;
+        }
+        else
+        {
+            chance_male = gender_val_map[gender_val];
+            chance_female = 1.0 - chance_male;
+        }
 
-        query_string = str(boost::format("SELECT ev_satk FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        evSATK = db.execAndGet(query_string.c_str(), identifier);
+        //Ability 1 (guaranteed)
+        query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=1")
+                                         % pkmn_id);
+        int ability1_id = db.execAndGet(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
+                                         % ability1_id);
+        ability1 = db.execAndGetStr(query_string.c_str(), identifier);
 
-        query_string = str(boost::format("SELECT ev_sdef FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        evSDEF = db.execAndGet(query_string.c_str(), identifier);
-
-        query_string = str(boost::format("SELECT ev_spd FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        evSPD = db.execAndGet(query_string.c_str(), identifier);
-
-        query_string = str(boost::format("SELECT chance_male FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        chance_male = atof(db.execAndGet(query_string.c_str(), identifier));
-
-        query_string = str(boost::format("SELECT chance_female FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        chance_female = atof(db.execAndGet(query_string.c_str(), identifier));
-
-        query_string = str(boost::format("SELECT ability1 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        ability1 = db.execAndGetStr(query_string.c_str(), identifier); //First ability guaranteed to be available in Gen 3
-
-        ability2;
-        query_string = str(boost::format("SELECT ability2 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-        string temp_ability2 = db.execAndGetStr(query_string.c_str(), identifier);
-        query_string = str(boost::format("SELECT first_gen FROM abilities WHERE display_name='%s'") % temp_ability2.c_str());
-        int first_gen = db.execAndGet(query_string.c_str(), identifier);
-        if(first_gen <= gen) ability2 = temp_ability2;
+        //Ability 2 (not guaranteed, and if exists, might not exist in specified generation
+        query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=2")
+                                         % pkmn_id);
+        SQLite::Statement ability2_query(db, query_string.c_str());
+        if(ability2_query.executeStep()) //Will be false if no entry exists
+        {
+            int ability2_id = ability2_query.getColumn(0);
+            query_string = str(boost::format("SELECT generation_id FROM abilities WHERE id=%d")
+                                             % ability2_id);
+            int generation_id = db.execAndGet(query_string.c_str(), identifier);
+            if(generation_id > gen) ability2 = "None";
+            else
+            {
+                query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
+                                                 % ability2_id);
+                ability2 = db.execAndGetStr(query_string.c_str(), identifier);
+            }
+        }
         else ability2 = "None";
 
+        //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
         if(gen == 5)
         {
-            query_string = str(boost::format("SELECT ability3 FROM pokedex WHERE identifier='%s'") % identifier.c_str());
-            ability3 = db.execAndGetStr(query_string.c_str(), identifier); //Third/hidden ability only in Gen 5
+            query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=3")
+                                             % pkmn_id);
+            SQLite::Statement ability3_query(db, query_string.c_str());
+            if(ability3_query.executeStep()) //Will be false if no entry exists
+            {
+                int ability3_id = db.execAndGet(query_string.c_str(), identifier);
+                query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
+                                                 % ability3_id);
+                ability3 = db.execAndGetStr(query_string.c_str(), identifier);
+            }
+            else ability3 = "None";
         }
         else ability3 = "None";
+
     }
 
     string base_pkmn_gen3impl::get_info()

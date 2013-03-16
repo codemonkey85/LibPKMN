@@ -4,41 +4,25 @@
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
 #
-FUNCTION(TEST_DATABASE_TABLE FIELD TABLE_NAME ENTRY VALUE DESIRED_DISPLAY_NAME)
-    EXECUTE_PROCESS(
-        COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db "SELECT ${FIELD} from ${TABLE_NAME} where ${ENTRY}=${VALUE}"
-        OUTPUT_VARIABLE DISPLAY_NAME OUTPUT_STRIP_TRAILING_WHITESPACE
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-    )
-    IF("${DISPLAY_NAME}" STREQUAL "${DESIRED_DISPLAY_NAME}")
-        MESSAGE(STATUS " * '${TABLE_NAME}': successful.")
-    ELSE("${DISPLAY_NAME}" STREQUAL "${DESIRED_DISPLAY_NAME}")
-        MESSAGE(STATUS " * '${TABLE_NAME}': Unsuccessful.")
-        MESSAGE(FATAL_ERROR "Database import failed.")
-    ENDIF("${DISPLAY_NAME}" STREQUAL "${DESIRED_DISPLAY_NAME}")
-ENDFUNCTION()
 
 FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db")
-#Read pkmnsim_db_dump into pkmnsim.db
-MESSAGE(STATUS "Reading tables into database file.")
-EXECUTE_PROCESS(
-    COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db ".read ${CMAKE_CURRENT_SOURCE_DIR}/pkmnsim_db_dump"
-    OUTPUT_VARIABLE SQLITE3_READ_OUTPUT OUTPUT_STRIP_TRAILING_WHITESPACE
+
+#Copy over to binary directory for proper out-of-date behavior
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/pkmnsim_db_dump
+    ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim_db_dump
+)
+ADD_CUSTOM_COMMAND(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
+    COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db ".read ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim_db_dump"
+    COMMENT "Compiling SQLite database"
 )
 
-#Test pkmnsim_db_dump read into pkmnsim.db
-MESSAGE(STATUS "Testing tables.")
-TEST_DATABASE_TABLE("display_name" "types" "Dark_mod" "0.0" "Psychic")
-TEST_DATABASE_TABLE("display_name" "gen1_types" "Ice_mod" "0.5" "Ice")
-TEST_DATABASE_TABLE("display_name" "gen3_types" "Shadow_mod" "0.5" "Shadow")
-TEST_DATABASE_TABLE("first_gen" "abilities" "display_name" "'Rivalry'" "4")
-TEST_DATABASE_TABLE("pp" "moves" "display_name" "'Bubble'" "30")
-TEST_DATABASE_TABLE("display_name" "pokedex" "pokedex_num" "208" "Steelix")
-TEST_DATABASE_TABLE("display_name" "gen3_pokedex" "pokedex_num" "315" "Roselia")
-TEST_DATABASE_TABLE("display_name" "gen4_pokedex" "pokedex_num" "267" "Beautifly")
-TEST_DATABASE_TABLE("satk_mod" "natures" "display_name" "'Rash'" "1.1")
-TEST_DATABASE_TABLE("pkmn2_identifier" "evolutions" "pkmn1_identifier" "'charmeleon'" "charizard")
-TEST_DATABASE_TABLE("in_gen4" "items" "display_name" "'BlackGlasses'" "1")
+ADD_CUSTOM_TARGET(
+    pkmnsim.db ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
+)
+
 INSTALL(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
     DESTINATION ${PKG_DATA_DIR}

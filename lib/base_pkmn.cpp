@@ -37,61 +37,56 @@ namespace pkmnsim
         }
     }
 	
-	bool base_pkmn::is_fully_evolved()
+	void base_pkmn::get_evolutions(vector<sptr>& evolution_vec)
 	{
-		map<int,int> gen_bounds;
-        gen_bounds[1] = 151;
-        gen_bounds[2] = 251;
-        gen_bounds[3] = 386;
-        gen_bounds[4] = 493;
-        gen_bounds[5] = 649;
-	
+        evolution_vec.clear();
+
 		SQLite::Database db("@PKMNSIM_DB@");
 		string query_string;
 		
-        vector<string> evolution_names;
+        vector<int> evolution_ids;
         vector<int> to_erase;
-        query_string = str(boost::format("SELECT pkmn2_identifier FROM evolutions WHERE pkmn1_identifier='%s'") % database_identifier.c_str());
+        query_string = str(boost::format("SELECT id FROM pokemon_species WHERE evolves_from_species_id=%d")
+                                         % species_id);
         SQLite::Statement query(db, query_string.c_str());
         while(query.executeStep())
         {
-            string identifier = query.getColumn(0);
-            evolution_names.push_back(identifier);
+            int evol_id = query.getColumn(0);
+            evolution_ids.push_back(evol_id);
         }
 
         //Evolutions may not be present in specified generation
-        for(int i = 0; i < evolution_names.size(); i++)
+        for(int i = 0; i < evolution_ids.size(); i++)
         {
-            query_string = str(boost::format("SELECT pokedex_num FROM pokedex WHERE identifier='%s'") % evolution_names[i].c_str());
-            int num = db.execAndGet(query_string.c_str(), database_identifier);
-            if(num > gen_bounds[from_gen]) to_erase.push_back(i);
+            query_string = str(boost::format("SELECT generation_id FROM pokemon_species WHERE id=%d")
+                                             % evolution_ids[i]);
+            int generation_id = db.execAndGet(query_string.c_str(), database_identifier);
+            if(generation_id > from_gen) to_erase.push_back(i);
         }
         for(int j = to_erase.size()-1; j >= 0; j--)
         {
-            evolution_names.erase(evolution_names.begin() + to_erase[j]);
+            evolution_ids.erase(evolution_ids.begin() + to_erase[j]);
         }
 
-        return (evolution_names.begin() == evolution_names.end()); //Empty vector of evolution names
+        //Fill vector with sptrs of all evolutions
+        for(int i = 0; i < evolution_ids.size(); i++)
+        {
+            //Get identifier for Pokémon
+            query_string = str(boost::format("SELECT identifier FROM pokemon_species WHERE id=%d")
+                                             % evolution_ids[i]);
+            string evol_identifier = db.execAndGetStr(query_string.c_str(), "No string");
+
+            evolution_vec.push_back(make(evol_identifier, from_gen));
+        }
 	}
 	
-	void base_pkmn::get_evolutions(vector<sptr>& evolution_vec)
-	{
-		if(is_fully_evolved()) {evolution_vec.clear();}
-		else
-		{
-			SQLite::Database db("@PKMNSIM_DB@");
-			string query_string;
-			
-			query_string = str(boost::format("SELECT pkmn2_identifier FROM evolutions WHERE pkmn1_identifier='%s'") % database_identifier.c_str());
-			SQLite::Statement query(db, query_string.c_str());
-			
-			while(query.executeStep())
-			{
-				string identifier = query.getColumn(0);
-				evolution_vec.push_back(make(identifier, from_gen));
-			}
-		}
-	}
+    bool base_pkmn::is_fully_evolved()
+    {
+        vector<sptr> evolution_vec;
+        get_evolutions(evolution_vec);
+
+        return (evolution_vec.begin() == evolution_vec.end());
+    }
 
     base_pkmn::sptr get_base_pkmn(string identifier, int gen) //More user-friendly
     {
@@ -100,27 +95,110 @@ namespace pkmnsim
 
     void get_pkmn_of_type(vector<base_pkmn::sptr> &pkmn_vector, string type1, string type2, int gen, bool lax)
     {
-        map<int,int> gen_bounds;
-        gen_bounds[1] = 151;
-        gen_bounds[2] = 251;
-        gen_bounds[3] = 386;
-        gen_bounds[4] = 493;
-        gen_bounds[5] = 649;
+        pkmn_vector.clear();
 
-        SQLite::Database db("@PKMNSIM_DB@");
+        SQLite::Database db("@PKMNSIM_DB@"); //Filepath to be filled by CMake
         string query_string;
+        vector<string> names;
+        int pkmn_id, type1_id, type2_id;
 
-        if(type2 == "None" and lax) query_string = str(boost::format("SELECT identifier FROM pokedex WHERE (type1='%s' OR type2='%s') AND pokedex_num <= %d") %
-                                                       type1 % type1 % gen_bounds[gen]);
-        else query_string = str(boost::format("SELECT identifier FROM pokedex WHERE ((type1='%s' AND type2='%s') OR (type1='%s' AND type2='%s')) AND pokedex_num <= %d")
-                                % type1 % type2 % type2 % type1 % gen_bounds[gen]);
-
-        SQLite::Statement query(db, query_string.c_str());
-
-        while(query.executeStep())
+        //Get type IDs
+        query_string = str(boost::format("SELECT type_id FROM type_names WHERE name='%s'")
+                                         % type1.c_str());
+        type1_id = db.execAndGet(query_string.c_str(), type1);
+        if(type2 != "None")
         {
-            string identifier = query.getColumn(0);
-            pkmn_vector.push_back(base_pkmn::make(identifier,gen));
+            query_string = str(boost::format("SELECT type_id FROM type_names WHERE name='%s'")
+                                             % type2.c_str());
+            type2_id = db.execAndGet(query_string.c_str(), type2);
         }
+
+        if(type2 == "None" and lax)
+        {
+            //Get IDs of Pokémon
+            query_string = str(boost::format("SELECT pokemon_id FROM pokemon_types WHERE type_id=%d")
+                                             % type1_id);
+            SQLite::Statement query(db, query_string.c_str());
+
+            //Get any Pokémon of specified type (by itself or paired with any other)
+            while(query.executeStep())
+            {
+                pkmn_id = query.getColumn(0);
+
+                query_string = str(boost::format("SELECT species_id FROM pokemon WHERE id=%d")
+                                                 % pkmn_id);
+                int species_id = db.execAndGet(query_string.c_str());
+
+                query_string = str(boost::format("SELECT identifier FROM pokemon_species WHERE id=%d")
+                                                 % species_id);
+                string pkmn_name = db.execAndGetStr(query_string.c_str(), "No string");
+
+                //Get generation ID to restrict list
+                query_string = str(boost::format("SELECT generation_id FROM pokemon_species WHERE identifier='%s'")
+                                                 % pkmn_name);
+                int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
+                if(generation_id <= gen) names.push_back(pkmn_name);
+            }
+        }
+        else
+        {
+            //Get IDs of Pokémon matching first type
+            vector<int> pkmn_ids;
+            query_string = str(boost::format("SELECT pokemon_id FROM pokemon_types WHERE type_id=%d")
+                                             % type1_id);
+            SQLite::Statement query(db, query_string.c_str());
+
+            while(query.executeStep()) pkmn_ids.push_back(query.getColumn(0));
+
+            vector<int> to_erase;
+            if(type2 == "None")
+            {
+                //If only one type is specified, find number of entries with that ID and remove duplicates
+                for(int i = 0; i < pkmn_ids.size(); i++)
+                {
+                    int pkmn_count = 0; //Number of types Pokémon appears in pokemon_moves
+                    query_string = str(boost::format("SELECT type_id FROM pokemon_types WHERE pokemon_id=%d")
+                                                     % pkmn_ids[i]);
+                    SQLite::Statement inner_query(db, query_string.c_str());
+                    while(inner_query.executeStep()) pkmn_count++;
+
+                    if(pkmn_count > 1) to_erase.push_back(i);
+                }
+            }
+            else
+            {
+                //See if entry exists for other type, add to to_erase if not
+                for(int i = 0; i < pkmn_ids.size(); i++)
+                {
+                    query_string = str(boost::format("SELECT type_id FROM pokemon_types WHERE pokemon_id=%d AND type_id=%d")
+                                                     % pkmn_ids[i] % type2_id);
+                    SQLite::Statement inner_query(db, query_string.c_str());
+                    if(not inner_query.executeStep()) to_erase.push_back(i);
+                }
+            }
+
+            //Erase invalid entries
+            for(int i = to_erase.size()-1; i >= 0; i--) pkmn_ids.erase(pkmn_ids.begin() + to_erase[i]);
+
+            //Get identifiers for remaining entries
+            for(int i = 0; i < pkmn_ids.size(); i++)
+            {
+                query_string = str(boost::format("SELECT species_id FROM pokemon WHERE id=%d")
+                                                 % pkmn_ids[i]);
+                int species_id = db.execAndGet(query_string.c_str());
+
+                query_string = str(boost::format("SELECT identifier FROM pokemon_species WHERE id=%d")
+                                                 % species_id);
+                string pkmn_name = db.execAndGetStr(query_string.c_str(), "No string");
+
+                //Get generation ID to restrict list
+                query_string = str(boost::format("SELECT generation_id FROM pokemon_species WHERE identifier='%s'")
+                                                 % pkmn_name);
+                int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
+                if(generation_id <= gen) names.push_back(pkmn_name);
+            }
+        }
+
+        for(int i = 0; i < names.size(); i++) pkmn_vector.push_back(base_pkmn::make(names[i], gen));
     }
 }

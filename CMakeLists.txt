@@ -4,7 +4,7 @@
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
 #
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.5)
 project(PKMNSIM)
 
 set(pkmnsim_VERSION_MAJOR 0)
@@ -41,12 +41,11 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 SET(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING "")
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
+add_subdirectory(share)
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(bin)
-add_subdirectory(share)
 
-MESSAGE(STATUS "")
 MESSAGE(STATUS "Building PKMNsim.")
 MESSAGE(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
 MESSAGE(STATUS "")

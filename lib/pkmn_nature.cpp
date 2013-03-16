@@ -13,76 +13,116 @@
 #include <pkmnsim/pkmn_nature.hpp>
 #include <sqlitecpp/SQLiteCPP.h>
 
-using namespace pkmnsim;
 using namespace std;
 
-pkmn_nature::pkmn_nature(string nm, double atk, double def, double spd, double satk, double sdef)
+namespace pkmnsim
 {
-    name = nm;
-    ATKmod = atk;
-    DEFmod = def;
-    SPDmod = spd;
-    SATKmod = satk;
-    SDEFmod = sdef;
-}
-
-pkmn_nature::pkmn_nature(map<string,string> from_database)
-{
-    //Already a string
-    name = from_database["display_name"];
-
-    //Need to be doubles
-    stringstream sin_atk(from_database["atk_mod"]);
-    if(not (sin_atk >> ATKmod)) throw runtime_error("Invalid input.");
-    stringstream sin_def(from_database["def_mod"]);
-    if(not (sin_def >> DEFmod)) throw runtime_error("Invalid input.");
-    stringstream sin_spd(from_database["spd_mod"]);
-    if(not (sin_spd >> SPDmod)) throw runtime_error("Invalid input.");
-    stringstream sin_satk(from_database["satk_mod"]);
-    if(not (sin_satk >> SATKmod)) throw runtime_error("Invalid input.");
-    stringstream sin_sdef(from_database["sdef_mod"]);
-    if(not (sin_sdef >> SDEFmod)) throw runtime_error("Invalid input.");
-}
-
-string pkmn_nature::get_name() {return name;}
-
-map<string, double> pkmn_nature::get_mods()
-{
-    map<string, double> mod_map;
-    mod_map["ATK"] = ATKmod;
-    mod_map["DEF"] = DEFmod;
-    mod_map["SPD"] = SPDmod;
-    mod_map["SATK"] = SATKmod;
-    mod_map["SDEF"] = SDEFmod;
-    return mod_map;
-}
-
-std::string pkmn_nature::get_info()
-{
-    std::string info_string = str(boost::format( "Nature: %s\n") % name.c_str());
-    info_string += "Stat Mods:\n";
-    info_string += str(boost::format( " - Attack: %f") % ATKmod);
-    info_string += str(boost::format( " - Defense: %f") % DEFmod);
-    info_string += str(boost::format( " - Speed: %f") % SPDmod);
-    info_string += str(boost::format( " - Special Attack: %f") % SATKmod);
-    info_string += str(boost::format( " - Special Defense: %f") % SDEFmod);
-	
-	return info_string;
-}
-
-pkmn_nature pkmnsim::get_nature(string identifier)
-{
-    string db_fields[] = {"display_name","atk_mod","def_mod","spd_mod","satk_mod","sdef_mod"};
-    map<string,string> from_database;
-    SQLite::Database db("@PKMNSIM_DB@");
-
-    transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
-    for(int i = 0; i < 6; i++)
+    pkmn_nature::pkmn_nature(string nm, double atk, double def, double satk, double sdef, double spd)
     {
-        string query_string = str(boost::format("SELECT %s FROM natures WHERE display_name='%s'") % db_fields[i] % identifier);
-        string result = db.execAndGet(query_string.c_str(), identifier);
-        from_database[db_fields[i]] = result;
+        name = nm;
+        ATKmod = atk;
+        DEFmod = def;
+        SATKmod = satk;
+        SDEFmod = sdef;
+        SPDmod = spd;
     }
 
-    return pkmn_nature(from_database);
+    string pkmn_nature::get_name() {return name;}
+
+    map<string, double> pkmn_nature::get_mods()
+    {
+        map<string, double> mod_map;
+        mod_map["ATK"] = ATKmod;
+        mod_map["DEF"] = DEFmod;
+        mod_map["SPD"] = SPDmod;
+        mod_map["SATK"] = SATKmod;
+        mod_map["SDEF"] = SDEFmod;
+        return mod_map;
+    }
+
+    std::string pkmn_nature::get_info()
+    {
+        std::string info_string = str(boost::format( "Nature: %s\n") % name.c_str());
+        info_string += "Stat Mods:\n";
+        info_string += str(boost::format( " - Attack: %f") % ATKmod);
+        info_string += str(boost::format( " - Defense: %f") % DEFmod);
+        info_string += str(boost::format( " - Speed: %f") % SPDmod);
+        info_string += str(boost::format( " - Special Attack: %f") % SATKmod);
+        info_string += str(boost::format( " - Special Defense: %f") % SDEFmod);
+        
+        return info_string;
+    }
+
+    pkmn_nature get_nature(string identifier)
+    {
+        double atk = 1.0;
+        double def = 1.0;
+        double satk = 1.0;
+        double sdef = 1.0;
+        double spd = 1.0;
+
+        SQLite::Database db("@PKMNSIM_DB@");
+
+        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+
+        string query_string = str(boost::format("SELECT id FROM natures WHERE identifier=%d")
+                                         % identifier);
+        int nature_id = db.execAndGet(query_string.c_str(), identifier);
+
+        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
+                                         % nature_id);
+        string name = db.execAndGetStr(query_string.c_str(), identifier);
+
+        //Getting positive mod
+        query_string = str(boost::format("SELECT increased_stat_id FROM natures WHERE identifier=%d")
+                                         % identifier);
+        int pos_id = db.execAndGet(query_string.c_str(), identifier);
+        switch(pos_id)
+        {
+            case 2:
+                atk += 0.1;
+                break;
+            case 3:
+                def += 0.1;
+                break;
+            case 4:
+                satk += 0.1;
+                break;
+            case 5:
+                sdef += 0.1;
+                break;
+            case 6:
+                spd += 0.1;
+                break;
+            default:
+                break;
+        }
+
+        //Getting positive mod
+        query_string = str(boost::format("SELECT decreased_stat_id FROM natures WHERE identifier=%d")
+                                         % identifier);
+        int neg_id = db.execAndGet(query_string.c_str(), identifier);
+        switch(neg_id)
+        {
+            case 2:
+                atk -= 0.1;
+                break;
+            case 3:
+                def -= 0.1;
+                break;
+            case 4:
+                satk -= 0.1;
+                break;
+            case 5:
+                sdef -= 0.1;
+                break;
+            case 6:
+                spd -= 0.1;
+                break;
+            default:
+                break;
+        }
+
+        return pkmn_nature(name, atk, def, satk, sdef, spd);
+    }
 }

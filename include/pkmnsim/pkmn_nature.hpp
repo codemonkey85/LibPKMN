@@ -27,7 +27,6 @@ namespace pkmnsim
         public:
             pkmn_nature() {};
             pkmn_nature(std::string, double, double, double, double, double);
-            pkmn_nature(std::map<std::string, std::string>);
 
             /*
              * Get the nature's name.
@@ -56,7 +55,7 @@ namespace pkmnsim
      * \param identifier Nature's name in the database.
      * \return Pokémon nature
      */
-    pkmn_nature get_nature(std::string identifier);
+    pkmn_nature PKMNSIM_API get_nature(std::string identifier);
 }
 
 #endif /*PKMN_NATURES_HPP*/
