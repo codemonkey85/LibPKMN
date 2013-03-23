@@ -10,10 +10,16 @@ project(PKMNSIM)
 set(pkmnsim_VERSION_MAJOR 0)
 set(pkmnsim_VERSION_MINOR 1)
 
+#Find dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 FIND_PACKAGE(Boost COMPONENTS program_options REQUIRED)
 FIND_PACKAGE(Sqlite3 REQUIRED)
-FIND_PACKAGE(SWIG)
+FIND_PACKAGE(Qt4)
+
+IF(QT4_FOUND)
+    INCLUDE(UseQt4)
+ENDIF(QT4_FOUND)
+
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS} ${SQLITE3_INCLUDE_DIR})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
@@ -36,7 +42,6 @@ ENDIF()
 #select the release build type by default to get optimization flags
 IF(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE "Release")
-    MESSAGE(STATUS "Build type not specified: defaulting to release.")
 ENDIF(NOT CMAKE_BUILD_TYPE)
 SET(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING "")
 

@@ -5,10 +5,24 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-SET(pkmnsim_bin_sources
-    get_type_stats.cpp
-    team_analysis.cpp
-)
+MESSAGE(STATUS "Determing which applications to build.")
+MESSAGE(STATUS " * Get Type Stats")
+MESSAGE(STATUS "   * Boost found: ${Boost_FOUND}")
+MESSAGE(STATUS "   * SQLite3 found: ${SQLITE3_FOUND}")
+IF(Boost_FOUND AND SQLITE3_FOUND)
+    MESSAGE(STATUS "   * All dependencies found. Will build.")
+    SET(pkmnsim_bin_srcs get_type_stats.cpp)
+ENDIF(Boost_FOUND AND SQLITE3_FOUND)
+
+MESSAGE(STATUS " * Team Analysis")
+MESSAGE(STATUS "   * Boost found: ${Boost_FOUND}")
+MESSAGE(STATUS "   * SQLite3 found: ${SQLITE3_FOUND}")
+IF(Boost_FOUND AND SQLITE3_FOUND)
+    MESSAGE(STATUS "   * All dependencies found. Will build.")
+    SET(pkmnsim_bin_srcs get_type_stats.cpp)
+ENDIF(Boost_FOUND AND SQLITE3_FOUND)
+
+MESSAGE(STATUS "")
 
 FOREACH(bin_src ${pkmnsim_bin_sources})
     GET_FILENAME_COMPONENT(bin_name ${bin_src} NAME_WE)
