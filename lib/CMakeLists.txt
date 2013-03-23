@@ -43,6 +43,16 @@ CONFIGURE_FILE(
     ${CMAKE_CURRENT_BINARY_DIR}/pkmn_types.cpp
 @ONLY)
 
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_move.cpp
+@ONLY)
+
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_move_mainimpl.cpp
+@ONLY)
+
 LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen1impl.cpp
@@ -55,6 +65,8 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen3impl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_move.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/base_move_mainimpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Column.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Database.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Statement.cpp

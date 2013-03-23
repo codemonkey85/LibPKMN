@@ -5,7 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-MESSAGE(STATUS "Determing which applications to build.")
+MESSAGE(STATUS "Determining which applications to build.")
 MESSAGE(STATUS " * Get Type Stats")
 MESSAGE(STATUS "   * Boost found: ${Boost_FOUND}")
 MESSAGE(STATUS "   * SQLite3 found: ${SQLITE3_FOUND}")
@@ -19,7 +19,7 @@ MESSAGE(STATUS "   * Boost found: ${Boost_FOUND}")
 MESSAGE(STATUS "   * SQLite3 found: ${SQLITE3_FOUND}")
 IF(Boost_FOUND AND SQLITE3_FOUND)
     MESSAGE(STATUS "   * All dependencies found. Will build.")
-    SET(pkmnsim_bin_srcs get_type_stats.cpp)
+    SET(pkmnsim_bin_srcs ${pkmnsim_bin_srcs} team_analysis.cpp)
 ENDIF(Boost_FOUND AND SQLITE3_FOUND)
 
 MESSAGE(STATUS "")
