@@ -13,10 +13,11 @@ Minimum required CMake version: 2.8
 Tested with GCC 4.6.3 and Microsoft Visual Studio 2010.
 
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source distributed under the MIT license.
-Pokémon © 2002-2012 Pokémon. © 1995-2012 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
+Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
 Dependencies:
  * Boost (http://www.boost.org)
- * SQLite (http://www.sqlite.org/)
+ * SQLite (http://www.sqlite.org)
+ * Qt (http://www.qt-project.org) - optional
 
-README last updated: 2012-03-10
+README last updated: 2013-03-22

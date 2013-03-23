@@ -28,7 +28,7 @@ typedef map<string, double>::iterator sd_iter;
 
 void print_help(po::variables_map vm, po::options_description desc)
 {
-    cout << endl << "Analyze Pokémon Team - " << desc << endl;
+    cout << endl << "Team Analysis - " << desc << endl;
 
     cout << "Point the --team_file option at a file with" << endl
          << "one Pokémon name on each line. Using Lance's" << endl

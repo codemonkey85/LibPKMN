@@ -1,0 +1,39 @@
+PKMNsim Applications
+
+Get Type Stats
+*
+* Takes a type or type combination, as well as a generation,
+* as inputs and outputs the names of the Pokemon with the
+* highest and lowest values for each base stat (HP, Attack, etc).
+*
+* Inputs:
+*  - gen (1-5): Confines search to Pokemon present in specified
+*               generation
+*
+*  - type1:     Specify first type to use in search
+*
+*  - type2:     Specify a second type to use in search
+*
+*  - lax:       If only one type is specified, allow
+*               for any type combination with specified
+*               type. If not specified, will only show Pokemon
+*               with that single type
+*
+*  - evolved:   will only show fully evolved Pokemon
+*
+
+Team Analysis
+*
+* Takes in a file with Pokemon names and generates a
+* strategy for fighting the team. Currently, this strategy
+* is restricted to type weaknesses.
+*
+* Inputs:
+* - team_file: Path to a file with up to six Pokemon names,
+*              one per line. Will fail if Pokemon name is
+*              invalid up to specified generation.
+*
+* - gen:       Use type table for specified generation.
+*
+
+README last updated: 2013-03-22

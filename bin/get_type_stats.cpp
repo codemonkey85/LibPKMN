@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
     //Process help or user mistake
     if(vm.count("help") > 0)
     {
-        cout << "\nSearch Type Combo - " << desc << endl;
+        cout << "\nGet Type Stats - " << desc << endl;
         return EXIT_FAILURE;
     }
     if(type1 == "None")
