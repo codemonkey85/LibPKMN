@@ -8,4 +8,4 @@ FILE(GLOB pkmn_icons RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.png")
 
 FOREACH(icon ${pkmn_icons})
     INSTALL(FILES ${icon} DESTINATION ${PKG_DATA_DIR}/images/icons COMPONENT "images")
-ENDFOREACH(team)
+ENDFOREACH(icon)
