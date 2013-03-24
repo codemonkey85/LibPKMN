@@ -24,7 +24,7 @@ ENDIF(Boost_FOUND AND SQLITE3_FOUND)
 
 MESSAGE(STATUS "")
 
-FOREACH(bin_src ${pkmnsim_bin_sources})
+FOREACH(bin_src ${pkmnsim_bin_srcs})
     GET_FILENAME_COMPONENT(bin_name ${bin_src} NAME_WE)
     ADD_EXECUTABLE(${bin_name} ${bin_src})
     TARGET_LINK_LIBRARIES(${bin_name} pkmnsim ${Boost_LIBRARIES} ${SQLITE3_LIBRARY})
