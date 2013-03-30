@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
@@ -33,15 +34,29 @@ namespace pkmnsim
     {
         public:
 
+            spec_pkmn() {};
+            spec_pkmn(base_pkmn::sptr b, bool i, std::string m1, std::string m2,
+                      std::string m3, std::string m4, int g, int l);
+
             typedef boost::shared_ptr<spec_pkmn> sptr;
 
             /*!
-             * Make a new specific Pokémon with random values.
-             * \param pkmn This Pokémon's base Pokémon.
+             * Make a new specific Pokemon with some specified values.
+             * Other values are random within bounds of specified values.
+             * \param identifier This Pokemon's base Pokemon's identifier.
              * \param gen The generation whose algorithms to use.
-             * \return A new specific Pokémon shared pointer
+             * \param level Pokemon's level.
+             * \param move1 Identifier for move 1.
+             * \param move2 Identifier for move 2.
+             * \param move3 Identifier for move 3.
+             * \param move4 Identifier for move 4.
+             * \param illegal Ignore illegal stats, moves, etc.
+             * \return A new specific Pokemon shared pointer
              */
-            static sptr make(std::string identifier, int gen);
+            static sptr make(std::string identifier, int gen, int level,
+                             std::string move1, std::string move2,
+                             std::string move3, std::string move4,
+                             bool illegal);
 
             /*!
              * Get the base Pokémon used to generate this Pokémon.
@@ -85,30 +100,15 @@ namespace pkmnsim
              * Get the names of the Pokémon's moves.
              * \return List of strings with names of Pokémon's moves.
              */
-            std::string * get_moves(void)
+            base_move::sptr * get_moves(void)
             {
-                std::string * moves = new std::string[4];
+                base_move::sptr * moves = new base_move::sptr[4];
                 moves[0] = move1;
                 moves[1] = move2;
                 moves[2] = move3;
                 moves[3] = move4;
 
                 return moves;
-            }
-
-            /*
-             * Get the PP of the Pokémon's moves.
-             * \return List of ints with PP of the Pokémon's moves.
-             */
-            std::map<std::string, int> get_move_PPs(void)
-            {
-                std::map<std::string, int> movePPs;
-                movePPs[move1] = move1PP;
-                movePPs[move2] = move2PP;
-                movePPs[move3] = move3PP;
-                movePPs[move4] = move4PP;
-
-                return movePPs;
             }
 
             /*!
@@ -143,8 +143,8 @@ namespace pkmnsim
                 BP# = Bad Poison # (number of turns)
                 SLP = Sleep
             */
-            std::string move1, move2, move3, move4; //Will change moves to their own classes
-            int move1PP, move2PP, move3PP, move4PP;
+            base_move::sptr move1, move2, move3, move4;
+            int num_moves;
 
             virtual int get_hp_from_iv_ev() = 0;
             virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm
@@ -156,5 +156,7 @@ namespace pkmnsim
             virtual void reset_volatile_status_map(void) = 0;
     };
 
+    int get_pkmn_id(base_pkmn::sptr);
+    int get_species_id(base_pkmn::sptr);
 }
 #endif

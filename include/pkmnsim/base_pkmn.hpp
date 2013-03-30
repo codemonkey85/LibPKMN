@@ -10,6 +10,7 @@
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <map>
+#include <pkmnsim/base_move.hpp>
 #include <pkmnsim/config.hpp>
 #include <stdexcept>
 #include <string>
@@ -144,7 +145,10 @@ namespace pkmnsim
 			 * \return Bool showing if Pokémon is fully evolved
 			 */
 			bool is_fully_evolved();
-			
+
+            std::vector<base_move::sptr> get_legal_moves() {return legal_moves;}
+            //std::vector<base_move::sptr> get_machine_moves() {return machine_moves;}
+            //std::map<int, base_move::sptr> get_level_moves() {return level_moves;}
 
         protected:
             std::string display_name;
@@ -158,7 +162,13 @@ namespace pkmnsim
             double weight; //kilograms
             int baseHP, baseATK, baseDEF, baseSPD; //Base stats
             int exp_yield;
+            std::vector<base_move::sptr> legal_moves; //All moves legally available
+            //std::vector<base_move::sptr> machine_moves; //All moves taught by TM/HM
+            //std::map<int, base_move::sptr> level_moves; //All moves learned by levelling up
 
+            //Only used by spec_pkmn implementations
+            friend int get_pkmn_id(sptr base);
+            friend int get_species_id(sptr base);
     };
 
     /*!

@@ -4,12 +4,10 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-
 #ifndef BASE_MOVE_HPP
 #define BASE_MOVE_HPP
 
 #include <boost/shared_ptr.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
 #include <pkmnsim/config.hpp>
 #include <string>
 

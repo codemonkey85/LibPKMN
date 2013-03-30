@@ -86,5 +86,4 @@ namespace pkmnsim
         //In Generation 1, EV yields were the same as the corresponding base stat
         return get_base_stats();
     }
-
 }

@@ -14,7 +14,9 @@ using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn_gen3impl::spec_pkmn_gen3impl(base_pkmn::sptr b, string n, int lvl)
+    spec_pkmn_gen3impl::spec_pkmn_gen3impl(base_pkmn::sptr b, int lvl, int gen,
+                                           string m1, string m2, string m3, string m4,
+                                           bool i): spec_pkmn(b,i,m1,m2,m3,m4,gen,lvl)
     {
         srand ( time(NULL) );
 
@@ -47,9 +49,6 @@ namespace pkmnsim
             evSDEF = rand() % 256;
         }
 
-        base = b;
-        nickname = n;
-        level = lvl;
         gender = determine_gender();
         nature = determine_nature();
         ability = determine_ability();
@@ -62,16 +61,6 @@ namespace pkmnsim
         SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
         SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
         SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSATK);
-
-        move1 = "None";
-        move2 = "None";
-        move3 = "None";
-        move4 = "None";
-
-        move1PP = 0;
-        move2PP = 0;
-        move3PP = 0;
-        move4PP = 0;
 
         nonvolatile_status = "OK";
         reset_volatile_status_map();

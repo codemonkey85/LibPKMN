@@ -7,6 +7,7 @@
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 #include <math.h>
+#include <pkmnsim/base_move.hpp>
 #include "spec_pkmn_gen1impl.hpp"
 #include <time.h>
 
@@ -14,7 +15,9 @@ using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn_gen1impl::spec_pkmn_gen1impl(base_pkmn::sptr b, string n, int lvl)
+    spec_pkmn_gen1impl::spec_pkmn_gen1impl(base_pkmn::sptr b, int lvl, string m1,
+                                           string m2, string m3, string m4, bool i): spec_pkmn(
+                                           b,i,m1,m2,m3,m4,1,lvl)
     {
         srand ( time(NULL) );
 
@@ -32,27 +35,11 @@ namespace pkmnsim
         evSPD = rand() % 65536;
         evSPCL = rand() % 65536;
 
-        base = b;
-        nickname = n;
-        level = lvl;
-
         HP = get_hp_from_iv_ev();
         ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
         DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
         SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
         SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
-
-        nonvolatile_status = "OK";
-
-        move1 = "None";
-        move2 = "None";
-        move3 = "None";
-        move4 = "None";
-
-        move1PP = 0;
-        move2PP = 0;
-        move3PP = 0;
-        move4PP = 0;
 
         nonvolatile_status = "OK";
         reset_volatile_status_map();

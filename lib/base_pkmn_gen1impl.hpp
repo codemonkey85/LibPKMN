@@ -16,7 +16,7 @@ namespace pkmnsim
     class PKMNSIM_API base_pkmn_gen1impl: public base_pkmn
     {
         public:
-            base_pkmn_gen1impl(std::string);
+            base_pkmn_gen1impl(std::string identifier);
             std::string get_info();
             std::string get_info_verbose();
             std::map<std::string, int> get_base_stats();

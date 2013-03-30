@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <boost/format.hpp>
+#include <iostream>
 
 #include "base_move_mainimpl.hpp"
 //TODO: Other includes for Pokemon-specific move implemenntations (Curse, Hidden Power,etc)
@@ -44,12 +45,12 @@ namespace pkmnsim
         query_string = str(boost::format("SELECT id FROM moves WHERE identifier='%s'")
                                          % identifier.c_str());
         move_id = db.execAndGet(query_string.c_str(), identifier);
-        query_string = str(boost::format("SELECT type_id FROM moves WHERE ID=%D")
+        query_string = str(boost::format("SELECT type_id FROM moves WHERE id=%d")
                                          % move_id);
         type_id = db.execAndGet(query_string.c_str());
 
         //Move name
-        query_string = str(boost::format("SELECT name FROM move_names WHERE id=%d AND local_language_id=9")
+        query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
                                          % move_id);
         name = db.execAndGetStr(query_string.c_str(), identifier);
 

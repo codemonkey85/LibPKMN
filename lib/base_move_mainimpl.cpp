@@ -24,7 +24,7 @@ namespace pkmnsim
         query_string = str(boost::format("SELECT short_effect FROM move_effect_prose WHERE move_effect_id=%d AND local_language_id=9")
                                          % effect_id);
         base_effect = db.execAndGetStr(query_string.c_str(), move_identifier);
-        query_string = str(boost::format("SELECT effect_chance FROM moves WHERE move_id=%d")
+        query_string = str(boost::format("SELECT effect_chance FROM moves WHERE id=%d")
                                          % move_id);
         base_effect_chance = db.execAndGet(query_string.c_str());
     }

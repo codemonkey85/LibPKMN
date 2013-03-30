@@ -10,6 +10,7 @@
 #include "base_pkmn_gen1impl.hpp"
 #include "base_pkmn_gen2impl.hpp"
 #include "base_pkmn_gen3impl.hpp"
+#include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
 #include <vector>
@@ -107,6 +108,23 @@ namespace pkmnsim
         query_string = str(boost::format("SELECT base_experience FROM pokemon WHERE id='%s'")
                                          % pkmn_id);
         exp_yield = db.execAndGet(query_string.c_str(), identifier);
+
+        //version_group_ids in database
+        string version_group_ids[] = {"(1,2,15)", "(3,4,16)", "(5,6,7,12,13)", "(8,9,10)", "(11,14)"};
+
+        //Get legal moves
+        query_string = str(boost::format("SELECT move_id FROM pokemon_moves WHERE pokemon_id=%d AND version_group_id IN %s")
+                                         % pkmn_id % version_group_ids[gen-1]);
+        SQLite::Statement legal_move_query(db, query_string.c_str());
+        while(legal_move_query.executeStep())
+        {
+            int move_id = legal_move_query.getColumn(0);
+
+            query_string = str(boost::format("SELECT identifier FROM moves WHERE id=%d")
+                                             % move_id);
+            string move_identifier = db.execAndGetStr(query_string.c_str(), "");
+            legal_moves.push_back(get_base_move(move_identifier, gen));
+        }
 	}
 
     base_pkmn::sptr base_pkmn::make(string identifier, int gen)

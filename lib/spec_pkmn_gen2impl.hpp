@@ -17,7 +17,9 @@ namespace pkmnsim
     class PKMNSIM_API spec_pkmn_gen2impl: public spec_pkmn
     {
         public:
-            spec_pkmn_gen2impl(base_pkmn::sptr, std::string, int);
+            spec_pkmn_gen2impl(base_pkmn::sptr base, int lvl,
+                               std::string m1, std::string m2, std::string m3,
+                               std::string m4, bool i);
             std::map<std::string, int> get_stats();
             std::map<std::string, int> get_IVs();
             std::map<std::string, int> get_EVs();
