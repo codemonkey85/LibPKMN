@@ -50,7 +50,7 @@ namespace pkmnsim
         SQLite::Statement pokemon_query(*db, query_string.c_str());
         pokemon_query.executeStep();
 
-        query_string = str(boost::format("SELECT * from pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9")
+        query_string = str(boost::format("SELECT * from pokemon_species_names WHERE pokemon_species_id=%d")
                                          % species_id);
         SQLite::Statement pokemon_species_names_query(*db, query_string.c_str());
         pokemon_species_names_query.executeStep();
@@ -69,7 +69,7 @@ namespace pkmnsim
         query_string = str(boost::format("SELECT type_id FROM pokemon_types WHERE pokemon_id=%d AND slot=1")
                                          % pkmn_id);
         int type1_id = db->execAndGet(query_string.c_str(), identifier);
-        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
+        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d")
                                          % type1_id);
         type1 = db->execAndGetStr(query_string.c_str(), identifier);
         
@@ -81,7 +81,7 @@ namespace pkmnsim
         if(query.executeStep()) //Will be false if no database entry exists
         {
             type2_id = query.getColumn(0);
-            query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
+            query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d")
                                              % type2_id);
             type2 = db->execAndGetStr(query_string.c_str(), identifier);
         }

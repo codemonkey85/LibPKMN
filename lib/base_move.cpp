@@ -50,12 +50,12 @@ namespace pkmnsim
         type_id = db.execAndGet(query_string.c_str());
 
         //Move name
-        query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
+        query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d")
                                          % move_id);
         name = db.execAndGetStr(query_string.c_str(), identifier);
 
         //Type
-        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
+        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d")
                                          % type_id);
         type = db.execAndGetStr(query_string.c_str(), identifier);
 

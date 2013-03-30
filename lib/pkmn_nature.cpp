@@ -69,7 +69,7 @@ namespace pkmnsim
                                          % identifier);
         int nature_id = db.execAndGet(query_string.c_str(), identifier);
 
-        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
+        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d")
                                          % nature_id);
         string name = db.execAndGetStr(query_string.c_str(), identifier);
 
