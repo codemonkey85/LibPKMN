@@ -26,33 +26,21 @@ namespace pkmnsim
         baseSDEF = db.execAndGet(query_string.c_str(), identifier); 
 
         //Effort yields
-        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=1")
+        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id IN (1,2,3,4,5,6)")
                                          % pkmn_id);
-        evHP = db.execAndGet(query_string.c_str(), identifier); 
-
-        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=2")
-                                         % pkmn_id);
-        evATK = db.execAndGet(query_string.c_str(), identifier); 
-
-        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=3")
-                                         % pkmn_id);
-        evDEF = db.execAndGet(query_string.c_str(), identifier); 
-
-        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
-                                         % pkmn_id);
-        evSATK = db.execAndGet(query_string.c_str(), identifier); 
-
-        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=5")
-                                         % pkmn_id);
-        evSDEF = db.execAndGet(query_string.c_str(), identifier); 
-
-        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=6")
-                                         % pkmn_id);
-        evSPD = db.execAndGet(query_string.c_str(), identifier); 
-
-        query_string = str(boost::format("SELECT base_experience FROM pokemon WHERE id='%s'")
-                                         % pkmn_id);
-        exp_yield = db.execAndGet(query_string.c_str(), identifier);
+        SQLite::Statement pokemon_stats_query(db, query_string.c_str());
+        pokemon_stats_query.executeStep();
+        evHP = pokemon_stats_query.getColumn(0);
+        pokemon_stats_query.executeStep();
+        evATK = pokemon_stats_query.getColumn(0);
+        pokemon_stats_query.executeStep();
+        evDEF = pokemon_stats_query.getColumn(0);
+        pokemon_stats_query.executeStep();
+        evSATK = pokemon_stats_query.getColumn(0);
+        pokemon_stats_query.executeStep();
+        evSDEF = pokemon_stats_query.getColumn(0);
+        pokemon_stats_query.executeStep();
+        evSPD = pokemon_stats_query.getColumn(0);
 
         //Gender rates
         map<int, double> gender_val_map; //Double is percentage male
