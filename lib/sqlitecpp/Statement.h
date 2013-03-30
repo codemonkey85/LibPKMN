@@ -138,6 +138,15 @@ public:
     Column  getColumn(const int aIndex, std::string identifier) const; // throw(SQLite::Exception);
 
     /**
+     * @brief Return a copie of the column data specified by its index starting at 0 (aIndex >= 0),
+     *        used to get better error messages. Specifically for strings.
+     *
+     * @warning The resulting Column object must not be copied or memorized as it is only valid for a short time,
+     *          only while the row from the Statement remains valid, that is only until next executeStep
+     */
+     std::string  getColumnStr(const int aIndex) const; // throw(SQLite::Exception);
+
+    /**
      * @brief Test if the column is NULL
      */
     bool    isColumnNull(const int aIndex) const; // throw(SQLite::Exception);

@@ -3,7 +3,7 @@
  * @brief A prepared SQLite Statement is a compiled SQL query ready to be executed.
  *
  * Copyright (c) 2012 Sebastien Rombauts (sebastien.rombauts@gmail.com)
- * Copyright (c) 2012 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2012-2013 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -216,6 +216,25 @@ Column Statement::getColumn(const int aIndex, std::string identifier) const // t
 
     // Share the Statement Object handle with the new Column created
     return Column(mpSQLite, mpStmt, mpStmtRefCount, aIndex);
+}
+
+// Return a copy of the column data specified by its index starting at 0
+// Used to get better error messages
+// Converts to std::string
+std::string Statement::getColumnStr(const int aIndex) const // throw(SQLite::Exception)
+{
+    if (false == mbOk)
+    {
+        throw SQLite::Exception("Column index out of range");
+    }
+    else if ((aIndex < 0) || (aIndex >= mColumnCount))
+    {
+        throw SQLite::Exception("Column index out of range");
+    }
+
+    // Share the Statement Object handle with the new Column created
+    std::string result = Column(mpSQLite, mpStmt, mpStmtRefCount, aIndex);
+    return result;
 }
 
 // Test if the column is NULL
