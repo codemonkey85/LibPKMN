@@ -8,6 +8,7 @@
 #define INCLUDED_PKMNSIM_BASE_PKMN_GEN3IMPL_HPP
 
 #include <map>
+#include "sqlitecpp/SQLiteCPP.h"
 #include <pkmnsim/base_pkmn.hpp>
 #include <string>
 
@@ -16,7 +17,7 @@ namespace pkmnsim
     class PKMNSIM_API base_pkmn_gen3impl: public base_pkmn
     {
         public:
-            base_pkmn_gen3impl(std::string, int);
+            base_pkmn_gen3impl(std::string, int, SQLite::Database *db);
             std::string get_info();
             std::string get_info_verbose();
             std::map<std::string, int> get_base_stats();

@@ -13,14 +13,11 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier): base_pkmn(identifier, 1)
+    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, SQLite::Database *db): base_pkmn(identifier, 1, db)
     {
-		SQLite::Database db("@PKMNSIM_DB@"); //Filepath given by CMake
-		string query_string;
-		
-        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=9")
-                                         % pkmn_id);
-        baseSPCL = db.execAndGet(query_string.c_str(), identifier); 
+        string query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=9")
+                                                % pkmn_id);
+        baseSPCL = db->execAndGet(query_string.c_str(), identifier); 
     }
 
     string base_pkmn_gen1impl::get_info()

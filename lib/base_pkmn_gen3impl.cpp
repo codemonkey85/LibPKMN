@@ -12,23 +12,20 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen3impl::base_pkmn_gen3impl(string identifier, int gen): base_pkmn(identifier, gen)
+    base_pkmn_gen3impl::base_pkmn_gen3impl(string identifier, int gen, SQLite::Database *db): base_pkmn(identifier, gen, db)
     {    
-        SQLite::Database db("@PKMNSIM_DB@"); //Filepath given by CMake
-        string query_string;
-
-        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
+        string query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
                                          % pkmn_id);
-        baseSATK = db.execAndGet(query_string.c_str(), identifier); 
+        baseSATK = db->execAndGet(query_string.c_str(), identifier); 
 
         query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=5")
                                          % pkmn_id);
-        baseSDEF = db.execAndGet(query_string.c_str(), identifier); 
+        baseSDEF = db->execAndGet(query_string.c_str(), identifier); 
 
         //Effort yields
         query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id IN (1,2,3,4,5,6)")
                                          % pkmn_id);
-        SQLite::Statement pokemon_stats_query(db, query_string.c_str());
+        SQLite::Statement pokemon_stats_query(*db, query_string.c_str());
         pokemon_stats_query.executeStep();
         evHP = pokemon_stats_query.getColumn(0);
         pokemon_stats_query.executeStep();
@@ -53,7 +50,7 @@ namespace pkmnsim
 
         query_string = str(boost::format("SELECT gender_rate FROM pokemon_species WHERE id=%d")
                                          % species_id);
-        int gender_val = db.execAndGet(query_string.c_str(), identifier);
+        int gender_val = db->execAndGet(query_string.c_str(), identifier);
 
         if(gender_val == -1)
         {
@@ -69,27 +66,27 @@ namespace pkmnsim
         //Ability 1 (guaranteed)
         query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=1")
                                          % pkmn_id);
-        int ability1_id = db.execAndGet(query_string.c_str(), identifier);
+        int ability1_id = db->execAndGet(query_string.c_str(), identifier);
         query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
                                          % ability1_id);
-        ability1 = db.execAndGetStr(query_string.c_str(), identifier);
+        ability1 = db->execAndGetStr(query_string.c_str(), identifier);
 
         //Ability 2 (not guaranteed, and if exists, might not exist in specified generation
         query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=2")
                                          % pkmn_id);
-        SQLite::Statement ability2_query(db, query_string.c_str());
+        SQLite::Statement ability2_query(*db, query_string.c_str());
         if(ability2_query.executeStep()) //Will be false if no entry exists
         {
             int ability2_id = ability2_query.getColumn(0);
             query_string = str(boost::format("SELECT generation_id FROM abilities WHERE id=%d")
                                              % ability2_id);
-            int generation_id = db.execAndGet(query_string.c_str(), identifier);
+            int generation_id = db->execAndGet(query_string.c_str(), identifier);
             if(generation_id > gen) ability2 = "None";
             else
             {
                 query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
                                                  % ability2_id);
-                ability2 = db.execAndGetStr(query_string.c_str(), identifier);
+                ability2 = db->execAndGetStr(query_string.c_str(), identifier);
             }
         }
         else ability2 = "None";
@@ -99,13 +96,13 @@ namespace pkmnsim
         {
             query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=3")
                                              % pkmn_id);
-            SQLite::Statement ability3_query(db, query_string.c_str());
+            SQLite::Statement ability3_query(*db, query_string.c_str());
             if(ability3_query.executeStep()) //Will be false if no entry exists
             {
-                int ability3_id = db.execAndGet(query_string.c_str(), identifier);
+                int ability3_id = db->execAndGet(query_string.c_str(), identifier);
                 query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
                                                  % ability3_id);
-                ability3 = db.execAndGetStr(query_string.c_str(), identifier);
+                ability3 = db->execAndGetStr(query_string.c_str(), identifier);
             }
             else ability3 = "None";
         }

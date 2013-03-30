@@ -10,6 +10,7 @@
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <map>
+#include "../../lib/sqlitecpp/SQLiteCPP.h"
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/config.hpp>
 #include <stdexcept>
@@ -42,7 +43,7 @@ namespace pkmnsim
             typedef boost::shared_ptr<base_pkmn> sptr;
 
 			base_pkmn() {};
-			base_pkmn(std::string identifier, int gen);
+			base_pkmn(std::string identifier, int gen, SQLite::Database *db);
 			
             /*!
              * Make a new base Pokémon.

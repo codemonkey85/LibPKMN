@@ -13,18 +13,15 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier): base_pkmn(identifier, 2)
+    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, SQLite::Database *db): base_pkmn(identifier, 2, db)
     {
-		SQLite::Database db("@PKMNSIM_DB@"); //Filepath given by CMake
-		string query_string;
-		
-        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
+        string query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
                                          % pkmn_id);
-        baseSATK = db.execAndGet(query_string.c_str(), identifier); 
+        baseSATK = db->execAndGet(query_string.c_str(), identifier); 
 
         query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=5")
                                          % pkmn_id);
-        baseSDEF = db.execAndGet(query_string.c_str(), identifier); 
+        baseSDEF = db->execAndGet(query_string.c_str(), identifier); 
 
         //Gender rates
         map<int, double> gender_val_map; //Double is percentage male
@@ -37,7 +34,7 @@ namespace pkmnsim
 
         query_string = str(boost::format("SELECT gender_rate FROM pokemon_species WHERE id=%d")
                                          % species_id);
-        int gender_val = db.execAndGet(query_string.c_str(), identifier);
+        int gender_val = db->execAndGet(query_string.c_str(), identifier);
 
         if(gender_val == -1)
         {
