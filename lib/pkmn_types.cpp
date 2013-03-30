@@ -52,11 +52,11 @@ namespace pkmnsim
         string query_string = "SELECT name FROM type_names WHERE local_language_id=9";
         vector<string> types;
 
-        SQLite::Statement query(db, query_string.c_str());
-        while(query.executeStep())
+        SQLite::Statement type_names_query(db, query_string.c_str());
+        while(type_names_query.executeStep())
         {
-            string type = query.getColumn(0);
-            if(not (gen == 1 and (type == "Steel" or type == "Dark")))types.push_back(type);
+            string type = type_names_query.getColumn(0); //name
+            if(not (gen == 1 and (type == "Steel" or type == "Dark"))) types.push_back(type);
         }
         return types;
     }

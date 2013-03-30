@@ -27,17 +27,17 @@ namespace pkmnsim
                                          % pkmn_id);
         SQLite::Statement pokemon_stats_query(*db, query_string.c_str());
         pokemon_stats_query.executeStep();
-        evHP = pokemon_stats_query.getColumn(0);
+        evHP = pokemon_stats_query.getColumn(0); //effort
         pokemon_stats_query.executeStep();
-        evATK = pokemon_stats_query.getColumn(0);
+        evATK = pokemon_stats_query.getColumn(0); //effort
         pokemon_stats_query.executeStep();
-        evDEF = pokemon_stats_query.getColumn(0);
+        evDEF = pokemon_stats_query.getColumn(0); //effort
         pokemon_stats_query.executeStep();
-        evSATK = pokemon_stats_query.getColumn(0);
+        evSATK = pokemon_stats_query.getColumn(0); //effort
         pokemon_stats_query.executeStep();
-        evSDEF = pokemon_stats_query.getColumn(0);
+        evSDEF = pokemon_stats_query.getColumn(0); //effort
         pokemon_stats_query.executeStep();
-        evSPD = pokemon_stats_query.getColumn(0);
+        evSPD = pokemon_stats_query.getColumn(0); //effort
 
         //Gender rates
         map<int, double> gender_val_map; //Double is percentage male
@@ -77,7 +77,7 @@ namespace pkmnsim
         SQLite::Statement ability2_query(*db, query_string.c_str());
         if(ability2_query.executeStep()) //Will be false if no entry exists
         {
-            int ability2_id = ability2_query.getColumn(0);
+            int ability2_id = ability2_query.getColumn(0); //ability_id
             query_string = str(boost::format("SELECT generation_id FROM abilities WHERE id=%d")
                                              % ability2_id);
             int generation_id = db->execAndGet(query_string.c_str(), identifier);
