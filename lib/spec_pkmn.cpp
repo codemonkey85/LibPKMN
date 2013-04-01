@@ -100,7 +100,7 @@ namespace pkmnsim
     spec_pkmn::sptr spec_pkmn::make(string identifier, int gen, int level, string move1,
                                     string move2, string move3, string move4, bool illegal)
     {
-        base_pkmn::sptr base = base_pkmn::make(identifier, gen);
+        base_pkmn::sptr base = base_pkmn::make(identifier, gen, true);
 
         if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 

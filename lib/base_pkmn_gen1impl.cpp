@@ -13,7 +13,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, SQLite::Database *db): base_pkmn(identifier, 1, db)
+    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, SQLite::Database *db,
+                                           bool query_moves): base_pkmn(identifier, 1, db, query_moves)
     {
         string query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=9")
                                                 % pkmn_id);

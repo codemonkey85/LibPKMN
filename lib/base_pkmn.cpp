@@ -19,7 +19,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-	base_pkmn::base_pkmn(string identifier, int gen, SQLite::Database *db)
+	base_pkmn::base_pkmn(string identifier, int gen, SQLite::Database *db, bool query_moves)
 	{
 	    from_gen = gen;
         database_identifier = identifier;
@@ -104,21 +104,25 @@ namespace pkmnsim
         string version_group_ids[] = {"(1,2,15)", "(3,4,16)", "(5,6,7,12,13)", "(8,9,10)", "(11,14)"};
 
         //Get legal moves
-        query_string = str(boost::format("SELECT move_id FROM pokemon_moves WHERE pokemon_id=%d AND version_group_id IN %s")
-                                         % pkmn_id % version_group_ids[gen-1]);
-        SQLite::Statement legal_move_query(*db, query_string.c_str());
-        while(legal_move_query.executeStep())
-        {
-            int move_id = legal_move_query.getColumn(0); //move_id
-
-            query_string = str(boost::format("SELECT identifier FROM moves WHERE id=%d")
-                                             % move_id);
-            string move_identifier = db->execAndGetStr(query_string.c_str(), "");
-            legal_moves.push_back(get_base_move(move_identifier, gen));
-        }
+		if(query_moves)
+		{
+            query_string = str(boost::format("SELECT move_id FROM pokemon_moves WHERE pokemon_id=%d AND version_group_id IN %s")
+                                             % pkmn_id % version_group_ids[gen-1]);
+            SQLite::Statement legal_move_query(*db, query_string.c_str());
+            while(legal_move_query.executeStep())
+            {
+                int move_id = legal_move_query.getColumn(0); //move_id
+    
+                query_string = str(boost::format("SELECT identifier FROM moves WHERE id=%d")
+                                                 % move_id);
+                string move_identifier = db->execAndGetStr(query_string.c_str(), "");
+                legal_moves.push_back(get_base_move(move_identifier, gen));
+            }
+		}
+        else legal_moves.clear();
 	}
 
-    base_pkmn::sptr base_pkmn::make(string identifier, int gen)
+    base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
     {
         transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
 
@@ -130,13 +134,13 @@ namespace pkmnsim
         switch(gen)
         {
             case 1:
-                return sptr(new base_pkmn_gen1impl(identifier, &db));
+                return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
 
             case 2:
-                return sptr(new base_pkmn_gen2impl(identifier, &db));
+                return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
 
             default:
-                return sptr(new base_pkmn_gen3impl(identifier, gen, &db));
+                return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
         }
     }
 	
@@ -179,7 +183,7 @@ namespace pkmnsim
                                              % evolution_ids[i]);
             string evol_identifier = db.execAndGetStr(query_string.c_str(), "No string");
 
-            evolution_vec.push_back(make(evol_identifier, from_gen));
+            evolution_vec.push_back(make(evol_identifier, from_gen, false));
         }
 	}
 	
@@ -191,9 +195,9 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
 
-    base_pkmn::sptr get_base_pkmn(string identifier, int gen) //More user-friendly
+    base_pkmn::sptr get_base_pkmn(string identifier, int gen, bool query_moves) //More user-friendly
     {
-        return base_pkmn::make(identifier, gen);
+        return base_pkmn::make(identifier, gen, query_moves);
     }
 
     void get_pkmn_of_type(vector<base_pkmn::sptr> &pkmn_vector, string type1, string type2, int gen, bool lax)
@@ -302,6 +306,6 @@ namespace pkmnsim
             }
         }
 
-        for(int i = 0; i < names.size(); i++) pkmn_vector.push_back(base_pkmn::make(names[i], gen));
+        for(int i = 0; i < names.size(); i++) pkmn_vector.push_back(base_pkmn::make(names[i], gen, false));
     }
 }

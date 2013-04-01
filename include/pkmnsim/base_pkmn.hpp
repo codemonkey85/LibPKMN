@@ -43,15 +43,16 @@ namespace pkmnsim
             typedef boost::shared_ptr<base_pkmn> sptr;
 
 			base_pkmn() {};
-			base_pkmn(std::string identifier, int gen, SQLite::Database *db);
+			base_pkmn(std::string identifier, int gen, SQLite::Database *db, bool query_moves);
 			
             /*!
              * Make a new base Pokémon.
              * \param identifier The Pokémon's identifier in the database
              * \param gen This generation's implementation of the Pokémon.
+             * \param query_moves Choose whether or not to fill legal_moves vector.
              * \return A new base Pokémon shared pointer
              */
-            static sptr make(std::string identifier, int gen);
+            static sptr make(std::string identifier, int gen, bool query_moves);
 
             /*!
              * Get a string with basic information on the Pokémon.
@@ -176,9 +177,10 @@ namespace pkmnsim
      * User-friendly wrapper for base_pkmn::make
      * \param identifier The Pokémon's identifier in the database.
      * \param gen This generation's implementation of the Pokémon
+     * \param query_moves Choose whether ot not to fill legal_moves vector.
      * \return A new base Pokémon shared pointer
      */
-    base_pkmn::sptr PKMNSIM_API get_base_pkmn(std::string identifier, int gen);
+    base_pkmn::sptr PKMNSIM_API get_base_pkmn(std::string identifier, int gen, bool query_moves);
 
     /*!
      * Return a vector with all base Pokémon of specified type combo.

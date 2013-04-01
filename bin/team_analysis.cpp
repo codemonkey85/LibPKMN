@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
     while(getline(team_file_input,pkmn_name))
     {
         if(count > 6) break;
-        pkmn_team.push_back(get_base_pkmn(pkmn_name, gen));
+        pkmn_team.push_back(get_base_pkmn(pkmn_name, gen, true));
         if(verbose) cout << "Successfully added Pokémon: " << pkmn_name << endl;
         count++;
     }

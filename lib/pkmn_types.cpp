@@ -34,7 +34,7 @@ namespace pkmnsim
             int type2_id = db.execAndGet(query_string.c_str(), type1);
 
             //Get damage mod from database
-            query_string = str(boost::format("SELECT damage_factor FROM type_efficacy WHERE damage_type_id=%d")
+            query_string = str(boost::format("SELECT damage_factor FROM type_efficacy WHERE damage_type_id=%d AND target_type_id=%d")
                                              % type1_id % type2_id);
             damage_mod = db.execAndGet(query_string.c_str());
 
@@ -49,7 +49,7 @@ namespace pkmnsim
     vector<string> get_type_names(int gen)
     {
         SQLite::Database db("@PKMNSIM_DB@");
-        string query_string = "SELECT name FROM type_names WHERE local_language_id=9";
+        string query_string = "SELECT name FROM type_names";
         vector<string> types;
 
         SQLite::Statement type_names_query(db, query_string.c_str());
