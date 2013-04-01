@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef BASE_MOVE_HPP
-#define BASE_MOVE_HPP
+#ifndef INCLUDED_BASE_MOVE_HPP
+#define INCLUDED_BASE_MOVE_HPP
 
 #include <boost/shared_ptr.hpp>
 #include <pkmnsim/config.hpp>
@@ -58,4 +58,4 @@ namespace pkmnsim
     base_move::sptr PKMNSIM_API get_base_move(std::string identifier, int gen);
 }
 
-#endif /* BASE_MOVE_HPP */
+#endif /* INCLUDED_BASE_MOVE_HPP */

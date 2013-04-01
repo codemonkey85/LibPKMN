@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef SPEC_PKMN_HPP
-#define SPEC_PKMN_HPP
+#ifndef INCLUDED_SPEC_PKMN_HPP
+#define INCLUDED_SPEC_PKMN_HPP
 
 #include <boost/shared_ptr.hpp>
 #include <iostream>

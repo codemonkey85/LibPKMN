@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef STAT_ANALYSIS_HPP
-#define STAT_ANALYSIS_HPP
+#ifndef INCLUDED_ANALYSIS_HPP
+#define INCLUDED_ANALYSIS_HPP
 
 #include <pkmnsim/base_pkmn.hpp>
 #include <string>
@@ -17,4 +17,4 @@ namespace pkmnsim
     bool is_stat_possible(pkmnsim::base_pkmn::sptr, int, std::string, int);
 }
 
-#endif /*STAT_ANALYSIS_HPP*/
+#endif /*INCLUDED_ANALYSIS_HPP*/

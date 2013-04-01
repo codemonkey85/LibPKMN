@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef PKMN_TYPES_HPP
-#define PKMN_TYPES_HPP
+#ifndef INCLUDED_PKMN_TYPES_HPP
+#define INCLUDED_PKMN_TYPES_HPP
 
 #include <pkmnsim/config.hpp>
 #include <string>
@@ -29,4 +29,4 @@ namespace pkmnsim
     std::vector<std::string> PKMNSIM_API get_type_names(int gen);
 }
 
-#endif /*PKMN_TYPES_HPP*/
+#endif /*INCLUDED_PKMN_TYPES_HPP*/
