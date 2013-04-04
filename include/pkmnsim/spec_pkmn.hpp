@@ -15,6 +15,7 @@
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
+#include <pkmnsim/vla.hpp>
 
 namespace pkmnsim
 {
@@ -100,16 +101,7 @@ namespace pkmnsim
              * Get the names of the Pokémon's moves.
              * \return List of strings with names of Pokémon's moves.
              */
-            base_move::sptr * get_moves(void)
-            {
-                base_move::sptr * moves = new base_move::sptr[4];
-                moves[0] = move1;
-                moves[1] = move2;
-                moves[2] = move3;
-                moves[3] = move4;
-
-                return moves;
-            }
+            vla<base_move::sptr> get_moves(void) {return moves;}
 
             /*!
              * Get a string with basic information on the Pokémon.
@@ -125,7 +117,7 @@ namespace pkmnsim
 
 
         protected:
-            pkmnsim::base_pkmn::sptr base;
+            base_pkmn::sptr base;
             std::string nickname;
             int level;
             int HP, ATK, DEF, SPD;
@@ -143,7 +135,7 @@ namespace pkmnsim
                 BP# = Bad Poison # (number of turns)
                 SLP = Sleep
             */
-            base_move::sptr move1, move2, move3, move4;
+            vla<base_move::sptr> moves;
             int num_moves;
 
             virtual int get_hp_from_iv_ev() = 0;

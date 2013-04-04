@@ -5,7 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-#Place database location into base_pkmn.cpp, pkmn_nature.cpp, and pkmn_types.cpp
+#Place database location into relevant source files
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 FILE(TO_NATIVE_PATH ${PKMNSIM_PKG_DATA_PATH}/pkmnsim.db PKMNSIM_DB)
 STRING(REPLACE "\\" "\\\\" PKMNSIM_DB ${PKMNSIM_DB})

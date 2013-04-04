@@ -28,28 +28,29 @@ namespace pkmnsim
         int base_pkmn_id = get_pkmn_id(base);
         int base_species_id = get_species_id(base);
 
+        moves = vla<base_move::sptr>("Move",4);
         vector<base_move::sptr> base_legal_moves = base->get_legal_moves();
 
         if(i) //Don't care about legal moves
         {
-            move1 = get_base_move(m1,g);
+            moves.put(get_base_move(m1,g));
             num_moves = 1;
-            if(m2 != "None") move2 = get_base_move(m2,g);
+            if(m2 != "None") moves.put(get_base_move(m2,g));
             else
             {
-                move2 = get_base_move("struggle",g); //Struggle used as a placeholder
+                moves.put(get_base_move("struggle",g));
                 num_moves = 2;
             }
-            if(m3 != "None") move3 = get_base_move(m3,g);
+            if(m3 != "None") moves.put(get_base_move(m3,g));
             else
             {
-                move3 = get_base_move("struggle",g); //Struggle used as a placeholder
+                moves.put(get_base_move("struggle",g));
                 num_moves = 3;
             }
-            if(m4 != "None") move4 = get_base_move(m4,g);
+            if(m4 != "None") moves.put(get_base_move(m4,g));
             else
             {
-                move4 = get_base_move("struggle",g); //Struggle used as a placeholder
+                moves.put(get_base_move("struggle",g));
                 num_moves = 4;
             }
         }
@@ -74,24 +75,25 @@ namespace pkmnsim
                 throw runtime_error("All moves must be legal moves.");
             }
 
-            move1 = get_base_move(m1,g);
+            //move1 = get_base_move(m1,g);
+            moves.put(get_base_move(m1,g));
             num_moves = 1;
-            if(m2 != "None") move2 = get_base_move(m2,g);
+            if(m2 != "None") moves.put(get_base_move(m2,g)); 
             else
             {
-                move2 = get_base_move("struggle",g); //Struggle used as a placeholder
+                moves.put(get_base_move("struggle",g));
                 num_moves = 2;
             }
-            if(m3 != "None") move3 = get_base_move(m3,g);
+            if(m3 != "None") moves.put(get_base_move(m3,g));
             else
             {
-                move3 = get_base_move("struggle",g); //Struggle used as a placeholder
+                moves.put(get_base_move("struggle",g));
                 num_moves = 3;
             }
-            if(m4 != "None") move4 = get_base_move(m4,g);
+            if(m4 != "None") moves.put(get_base_move(m4,g));
             else
             {
-                move4 = get_base_move("struggle",g); //Struggle used as a placeholder
+                moves.put(get_base_move("struggle",g));
                 num_moves = 4;
             }
         }
