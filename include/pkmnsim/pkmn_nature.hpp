@@ -55,7 +55,7 @@ namespace pkmnsim
      * \param identifier Nature's name in the database.
      * \return Pokémon nature
      */
-    pkmn_nature INCLUDED_PKMNSIM_API get_nature(std::string identifier);
+    pkmn_nature PKMNSIM_API get_nature(std::string identifier);
 }
 
 #endif /*INCLUDED_PKMN_NATURES_HPP*/
