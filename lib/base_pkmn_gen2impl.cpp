@@ -98,9 +98,9 @@ namespace pkmnsim
         );
     }
 
-    map<string,int> base_pkmn_gen2impl::get_base_stats()
+    dict<string,int> base_pkmn_gen2impl::get_base_stats()
     {
-        map<string,int> stats;
+        dict<string,int> stats;
         stats["HP"] = baseHP;
         stats["ATK"] = baseATK;
         stats["DEF"] = baseDEF;
@@ -110,9 +110,9 @@ namespace pkmnsim
         return stats;
     }
 
-    map<string,int> base_pkmn_gen2impl::get_ev_yields()
+    dict<string,int> base_pkmn_gen2impl::get_ev_yields()
     {
-        map<string,int> stats;
+        dict<string,int> stats;
         stats["HP"] = baseHP;
         stats["ATK"] = baseATK;
         stats["DEF"] = baseDEF;

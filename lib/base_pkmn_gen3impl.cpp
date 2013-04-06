@@ -170,9 +170,9 @@ namespace pkmnsim
     }
 
 
-    map<string,int> base_pkmn_gen3impl::get_base_stats()
+    dict<string, int> base_pkmn_gen3impl::get_base_stats()
     {
-        map<string,int> stats;
+        dict<string,int> stats;
         stats["HP"] = baseHP;
         stats["ATK"] = baseATK;
         stats["DEF"] = baseDEF;
@@ -182,9 +182,9 @@ namespace pkmnsim
         return stats;
     }
 
-    map<string,int> base_pkmn_gen3impl::get_ev_yields()
+    dict<string, int> base_pkmn_gen3impl::get_ev_yields()
     {
-        map<string,int> stats;
+        dict<string, int> stats;
         stats["HP"] = evHP;
         stats["ATK"] = evATK;
         stats["DEF"] = evDEF;
@@ -194,9 +194,9 @@ namespace pkmnsim
         return stats;
     }
 
-    string * base_pkmn_gen3impl::get_abilities()
+    dict<int, string> base_pkmn_gen3impl::get_abilities()
     {
-        string * abilities = new string[3];
+        dict<int, string> abilities;
         abilities[0] = ability1;
         abilities[1] = ability2;
         abilities[2] = ability3;

@@ -66,9 +66,9 @@ namespace pkmnsim
         reset_volatile_status_map();
     }
 
-    map<string, int> spec_pkmn_gen3impl::get_stats()
+    dict<string, int> spec_pkmn_gen3impl::get_stats()
     {
-        map<string, int> stats;
+        dict<string, int> stats;
         stats["HP"] = HP;
         stats["ATK"] = ATK;
         stats["DEF"] = DEF;
@@ -79,9 +79,9 @@ namespace pkmnsim
         return stats;
     }
 
-    map<string, int> spec_pkmn_gen3impl::get_IVs()
+    dict<string, int> spec_pkmn_gen3impl::get_IVs()
     {
-        map<string, int> stats;
+        dict<string, int> stats;
         stats["HP"] = ivHP;
         stats["ATK"] = ivATK;
         stats["DEF"] = ivDEF;
@@ -92,9 +92,9 @@ namespace pkmnsim
         return stats;
     }
 
-    map<string, int> spec_pkmn_gen3impl::get_EVs()
+    dict<string, int> spec_pkmn_gen3impl::get_EVs()
     {
-        map<string, int> stats;
+        dict<string, int> stats;
         stats["HP"] = evHP;
         stats["ATK"] = evATK;
         stats["DEF"] = evDEF;
@@ -110,9 +110,9 @@ namespace pkmnsim
     string spec_pkmn_gen3impl::get_info()
     {
         string types_str;
-        string * types = base->get_types();
-        if(types[1] == "None") types_str = types[0];
-        else types_str = str(boost::format("%s/%s") % types[0] % types[1]);
+        dict<int, string> types = base->get_types();
+        if(types[2] == "None") types_str = types[1];
+        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
 
         return str(boost::format(
             "%s (%s %s)\n"
@@ -133,9 +133,9 @@ namespace pkmnsim
     string spec_pkmn_gen3impl::get_info_verbose()
     {
         string types_str;
-        string * types = base->get_types();
-        if(types[1] == "None") types_str = types[0];
-        else types_str = str(boost::format("%s/%s") % types[0] % types[1]);
+        dict<int, string> types = base->get_types();
+        if(types[2] == "None") types_str = types[1];
+        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
 
         return str(boost::format(
                 "%s (%s %s)\n"
@@ -190,9 +190,9 @@ namespace pkmnsim
         );
     }
 
-    map<char, string> spec_pkmn_gen3impl::get_gender_map()
+    dict<char, string> spec_pkmn_gen3impl::get_gender_map()
     {
-        map<char, string> gender_map;
+        dict<char, string> gender_map;
         gender_map['M'] = "Male";
         gender_map['F'] = "Female";
         gender_map['U'] = "Ungendered";
@@ -202,7 +202,7 @@ namespace pkmnsim
 
     int spec_pkmn_gen3impl::get_hp_from_iv_ev()
     {
-        map<string, int> stats = base->get_base_stats();
+        dict<string, int> stats = base->get_base_stats();
 
         int hp_val = floor(((ivHP + (2*stats["HP"]) + (0.25*evHP) + 100) * level)/100 + 10);
         return hp_val;
@@ -210,7 +210,7 @@ namespace pkmnsim
 
     int spec_pkmn_gen3impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
     {
-        map<string, int> stats = base->get_base_stats();
+        dict<string, int> stats = base->get_base_stats();
 
         double nature_mod = nature.get_mods()[stat];
         int stat_val = ceil(((((ivSTAT + 2*(stats[stat]) + 0.25*(evSTAT)) * level)/100) + 5) * nature_mod);
@@ -287,15 +287,15 @@ namespace pkmnsim
     string spec_pkmn_gen3impl::determine_ability()
     {
         srand( time(NULL) );
-        string * abilities = base->get_abilities();
+        dict<int, string> abilities = base->get_abilities();
 
-        if(abilities[1] == "None" and abilities[2] == "None") ability = abilities[0];
-        else if(abilities[1] != "None" and abilities[2] == "None") ability = abilities[rand() % 2];
+        if(abilities[2] == "None" and abilities[1] == "None") ability = abilities[1];
+        else if(abilities[2] != "None" and abilities[1] == "None") ability = abilities[rand() % 2];
         else //1 normal ability, hidden ability, so only use index 0 or 2
         {
             int num = rand() % 3;
             while(num != 1) num = rand() % 2;
-            ability = abilities[num];
+            ability = abilities[num+1];
         }
 		
 		return ability;

@@ -46,9 +46,9 @@ namespace pkmnsim
         
     }
 
-    map<string, int> spec_pkmn_gen1impl::get_stats()
+    dict<string, int> spec_pkmn_gen1impl::get_stats()
     {
-        map<string, int> stats;
+        dict<string, int> stats;
         stats["HP"] = HP;
         stats["ATK"] = ATK;
         stats["DEF"] = DEF;
@@ -58,9 +58,9 @@ namespace pkmnsim
         return stats;
     }
 
-    map<string, int> spec_pkmn_gen1impl::get_IVs()
+    dict<string, int> spec_pkmn_gen1impl::get_IVs()
     {
-        map<string, int> stats;
+        dict<string, int> stats;
         stats["HP"] = ivHP;
         stats["ATK"] = ivATK;
         stats["DEF"] = ivDEF;
@@ -70,9 +70,9 @@ namespace pkmnsim
         return stats;
     }
 
-    map<string, int> spec_pkmn_gen1impl::get_EVs()
+    dict<string, int> spec_pkmn_gen1impl::get_EVs()
     {
-        map<string, int> stats;
+        dict<string, int> stats;
         stats["HP"] = evHP;
         stats["ATK"] = evATK;
         stats["DEF"] = evDEF;
@@ -85,9 +85,9 @@ namespace pkmnsim
     string spec_pkmn_gen1impl::get_info()
     {
         string types_str;
-        string * types = base->get_types();
-        if(types[1] == "None") types_str = types[0];
-        else types_str = str(boost::format("%s/%s") % types[0] % types[1]);
+        dict<int, string> types = base->get_types();
+        if(types[2] == "None") types_str = types[1];
+        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
 
         return str(boost::format(
             "%s (%s)\n"
@@ -104,9 +104,9 @@ namespace pkmnsim
     string spec_pkmn_gen1impl::get_info_verbose()
     {
         string types_str;
-        string * types = base->get_types();
-        if(types[1] == "None") types_str = types[0];
-        else types_str = str(boost::format("%s/%s") % types[0] % types[1]);
+        dict<int, string> types = base->get_types();
+        if(types[2] == "None") types_str = types[1];
+        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
 
         return str(boost::format(
                 "%s (%s)\n"
@@ -174,7 +174,7 @@ namespace pkmnsim
 
     int spec_pkmn_gen1impl::get_hp_from_iv_ev()
     {
-        map<string, int> stats= base->get_base_stats();
+        dict<string, int> stats = base->get_base_stats();
 
         int hp_val = floor((((ivHP + stats["HP"] + (pow(evHP,0.5)/8) + 50) * level)/50) + 10);
         return hp_val;
@@ -182,7 +182,7 @@ namespace pkmnsim
 
     int spec_pkmn_gen1impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
     {
-        map<string, int> stats = base->get_base_stats();
+        dict<string, int> stats = base->get_base_stats();
 
         int stat_val = ceil((((ivSTAT + stats[stat] + (pow(evSTAT,0.5)/8)) * level)/50) + 5);
         return stat_val;

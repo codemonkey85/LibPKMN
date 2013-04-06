@@ -10,11 +10,11 @@
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <string>
-#include <map>
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
+#include <pkmnsim/dict.hpp>
 #include <pkmnsim/vla.hpp>
 
 namespace pkmnsim
@@ -81,21 +81,21 @@ namespace pkmnsim
              * Get the Pokémon's stats.
              * \return List of ints with stats
              */
-            virtual std::map<std::string, int> get_stats(void) = 0;
+            virtual dict<std::string, int> get_stats(void) = 0;
 
             /*!
              * Get the Pokémon's individual values.
              * Note: These values are sometimes randomly generated.
              * \return List of ints with IVs
              */
-            virtual std::map<std::string, int> get_IVs(void) = 0;
+            virtual dict<std::string, int> get_IVs(void) = 0;
 
             /*!
              * Get the Pokémon's effort values.
              * Note: These values are sometimes randomly generated.
              * \return List of ints with EVs
              */
-            virtual std::map<std::string, int> get_EVs(void) = 0;
+            virtual dict<std::string, int> get_EVs(void) = 0;
 
             /*
              * Get the names of the Pokémon's moves.
@@ -123,7 +123,7 @@ namespace pkmnsim
             int HP, ATK, DEF, SPD;
             int ivHP, ivATK, ivDEF, ivSPD;
             int evHP, evATK, evDEF, evSPD;
-            std::map<std::string, int> volatile_status_map;
+            dict<std::string, int> volatile_status_map;
             std::string nonvolatile_status;
             /*
                 Nonvolatile Status: only one of the following:

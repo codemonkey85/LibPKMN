@@ -7,7 +7,6 @@
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 #include <boost/program_options.hpp>
-#include <map>
 #include <pkmnsim/base_pkmn.hpp>
 #include <stdexcept>
 #include <vector>
@@ -26,7 +25,7 @@ struct stat_st
 };
 
 //The values are what the base_pkmn subclasses return in get_base_stats()
-map<string, string> stat_map = boost::assign::map_list_of
+dict<string, string> stat_map = boost::assign::map_list_of
     ("HP","HP")
     ("Attack","ATK")
     ("Defense","DEF")
@@ -116,7 +115,7 @@ int main(int argc, char *argv[])
     for(int i = 0; i < pkmn_vector.size(); i++)
     {
         string pkmn_name = pkmn_vector[i]->get_display_name();
-        map<string, int> stats = pkmn_vector[i]->get_base_stats();
+        dict<string, int> stats = pkmn_vector[i]->get_base_stats();
 
         for(int j = 0; j < highest_stats.size(); j++)
         {

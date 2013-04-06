@@ -9,10 +9,10 @@
 
 #include <boost/shared_ptr.hpp>
 #include <iostream>
-#include <map>
 #include "../../lib/sqlitecpp/SQLiteCPP.h"
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/config.hpp>
+#include <pkmnsim/dict.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -82,12 +82,12 @@ namespace pkmnsim
              * Return Pokémon's types.
              * \return List of strings with types
              */
-            std::string * get_types(void)
+            dict<int, std::string> get_types(void)
             {
-                std::string * types = new std::string[2];
-                types[0] = type1;
-                types[1] = type2;
-                return types;
+                dict<int, std::string> type_dict;
+                type_dict[0] = type1;
+                if(type2 != "None") type_dict[1] = type2;
+                return type_dict;
             }
 
             /*!
@@ -106,14 +106,14 @@ namespace pkmnsim
              * Return Pokémon's base stats.
              * \return List of ints with base stats
              */
-            virtual std::map<std::string,int> get_base_stats(void) = 0;
+            virtual dict<std::string,int> get_base_stats(void) = 0;
 
             /*!
              * Return Pokémon's EV yields.
              * In Gen 1-2, simply calls get_base_stats().
              * \return String with display name
              */
-            virtual std::map<std::string,int> get_ev_yields(void) = 0;
+            virtual dict<std::string,int> get_ev_yields(void) = 0;
 
             /*!
              * Return Pokémon's chance of being male.
@@ -134,7 +134,7 @@ namespace pkmnsim
              * NOTE: Will throw an error unless overriden.
              * \return List of strings with Pokémon's abilities
              */
-            virtual std::string * get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
+            virtual dict<int,std::string> get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
 			
 			/*!
 			 * If Pokémon can be evolved, returns vector of base_pkmn objects of all evolutions.

@@ -10,6 +10,7 @@
 #include <map>
 #include "sqlitecpp/SQLiteCPP.h"
 #include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/dict.hpp>
 #include <string>
 
 namespace pkmnsim
@@ -20,8 +21,8 @@ namespace pkmnsim
             base_pkmn_gen1impl(std::string identifier, SQLite::Database *db, bool query_moves);
             std::string get_info();
             std::string get_info_verbose();
-            std::map<std::string, int> get_base_stats();
-            std::map<std::string, int> get_ev_yields();
+            dict<std::string, int> get_base_stats();
+            dict<std::string, int> get_ev_yields();
 
         private:
             int baseSPCL;
