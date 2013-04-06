@@ -29,4 +29,3 @@ INSTALL(FILES
     COMPONENT "database"
 )
 ADD_SUBDIRECTORY(images)
-ADD_SUBDIRECTORY(sample_teams)
