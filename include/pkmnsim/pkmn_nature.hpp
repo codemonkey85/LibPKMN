@@ -7,10 +7,11 @@
 #ifndef INCLUDED_PKMN_NATURES_HPP
 #define INCLUDED_PKMN_NATURES_HPP
 
+#include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <string>
-#include <map>
 #include <pkmnsim/config.hpp>
+#include <pkmnsim/dict.hpp>
 
 namespace pkmnsim
 {
@@ -28,6 +29,9 @@ namespace pkmnsim
             pkmn_nature() {};
             pkmn_nature(std::string, double, double, double, double, double);
 
+            typedef boost::shared_ptr<pkmn_nature> sptr;
+            static sptr make(std::string);
+
             /*
              * Get the nature's name.
              * \return Nature's name
@@ -36,9 +40,9 @@ namespace pkmnsim
 
             /*
              * Get the mods for each stat type.
-             * \return a map whose keys=stat names and vals=mods
+             * \return a dict whose keys=stat names and vals=mods
              */
-            std::map<std::string, double> get_mods();
+            dict<std::string, double> get_mods();
 
             /*
              * Get a string with all information on this nature.

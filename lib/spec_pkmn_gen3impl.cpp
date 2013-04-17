@@ -212,7 +212,7 @@ namespace pkmnsim
     {
         dict<string, int> stats = base->get_base_stats();
 
-        double nature_mod = nature.get_mods()[stat];
+        double nature_mod = nature->get_mods()[stat];
         int stat_val = ceil(((((ivSTAT + 2*(stats[stat]) + 0.25*(evSTAT)) * level)/100) + 5) * nature_mod);
         return stat_val;
     }
@@ -272,16 +272,16 @@ namespace pkmnsim
         }
     }
 
-    pkmnsim::pkmn_nature spec_pkmn_gen3impl::determine_nature()
+    pkmn_nature::sptr spec_pkmn_gen3impl::determine_nature()
     {
-        std::string nature_names[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
+        string nature_names[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
                                       "Docile","Relaxed","Impish","Lax","Timid","Hasty",
                                       "Serious","Jolly","Naive","Modest","Mild","Quiet",
                                       "Bashful","Rash","Calm","Gentle","Sassy","Careful",
                                       "Quirky"};
         srand( time(NULL) );
         int index = rand() % 25;
-        return pkmnsim::get_nature(nature_names[index]);
+        return pkmn_nature::make(nature_names[index]);
     }
 
     string spec_pkmn_gen3impl::determine_ability()

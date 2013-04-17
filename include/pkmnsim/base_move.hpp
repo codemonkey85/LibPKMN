@@ -53,9 +53,6 @@ namespace pkmnsim
             std::string base_effect;
             double base_effect_chance;
     };
-
-    //User-friendly interface for base_move::make()
-    base_move::sptr PKMNSIM_API get_base_move(std::string identifier, int gen);
 }
 
 #endif /* INCLUDED_BASE_MOVE_HPP */

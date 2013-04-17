@@ -34,7 +34,7 @@ namespace pkmnsim
             char gender;
             std::string ability;
             std::string held_item;
-            pkmn_nature nature;
+            pkmn_nature::sptr nature;
             dict<std::string, int> volatile_status_map;
 
             dict<char, std::string> get_gender_map();
@@ -42,7 +42,7 @@ namespace pkmnsim
             int get_hp_from_iv_ev();
             int get_stat_from_iv_ev(std::string, int, int);
             char determine_gender();
-            pkmn_nature determine_nature();
+            pkmn_nature::sptr determine_nature();
             std::string determine_ability();
     };
 }

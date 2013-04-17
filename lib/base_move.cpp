@@ -96,6 +96,4 @@ namespace pkmnsim
         */
         return sptr(new base_move_mainimpl(identifier, gen));
     }
-
-    base_move::sptr get_base_move(string identifier, int gen) {return base_move::make(identifier, gen);}
 }

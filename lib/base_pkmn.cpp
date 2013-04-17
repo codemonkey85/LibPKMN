@@ -116,7 +116,7 @@ namespace pkmnsim
                 query_string = str(boost::format("SELECT identifier FROM moves WHERE id=%d")
                                                  % move_id);
                 string move_identifier = db->execAndGetStr(query_string.c_str(), "");
-                legal_moves.push_back(get_base_move(move_identifier, gen));
+                legal_moves.push_back(base_move::make(move_identifier, gen));
             }
 		}
         else legal_moves.clear();

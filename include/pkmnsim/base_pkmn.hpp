@@ -174,15 +174,6 @@ namespace pkmnsim
     };
 
     /*!
-     * User-friendly wrapper for base_pkmn::make
-     * \param identifier The Pokémon's identifier in the database.
-     * \param gen This generation's implementation of the Pokémon
-     * \param query_moves Choose whether ot not to fill legal_moves vector.
-     * \return A new base Pokémon shared pointer
-     */
-    base_pkmn::sptr PKMNSIM_API get_base_pkmn(std::string identifier, int gen, bool query_moves);
-
-    /*!
      * Return a vector with all base Pokémon of specified type combo.
      * \param pkmn_vector A reference to a vector in which to place list of Pokémon.
      * \param type1 The type (or one of the types) of Pokémon to return

@@ -6,10 +6,10 @@
  */
 #include <iostream>
 #include <string>
-#include <map>
 #include <boost/format.hpp>
 #include <sstream>
 #include <stdexcept>
+#include <pkmnsim/dict.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
 
@@ -29,15 +29,15 @@ namespace pkmnsim
 
     string pkmn_nature::get_name() {return name;}
 
-    map<string, double> pkmn_nature::get_mods()
+    dict<string, double> pkmn_nature::get_mods()
     {
-        map<string, double> mod_map;
-        mod_map["ATK"] = ATKmod;
-        mod_map["DEF"] = DEFmod;
-        mod_map["SPD"] = SPDmod;
-        mod_map["SATK"] = SATKmod;
-        mod_map["SDEF"] = SDEFmod;
-        return mod_map;
+        dict<string, double> mod_dict;
+        mod_dict["ATK"] = ATKmod;
+        mod_dict["DEF"] = DEFmod;
+        mod_dict["SPD"] = SPDmod;
+        mod_dict["SATK"] = SATKmod;
+        mod_dict["SDEF"] = SDEFmod;
+        return mod_dict;
     }
 
     std::string pkmn_nature::get_info()
@@ -53,7 +53,7 @@ namespace pkmnsim
         return info_string;
     }
 
-    pkmn_nature get_nature(string identifier)
+    pkmn_nature::sptr pkmn_nature::make(string identifier)
     {
         double atk = 1.0;
         double def = 1.0;
@@ -123,6 +123,6 @@ namespace pkmnsim
                 break;
         }
 
-        return pkmn_nature(name, atk, def, satk, sdef, spd);
+        return pkmn_nature::sptr(new pkmn_nature(name, atk, def, satk, sdef, spd));
     }
 }
