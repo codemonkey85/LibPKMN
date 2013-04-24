@@ -23,6 +23,8 @@ namespace pkmnsim
         nice_name = name;
         max_items = items;
 
+        for(int i = 0; i < items; i++) _vec.push_back(*(new item_type()));
+
         full_vec_err_msg = str(boost::format("List of %ss can only have %d members.")
                                              % nice_name % max_items);
         invalid_pos_err_msg = str(boost::format("Position must be 0-%d.")
