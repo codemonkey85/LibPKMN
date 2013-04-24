@@ -17,14 +17,75 @@ using namespace std;
 
 namespace pkmnsim
 {
-    pkmn_nature::pkmn_nature(string nm, double atk, double def, double satk, double sdef, double spd)
+    pkmn_nature::pkmn_nature(string identifier)
     {
-        name = nm;
-        ATKmod = atk;
-        DEFmod = def;
-        SATKmod = satk;
-        SDEFmod = sdef;
-        SPDmod = spd;
+        double ATKmod = 1.0;
+        double DEFmod = 1.0;
+        double SATKmod = 1.0;
+        double SDEFmod = 1.0;
+        double SPDmod = 1.0;
+
+        SQLite::Database db("@PKMNSIM_DB@");
+
+        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+
+        string query_string = str(boost::format("SELECT id FROM natures WHERE identifier=%d")
+                                         % identifier);
+        int nature_id = db.execAndGet(query_string.c_str(), identifier);
+
+        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d")
+                                         % nature_id);
+        string name = db.execAndGetStr(query_string.c_str(), identifier);
+
+        //Getting positive mod
+        query_string = str(boost::format("SELECT increased_stat_id FROM natures WHERE identifier=%d")
+                                         % identifier);
+        int pos_id = db.execAndGet(query_string.c_str(), identifier);
+        switch(pos_id)
+        {
+            case 2:
+                ATKmod += 0.1;
+                break;
+            case 3:
+                DEFmod += 0.1;
+                break;
+            case 4:
+                SATKmod += 0.1;
+                break;
+            case 5:
+                SDEFmod += 0.1;
+                break;
+            case 6:
+                SPDmod += 0.1;
+                break;
+            default:
+                break;
+        }
+
+        //Getting positive mod
+        query_string = str(boost::format("SELECT decreased_stat_id FROM natures WHERE identifier=%d")
+                                         % identifier);
+        int neg_id = db.execAndGet(query_string.c_str(), identifier);
+        switch(neg_id)
+        {
+            case 2:
+                ATKmod -= 0.1;
+                break;
+            case 3:
+                DEFmod -= 0.1;
+                break;
+            case 4:
+                SATKmod -= 0.1;
+                break;
+            case 5:
+                SDEFmod -= 0.1;
+                break;
+            case 6:
+                SPDmod -= 0.1;
+                break;
+            default:
+                break;
+        }
     }
 
     string pkmn_nature::get_name() {return name;}
@@ -55,74 +116,6 @@ namespace pkmnsim
 
     pkmn_nature::sptr pkmn_nature::make(string identifier)
     {
-        double atk = 1.0;
-        double def = 1.0;
-        double satk = 1.0;
-        double sdef = 1.0;
-        double spd = 1.0;
-
-        SQLite::Database db("@PKMNSIM_DB@");
-
-        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
-
-        string query_string = str(boost::format("SELECT id FROM natures WHERE identifier=%d")
-                                         % identifier);
-        int nature_id = db.execAndGet(query_string.c_str(), identifier);
-
-        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d")
-                                         % nature_id);
-        string name = db.execAndGetStr(query_string.c_str(), identifier);
-
-        //Getting positive mod
-        query_string = str(boost::format("SELECT increased_stat_id FROM natures WHERE identifier=%d")
-                                         % identifier);
-        int pos_id = db.execAndGet(query_string.c_str(), identifier);
-        switch(pos_id)
-        {
-            case 2:
-                atk += 0.1;
-                break;
-            case 3:
-                def += 0.1;
-                break;
-            case 4:
-                satk += 0.1;
-                break;
-            case 5:
-                sdef += 0.1;
-                break;
-            case 6:
-                spd += 0.1;
-                break;
-            default:
-                break;
-        }
-
-        //Getting positive mod
-        query_string = str(boost::format("SELECT decreased_stat_id FROM natures WHERE identifier=%d")
-                                         % identifier);
-        int neg_id = db.execAndGet(query_string.c_str(), identifier);
-        switch(neg_id)
-        {
-            case 2:
-                atk -= 0.1;
-                break;
-            case 3:
-                def -= 0.1;
-                break;
-            case 4:
-                satk -= 0.1;
-                break;
-            case 5:
-                sdef -= 0.1;
-                break;
-            case 6:
-                spd -= 0.1;
-                break;
-            default:
-                break;
-        }
-
-        return pkmn_nature::sptr(new pkmn_nature(name, atk, def, satk, sdef, spd));
+        return pkmn_nature::sptr(new pkmn_nature(identifier));
     }
 }

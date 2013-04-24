@@ -121,28 +121,6 @@ namespace pkmnsim
 		}
         else legal_moves.clear();
 	}
-
-    base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
-    {
-        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
-
-        if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
-
-        SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
-        string query_string;
-
-        switch(gen)
-        {
-            case 1:
-                return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
-
-            case 2:
-                return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
-
-            default:
-                return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
-        }
-    }
 	
 	void base_pkmn::get_evolutions(vector<sptr>& evolution_vec)
 	{
@@ -195,9 +173,26 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
 
-    base_pkmn::sptr get_base_pkmn(string identifier, int gen, bool query_moves) //More user-friendly
+    base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
     {
-        return base_pkmn::make(identifier, gen, query_moves);
+        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+
+        if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
+
+        SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
+        string query_string;
+
+        switch(gen)
+        {
+            case 1:
+                return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
+
+            case 2:
+                return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
+
+            default:
+                return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
+        }
     }
 
     void get_pkmn_of_type(vector<base_pkmn::sptr> &pkmn_vector, string type1, string type2, int gen, bool lax)

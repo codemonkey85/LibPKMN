@@ -28,9 +28,8 @@ namespace pkmnsim
         public:
 
             //Class constructors (should never be called directly)
-            pkmn_nature() {};
-            pkmn_nature(std::string nm, double atk, double def,
-                        double satk, double sdef, double spd);
+            pkmn_nature(void) {};
+            pkmn_nature(std::string identifier);
 
             typedef boost::shared_ptr<pkmn_nature> sptr;
 
