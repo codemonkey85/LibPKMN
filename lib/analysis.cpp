@@ -14,6 +14,7 @@ using namespace std;
 
 namespace pkmnsim
 {
+    //TODO: this only applies to Generation 3-5, add others
     int return_min_possible_stat(base_pkmn::sptr bpkmn, string stat, int level)
     {
         //IV = 0
@@ -22,6 +23,7 @@ namespace pkmnsim
         return ceil(((((2*(bpkmn->get_base_stats()[stat])) * level)/100) + 5) * 0.9);
     }
 
+    //TODO: this only applies to Generation 3-5, add others
     int return_max_possible_stat(base_pkmn::sptr bpkmn, string stat, int level)
     {
         //IV = 31

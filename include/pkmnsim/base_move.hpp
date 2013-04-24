@@ -9,6 +9,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <pkmnsim/config.hpp>
+#include "../../lib/sqlitecpp/SQLiteCPP.h"
 #include <string>
 
 namespace pkmnsim
@@ -27,7 +28,7 @@ namespace pkmnsim
 
             //Class Constructors (should never be called directly)
             base_move(void) {};
-            base_move(std::string identifier, int gen);
+            base_move(std::string identifier, SQLite::Database *db, int gen);
 
             /*
              * Returns a boost::shared_ptr<base_move> of specified move.
