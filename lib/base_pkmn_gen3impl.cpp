@@ -6,6 +6,7 @@
  */
 #include "base_pkmn_gen3impl.hpp"
 #include <boost/format.hpp>
+#include <map>
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;

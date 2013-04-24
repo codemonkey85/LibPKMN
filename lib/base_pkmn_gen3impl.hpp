@@ -4,10 +4,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_BASE_PKMN_GEN3IMPL_HPP
-#define INCLUDED_PKMNSIM_BASE_PKMN_GEN3IMPL_HPP
+#ifndef INCLUDED_BASE_PKMN_GEN3IMPL_HPP
+#define INCLUDED_BASE_PKMN_GEN3IMPL_HPP
 
-#include <map>
 #include "sqlitecpp/SQLiteCPP.h"
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/dict.hpp>
@@ -19,11 +18,11 @@ namespace pkmnsim
     {
         public:
             base_pkmn_gen3impl(std::string, int, SQLite::Database *db, bool query_moves);
-            std::string get_info();
-            std::string get_info_verbose();
-            dict<std::string, int> get_base_stats();
-            dict<std::string, int> get_ev_yields();
-            dict<int, std::string> get_abilities();
+            std::string get_info(void);
+            std::string get_info_verbose(void);
+            dict<std::string, int> get_base_stats(void);
+            dict<std::string, int> get_ev_yields(void);
+            dict<int, std::string> get_abilities(void);
 
         private:
             std::string ability1, ability2, ability3;
@@ -33,4 +32,4 @@ namespace pkmnsim
     };
 }
 
-#endif /*INCLUDED_PKMNSIM_BASE_PKMN_GEN2IMPL_HPP*/
+#endif /* INCLUDED_BASE_PKMN_GEN3IMPL_HPP */

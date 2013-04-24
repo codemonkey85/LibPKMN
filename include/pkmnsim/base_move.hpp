@@ -13,38 +13,86 @@
 
 namespace pkmnsim
 {
+    /*
+     * Base Move Class
+     *
+     * This class generates an object with all the information for a battle move,
+     * as appropriate to the specified generation.
+     */
     class PKMNSIM_API base_move
     {
         public:
 
             typedef boost::shared_ptr<base_move> sptr;
 
-            base_move() {};
+            //Class Constructors (should never be called directly)
+            base_move(void) {};
             base_move(std::string identifier, int gen);
 
+            /*
+             * Returns a boost::shared_ptr<base_move> of specified move.
+             * Verifies validity of move+generation before returning value.
+             *
+             * Parameters:
+             *  - identifier: name of move
+             *  - gen: generation (1-5) from which to use move
+             */
             static sptr make(std::string identifier, int gen);
 
             //Used for moves with different effects based on Pokemon
             //static sptr make(std::string identifier, int gen, spec_pkmn::sptr<spec_pkmn> s_pkmn);
 
-            std::string get_name() {return name;}
-            std::string get_description() {return description;}
-            std::string get_type() {return type;}
-            int get_base_power() {return base_power;}
-            int get_base_pp() {return base_pp;}
-            double get_base_accuracy() {return base_accuracy;}
-            std::string get_move_damage_class() {return move_damage_class;}
-            std::string get_base_effect() {return base_effect;}
-            double get_base_effect_chance() {return base_effect_chance;}
+            /*
+             * Returns move's name.
+             */
+            std::string get_name(void) {return name;}
+
+            /*
+             * Returns description of move's effects.
+             */
+            std::string get_description(void) {return description;}
+
+            /*
+             * Returns move's type.
+             */
+            std::string get_type(void) {return type;}
+
+            /*
+             * Returns move's base power value (to be input into damage algorithm).
+             */
+            int get_base_power(void) {return base_power;}
+
+            /*
+             * Returns move's Power Points (number of times move can be used without replenishing)
+             */
+            int get_base_pp(void) {return base_pp;}
+
+            /*
+             * Returns moves chances of succeeding (0.0-1.0).
+             */
+            double get_base_accuracy(void) {return base_accuracy;}
+
+            //TODO: implement
+            //std::string get_move_damage_class(void) {return move_damage_class;}
+
+            /*
+             * Returns effect (burn, paralyze, etc) of move (without any in-battle changes).
+             */
+            std::string get_base_effect(void) {return base_effect;}
+
+            /*
+             * Returns chance of causing effect (0.0-1.0).
+             */
+            double get_base_effect_chance(void) {return base_effect_chance;}
 
         protected:
+            //Database values
+            int move_id, type_id, target_id;
+
             std::string name;
             std::string description;
-            int move_id;
             std::string move_identifier;
-            int type_id;
             std::string type;
-            int target_id;
             int base_power;
             int base_pp;
             double base_accuracy;

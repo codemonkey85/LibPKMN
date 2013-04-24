@@ -4,6 +4,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#ifndef INCLUDED_BASE_MOVE_MAINIMPL_HPP
+#define INCLUDED_BASE_MOVE_MAINIMPL_HPP
+
 #include <boost/format.hpp>
 #include <pkmnsim/base_move.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
@@ -19,3 +22,5 @@ namespace pkmnsim
             base_move_mainimpl(std::string identifier, int gen);
     };
 }
+
+#endif /* INCLUDED_BASE_MOVE_MAINIMPL_HPP */

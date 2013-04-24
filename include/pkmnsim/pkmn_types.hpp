@@ -14,10 +14,7 @@
 namespace pkmnsim
 {
     /*
-     * Return the damage mod an attack of type1 would have against a Pokémon of type2.
-     * \param type1 Offensive type
-     * \param type2 Defensive type
-     * \param Double with type mod
+     * Returns the damage mod an attack of type1 would have against a Pokémon of type2.
      */
     double PKMNSIM_API get_type_damage_mod(std::string type1, std::string type2, bool gen1);
 
@@ -29,4 +26,4 @@ namespace pkmnsim
     std::vector<std::string> PKMNSIM_API get_type_names(int gen);
 }
 
-#endif /*INCLUDED_PKMN_TYPES_HPP*/
+#endif /* INCLUDED_PKMN_TYPES_HPP */

@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef BASE_PKMN_HPP
-#define BASE_PKMN_HPP
+#ifndef INCLUDED_BASE_PKMN_HPP
+#define INCLUDED_BASE_PKMN_HPP
 
 #include <boost/shared_ptr.hpp>
 #include <iostream>
@@ -20,7 +20,7 @@
 namespace pkmnsim
 {
 
-    /*!
+    /*
      * Base Pokémon Class
      *
      * This class generates an object with all of the information for
@@ -42,45 +42,44 @@ namespace pkmnsim
 
             typedef boost::shared_ptr<base_pkmn> sptr;
 
-			base_pkmn() {};
+            //Class Constructors (should never be called directly)
+			base_pkmn(void) {};
 			base_pkmn(std::string identifier, int gen, SQLite::Database *db, bool query_moves);
 			
-            /*!
-             * Make a new base Pokémon.
-             * \param identifier The Pokémon's identifier in the database
-             * \param gen This generation's implementation of the Pokémon.
-             * \param query_moves Choose whether or not to fill legal_moves vector.
-             * \return A new base Pokémon shared pointer
+            /*
+             * Returns a boost::shared_ptr<base_pkmn> of specified Pokémon.
+             * Verifies validity of Pokémon+generation before returning value.
+             *
+             * Parameters:
+             *  - identifier: name of Pokémon
+             *  - gen: generation (1-5) from which to use Pokémon
+             *  - query_moves: add list of legal moves (slows performance)
              */
             static sptr make(std::string identifier, int gen, bool query_moves);
 
-            /*!
-             * Get a string with basic information on the Pokémon.
-             * \return String with basic Pokémon info
+            /*
+             * Returns a string with basic information on the Pokémon.
+             * String contains name, National Pokédex number, types, and base stats.
              */
             virtual std::string get_info(void) = 0;
 
-            /*!
-             * Get a string with all information on the Pokémon.
-             * \return String with all Pokémon info
+            /*
+             * Returns a string with all information on the Pokémon.
              */
             virtual std::string get_info_verbose(void) = 0;
 
-            /*!
-             * Return Pokémon's display name (e.g. Bulbasaur).
-             * \return String with display name
+            /*
+             * Returns Pokémon's display name (e.g. Bulbasaur).
              */
             std::string get_display_name(void) {return display_name;}
 
-            /*!
-             * Return Pokémon's National Pokedex number (1-649, as of Gen 5).
-             * \return Int with National Pokedex number
+            /*
+             * Returns Pokémon's National Pokedex number (1-649, as of Gen 5).
              */
             int get_nat_pokedex_num(void) {return nat_pokedex_num;}
 
-            /*!
-             * Return Pokémon's types.
-             * \return List of strings with types
+            /*
+             * Returns Pokémon's types.
              */
             dict<int, std::string> get_types(void)
             {
@@ -90,97 +89,116 @@ namespace pkmnsim
                 return type_dict;
             }
 
-            /*!
-             * Return Pokémon's height (in meters).
-             * \return Int with Pokémon height
+            /*
+             * Returns Pokémon's height (in meters).
              */
-            int get_height(void) {return height;}
+            double get_height(void) {return height;}
 
-            /*!
+            /*
              * Return Pokémon's weight (in kilograms).
              * \return Int with Pokémon weight
              */
-            int get_weight(void) {return weight;}
+            double get_weight(void) {return weight;}
 
-            /*!
-             * Return Pokémon's base stats.
-             * \return List of ints with base stats
+            /*
+             * Returns Pokémon's base stats.
+             *
+             * Query stats as follows:
+             *  - HP: dict_name["HP"]
+             *  - Attack: dict_name["ATK"]
+             *  - Defense: dict_name["DEF"]
+             *  - Speed: dict_name["SPD"]
+             *  - Special: dict_name["SPCL"] (Gen 1 only)
+             *  - Special Attack: dict_name["SATK"] (Gen 2-5 only)
+             *  - Special Defense: dict_name["SDEF"] (Gen 2-5 only)
              */
-            virtual dict<std::string,int> get_base_stats(void) = 0;
+            virtual dict<std::string, int> get_base_stats(void) = 0;
 
-            /*!
-             * Return Pokémon's EV yields.
+            /*
+             * Returns Pokémon's effort value yields.
              * In Gen 1-2, simply calls get_base_stats().
-             * \return String with display name
+             *
+             * Query stats as follows:
+             *  - HP: dict_name["HP"]
+             *  - Attack: dict_name["ATK"]
+             *  - Defense: dict_name["DEF"]
+             *  - Speed: dict_name["SPD"]
+             *  - Special: dict_name["SPCL"] (Gen 1 only)
+             *  - Special Attack: dict_name["SATK"] (Gen 2-5 only)
+             *  - Special Defense: dict_name["SDEF"] (Gen 2-5 only)
              */
-            virtual dict<std::string,int> get_ev_yields(void) = 0;
+            virtual dict<std::string, int> get_ev_yields(void) = 0;
 
-            /*!
+            /*
              * Return Pokémon's chance of being male.
-             * NOTE: Will throw an error unless overridden.
-             * \return Double with Pokémon's chance of being male
+             * NOTE: Will throw an error if Pokémon is from Generation 1.
              */
             virtual double get_chance_male(void) {throw std::runtime_error("Not valid in this generation.");}
 
-            /*!
+            /*
              * Return Pokémon's chance of being female.
-             * NOTE: Will throw an error unless overridden.
-             * \return Double with Pokémon's chance of being female
+             * NOTE: Will throw an error if Pokémon is from Generation 1.
              */
             virtual double get_chance_female(void) {throw std::runtime_error("Not valid in this generation.");}
 
-            /*!
+            /*
              * Return Pokémon's potential abilities.
-             * NOTE: Will throw an error unless overriden.
-             * \return List of strings with Pokémon's abilities
+             * NOTE: Will throw an error if Pokémon is from Generations 1-2.
              */
-            virtual dict<int,std::string> get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
+            virtual dict<int, std::string> get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
 			
-			/*!
+			/*
 			 * If Pokémon can be evolved, returns vector of base_pkmn objects of all evolutions.
-			 * \param evolution_vec A refernce to a vector in which to place list of Pokémon.
+             * If not, vector is empty.
+             *
+             * Parameters:
+             *  - evolution_vec: Reference to a pointer in which to place Pokémon
 			 */
 			void get_evolutions(std::vector<sptr>& evolution_vec);
 
-			/*!
+			/*
 			 * If Pokémon is fully evolved, returns true. If it can evolve further, returns false.
-			 * \return Bool showing if Pokémon is fully evolved
 			 */
-			bool is_fully_evolved();
+			bool is_fully_evolved(void);
 
-            std::vector<base_move::sptr> get_legal_moves() {return legal_moves;}
-            //std::vector<base_move::sptr> get_machine_moves() {return machine_moves;}
-            //std::map<int, base_move::sptr> get_level_moves() {return level_moves;}
+            /*
+             * Returns vector of moves that this Pokémon can legally learn in this generation.
+             * NOTE: Vector will be empty if base_pkmn was declared with query_moves = False
+             */
+            std::vector<base_move::sptr> get_legal_moves(void) {return legal_moves;}
 
         protected:
-            std::string display_name;
+            //Database values
 			std::string database_identifier;
-            int pkmn_id, species_id; //Database values
+            int pkmn_id, species_id;
+
+            std::string display_name;
 			int from_gen;
             int nat_pokedex_num;
             std::string species;
             std::string type1, type2;
             double height; //meters
             double weight; //kilograms
-            int baseHP, baseATK, baseDEF, baseSPD; //Base stats
+            int baseHP, baseATK, baseDEF, baseSPD; //Base stats common to all generations
             int exp_yield;
             std::vector<base_move::sptr> legal_moves; //All moves legally available
-            //std::vector<base_move::sptr> machine_moves; //All moves taught by TM/HM
-            //std::map<int, base_move::sptr> level_moves; //All moves learned by levelling up
 
-            //Only used by spec_pkmn implementations
+            //Only used internally
             friend int get_pkmn_id(sptr base);
             friend int get_species_id(sptr base);
     };
 
-    /*!
+    /*
      * Return a vector with all base Pokémon of specified type combo.
-     * \param pkmn_vector A reference to a vector in which to place list of Pokémon.
-     * \param type1 The type (or one of the types) of Pokémon to return
-     * \param type2 The second type of the type combo of Pokémon to return
-     * \param gen Only return Pokémon present in this generation.
-     * \param lax If only one type specified, use all type combos with this type
+     *
+     * Parameters:
+     *  - pkmn_vector:  A reference to a vector in which to place list of Pokémon.
+     *  - type1: The type (or one of the types) of Pokémon to return
+     *  - type2: The second type of the type combo of Pokémon to return
+     *  - gen: Only return Pokémon present in this generation.
+     *  - lax: If only one type is specified, use all type combos with this type
      */
     void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>& pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
 }
-#endif
+
+#endif /* INCLUDED_BASE_PKMN_HPP */

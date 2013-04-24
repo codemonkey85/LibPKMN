@@ -19,7 +19,7 @@
 
 namespace pkmnsim
 {
-    /*!
+    /*
      * Specific Pokémon class
      *
      * This class generates an object that represents a specific
@@ -35,83 +35,104 @@ namespace pkmnsim
     {
         public:
 
+            typedef boost::shared_ptr<spec_pkmn> sptr;
+
+            //Class constructors (should never be called directly)
             spec_pkmn() {};
             spec_pkmn(base_pkmn::sptr b, bool i, std::string m1, std::string m2,
                       std::string m3, std::string m4, int g, int l);
 
-            typedef boost::shared_ptr<spec_pkmn> sptr;
 
-            /*!
-             * Make a new specific Pokemon with some specified values.
-             * Other values are random within bounds of specified values.
-             * \param identifier This Pokemon's base Pokemon's identifier.
-             * \param gen The generation whose algorithms to use.
-             * \param level Pokemon's level.
-             * \param move1 Identifier for move 1.
-             * \param move2 Identifier for move 2.
-             * \param move3 Identifier for move 3.
-             * \param move4 Identifier for move 4.
-             * \param illegal Ignore illegal stats, moves, etc.
-             * \return A new specific Pokemon shared pointer
+            /*
+             * Returns a boost::shared_ptr<spec_pkmn> of generated specific Pokémon.
+             * Some values are random within bounds of specified values.
+             *
+             * Parameters:
+             *  - identifier: this Pokemon's base Pokemon's identifier.
+             *  - gen: the generation whose algorithms to use.
+             *  - level: Pokémon's level.
+             *  - move1: identifier for move 1.
+             *  - move2: identifier for move 2.
+             *  - move3: identifier for move 3.
+             *  - move4: identifier for move 4.
+             *  - illegal: ignore illegal stats, moves, etc.
              */
             static sptr make(std::string identifier, int gen, int level,
                              std::string move1, std::string move2,
                              std::string move3, std::string move4,
                              bool illegal);
 
-            /*!
-             * Get the base Pokémon used to generate this Pokémon.
-             * \return Base Pokémon shared pointer
+            /*
+             * Returns the base Pokémon used to generate this Pokémon.
              */
             base_pkmn::sptr get_base_pkmn(void) {return base;}
 
-            /*!
-             * Get the Pokémon's nickname.
-             * \return String with Pokémon's nickname
+            /*
+             * Returns the Pokémon's nickname.
              */
             std::string get_nickname(void) {return nickname;}
 
-            /*!
-             * Get the Pokémon's level.
-             * \return Int with Pokémon's level
+            /*
+             * Returns the Pokémon's level.
              */
             int get_level(void) {return level;}
 
-            /*!
-             * Get the Pokémon's stats.
-             * \return List of ints with stats
+            /*
+             * Returns the Pokémon's stats.
+             *
+             * Query stats as follows:
+             *  - HP: dict_name["HP"]
+             *  - Attack: dict_name["ATK"]
+             *  - Defense: dict_name["DEF"]
+             *  - Speed: dict_name["SPD"]
+             *  - Special: dict_name["SPCL"] (Gen 1 only)
+             *  - Special Attack: dict_name["SATK"] (Gen 2-5 only)
+             *  - Special Defense: dict_name["SDEF"] (Gen 2-5 only)
              */
             virtual dict<std::string, int> get_stats(void) = 0;
 
-            /*!
-             * Get the Pokémon's individual values.
-             * Note: These values are sometimes randomly generated.
-             * \return List of ints with IVs
+            /*
+             * Returns the Pokémon's individual values.
+             * NOTE: These values are sometimes randomly generated.
+             *
+             * Query stats as follows:
+             *  - HP: dict_name["HP"]
+             *  - Attack: dict_name["ATK"]
+             *  - Defense: dict_name["DEF"]
+             *  - Speed: dict_name["SPD"]
+             *  - Special: dict_name["SPCL"] (Gen 1 only)
+             *  - Special Attack: dict_name["SATK"] (Gen 2-5 only)
+             *  - Special Defense: dict_name["SDEF"] (Gen 2-5 only)
              */
             virtual dict<std::string, int> get_IVs(void) = 0;
 
             /*!
-             * Get the Pokémon's effort values.
-             * Note: These values are sometimes randomly generated.
-             * \return List of ints with EVs
+             * Returns the Pokémon's effort values.
+             * NOTE: These values are sometimes randomly generated.
+             *
+             * Query stats as follows:
+             *  - HP: dict_name["HP"]
+             *  - Attack: dict_name["ATK"]
+             *  - Defense: dict_name["DEF"]
+             *  - Speed: dict_name["SPD"]
+             *  - Special: dict_name["SPCL"] (Gen 1 only)
+             *  - Special Attack: dict_name["SATK"] (Gen 2-5 only)
+             *  - Special Defense: dict_name["SDEF"] (Gen 2-5 only)
              */
             virtual dict<std::string, int> get_EVs(void) = 0;
 
             /*
-             * Get the names of the Pokémon's moves.
-             * \return List of strings with names of Pokémon's moves.
+             * Returns the names of the Pokémon's moves.
              */
             vla<base_move::sptr> get_moves(void) {return moves;}
 
-            /*!
-             * Get a string with basic information on the Pokémon.
-             * \return String with basic Pokémon info
+            /*
+             * Returns a string with basic information on the Pokémon.
              */
             virtual std::string get_info(void) = 0;
 
-            /*!
-             * Get a string with all information on the Pokémon.
-             * \return String with all Pokémon info
+            /*
+             * Returns a string with all information on the Pokémon.
              */
             virtual std::string get_info_verbose(void) = 0;
 
@@ -141,14 +162,11 @@ namespace pkmnsim
             virtual int get_hp_from_iv_ev() = 0;
             virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm
 
-            /*!
+            /*
              * Reset map of volatile statuses (confusion, infatuation, etc.).
              * This map varies with the generation.
              */
             virtual void reset_volatile_status_map(void) = 0;
     };
-
-    int get_pkmn_id(base_pkmn::sptr);
-    int get_species_id(base_pkmn::sptr);
 }
-#endif
+#endif /* INCLUDED_SPEC_PKMN_HPP */

@@ -10,7 +10,7 @@
 #include <iostream>
 
 #include "base_move_mainimpl.hpp"
-//TODO: Other includes for Pokemon-specific move implemenntations (Curse, Hidden Power,etc)
+//TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
 #include <pkmnsim/base_move.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
 
