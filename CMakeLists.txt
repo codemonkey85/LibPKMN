@@ -5,7 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 cmake_minimum_required(VERSION 2.8.5)
-project(PKMNSIM)
+project(PKMNsim)
 
 set(pkmnsim_VERSION_MAJOR 0)
 set(pkmnsim_VERSION_MINOR 1)
