@@ -8,8 +8,8 @@
 #include <algorithm>
 #include <boost/format.hpp>
 #include <iostream>
-
 #include "base_move_mainimpl.hpp"
+#include "internal.hpp"
 //TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
 #include <pkmnsim/base_move.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
@@ -69,8 +69,7 @@ namespace pkmnsim
     base_move::sptr base_move::make(string identifier, int gen)
     {
         //Match database's identifier format
-        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
-        replace(identifier.begin(), identifier.end(), ' ', '-');
+        to_database_format(&identifier);
         
         SQLite::Database db("@PKMNSIM_DB@");
         /*

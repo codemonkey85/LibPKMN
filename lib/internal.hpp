@@ -8,9 +8,11 @@
 #ifndef INCLUDED_INTERNAL_HPP
 #define INCLUDED_INTERNAL_HPP
 
+#include <string>
+
 namespace pkmnsim
 {
-    //DEFINE NON-FRIEND FUNCTIONS HERE
+    void to_database_format(std::string *identifier);
 }
 
 #endif /* INCLUDED_INTERNAL_HPP */

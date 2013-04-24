@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <boost/format.hpp>
+#include "internal.hpp"
 #include <sstream>
 #include <stdexcept>
 #include <pkmnsim/dict.hpp>
@@ -27,7 +28,8 @@ namespace pkmnsim
 
         SQLite::Database db("@PKMNSIM_DB@");
 
-        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+        //Match database's identifier format
+        to_database_format(&identifier);
 
         string query_string = str(boost::format("SELECT id FROM natures WHERE identifier=%d")
                                          % identifier);

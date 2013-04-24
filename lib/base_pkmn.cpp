@@ -10,6 +10,7 @@
 #include "base_pkmn_gen1impl.hpp"
 #include "base_pkmn_gen2impl.hpp"
 #include "base_pkmn_gen3impl.hpp"
+#include "internal.hpp"
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
@@ -175,7 +176,8 @@ namespace pkmnsim
 
     base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
     {
-        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
+        //Match database's identifier format
+        to_database_format(&identifier);
 
         if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
