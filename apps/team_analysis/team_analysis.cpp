@@ -123,6 +123,7 @@ int main(int argc, char *argv[])
     //Get Pokémon team and output
     vector<base_pkmn::sptr> pkmn_team;
     int count = 0;
+    cout << "Analyzing team..." << endl << endl;
     while(getline(team_file_input,pkmn_name))
     {
         if(count > 6) break;
@@ -133,7 +134,7 @@ int main(int argc, char *argv[])
     if(verbose) cout << endl;
     team_file_input.close();
 
-    cout << endl << "Team:" << endl;
+    cout << "Team:" << endl;
     for(int i = 0; i < pkmn_team.size(); i++)
     {
         string pkmn_name = pkmn_team[i]->get_display_name();
