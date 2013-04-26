@@ -140,7 +140,6 @@ int main(int argc, char *argv[])
         string type1 = pkmn_team[i]->get_types()[0];
         string type2 = pkmn_team[i]->get_types()[1];
         
-
         if(type2 == "None") cout << boost::format(" * %s (%s)\n") % pkmn_name % type1;
         else cout << boost::format(" * %s (%s/%s)\n") % pkmn_name % type1 % type2;
     }

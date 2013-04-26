@@ -26,8 +26,8 @@ map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<str
     for(int i = 0; i < pkmn_team.size(); i++)
     {
         dict<int, string> types = pkmn_team[i]->get_types();
-        nums[types[1]]++;
-        if(types[2] != "None") nums[types[2]]++;
+        nums[types[0]]++;
+        if(types[1] != "None") nums[types[1]]++;
     }
 
     //Delete map entries for non-overlapping types

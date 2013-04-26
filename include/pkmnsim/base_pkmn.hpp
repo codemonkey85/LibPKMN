@@ -85,7 +85,7 @@ namespace pkmnsim
             {
                 dict<int, std::string> type_dict;
                 type_dict[0] = type1;
-                if(type2 != "None") type_dict[1] = type2;
+                type_dict[1] = type2;
                 return type_dict;
             }
 
