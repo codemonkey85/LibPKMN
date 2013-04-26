@@ -5,6 +5,9 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+FILE(TO_NATIVE_PATH "${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR}" DATABASE_DIR)
+SET(DATABASE_DIR ${DATABASE_DIR} CACHE FILEPATH "Database directory")
+
 FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db")
 
 #Copy over to binary directory for proper out-of-date behavior

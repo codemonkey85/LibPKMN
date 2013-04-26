@@ -7,83 +7,31 @@
 
 #Place database location into relevant source files
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
-FILE(TO_NATIVE_PATH ${PKMNSIM_PKG_DATA_PATH}/pkmnsim.db PKMNSIM_DB)
-STRING(REPLACE "\\" "\\\\" PKMNSIM_DB ${PKMNSIM_DB})
 MESSAGE(STATUS "")
 
 add_subdirectory(sqlitecpp)
 
 #Configure database info for relevant library files
 CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen1impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen1impl.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen2impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen2impl.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen3impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen3impl.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen1impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/spec_pkmn_gen1impl.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/spec_pkmn_gen2impl.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen3impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/spec_pkmn_gen3impl.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_nature.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/pkmn_nature.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_types.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/pkmn_types.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_move.cpp
-@ONLY)
-
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_move_mainimpl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/internal.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
 @ONLY)
 
 LIST(APPEND libpkmnsim_sources
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen1impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen2impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_pkmn_gen3impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/pkmn_nature.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/pkmn_types.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen1impl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen2impl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen3impl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_nature.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_types.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/spec_pkmn_gen1impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/spec_pkmn_gen2impl.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/spec_pkmn_gen3impl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen1impl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen3impl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_move.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/base_move_mainimpl.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/internal.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
+    ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Column.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Database.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Statement.cpp
@@ -99,7 +47,7 @@ FOREACH(header ${pkmnsim_lib_headers})
 ENDFOREACH(header)
 
 ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
-TARGET_LINK_LIBRARIES(pkmnsim ${SQLITE3_LIBRARY})
+TARGET_LINK_LIBRARIES(pkmnsim ${SQLITE3_LIBRARY} ${Boost_LIBRARIES})
 SET_TARGET_PROPERTIES(pkmnsim PROPERTIES DEFINE_SYMBOL "PKMNSIM_DLL_EXPORTS")
 INSTALL(TARGETS pkmnsim
     LIBRARY DESTINATION ${LIBRARY_DIR} COMPONENT libraries #.so

@@ -5,10 +5,15 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <boost/filesystem.hpp>
+#include <cstdlib>
 #include <pkmnsim/base_pkmn.hpp>
+#include <fstream>
 #include "internal.hpp"
+#include <stdexcept>
 #include <string>
 
+namespace fs = boost::filesystem;
 using namespace std;
 
 namespace pkmnsim
@@ -23,5 +28,19 @@ namespace pkmnsim
         transform(identifier->begin(), identifier->end(), identifier->begin(), ::tolower);
         replace(identifier->begin(), identifier->end(), ' ', '-');
         //TODO: Remove instances of ' (e.g. Farfetch'd)
+    }
+
+    //Get location of database
+    string get_database_path(void)
+    {
+        const char* database_dir = getenv("PKMNSIM_DATABASE_DIR"); //Environment variable
+        if(database_dir == NULL) database_dir = "@DATABASE_DIR@"; //CMake variable
+
+        fs::path database_path = fs::path(database_dir) / "pkmnsim.db";
+
+        ifstream ifile(database_path.string().c_str());
+        if(not ifile) throw runtime_error("Could not find database!");
+
+        return database_path.string();
     }
 }

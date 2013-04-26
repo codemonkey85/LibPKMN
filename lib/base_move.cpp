@@ -71,7 +71,7 @@ namespace pkmnsim
         //Match database's identifier format
         to_database_format(&identifier);
         
-        SQLite::Database db("@PKMNSIM_DB@");
+        SQLite::Database db(get_database_path().c_str());
         /*
             if(identifier == "curse") {}
             else if(identifier == "hidden power") {}

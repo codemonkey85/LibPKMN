@@ -1,4 +1,5 @@
 #include <boost/format.hpp>
+#include "internal.hpp"
 #include <iostream>
 #include <pkmnsim/pkmn_types.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
@@ -23,7 +24,7 @@ namespace pkmnsim
 
         if(type1 != "None" and type1 != "???" and type2 != "None" and type2 != "???" and type1 != "Shadow" and type2 != "Shadow")
         {
-            SQLite::Database db("@PKMNSIM_DB@");
+            SQLite::Database db(get_database_path().c_str());
 
             //Get type IDs
             query_string = str(boost::format("SELECT type_id FROM type_names WHERE name='%s'")
@@ -48,7 +49,7 @@ namespace pkmnsim
 
     vector<string> get_type_names(int gen)
     {
-        SQLite::Database db("@PKMNSIM_DB@");
+        SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT name FROM type_names";
         vector<string> types;
 

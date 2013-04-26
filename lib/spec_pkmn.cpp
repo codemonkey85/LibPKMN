@@ -4,6 +4,7 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#include "internal.hpp"
 #include <iostream>
 #include <string>
 #include <pkmnsim/base_move.hpp>
@@ -24,7 +25,7 @@ namespace pkmnsim
         base = b;
         nickname = base->get_display_name();
         level = l;
-        SQLite::Database db("@PKMNSIM_DB@"); //Filepath given by CMake
+        SQLite::Database db(get_database_path().c_str()); //Filepath given by CMake
         int base_pkmn_id = get_pkmn_id(base);
         int base_species_id = get_species_id(base);
 

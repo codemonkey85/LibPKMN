@@ -26,7 +26,7 @@ namespace pkmnsim
         double SDEFmod = 1.0;
         double SPDmod = 1.0;
 
-        SQLite::Database db("@PKMNSIM_DB@");
+        SQLite::Database db(get_database_path().c_str());
 
         //Match database's identifier format
         to_database_format(&identifier);

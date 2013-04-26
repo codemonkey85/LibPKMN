@@ -127,7 +127,7 @@ namespace pkmnsim
 	{
         evolution_vec.clear();
 
-		SQLite::Database db("@PKMNSIM_DB@");
+		SQLite::Database db(get_database_path().c_str());
 		string query_string;
 		
         vector<int> evolution_ids;
@@ -181,7 +181,7 @@ namespace pkmnsim
 
         if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
-        SQLite::Database db("@PKMNSIM_DB@"); //Filepath filled by CMake
+        SQLite::Database db(get_database_path().c_str());
         string query_string;
 
         switch(gen)
@@ -201,7 +201,7 @@ namespace pkmnsim
     {
         pkmn_vector.clear();
 
-        SQLite::Database db("@PKMNSIM_DB@"); //Filepath to be filled by CMake
+        SQLite::Database db(get_database_path().c_str());
         string query_string;
         vector<string> names;
         int pkmn_id, type1_id, type2_id;
