@@ -126,6 +126,7 @@ int main(int argc, char *argv[])
     cout << "Analyzing team..." << endl << endl;
     while(getline(team_file_input,pkmn_name))
     {
+        //A team can only have six members
         if(count > 6) break;
         pkmn_team.push_back(base_pkmn::make(pkmn_name, gen, true));
         if(verbose) cout << "Successfully added Pokémon: " << pkmn_name << endl;
@@ -137,6 +138,8 @@ int main(int argc, char *argv[])
     cout << "Team:" << endl;
     for(int i = 0; i < pkmn_team.size(); i++)
     {
+        if(i > 5) break;
+
         string pkmn_name = pkmn_team[i]->get_display_name();
         string type1 = pkmn_team[i]->get_types()[0];
         string type2 = pkmn_team[i]->get_types()[1];
