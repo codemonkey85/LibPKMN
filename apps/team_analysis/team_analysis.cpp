@@ -4,6 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#include "team_analysis_common.hpp"
+
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 #include <boost/program_options.hpp>
@@ -23,9 +25,6 @@ namespace po = boost::program_options;
 using namespace pkmnsim;
 using namespace std;
 
-typedef map<string, int>::iterator si_iter;
-typedef map<string, double>::iterator sd_iter;
-
 void print_help(po::variables_map vm, po::options_description desc)
 {
     cout << endl << "Team Analysis - " << desc << endl;
@@ -40,28 +39,6 @@ void print_help(po::variables_map vm, po::options_description desc)
          << "Dragonair" << endl
          << "Aerodactyl" << endl
          << "Dragonite" << endl << endl;
-}
-
-map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<string> type_list)
-{
-    map<string, int> nums; //Key = type, val = number of Pokémon with that type
-    for(int i = 0; i < type_list.size(); i++) nums[type_list[i]] = 0;
-
-    //Generate vector with number of occurrences of each type
-    for(int i = 0; i < pkmn_team.size(); i++)
-    {
-        dict<int, string> types = pkmn_team[i]->get_types();
-        nums[types[1]]++;
-        if(types[2] != "None") nums[types[2]]++;
-    }
-
-    //Delete map entries for non-overlapping types
-    for(int i = 0; i < type_list.size(); i++)
-    {
-        if(nums[type_list[i]] < 2) nums.erase(type_list[i]);
-    }
-
-    return nums;
 }
 
 string get_pkmn_effectiveness_string(string pkmn_name, map<string, double> &effectiveness_map)
@@ -90,21 +67,6 @@ string get_pkmn_effectiveness_string(string pkmn_name, map<string, double> &effe
                                                        output_string % bad_types_str);
 
     return output_string;
-}
-
-void trim_effectiveness_maps(map<string, int> &super_effective_map, map<string, int> &not_very_effective_map)
-{
-    for(si_iter i = super_effective_map.begin(); i != super_effective_map.end(); ++i)
-    {
-        string type_name = i->first;
-        if(i->second > not_very_effective_map[type_name]) not_very_effective_map[type_name] = 0;
-        else if(i->second < not_very_effective_map[type_name]) i->second = 0;
-        else //Equal number, neither are a trend
-        {
-            i->second = 0;
-            not_very_effective_map[type_name] = 0;
-        }
-    }
 }
 
 string get_trends_string(map<string, int> &super_effective_map, map<string, int> &not_very_effective_map)

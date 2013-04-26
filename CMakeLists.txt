@@ -52,7 +52,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(share)
 add_subdirectory(include)
 add_subdirectory(lib)
-add_subdirectory(bin)
+add_subdirectory(apps)
 
 MESSAGE(STATUS "Building PKMNsim.")
 MESSAGE(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
