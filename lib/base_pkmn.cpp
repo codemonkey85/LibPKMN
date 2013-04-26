@@ -176,24 +176,32 @@ namespace pkmnsim
 
     base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
     {
-        //Match database's identifier format
-        to_database_format(&identifier);
-
-        if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
-
-        SQLite::Database db(get_database_path().c_str());
-        string query_string;
-
-        switch(gen)
+        try
         {
-            case 1:
-                return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
+            //Match database's identifier format
+            to_database_format(&identifier);
 
-            case 2:
-                return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
+            if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
-            default:
-                return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
+            SQLite::Database db(get_database_path().c_str());
+            string query_string;
+
+            switch(gen)
+            {
+                case 1:
+                    return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
+
+                case 2:
+                    return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
+
+                default:
+                    return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
+            }
+        }
+        catch(const exception &e)
+        {
+            cout << "Caught exception: " << e.what() << endl;
+            exit(EXIT_FAILURE);
         }
     }
 

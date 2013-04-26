@@ -13,6 +13,7 @@
 #include "spec_pkmn_gen3impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 #include <pkmnsim/spec_pkmn.hpp>
+#include <stdexcept>
 #include <vector>
 
 using namespace std;
@@ -103,23 +104,31 @@ namespace pkmnsim
     spec_pkmn::sptr spec_pkmn::make(string identifier, int gen, int level, string move1,
                                     string move2, string move3, string move4, bool illegal)
     {
-        base_pkmn::sptr base = base_pkmn::make(identifier, gen, true);
-
-        if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
-
-        switch(gen)
+        try
         {
-            case 1:
-                return sptr(new spec_pkmn_gen1impl(base, level,
-                                                   move1, move2, move3, move4, illegal));
+            base_pkmn::sptr base = base_pkmn::make(identifier, gen, true);
 
-            case 2:
-                return sptr(new spec_pkmn_gen2impl(base, level,
-                                                   move1, move2, move3, move4, illegal));
+            if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
-            default:
-                return sptr(new spec_pkmn_gen3impl(base, level, gen,
-                                                   move1, move2, move3, move4, illegal));
+            switch(gen)
+            {
+                case 1:
+                    return sptr(new spec_pkmn_gen1impl(base, level,
+                                                       move1, move2, move3, move4, illegal));
+
+                case 2:
+                    return sptr(new spec_pkmn_gen2impl(base, level,
+                                                       move1, move2, move3, move4, illegal));
+
+                default:
+                    return sptr(new spec_pkmn_gen3impl(base, level, gen,
+                                                       move1, move2, move3, move4, illegal));
+            }
+        }
+        catch(exception &e)
+        {
+            cout << "Caught exception: " << e.what() << endl;
+            exit(EXIT_FAILURE);
         }
     }
 }

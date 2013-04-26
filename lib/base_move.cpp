@@ -68,15 +68,23 @@ namespace pkmnsim
 
     base_move::sptr base_move::make(string identifier, int gen)
     {
-        //Match database's identifier format
-        to_database_format(&identifier);
-        
-        SQLite::Database db(get_database_path().c_str());
-        /*
-            if(identifier == "curse") {}
-            else if(identifier == "hidden power") {}
-            else{
-        */
-        return sptr(new base_move_mainimpl(identifier, &db, gen));
+        try
+        {
+            //Match database's identifier format
+            to_database_format(&identifier);
+            
+            SQLite::Database db(get_database_path().c_str());
+            /*
+                if(identifier == "curse") {}
+                else if(identifier == "hidden power") {}
+                else{
+            */
+            return sptr(new base_move_mainimpl(identifier, &db, gen));
+        }
+        catch(const exception &e)
+        {
+            cout << "Caught exception: " << e.what() << endl;
+            exit(EXIT_FAILURE);
+        }
     }
 }

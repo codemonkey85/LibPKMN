@@ -118,6 +118,11 @@ namespace pkmnsim
 
     pkmn_nature::sptr pkmn_nature::make(string identifier)
     {
-        return pkmn_nature::sptr(new pkmn_nature(identifier));
+        try {return pkmn_nature::sptr(new pkmn_nature(identifier));}
+        catch(exception &e)
+        {
+            cout << "Caught exception: " << e.what() << endl;
+            exit(EXIT_FAILURE);
+        }
     }
 }
