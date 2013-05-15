@@ -42,6 +42,18 @@ IF(NOT DEFINED PKG_LIB_DIR)
     SET(PKG_LIB_DIR ${PKG_DATA_DIR})
 ENDIF()
 
+########################################################################
+# Create Uninstall Target
+########################################################################
+CONFIGURE_FILE(
+    ${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+@ONLY)
+
+ADD_CUSTOM_TARGET(uninstall
+    ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
+)
+
 #select the release build type by default to get optimization flags
 IF(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE "Release")
