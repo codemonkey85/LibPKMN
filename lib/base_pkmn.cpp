@@ -123,6 +123,53 @@ namespace pkmnsim
         else legal_moves.clear();
 	}
 	
+    base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
+    {
+        try
+        {
+            //Match database's identifier format
+            to_database_format(&identifier);
+
+            if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
+
+            SQLite::Database db(get_database_path().c_str());
+            string query_string;
+
+            switch(gen)
+            {
+                case 1:
+                    return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
+
+                case 2:
+                    return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
+
+                default:
+                    return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
+            }
+        }
+        catch(const exception &e)
+        {
+            cout << "Caught exception: " << e.what() << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    string base_pkmn::get_display_name(void) {return display_name;}
+
+    int base_pkmn::get_nat_pokedex_num(void) {return nat_pokedex_num;}
+
+    dict<int, std::string> base_pkmn::get_types(void)
+    {
+        dict<int, std::string> type_dict;
+        type_dict[0] = type1;
+        type_dict[1] = type2;
+        return type_dict;
+    }
+
+    double base_pkmn::get_height(void) {return height;}
+
+    double base_pkmn::get_weight(void) {return weight;}
+
 	void base_pkmn::get_evolutions(vector<sptr>& evolution_vec)
 	{
         evolution_vec.clear();
@@ -174,36 +221,7 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
 
-    base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
-    {
-        try
-        {
-            //Match database's identifier format
-            to_database_format(&identifier);
-
-            if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
-
-            SQLite::Database db(get_database_path().c_str());
-            string query_string;
-
-            switch(gen)
-            {
-                case 1:
-                    return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
-
-                case 2:
-                    return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
-
-                default:
-                    return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
-            }
-        }
-        catch(const exception &e)
-        {
-            cout << "Caught exception: " << e.what() << endl;
-            exit(EXIT_FAILURE);
-        }
-    }
+    vector<base_move::sptr> base_pkmn::get_legal_moves(void) {return legal_moves;}
 
     void get_pkmn_of_type(vector<base_pkmn::sptr> &pkmn_vector, string type1, string type2, int gen, bool lax)
     {

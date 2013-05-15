@@ -46,32 +46,32 @@ namespace pkmnsim
             /*
              * Returns move's name.
              */
-            std::string get_name(void) {return name;}
+            std::string get_name(void);
 
             /*
              * Returns description of move's effects.
              */
-            std::string get_description(void) {return description;}
+            std::string get_description(void);
 
             /*
              * Returns move's type.
              */
-            std::string get_type(void) {return type;}
+            std::string get_type(void);
 
             /*
              * Returns move's base power value (to be input into damage algorithm).
              */
-            int get_base_power(void) {return base_power;}
+            int get_base_power(void);
 
             /*
              * Returns move's Power Points (number of times move can be used without replenishing)
              */
-            int get_base_pp(void) {return base_pp;}
+            int get_base_pp(void);
 
             /*
              * Returns moves chances of succeeding (0.0-1.0).
              */
-            double get_base_accuracy(void) {return base_accuracy;}
+            double get_base_accuracy(void);
 
             //TODO: implement
             //std::string get_move_damage_class(void) {return move_damage_class;}
@@ -79,12 +79,12 @@ namespace pkmnsim
             /*
              * Returns effect (burn, paralyze, etc) of move (without any in-battle changes).
              */
-            std::string get_base_effect(void) {return base_effect;}
+            std::string get_base_effect(void);
 
             /*
              * Returns chance of causing effect (0.0-1.0).
              */
-            double get_base_effect_chance(void) {return base_effect_chance;}
+            double get_base_effect_chance(void);
 
         protected:
             //Database values

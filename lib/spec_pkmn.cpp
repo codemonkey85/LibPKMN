@@ -131,4 +131,12 @@ namespace pkmnsim
             exit(EXIT_FAILURE);
         }
     }
+
+    base_pkmn::sptr spec_pkmn::get_base_pkmn(void) {return base;}
+
+    string spec_pkmn::get_nickname(void) {return nickname;}
+
+    int spec_pkmn::get_level(void) {return level;}
+
+    vla<base_move::sptr> spec_pkmn::get_moves(void) {return moves;}
 }

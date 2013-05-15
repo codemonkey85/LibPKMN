@@ -71,34 +71,28 @@ namespace pkmnsim
             /*
              * Returns Pokémon's display name (e.g. Bulbasaur).
              */
-            std::string get_display_name(void) {return display_name;}
+            std::string get_display_name(void);
 
             /*
              * Returns Pokémon's National Pokedex number (1-649, as of Gen 5).
              */
-            int get_nat_pokedex_num(void) {return nat_pokedex_num;}
+            int get_nat_pokedex_num(void);
 
             /*
              * Returns Pokémon's types.
              */
-            dict<int, std::string> get_types(void)
-            {
-                dict<int, std::string> type_dict;
-                type_dict[0] = type1;
-                type_dict[1] = type2;
-                return type_dict;
-            }
+            dict<int, std::string> get_types(void);
 
             /*
              * Returns Pokémon's height (in meters).
              */
-            double get_height(void) {return height;}
+            double get_height(void);
 
             /*
              * Return Pokémon's weight (in kilograms).
              * \return Int with Pokémon weight
              */
-            double get_weight(void) {return weight;}
+            double get_weight(void);
 
             /*
              * Returns Pokémon's base stats.
@@ -165,7 +159,7 @@ namespace pkmnsim
              * Returns vector of moves that this Pokémon can legally learn in this generation.
              * NOTE: Vector will be empty if base_pkmn was declared with query_moves = False
              */
-            std::vector<base_move::sptr> get_legal_moves(void) {return legal_moves;}
+            std::vector<base_move::sptr> get_legal_moves(void);
 
         protected:
             //Database values

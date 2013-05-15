@@ -65,17 +65,17 @@ namespace pkmnsim
             /*
              * Returns the base Pokémon used to generate this Pokémon.
              */
-            base_pkmn::sptr get_base_pkmn(void) {return base;}
+            base_pkmn::sptr get_base_pkmn(void);
 
             /*
              * Returns the Pokémon's nickname.
              */
-            std::string get_nickname(void) {return nickname;}
+            std::string get_nickname(void);
 
             /*
              * Returns the Pokémon's level.
              */
-            int get_level(void) {return level;}
+            int get_level(void);
 
             /*
              * Returns the Pokémon's stats.
@@ -124,7 +124,7 @@ namespace pkmnsim
             /*
              * Returns the names of the Pokémon's moves.
              */
-            vla<base_move::sptr> get_moves(void) {return moves;}
+            vla<base_move::sptr> get_moves(void);
 
             /*
              * Returns a string with basic information on the Pokémon.

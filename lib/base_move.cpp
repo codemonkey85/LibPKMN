@@ -87,4 +87,20 @@ namespace pkmnsim
             exit(EXIT_FAILURE);
         }
     }
+
+    string base_move::get_name(void) {return name;}
+
+    string base_move::get_description(void) {return description;}
+
+    string base_move::get_type(void) {return type;}
+
+    int base_move::get_base_power(void) {return base_power;}
+
+    int base_move::get_base_pp(void) {return base_pp;}
+
+    double base_move::get_base_accuracy(void) {return base_accuracy;}
+
+    string base_move::get_base_effect(void) {return base_effect;}
+
+    double base_move::get_base_effect_chance(void) {return base_effect_chance;}
 }
