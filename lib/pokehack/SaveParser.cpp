@@ -4,10 +4,13 @@
 #include "SaveParser.h"
 
 // Global variables
-extern char* pokemon_species[];
-extern char* items[];
-extern char* natures[];
-extern char* attacks[];
+extern "C"
+{
+    extern char* pokemon_species[];
+    extern char* items[];
+    extern char* natures[];
+    extern char* attacks[];
+}
 
 SaveParser* SaveParser::spInstance = NULL;
 
