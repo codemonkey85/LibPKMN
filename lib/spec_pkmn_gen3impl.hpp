@@ -26,11 +26,10 @@ namespace pkmnsim
             std::string get_info();
             std::string get_info_verbose();
             char get_gender();
+            pkmn_nature::sptr get_nature();
+            std::string get_ability();
 
         private:
-            int SATK, SDEF;
-            int ivSATK, ivSDEF;
-            int evSATK, evSDEF;
             char gender;
             std::string ability;
             std::string held_item;

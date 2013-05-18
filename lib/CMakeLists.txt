@@ -35,6 +35,8 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/game_save.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/game_save_pokehackimpl.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
     ${pokehack_sources}
     ${sqlitecpp_sources}

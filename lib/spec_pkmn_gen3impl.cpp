@@ -107,6 +107,10 @@ namespace pkmnsim
 
     char spec_pkmn_gen3impl::get_gender() {return gender;}
 
+    pkmn_nature::sptr spec_pkmn_gen3impl::get_nature() {return nature;}
+
+    std::string spec_pkmn_gen3impl::get_ability() {return ability;}
+
     string spec_pkmn_gen3impl::get_info()
     {
         string types_str;
