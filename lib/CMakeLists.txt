@@ -9,7 +9,11 @@
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 MESSAGE(STATUS "")
 
+add_subdirectory(pokehack)
+FILE(GLOB pokehack_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "pokehack/*.c*")
+
 add_subdirectory(sqlitecpp)
+FILE(GLOB sqlitecpp_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "sqlitecpp/*.c*")
 
 #Configure database info for relevant library files
 CONFIGURE_FILE(
@@ -31,11 +35,11 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/game_save.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/game_save_pokehackimpl.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Column.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Database.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Statement.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/sqlitecpp/Transaction.cpp
+    ${pokehack_sources}
+    ${sqlitecpp_sources}
 )
 
 FILE(GLOB pkmnsim_lib_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")

@@ -27,7 +27,6 @@ namespace pkmnsim
             std::string get_info_verbose();
 
         private:
-            int SPCL, ivSPCL, evSPCL;
             dict<std::string, int> volatile_status_map;
 
             void reset_volatile_status_map();

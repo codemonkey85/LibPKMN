@@ -27,10 +27,6 @@ namespace pkmnsim
             char get_gender();
 
         private:
-            int SATK, SDEF;
-            int ivSATK, ivSDEF;
-            int evSATK, evSDEF;
-            char gender;
             std::string held_item;
             dict<std::string, int> volatile_status_map;
 

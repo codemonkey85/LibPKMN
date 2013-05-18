@@ -78,6 +78,24 @@ namespace pkmnsim
             int get_level(void);
 
             /*
+             * Returns the Pokémon's ability (Gen 3-5 only)
+             * NOTE: Will throw an error if Pokemon is from Generation 1-2.
+             */
+            virtual std::string get_ability(void) {throw std::runtime_error("Not valid in this generation.");}
+
+            /*
+             * Returns the Pokémon's gender (Gen 2-5 only)
+             * NOTE; Will throw an error if Pokemon is from Generation 1.
+             */
+            virtual char get_gender(void) {throw std::runtime_error("Not valid in this generation.");}
+
+            /*
+             * Returns the Pokémon's nature (Gen 3-5 only).
+             * NOTE: Will throw an error if Pokemon is from Generation 1-2.
+             */
+            virtual pkmn_nature::sptr get_nature(void) {throw std::runtime_error("Not valid in this generation.");}
+
+            /*
              * Returns the Pokémon's stats.
              *
              * Query stats as follows:
@@ -167,6 +185,19 @@ namespace pkmnsim
              * This map varies with the generation.
              */
             virtual void reset_volatile_status_map(void) = 0;
+
+            //Used by sub-classes, but needed for friend classes to access values
+            //These are otherwise only used by appropriate subclasses
+            int SPCL, SATK, SDEF;
+            int ivSPCL, ivSATK, ivSDEF;
+            int evSPCL, evSATK, evSDEF;
+            char gender;
+            pkmn_nature::sptr nature;
+            std::string ability;
+
+            //Allow game save's functions to access protected variables
+            friend class game_save;
+            friend class game_save_pokehackimpl;
     };
 }
 #endif /* INCLUDED_SPEC_PKMN_HPP */
