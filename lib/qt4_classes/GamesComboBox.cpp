@@ -5,7 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include <pkmnsim/lists.hpp>
-#include <pkmnsim/TypesComboBox.hpp>
+#include <pkmnsim/GamesComboBox.hpp>
 
 #include <string>
 #include <vector>
@@ -14,14 +14,14 @@ using namespace std;
 
 namespace pkmnsim
 {
-    TypesComboBox::TypesComboBox(QWidget* parent, int gen): QComboBox(parent)
+    GamesComboBox::GamesComboBox(QWidget* parent, int gen): QComboBox(parent)
     {
-        vector<string> types_vec;
-        get_type_list(types_vec, gen);
+        vector<string> games_vec;
+        get_game_group_list(games_vec);
 
-        for(int i = 0; i < types_vec.size(); i++)
+        for(int i = 0; i < games_vec.size(); i++)
         {
-            addItem(tr(types_vec[i].c_str()), QVariant(i));
+            addItem(tr(games_vec[i].c_str()), QVariant(i));
         }
     }
 }

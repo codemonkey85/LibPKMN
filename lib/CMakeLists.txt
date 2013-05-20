@@ -30,6 +30,7 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen3impl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_nature.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_types.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/lists.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen1impl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
