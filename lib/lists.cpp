@@ -52,7 +52,10 @@ namespace pkmnsim
         while(type_names_query.executeStep())
         {
             string type = type_names_query.getColumn(0);
-            if(not (gen == 1 and (type == "Steel" or type == "Dark"))) type_vec.push_back(type);
+            if(not (gen == 1 and (type == "Steel" or type == "Dark")) and type != "???" and type != "Shadow")
+            {
+                type_vec.push_back(type);
+            }
         }
     }
 }
