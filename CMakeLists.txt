@@ -67,5 +67,6 @@ add_subdirectory(lib)
 add_subdirectory(apps)
 
 MESSAGE(STATUS "Building PKMNsim.")
-MESSAGE(STATUS "Using install prefix: ${CMAKE_INSTALL_PREFIX}")
+MESSAGE(STATUS " - Build type: ${CMAKE_BUILD_TYPE}")
+MESSAGE(STATUS " - Install prefix: ${CMAKE_INSTALL_PREFIX}")
 MESSAGE(STATUS "")
