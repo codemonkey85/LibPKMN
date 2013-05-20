@@ -59,6 +59,10 @@ IF(QT4_FOUND)
     QT4_WRAP_CPP(MOCSrcs ${libpkmnsim_qt4_headers})
 
     LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
+
+    IF(MSVC)
+        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES LINK_FLAG_RELEASE "/SUBSYSTEM:WINDOWS")
+    ENDIF(MSVC)
 ENDIF(QT4_FOUND)
 
 FILE(GLOB pkmnsim_lib_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
