@@ -20,6 +20,6 @@ Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK 
 Dependencies:
  * Boost (http://www.boost.org)
  * SQLite (http://www.sqlite.org)
- * Qt (http://www.qt-project.org) - optional
+ * Qt4 (http://www.qt-project.org) - optional
 
-README last updated: 2013-05-15
+README last updated: 2013-05-20
