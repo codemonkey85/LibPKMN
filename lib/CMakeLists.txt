@@ -60,9 +60,6 @@ IF(QT4_FOUND)
 
     LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
 
-    IF(MSVC)
-        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES LINK_FLAG_RELEASE "/SUBSYSTEM:WINDOWS")
-    ENDIF(MSVC)
 ENDIF(QT4_FOUND)
 
 FILE(GLOB pkmnsim_lib_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
@@ -76,6 +73,10 @@ ENDFOREACH(header)
 ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
 TARGET_LINK_LIBRARIES(pkmnsim ${libpkmnsim_libs})
 SET_TARGET_PROPERTIES(pkmnsim PROPERTIES DEFINE_SYMBOL "PKMNSIM_DLL_EXPORTS")
+IF(MSVC AND QT4_FOUND)
+    #Otherwise, a command line terminal would open along with QT apps
+    SET_TARGET_PROPERTIES(pkmnsim PROPERTIES LINK_FLAG_RELEASE "/SUBSYSTEM:WINDOWS")
+ENDIF(MSVC AND QT4_FOUND)
 INSTALL(TARGETS pkmnsim
     LIBRARY DESTINATION ${LIBRARY_DIR} COMPONENT libraries #.so
     ARCHIVE DESTINATION ${LIBRARY_DIR} COMPONENT libraries #.lib
