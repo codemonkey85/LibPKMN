@@ -13,6 +13,7 @@
 #include <iostream>
 #include <map>
 #include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/lists.hpp>
 #include <pkmnsim/pkmn_types.hpp>
 #include <stdexcept>
 #include <string>
@@ -150,7 +151,8 @@ int main(int argc, char *argv[])
     cout << endl;
 
     //Get type overlaps and output
-    vector<string> type_list = get_type_names(gen);
+    vector<string> type_list;
+    get_type_list(type_list, gen);
     map<string, int> type_overlaps = get_type_overlaps(pkmn_team, type_list);
 
     cout << "Type overlaps:" << endl;

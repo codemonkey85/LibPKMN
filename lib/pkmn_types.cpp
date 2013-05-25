@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ *
+ * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+ * or copy at http://opensource.org/licenses/MIT)
+ */
 #include <boost/format.hpp>
 #include "internal.hpp"
 #include <iostream>
@@ -45,20 +51,5 @@ namespace pkmnsim
             return damage_mod;
         }
         else return 1.0;
-    }
-
-    vector<string> get_type_names(int gen)
-    {
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT name FROM type_names";
-        vector<string> types;
-
-        SQLite::Statement type_names_query(db, query_string.c_str());
-        while(type_names_query.executeStep())
-        {
-            string type = type_names_query.getColumn(0); //name
-            if(not (gen == 1 and (type == "Steel" or type == "Dark"))) types.push_back(type);
-        }
-        return types;
     }
 }
