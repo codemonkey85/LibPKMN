@@ -8,6 +8,7 @@
 #define INCLUDED_LISTS_HPP
 
 #include <iostream>
+#include <pkmnsim/config.hpp>
 #include <string>
 #include <vector>
 
@@ -16,10 +17,10 @@ namespace pkmnsim
     /*
      * Lists
      */
-    void get_game_list(std::vector<std::string>& game_vec);
-    void get_game_group_list(std::vector<std::string>& game_vec);
-    void get_pokemon_list(std::vector<std::string>& pkmn_vec);
-    void get_type_list(std::vector<std::string>& type_vec, int gen);
+    void PKMNSIM_API get_game_list(std::vector<std::string>& game_vec);
+    void PKMNSIM_API get_game_group_list(std::vector<std::string>& game_vec);
+    void PKMNSIM_API get_pokemon_list(std::vector<std::string>& pkmn_vec);
+    void PKMNSIM_API get_type_list(std::vector<std::string>& type_vec, int gen);
 }
 
 #endif /* INCLUDED_LISTS_HPP */

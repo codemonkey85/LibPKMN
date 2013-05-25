@@ -7,11 +7,12 @@
 #ifndef INCLUDED_TYPESCOMBOBOX_HPP
 #define INCLUDED_TYPESCOMBOBOX_HPP
 
+#include <pkmnsim/config.hpp>
 #include <QComboBox>
 
 namespace pkmnsim
 {
-    class TypesComboBox: public QComboBox
+    class PKMNSIM_API TypesComboBox: public QComboBox
     {
         Q_OBJECT
 

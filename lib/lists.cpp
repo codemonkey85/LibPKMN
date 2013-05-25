@@ -22,7 +22,11 @@ namespace pkmnsim
         string query_str = "SELECT name FROM version_names";
         SQLite::Statement query(db, query_str.c_str());
 
-        while(query.executeStep()) game_vec.push_back(query.getColumn(0));
+        while(query.executeStep())
+        {
+            string game = query.getColumn(0);
+            game_vec.push_back(game);
+        }
     }
 
     void get_game_group_list(vector<string>& game_group_vec)
@@ -45,6 +49,8 @@ namespace pkmnsim
 
     void get_type_list(vector<string>& type_vec, int gen)
     {
+        type_vec.clear();
+    
         SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT name FROM type_names";
 

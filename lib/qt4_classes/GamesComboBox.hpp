@@ -7,11 +7,12 @@
 #ifndef INCLUDED_GAMESCOMBOBOX_HPP
 #define INCLUDED_GAMESCOMBOBOX_HPP
 
+#include <pkmnsim/config.hpp>
 #include <QComboBox>
 
 namespace pkmnsim
 {
-    class GamesComboBox: public QComboBox
+    class PKMNSIM_API GamesComboBox: public QComboBox
     {
         Q_OBJECT
 
