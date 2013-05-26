@@ -10,8 +10,7 @@
 #include <string>
 #include <fstream>
 #include <pkmnsim/base_pkmn.hpp>
-#include "pokehack/pokestructs.h"
-#include "game_save_pokehackimpl.hpp"
+#include "game_save_gen3impl.hpp"
 #include <stdexcept>
 #include <vector>
 
@@ -30,7 +29,7 @@ extern "C"
 
 namespace pkmnsim
 {
-    game_save_pokehackimpl::game_save_pokehackimpl(std::string filename): game_save(filename)
+    game_save_gen3impl::game_save_gen3impl(std::string filename): game_save(filename)
     {
         try
         {
@@ -59,7 +58,7 @@ namespace pkmnsim
         
     }
 
-    spec_pkmn::sptr game_save_pokehackimpl::belt_pokemon_t_to_spec_pkmn(belt_pokemon_t* bpt, pokemon_effort_t* pet,
+    spec_pkmn::sptr game_save_gen3impl::belt_pokemon_t_to_spec_pkmn(belt_pokemon_t* bpt, pokemon_effort_t* pet,
                                                                         pokemon_attacks_t* pat, pokemon_misc_t* pmt, int index)
     {
         //Get values necessary to create spec_pkmn::sptr instance

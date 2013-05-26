@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_GAME_SAVE_POKEHACKIMPL_HPP
-#define INCLUDED_GAME_SAVE_POKEHACKIMPL_HPP
+#ifndef INCLUDED_GAME_SAVE_GEN3IMPL_HPP
+#define INCLUDED_GAME_SAVE_GEN3IMPL_HPP
 
 #include <iostream>
 #include <pkmnsim/game_save.hpp>
@@ -21,10 +21,10 @@ namespace pkmnsim
     /*
      * Game Save Class
      */
-    class PKMNSIM_API game_save_pokehackimpl: public game_save
+    class PKMNSIM_API game_save_gen3impl: public game_save
     {
         public:
-            game_save_pokehackimpl(std::string filename);
+            game_save_gen3impl(std::string filename);
             std::string get_trainer_name(void) = 0;
             void get_party(std::vector<spec_pkmn::sptr>& belt_pkmn_vec) = 0;
             //Better way to do this?
@@ -39,4 +39,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_GAME_SAVE_POKEHACKIMPL_HPP */
+#endif /* INCLUDED_GAME_SAVE_GEN3IMPL_HPP */
