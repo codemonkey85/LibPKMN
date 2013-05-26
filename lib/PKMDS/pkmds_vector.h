@@ -1,0 +1,41 @@
+#pragma once
+#include "pkmds_g5.h"
+bool comparebyspeciesasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbyspeciesasc(std::vector<pokemon_obj>& pkm);
+bool comparebygenderasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbygenderasc(std::vector<pokemon_obj>& pkm);
+bool comparebyformasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbyformasc(std::vector<pokemon_obj>& pkm);
+bool comparebyattackasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbyattackasc(std::vector<pokemon_obj>& pkm);
+bool comparebydefenseasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbydefenseasc(std::vector<pokemon_obj>& pkm);
+bool comparebyspeedasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbyspeedasc(std::vector<pokemon_obj>& pkm);
+bool comparebyspatkasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbyspatkasc(std::vector<pokemon_obj>& pkm);
+bool comparebyspdefasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbyspdefasc(std::vector<pokemon_obj>& pkm);
+bool comparebyhpasc(const pokemon_obj &a, const pokemon_obj &b);
+void sortbyhpasc(std::vector<pokemon_obj>& pkm);
+//TODO: Create a vector of pointers to pokemon_obj that can be manipulated for the purpose of inserting and deleting pokemon in the pc storage system.
+std::vector<pokemon_obj> *getpcvector(bw2savblock_obj * block, const bool encrypted = true);
+std::vector<pokemon_obj*> *getpcvectorp(bw2savblock_obj * block, const bool encrypted = true);
+bool comparebyspeciesascp(pokemon_obj *a, pokemon_obj *b);
+void sortbyspeciesascp(std::vector<pokemon_obj*>* pkm);
+bool comparebygenderascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbygenderascp(std::vector<pokemon_obj>* pkm);
+bool comparebyformascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbyformascp(std::vector<pokemon_obj>* pkm);
+bool comparebyattackascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbyattackascp(std::vector<pokemon_obj>* pkm);
+bool comparebydefenseascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbydefenseascp(std::vector<pokemon_obj>* pkm);
+bool comparebyspeedascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbyspeedascp(std::vector<pokemon_obj>* pkm);
+bool comparebyspatkascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbyspatkascp(std::vector<pokemon_obj>* pkm);
+bool comparebyspdefascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbyspdefascp(std::vector<pokemon_obj>* pkm);
+bool comparebyhpascp(const pokemon_obj *a, const pokemon_obj *b);
+//void sortbyhpascp(std::vector<pokemon_obj>* pkm);

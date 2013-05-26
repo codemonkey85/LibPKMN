@@ -12,6 +12,9 @@ MESSAGE(STATUS "")
 add_subdirectory(pokehack)
 FILE(GLOB pokehack_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "pokehack/*.c*")
 
+add_subdirectory(PKMDS)
+FILE(GLOB PKMDS_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "PKMDS/*.c*")
+
 add_subdirectory(sqlitecpp)
 FILE(GLOB sqlitecpp_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "sqlitecpp/*.c*")
 
@@ -42,6 +45,7 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/game_save_gen3impl.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
     ${pokehack_sources}
+    ${PKMDS_sources}
     ${sqlitecpp_sources}
 )
 
