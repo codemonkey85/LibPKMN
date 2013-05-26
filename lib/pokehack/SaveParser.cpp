@@ -1,16 +1,13 @@
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <stdlib.h>
 #include "SaveParser.h"
 
 // Global variables
-extern "C"
-{
-    extern char* pokemon_species[];
-    extern char* items[];
-    extern char* natures[];
-    extern char* attacks[];
-}
+extern std::string pokemon_species[];
+extern std::string items[];
+extern std::string natures[];
+extern std::string attacks[];
 
 SaveParser* SaveParser::spInstance = NULL;
 

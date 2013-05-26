@@ -20,12 +20,9 @@ using namespace std;
 //TODO: Implement ability
 
 //We have to use Pokehack's method of getting strings
-extern "C"
-{
-    extern char* attacks[];
-    extern char* natures[];
-    extern char* pokemon_species[];
-}
+extern string attacks[];
+extern string natures[];
+extern string pokemon_species[];
 
 namespace pkmnsim
 {
