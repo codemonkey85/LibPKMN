@@ -43,6 +43,7 @@ LIST(APPEND libpkmnsim_sources
     ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/game_save.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/game_save_gen3impl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/game_save_gen5impl.cpp
     ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
     ${pokehack_sources}
     ${PKMDS_sources}

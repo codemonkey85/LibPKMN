@@ -198,6 +198,7 @@ namespace pkmnsim
             //Allow game save's functions to access protected variables
             friend class game_save;
             friend class game_save_gen3impl;
+            friend class game_save_gen5impl;
     };
 }
 #endif /* INCLUDED_SPEC_PKMN_HPP */

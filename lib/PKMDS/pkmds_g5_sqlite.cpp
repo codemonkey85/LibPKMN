@@ -94,7 +94,7 @@ string lookuppkmname(const int speciesid, const int langid)
 {
 	std::ostringstream o;
 	o << "SELECT name FROM pokemon_species_names WHERE (pokemon_species_id = "
-		<< speciesid << " ) AND (local_language_id = " << langid << ")";
+		<< speciesid << " )"; 
 	return getastring(o);
 }
 string lookuppkmname(const pokemon_obj &pkm, const int langid)
@@ -109,8 +109,7 @@ string lookupmovename(const int moveid, const int langid)
 {
 	std::ostringstream o;
 	o << "SELECT name FROM move_names WHERE (move_id = "
-		<< moveid << ") AND (local_language_id = "
-		<< langid << ")";
+		<< moveid << ")";
 	return getastring(o);
 }
 string lookupmovename(const pokemon_obj &pkm, const int movenum, const int langid)
@@ -127,8 +126,7 @@ string lookupmoveflavortext(const uint16 moveid, const int langid, const int ver
 
 	o << "SELECT move_flavor_text.flavor_text FROM moves " <<
 		"INNER JOIN move_flavor_text ON moves.id = move_flavor_text.move_id WHERE" <<
-		"(move_flavor_text.language_id = " << langid << ")" <<
-		"AND (move_flavor_text.move_id = " << moveid << ")" <<
+		"(move_flavor_text.move_id = " << moveid << ")" <<
 		"AND (move_flavor_text.version_group_id = " << versiongroup << ")";
 
 	return getastring(o);
@@ -151,8 +149,7 @@ string lookupmovetypename(const uint16 moveid, const int langid)
 		<< "       INNER JOIN types "
 		<< "               ON moves.type_id = types.id "
 		<< "                  AND type_names.type_id = types.id "
-		<< "WHERE  ( moves.id = " << moveid << " ) "
-		<< "       AND ( type_names.local_language_id = " << langid << " ) ";
+		<< "WHERE  ( moves.id = " << moveid << " ) ";
 	return getastring(o);
 }
 string lookupmovetypename(const pokemon_obj &pkm, const int movenum, const int langid)
@@ -174,8 +171,7 @@ string lookupmovedamagetypename(const uint16 moveid, const int langid)
 		<< "       INNER JOIN move_damage_class_prose "
 		<< "               ON move_damage_classes.id = "
 		<< "                  move_damage_class_prose.move_damage_class_id "
-		<< "WHERE  ( moves.id = " << moveid << " ) "
-		<< "       AND ( move_damage_class_prose.local_language_id = " << langid << " ) ";
+		<< "WHERE  ( moves.id = " << moveid << " ) ";
 	return getastring(o);
 }
 string lookupmovedamagetypename(const pokemon_obj &pkm, const int movenum, const int langid)
@@ -249,8 +245,7 @@ string getnaturename(const int natureid, const int langid)
 	o << ""
 		<< "SELECT name "
 		<< "FROM   nature_names "
-		<< "WHERE  ( nature_id = " << (int)(natureconvert[natureid][1]) << " ) "
-		<< "       AND ( local_language_id = " << langid << " ) ";
+		<< "WHERE  ( nature_id = " << (int)(natureconvert[natureid][1]) << " ) ";
 	return getastring(o);
 }
 string getnaturename(const pokemon_obj &pkm, const int langid)
@@ -335,8 +330,7 @@ string lookupitemname(const int itemid, const int generation, const int langid)
 		<< "       INNER JOIN item_names "
 		<< "               ON item_game_indices.item_id = item_names.item_id "
 		<< "WHERE  ( item_game_indices.generation_id = " << generation << " ) "
-		<< "       AND ( item_game_indices.game_index = " << itemid << " ) "
-		<< "       AND ( item_names.local_language_id = " << langid << " ) ";
+		<< "       AND ( item_game_indices.game_index = " << itemid << " ) ";
 	return getastring(o);
 }
 string lookupitemname(const pokemon_obj &pkm, const int generation, const int langid)
@@ -356,17 +350,12 @@ int getpkmstat(const pokemon_obj &pkm, const Stat_IDs::stat_ids stat_id)
 		<< "               ON pokemon_stats.stat_id = stats.id "
 		<< "       INNER JOIN stat_names "
 		<< "               ON stats.id = stat_names.stat_id "
-		<< "       INNER JOIN pokemon_species_names "
-		<< "               ON stat_names.local_language_id = "
-		<< "                  pokemon_species_names.local_language_id "
 		<< "       INNER JOIN pokemon "
 		<< "               ON pokemon_stats.pokemon_id = pokemon.id "
 		<< "                  AND pokemon_forms.pokemon_id = pokemon.id "
 		<< "                  AND pokemon_species_names.pokemon_species_id = "
 		<< "                      pokemon.species_id "
-		<< "WHERE  ( pokemon_species_names.local_language_id = 9 ) "
-		<< "       AND ( stat_names.local_language_id = 9 ) "
-		<< "       AND ( pokemon_species_names.pokemon_species_id = " << (uint16)pkm.blocka.species << " ) "
+		<< "WHERE  ( pokemon_species_names.pokemon_species_id = " << (uint16)pkm.blocka.species << " ) "
 		<< "       AND ( pokemon_forms.form_order = " << (int)(pkm.blockb.forms.form) << " + 1 ) "
 		<< "       AND ( stat_names.stat_id = " << (int)stat_id << " ) ";
 	basestat = getanint(o);
@@ -426,17 +415,12 @@ int getpkmstat(const pokemon_obj *pkm, const Stat_IDs::stat_ids stat_id)
 		<< "               ON pokemon_stats.stat_id = stats.id "
 		<< "       INNER JOIN stat_names "
 		<< "               ON stats.id = stat_names.stat_id "
-		<< "       INNER JOIN pokemon_species_names "
-		<< "               ON stat_names.local_language_id = "
-		<< "                  pokemon_species_names.local_language_id "
 		<< "       INNER JOIN pokemon "
 		<< "               ON pokemon_stats.pokemon_id = pokemon.id "
 		<< "                  AND pokemon_forms.pokemon_id = pokemon.id "
 		<< "                  AND pokemon_species_names.pokemon_species_id = "
 		<< "                      pokemon.species_id "
-		<< "WHERE  ( pokemon_species_names.local_language_id = 9 ) "
-		<< "       AND ( stat_names.local_language_id = 9 ) "
-		<< "       AND ( pokemon_species_names.pokemon_species_id = " << (uint16)pkm->blocka.species << " ) "
+		<< "WHERE  ( pokemon_species_names.pokemon_species_id = " << (uint16)pkm->blocka.species << " ) "
 		<< "       AND ( pokemon_forms.form_order = " << (int)(pkm->blockb.forms.form) << " + 1 ) "
 		<< "       AND ( stat_names.stat_id = " << (int)stat_id << " ) ";
 	basestat = getanint(o);
@@ -507,8 +491,7 @@ string lookupabilityname(const int abilityid, const int langid)
 	o << ""
 		<< "SELECT name "
 		<< "FROM   ability_names "
-		<< "WHERE  ( local_language_id = " << langid << " ) "
-		<< "       AND ( ability_id = " << abilityid << " ) ";
+		<< "WHERE  ( ability_id = " << abilityid << " ) ";
 	return getastring(o);
 }
 string lookupabilityname(const pokemon_obj &pkm, const int langid)
@@ -529,9 +512,7 @@ string getpkmformname(const pokemon_obj &pkm, const int langid)
 		<< "               ON pokemon.species_id = pokemon_species.id "
 		<< "       INNER JOIN pokemon_species_names "
 		<< "               ON pokemon_species.id = pokemon_species_names.pokemon_species_id "
-		<< "WHERE  ( pokemon_form_names.local_language_id = " << langid << " ) "
-		<< "       AND ( pokemon_species_names.local_language_id = " << langid << " ) "
-		<< "       AND ( pokemon.species_id = " << (uint16)pkm.blocka.species << " ) "
+		<< "WHERE  ( pokemon.species_id = " << (uint16)pkm.blocka.species << " ) "
 		<< "       AND ( pokemon_forms.form_order = " << (int)(pkm.blockb.forms.form) << " + 1 ) ";
 	return getastring(o);
 }
@@ -547,8 +528,7 @@ string lookuplocname(const int locid, const int gen, const int langid)
 		<< "               ON locations.id = location_names.location_id "
 		<< "       INNER JOIN generations "
 		<< "               ON location_game_indices.generation_id = generations.id "
-		<< "WHERE  ( location_names.local_language_id = " << langid << " ) "
-		<< "       AND ( generations.id = " << gen << " ) "
+		<< "WHERE  ( AND ( generations.id = " << gen << " ) "
 		<< "       AND ( location_game_indices.game_index = " << locid << " ) "
 		<< "ORDER  BY location_game_indices.game_index ";
 	return getastring(o);
@@ -612,8 +592,7 @@ string lookuppkmcolorname(const int species, const int langid)
 		<< "               ON pokemon_colors.id = pokemon_color_names.pokemon_color_id "
 		<< "       INNER JOIN pokemon_species "
 		<< "               ON pokemon_colors.id = pokemon_species.color_id "
-		<< "WHERE  ( pokemon_color_names.local_language_id = " << langid << " ) "
-		<< "       AND ( pokemon_species.id = " << species << " ) ";
+		<< "WHERE  ( pokemon_species.id = " << species << " ) ";
 	return getastring(o);
 }
 string lookuppkmcolorname(const pokemon_obj &pkm, const int langid)
@@ -630,8 +609,7 @@ int lookuppkmcolorid(const int species)
 		<< "               ON pokemon_colors.id = pokemon_color_names.pokemon_color_id "
 		<< "       INNER JOIN pokemon_species "
 		<< "               ON pokemon_colors.id = pokemon_species.color_id "
-		<< "WHERE  ( pokemon_color_names.local_language_id = 9 ) "
-		<< "       AND ( pokemon_species.id = " << species << " ) ";
+		<< "WHERE  ( pokemon_species.id = " << species << " ) ";
 	return getanint(o);
 }
 int lookuppkmcolorid(const pokemon_obj &pkm)
@@ -665,8 +643,7 @@ string lookupcharacteristic(const int statid, const int iv, const int langid)
 		<< "FROM   stat_hints "
 		<< "       INNER JOIN stat_hint_names "
 		<< "               ON stat_hints.id = stat_hint_names.stat_hint_id "
-		<< "WHERE  ( stat_hint_names.local_language_id = " << langid << " ) "
-		<< "       AND ( stat_hints.stat_id = " << statid << " ) "
+		<< "WHERE  ( stat_hints.stat_id = " << statid << " ) "
 		<< "       AND ( stat_hints.gene_mod_5 = " << (int)(iv % 5) << " ) ";
 	return getastring(o);
 }
@@ -773,8 +750,7 @@ string lookuptypename(const int type, const int langid)
 		<< "FROM   types "
 		<< "       INNER JOIN type_names "
 		<< "               ON types.id = type_names.type_id "
-		<< "WHERE  ( type_names.local_language_id = " << langid << " ) "
-		<< "       AND ( types.id = " << (type+1) << " ) ";
+		<< "WHERE  ( types.id = " << (type+1) << " ) ";
 	return getastring(o);
 }
 int lookuppkmtype(const int species, const int form, const int slot, const int langid)
@@ -792,8 +768,7 @@ int lookuppkmtype(const int species, const int form, const int slot, const int l
 << "               ON pokemon.species_id = pokemon_species.id "
 << "       INNER JOIN pokemon_species_names "
 << "               ON pokemon_species.id = pokemon_species_names.pokemon_species_id "
-<< "WHERE  ( pokemon_species_names.local_language_id = " << langid << " ) "
-<< "       AND ( pokemon_forms.form_order = " << form << " + 1 ) "
+<< "WHERE  ( pokemon_forms.form_order = " << form << " + 1 ) "
 << "       AND ( pokemon_species.id = " << species << " ) "
 << "       AND ( pokemon_types.slot = " << slot << " ) ";
 	return getanint(o) - 1;
@@ -855,9 +830,7 @@ string getpkmformname(const pokemon_obj *pkm, const int langid)
 		<< "               ON pokemon.species_id = pokemon_species.id "
 		<< "       INNER JOIN pokemon_species_names "
 		<< "               ON pokemon_species.id = pokemon_species_names.pokemon_species_id "
-		<< "WHERE  ( pokemon_form_names.local_language_id = " << langid << " ) "
-		<< "       AND ( pokemon_species_names.local_language_id = " << langid << " ) "
-		<< "       AND ( pokemon.species_id = " << (uint16)pkm->blocka.species << " ) "
+		<< "WHERE  ( pokemon.species_id = " << (uint16)pkm->blocka.species << " ) "
 		<< "       AND ( pokemon_forms.form_order = " << (int)(pkm->blockb.forms.form) << " + 1 ) ";
 	return getastring(o);
 }
