@@ -1,4 +1,5 @@
-char* attacks[] = {
+#include <string>
+std::string attacks[] = {
 	"No attack",
 	"Pound",
 	"Karate Chop",

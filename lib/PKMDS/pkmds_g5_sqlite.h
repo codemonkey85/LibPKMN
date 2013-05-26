@@ -1,5 +1,5 @@
 #pragma once
-#include "sqlite3.h"
+#include <sqlite3.h>
 #include "pkmds_g5.h"
 // Set theDB to be the full path of the SQLITE database (provided by Veekun)
 static const char theDB[] = "C:\\Users\\Mike\\Google Drive\\Current Development\\veekun-pokedex.sqlite";

@@ -1,4 +1,3 @@
-#pragma once
 #include "pkmds_g5_sqlite.h"
 
 #ifdef _MSC_VER

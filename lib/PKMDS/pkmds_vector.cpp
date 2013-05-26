@@ -1,4 +1,3 @@
-#pragma once
 #include "pkmds_vector.h"
 #include "pkmds_g5_sqlite.h"
 bool comparebyspeciesasc(const pokemon_obj &a, const pokemon_obj &b)

@@ -1,4 +1,5 @@
-char* natures[] = {
+#include <string>
+std::string natures[] = {
 	"Hardy (=)",
 	"Lonely (+Atk,-Def)",
 	"Brave (+Atk,-Spe)",

@@ -1,4 +1,5 @@
-char *pokemon_species[] = {
+#include <string>
+std::string pokemon_species[] = {
 	"No pokemon",
 	"Bulbasaur",
 	"Ivysaur",

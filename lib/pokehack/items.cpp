@@ -1,4 +1,5 @@
-char* items[] = {
+#include <string>
+std::string items[] = {
 	"Nothing",
 	"Master Ball",
 	"Ultra Ball",

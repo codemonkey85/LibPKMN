@@ -64,7 +64,7 @@ char* parse_save(char *filename, char *savefile, block *blocks[NUM_BLOCKS_TOTAL]
 
 	newestSave = get_newest_save(blocks);
 
-	data = malloc(SAVESLOT_LEN);
+	data = (char*)malloc(SAVESLOT_LEN);
 	for (i = 0; i < NUM_BLOCKS_TOTAL; i++)
 	{
 		if (blocks[i]->footer.savenumber == newestSave)
