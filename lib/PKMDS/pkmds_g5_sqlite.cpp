@@ -1,5 +1,10 @@
 #pragma once
 #include "pkmds_g5_sqlite.h"
+
+#ifdef _MSC_VER
+#define strcpy strcpy_s
+#endif
+
 using namespace std;
 sqlite3 *database;
 sqlite3_stmt *statement;
