@@ -1,4 +1,6 @@
+#include <iostream>
 #include <stdio.h>
+#include <string.h>
 #include <string>
 #include <stdlib.h>
 #include "SaveParser.h"
@@ -133,10 +135,16 @@ void SaveParser::print_pokemon(box_pokemon_t* pokemon)
 
 	totalIVs = pm->IVs.hp + pm->IVs.atk + pm->IVs.def + pm->IVs.spatk + pm->IVs.spdef + pm->IVs.spd;
 	totalEVs = pe->hp + pe->attack + pe->defense + pe->spatk + pe->spdef + pe->speed;
-	fprintf(stdout, "Species: %s, held: %s, Nature: %s\n", pokemon_species[pg->species], items[pg->held], natures[pokemon->personality % 25]);
-	fprintf(stdout, "Attacks: 1:%s, 2:%s, 3:%s, 4:%s\n", attacks[pa->atk1], attacks[pa->atk2], attacks[pa->atk3], attacks[pa->atk4] );
-	fprintf(stdout, "IVs:\tHP:%d\tAtk:%d\tDef:%d\tSpA:%d\tSpD:%d\tSpe:%d\tTotal:%d\n", pm->IVs.hp, pm->IVs.atk, pm->IVs.def, pm->IVs.spatk, pm->IVs.spdef, pm->IVs.spd, totalIVs );
-	fprintf(stdout, "EVs:\tHP:%d\tAtk:%d\tDef:%d\tSpA:%d\tSpD:%d\tSpe:%d\tTotal:%d\n", pe->hp, pe->attack, pe->defense, pe->spatk, pe->spdef, pe->speed, totalEVs );
+    std::cout << "Species: " << pokemon_species[pg->species] << ", held: " << items[pg->held] << ", Nature: "
+         << natures[pokemon->personality % 25] << std::endl;
+    std::cout << "Attacks: 1:" << attacks[pa->atk1] << ", 2:" << attacks[pa->atk2] << ", 3:" << attacks[pa->atk3]
+         << ", 4:" << attacks[pa->atk4] << std::endl;
+    std::cout << "IVs: HP:" << pm->IVs.hp << ", Atk:" << pm->IVs.atk << ", Def:" << pm->IVs.def << ", SpA:"
+         << pm->IVs.spatk << ", SpD:" << pm->IVs.spdef << ", Spe:" << pm->IVs.spd << ", Total:" << totalIVs
+         << std::endl;
+    std::cout << "EVs: HP:" << pe->hp << ", Atk:" << pe->attack << ", Def:" << pe->defense << ", SpA:"
+         << pe->spatk << ", SpD:" << pe->spdef << ", Spe:" << pe->speed << ", Total:" << totalEVs
+         << std::endl;
 }
 
 int SaveParser::parse_pokemon(char* buf, int offset, void** pokemon, pokemon_attacks_t** pa, pokemon_effort_t** pe, pokemon_growth_t** pg, pokemon_misc_t** pm, int num, int size)
