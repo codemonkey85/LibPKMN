@@ -13,6 +13,7 @@ Minimum required CMake version: 2.8
 Tested with GCC 4.6.3 and Microsoft Visual Studio 2010.
 
 Pokehack (https://github.com/Grazfather/pokehack) source distributed.
+PokeLib (https://github.com/Chase-san/Pokelib) source distributed.
 PKMDS (https://github.com/codemonkey85/PKMDS) source distributed under the GPLv3.
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source distributed under the MIT license.
 
