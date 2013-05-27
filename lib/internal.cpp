@@ -43,4 +43,15 @@ namespace pkmnsim
 
         return database_path.string();
     }
+    
+    //Get images directory
+    string get_images_dir(void)
+    {
+        const char* images_dir = getenv("PKMNSIM_IMAGES_DIR"); //Environment variable
+        if(images_dir == NULL) images_dir = "@IMAGES_DIR@"; //CMake variable
+        
+        if(not fs::exists(fs::path(images_dir))) throw runtime_error("Could not find images directory!");
+        
+        return string(images_dir);
+    }
 }

@@ -5,4 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+FILE(TO_NATIVE_PATH "${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR}/images" IMAGES_DIR)
+SET(IMAGES_DIR ${DATABASE_DIR} CACHE FILEPATH "Images directory")
+
 ADD_SUBDIRECTORY(icons)
