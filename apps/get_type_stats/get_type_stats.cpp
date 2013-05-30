@@ -6,7 +6,6 @@
  */
 #include "type_stats_common.hpp"
 
-#include <boost/format.hpp>
 #include <boost/program_options.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include <stdexcept>
@@ -71,7 +70,7 @@ int main(int argc, char *argv[])
     get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
     if(pkmn_vector.size() == 0)
     {
-        cout << boost::format("\nNo Pokémon of specified type combination in Generation %d.\n") % gen;
+        cout << "No Pokémon of specified type combination in Generation " << gen << ".\n";
         return EXIT_FAILURE;
     }
 	if(evolved) remove_unevolved_pokemon(pkmn_vector);
@@ -101,21 +100,21 @@ int main(int argc, char *argv[])
 
     //Format output
     string type_str;
-    if(type2 != "None") type_str = str(boost::format("%s/%s") % type1.c_str() % type2.c_str());
+    if(type2 != "None") type_str = type1 + "/" + type2;
     else
     {
-        if(lax) type_str = str(boost::format("%s/Any") % type1.c_str());
+        if(lax) type_str = type1 + "/Any";
         else type_str = type1;
     }
 
     //Output highest/lowest stats
-    cout << boost::format("\nHighest/lowest stats for type %s (Generation %d)\n") % type_str.c_str() % gen;
+    cout << "\nHighest/lowest stats for type " << type_str << " (Generation " << gen << "):" << endl;
 
     for(int i = 0; i < highest_stats.size(); i++)
     {
-        cout << boost::format("\n%s:\n") % highest_stats[i].stat_name.c_str();
-        cout << boost::format(" * Highest: %s (%d)\n") % highest_stats[i].pkmn_name.c_str() % highest_stats[i].stat_value;
-        cout << boost::format(" * Lowest: %s (%d)\n") % lowest_stats[i].pkmn_name.c_str() % lowest_stats[i].stat_value;
+        cout << endl << highest_stats[i].stat_name << endl;
+        cout << " * Highest: " << highest_stats[i].pkmn_name << " (" << highest_stats[i].stat_value << ")\n";
+        cout << " * Lowest: " << lowest_stats[i].pkmn_name << " (" << lowest_stats[i].stat_value << ")\n";
     }
     cout << endl;
 

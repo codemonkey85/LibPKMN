@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
 #include <iostream>
 #include <string>
 #include <fstream>

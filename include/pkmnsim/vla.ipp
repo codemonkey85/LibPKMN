@@ -8,7 +8,7 @@
 #ifndef INCLUDED_VLA_IPP
 #define INCLUDED_VLA_IPP
 
-#include <boost/format.hpp>
+#include <pkmnsim/config.hpp>
 #include <stdexcept>
 
 namespace pkmnsim
@@ -25,12 +25,10 @@ namespace pkmnsim
 
         for(int i = 0; i < items; i++) _vec.push_back(*(new item_type()));
 
-        full_vec_err_msg = str(boost::format("List of %ss can only have %d members.")
-                                             % nice_name % max_items);
-        invalid_pos_err_msg = str(boost::format("Position must be 0-%d.")
-                                                % (max_items-1));
-        empty_vec_err_msg = str(boost::format("Cannot get %s from empty list.")
-                                              % nice_name);
+        full_vec_err_msg = "List of " + nice_name + "s can only have " + to_string(max_items)
+                           + "members.";
+        invalid_pos_err_msg = "Position must be 0-" + to_string(max_items) + ".";
+        empty_vec_err_msg = "Cannot get " + nice_name + " from empty list.";
     }
 
     template<typename item_type>

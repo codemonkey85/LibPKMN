@@ -7,7 +7,12 @@
 #ifndef INCLUDED_GAME_SAVE_HPP
 #define INCLUDED_GAME_SAVE_HPP
 
-#include <boost/shared_ptr.hpp>
+#ifdef _MSC_VER
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 #include <iostream>
 #include <pkmnsim/spec_pkmn.hpp>
 #include <pkmnsim/config.hpp>
@@ -25,7 +30,7 @@ namespace pkmnsim
     {
         public:
 
-            typedef boost::shared_ptr<game_save> sptr;
+            typedef std::shared_ptr<game_save> sptr;
 
             //Class constructors (should never be called directly)
             game_save(void) {};

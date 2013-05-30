@@ -7,7 +7,12 @@
 #ifndef INCLUDED_BASE_PKMN_HPP
 #define INCLUDED_BASE_PKMN_HPP
 
-#include <boost/shared_ptr.hpp>
+#ifdef _MSC_VER
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 #include <iostream>
 #include "../../lib/sqlitecpp/SQLiteCPP.h"
 #include <pkmnsim/base_move.hpp>
@@ -40,14 +45,14 @@ namespace pkmnsim
     {
         public:
 
-            typedef boost::shared_ptr<base_pkmn> sptr;
+            typedef std::shared_ptr<base_pkmn> sptr;
 
             //Class Constructors (should never be called directly)
 			base_pkmn(void) {};
 			base_pkmn(std::string identifier, int gen, SQLite::Database *db, bool query_moves);
 			
             /*
-             * Returns a boost::shared_ptr<base_pkmn> of specified Pokémon.
+             * Returns a std::shared_ptr<base_pkmn> of specified Pokémon.
              * Verifies validity of Pokémon+generation before returning value.
              *
              * Parameters:

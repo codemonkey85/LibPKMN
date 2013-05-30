@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include "base_pkmn_gen2impl.hpp"
-#include <boost/format.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
 #include <stdio.h>
 
@@ -16,12 +15,12 @@ namespace pkmnsim
     base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, SQLite::Database *db,
                                            bool query_moves): base_pkmn(identifier, 2, db, query_moves)
     {
-        string query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
-                                         % pkmn_id);
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
+                            + " AND stat_id=4";
         baseSATK = db->execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=5")
-                                         % pkmn_id);
+        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
+                     + " AND stat_id=5";
         baseSDEF = db->execAndGet(query_string.c_str(), identifier); 
 
         //Gender rates
@@ -33,8 +32,7 @@ namespace pkmnsim
         gender_val_map[6] = 0.25;
         gender_val_map[8] = 0.0;
 
-        query_string = str(boost::format("SELECT gender_rate FROM pokemon_species WHERE id=%d")
-                                         % species_id);
+        query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
         int gender_val = db->execAndGet(query_string.c_str(), identifier);
 
         if(gender_val == -1)
@@ -53,49 +51,40 @@ namespace pkmnsim
     {
         string types_str;
         if(type2 == "None") types_str = type1;
-        else types_str = str(boost::format("%s/%s") % type1.c_str() % type2.c_str());
-        
-        return str(boost::format(
-            "%s (#%d)\n"
-            "Type: %s\n"
-            "Stats: %d, %d, %d, %d, %d, %d"
-            ) % display_name.c_str() % nat_pokedex_num
-              % types_str.c_str()
-              % baseHP % baseATK % baseDEF % baseSATK % baseSDEF % baseSPD
-        );
+        else types_str = type1 + "/" + type2;
+
+        string stats_str = to_string(baseHP) + ", " + to_string(baseATK) + ", "
+                         + to_string(baseDEF) + ", " + to_string(baseSATK) + ", "
+                         + to_string(baseSDEF) + ", " + to_string(baseSPD);
+
+        string output_string;
+        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
+                      + "Type: " + types_str + "\n"
+                      + "Stats: " + stats_str;
+
+        return output_string;
     }
 
     string base_pkmn_gen2impl::get_info_verbose()
     {
         string types_str;
         if(type2 == "None") types_str = type1;
-        else types_str = str(boost::format("%s/%s") % type1 % type2);
+        else types_str = type1 + "/" + type2;
 
-        return str(boost::format(
-            "%s (#%d)\n"
-            "%s Pokémon\n"
-            "Type: %s\n"
-            "%d m, %d kg\n"
-            "Base Stats:\n"
-            " - HP: %d\n"
-            " - Attack: %d\n"
-            " - Defense: %d\n"
-            " - Special Attack: %d\n"
-            " - Special Defense: %d\n"
-            " - Speed: %d\n"
-            " - Experience Yield: %d\n"
-            ) % display_name.c_str() % nat_pokedex_num
-              % species.c_str()
-              % types_str.c_str()
-              % height % weight
-              % baseHP
-              % baseATK
-              % baseDEF
-              % baseSATK
-              % baseSDEF
-              % baseSPD
-              % exp_yield
-        );
+        string output_string;
+        output_string = display_name + "(#" + to_string(nat_pokedex_num) + ")\n"
+                      + species + " Pokémon\n"
+                      + to_string(height) + "m, " + to_string(weight) + " kg\n"
+                      + "Base Stats:\n"
+                      + " - HP: " + to_string(baseHP) + "\n"
+                      + " - Attack: " + to_string(baseATK) + "\n"
+                      + " - Defense: " + to_string(baseDEF) + "\n"
+                      + " - Special Attack: " + to_string(baseSATK) + "\n"
+                      + " - Special Defense: " + to_string(baseSDEF) + "\n"
+                      + " - Speed: " + to_string(baseSPD) + "\n"
+                      + " - Experience Yield: " + to_string(exp_yield);
+    
+        return output_string;
     }
 
     dict<string,int> base_pkmn_gen2impl::get_base_stats()

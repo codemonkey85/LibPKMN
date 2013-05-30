@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include <boost/assign.hpp>
-#include <boost/format.hpp>
 #include <math.h>
 #include "spec_pkmn_gen3impl.hpp"
 #include <time.h>
@@ -116,22 +115,21 @@ namespace pkmnsim
         string types_str;
         dict<int, string> types = base->get_types();
         if(types[2] == "None") types_str = types[1];
-        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
 
-        return str(boost::format(
-            "%s (%s %s)\n"
-            "Level %d\n"
-            "Type: %s\n"
-            "Held: %s\n"
-            "Ability: %s\n"
-            "Stats: %d, %d, %d, %d, %d, %d"
-            ) % nickname.c_str() % get_gender_map()[gender].c_str() % base->get_display_name().c_str()
-              % level
-              % types_str.c_str()
-              % held_item.c_str()
-              % ability.c_str()
-              % HP % ATK % DEF % SATK % SDEF % SPD
-        );
+        else types_str = types[1] + "/" + types[2];
+        string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
+                         + to_string(DEF) + ", " + to_string(SATK) + ", "
+                         + to_string(SDEF) + ", " + to_string(SPD);
+
+        string output_string;
+        output_string = nickname + " (" + base->get_display_name() + " " + gender + ")\n"
+                      + "Level " + to_string(level) + "\n"
+                      + "Type: " + types_str + "\n"
+                      + "Ability: " + ability + "\n"
+                      + "Held Item: " + held_item + "\n"
+                      + "Stats: " + stats_str;
+
+        return output_string;
     }
 
     string spec_pkmn_gen3impl::get_info_verbose()
@@ -139,59 +137,37 @@ namespace pkmnsim
         string types_str;
         dict<int, string> types = base->get_types();
         if(types[2] == "None") types_str = types[1];
-        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
+        else types_str = types[1] + "/" + types[2];
 
-        return str(boost::format(
-                "%s (%s %s)\n"
-                "Level %d\n"
-                "Type: %s\n"
-                "Held: %s\n"
-                "Ability: %s\n"
-                "Stats:\n"
-                " - HP: %d\n"
-                " - Attack: %d\n"
-                " - Defense: %d\n"
-                " - Special Attack: %d\n"
-                " - Special Defense: %d\n"
-                " - Speed: %d\n"
-                "Individual Values:\n"
-                " - HP: %d\n"
-                " - Attack: %d\n"
-                " - Defense: %d\n"
-                " - Special Attack: %d\n"
-                " - Special Defense: %d\n"
-                " - Speed: %d\n"
-                "Effort Values:\n"
-                " - HP: %d\n"
-                " - Attack: %d\n"
-                " - Defense: %d\n"
-                " - Special Attack: %d\n"
-                " - Special Defense: %d\n"
-                " - Speed: %d\n"
-            ) % nickname.c_str()  % get_gender_map()[gender].c_str() % base->get_display_name().c_str()
-              % level
-              % types_str.c_str()
-              % held_item.c_str()
-              % ability.c_str()
-              % HP
-              % ATK
-              % DEF
-              % SATK
-              % SDEF
-              % SPD
-              % ivHP
-              % ivATK
-              % ivDEF
-              % ivSATK
-              % ivSDEF
-              % ivSPD
-              % evHP
-              % evATK
-              % evDEF
-              % evSATK
-              % evSDEF
-              % evSPD
-        );
+        string output_string;
+        output_string = nickname + "(" + base->get_display_name() + ")\n"
+                      + "Level" + to_string(level) + "\n"
+                      + "Type: " + types_str + "\n"
+                      + "Ability: " + ability + "\n"
+                      + "Held Item: " + held_item + "\n"
+                      + "Stats:\n"
+                      + " - HP: " + to_string(HP) + "\n"
+                      + " - Attack: " + to_string(ATK) + "\n"
+                      + " - Defense: " + to_string(DEF) + "\n"
+                      + " - Special Attack: " + to_string(SATK) + "\n"
+                      + " - Special Defense: " + to_string(SDEF) + "\n"
+                      + " - Speed: " + to_string(SPD) + "\n"
+                      + "Individual Values:\n"
+                      + " - HP: " + to_string(ivHP) + "\n"
+                      + " - Attack: " + to_string(ivATK) + "\n"
+                      + " - Defense: " + to_string(ivDEF) + "\n"
+                      + " - Special Attack: " + to_string(ivSATK) + "\n"
+                      + " - Special Defense: " + to_string(ivSDEF) + "\n"
+                      + " - Speed: " + to_string(ivSPD) + "\n"
+                      + "Effort Values:\n"
+                      + " - HP: " + to_string(evHP) + "\n"
+                      + " - Attack: " + to_string(evATK) + "\n"
+                      + " - Defense: " + to_string(evDEF) + "\n"
+                      + " - Special Attack: " + to_string(evSATK) + "\n";
+                      + " - Special Defense: " + to_string(evSDEF) + "\n";
+                      + " - Speed: " + to_string(evSPD) + "\n";
+
+        return output_string;
     }
 
     dict<char, string> spec_pkmn_gen3impl::get_gender_map()

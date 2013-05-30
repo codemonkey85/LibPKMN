@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include <boost/assign.hpp>
-#include <boost/format.hpp>
 #include <math.h>
 #include <pkmnsim/base_move.hpp>
 #include "spec_pkmn_gen1impl.hpp"
@@ -87,18 +86,18 @@ namespace pkmnsim
         string types_str;
         dict<int, string> types = base->get_types();
         if(types[2] == "None") types_str = types[1];
-        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
+        else types_str = types[1] + "/" + types[2];
+        string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
+                         + to_string(DEF) + ", " + to_string(SPD) + ", "
+                         + to_string(SPCL);
 
-        return str(boost::format(
-            "%s (%s)\n"
-            "Level %d\n"
-            "Type: %s\n"
-            "Stats: %d, %d, %d, %d, %d"
-            ) % nickname.c_str() % base->get_display_name().c_str()
-              % level
-              % types_str.c_str()
-              % HP % ATK % DEF % SPD % SPCL
-        );
+        string output_string;
+        output_string = nickname + " (" + base->get_display_name() + ")\n"
+                      + "Level " + to_string(level) + "\n"
+                      + "Type: " + types_str + "\n"
+                      + "Stats: " + stats_str;
+
+        return output_string;
     }
 
     string spec_pkmn_gen1impl::get_info_verbose()
@@ -106,49 +105,32 @@ namespace pkmnsim
         string types_str;
         dict<int, string> types = base->get_types();
         if(types[2] == "None") types_str = types[1];
-        else types_str = str(boost::format("%s/%s") % types[1] % types[2]);
+        else types_str = types[1] + "/" + types[2];
 
-        return str(boost::format(
-                "%s (%s)\n"
-                "Level %d\n"
-                "Type: %s\n"
-                "Stats:\n"
-                " - HP: %d\n"
-                " - Attack: %d\n"
-                " - Defense: %d\n"
-                " - Speed: %d\n"
-                " - Special: %d\n"
-                "Individual Values:\n"
-                " - HP: %d\n"
-                " - Attack: %d\n"
-                " - Defense: %d\n"
-                " - Speed: %d\n"
-                " - Special: %d\n"
-                "Effort Values:\n"
-                " - HP: %d\n"
-                " - Attack: %d\n"
-                " - Defense: %d\n"
-                " - Speed: %d\n"
-                " - Special: %d\n"
-            ) % nickname.c_str() % base->get_display_name().c_str()
-              % level
-              % types_str.c_str()
-              % HP
-              % ATK
-              % DEF
-              % SPD
-              % SPCL
-              % ivHP
-              % ivATK
-              % ivDEF
-              % ivSPD
-              % ivSPCL
-              % evHP
-              % evATK
-              % evDEF
-              % evSPD
-              % evSPCL
-        );
+        string output_string;
+        output_string = nickname + "(" + base->get_display_name() + ")\n"
+                      + "Level" + to_string(level) + "\n"
+                      + "Type: " + types_str + "\n"
+                      + "Stats:\n"
+                      + " - HP: " + to_string(HP) + "\n"
+                      + " - Attack: " + to_string(ATK) + "\n"
+                      + " - Defense: " + to_string(DEF) + "\n"
+                      + " - Speed: " + to_string(SPD) + "\n"
+                      + " - Special: " + to_string(SPCL) + "\n"
+                      + "Individual Values:\n"
+                      + " - HP: " + to_string(ivHP) + "\n"
+                      + " - Attack: " + to_string(ivATK) + "\n"
+                      + " - Defense: " + to_string(ivDEF) + "\n"
+                      + " - Speed: " + to_string(ivSPD) + "\n"
+                      + " - Special: " + to_string(ivSPCL) + "\n"
+                      + "Effort Values:\n"
+                      + " - HP: " + to_string(evHP) + "\n"
+                      + " - Attack: " + to_string(evATK) + "\n"
+                      + " - Defense: " + to_string(evDEF) + "\n"
+                      + " - Speed: " + to_string(evSPD) + "\n"
+                      + " - Special: " + to_string(evSPCL) + "\n";
+
+        return output_string;
     }
 
     void spec_pkmn_gen1impl::reset_volatile_status_map()

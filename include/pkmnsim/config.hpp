@@ -7,38 +7,27 @@
 #ifndef INCLUDED_PKMNSIM_CONFIG_HPP
 #define INCLUDED_PKMNSIM_CONFIG_HPP
 
-#include <boost/config.hpp>
+//Alternative to BOOST_FOREACH
+#define FOREACH(VAR, RANGE) \
+  for (auto _foreach_range = (RANGE); !_foreach_range.empty(); _foreach_range.pop_front()) \
+    if (bool _foreach_inner = false) {} else \
+      for (VAR = _foreach_range.front(); !_foreach_inner; _foreach_inner = true)
 
-#ifdef BOOST_MSVC
-// suppress warnings
-//# pragma warning(push)
-//# pragma warning(disable: 4511) // copy constructor can't not be generated
-//# pragma warning(disable: 4512) // assignment operator can't not be generated
-//# pragma warning(disable: 4100) // unreferenced formal parameter
-//# pragma warning(disable: 4996) // <symbol> was declared deprecated
-# pragma warning(disable: 4355) // 'this' : used in base member initializer list
-//# pragma warning(disable: 4706) // assignment within conditional expression
-# pragma warning(disable: 4251) // class 'A<T>' needs to have dll-interface to be used by clients of class 'B'
-//# pragma warning(disable: 4127) // conditional expression is constant
-//# pragma warning(disable: 4290) // C++ exception specification ignored except to ...
-//# pragma warning(disable: 4180) // qualifier applied to function type has no meaning; ignored
-# pragma warning(disable: 4275) // non dll-interface class ... used as base for dll-interface class ...
-//# pragma warning(disable: 4267) // 'var' : conversion from 'size_t' to 'type', possible loss of data
-//# pragma warning(disable: 4511) // 'class' : copy constructor could not be generated
-//# pragma warning(disable: 4250) // 'class' : inherits 'method' via dominance
-# pragma warning(disable: 4200) // nonstandard extension used : zero-sized array in struct/union
+//Macro to convert number to std::string
+#include <sstream>
+template <class T>
+inline std::string to_string (const T& t)
+{
+    std::stringstream ss;
+    ss << t;
+    return ss.str();
+}
 
 // define logical operators
 #include <ciso646>
 
-// define ssize_t
-#include <cstddef>
-typedef ptrdiff_t ssize_t;
-
-#endif //BOOST_MSVC
-
 //define cross platform attribute macros
-#if defined(BOOST_MSVC)
+#if defined(_MSC_VER)
     #define PKMNSIM_EXPORT         __declspec(dllexport)
     #define PKMNSIM_IMPORT         __declspec(dllimport)
     #define PKMNSIM_INLINE         __forceinline
@@ -66,8 +55,6 @@ typedef ptrdiff_t ssize_t;
 #endif // PKMNSIM_DLL_EXPORTS
 
 // Platform defines for conditional parts of headers:
-// Taken from boost/config/select_platform_config.hpp,
-// however, we define macros, not strings for platforms.
 #if defined(linux) || defined(__linux) || defined(__linux__)
     #define PKMNSIM_PLATFORM_LINUX
 #elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32)

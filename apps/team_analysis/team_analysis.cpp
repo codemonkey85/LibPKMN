@@ -7,7 +7,6 @@
 #include "team_analysis_common.hpp"
 
 #include <boost/assign.hpp>
-#include <boost/format.hpp>
 #include <boost/program_options.hpp>
 #include <fstream>
 #include <iostream>
@@ -44,17 +43,15 @@ void print_help(po::variables_map vm, po::options_description desc)
 
 string get_pkmn_effectiveness_string(string pkmn_name, map<string, double> &effectiveness_map)
 {
-    string output_string = str(boost::format(" * %s") % pkmn_name);
+    string output_string = " * " + pkmn_name;
     string good_types_str = "   * Use:";
     string bad_types_str = "   * Don't use:";
 
     //Iterate over map and add to good/bad_types_str as appropriate
     for(sd_iter i = effectiveness_map.begin(); i != effectiveness_map.end(); ++i)
     {
-        if(i->second > 1.0) good_types_str = str(boost::format("%s %s,")
-                                                 % good_types_str % i->first);
-        else if(i->second < 1.0) bad_types_str = str(boost::format("%s %s,")
-                                                     % bad_types_str % i->first);
+        if(i->second > 1.0) good_types_str = good_types_str + " " + i->first + ",";
+        else if(i->second < 1.0) bad_types_str = bad_types_str + " " + i->first + ",";
     }
 
     //Cut off final comma from good/bad_types_str
@@ -62,10 +59,8 @@ string get_pkmn_effectiveness_string(string pkmn_name, map<string, double> &effe
     bad_types_str = bad_types_str.substr(0, bad_types_str.size()-1);
 
     //Only add good/bad_types_str onto output string if applicable
-    if(good_types_str != " * Use") output_string = str(boost::format("%s\n%s") %
-                                                       output_string % good_types_str);
-    if(bad_types_str != " * Don't use") output_string = str(boost::format("%s\n%s") %
-                                                       output_string % bad_types_str);
+    if(good_types_str != " * Use") output_string = output_string + "\n" + good_types_str;
+    if(bad_types_str != " * Don't use") output_string = output_string + "\n" + bad_types_str;
 
     return output_string;
 }
@@ -75,13 +70,13 @@ string get_trends_string(map<string, int> &super_effective_map, map<string, int>
     string output_string = " * Use:";
     for(si_iter i = super_effective_map.begin(); i != super_effective_map.end(); ++i)
     {
-        if(i->second > 1) output_string = str(boost::format("%s %s,") % output_string % i->first);
+        if(i->second > 1) output_string = output_string + " " + i->first + ",";
     }
     output_string = output_string.substr(0, output_string.size()-1);
-    output_string = str(boost::format("%s\n * Don't use:") % output_string);
+    output_string = output_string + "\n * Don't use:";
     for(si_iter i = not_very_effective_map.begin(); i != not_very_effective_map.end(); ++i)
     {
-        if(i->second > 1) output_string = str(boost::format("%s %s,") % output_string % i->first);
+        if(i->second > 1) output_string = output_string + " " + i->first + ",";
     }
     output_string = output_string.substr(0, output_string.size()-1);
 
@@ -145,8 +140,8 @@ int main(int argc, char *argv[])
         string type1 = pkmn_team[i]->get_types()[0];
         string type2 = pkmn_team[i]->get_types()[1];
         
-        if(type2 == "None") cout << boost::format(" * %s (%s)\n") % pkmn_name % type1;
-        else cout << boost::format(" * %s (%s/%s)\n") % pkmn_name % type1 % type2;
+        if(type2 == "None") cout << " * " << pkmn_name << " (" << type1 << ")" << endl;
+        else cout << " * " << pkmn_name << " (" << type1 << "/" << type2 << ")" << endl;
     }
     cout << endl;
 
@@ -158,7 +153,7 @@ int main(int argc, char *argv[])
     cout << "Type overlaps:" << endl;
     for(si_iter i = type_overlaps.begin(); i != type_overlaps.end(); ++i)
     {
-        cout << boost::format(" * %s (%d)\n") % i->first % i->second;
+        cout << " * " << i->first << " (" << i->second << ")" << endl;
     }
 
     //Get type mods for each Pokémon and output

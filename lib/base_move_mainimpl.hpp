@@ -7,7 +7,6 @@
 #ifndef INCLUDED_BASE_MOVE_MAINIMPL_HPP
 #define INCLUDED_BASE_MOVE_MAINIMPL_HPP
 
-#include <boost/format.hpp>
 #include <pkmnsim/base_move.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
 #include <string>

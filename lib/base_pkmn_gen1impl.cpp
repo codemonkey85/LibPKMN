@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include "base_pkmn_gen1impl.hpp"
-#include <boost/format.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
 #include <stdio.h>
 
@@ -16,8 +15,8 @@ namespace pkmnsim
     base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, SQLite::Database *db,
                                            bool query_moves): base_pkmn(identifier, 1, db, query_moves)
     {
-        string query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=9")
-                                                % pkmn_id);
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
+                            + " AND stat_id=9";
         baseSPCL = db->execAndGet(query_string.c_str(), identifier); 
     }
 
@@ -25,47 +24,39 @@ namespace pkmnsim
     {
         string types_str;
         if(type2 == "None") types_str = type1;
-        else types_str = str(boost::format("%s/%s") % type1 % type2);
+        else types_str = type1 + "/" + type2;
 
-        return str(boost::format(
-            "%s (#%d)\n"
-            "Type: %s\n"
-            "Stats: %d, %d, %d, %d, %d"
-            ) % display_name % nat_pokedex_num
-              % types_str
-              % baseHP % baseATK % baseDEF % baseSPD % baseSPCL
-        );
+        string stats_str = to_string(baseHP) + ", " + to_string(baseATK) + ", "
+                         + to_string(baseDEF) + ", " + to_string(baseSPD) + ", "
+                         + to_string(baseSPCL);
+
+        string output_string;
+        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
+                      + "Type: " + types_str + "\n"
+                      + "Stats: " + stats_str;
+
+        return output_string;
     }
 
     string base_pkmn_gen1impl::get_info_verbose()
     {
         string types_str;
         if(type2 == "None") types_str = type1;
-        else types_str = str(boost::format("%s/%s") % type1 % type2);
+        else types_str = type1 + "/" + type2;
 
-        return str(boost::format(
-            "%s (#%d)\n"
-            "%s Pokémon\n"
-            "Type: %s\n"
-            "%d m, %d kg\n"
-            "Base Stats:\n"
-            " - HP: %d\n"
-            " - Attack: %d\n"
-            " - Defense: %d\n"
-            " - Speed: %d\n"
-            " - Special: %d\n"
-            " - Experience Yield: %d\n"
-            ) % display_name % nat_pokedex_num
-              % species
-              % types_str
-              % height % weight
-              % baseHP
-              % baseATK
-              % baseDEF
-              % baseSPD
-              % baseSPCL
-              % exp_yield
-        );
+        string output_string;
+        output_string = display_name + "(#" + to_string(nat_pokedex_num) + ")\n"
+                      + species + " Pokémon\n"
+                      + to_string(height) + "m, " + to_string(weight) + " kg\n"
+                      + "Base Stats:\n"
+                      + " - HP: " + to_string(baseHP) + "\n"
+                      + " - Attack: " + to_string(baseATK) + "\n"
+                      + " - Defense: " + to_string(baseDEF) + "\n"
+                      + " - Speed: " + to_string(baseSPD) + "\n"
+                      + " - Special: " + to_string(baseSPCL) + "\n"
+                      + " - Experience Yield: " + to_string(exp_yield);
+
+        return output_string;
     }
 
     dict<string,int> base_pkmn_gen1impl::get_base_stats()

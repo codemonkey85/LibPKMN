@@ -7,7 +7,12 @@
 #ifndef INCLUDED_BASE_MOVE_HPP
 #define INCLUDED_BASE_MOVE_HPP
 
-#include <boost/shared_ptr.hpp>
+#ifdef _MSC_VER
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 #include <pkmnsim/config.hpp>
 #include "../../lib/sqlitecpp/SQLiteCPP.h"
 #include <string>
@@ -24,14 +29,14 @@ namespace pkmnsim
     {
         public:
 
-            typedef boost::shared_ptr<base_move> sptr;
+            typedef std::shared_ptr<base_move> sptr;
 
             //Class Constructors (should never be called directly)
             base_move(void) {};
             base_move(std::string identifier, SQLite::Database *db, int gen);
 
             /*
-             * Returns a boost::shared_ptr<base_move> of specified move.
+             * Returns a std::shared_ptr<base_move> of specified move.
              * Verifies validity of move+generation before returning value.
              *
              * Parameters:

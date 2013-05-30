@@ -7,7 +7,12 @@
 #ifndef INCLUDED_SPEC_PKMN_HPP
 #define INCLUDED_SPEC_PKMN_HPP
 
-#include <boost/shared_ptr.hpp>
+#ifdef _MSC_VER
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 #include <iostream>
 #include <string>
 #include <pkmnsim/base_move.hpp>
@@ -35,7 +40,7 @@ namespace pkmnsim
     {
         public:
 
-            typedef boost::shared_ptr<spec_pkmn> sptr;
+            typedef std::shared_ptr<spec_pkmn> sptr;
 
             //Class constructors (should never be called directly)
             spec_pkmn() {};
@@ -44,7 +49,7 @@ namespace pkmnsim
 
 
             /*
-             * Returns a boost::shared_ptr<spec_pkmn> of generated specific Pokémon.
+             * Returns a std::shared_ptr<spec_pkmn> of generated specific Pokémon.
              * Some values are random within bounds of specified values.
              *
              * Parameters:

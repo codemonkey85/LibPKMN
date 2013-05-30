@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include "base_pkmn_gen3impl.hpp"
-#include <boost/format.hpp>
 #include <map>
 #include "sqlitecpp/SQLiteCPP.h"
 
@@ -15,18 +14,18 @@ namespace pkmnsim
 {
     base_pkmn_gen3impl::base_pkmn_gen3impl(string identifier, int gen, SQLite::Database *db,
                                            bool query_moves): base_pkmn(identifier, gen, db, query_moves)
-    {    
-        string query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=4")
-                                         % pkmn_id);
+    {   
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
+                            + " AND stat_id=4";
         baseSATK = db->execAndGet(query_string.c_str(), identifier); 
 
-        query_string = str(boost::format("SELECT base_stat FROM pokemon_stats WHERE pokemon_id=%d AND stat_id=5")
-                                         % pkmn_id);
+        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
+                     + " AND stat_id=5";
         baseSDEF = db->execAndGet(query_string.c_str(), identifier); 
 
         //Effort yields
-        query_string = str(boost::format("SELECT effort FROM pokemon_stats WHERE pokemon_id=%d AND stat_id IN (1,2,3,4,5,6)")
-                                         % pkmn_id);
+        query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
+                     + " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement pokemon_stats_query(*db, query_string.c_str());
         pokemon_stats_query.executeStep();
         evHP = pokemon_stats_query.getColumn(0); //effort
@@ -50,8 +49,7 @@ namespace pkmnsim
         gender_val_map[6] = 0.25;
         gender_val_map[8] = 0.0;
 
-        query_string = str(boost::format("SELECT gender_rate FROM pokemon_species WHERE id=%d")
-                                         % species_id);
+        query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
         int gender_val = db->execAndGet(query_string.c_str(), identifier);
 
         if(gender_val == -1)
@@ -66,28 +64,25 @@ namespace pkmnsim
         }
 
         //Ability 1 (guaranteed)
-        query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=1")
-                                         % pkmn_id);
+        query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pkmn_id)
+                     + " AND slot=1";
         int ability1_id = db->execAndGet(query_string.c_str(), identifier);
-        query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d")
-                                         % ability1_id);
+        query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability1_id);
         ability1 = db->execAndGetStr(query_string.c_str(), identifier);
 
         //Ability 2 (not guaranteed, and if exists, might not exist in specified generation
-        query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=2")
-                                         % pkmn_id);
+        query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pkmn_id)
+                     + " AND slot=2";
         SQLite::Statement ability2_query(*db, query_string.c_str());
         if(ability2_query.executeStep()) //Will be false if no entry exists
         {
             int ability2_id = ability2_query.getColumn(0); //ability_id
-            query_string = str(boost::format("SELECT generation_id FROM abilities WHERE id=%d")
-                                             % ability2_id);
+            query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
             int generation_id = db->execAndGet(query_string.c_str(), identifier);
             if(generation_id > gen) ability2 = "None";
             else
             {
-                query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d")
-                                                 % ability2_id);
+                query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability2_id);
                 ability2 = db->execAndGetStr(query_string.c_str(), identifier);
             }
         }
@@ -96,14 +91,13 @@ namespace pkmnsim
         //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
         if(gen == 5)
         {
-            query_string = str(boost::format("SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=%d AND slot=3")
-                                             % pkmn_id);
+            query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pkmn_id)
+                         + " AND slot=3";
             SQLite::Statement ability3_query(*db, query_string.c_str());
             if(ability3_query.executeStep()) //Will be false if no entry exists
             {
                 int ability3_id = db->execAndGet(query_string.c_str(), identifier);
-                query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d")
-                                                 % ability3_id);
+                query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability3_id);
                 ability3 = db->execAndGetStr(query_string.c_str(), identifier);
             }
             else ability3 = "None";
@@ -111,65 +105,51 @@ namespace pkmnsim
         else ability3 = "None";
 
     }
-
     string base_pkmn_gen3impl::get_info()
     {
         string types_str;
         if(type2 == "None") types_str = type1;
-        else types_str = str(boost::format("%s/%s") % type1 % type2);
+        else types_str = type1 + "/" + type2;
 
-        return str(boost::format(
-            "%s (#%d)\n"
-            "Type: %s\n"
-            "Stats: %d, %d, %d, %d, %d, %d"
-            ) % display_name.c_str() % nat_pokedex_num
-              % types_str.c_str()
-              % baseHP % baseATK % baseDEF % baseSATK % baseSDEF % baseSPD
-        );
+        string stats_str = to_string(baseHP) + ", " + to_string(baseATK) + ", "
+                         + to_string(baseDEF) + ", " + to_string(baseSATK) + ", "
+                         + to_string(baseSDEF) + ", " + to_string(baseSPD);
+
+        string output_string;
+        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
+                      + "Type: " + types_str + "\n"
+                      + "Stats: " + stats_str;
+
+        return output_string;
     }
 
     string base_pkmn_gen3impl::get_info_verbose()
     {
         string types_str;
         if(type2 == "None") types_str = type1;
-        else types_str = str(boost::format("%s/%s") % type1 % type2);
+        else types_str = type1 + "/" + type2;
 
         string abilities_str;
         if(ability2 == "None") abilities_str = ability1; //1 ability
-        else if(ability3 == "None") abilities_str = str(boost::format("%s, %s")
-                                                        % ability1 % ability2); //2 abilities
-        else abilities_str = str(boost::format("%s, %s, %s") 
-                                 % ability1 % ability2 % ability3);
+        else if(ability3 == "None") abilities_str = ability1 + ", " + ability2; //2 abilities
+        else abilities_str = ability1 + ", " + ability2 + ", " + ability3;
 
-        return str(boost::format(
-            "%s (#%d)\n"
-            "%s Pokémon\n"
-            "Type: %s\n"
-            "%d m, %d kg\n"
-            "Ability: %s\n"
-            "Base Stats:\n"
-            " - HP: %d\n"
-            " - Attack: %d\n"
-            " - Defense: %d\n"
-            " - Special Attack: %d\n"
-            " - Special Defense: %d\n"
-            " - Speed: %d\n"
-            " - Experience Yield: %d\n"
-            ) % display_name.c_str() % nat_pokedex_num
-              % species.c_str()
-              % types_str.c_str()
-              % height % weight
-              % abilities_str.c_str()
-              % baseHP
-              % baseATK
-              % baseDEF
-              % baseSATK
-              % baseSDEF
-              % baseSPD
-              % exp_yield
-        );
+        string output_string;
+        output_string = display_name + "(#" + to_string(nat_pokedex_num) + ")\n"
+                      + species + " Pokémon\n"
+                      + to_string(height) + "m, " + to_string(weight) + " kg\n"
+                      + "Abilities: " + abilities_str + "\n"
+                      + "Base Stats:\n"
+                      + " - HP: " + to_string(baseHP) + "\n"
+                      + " - Attack: " + to_string(baseATK) + "\n"
+                      + " - Defense: " + to_string(baseDEF) + "\n"
+                      + " - Special Attack: " + to_string(baseSATK) + "\n"
+                      + " - Special Defense: " + to_string(baseSDEF) + "\n"
+                      + " - Speed: " + to_string(baseSPD) + "\n"
+                      + " - Experience Yield: " + to_string(exp_yield);
+
+        return output_string;
     }
-
 
     dict<string, int> base_pkmn_gen3impl::get_base_stats()
     {

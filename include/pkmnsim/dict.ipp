@@ -8,8 +8,6 @@
 #define INCLUDED_DICT_IPP
 
 #include <pkmnsim/config.hpp>
-#include <boost/foreach.hpp>
-#include <boost/format.hpp>
 #include <stdexcept>
 #include <string>
 
@@ -32,7 +30,7 @@ namespace pkmnsim
     std::vector<Key> dict<Key, Val>::keys(void) const
     {
         std::vector<Key> keys;
-        BOOST_FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map)
         {
             keys.push_back(p.first);
         }
@@ -43,7 +41,7 @@ namespace pkmnsim
     std::vector<Val> dict<Key, Val>::vals(void) const
     {
         std::vector<Val> vals;
-        BOOST_FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map)
         {
             vals.push_back(p.second);
         }
@@ -53,7 +51,7 @@ namespace pkmnsim
     template <typename Key, typename Val>
     bool dict<Key, Val>::has_key(const Key &key) const
     {
-        BOOST_FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map)
         {
             if (p.first == key) return true;
         }
@@ -63,7 +61,7 @@ namespace pkmnsim
     template <typename Key, typename Val>
     const Val &dict<Key, Val>::get(const Key &key, const Val &other) const
     {
-        BOOST_FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map)
         {
             if (p.first == key) return p.second;
         }
@@ -73,13 +71,12 @@ namespace pkmnsim
     template <typename Key, typename Val>
     const Val &dict<Key, Val>::get(const Key &key) const
     {
-        BOOST_FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map)
         {
             if (p.first == key) return p.second;
         }
-        std::string err_msg = str(boost::format("Key '%s' not found.")
-                                                % key);
-        throw std::runtime_error(err_msg);
+        std::string err_msg = "Key '" + to_string(key) + "' not found.";
+        throw std::runtime_error(err_msg.c_str());
     }
 
     template <typename Key, typename Val>
@@ -91,19 +88,18 @@ namespace pkmnsim
     template <typename Key, typename Val>
     const Val &dict<Key, Val>::operator[](const Key &key) const
     {
-        BOOST_FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map)
         {
             if (p.first == key) return p.second;
         }
-        std::string err_msg = str(boost::format("Key '%s' not found.")
-                                                % key);
-        throw std::runtime_error(err_msg);
+        std::string err_msg = "Key '" + to_string(key) + "' not found.";
+        throw std::runtime_error(err_msg.c_str());
     }
 
     template <typename Key, typename Val>
     Val &dict<Key, Val>::operator[](const Key &key)
     {
-        BOOST_FOREACH(dict_pair &p, _map)
+        FOREACH(dict_pair &p, _map)
         {
             if (p.first == key) return p.second;
         }
@@ -124,9 +120,8 @@ namespace pkmnsim
                 return val;
             }
         }
-        std::string err_msg = str(boost::format("Key '%s' not found.")
-                                                % key);
-        throw std::runtime_error(err_msg);
+        std::string err_msg = "Key '" + to_string(key) + "' not found.";
+        throw std::runtime_error(err_msg.c_str());
     }
 
 }

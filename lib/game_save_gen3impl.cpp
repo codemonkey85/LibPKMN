@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 #include <boost/algorithm/string.hpp>
-#include <boost/format.hpp>
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -33,7 +32,11 @@ namespace pkmnsim
             //Determine whether it's an RSE or FRLG save
 
             int err = parser->load(filename.c_str(), save_type);
-            if(err) throw runtime_error(str(boost::format("Failed to load save file") % filename.c_str()));
+            if(err)
+            {
+                string err_msg = "Failed to load save file " + filename;
+                throw runtime_error(err_msg.c_str());
+            }
 
             //Fill party with spec_pkmn, converted from belt_pokemon_t
 

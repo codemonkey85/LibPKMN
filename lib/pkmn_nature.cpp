@@ -6,7 +6,6 @@
  */
 #include <iostream>
 #include <string>
-#include <boost/format.hpp>
 #include "internal.hpp"
 #include <sstream>
 #include <stdexcept>
@@ -31,17 +30,14 @@ namespace pkmnsim
         //Match database's identifier format
         to_database_format(&identifier);
 
-        string query_string = str(boost::format("SELECT id FROM natures WHERE identifier=%d")
-                                         % identifier);
+        string query_string = "SELECT id FROM natures WHERE identifier='" + identifier + "'";
         int nature_id = db.execAndGet(query_string.c_str(), identifier);
 
-        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d")
-                                         % nature_id);
-        string name = db.execAndGetStr(query_string.c_str(), identifier);
+        query_string = "SELECT name FROM nature_names WHERE nature_id=" + to_string(nature_id);
+        name = db.execAndGetStr(query_string.c_str(), identifier);
 
         //Getting positive mod
-        query_string = str(boost::format("SELECT increased_stat_id FROM natures WHERE identifier=%d")
-                                         % identifier);
+        query_string = "SELECT increased_stat_id FROM natures WHERE identifier='" + identifier + "'";
         int pos_id = db.execAndGet(query_string.c_str(), identifier);
         switch(pos_id)
         {
@@ -64,9 +60,8 @@ namespace pkmnsim
                 break;
         }
 
-        //Getting positive mod
-        query_string = str(boost::format("SELECT decreased_stat_id FROM natures WHERE identifier=%d")
-                                         % identifier);
+        //Getting negative mod
+        query_string = "SELECT decreased_stat_id FROM natures WHERE identifier='" + identifier + "'";
         int neg_id = db.execAndGet(query_string.c_str(), identifier);
         switch(neg_id)
         {
@@ -105,13 +100,13 @@ namespace pkmnsim
 
     std::string pkmn_nature::get_info()
     {
-        std::string info_string = str(boost::format( "Nature: %s\n") % name.c_str());
+        std::string info_string = "Nature: " + name + "\n";
         info_string += "Stat Mods:\n";
-        info_string += str(boost::format( " - Attack: %f") % ATKmod);
-        info_string += str(boost::format( " - Defense: %f") % DEFmod);
-        info_string += str(boost::format( " - Speed: %f") % SPDmod);
-        info_string += str(boost::format( " - Special Attack: %f") % SATKmod);
-        info_string += str(boost::format( " - Special Defense: %f") % SDEFmod);
+        info_string += " - Attack: " + to_string(ATKmod);
+        info_string += " - Defense: " + to_string(DEFmod);
+        info_string += " - Special Attack: " + to_string(SATKmod);
+        info_string += " - Special Defense: " + to_string(SDEFmod);
+        info_string += " - Speed: " + to_string(SPDmod);
         
         return info_string;
     }

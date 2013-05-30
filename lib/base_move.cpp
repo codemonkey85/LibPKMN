@@ -6,7 +6,6 @@
  */
 
 #include <algorithm>
-#include <boost/format.hpp>
 #include <iostream>
 #include "base_move_mainimpl.hpp"
 #include "internal.hpp"
@@ -24,25 +23,20 @@ namespace pkmnsim
         move_identifier = identifier;
 
         //Fail if move's generation_id > specified generation
-        query_string = str(boost::format("SELECT generation_id FROM moves WHERE identifier='%s'")
-                                         % identifier);
+        query_string = "SELECT generation_id FROM moves WHERE identifier='" + identifier + "'";
         int gen_id = db->execAndGet(query_string.c_str(), identifier);
 
         if(gen_id > gen)
         {
-            string error_message = str(boost::format("%s not present in Generation %d.")
-                                                     % identifier.c_str() % gen);
-
+            string error_message = identifier + " not present in Generation " + to_string(gen) + ".";
             throw runtime_error(error_message.c_str());
         }
 
         //After move verified as valid, generate next available queries
-        query_string = str(boost::format("SELECT id FROM moves WHERE identifier='%s'")
-                                         % identifier.c_str());
+        query_string = "SELECT id FROM moves WHERE identifier='" + identifier + "'";
         move_id = db->execAndGet(query_string.c_str(), identifier);
 
-        query_string = str(boost::format("SELECT * FROM moves WHERE id=%d")
-                                         % move_id);
+        query_string = "SELECT * FROM moves WHERE id=" + to_string(move_id);
         SQLite::Statement moves_query(*db, query_string.c_str());
         moves_query.executeStep();
 
@@ -56,13 +50,11 @@ namespace pkmnsim
         target_id = moves_query.getColumn(8); //target_id
 
         //Move name
-        query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d")
-                                         % move_id);
+        query_string = "SELECT name FROM move_names WHERE move_id=" + to_string(move_id);
         name = db->execAndGetStr(query_string.c_str(), identifier);
 
         //Type
-        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d")
-                                         % type_id);
+        query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type_id);
         type = db->execAndGetStr(query_string.c_str(), identifier);
     }
 
