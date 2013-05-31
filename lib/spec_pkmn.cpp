@@ -30,29 +30,29 @@ namespace pkmnsim
         int base_pkmn_id = get_pkmn_id(base);
         int base_species_id = get_species_id(base);
 
-        moves = vla<base_move::sptr>("Move",4);
+        moves = vla<base_move::sptr>(4);
         vector<base_move::sptr> base_legal_moves = base->get_legal_moves();
 
         if(i) //Don't care about legal moves
         {
-            moves.put(base_move::make(m1,g));
+            moves[0] = base_move::make(m1,g);
             num_moves = 1;
-            if(m2 != "None") moves.put(base_move::make(m2,g));
+            if(m2 != "None") moves[1] = base_move::make(m2,g);
             else
             {
-                moves.put(base_move::make("struggle",g));
+                moves[1] = base_move::make("struggle",g);
                 num_moves = 2;
             }
-            if(m3 != "None") moves.put(base_move::make(m3,g));
+            if(m3 != "None") moves[2] = base_move::make(m3,g);
             else
             {
-                moves.put(base_move::make("struggle",g));
+                moves[2] = base_move::make("struggle",g);
                 num_moves = 3;
             }
-            if(m4 != "None") moves.put(base_move::make(m4,g));
+            if(m4 != "None") moves[3] = base_move::make(m4,g);
             else
             {
-                moves.put(base_move::make("struggle",g));
+                moves[3] = base_move::make("struggle",g);
                 num_moves = 4;
             }
         }
@@ -78,24 +78,24 @@ namespace pkmnsim
             }
 
             //move1 = base_move::make(m1,g);
-            moves.put(base_move::make(m1,g));
+            moves[0] = base_move::make(m1,g);
             num_moves = 1;
-            if(m2 != "None") moves.put(base_move::make(m2,g)); 
+            if(m2 != "None") moves[1] = base_move::make(m2,g);
             else
             {
-                moves.put(base_move::make("struggle",g));
+                moves[1] = base_move::make("struggle",g);
                 num_moves = 2;
             }
-            if(m3 != "None") moves.put(base_move::make(m3,g));
+            if(m3 != "None") moves[2] = base_move::make(m3,g);
             else
             {
-                moves.put(base_move::make("struggle",g));
+                moves[2] = base_move::make("struggle",g);
                 num_moves = 3;
             }
-            if(m4 != "None") moves.put(base_move::make(m4,g));
+            if(m4 != "None") moves[3] = base_move::make(m4,g);
             else
             {
-                moves.put(base_move::make("struggle",g));
+                moves[3] = base_move::make("struggle",g);
                 num_moves = 4;
             }
         }

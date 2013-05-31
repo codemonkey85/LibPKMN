@@ -21,32 +21,14 @@ namespace pkmnsim
             vla(void);
 
             //Constructor with generic item name
-            vla(int max_items);
+            vla(int max);
 
-            //Constructor with specified item name
-            vla(std::string nice_name, int max);
-
-            //Put item in back
-            void put(item_type item);
-
-            //Put item in specified position
-            void put(item_type item, int pos);
-
-            //Get item in specified position
-            item_type get(int pos);
-
-            //Get item in front
-            item_type get_lead();
-
-            //Remove item in specified position
-            void remove(int pos);
-
-            //Get size
-            int size();
+            //Get or set item at position pos
+            item_type& operator[](int pos);
 
         private:
             std::vector<item_type> _vec;
-            std::string nice_name, full_vec_err_msg, invalid_pos_err_msg, empty_vec_err_msg;
+            std::string invalid_pos_err_msg;
             int max_items;
     };
 }
