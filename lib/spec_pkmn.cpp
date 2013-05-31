@@ -26,6 +26,7 @@ namespace pkmnsim
         base = b;
         nickname = base->get_display_name();
         level = l;
+        generation = g;
         SQLite::Database db(get_database_path().c_str()); //Filepath given by CMake
         int base_pkmn_id = get_pkmn_id(base);
         int base_species_id = get_species_id(base);

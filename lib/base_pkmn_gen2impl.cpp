@@ -110,4 +110,7 @@ namespace pkmnsim
         return stats;
     }
 
+    double base_pkmn_gen2impl::get_chance_male() {return chance_male;}
+
+    double base_pkmn_gen2impl::get_chance_female() {return chance_female;}
 }

@@ -246,7 +246,6 @@ namespace pkmnsim
         {
             srand( time(NULL) );
             double val = (rand() % 1000 + 1)/1000.0;
-            std::cout << "gender val: " << val << std::endl;
             if(val <= base->get_chance_male()) return 'M';
             else return 'F';
         }
@@ -269,14 +268,20 @@ namespace pkmnsim
         srand( time(NULL) );
         dict<int, string> abilities = base->get_abilities();
 
-        if(abilities[2] == "None" and abilities[1] == "None") ability = abilities[1];
-        else if(abilities[2] != "None" and abilities[1] == "None") ability = abilities[rand() % 2];
-        else //1 normal ability, hidden ability, so only use index 0 or 2
+        if(abilities[1] == "None" and abilities[2] == "None") ability = abilities[0]; //Single ability
+        else if(abilities[2] == "None") ability = abilities[rand() % 2]; //Two abilities, no hidden ability
+        else if(abilities[1] == "None" and abilities[2] != "None") //One normal ability, one hidden ability
         {
-            int num = rand() % 3;
-            while(num != 1) num = rand() % 2;
-            ability = abilities[num+1];
+            int num;
+
+            do
+            {
+                num = rand() % 3;
+            } while(num == 1);
+
+            ability = abilities[num];
         }
+        else ability = abilities[rand() % 3]; //Three abilities
 		
 		return ability;
     }

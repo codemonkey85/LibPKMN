@@ -175,6 +175,10 @@ namespace pkmnsim
         return stats;
     }
 
+    double base_pkmn_gen3impl::get_chance_male() {return chance_male;}
+
+    double base_pkmn_gen3impl::get_chance_female() {return chance_female;}
+
     dict<int, string> base_pkmn_gen3impl::get_abilities()
     {
         dict<int, string> abilities;

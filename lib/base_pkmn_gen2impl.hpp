@@ -23,6 +23,8 @@ namespace pkmnsim
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);
             dict<std::string, int> get_ev_yields(void);
+            double get_chance_male();
+            double get_chance_female();
 
         private:
             int baseSATK, baseSDEF;
