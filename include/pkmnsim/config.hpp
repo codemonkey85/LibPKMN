@@ -33,6 +33,7 @@ inline std::string to_string (const T& t)
     #define PKMNSIM_INLINE         __forceinline
     #define PKMNSIM_DEPRECATED     __declspec(deprecated)
     #define PKMNSIM_ALIGNED(x)     __declspec(align(x))
+    # pragma warning(disable: 4251) // class 'A<T>' needs to have dll-interface to be used by clients of class 'B'
 #elif defined(__GNUG__) && __GNUG__ >= 4
     #define PKMNSIM_EXPORT         __attribute__((visibility("default")))
     #define PKMNSIM_IMPORT         __attribute__((visibility("default")))
