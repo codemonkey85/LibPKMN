@@ -1,4 +1,4 @@
-PKMNsim
+PKMNsim - Pokémon Simulator
 
 Data structures written to construct a Pokémon team, complete with movesets.
 This allows for apps to be written to find type weaknesses in teams, calculate

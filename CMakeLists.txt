@@ -7,11 +7,13 @@
 cmake_minimum_required(VERSION 2.8.5)
 project(PKMNsim)
 
-set(pkmnsim_VERSION_MAJOR 0)
-set(pkmnsim_VERSION_MINOR 1)
+set(PKMNsim_VERSION_MAJOR 0)
+set(PKMNsim_VERSION_MINOR 0)
+set(PKMNsim_VERSION_PATCH 1)
 
 #Find dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
+INCLUDE(PKMNsimPackage)
 FIND_PACKAGE(Boost COMPONENTS
     filesystem
     program_options
