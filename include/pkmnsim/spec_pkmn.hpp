@@ -205,7 +205,6 @@ namespace pkmnsim
             char gender;
             pkmn_nature::sptr nature;
             std::string ability;
-            int generation;
 
             //Allow game save's functions to access protected variables
             friend class game_save;
