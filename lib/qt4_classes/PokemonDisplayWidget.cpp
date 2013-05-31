@@ -41,11 +41,11 @@ namespace pkmnsim
         
         //Fill labels
         QString pokemonQString;
-        if(gen == 1) pokemonQString = QString("%1/%2").arg(
+        if(gen == 1) pokemonQString = QString("%1 (%2)").arg(
             QString::fromStdString(s_pkmn->get_base_pkmn()->get_display_name()),
             QString::fromStdString(s_pkmn->get_nickname())
         );
-        else pokemonQString = QString("%1/%2 (%3)").arg(
+        else pokemonQString = QString("%1 (%2 - %3)").arg(
             QString::fromStdString(s_pkmn->get_base_pkmn()->get_display_name()),
             QString::fromStdString(s_pkmn->get_nickname()),
             QChar(s_pkmn->get_gender())
@@ -56,7 +56,7 @@ namespace pkmnsim
         QLabel* itemLabel;
         if(gen >= 2)
         {
-            itemQString = QString("None");
+            itemQString = QString("Item Held: None");
             itemLabel = new QLabel(itemQString);
         }
         
@@ -71,18 +71,18 @@ namespace pkmnsim
             abilityNatureLabel = new QLabel(abilityNatureQString);
         }
         
-        vla<base_move::sptr> moves = vla<base_move::sptr>("Move",4);
+        vla<base_move::sptr> moves = s_pkmn->get_moves();
         QString attackOneQString = QString("%1").arg(
-            QString::fromStdString(moves.get(0)->get_name())
+            QString::fromStdString(moves[0]->get_name())
         );
         QString attackTwoQString = QString("%1").arg(
-            QString::fromStdString(moves.get(1)->get_name())
+            QString::fromStdString(moves[1]->get_name())
         );
         QString attackThreeQString = QString("%1").arg(
-            QString::fromStdString(moves.get(2)->get_name())
+            QString::fromStdString(moves[2]->get_name())
         );
         QString attackFourQString = QString("%1").arg(
-            QString::fromStdString(moves.get(3)->get_name())
+            QString::fromStdString(moves[3]->get_name())
         );
         QLabel* attackOneLabel = new QLabel(attackOneQString);
         QLabel* attackTwoLabel = new QLabel(attackTwoQString);
