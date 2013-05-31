@@ -22,6 +22,8 @@ namespace pkmnsim
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);
             dict<std::string, int> get_ev_yields(void);
+            double get_chance_male();
+            double get_chance_female();
             dict<int, std::string> get_abilities(void);
 
         private:

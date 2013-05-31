@@ -223,7 +223,6 @@ namespace pkmnsim
         {
             srand( time(NULL) );
             double val = (rand() % 1000 + 1)/1000.0;
-            cout << "gender val: " << val << endl;
             if(val <= base->get_chance_male()) return 'M';
             else return 'F';
         }
