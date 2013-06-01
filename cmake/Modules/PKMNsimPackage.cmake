@@ -30,4 +30,19 @@ SET(CPACK_PACKAGE_VERSION "0.0.1")
 SET(CPACK_RESOURCE_FILE_WELCOME ${CMAKE_SOURCE_DIR}/README.txt)
 SET(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE.txt)
 
+########################################################################
+# Setup CPack NSIS
+########################################################################
+SET(CPACK_NSIS_MODIFY_PATH ON)
+
+SET(HLKM_ENV "\\\"SYSTEM\\\\CurrentControlSet\\\\Control\\\\Session Manager\\\\Environment\\\"")
+
+SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+    WriteRegStr HKLM ${HLKM_ENV} \\\"PKMNSIM_DATABASE_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\"
+")
+
+SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+    DeleteRegValue HKLM ${HLKM_ENV} \\\"PKMNSIM_DATABASE_DIR\\\"
+")
+
 INCLUDE(CPack)
