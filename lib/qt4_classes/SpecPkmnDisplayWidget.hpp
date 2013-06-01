@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
- #ifndef INCLUDED_POKEMONDISPLAYWIDGET_HPP
- #define INCLUDED_POKEMONDISPLAYWIDGET_HPP
+ #ifndef INCLUDED_SPECPKMNDISPLAYWIDGET_HPP
+ #define INCLUDED_SPECPKMNDISPLAYWIDGET_HPP
  
  #include <pkmnsim/config.hpp>
  #include <pkmnsim/spec_pkmn.hpp>
@@ -21,12 +21,12 @@
  
  namespace pkmnsim
  {
-    class PKMNSIM_API PokemonDisplayWidget: public QWidget
+    class PKMNSIM_API SpecPkmnDisplayWidget: public QWidget
     {
         Q_OBJECT
         
         public:
-            PokemonDisplayWidget(QWidget* parent = 0, spec_pkmn::sptr pkmn = *(new spec_pkmn::sptr));
+            SpecPkmnDisplayWidget(QWidget* parent = 0, spec_pkmn::sptr pkmn = *(new spec_pkmn::sptr));
             
         /*signals:
         
@@ -37,4 +37,4 @@
     };
  }
  
- #endif /* INCLUDED_POKEMONDISPLAYWIDGET_HPP */
+ #endif /* INCLUDED_SPECPKMNDISPLAYWIDGET_HPP */

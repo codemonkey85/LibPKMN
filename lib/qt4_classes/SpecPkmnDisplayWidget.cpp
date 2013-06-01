@@ -5,7 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <pkmnsim/PokemonDisplayWidget.hpp>
+#include <pkmnsim/SpecPkmnDisplayWidget.hpp>
 #include "../internal.hpp"
 
 #include <sstream>
@@ -16,7 +16,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    PokemonDisplayWidget::PokemonDisplayWidget(QWidget* parent, spec_pkmn::sptr pkmn): QWidget(parent)
+    SpecPkmnDisplayWidget::SpecPkmnDisplayWidget(QWidget* parent, spec_pkmn::sptr pkmn): QWidget(parent)
     {
         //TODO: Check for valid spec_pkmn in case default is used
         s_pkmn = pkmn;
