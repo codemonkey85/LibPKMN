@@ -19,11 +19,12 @@ IF(Boost_FOUND AND SQLITE3_FOUND AND QT4_FOUND)
     INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
     INCLUDE(${QT_USE_FILE})
 
-    QT4_WRAP_CPP(MOCSrcs GetTypeStatsWindow.hpp)
+    QT4_WRAP_CPP(MOCSrcs GetTypeStatsWindow.hpp OptionsGroupBox.hpp)
 
     LIST(APPEND gui_sources
         ${CMAKE_CURRENT_SOURCE_DIR}/get_type_stats_gui.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GetTypeStatsWindow.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/OptionsGroupBox.cpp
         ${MOCSrcs}
     )
 

@@ -5,30 +5,22 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <QApplication>
 #include <QCheckBox>
-#include <QFrame>
-#include <QMenu>
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
+#include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <pkmnsim/BasePkmnDisplayWidget.hpp>
 #include <pkmnsim/TypesComboBox.hpp>
 
-#include "OptionsGroupBox.hpp"
-
-#define WIN_W 800
-#define WIN_H 600
-
-class GetTypeStatsWindow: public QWidget
+class OptionsGroupBox: public QGroupBox
 {
     Q_OBJECT
 
     public:
-        GetTypeStatsWindow(QWidget* parent = 0);
+        OptionsGroupBox(QWidget* parent = 0);
 
     private:
 };
