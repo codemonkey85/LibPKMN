@@ -10,6 +10,7 @@
 #include <QFormLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <pkmnsim/BasePkmnDisplayWidget.hpp>
 #include <pkmnsim/TypesComboBox.hpp>
 
 #define WIN_W 500
@@ -23,5 +24,4 @@ class GetTypeStatsWindow: public QWidget
         GetTypeStatsWindow(QWidget* parent = 0);
 
     private:
-        pkmnsim::TypesComboBox *TypeBox1, *TypeBox2;
 };

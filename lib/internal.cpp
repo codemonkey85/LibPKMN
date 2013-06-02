@@ -34,7 +34,7 @@ namespace pkmnsim
     string get_database_path(void)
     {
         const char* database_dir = getenv("PKMNSIM_DATABASE_DIR"); //Environment variable
-        if(database_dir == NULL) database_dir = "@DATABASE_DIR@"; //CMake variable
+        if(database_dir == NULL) database_dir = "@PKMNSIM_DATABASE_DIR@"; //CMake variable
 
         fs::path database_path = fs::path(database_dir) / "pkmnsim.db";
 
@@ -48,7 +48,7 @@ namespace pkmnsim
     string get_images_dir(void)
     {
         const char* images_dir = getenv("PKMNSIM_IMAGES_DIR"); //Environment variable
-        if(images_dir == NULL) images_dir = "@IMAGES_DIR@"; //CMake variable
+        if(images_dir == NULL) images_dir = "@PKMNSIM_IMAGES_DIR@"; //CMake variable
         
         if(not fs::exists(fs::path(images_dir))) throw runtime_error("Could not find images directory!");
         
