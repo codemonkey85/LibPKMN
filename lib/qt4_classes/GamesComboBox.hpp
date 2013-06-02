@@ -8,6 +8,7 @@
 #define INCLUDED_GAMESCOMBOBOX_HPP
 
 #include <pkmnsim/config.hpp>
+
 #include <QComboBox>
 
 namespace pkmnsim

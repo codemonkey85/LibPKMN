@@ -12,10 +12,11 @@
 #else
 #include <tr1/memory>
 #endif
+#include <string>
 
 #include <pkmnsim/config.hpp>
+
 #include "../../lib/sqlitecpp/SQLiteCPP.h"
-#include <string>
 
 namespace pkmnsim
 {

@@ -8,13 +8,15 @@
 #define INCLUDED_GAME_SAVE_GEN5IMPL_HPP
 
 #include <iostream>
-#include <pkmnsim/game_save.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
-#include "PKMDS/pkmds_g5.h"
-#include "PKMDS/pkmds_g5_sqlite.h"
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/game_save.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
+
+#include "PKMDS/pkmds_g5.h"
+#include "PKMDS/pkmds_g5_sqlite.h"
 
 namespace pkmnsim
 {

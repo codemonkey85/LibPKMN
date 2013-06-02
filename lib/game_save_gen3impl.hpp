@@ -8,13 +8,15 @@
 #define INCLUDED_GAME_SAVE_GEN3IMPL_HPP
 
 #include <iostream>
-#include <pkmnsim/game_save.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
-#include "pokehack/pokestructs.h"
-#include "pokehack/SaveParser.h"
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/game_save.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
+
+#include "pokehack/pokestructs.h"
+#include "pokehack/SaveParser.h"
 
 namespace pkmnsim
 {

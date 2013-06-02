@@ -7,11 +7,12 @@
 #ifndef INCLUDED_BASE_PKMN_GEN2IMPL_HPP
 #define INCLUDED_BASE_PKMN_GEN2IMPL_HPP
 
-#include <map>
-#include "sqlitecpp/SQLiteCPP.h"
+#include <string>
+
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/dict.hpp>
-#include <string>
+
+#include "sqlitecpp/SQLiteCPP.h"
 
 namespace pkmnsim
 {

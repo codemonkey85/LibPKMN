@@ -12,9 +12,9 @@
 #else
 #include <tr1/memory>
 #endif
-
 #include <iostream>
 #include <string>
+
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
 

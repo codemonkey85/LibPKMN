@@ -6,10 +6,11 @@
  */
 
 #include <map>
-#include <pkmnsim/base_pkmn.hpp>
-#include <pkmnsim/dict.hpp>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/dict.hpp>
 
 using namespace pkmnsim;
 using namespace std;

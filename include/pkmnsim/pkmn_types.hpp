@@ -7,9 +7,10 @@
 #ifndef INCLUDED_PKMN_TYPES_HPP
 #define INCLUDED_PKMN_TYPES_HPP
 
-#include <pkmnsim/config.hpp>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/config.hpp>
 
 namespace pkmnsim
 {

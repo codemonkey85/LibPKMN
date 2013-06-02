@@ -12,14 +12,14 @@
 #else
 #include <tr1/memory>
 #endif
-
 #include <iostream>
 #include <string>
+
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/pkmn_nature.hpp>
 #include <pkmnsim/dict.hpp>
+#include <pkmnsim/pkmn_nature.hpp>
 #include <pkmnsim/vla.hpp>
 
 namespace pkmnsim

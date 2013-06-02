@@ -4,13 +4,16 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+
 #include <iostream>
 #include <string>
-#include "internal.hpp"
 #include <sstream>
 #include <stdexcept>
+
 #include <pkmnsim/dict.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
+
+#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;

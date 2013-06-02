@@ -4,16 +4,19 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+
 #include <iostream>
 #include <string>
+#include <vector>
+
+#include <pkmnsim/base_move.hpp>
+#include <pkmnsim/base_pkmn.hpp>
+
 #include "base_pkmn_gen1impl.hpp"
 #include "base_pkmn_gen2impl.hpp"
 #include "base_pkmn_gen3impl.hpp"
 #include "internal.hpp"
-#include <pkmnsim/base_move.hpp>
-#include <pkmnsim/base_pkmn.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
-#include <vector>
 
 using namespace std;
 

@@ -4,11 +4,12 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/TypesComboBox.hpp>
 
 #include <string>
 #include <vector>
+
+#include <pkmnsim/lists.hpp>
+#include <pkmnsim/TypesComboBox.hpp>
 
 using namespace std;
 

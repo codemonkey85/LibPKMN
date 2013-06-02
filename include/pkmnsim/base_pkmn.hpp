@@ -12,15 +12,16 @@
 #else
 #include <tr1/memory>
 #endif
-
 #include <iostream>
-#include "../../lib/sqlitecpp/SQLiteCPP.h"
-#include <pkmnsim/base_move.hpp>
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/dict.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/base_move.hpp>
+#include <pkmnsim/config.hpp>
+#include <pkmnsim/dict.hpp>
+
+#include "../../lib/sqlitecpp/SQLiteCPP.h"
 
 namespace pkmnsim
 {

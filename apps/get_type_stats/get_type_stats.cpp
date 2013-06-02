@@ -4,12 +4,15 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "type_stats_common.hpp"
 
-#include <boost/program_options.hpp>
-#include <pkmnsim/base_pkmn.hpp>
 #include <stdexcept>
 #include <vector>
+
+#include <boost/program_options.hpp>
+
+#include <pkmnsim/base_pkmn.hpp>
+
+#include "type_stats_common.hpp"
 
 using namespace pkmnsim;
 using namespace std;

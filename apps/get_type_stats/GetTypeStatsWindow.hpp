@@ -6,10 +6,11 @@
  */
 
 #include <QApplication>
-#include <QMenu>
 #include <QFormLayout>
 #include <QHBoxLayout>
+#include <QMenu>
 #include <QVBoxLayout>
+
 #include <pkmnsim/TypesComboBox.hpp>
 
 #define WIN_W 500

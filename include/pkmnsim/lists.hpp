@@ -8,9 +8,10 @@
 #define INCLUDED_LISTS_HPP
 
 #include <iostream>
-#include <pkmnsim/config.hpp>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/config.hpp>
 
 namespace pkmnsim
 {

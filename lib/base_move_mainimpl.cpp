@@ -4,6 +4,7 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+
 #include "base_move_mainimpl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 

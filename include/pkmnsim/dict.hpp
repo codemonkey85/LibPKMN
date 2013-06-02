@@ -7,9 +7,10 @@
 #ifndef INCLUDED_DICT_HPP
 #define INCLUDED_DICT_HPP
 
-#include <pkmnsim/config.hpp>
-#include <vector>
 #include <list>
+#include <vector>
+
+#include <pkmnsim/config.hpp>
 
 namespace pkmnsim
 {

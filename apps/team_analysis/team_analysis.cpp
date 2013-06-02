@@ -4,19 +4,23 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "team_analysis_common.hpp"
-
-#include <boost/assign.hpp>
-#include <boost/program_options.hpp>
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <pkmnsim/base_pkmn.hpp>
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/pkmn_types.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <boost/assign.hpp>
+#include <boost/program_options.hpp>
+
+#include <fstream>
+#include <iostream>
+#include <map>
+
+#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/lists.hpp>
+#include <pkmnsim/pkmn_types.hpp>
+
+#include "team_analysis_common.hpp"
+
 
 //TODO: take move types into account
 //TODO: take counter-effectiveness into account

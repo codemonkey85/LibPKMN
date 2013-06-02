@@ -4,14 +4,18 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include <boost/algorithm/string.hpp>
-#include <iostream>
-#include <string>
+
 #include <fstream>
-#include <pkmnsim/base_pkmn.hpp>
-#include "game_save_gen3impl.hpp"
+#include <iostream>
 #include <stdexcept>
+#include <string>
 #include <vector>
+
+#include <boost/algorithm/string.hpp>
+
+#include <pkmnsim/base_pkmn.hpp>
+
+#include "game_save_gen3impl.hpp"
 
 using namespace std;
 

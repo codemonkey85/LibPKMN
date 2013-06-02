@@ -12,14 +12,14 @@
 #else
 #include <tr1/memory>
 #endif
-
 #include <iostream>
-#include <pkmnsim/spec_pkmn.hpp>
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/vla.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/config.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/vla.hpp>
 
 namespace pkmnsim
 {

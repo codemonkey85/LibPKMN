@@ -4,11 +4,15 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include <boost/assign.hpp>
+
 #include <math.h>
-#include <pkmnsim/base_move.hpp>
-#include "spec_pkmn_gen2impl.hpp"
 #include <time.h>
+
+#include <boost/assign.hpp>
+
+#include <pkmnsim/base_move.hpp>
+
+#include "spec_pkmn_gen2impl.hpp"
 
 using namespace std;
 

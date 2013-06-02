@@ -5,13 +5,16 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <boost/filesystem.hpp>
 #include <cstdlib>
-#include <pkmnsim/base_pkmn.hpp>
 #include <fstream>
-#include "internal.hpp"
 #include <stdexcept>
 #include <string>
+
+#include <boost/filesystem.hpp>
+
+#include <pkmnsim/base_pkmn.hpp>
+
+#include "internal.hpp"
 
 namespace fs = boost::filesystem;
 using namespace std;

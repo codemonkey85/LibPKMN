@@ -7,9 +7,10 @@
 #ifndef INCLUDED_ANALYSIS_HPP
 #define INCLUDED_ANALYSIS_HPP
 
+#include <string>
+
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/config.hpp>
-#include <string>
 
 namespace pkmnsim
 {

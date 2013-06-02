@@ -4,17 +4,20 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "internal.hpp"
+
 #include <iostream>
+#include <stdexcept>
 #include <string>
+#include <vector>
+
 #include <pkmnsim/base_move.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
+
+#include "internal.hpp"
 #include "spec_pkmn_gen1impl.hpp"
 #include "spec_pkmn_gen2impl.hpp"
 #include "spec_pkmn_gen3impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
-#include <pkmnsim/spec_pkmn.hpp>
-#include <stdexcept>
-#include <vector>
 
 using namespace std;
 

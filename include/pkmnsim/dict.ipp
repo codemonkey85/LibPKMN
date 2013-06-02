@@ -7,9 +7,10 @@
 #ifndef INCLUDED_DICT_IPP
 #define INCLUDED_DICT_IPP
 
-#include <pkmnsim/config.hpp>
 #include <stdexcept>
 #include <string>
+
+#include <pkmnsim/config.hpp>
 
 namespace pkmnsim
 {

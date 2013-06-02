@@ -4,7 +4,9 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+
 #include <qapplication.h>
+
 #include "GetTypeStatsWindow.hpp"
 
 int main( int argc, char **argv )

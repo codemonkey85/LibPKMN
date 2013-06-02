@@ -4,10 +4,13 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include <boost/assign.hpp>
+
 #include <math.h>
-#include "spec_pkmn_gen3impl.hpp"
 #include <time.h>
+
+#include <boost/assign.hpp>
+
+#include "spec_pkmn_gen3impl.hpp"
 
 using namespace std;
 

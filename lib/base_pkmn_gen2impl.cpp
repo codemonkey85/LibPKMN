@@ -4,9 +4,12 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+
+#include <map>
+#include <stdio.h>
+
 #include "base_pkmn_gen2impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
-#include <stdio.h>
 
 using namespace std;
 

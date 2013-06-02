@@ -8,12 +8,14 @@
 #define INCLUDED_GAME_SAVE_GEN4IMPL_HPP
 
 #include <iostream>
-#include <pkmnsim/game_save.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
-#include "PokeLib/pokelib.h"
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <pkmnsim/game_save.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
+
+#include "PokeLib/pokelib.h"
 
 namespace pkmnsim
 {

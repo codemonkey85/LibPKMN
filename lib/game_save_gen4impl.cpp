@@ -4,18 +4,23 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include <boost/algorithm/string.hpp>
+
 #include <cstdint>
-#include <iostream>
-#include <string>
 #include <fstream>
-#include <pkmnsim/base_pkmn.hpp>
-#include "PokeLib/data_tables.h"
-#include "PokeLib/pokelib.h"
-#include "game_save_gen4impl.hpp"
+#include <iostream>
 #include <stdexcept>
 #include <stdlib.h>
+#include <string>
 #include <vector>
+
+#include <boost/algorithm/string.hpp>
+
+#include <pkmnsim/base_pkmn.hpp>
+
+#include "game_save_gen4impl.hpp"
+
+#include "PokeLib/data_tables.h"
+#include "PokeLib/pokelib.h"
 
 using namespace std;
 

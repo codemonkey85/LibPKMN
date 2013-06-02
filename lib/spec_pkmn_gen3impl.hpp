@@ -7,10 +7,11 @@
 #ifndef INCLUDED_SPEC_PKMN_GEN3IMPL_HPP
 #define INCLUDED_SPEC_PKMN_GEN3IMPL_HPP
 
+#include <string>
+
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
-#include <string>
 
 namespace pkmnsim
 {

@@ -5,13 +5,17 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+
 #include <algorithm>
 #include <iostream>
+
+#include <pkmnsim/base_move.hpp>
+
+//TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
 #include "base_move_mainimpl.hpp"
 #include "internal.hpp"
-//TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
-#include <pkmnsim/base_move.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
+
 
 using namespace std;
 

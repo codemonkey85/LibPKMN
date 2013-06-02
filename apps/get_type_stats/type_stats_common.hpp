@@ -5,11 +5,13 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <boost/assign.hpp>
 #include <string>
+#include <vector>
+
+#include <boost/assign.hpp>
+
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/dict.hpp>
-#include <vector>
 
 using namespace pkmnsim;
 using namespace std;

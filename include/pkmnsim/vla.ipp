@@ -8,8 +8,9 @@
 #ifndef INCLUDED_VLA_IPP
 #define INCLUDED_VLA_IPP
 
-#include <pkmnsim/config.hpp>
 #include <stdexcept>
+
+#include <pkmnsim/config.hpp>
 
 namespace pkmnsim
 {

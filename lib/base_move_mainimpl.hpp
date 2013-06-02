@@ -7,9 +7,11 @@
 #ifndef INCLUDED_BASE_MOVE_MAINIMPL_HPP
 #define INCLUDED_BASE_MOVE_MAINIMPL_HPP
 
-#include <pkmnsim/base_move.hpp>
-#include "sqlitecpp/SQLiteCPP.h"
 #include <string>
+
+#include <pkmnsim/base_move.hpp>
+
+#include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;
 
