@@ -17,8 +17,16 @@ GetTypeStatsWindow::GetTypeStatsWindow(QWidget* parent): QWidget(parent)
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     OptionsGroupBox* optionsGroupBox = new OptionsGroupBox(this);
+    QTabBar* genTabs = new QTabBar(this);
+    genTabs->addTab(QString("Gen 1"));
+    genTabs->addTab(QString("Gen 2"));
+    genTabs->addTab(QString("Gen 3"));
+    genTabs->addTab(QString("Gen 4"));
+    genTabs->addTab(QString("Gen 5"));
 
-    mainLayout->addWidget(optionsGroupBox, Qt::AlignTop);
+    mainLayout->addWidget(optionsGroupBox);
+    mainLayout->addWidget(genTabs);
+    mainLayout->setAlignment(Qt::AlignTop);
 
     setLayout(mainLayout);
 }

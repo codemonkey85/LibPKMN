@@ -13,6 +13,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QTabBar>
 #include <QVBoxLayout>
 
 #include <pkmnsim/BasePkmnDisplayWidget.hpp>
