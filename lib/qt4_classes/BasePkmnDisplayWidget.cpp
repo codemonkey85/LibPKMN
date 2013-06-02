@@ -28,6 +28,7 @@ namespace pkmnsim
         //Declare layouts and labels
         QHBoxLayout* mainLayout = new QHBoxLayout(this);
         QLabel* leftLabel = new QLabel(this);
+        QSizePolicy mainLayoutPolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         //Define QString for rightLabel
         QString rightString = QString("%1 (#%2)").arg(
@@ -43,13 +44,14 @@ namespace pkmnsim
         spriteImage.load(QString(pkmn_icon_path.string().c_str()));
 
         leftLabel->setPixmap(QPixmap::fromImage(spriteImage));
+        leftLabel->setFixedSize(spriteImage.size());
         QLabel* rightLabel = new QLabel(rightString);
+
+        rightLabel->setSizePolicy(mainLayoutPolicy);
 
         mainLayout->addWidget(leftLabel);        
         mainLayout->addWidget(rightLabel);
 
         setLayout(mainLayout);
-
-        setMaximumSize(200,50);
     }
 }
