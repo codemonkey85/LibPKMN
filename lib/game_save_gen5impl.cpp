@@ -39,7 +39,7 @@ namespace pkmnsim
         }
         catch(const exception &e)
         {
-            cout << "Caught exception: " << e.what()<< endl;
+            cout << "Caught exception: " << e.what() << endl;
             exit(EXIT_FAILURE);
         }
     }
