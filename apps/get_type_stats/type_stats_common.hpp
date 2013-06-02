@@ -59,3 +59,53 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
         pkmn_vector.erase(pkmn_vector.begin() + to_erase[j]);
     }
 }
+
+void sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_stats,
+                           vector<stat_st>& lowest_stats, int gen, bool lax, bool evolved)
+{
+    highest_stats.push_back(stat_st("HP"));
+    highest_stats.push_back(stat_st("Attack"));
+    highest_stats.push_back(stat_st("Defense"));
+    highest_stats.push_back(stat_st("Speed"));
+    if(gen == 1) highest_stats.push_back(stat_st("Special"));
+    else
+    {
+        highest_stats.push_back(stat_st("Special Attack"));
+        highest_stats.push_back(stat_st("Special Defense"));
+    }
+    lowest_stats = highest_stats;
+    vector<base_pkmn::sptr> pkmn_vector;
+
+    //Get relevant Pokémon and determine validity of options
+    get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
+    if(pkmn_vector.size() == 0)
+    {
+        cerr << "No Pokémon of specified type combination in Generation " << gen << ".\n";
+        exit(EXIT_FAILURE);
+    }
+    if(evolved) remove_unevolved_pokemon(pkmn_vector);
+
+    for(int i = 0; i < pkmn_vector.size(); i++)
+    {
+        string pkmn_name = pkmn_vector[i]->get_display_name();
+        dict<string, int> stats = pkmn_vector[i]->get_base_stats();
+
+        for(int j = 0; j < highest_stats.size(); j++)
+        {
+            string stat_name = get_stat_map()[highest_stats[j].stat_name];
+
+            //TODO: account for case of stats being equal by appending pkmn_name strings
+            if(highest_stats[j].pkmn_name == "Missingno." or highest_stats[j].stat_value < stats[stat_name])
+            {
+                highest_stats[j].pkmn_name = pkmn_name;
+                highest_stats[j].stat_value = stats[stat_name];
+            }
+            if(lowest_stats[j].pkmn_name == "Missingno." or lowest_stats[j].stat_value > stats[stat_name])
+            {
+                lowest_stats[j].pkmn_name = pkmn_name;
+                lowest_stats[j].stat_value = stats[stat_name];
+            }
+        }
+    }
+
+}
