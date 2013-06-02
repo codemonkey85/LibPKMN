@@ -4,10 +4,11 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_OPTIONSGROUPBOX_HPP
-#define INCLUDED_OPTIONSGROUPBOX_HPP
+#ifndef INCLUDED_CALCULATIONOUTPUT_HPP
+#define INCLUDED_CALCULATIONOUTPUT_HPP
 
-#include <QCheckBox>
+#include <vector>
+
 #include <QFormLayout>
 #include <QGroupBox>
 #include <QHBoxLayout>
@@ -15,15 +16,14 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <pkmnsim/TypesComboBox.hpp>
+#include "type_stats_common.hpp"
 
-class OptionsGroupBox: public QGroupBox
+class CalculationOutput: public QWidget
 {
     Q_OBJECT
 
     public:
-        OptionsGroupBox(QWidget* parent = 0);
-
-    private:
+        CalculationOutput(QWidget* parent, std::vector<stat_st>& highest_stats,
+                         std::vector<stat_st>& lowest_stats);
 };
-#endif /* INCLUDED_OPTIONSGROUPBOX_HPP */
+#endif /* INCLUDED_CALCULATIONOUTPUT_HPP */

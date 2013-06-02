@@ -9,7 +9,7 @@ MESSAGE(STATUS "Get Type Stats")
 IF(Boost_FOUND AND SQLITE3_FOUND)
     MESSAGE(STATUS " * Building command line app.")
 
-    ADD_EXECUTABLE(get_type_stats get_type_stats.cpp)
+    ADD_EXECUTABLE(get_type_stats get_type_stats.cpp type_stats_common.cpp)
     TARGET_LINK_LIBRARIES(get_type_stats pkmnsim)
     INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT apps)
 ENDIF(Boost_FOUND AND SQLITE3_FOUND)
@@ -19,16 +19,17 @@ IF(Boost_FOUND AND SQLITE3_FOUND AND QT4_FOUND)
     INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
     INCLUDE(${QT_USE_FILE})
 
-    QT4_WRAP_CPP(MOCSrcs GetTypeStatsWindow.hpp OptionsGroupBox.hpp)
+    QT4_WRAP_CPP(MOCSrcs GetTypeStatsWindow.hpp OptionsGroupBox.hpp CalculationOutput.hpp)
 
     LIST(APPEND gui_sources
         ${CMAKE_CURRENT_SOURCE_DIR}/get_type_stats_gui.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CalculationOutput.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GetTypeStatsWindow.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/OptionsGroupBox.cpp
         ${MOCSrcs}
     )
 
-    ADD_EXECUTABLE(get_type_stats_gui ${gui_sources})
+    ADD_EXECUTABLE(get_type_stats_gui ${gui_sources} type_stats_common.cpp)
     TARGET_LINK_LIBRARIES(get_type_stats_gui pkmnsim)
     IF(MSVC)
         SET_TARGET_PROPERTIES(get_type_stats_gui PROPERTIES LINK_FLAG_RELEASE "/SUBSYSTEM:WINDOWS")
