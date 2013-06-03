@@ -49,3 +49,23 @@ OptionsGroupBox::OptionsGroupBox(QWidget* parent): QGroupBox(parent)
     setLayout(mainLayout);
     setFixedSize(800,100);
 }
+
+//Private slots to set private variables
+void OptionsGroupBox::setTypeOne(QString typeOneQString) {type1 = typeOneQString.toStdString();}
+void OptionsGroupBox::setTypeTwo(QString typeTwoQString) {type2 = typeTwoQString.toStdString();}
+void OptionsGroupBox::setEvolved(int state) {evolved = state;}
+void OptionsGroupBox::setLax(int state) {lax = state;}
+
+void OptionsGroupBox::calculateResults()
+{
+    vector<vector<stat_st> > highest_stats_vecs, lowest_stats_vecs;
+
+    for(int i = 0; i < 5; i++)
+    {
+        vector<stat_st> high_vec, low_vec;
+        sort_pokemon_by_stats(type1, type2, high_vec, low_vec, i, lax, evolved);
+        highest_stats_vecs.push_back(high_vec);
+        lowest_stats_vecs.push_back(low_vec);
+    }
+    emit resultsCalculated(highest_stats_vecs, lowest_stats_vecs);
+}

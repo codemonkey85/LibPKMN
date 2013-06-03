@@ -16,6 +16,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include <pkmnsim/BasePkmnDisplayWidget.hpp>
+
 #include "type_stats_common.hpp"
 
 class CalculationOutput: public QWidget
@@ -23,7 +25,14 @@ class CalculationOutput: public QWidget
     Q_OBJECT
 
     public:
-        CalculationOutput(QWidget* parent, std::vector<stat_st>& highest_stats,
-                         std::vector<stat_st>& lowest_stats);
+        CalculationOutput(QWidget* parent, int gen);
+
+    public slots:
+        void getAndShowResults(std::vector<std::vector<stat_st> > highest_stats_vecs,
+                               std::vector<std::vector<stat_st> > lowest_stats_vecs);
+
+    private:
+        int generation;
+        std::vector<std::vector<stat_st> > high_vecs, low_vecs;
 };
 #endif /* INCLUDED_CALCULATIONOUTPUT_HPP */
