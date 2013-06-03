@@ -53,6 +53,11 @@ int main(int argc, char *argv[])
         cout << "\nSearch Type Combo - " << desc << endl;
         return EXIT_FAILURE;
     }
+    if(type1 == type2)
+    {
+        cerr << "\nType 1 cannot equal Type 2. Specify a single type or two different types." << endl;
+        return EXIT_FAILURE;
+    }
 
     //Preparing stat_st vectors
 	vector<stat_st> highest_stats, lowest_stats;
