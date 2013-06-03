@@ -28,18 +28,22 @@ GetTypeStatsWindow::GetTypeStatsWindow(QWidget* parent): QWidget(parent)
                                     std::vector<std::vector<stat_st> >)),
             genTabs->widget(0), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
                                      std::vector<std::vector<stat_st> >)));
+
     connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
                                     std::vector<std::vector<stat_st> >)),
             genTabs->widget(1), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
                                      std::vector<std::vector<stat_st> >)));
+
     connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
                                     std::vector<std::vector<stat_st> >)),
             genTabs->widget(2), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
                                      std::vector<std::vector<stat_st> >)));
+
     connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
                                     std::vector<std::vector<stat_st> >)),
             genTabs->widget(3), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
                                      std::vector<std::vector<stat_st> >)));
+
     connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
                                     std::vector<std::vector<stat_st> >)),
             genTabs->widget(4), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,

@@ -37,12 +37,11 @@ class OptionsGroupBox: public QGroupBox
         void setTypeOne(QString typeOneQString);
         void setTypeTwo(QString typeTwoQString);
         void setEvolved(int state);
-        void setLax(int state);
         void calculateResults();
 
     private:
         std::string type1, type2;
-        bool evolved, lax;
+        bool evolved;
 
 };
 #endif /* INCLUDED_OPTIONSGROUPBOX_HPP */
