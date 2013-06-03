@@ -33,6 +33,5 @@ class CalculationOutput: public QWidget
 
     private:
         int generation;
-        std::vector<std::vector<stat_st> > high_vecs, low_vecs;
 };
 #endif /* INCLUDED_CALCULATIONOUTPUT_HPP */
