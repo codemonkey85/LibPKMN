@@ -2442,7 +2442,8 @@ public:
 struct metlevelfield { // Bitfield for the Pokemon's met level and original trainer gender.
 public:
 	byte metlevel : 7; // The level at which this Pokemon was first encountered.
-	Genders::genders otgender : 1; // Flag to determine if the original trainer was female.
+	Genders::genders otgender; // Flag to determine if the original trainer was female.
+	//Genders::genders otgender : 1; //ORIGINAL
 };
 struct dw_ability { //Bitfield for Dream World Ability flag, N's Pokemon Flag
 public:
