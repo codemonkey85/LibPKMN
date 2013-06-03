@@ -12,6 +12,12 @@ using namespace std;
 
 OptionsGroupBox::OptionsGroupBox(QWidget* parent): QGroupBox(parent)
 {
+    //Initialize private variables
+    type1 = "Normal";
+    type2 = "Normal";
+    evolved = false;
+    lax = false;
+
     setTitle(QString("Options"));
 
     QHBoxLayout* mainLayout = new QHBoxLayout(this);
