@@ -11,6 +11,8 @@ set(PKMNsim_VERSION_MAJOR 0)
 set(PKMNsim_VERSION_MINOR 0)
 set(PKMNsim_VERSION_PATCH 1)
 
+SET(WIN7_PKG ${WIN7_PKG} CACHE BOOL "Building a Windows package")
+
 #Find dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 INCLUDE(PKMNsimPackage)
@@ -74,5 +76,9 @@ add_subdirectory(apps)
 
 MESSAGE(STATUS "Building PKMNsim.")
 MESSAGE(STATUS " - Build type: ${CMAKE_BUILD_TYPE}")
-MESSAGE(STATUS " - Install prefix: ${CMAKE_INSTALL_PREFIX}")
+IF(WIN32 AND WIN7_PKG)
+    MESSAGE(STATUS " - Build configured for Windows installer.")
+ELSE()
+    MESSAGE(STATUS " - Install prefix: ${CMAKE_INSTALL_PREFIX}")
+ENDIF(WIN32 AND WIN7_PKG)
 MESSAGE(STATUS "")

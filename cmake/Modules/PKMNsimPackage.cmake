@@ -31,8 +31,12 @@ SET(CPACK_RESOURCE_FILE_WELCOME ${CMAKE_SOURCE_DIR}/README.txt)
 SET(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE.txt)
 
 ########################################################################
-# Setup CPack NSIS
+# Setup Windows-specific settings
 ########################################################################
+IF(WIN7_PKG)
+    INCLUDE(InstallRequiredSystemLibraries)
+ENDIF(WIN7_PKG)
+
 SET(CPACK_NSIS_MODIFY_PATH ON)
 
 SET(HLKM_ENV "\\\"SYSTEM\\\\CurrentControlSet\\\\Control\\\\Session Manager\\\\Environment\\\"")
