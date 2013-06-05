@@ -15,7 +15,6 @@ SET(WIN7_PKG ${WIN7_PKG} CACHE BOOL "Building a Windows package")
 
 #Find dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
-INCLUDE(PKMNsimPackage)
 FIND_PACKAGE(Boost COMPONENTS
     filesystem
     program_options
@@ -82,3 +81,5 @@ ELSE()
     MESSAGE(STATUS " - Install prefix: ${CMAKE_INSTALL_PREFIX}")
 ENDIF(WIN32 AND WIN7_PKG)
 MESSAGE(STATUS "")
+
+INCLUDE(PKMNsimPackage)

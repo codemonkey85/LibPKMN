@@ -12,6 +12,20 @@ IF(Boost_FOUND AND SQLITE3_FOUND)
     ADD_EXECUTABLE(get_type_stats get_type_stats.cpp)
     TARGET_LINK_LIBRARIES(get_type_stats pkmnsim)
     INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT apps)
+    
+    #Use get_type_stats to determine all necessary DLL's for Windows to bring in
+    #if necessary (pkmnsim.dll will cover all Qt DLL's)
+    #NOTE: All necessary DLL's must be in the PATH
+    IF(WIN7_PKG)
+        INCLUDE(GetPrerequisites)
+
+        SET(APPS "\${CMAKE_INSTALL_PREFIX}/bin/get_type_stats.exe")
+        INSTALL(CODE
+            "INCLUDE(BundleUtilities)
+            fixup_bundle(\"${APPS}\" \"\" \"\")"
+        COMPONENT Runtime)
+ENDIF(WIN7_PKG)
+    
 ENDIF(Boost_FOUND AND SQLITE3_FOUND)
 IF(Boost_FOUND AND SQLITE3_FOUND AND QT4_FOUND)
     MESSAGE(STATUS " * Building GUI app.")

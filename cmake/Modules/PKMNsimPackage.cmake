@@ -34,6 +34,7 @@ SET(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE.txt)
 # Setup Windows-specific settings
 ########################################################################
 IF(WIN7_PKG)
+    #Install MSVC runtime
     INCLUDE(InstallRequiredSystemLibraries)
 ENDIF(WIN7_PKG)
 
