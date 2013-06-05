@@ -187,7 +187,7 @@ namespace pkmnsim
     {
         dict<string, int> stats = base->get_base_stats();
 
-        int hp_val = floor(((ivHP + (2*stats["HP"]) + (0.25*evHP) + 100) * level)/100 + 10);
+        int hp_val = int(floor(((ivHP + (2*stats["HP"]) + (0.25*evHP) + 100) * level)/100 + 10));
         return hp_val;
     }
 
@@ -196,7 +196,7 @@ namespace pkmnsim
         dict<string, int> stats = base->get_base_stats();
 
         double nature_mod = nature->get_mods()[stat];
-        int stat_val = ceil(((((ivSTAT + 2*(stats[stat]) + 0.25*(evSTAT)) * level)/100) + 5) * nature_mod);
+        int stat_val = int(ceil(((((ivSTAT + 2*(stats[stat]) + 0.25*(evSTAT)) * level)/100) + 5) * nature_mod));
         return stat_val;
     }
 

@@ -34,7 +34,7 @@ namespace pkmnsim
             read(filename.c_str(),sav);
             opendb(get_database_path().c_str());
 
-            for(int i = 0; i < sav->cur.party.size; i++)
+            for(unsigned int i = 0; i < sav->cur.party.size; i++)
             {
                 pkm = &(sav->cur.party.pokemon[i].pkm_data);
                 decryptpkm(pkm);

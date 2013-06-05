@@ -21,10 +21,10 @@ typedef map<string, double>::iterator sd_iter;
 map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<string> type_list)
 {
     map<string, int> nums; //Key = type, val = number of Pokémon with that type
-    for(int i = 0; i < type_list.size(); i++) nums[type_list[i]] = 0;
+    for(unsigned int i = 0; i < type_list.size(); i++) nums[type_list[i]] = 0;
 
     //Generate vector with number of occurrences of each type
-    for(int i = 0; i < pkmn_team.size(); i++)
+    for(unsigned int i = 0; i < pkmn_team.size(); i++)
     {
         dict<int, string> types = pkmn_team[i]->get_types();
         nums[types[0]]++;
@@ -32,7 +32,7 @@ map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<str
     }
 
     //Delete map entries for non-overlapping types
-    for(int i = 0; i < type_list.size(); i++)
+    for(unsigned int i = 0; i < type_list.size(); i++)
     {
         if(nums[type_list[i]] < 2) nums.erase(type_list[i]);
     }

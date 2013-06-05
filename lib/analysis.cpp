@@ -22,7 +22,7 @@ namespace pkmnsim
         //IV = 0
         //EV = 0
 
-        return ceil(((((2*(bpkmn->get_base_stats()[stat])) * level)/100) + 5) * 0.9);
+        return int(ceil(((((2*(bpkmn->get_base_stats()[stat])) * level)/100) + 5) * 0.9));
     }
 
     //TODO: this only applies to Generation 3-5, add others
@@ -31,7 +31,7 @@ namespace pkmnsim
         //IV = 31
         //EV = 255
 
-        return ceil(((((31 + 2*(bpkmn->get_base_stats()[stat]) + 63.75) * level)/100) + 5) * 1.1);
+        return int(ceil(((((31 + 2*(bpkmn->get_base_stats()[stat]) + 63.75) * level)/100) + 5) * 1.1));
     }
 
     bool is_stat_possible(base_pkmn::sptr bpkmn, int stat_value, string stat, int level)

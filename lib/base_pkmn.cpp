@@ -179,7 +179,7 @@ namespace pkmnsim
         }
 
         //Evolutions may not be present in specified generation
-        for(int i = 0; i < evolution_ids.size(); i++)
+        for(unsigned int i = 0; i < evolution_ids.size(); i++)
         {
             query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
             int generation_id = db.execAndGet(query_string.c_str(), database_identifier);
@@ -191,7 +191,7 @@ namespace pkmnsim
         }
 
         //Fill vector with sptrs of all evolutions
-        for(int i = 0; i < evolution_ids.size(); i++)
+        for(unsigned int i = 0; i < evolution_ids.size(); i++)
         {
             //Get identifier for Pokémon
             query_string = "SELECT identifier FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
@@ -265,7 +265,7 @@ namespace pkmnsim
             if(type2 == "None")
             {
                 //If only one type is specified, find number of entries with that ID and remove duplicates
-                for(int i = 0; i < pkmn_ids.size(); i++)
+                for(unsigned int i = 0; i < pkmn_ids.size(); i++)
                 {
                     int pkmn_count = 0; //Number of types Pokémon appears in pokemon_moves
                     query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_ids[i]);
@@ -278,7 +278,7 @@ namespace pkmnsim
             else
             {
                 //See if entry exists for other type, add to to_erase if not
-                for(int i = 0; i < pkmn_ids.size(); i++)
+                for(unsigned int i = 0; i < pkmn_ids.size(); i++)
                 {
                     query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_ids[i])
                                  + " AND type_id=" + to_string(type2_id);
@@ -288,10 +288,10 @@ namespace pkmnsim
             }
 
             //Erase invalid entries
-            for(int i = to_erase.size()-1; i >= 0; i--) pkmn_ids.erase(pkmn_ids.begin() + to_erase[i]);
+            for(unsigned int i = to_erase.size()-1; i >= 0; i--) pkmn_ids.erase(pkmn_ids.begin() + to_erase[i]);
 
             //Get identifiers for remaining entries
-            for(int i = 0; i < pkmn_ids.size(); i++)
+            for(unsigned int i = 0; i < pkmn_ids.size(); i++)
             {
                 query_string = "SELECT species_id FROM pokemon WHERE id=" + to_string(pkmn_ids[i]);
                 int species_id = db.execAndGet(query_string.c_str());
@@ -306,6 +306,6 @@ namespace pkmnsim
             }
         }
 
-        for(int i = 0; i < names.size(); i++) pkmn_vector.push_back(base_pkmn::make(names[i], gen, false));
+        for(unsigned int i = 0; i < names.size(); i++) pkmn_vector.push_back(base_pkmn::make(names[i], gen, false));
     }
 }

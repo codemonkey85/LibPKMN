@@ -67,7 +67,7 @@ namespace pkmnsim
             bool m3_match = false;
             bool m4_match = false;
 
-            for(int i = 0; i < base_legal_moves.size(); i++)
+            for(unsigned int i = 0; i < base_legal_moves.size(); i++)
             {
                 m1_match = (m1 == base_legal_moves[i]->get_name() or m1 == "None");
                 m2_match = (m2 == base_legal_moves[i]->get_name() or m2 == "None");

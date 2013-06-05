@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
     team_file_input.close();
 
     cout << "Team:" << endl;
-    for(int i = 0; i < pkmn_team.size(); i++)
+    for(unsigned int i = 0; i < pkmn_team.size(); i++)
     {
         if(i > 5) break;
 
@@ -162,12 +162,12 @@ int main(int argc, char *argv[])
 
     //Get type mods for each Pokémon and output
     map<string, map<string, double> > team_mod_map;
-    for(int i = 0; i < pkmn_team.size(); i++) //Iterate over Pokémon team
+    for(unsigned int i = 0; i < pkmn_team.size(); i++) //Iterate over Pokémon team
     {
         string pkmn_name = pkmn_team[i]->get_display_name();
 
         map<string, double> mod_map;
-        for(int j = 0; j < type_list.size(); j++) //Iterate over type list
+        for(unsigned int j = 0; j < type_list.size(); j++) //Iterate over type list
         {
             string type_name = type_list[j];
             string pkmn_type1 = pkmn_team[i]->get_types()[0];
@@ -184,7 +184,7 @@ int main(int argc, char *argv[])
     }
 
     cout << endl << "Individual weaknesses/resistances:" << endl;
-    for(int i = 0; i < pkmn_team.size(); i++)
+    for(unsigned int i = 0; i < pkmn_team.size(); i++)
     {
         string pkmn_name = pkmn_team[i]->get_display_name();
         string output_string = get_pkmn_effectiveness_string(pkmn_name, team_mod_map[pkmn_name]);
@@ -195,11 +195,11 @@ int main(int argc, char *argv[])
     //Get number of super effective types and not very effective types
     map<string, int> super_effective_map;
     map<string, int> not_very_effective_map;
-    for(int i = 0; i < pkmn_team.size(); i++)
+    for(unsigned int i = 0; i < pkmn_team.size(); i++)
     {
         string pkmn_name = pkmn_team[i]->get_display_name();
 
-        for(int j = 0; j < type_list.size(); j++)
+        for(unsigned int j = 0; j < type_list.size(); j++)
         {
             string type_name = type_list[j];
 
