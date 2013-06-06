@@ -223,13 +223,13 @@ namespace pkmnsim
         //Get type IDs
         query_string = "SELECT type_id FROM type_names WHERE name='" + type1 + "'";
         type1_id = db.execAndGet(query_string.c_str(), type1);
-        if(type2 != "None")
+        if(type2 != "None" and type2 != "Any")
         {
             query_string = "SELECT type_id FROM type_names WHERE name='" + type2 + "'";
             type2_id = db.execAndGet(query_string.c_str(), type2);
         }
 
-        if(type2 == "None" and lax)
+        if((type2 == "None" or type2 == "Any") and lax)
         {
             //Get IDs of Pokémon
             query_string = "SELECT pokemon_id FROM pokemon_types WHERE type_id=" + to_string(type1_id);

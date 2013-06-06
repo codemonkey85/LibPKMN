@@ -206,7 +206,7 @@ Column Statement::getColumn(const int aIndex, std::string identifier) const // t
 {
     if (false == mbOk)
     {
-        std::string pkmn_errmsg = "No entry found for identifier '%s'" + identifier;
+        std::string pkmn_errmsg = "No entry found for identifier " + identifier;
         throw SQLite::Exception(pkmn_errmsg.c_str());
     }
     else if ((aIndex < 0) || (aIndex >= mColumnCount))
