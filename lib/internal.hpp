@@ -14,6 +14,7 @@ namespace pkmnsim
 {
     void to_database_format(std::string *identifier);
     std::string get_database_path(void);
+    std::string get_images_dir(void);
 }
 
 #endif /* INCLUDED_INTERNAL_HPP */

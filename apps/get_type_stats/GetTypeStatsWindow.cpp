@@ -6,27 +6,52 @@
  */
 
 #include "GetTypeStatsWindow.hpp"
-#include "type_stats_common.hpp"
+
+#include <pkmnsim/base_pkmn.hpp>
 
 using namespace pkmnsim;
 using namespace std;
 
 GetTypeStatsWindow::GetTypeStatsWindow(QWidget* parent): QWidget(parent)
 {
-    QVBoxLayout* mainLayout = new QVBoxLayout();
-    QHBoxLayout* typeBoxesLayout = new QHBoxLayout();
-    QFormLayout* leftTypeBoxLayout = new QFormLayout();
-    QFormLayout* rightTypeBoxLayout = new QFormLayout();
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
+    OptionsGroupBox* optionsGroupBox = new OptionsGroupBox(this);
+    QTabWidget* genTabs = new QTabWidget(this);
+    genTabs->addTab(new CalculationOutput(this,1), QString("Gen 1"));
+    genTabs->addTab(new CalculationOutput(this,2), QString("Gen 2"));
+    genTabs->addTab(new CalculationOutput(this,3), QString("Gen 3"));
+    genTabs->addTab(new CalculationOutput(this,4), QString("Gen 4"));
+    genTabs->addTab(new CalculationOutput(this,5), QString("Gen 5"));
 
-    TypeBox1 = new TypesComboBox();
-    TypeBox2 = new TypesComboBox();
+    //This is ugly...can this be done better?
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >)),
+            genTabs->widget(0), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >)));
 
-    leftTypeBoxLayout->addRow(tr("Type 1:"), TypeBox1);
-    rightTypeBoxLayout->addRow(tr("Type 2:"), TypeBox2);
-    
-    typeBoxesLayout->addLayout(leftTypeBoxLayout);
-    typeBoxesLayout->addLayout(rightTypeBoxLayout);
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >)),
+            genTabs->widget(1), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >)));
 
-    mainLayout->addLayout(typeBoxesLayout);
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >)),
+            genTabs->widget(2), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >)));
+
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >)),
+            genTabs->widget(3), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >)));
+
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >)),
+            genTabs->widget(4), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >)));
+
+    mainLayout->addWidget(optionsGroupBox);
+    mainLayout->addWidget(genTabs);
+    mainLayout->setAlignment(Qt::AlignTop);
+
     setLayout(mainLayout);
 }

@@ -4,17 +4,29 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
+#ifndef INCLUDED_GETTYPESTATSWINDOW_HPP
+#define INCLUDED_GETTYPESTATSWINDOW_HPP
 
 #include <QApplication>
+#include <QCheckBox>
+#include <QFrame>
 #include <QFormLayout>
+#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QMenu>
+#include <QPushButton>
+#include <QTabBar>
+#include <QTabWidget>
 #include <QVBoxLayout>
 
+#include <pkmnsim/BasePkmnDisplayWidget.hpp>
 #include <pkmnsim/TypesComboBox.hpp>
 
-#define WIN_W 500
-#define WIN_H 400
+#include "CalculationOutput.hpp"
+#include "OptionsGroupBox.hpp"
+
+#define WIN_W 800
+#define WIN_H 600
 
 class GetTypeStatsWindow: public QWidget
 {
@@ -24,5 +36,6 @@ class GetTypeStatsWindow: public QWidget
         GetTypeStatsWindow(QWidget* parent = 0);
 
     private:
-        pkmnsim::TypesComboBox *TypeBox1, *TypeBox2;
 };
+
+#endif /* INCLUDED_GETTYPESTATSWINDOW_HPP */

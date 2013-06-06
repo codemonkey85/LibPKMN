@@ -143,4 +143,6 @@ namespace pkmnsim
     int spec_pkmn::get_level(void) {return level;}
 
     vla<base_move::sptr> spec_pkmn::get_moves(void) {return moves;}
+    
+    int spec_pkmn::get_generation(void) {return generation;}
 }

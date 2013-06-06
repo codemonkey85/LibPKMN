@@ -11,6 +11,7 @@
 
 int main( int argc, char **argv )
 {
+    QApplication::setStyle("cleanlooks");
 	QApplication::setColorSpec( QApplication::CustomColor );
 	QApplication app(argc,argv);
 

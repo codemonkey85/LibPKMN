@@ -254,6 +254,7 @@ namespace pkmnsim
         }
         else
         {
+
             //Get IDs of Pokémon matching first type
             vector<int> pkmn_ids;
             query_string = "SELECT pokemon_id FROM pokemon_types WHERE type_id=" + to_string(type1_id);
@@ -288,7 +289,7 @@ namespace pkmnsim
             }
 
             //Erase invalid entries
-            for(unsigned int i = to_erase.size()-1; i >= 0; i--) pkmn_ids.erase(pkmn_ids.begin() + to_erase[i]);
+            for(unsigned int i = to_erase.size()-1; i > 0; i--) pkmn_ids.erase(pkmn_ids.begin() + to_erase[i]);
 
             //Get identifiers for remaining entries
             for(unsigned int i = 0; i < pkmn_ids.size(); i++)
