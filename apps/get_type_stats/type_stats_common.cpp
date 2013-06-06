@@ -56,6 +56,9 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
 void sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_stats,
                            vector<stat_st>& lowest_stats, int gen, bool lax, bool evolved)
 {
+    highest_stats.clear();
+    lowest_stats.clear();
+
     highest_stats.push_back(stat_st("HP"));
     highest_stats.push_back(stat_st("Attack"));
     highest_stats.push_back(stat_st("Defense"));

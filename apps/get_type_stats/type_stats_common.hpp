@@ -18,7 +18,12 @@
 class stat_st
 {
     public:
-        stat_st(std::string sn) {stat_name = sn;}
+        stat_st(std::string sn)
+        {
+            stat_name = sn;
+            pkmn_name = "Missingno.";
+            stat_value = -1;
+        }
 
     std::string stat_name;
     std::string pkmn_name;
