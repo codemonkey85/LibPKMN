@@ -30,6 +30,7 @@ OptionsGroupBox::OptionsGroupBox(QWidget* parent): QGroupBox(parent)
     TypesComboBox* type1ComboBox = new TypesComboBox(this,5);
     TypesComboBox* type2ComboBox = new TypesComboBox(this,5);
     type2ComboBox->insertItem(0,QString("Any"));
+    type2ComboBox->insertItem(1,QString("None"));
     type2ComboBox->setCurrentIndex(0);
     typesLayout->addWidget(typesLabel);
     typesLayout->addWidget(type1ComboBox);
