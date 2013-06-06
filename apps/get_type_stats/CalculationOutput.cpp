@@ -97,17 +97,12 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
     vector<stat_st> low_vec = lowest_stats_vecs[generation-1];
 
     QList<QGroupBox*> groupBoxQList = this->findChildren<QGroupBox*>();
-    for(int i = 1; i <= groupBoxQList.count(); i++)
+    for(int i = 0; i < groupBoxQList.count(); i++)
     {
-        //Hacky way of getting rid of "Press the Calculate button..." QLabel
+        //Get rid of "Press the Calculate button..." QLabel if it's there
         QList<QLabel*> labelQList = groupBoxQList.at(i)->findChildren<QLabel*>();
-        if(labelQList.count()) groupBoxQList.at(i)->layout()->removeWidget(labelQList.at(1));
+        if(labelQList.count()) delete labelQList.at(0);
     }
-    
-    /*QGroupBox* hpGroupBox = this->findChild<QGroupBox*>(QString("hpGroupBox"));
-    QGroupBox* attackGroupBox = this->findChild<QGroupBox*>(QString("attackGroupBox"));
-    QGroupBox* defenseGroupBox = this->findChild<QGroupBox*>(QString("defenseGroupBox"));
-    QGroupBox* speedGroupBox = this->findChild<QGroupBox*>(QString("speedGroupBox"));*/
     
     update();
 }
