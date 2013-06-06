@@ -99,10 +99,28 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
     QList<QGroupBox*> groupBoxQList = this->findChildren<QGroupBox*>();
     for(int i = 0; i < groupBoxQList.count(); i++)
     {
-        //Get rid of "Press the Calculate button..." QLabel if it's there
+        //Delete all widgets in QGroupBox
         QList<QLabel*> labelQList = groupBoxQList.at(i)->findChildren<QLabel*>();
-        if(labelQList.count()) delete labelQList.at(0);
+        for(int j = 0; j < labelQList.count(); j++) delete labelQList.at(j);
+        QList<BasePkmnDisplayWidget*> basePkmnQList = groupBoxQList.at(i)->findChildren<BasePkmnDisplayWidget*>();
+        for(int j = 0; j < basePkmnQList.count(); j++) delete basePkmnQList.at(j);
+
+        //Add appropriate Pokemon
+        base_pkmn::sptr highPkmn = base_pkmn::make(high_vec[i].pkmn_name, generation, false);
+        base_pkmn::sptr lowPkmn = base_pkmn::make(low_vec[i].pkmn_name, generation, false);
+
+        //Create BasePkmnDisplayWidgets
+        BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);
+        BasePkmnDisplayWidget* lowWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),lowPkmn);
+
+        //Create QLabels with BasePkmnDisplayWidgets
+        QLabel* highLabel = new QLabel(tr("High:"), highWidget);
+        QLabel* lowLabel = new QLabel(tr("Low:"), lowWidget);
+
+        //Add widgets to QGroupBoxes
+        groupBoxQList.at(i)->layout()->addWidget(highWidget);
+        groupBoxQList.at(i)->layout()->addWidget(lowWidget);
     }
-    
+
     update();
 }
