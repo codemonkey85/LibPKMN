@@ -32,6 +32,7 @@ namespace pkmnsim
             int save_type; //0 = RSE, 1 = FRLG
             SaveParser *parser;
 
+            int verify();
             spec_pkmn::sptr belt_pokemon_t_to_spec_pkmn(belt_pokemon_t* bpt, pokemon_effort_t* pet,
                                                         pokemon_attacks_t* pat, pokemon_misc_t* pmt, int index);
     };

@@ -34,9 +34,9 @@ namespace pkmnsim
 
             //Class constructors (should never be called directly)
             game_save(void) {};
-            game_save(std::string filename, int gen);
+            game_save(std::string filename);
 
-            static sptr make(std::string filename, int game_group);
+            static sptr make(std::string filename, int gen);
 
             std::string get_trainer_name(void);
 
@@ -47,6 +47,9 @@ namespace pkmnsim
 
         protected:
 
+            virtual int verify() = 0;
+
+            std::string game_save_filepath;
             std::string trainer_name;
             std::string trainer_id; //should be int?
             std::vector<spec_pkmn::sptr> party; 

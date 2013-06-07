@@ -23,16 +23,18 @@ using namespace std;
 
 namespace pkmnsim
 {
-    game_save_gen5impl::game_save_gen5impl(std::string filename)
+    game_save_gen5impl::game_save_gen5impl(std::string filename): game_save(filename)
     {
         try
         {
             //Determine if B,W,B2,W2
 
-            bw2sav_obj* sav = new bw2sav_obj;
+            sav = new bw2sav_obj;
+
             pokemon_obj* pkm = new pokemon_obj;
-            read(filename.c_str(),sav);
             opendb(get_database_path().c_str());
+
+            if(verify()) throw runtime_error("Could not parse game save file!");
 
             for(unsigned int i = 0; i < sav->cur.party.size; i++)
             {
@@ -46,6 +48,16 @@ namespace pkmnsim
             cout << "Caught exception: " << e.what() << endl;
             exit(EXIT_FAILURE);
         }
+    }
+
+    int game_save_gen5impl::verify()
+    {
+        try
+        {
+            read(game_save_filepath.c_str(),sav);
+            return 0;
+        }
+        catch(exception &e) {return 1;}
     }
 
     spec_pkmn::sptr game_save_gen5impl::pkm_to_spec_pkmn(pokemon_obj* pkm)

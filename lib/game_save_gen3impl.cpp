@@ -29,20 +29,11 @@ extern string pokemon_species[];
 
 namespace pkmnsim
 {
-    game_save_gen3impl::game_save_gen3impl(std::string filename)
+    game_save_gen3impl::game_save_gen3impl(std::string filename): game_save(filename)
     {
         try
         {
-            //Determine whether it's an RSE or FRLG save
-
-            int err = parser->load(filename.c_str(), save_type);
-            if(err)
-            {
-                string err_msg = "Failed to load save file " + filename;
-                throw runtime_error(err_msg.c_str());
-            }
-
-            //Fill party with spec_pkmn, converted from belt_pokemon_t
+            if(verify()) throw runtime_error("Could not parse game save file!");
 
             party.clear();
             for(int i = 0; i < 6; i++)
@@ -61,6 +52,8 @@ namespace pkmnsim
         }
         
     }
+
+    int game_save_gen3impl::verify() {return parser->load(game_save_filepath.c_str(), save_type);}
 
     spec_pkmn::sptr game_save_gen3impl::belt_pokemon_t_to_spec_pkmn(belt_pokemon_t* bpt, pokemon_effort_t* pet,
                                                                         pokemon_attacks_t* pat, pokemon_misc_t* pmt, int index)

@@ -28,6 +28,11 @@ namespace pkmnsim
             game_save_gen4impl(std::string filename);
 
         private:
+            int save_type;
+            PokeLib::Save* gen4_save;
+
+            int verify();
+
             spec_pkmn::sptr PokeLib_Pokemon_to_spec_pkmn(PokeLib::Pokemon pkmn);
     };
 }

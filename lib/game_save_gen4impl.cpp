@@ -26,7 +26,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    game_save_gen4impl::game_save_gen4impl(std::string filename)
+    game_save_gen4impl::game_save_gen4impl(std::string filename): game_save(filename)
     {
         try
         {
@@ -34,11 +34,13 @@ namespace pkmnsim
             char buffer[0x80000];
             ifile.read(buffer, ifile.tellg());
 
-            PokeLib::Save gen4_save(0x80000);
-            gen4_save.data = (uint8_t*)&buffer;
-            gen4_save.parseRawSave();
+            gen4_save = new PokeLib::Save(0x80000);
+            gen4_save->data = (uint8_t*)&buffer;
 
-            PokeLib::Party *gen4_party = gen4_save.getParty();
+            if(not verify()) throw runtime_error("Could not parse game save file!");
+            save_type = gen4_save->getSaveType();
+
+            PokeLib::Party *gen4_party = gen4_save->getParty();
             party.clear(); //PKMNsim party
 
             for(uint8_t i = 0; i < gen4_party->count(); i++)
@@ -52,6 +54,8 @@ namespace pkmnsim
             exit(EXIT_FAILURE);
         }
     }
+
+    int game_save_gen4impl::verify() {return gen4_save->parseRawSave();}
 
     spec_pkmn::sptr game_save_gen4impl::PokeLib_Pokemon_to_spec_pkmn(PokeLib::Pokemon pkmn)
     {

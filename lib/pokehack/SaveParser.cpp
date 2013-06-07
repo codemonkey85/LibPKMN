@@ -197,7 +197,7 @@ int SaveParser::load(const char *fn, int game)
 	unpackeddata = parse_save(fn, savefile, blocks);
 	if (unpackeddata == NULL)
 	{
-		fprintf(stderr, "Could not parse save file.\n");
+		//fprintf(stderr, "Could not parse save file.\n");
 		return -1;
 	}
 

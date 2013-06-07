@@ -29,6 +29,10 @@ namespace pkmnsim
             game_save_gen5impl(std::string filename);
 
         private:
+            bw2sav_obj* sav;
+
+            int verify();
+
             spec_pkmn::sptr pkm_to_spec_pkmn(pokemon_obj* pkm);
     };
 }

@@ -21,6 +21,8 @@ using namespace std;
 
 namespace pkmnsim
 {
+    game_save::game_save(string filename) {game_save_filepath = filename;}
+
     game_save::sptr game_save::make(std::string filename, int gen)
     {
         try
@@ -31,6 +33,7 @@ namespace pkmnsim
             if(gen == 1 or gen == 2) throw runtime_error("Generation 1 and 2 not currently supported.");
             else if(gen >= 3 and gen <= 5)
             {
+                ifile.close();
                 switch(gen)
                 {
                     case 3:
@@ -52,5 +55,9 @@ namespace pkmnsim
 
     string game_save::get_trainer_name() {return trainer_name;}
 
-    void game_save::get_party(vector<spec_pkmn::sptr>& party_pkmn_vec) {party_pkmn_vec = party;}
+    void game_save::get_party(vector<spec_pkmn::sptr>& party_pkmn_vec)
+    {
+        party_pkmn_vec.clear();
+        party_pkmn_vec = party;
+    }
 }
