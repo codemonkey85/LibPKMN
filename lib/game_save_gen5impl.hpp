@@ -27,10 +27,6 @@ namespace pkmnsim
     {
         public:
             game_save_gen5impl(std::string filename);
-            std::string get_trainer_name(void) = 0;
-            void get_party(std::vector<spec_pkmn::sptr>& belt_pkmn_vec) = 0;
-            //Better way to do this?
-            void get_boxes(std::vector<std::vector<spec_pkmn::sptr> >& boxes_vec) = 0;
 
         private:
             spec_pkmn::sptr pkm_to_spec_pkmn(pokemon_obj* pkm);

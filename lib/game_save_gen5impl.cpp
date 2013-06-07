@@ -23,7 +23,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    game_save_gen5impl::game_save_gen5impl(std::string filename): game_save(filename)
+    game_save_gen5impl::game_save_gen5impl(std::string filename)
     {
         try
         {

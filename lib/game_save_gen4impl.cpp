@@ -26,7 +26,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    game_save_gen4impl::game_save_gen4impl(std::string filename): game_save(filename)
+    game_save_gen4impl::game_save_gen4impl(std::string filename)
     {
         try
         {

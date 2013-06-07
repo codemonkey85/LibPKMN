@@ -34,16 +34,16 @@ namespace pkmnsim
 
             //Class constructors (should never be called directly)
             game_save(void) {};
-            game_save(std::string filename);
+            game_save(std::string filename, int gen);
 
             static sptr make(std::string filename, int game_group);
 
-            virtual std::string get_trainer_name(void) = 0;
+            std::string get_trainer_name(void);
 
-            virtual void get_party(std::vector<spec_pkmn::sptr>& belt_pkmn_vec) = 0;
+            void get_party(std::vector<spec_pkmn::sptr>& party_pkmn_vec);
 
             //Better way to do this?
-            virtual void get_boxes(std::vector<std::vector<spec_pkmn::sptr> >& boxes_vec) = 0;
+            //virtual void get_boxes(std::vector<std::vector<spec_pkmn::sptr> >& boxes_vec) = 0;
 
         protected:
 

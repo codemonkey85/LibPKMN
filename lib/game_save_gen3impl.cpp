@@ -29,7 +29,7 @@ extern string pokemon_species[];
 
 namespace pkmnsim
 {
-    game_save_gen3impl::game_save_gen3impl(std::string filename): game_save(filename)
+    game_save_gen3impl::game_save_gen3impl(std::string filename)
     {
         try
         {
