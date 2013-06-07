@@ -5,8 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-MESSAGE(STATUS "Determining which applications to build.")
-MESSAGE(STATUS "")
-ADD_SUBDIRECTORY(get_type_stats)
-ADD_SUBDIRECTORY(team_analysis)
-MESSAGE(STATUS "")
+IF(ENABLE_CMD_CPP_APPS)
+    ADD_SUBDIRECTORY(get_type_stats)
+    ADD_SUBDIRECTORY(team_analysis)
+ENDIF(ENABLE_CMD_CPP_APPS)

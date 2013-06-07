@@ -5,10 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-MESSAGE(STATUS "Get Type Stats")
-IF(Boost_FOUND AND SQLITE3_FOUND)
-    MESSAGE(STATUS " * Building command line app.")
-
+IF(ENABLE_CMD_CPP_APPS)
     ADD_EXECUTABLE(get_type_stats get_type_stats.cpp type_stats_common.cpp)
     TARGET_LINK_LIBRARIES(get_type_stats pkmnsim)
     INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT apps)
@@ -24,12 +21,10 @@ IF(Boost_FOUND AND SQLITE3_FOUND)
             "INCLUDE(BundleUtilities)
             fixup_bundle(\"${APPS}\" \"\" \"\")"
         COMPONENT Runtime)
-ENDIF(WIN7_PKG)
-    
-ENDIF(Boost_FOUND AND SQLITE3_FOUND)
-IF(Boost_FOUND AND SQLITE3_FOUND AND QT4_FOUND)
-    MESSAGE(STATUS " * Building GUI app.")
+    ENDIF(WIN7_PKG)    
+ENDIF(ENABLE_CMD_CPP_APPS)
 
+IF(ENABLE_QT4_CPP_APPS)
     INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
     INCLUDE(${QT_USE_FILE})
 
@@ -50,4 +45,4 @@ IF(Boost_FOUND AND SQLITE3_FOUND AND QT4_FOUND)
     ENDIF(MSVC)
 
     INSTALL(TARGETS get_type_stats_gui RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT apps)
-ENDIF(Boost_FOUND AND SQLITE3_FOUND AND QT4_FOUND)
+ENDIF(ENABLE_QT4_CPP_APPS)

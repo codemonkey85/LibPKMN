@@ -13,8 +13,10 @@ set(PKMNsim_VERSION_PATCH 1)
 
 SET(WIN7_PKG ${WIN7_PKG} CACHE BOOL "Building a Windows package")
 
-#Find dependencies
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
+INCLUDE(PKMNsimComponent)
+
+#Find dependencies
 FIND_PACKAGE(Boost COMPONENTS
     filesystem
     program_options
@@ -64,12 +66,19 @@ IF(NOT CMAKE_BUILD_TYPE)
 ENDIF(NOT CMAKE_BUILD_TYPE)
 SET(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING "")
 
+#Register components
+REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_FOUND" OFF)
+REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
+REGISTER_COMPONENT("Command Line C++ Applications" ENABLE_CMD_CPP_APPS ON "ENABLE_LIBPKMNSIM" OFF)
+REGISTER_COMPONENT("Qt4 C++ Applications" ENABLE_QT4_CPP_APPS ON "ENABLE_LIBPKMNSIM_QT4" OFF)
+
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(share)
 add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(apps)
 
+PRINT_COMPONENT_SUMMARY()
 MESSAGE(STATUS "Building PKMNsim.")
 MESSAGE(STATUS " - Build type: ${CMAKE_BUILD_TYPE}")
 IF(WIN32 AND WIN7_PKG)
