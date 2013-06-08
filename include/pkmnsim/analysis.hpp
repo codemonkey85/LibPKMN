@@ -14,9 +14,9 @@
 
 namespace pkmnsim
 {
-    int PKMNSIM_API return_min_possible_stat(pkmnsim::base_pkmn::sptr, std::string, int);
-    int PKMNSIM_API return_max_possible_stat(pkmnsim::base_pkmn::sptr, std::string, int);
-    bool PKMNSIM_API is_stat_possible(pkmnsim::base_pkmn::sptr, int, std::string, int);
+    int PKMNSIM_API return_min_possible_stat(pkmnsim::base_pkmn::sptr b_pkmn, std::string, int level, int gen);
+    int PKMNSIM_API return_max_possible_stat(pkmnsim::base_pkmn::sptr b_pkmn, std::string, int level, int gen);
+    bool PKMNSIM_API is_stat_possible(pkmnsim::base_pkmn::sptr b_pkmn, int, std::string, int leve, int gen);
 }
 
 #endif /* INCLUDED_ANALYSIS_HPP */
