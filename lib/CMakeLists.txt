@@ -9,15 +9,6 @@
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 
 IF(ENABLE_LIBPKMNSIM)
-    add_subdirectory(pokehack)
-    FILE(GLOB pokehack_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "pokehack/*.c*")
-
-    add_subdirectory(PokeLib)
-    FILE(GLOB PokeLib_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "PokeLib/*.c*")
-
-    add_subdirectory(PKMDS)
-    FILE(GLOB PKMDS_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "PKMDS/*.c*")
-
     add_subdirectory(sqlitecpp)
     FILE(GLOB sqlitecpp_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "sqlitecpp/*.c*")
 
@@ -44,14 +35,7 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/game_save.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/game_save_gen3impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/game_save_gen4impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/game_save_gen5impl.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
-        ${pokehack_sources}
-        ${PokeLib_sources}
-        ${PKMDS_sources}
         ${sqlitecpp_sources}
     )
 
