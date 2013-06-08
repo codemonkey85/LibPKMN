@@ -7,15 +7,12 @@
 #ifndef INCLUDED_BASE_PKMN_HPP
 #define INCLUDED_BASE_PKMN_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
 #include <iostream>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <boost/shared_ptr.hpp>
 
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/config.hpp>
@@ -46,7 +43,7 @@ namespace pkmnsim
     {
         public:
 
-            typedef std::shared_ptr<base_pkmn> sptr;
+            typedef boost::shared_ptr<base_pkmn> sptr;
 
             //Class Constructors (should never be called directly)
 			base_pkmn(void) {};

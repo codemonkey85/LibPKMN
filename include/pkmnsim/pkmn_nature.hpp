@@ -7,13 +7,10 @@
 #ifndef INCLUDED_PKMN_NATURE_HPP
 #define INCLUDED_PKMN_NATURE_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
 #include <iostream>
 #include <string>
+
+#include <boost/shared_ptr.hpp>
 
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
@@ -32,7 +29,7 @@ namespace pkmnsim
     {
         public:
 
-            typedef std::shared_ptr<pkmn_nature> sptr;
+            typedef boost::shared_ptr<pkmn_nature> sptr;
 
             //Class constructors (should never be called directly)
             pkmn_nature(void) {};
