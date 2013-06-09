@@ -108,10 +108,6 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
         QFrame* delVertLine = groupBoxQList.at(i)->findChild<QFrame*>(QString("vertLine"));
         if(delVertLine) delete delVertLine;
 
-        cout << high_vec[i].pkmn_name << endl;
-        cout << low_vec[i].pkmn_name << endl;
-        cout << endl;
-
         if(errcodes[generation-1] or high_vec[i].pkmn_name == "Missingno." or low_vec[i].pkmn_name == "Missingno.")
         {
             QLabel* noPkmnLabel = new QLabel(QString("No Pokemon of specified type combination in Generation %1").arg(
