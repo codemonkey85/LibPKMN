@@ -79,5 +79,5 @@ void OptionsGroupBox::calculateResults()
         highest_stats_vecs.push_back(high_vec);
         lowest_stats_vecs.push_back(low_vec);
     }
-    emit resultsCalculated(highest_stats_vecs, lowest_stats_vecs, errcodes);
+    emit resultsCalculated(highest_stats_vecs, lowest_stats_vecs, errcodes, type1, type2);
 }

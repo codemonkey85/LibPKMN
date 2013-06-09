@@ -310,4 +310,43 @@ namespace pkmnsim
 
         for(unsigned int i = 0; i < names.size(); i++) pkmn_vector.push_back(base_pkmn::make(names[i], gen, false));
     }
+
+    //Manually set Castform to sunny, rainy, or snowy forms
+    void set_castform_type(base_pkmn::sptr base, string type)
+    {
+        if(type != "Normal" and "Fire" and type != "Water" and type != "Ice")
+        {
+            cerr << "Castform can only be Normal, Fire, Water, or Ice type." << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        if(type == "Normal")
+        {
+            base->display_name = "Castform";
+            base->type1 = "Normal";
+            base->type2 = "None";
+            base->pkmn_id = 351;
+        }
+        else if(type == "Fire")
+        {
+            base->display_name = "Castform (Sunny)";
+            base->type1 = "Fire";
+            base->type2 = "None";
+            base->pkmn_id = 662;
+        }
+        else if(type == "Water")
+        {
+            base->display_name = "Castform (Rainy)";
+            base->type1 = "Water";
+            base->type2 = "None";
+            base->pkmn_id = 663;
+        }
+        else
+        {
+            base->display_name = "Castform (Snowy)";
+            base->type1 = "Ice";
+            base->type2 = "None";
+            base->pkmn_id = 664;
+        }
+    }
 }

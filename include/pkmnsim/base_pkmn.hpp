@@ -183,6 +183,7 @@ namespace pkmnsim
             //Only used internally
             friend int get_pkmn_id(sptr base);
             friend int get_species_id(sptr base);
+            friend void PKMNSIM_API set_castform_type(sptr base, std::string type);
     };
 
     /*

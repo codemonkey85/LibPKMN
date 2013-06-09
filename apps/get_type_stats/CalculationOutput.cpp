@@ -92,7 +92,7 @@ CalculationOutput::CalculationOutput(QWidget* parent, int gen): QWidget(parent)
 //Slot to call when results are calculated by OptionsGroupBox
 void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats_vecs,
                                           vector<vector<stat_st> > lowest_stats_vecs,
-                                          vector<int> errcodes)
+                                          vector<int> errcodes, string type1, string type2)
 {
     vector<stat_st> high_vec = highest_stats_vecs[generation-1];
     vector<stat_st> low_vec = lowest_stats_vecs[generation-1];
@@ -120,6 +120,9 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
             //Add appropriate Pokemon
             base_pkmn::sptr highPkmn = base_pkmn::make(high_vec[i].pkmn_name, generation, false);
             base_pkmn::sptr lowPkmn = base_pkmn::make(low_vec[i].pkmn_name, generation, false);
+
+            if(highPkmn->get_display_name() == "Castform") set_castform_type(highPkmn, type1);
+            if(lowPkmn->get_display_name() == "Castform") set_castform_type(lowPkmn, type1);
 
             //Create BasePkmnDisplayWidgets
             BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);
