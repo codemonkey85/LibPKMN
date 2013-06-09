@@ -159,6 +159,11 @@ namespace pkmnsim
 			bool is_fully_evolved(void);
 
             /*
+             * Get path of icon on filesystem.
+             */
+            std::string get_icon_path(void);
+
+            /*
              * Returns vector of moves that this Pokémon can legally learn in this generation.
              * NOTE: Vector will be empty if base_pkmn was declared with query_moves = False
              */
@@ -178,6 +183,7 @@ namespace pkmnsim
             double weight; //kilograms
             int baseHP, baseATK, baseDEF, baseSPD; //Base stats common to all generations
             int exp_yield;
+            std::string icon_path;
             std::vector<base_move::sptr> legal_moves; //All moves legally available
 
             //Only used internally

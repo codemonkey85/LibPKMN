@@ -35,12 +35,8 @@ namespace pkmnsim
             QString::fromStdString(b_pkmn->get_display_name())
         );
 
-        //Eventually replace with get_sprite_path() for Unown and other anomalies
-        string icon_name = to_string(b_pkmn->get_nat_pokedex_num()) + ".png";
-        fs::path pkmn_icon_path = fs::path(get_images_dir().c_str()) / "icons" / icon_name.c_str();
-
         QImage spriteImage;
-        spriteImage.load(QString(pkmn_icon_path.string().c_str()));
+        spriteImage.load(QString(pkmn->get_icon_path().c_str()));
 
         leftLabel->setPixmap(QPixmap::fromImage(spriteImage));
         leftLabel->setFixedSize(spriteImage.size());

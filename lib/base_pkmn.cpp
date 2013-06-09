@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include <boost/filesystem.hpp>
+
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 
@@ -18,6 +20,7 @@
 #include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
+namespace fs = boost::filesystem;
 using namespace std;
 
 namespace pkmnsim
@@ -92,6 +95,8 @@ namespace pkmnsim
         baseDEF = pokemon_stats_query.getColumn(0); //base_stat
         pokemon_stats_query.executeStep();
         baseSPD = pokemon_stats_query.getColumn(0); //base_stat
+
+        icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / (to_string(nat_pokedex_num) + ".png")).string();
 
         //version_group_ids in database
         string version_group_ids[] = {"(1,2,15)", "(3,4,16)", "(5,6,7,12,13)", "(8,9,10)", "(11,14)"};
@@ -209,6 +214,8 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
 
+    string base_pkmn::get_icon_path(void) {return icon_path;}
+
     vector<base_move::sptr> base_pkmn::get_legal_moves(void) {return legal_moves;}
 
     void get_pkmn_of_type(vector<base_pkmn::sptr> &pkmn_vector, string type1, string type2, int gen, bool lax)
@@ -325,6 +332,7 @@ namespace pkmnsim
             base->display_name = "Castform";
             base->type1 = "Normal";
             base->type2 = "None";
+            base->icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "351.png").string();
             base->pkmn_id = 351;
         }
         else if(type == "Fire")
@@ -332,6 +340,7 @@ namespace pkmnsim
             base->display_name = "Castform (Sunny)";
             base->type1 = "Fire";
             base->type2 = "None";
+            base->icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "351-sunny.png").string();
             base->pkmn_id = 662;
         }
         else if(type == "Water")
@@ -339,6 +348,7 @@ namespace pkmnsim
             base->display_name = "Castform (Rainy)";
             base->type1 = "Water";
             base->type2 = "None";
+            base->icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "351-rainy.png").string();
             base->pkmn_id = 663;
         }
         else
@@ -346,6 +356,7 @@ namespace pkmnsim
             base->display_name = "Castform (Snowy)";
             base->type1 = "Ice";
             base->type2 = "None";
+            base->icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "351-snowy.png").string();
             base->pkmn_id = 664;
         }
     }
