@@ -121,6 +121,7 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
             base_pkmn::sptr highPkmn = base_pkmn::make(high_vec[i].pkmn_name, generation, false);
             base_pkmn::sptr lowPkmn = base_pkmn::make(low_vec[i].pkmn_name, generation, false);
 
+            //Manually set Castform form if necessary
             if(highPkmn->get_display_name() == "Castform") set_castform_type(highPkmn, type1);
             if(lowPkmn->get_display_name() == "Castform") set_castform_type(lowPkmn, type1);
 
