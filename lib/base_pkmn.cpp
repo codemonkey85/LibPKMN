@@ -290,6 +290,7 @@ namespace pkmnsim
 
             //Erase invalid entries
             for(unsigned int i = to_erase.size()-1; i > 0; i--) pkmn_ids.erase(pkmn_ids.begin() + to_erase[i]);
+            pkmn_ids.erase(pkmn_ids.begin() + to_erase[0]);
 
             //Get identifiers for remaining entries
             for(unsigned int i = 0; i < pkmn_ids.size(); i++)
