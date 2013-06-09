@@ -31,9 +31,8 @@ namespace pkmnsim
         QSizePolicy mainLayoutPolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
         //Define QString for rightLabel
-        QString rightString = QString("%1 (#%2)").arg(
-            QString::fromStdString(b_pkmn->get_display_name()),
-            QString::number(b_pkmn->get_nat_pokedex_num())
+        QString rightString = QString("%1").arg(
+            QString::fromStdString(b_pkmn->get_display_name())
         );
 
         //Eventually replace with get_sprite_path() for Unown and other anomalies
