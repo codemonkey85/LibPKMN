@@ -29,7 +29,8 @@ class CalculationOutput: public QWidget
 
     public slots:
         void getAndShowResults(std::vector<std::vector<stat_st> > highest_stats_vecs,
-                               std::vector<std::vector<stat_st> > lowest_stats_vecs);
+                               std::vector<std::vector<stat_st> > lowest_stats_vecs,
+                               std::vector<int> errcodes);
 
     private:
         int generation;

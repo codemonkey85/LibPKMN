@@ -61,7 +61,12 @@ int main(int argc, char *argv[])
 
     //Preparing stat_st vectors
 	vector<stat_st> highest_stats, lowest_stats;
-    sort_pokemon_by_stats(type1, type2, highest_stats, lowest_stats, gen, lax, evolved);
+    int errcode = sort_pokemon_by_stats(type1, type2, highest_stats, lowest_stats, gen, lax, evolved);
+    if(errcode)
+    {
+        cerr << "No Pokemon of specified type combination exists in Generation " << to_string(gen) << endl;
+        return EXIT_FAILURE;
+    }
 
     //Format output
     string type_str;

@@ -4,9 +4,6 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_TYPESTATSCOMMON_HPP
-#define INCLUDED_TYPESTATSCOMMON_HPP
-
 #include <string>
 #include <vector>
 
@@ -53,7 +50,7 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
     }
 }
 
-void sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_stats,
+int sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_stats,
                            vector<stat_st>& lowest_stats, int gen, bool lax, bool evolved)
 {
     highest_stats.clear();
@@ -74,11 +71,7 @@ void sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_
 
     //Get relevant Pokémon and determine validity of options
     get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
-    if(pkmn_vector.size() == 0)
-    {
-        cerr << "No Pokémon of specified type combination in Generation " << gen << ".\n";
-        exit(EXIT_FAILURE);
-    }
+    if(pkmn_vector.size() == 0) return 1;
     if(evolved) remove_unevolved_pokemon(pkmn_vector);
 
     for(int i = 0; i < pkmn_vector.size(); i++)
@@ -103,5 +96,6 @@ void sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_
             }
         }
     }
+
+    return 0;
 }
-#endif /* INCLUDED_TYPESTATSCOMMON_HPP */

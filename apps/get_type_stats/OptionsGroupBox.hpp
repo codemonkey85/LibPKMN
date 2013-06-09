@@ -31,7 +31,8 @@ class OptionsGroupBox: public QGroupBox
 
     signals:
         void resultsCalculated(std::vector<std::vector<stat_st> > highest_stats_vecs,
-                               std::vector<std::vector<stat_st> > lowest_stats_vecs);
+                               std::vector<std::vector<stat_st> > lowest_stats_vecs,
+                               std::vector<int> errcodes);
 
     private slots:
         void setTypeOne(QString typeOneQString);

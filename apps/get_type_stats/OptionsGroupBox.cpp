@@ -70,13 +70,14 @@ void OptionsGroupBox::setEvolved(int state) {evolved = state;}
 void OptionsGroupBox::calculateResults()
 {
     vector<vector<stat_st> > highest_stats_vecs, lowest_stats_vecs;
+    vector<int> errcodes;
 
     for(int i = 1; i <= 5; i++)
     {
         vector<stat_st> high_vec, low_vec;
-        sort_pokemon_by_stats(type1, type2, high_vec, low_vec, i, (type2 == "Any"), evolved);
+        errcodes.push_back(sort_pokemon_by_stats(type1, type2, high_vec, low_vec, i, (type2 == "Any"), evolved));
         highest_stats_vecs.push_back(high_vec);
         lowest_stats_vecs.push_back(low_vec);
     }
-    emit resultsCalculated(highest_stats_vecs, lowest_stats_vecs);
+    emit resultsCalculated(highest_stats_vecs, lowest_stats_vecs, errcodes);
 }

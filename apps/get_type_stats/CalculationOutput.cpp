@@ -91,7 +91,8 @@ CalculationOutput::CalculationOutput(QWidget* parent, int gen): QWidget(parent)
 
 //Slot to call when results are calculated by OptionsGroupBox
 void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats_vecs,
-                                          vector<vector<stat_st> > lowest_stats_vecs)
+                                          vector<vector<stat_st> > lowest_stats_vecs,
+                                          vector<int> errcodes)
 {
     vector<stat_st> high_vec = highest_stats_vecs[generation-1];
     vector<stat_st> low_vec = lowest_stats_vecs[generation-1];
@@ -107,33 +108,47 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
         QFrame* delVertLine = groupBoxQList.at(i)->findChild<QFrame*>(QString("vertLine"));
         if(delVertLine) delete delVertLine;
 
-        //Add appropriate Pokemon
-        base_pkmn::sptr highPkmn = base_pkmn::make(high_vec[i].pkmn_name, generation, false);
-        base_pkmn::sptr lowPkmn = base_pkmn::make(low_vec[i].pkmn_name, generation, false);
+        cout << high_vec[i].pkmn_name << endl;
+        cout << low_vec[i].pkmn_name << endl;
+        cout << endl;
 
-        //Create BasePkmnDisplayWidgets
-        BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);
-        BasePkmnDisplayWidget* lowWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),lowPkmn);
+        if(errcodes[generation-1] or high_vec[i].pkmn_name == "Missingno." or low_vec[i].pkmn_name == "Missingno.")
+        {
+            QLabel* noPkmnLabel = new QLabel(QString("No Pokemon of specified type combination in Generation %1").arg(
+                                                QString::number(generation)
+                                            ));
+            groupBoxQList.at(i)->layout()->addWidget(noPkmnLabel);
+        }
+        else
+        {
+            //Add appropriate Pokemon
+            base_pkmn::sptr highPkmn = base_pkmn::make(high_vec[i].pkmn_name, generation, false);
+            base_pkmn::sptr lowPkmn = base_pkmn::make(low_vec[i].pkmn_name, generation, false);
 
-        //Create QLabels with BasePkmnDisplayWidgets
-        QLabel* highLabel = new QLabel(tr("High:"), highWidget);
-        QLabel* lowLabel = new QLabel(tr("Low:"), lowWidget);
+            //Create BasePkmnDisplayWidgets
+            BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);
+            BasePkmnDisplayWidget* lowWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),lowPkmn);
 
-        //Create stat number labels (PROBABLY WILL CHANGE LATER)
-        QLabel* highStat = new QLabel(QString("(%1)").arg(QString::number(high_vec[i].stat_value)));
-        QLabel* lowStat = new QLabel(QString("(%1)").arg(QString::number(low_vec[i].stat_value)));
+            //Create QLabels with BasePkmnDisplayWidgets
+            QLabel* highLabel = new QLabel(tr("High:"), highWidget);
+            QLabel* lowLabel = new QLabel(tr("Low:"), lowWidget);
 
-        //Separator and calculate button
-        QFrame* vertLine = new QFrame(groupBoxQList.at(i));
-        vertLine->setObjectName("vertLine");
-        vertLine->setFrameShape(QFrame::VLine);
+            //Create stat number labels (PROBABLY WILL CHANGE LATER)
+            QLabel* highStat = new QLabel(QString("(%1)").arg(QString::number(high_vec[i].stat_value)));
+            QLabel* lowStat = new QLabel(QString("(%1)").arg(QString::number(low_vec[i].stat_value)));
 
-        //Add widgets to QGroupBoxes
-        groupBoxQList.at(i)->layout()->addWidget(highWidget);
-        groupBoxQList.at(i)->layout()->addWidget(highStat);
-        groupBoxQList.at(i)->layout()->addWidget(vertLine);
-        groupBoxQList.at(i)->layout()->addWidget(lowWidget);
-        groupBoxQList.at(i)->layout()->addWidget(lowStat);
+            //Separator and calculate button
+            QFrame* vertLine = new QFrame(groupBoxQList.at(i));
+            vertLine->setObjectName("vertLine");
+            vertLine->setFrameShape(QFrame::VLine);
+
+            //Add widgets to QGroupBoxes
+            groupBoxQList.at(i)->layout()->addWidget(highWidget);
+            groupBoxQList.at(i)->layout()->addWidget(highStat);
+            groupBoxQList.at(i)->layout()->addWidget(vertLine);
+            groupBoxQList.at(i)->layout()->addWidget(lowWidget);
+            groupBoxQList.at(i)->layout()->addWidget(lowStat);
+        }
     }
 
     update();
