@@ -27,13 +27,13 @@ namespace pkmnsim
         //Gen 3-5: IV = 0, EV = 0, disadvantageous nature
         if(stat == "HP")
         {
-            if(gen == 1 or gen == 2) return int(floor((((bpkmn->get_base_stats()["HP"] + 50) * level) / 50) + 10));
-            else return int(floor((((2 * bpkmn->get_base_stats()["HP"]) * level) / 100) + 10));
+            if(gen == 1 or gen == 2) return int(floor((((bpkmn->get_base_stats()["HP"] + 50.0) * level) / 50.0) + 10.0));
+            else return int(floor((((2.0 * bpkmn->get_base_stats()["HP"]) * level) / 100.0) + 10.0));
         }
         else
         {
-            if(gen == 1 or gen == 2) return int(floor((((bpkmn->get_base_stats()[stat] * level) / 50) + 5)));
-            else return int(floor(((((2 * bpkmn->get_base_stats()[stat]) * level) / 100) + 5) * 0.9));
+            if(gen == 1 or gen == 2) return int(floor((((bpkmn->get_base_stats()[stat] * level) / 50.0) + 5.0)));
+            else return int(floor(((((2.0 * bpkmn->get_base_stats()[stat]) * level) / 100.0) + 5.0) * 0.9));
         }
     }
 
@@ -55,9 +55,9 @@ namespace pkmnsim
         else
         {
             if(stat == "HP")
-                return int(floor(((31 + (2 * bpkmn->get_base_stats()["HP"]) + (255 / 4)) / 100) + 10));
+                return int(floor(((31.0 + (2.0 * bpkmn->get_base_stats()["HP"]) + (255.0 / 4.0)) / 100.0) + 10.0));
             else
-                return int(floor(((((31 + (2 * bpkmn->get_base_stats()[stat]) + (255 / 4)) * level) / 100) + 5) * 1.1));
+                return int(floor(((((31.0 + (2.0 * bpkmn->get_base_stats()[stat]) + (255 / 4)) * level) / 100.0) + 5.0) * 1.1));
         }
     }
 
