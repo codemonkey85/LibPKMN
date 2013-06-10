@@ -20,7 +20,7 @@ IF(ENABLE_CMD_CPP_APPS)
         INSTALL(CODE
             "INCLUDE(BundleUtilities)
             fixup_bundle(\"${APPS}\" \"\" \"\")"
-        COMPONENT Runtime)
+        COMPONENT apps)
     ENDIF(WIN7_PKG)    
 ENDIF(ENABLE_CMD_CPP_APPS)
 
