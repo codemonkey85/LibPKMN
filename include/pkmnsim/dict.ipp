@@ -31,7 +31,7 @@ namespace pkmnsim
     std::vector<Key> dict<Key, Val>::keys(void) const
     {
         std::vector<Key> keys;
-        FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map.begin(), _map.end())
         {
             keys.push_back(p.first);
         }
@@ -42,7 +42,7 @@ namespace pkmnsim
     std::vector<Val> dict<Key, Val>::vals(void) const
     {
         std::vector<Val> vals;
-        FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map.begin(), _map.end())
         {
             vals.push_back(p.second);
         }
@@ -52,7 +52,7 @@ namespace pkmnsim
     template <typename Key, typename Val>
     bool dict<Key, Val>::has_key(const Key &key) const
     {
-        FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map.begin(), _map.end())
         {
             if (p.first == key) return true;
         }
@@ -62,7 +62,7 @@ namespace pkmnsim
     template <typename Key, typename Val>
     const Val &dict<Key, Val>::get(const Key &key, const Val &other) const
     {
-        FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map.begin(), _map.end())
         {
             if (p.first == key) return p.second;
         }
@@ -72,7 +72,7 @@ namespace pkmnsim
     template <typename Key, typename Val>
     const Val &dict<Key, Val>::get(const Key &key) const
     {
-        FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map.begin(), _map.end())
         {
             if (p.first == key) return p.second;
         }
@@ -89,7 +89,7 @@ namespace pkmnsim
     template <typename Key, typename Val>
     const Val &dict<Key, Val>::operator[](const Key &key) const
     {
-        FOREACH(const dict_pair &p, _map)
+        FOREACH(const dict_pair &p, _map.begin(), _map.end())
         {
             if (p.first == key) return p.second;
         }
@@ -100,7 +100,7 @@ namespace pkmnsim
     template <typename Key, typename Val>
     Val &dict<Key, Val>::operator[](const Key &key)
     {
-        FOREACH(dict_pair &p, _map)
+        FOREACH(dict_pair &p, _map.begin(), _map.end())
         {
             if (p.first == key) return p.second;
         }

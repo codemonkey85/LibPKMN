@@ -8,10 +8,10 @@
 #define INCLUDED_PKMNSIM_CONFIG_HPP
 
 //Alternative to BOOST_FOREACH
-#define FOREACH(VAR, RANGE) \
-  for (auto _foreach_range = (RANGE); !_foreach_range.empty(); _foreach_range.pop_front()) \
-    if (bool _foreach_inner = false) {} else \
-      for (VAR = _foreach_range.front(); !_foreach_inner; _foreach_inner = true)
+#define FOREACH(VAR, BEGIN, END) \
+    for (auto _foreach_range = std::make_pair((BEGIN), (END)); _foreach_range.first != _foreach_range.second; ++_foreach_range.first) \
+        if (bool _foreach_inner = false) {} else \
+            for (VAR = *_foreach_range.first; !_foreach_inner; _foreach_inner = true)
 
 //Macro to convert number to std::string
 #include <sstream>
