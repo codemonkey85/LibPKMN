@@ -44,10 +44,12 @@ SET(HLKM_ENV "\\\"SYSTEM\\\\CurrentControlSet\\\\Control\\\\Session Manager\\\\E
 
 SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
     WriteRegStr HKLM ${HLKM_ENV} \\\"PKMNSIM_DATABASE_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\"
+    WriteRegStr HKLM ${HLKM_ENV} \\\"PKMNSIM_IMAGES_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\\images\\\"
 ")
 
 SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
     DeleteRegValue HKLM ${HLKM_ENV} \\\"PKMNSIM_DATABASE_DIR\\\"
+    DeleteRegValue HKLM ${HLKM_ENV} \\\"PKMNSIM_IMAGES_DIR\\\"
 ")
 
 INCLUDE(CPack)
