@@ -12,5 +12,5 @@ FOREACH(header ${pkmnsim_headers})
         ${CMAKE_BINARY_DIR}/include/pkmnsim/${header}
     )
     #These headers should only be installed if Qt4 subclasses are used
-    INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim COMPONENT headers)
+    INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim COMPONENT Headers)
 ENDFOREACH(header)

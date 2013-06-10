@@ -8,7 +8,7 @@
 IF(ENABLE_CMD_CPP_APPS)
     ADD_EXECUTABLE(get_type_stats get_type_stats.cpp type_stats_common.cpp)
     TARGET_LINK_LIBRARIES(get_type_stats pkmnsim)
-    INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT apps)
+    INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
     
     #Use get_type_stats to determine all necessary DLL's for Windows to bring in
     #if necessary (pkmnsim.dll will cover all Qt DLL's)
@@ -20,7 +20,7 @@ IF(ENABLE_CMD_CPP_APPS)
         INSTALL(CODE
             "INCLUDE(BundleUtilities)
             fixup_bundle(\"${APPS}\" \"\" \"\")"
-        COMPONENT apps)
+        COMPONENT Runtime)
     ENDIF(WIN7_PKG)    
 ENDIF(ENABLE_CMD_CPP_APPS)
 
@@ -44,5 +44,5 @@ IF(ENABLE_QT4_CPP_APPS)
         SET_TARGET_PROPERTIES(get_type_stats_gui PROPERTIES LINK_FLAG_RELEASE "/SUBSYSTEM:WINDOWS")
     ENDIF(MSVC)
 
-    INSTALL(TARGETS get_type_stats_gui RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT apps)
+    INSTALL(TARGETS get_type_stats_gui RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
 ENDIF(ENABLE_QT4_CPP_APPS)
