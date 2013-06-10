@@ -130,8 +130,8 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
             BasePkmnDisplayWidget* lowWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),lowPkmn);
 
             //Create QLabels with BasePkmnDisplayWidgets
-            QLabel* highLabel = new QLabel(tr("High:"), highWidget);
-            QLabel* lowLabel = new QLabel(tr("Low:"), lowWidget);
+            QLabel* highLabel = new QLabel(tr("High:"));
+            QLabel* lowLabel = new QLabel(tr("Low:"));
 
             //Create stat number labels (PROBABLY WILL CHANGE LATER)
             QLabel* highStat = new QLabel(QString("(%1)").arg(QString::number(high_vec[i].stat_value)));
@@ -143,11 +143,16 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
             vertLine->setFrameShape(QFrame::VLine);
 
             //Add widgets to QGroupBoxes
+            groupBoxQList.at(i)->layout()->addWidget(highLabel);
             groupBoxQList.at(i)->layout()->addWidget(highWidget);
             groupBoxQList.at(i)->layout()->addWidget(highStat);
             groupBoxQList.at(i)->layout()->addWidget(vertLine);
+            groupBoxQList.at(i)->layout()->addWidget(lowLabel);
             groupBoxQList.at(i)->layout()->addWidget(lowWidget);
             groupBoxQList.at(i)->layout()->addWidget(lowStat);
+            
+            groupBoxQList.at(i)->layout()->setSpacing(10);
+            groupBoxQList.at(i)->layout()->setMargin(5);
         }
     }
 
