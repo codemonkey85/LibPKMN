@@ -38,6 +38,16 @@ IF(WIN7_PKG)
     INCLUDE(InstallRequiredSystemLibraries)
 ENDIF(WIN7_PKG)
 
+IF(${CPACK_GENERATOR} STREQUAL NSIS)
+    ENABLE_LANGUAGE(C)
+
+    include(CheckTypeSize)
+    check_type_size("void*[8]" BIT_WIDTH BUILTIN_TYPES_ONLY)
+    SET(CPACK_PACKAGE_FILE_NAME "PKMNsim_Win${BIT_WIDTH}")
+
+    SET(CPACK_PACKAGE_INSTALL_DIRECTORY "PKMNsim")
+ENDIF()
+
 SET(CPACK_NSIS_MODIFY_PATH ON)
 
 SET(HLKM_ENV "\\\"SYSTEM\\\\CurrentControlSet\\\\Control\\\\Session Manager\\\\Environment\\\"")

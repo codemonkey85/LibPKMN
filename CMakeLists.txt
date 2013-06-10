@@ -78,6 +78,9 @@ add_subdirectory(include)
 add_subdirectory(lib)
 add_subdirectory(apps)
 
+MESSAGE(STATUS "")
+INCLUDE(PKMNsimPackage)
+
 PRINT_COMPONENT_SUMMARY()
 MESSAGE(STATUS "Building PKMNsim.")
 MESSAGE(STATUS " - Build type: ${CMAKE_BUILD_TYPE}")
@@ -87,5 +90,3 @@ ELSE()
     MESSAGE(STATUS " - Install prefix: ${CMAKE_INSTALL_PREFIX}")
 ENDIF(WIN32 AND WIN7_PKG)
 MESSAGE(STATUS "")
-
-INCLUDE(PKMNsimPackage)
