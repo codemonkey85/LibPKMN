@@ -72,6 +72,9 @@ void OptionsGroupBox::calculateResults()
     vector<vector<stat_st> > highest_stats_vecs, lowest_stats_vecs;
     vector<int> errcodes;
 
+    //Prevent app from segfaulting by looking for duplicate types
+    if(type1 == type2) type2 = "None";
+    
     for(int i = 1; i <= 5; i++)
     {
         vector<stat_st> high_vec, low_vec;
