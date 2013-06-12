@@ -21,6 +21,30 @@
 
 namespace pkmnsim
 {
+    namespace Genders
+    {
+        enum genders: int
+        {
+            MALE = 0,
+            FEMALE = 1,
+            GENDERLESS = 2
+        };
+    }
+
+    namespace Statuses
+    {
+        enum nonvolatile_statuses: int
+        {
+            OK = 0, //No nonvolatile status
+            BRN = 1, //Burn
+            FRZ = 2, //Frozen
+            PRZ = 3, //Paralysis
+            PSN = 4, //Poison
+            BPN = 5, //Bad Poison
+            SLP = 6 //Asleep
+        };
+    }
+
     /*
      * Specific Pokémon class
      *
@@ -161,7 +185,6 @@ namespace pkmnsim
              */
             virtual std::string get_info_verbose(void) = 0;
 
-
         protected:
             base_pkmn::sptr base;
             std::string nickname;
@@ -171,17 +194,7 @@ namespace pkmnsim
             int ivHP, ivATK, ivDEF, ivSPD;
             int evHP, evATK, evDEF, evSPD;
             dict<std::string, int> volatile_status_map;
-            std::string nonvolatile_status;
-            /*
-                Nonvolatile Status: only one of the following:
-                OK  = None
-                BRN = Burn
-                FRZ = Freeze
-                PRZ = Paralysis
-                PSN = Poison
-                BP# = Bad Poison # (number of turns)
-                SLP = Sleep
-            */
+            int nonvolatile_status;
             vla<base_move::sptr> moves;
             int num_moves;
 

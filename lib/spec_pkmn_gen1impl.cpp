@@ -44,7 +44,7 @@ namespace pkmnsim
         SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
         SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
 
-        nonvolatile_status = "OK";
+        nonvolatile_status = Statuses::OK;
         reset_volatile_status_map();
         
     }

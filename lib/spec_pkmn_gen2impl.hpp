@@ -31,11 +31,11 @@ namespace pkmnsim
             std::string held_item;
             dict<std::string, int> volatile_status_map;
 
-            dict<char, std::string> get_gender_map();
+            dict<int, char> get_gender_map();
             void reset_volatile_status_map();
             int get_hp_from_iv_ev();
             int get_stat_from_iv_ev(std::string, int, int);
-            char determine_gender();
+            int determine_gender();
     };
 }
 

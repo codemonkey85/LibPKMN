@@ -64,7 +64,7 @@ namespace pkmnsim
         SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
         SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSATK);
 
-        nonvolatile_status = "OK";
+        nonvolatile_status = Statuses::OK;
         reset_volatile_status_map();
     }
 
@@ -107,7 +107,7 @@ namespace pkmnsim
         return stats;
     }
 
-    char spec_pkmn_gen3impl::get_gender() {return gender;}
+    char spec_pkmn_gen3impl::get_gender() {return get_gender_map()[gender];}
 
     pkmn_nature::sptr spec_pkmn_gen3impl::get_nature() {return nature;}
 
@@ -125,7 +125,7 @@ namespace pkmnsim
                          + to_string(SDEF) + ", " + to_string(SPD);
 
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + " " + gender + ")\n"
+        output_string = nickname + " (" + base->get_display_name() + " " + get_gender() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Ability: " + ability + "\n"
@@ -173,12 +173,12 @@ namespace pkmnsim
         return output_string;
     }
 
-    dict<char, string> spec_pkmn_gen3impl::get_gender_map()
+    dict<int, char> spec_pkmn_gen3impl::get_gender_map()
     {
-        dict<char, string> gender_map;
-        gender_map['M'] = "Male";
-        gender_map['F'] = "Female";
-        gender_map['U'] = "Ungendered";
+        dict<int, char> gender_map;
+        gender_map[Genders::MALE] = 'M';
+        gender_map[Genders::FEMALE] = 'F';
+        gender_map[Genders::GENDERLESS] = 'N';
 		
 		return gender_map;
     }
@@ -230,7 +230,7 @@ namespace pkmnsim
             ("magnetic levitation",0)
             ("minimize",0)
             ("protection",0)
-            ("recharging",0)
+            ("reintging",0)
             ("semi-invulnerable",0)
             ("substitute",0)
             ("taking aim",0)
@@ -240,17 +240,17 @@ namespace pkmnsim
         ;
     }
 
-    char spec_pkmn_gen3impl::determine_gender()
+    int spec_pkmn_gen3impl::determine_gender()
     {
-        if(base->get_chance_male() + base->get_chance_female() == 0) return 'N';
-        else if(base->get_chance_male() == 1.0) return 'M';
-        else if(base->get_chance_female() == 1.0) return 'F';
+        if(base->get_chance_male() + base->get_chance_female() == 0) return Genders::GENDERLESS;
+        else if(base->get_chance_male() == 1.0) return Genders::MALE;
+        else if(base->get_chance_female() == 1.0) return Genders::FEMALE;
         else
         {
             srand( time(NULL) );
             double val = (rand() % 1000 + 1)/1000.0;
-            if(val <= base->get_chance_male()) return 'M';
-            else return 'F';
+            if(val <= base->get_chance_male()) return Genders::MALE;
+            else return Genders::FEMALE;
         }
     }
 
