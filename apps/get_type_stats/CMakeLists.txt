@@ -38,10 +38,10 @@ IF(ENABLE_QT4_CPP_APPS)
         ${MOCSrcs}
     )
 
-    ADD_EXECUTABLE(get_type_stats_gui ${gui_sources} type_stats_common.cpp)
+    ADD_EXECUTABLE(get_type_stats_gui WIN32 ${gui_sources} type_stats_common.cpp)
     TARGET_LINK_LIBRARIES(get_type_stats_gui pkmnsim ${QT_QTMAIN_LIBRARY})
     IF(MSVC)
-        SET_TARGET_PROPERTIES(get_type_stats_gui PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS")
+        SET_TARGET_PROPERTIES(get_type_stats_gui PROPERTIES LINK_FLAGS_RELEASE "/subsystem:windows")
     ENDIF(MSVC)
 
     INSTALL(TARGETS get_type_stats_gui RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
