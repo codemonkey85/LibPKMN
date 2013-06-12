@@ -17,6 +17,10 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/internal.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
     @ONLY)
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/internal.hpp
+        ${CMAKE_CURRENT_BINARY_DIR}/internal.hpp
+    COPYONLY)
 
     LIST(APPEND libpkmnsim_libs ${SQLITE3_LIBRARY} ${Boost_LIBRARIES})
 
@@ -55,14 +59,6 @@ IF(ENABLE_LIBPKMNSIM)
         LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
     ENDIF(ENABLE_LIBPKMNSIM_QT4)
 
-    FILE(GLOB pkmnsim_lib_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
-    FOREACH(header ${pkmnsim_lib_headers})
-        CONFIGURE_FILE(
-            ${CMAKE_CURRENT_SOURCE_DIR}/${header}
-            ${CMAKE_CURRENT_BINARY_DIR}/${header}
-        )
-    ENDFOREACH(header)
-    
     ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
     TARGET_LINK_LIBRARIES(pkmnsim ${libpkmnsim_libs})
     SET_TARGET_PROPERTIES(pkmnsim PROPERTIES DEFINE_SYMBOL "PKMNSIM_DLL_EXPORTS")
