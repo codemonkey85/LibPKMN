@@ -26,5 +26,8 @@ namespace pkmnsim
 
         query_string = "SELECT effect_chance FROM moves WHERE id=" + to_string(move_id);
         base_effect_chance = db.execAndGet(query_string.c_str());
+
+        query_string = "SELECT damage_class_id FROM moves WHERE id=" + to_string(move_id);
+        move_damage_class = db.execAndGet(query_string.c_str());
     }
 }

@@ -37,7 +37,23 @@ namespace pkmnsim
         QHBoxLayout* attackTwoLayout = new QHBoxLayout();
         QHBoxLayout* attackThreeLayout = new QHBoxLayout();
         QHBoxLayout* attackFourLayout = new QHBoxLayout();
-        
+
+        //Get gender character
+        QChar gender;
+        switch(s_pkmn->get_gender())
+        {
+            case Genders::MALE:
+                gender = QChar('M');
+                break;
+
+            case Genders::FEMALE:
+                gender = QChar('F');
+                break;
+
+            default:
+                gender = QChar('N');
+                break;
+        }
         
         //Fill labels
         QString pokemonQString;
@@ -48,7 +64,7 @@ namespace pkmnsim
         else pokemonQString = QString("%1 (%2 - %3)").arg(
             QString::fromStdString(s_pkmn->get_base_pkmn()->get_display_name()),
             QString::fromStdString(s_pkmn->get_nickname()),
-            QChar(s_pkmn->get_gender())
+            gender
         );
         QLabel* pokemonLabel = new QLabel(pokemonQString);
         

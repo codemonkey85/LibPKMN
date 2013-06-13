@@ -9,7 +9,6 @@
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 
 IF(ENABLE_LIBPKMNSIM)
-    add_subdirectory(sqlitecpp)
     FILE(GLOB sqlitecpp_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "sqlitecpp/*.c*")
 
     #Configure database info for relevant library files

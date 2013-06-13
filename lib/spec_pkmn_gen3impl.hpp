@@ -26,7 +26,7 @@ namespace pkmnsim
             dict<std::string, int> get_EVs();
             std::string get_info();
             std::string get_info_verbose();
-            char get_gender();
+            int get_gender();
             pkmn_nature::sptr get_nature();
             std::string get_ability();
 
@@ -37,7 +37,6 @@ namespace pkmnsim
             pkmn_nature::sptr nature;
             dict<std::string, int> volatile_status_map;
 
-            dict<int, char> get_gender_map();
             void reset_volatile_status_map();
             int get_hp_from_iv_ev();
             int get_stat_from_iv_ev(std::string, int, int);

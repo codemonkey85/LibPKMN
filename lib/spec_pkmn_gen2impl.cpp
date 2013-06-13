@@ -93,7 +93,7 @@ namespace pkmnsim
         return stats;
     }
 
-    char spec_pkmn_gen2impl::get_gender() {return get_gender_map()[gender];}
+    int spec_pkmn_gen2impl::get_gender() {return gender;}
 
     string spec_pkmn_gen2impl::get_info()
     {
@@ -105,8 +105,25 @@ namespace pkmnsim
                          + to_string(DEF) + ", " + to_string(SATK) + ", "
                          + to_string(SDEF) + ", " + to_string(SPD);
 
+        //Get gender character
+        char gender_char;
+        switch(gender)
+        {
+            case Genders::MALE:
+                gender_char = 'M';
+                break;
+
+            case Genders::FEMALE:
+                gender_char = 'F';
+                break;
+
+            default:
+                gender_char = 'N';
+                break;
+        }
+
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + " " + get_gender() + ")\n"
+        output_string = nickname + " (" + base->get_display_name() + " " + gender_char + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Held Item: " + held_item + "\n"
@@ -150,16 +167,6 @@ namespace pkmnsim
                       + " - Speed: " + to_string(evSPD) + "\n";
 
         return output_string;
-    }
-
-    dict<int, char> spec_pkmn_gen2impl::get_gender_map()
-    {
-        dict<int, char> gender_map;
-        gender_map[Genders::MALE] = 'M';
-        gender_map[Genders::FEMALE] = 'F';
-        gender_map[Genders::GENDERLESS] = 'N';
-		
-		return gender_map;
     }
 
     void spec_pkmn_gen2impl::reset_volatile_status_map()

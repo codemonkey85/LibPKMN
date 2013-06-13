@@ -12,9 +12,20 @@
 #include <boost/shared_ptr.hpp>
 
 #include <pkmnsim/config.hpp>
+#include <pkmnsim/dict.hpp>
 
 namespace pkmnsim
 {
+    namespace Move_Classes
+    {
+        enum move_classes: int
+        {
+            PHYSICAL = 1,
+            SPECIAL = 2,
+            EFFECT = 3
+        };
+    }
+
     /*
      * Base Move Class
      *
@@ -70,12 +81,14 @@ namespace pkmnsim
             int get_base_pp(void);
 
             /*
-             * Returns moves chances of succeeding (0.0-1.0).
+             * Returns move's chances of succeeding (0.0-1.0).
              */
             double get_base_accuracy(void);
 
-            //TODO: implement
-            //std::string get_move_damage_class(void) {return move_damage_class;}
+            /*
+             * Returns move's damage class (Physical, Special, Effect)
+             */
+            int get_move_damage_class(void);
 
             /*
              * Returns effect (burn, paralyze, etc) of move (without any in-battle changes).
@@ -98,7 +111,8 @@ namespace pkmnsim
             int base_power;
             int base_pp;
             double base_accuracy;
-            std::string move_damage_class;
+            int move_damage_class;
+            dict<int,std::string> get_move_damage_class_map();
             int base_priority;
             std::string base_effect;
             double base_effect_chance;

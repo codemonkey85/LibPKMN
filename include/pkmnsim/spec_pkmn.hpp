@@ -113,7 +113,7 @@ namespace pkmnsim
              * Returns the Pokémon's gender (Gen 2-5 only)
              * NOTE; Will throw an error if Pokemon is from Generation 1.
              */
-            virtual char get_gender(void) {throw std::runtime_error("Not valid in this generation.");}
+            virtual int get_gender(void) {throw std::runtime_error("Not valid in this generation.");}
 
             /*
              * Returns the Pokémon's nature (Gen 3-5 only).
@@ -212,7 +212,7 @@ namespace pkmnsim
             int SPCL, SATK, SDEF;
             int ivSPCL, ivSATK, ivSDEF;
             int evSPCL, evSATK, evSDEF;
-            char gender;
+            int gender;
             pkmn_nature::sptr nature;
             std::string ability;
     };

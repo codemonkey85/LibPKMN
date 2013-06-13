@@ -97,6 +97,8 @@ namespace pkmnsim
 
     double base_move::get_base_accuracy(void) {return base_accuracy;}
 
+    int base_move::get_move_damage_class(void) {return move_damage_class;}
+
     string base_move::get_base_effect(void) {return base_effect;}
 
     double base_move::get_base_effect_chance(void) {return base_effect_chance;}
