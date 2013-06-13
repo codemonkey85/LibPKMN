@@ -16,35 +16,12 @@
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
+#include <pkmnsim/enums.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
 #include <pkmnsim/vla.hpp>
 
 namespace pkmnsim
 {
-    namespace Genders
-    {
-        enum genders: int
-        {
-            MALE = 0,
-            FEMALE = 1,
-            GENDERLESS = 2
-        };
-    }
-
-    namespace Statuses
-    {
-        enum nonvolatile_statuses: int
-        {
-            OK = 0, //No nonvolatile status
-            BRN = 1, //Burn
-            FRZ = 2, //Frozen
-            PRZ = 3, //Paralysis
-            PSN = 4, //Poison
-            BPN = 5, //Bad Poison
-            SLP = 6 //Asleep
-        };
-    }
-
     /*
      * Specific Pokémon class
      *

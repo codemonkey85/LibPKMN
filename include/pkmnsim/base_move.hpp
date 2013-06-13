@@ -13,19 +13,10 @@
 
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
+#include <pkmnsim/enums.hpp>
 
 namespace pkmnsim
 {
-    namespace Move_Classes
-    {
-        enum move_classes: int
-        {
-            PHYSICAL = 1,
-            SPECIAL = 2,
-            EFFECT = 3
-        };
-    }
-
     /*
      * Base Move Class
      *
