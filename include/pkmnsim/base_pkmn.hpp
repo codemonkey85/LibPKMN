@@ -18,8 +18,6 @@
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
 
-#include "../../lib/sqlitecpp/SQLiteCPP.h"
-
 namespace pkmnsim
 {
 
@@ -47,7 +45,7 @@ namespace pkmnsim
 
             //Class Constructors (should never be called directly)
 			base_pkmn(void) {};
-			base_pkmn(std::string identifier, int gen, SQLite::Database *db, bool query_moves);
+			base_pkmn(std::string identifier, int gen, bool query_moves);
 			
             /*
              * Returns a std::shared_ptr<base_pkmn> of specified Pokémon.

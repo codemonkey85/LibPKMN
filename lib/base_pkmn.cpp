@@ -25,16 +25,18 @@ using namespace std;
 
 namespace pkmnsim
 {
-	base_pkmn::base_pkmn(string identifier, int gen, SQLite::Database *db, bool query_moves)
+	base_pkmn::base_pkmn(string identifier, int gen, bool query_moves)
 	{
 	    from_gen = gen;
         database_identifier = identifier;
     
+        SQLite::Database db(get_database_path().c_str());
+
         string query_string;
 
         //Fail if Pokémon's generation_id > specified gen
         query_string = "SELECT * FROM pokemon_species WHERE identifier='" + identifier + "'";
-        SQLite::Statement pokemon_species_query(*db, query_string.c_str());
+        SQLite::Statement pokemon_species_query(db, query_string.c_str());
         pokemon_species_query.executeStep();
         int gen_id = pokemon_species_query.getColumn(2); //generation_id
         if(gen_id > gen)
@@ -46,14 +48,14 @@ namespace pkmnsim
         //After Pokemon verified as valid, generate next available queries
         species_id = pokemon_species_query.getColumn(0); //id
         query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(species_id);
-        pkmn_id = db->execAndGet(query_string.c_str());
+        pkmn_id = db.execAndGet(query_string.c_str());
 
         query_string = "SELECT * FROM pokemon WHERE id=" + to_string(pkmn_id);
-        SQLite::Statement pokemon_query(*db, query_string.c_str());
+        SQLite::Statement pokemon_query(db, query_string.c_str());
         pokemon_query.executeStep();
 
         query_string = "SELECT * FROM pokemon_species_names WHERE pokemon_species_id=" + to_string(species_id);
-        SQLite::Statement pokemon_species_names_query(*db, query_string.c_str());
+        SQLite::Statement pokemon_species_names_query(db, query_string.c_str());
         pokemon_species_names_query.executeStep();
 
         //Get available values from queries
@@ -68,25 +70,25 @@ namespace pkmnsim
 
         //Type 1
         query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_id) + " AND slot=1";
-        int type1_id = db->execAndGet(query_string.c_str(), identifier);
+        int type1_id = db.execAndGet(query_string.c_str(), identifier);
         query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type1_id);
-        type1 = db->execAndGetStr(query_string.c_str(), identifier);
+        type1 = db.execAndGetStr(query_string.c_str(), identifier);
         
         //Type 2 (may be empty)
         query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_id) + " AND slot=2";
         int type2_id;
-        SQLite::Statement pokemon_types_query(*db, query_string.c_str());
+        SQLite::Statement pokemon_types_query(db, query_string.c_str());
         if(pokemon_types_query.executeStep()) //Will be false if no database entry exists
         {
             type2_id = pokemon_types_query.getColumn(0); //type_id
             query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type2_id);
-            type2 = db->execAndGetStr(query_string.c_str(), identifier);
+            type2 = db.execAndGetStr(query_string.c_str(), identifier);
         }
         else type2 = "None";
        
         //Stats
         query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) + " AND stat_id IN (1,2,3,6)";
-        SQLite::Statement pokemon_stats_query(*db, query_string.c_str());
+        SQLite::Statement pokemon_stats_query(db, query_string.c_str());
         pokemon_stats_query.executeStep();
         baseHP = pokemon_stats_query.getColumn(0); //base_stat
         pokemon_stats_query.executeStep();
@@ -106,13 +108,13 @@ namespace pkmnsim
 		{
             query_string = "SELECT move_id FROM pokemon_moves WHERE pokemon_id=" + to_string(pkmn_id) + " AND version_group_id IN"
                          + version_group_ids[gen-1];
-            SQLite::Statement legal_move_query(*db, query_string.c_str());
+            SQLite::Statement legal_move_query(db, query_string.c_str());
             while(legal_move_query.executeStep())
             {
                 int move_id = legal_move_query.getColumn(0); //move_id
    
                 query_string = "SELECT identifier FROM moves WHERE id=" + to_string(move_id); 
-                string move_identifier = db->execAndGetStr(query_string.c_str(), "");
+                string move_identifier = db.execAndGetStr(query_string.c_str(), "");
                 legal_moves.push_back(base_move::make(move_identifier, gen));
             }
 		}
@@ -128,19 +130,16 @@ namespace pkmnsim
 
             if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
-            SQLite::Database db(get_database_path().c_str());
-            string query_string;
-
             switch(gen)
             {
                 case 1:
-                    return sptr(new base_pkmn_gen1impl(identifier, &db, query_moves));
+                    return sptr(new base_pkmn_gen1impl(identifier, query_moves));
 
                 case 2:
-                    return sptr(new base_pkmn_gen2impl(identifier, &db, query_moves));
+                    return sptr(new base_pkmn_gen2impl(identifier, query_moves));
 
                 default:
-                    return sptr(new base_pkmn_gen3impl(identifier, gen, &db, query_moves));
+                    return sptr(new base_pkmn_gen3impl(identifier, gen, query_moves));
             }
         }
         catch(const exception &e)

@@ -8,18 +8,20 @@
 #include <stdio.h>
 
 #include "base_pkmn_gen1impl.hpp"
+#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, SQLite::Database *db,
-                                           bool query_moves): base_pkmn(identifier, 1, db, query_moves)
+    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, bool query_moves):
+                                           base_pkmn(identifier, 1, query_moves)
     {
+        SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
                             + " AND stat_id=9";
-        baseSPCL = db->execAndGet(query_string.c_str(), identifier); 
+        baseSPCL = db.execAndGet(query_string.c_str(), identifier); 
     }
 
     string base_pkmn_gen1impl::get_info()

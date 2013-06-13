@@ -11,8 +11,6 @@
 
 #include <pkmnsim/base_move.hpp>
 
-#include "sqlitecpp/SQLiteCPP.h"
-
 using namespace std;
 
 namespace pkmnsim
@@ -20,7 +18,7 @@ namespace pkmnsim
     class PKMNSIM_API base_move_mainimpl: public base_move
     {
         public:
-            base_move_mainimpl(std::string identifier, SQLite::Database *db, int gen);
+            base_move_mainimpl(std::string identifier, int gen);
     };
 }
 

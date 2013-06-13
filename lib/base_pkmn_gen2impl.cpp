@@ -9,22 +9,25 @@
 #include <stdio.h>
 
 #include "base_pkmn_gen2impl.hpp"
+#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, SQLite::Database *db,
-                                           bool query_moves): base_pkmn(identifier, 2, db, query_moves)
+    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, bool query_moves):
+                                           base_pkmn(identifier, 2, query_moves)
     {
+        SQLite::Database db(get_database_path().c_str());
+
         string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
                             + " AND stat_id=4";
-        baseSATK = db->execAndGet(query_string.c_str(), identifier); 
+        baseSATK = db.execAndGet(query_string.c_str(), identifier); 
 
         query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
                      + " AND stat_id=5";
-        baseSDEF = db->execAndGet(query_string.c_str(), identifier); 
+        baseSDEF = db.execAndGet(query_string.c_str(), identifier); 
 
         //Gender rates
         map<int, double> gender_val_map; //Double is percentage male
@@ -36,7 +39,7 @@ namespace pkmnsim
         gender_val_map[8] = 0.0;
 
         query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-        int gender_val = db->execAndGet(query_string.c_str(), identifier);
+        int gender_val = db.execAndGet(query_string.c_str(), identifier);
 
         if(gender_val == -1)
         {

@@ -13,8 +13,6 @@
 
 #include <pkmnsim/config.hpp>
 
-#include "../../lib/sqlitecpp/SQLiteCPP.h"
-
 namespace pkmnsim
 {
     /*
@@ -31,7 +29,7 @@ namespace pkmnsim
 
             //Class Constructors (should never be called directly)
             base_move(void) {};
-            base_move(std::string identifier, SQLite::Database *db, int gen);
+            base_move(std::string identifier, int gen);
 
             /*
              * Returns a std::shared_ptr<base_move> of specified move.

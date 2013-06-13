@@ -21,14 +21,16 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_move::base_move(string identifier, SQLite::Database *db, int gen)
+    base_move::base_move(string identifier, int gen)
     {
         string query_string;
         move_identifier = identifier;
 
+        SQLite::Database db(get_database_path().c_str());
+
         //Fail if move's generation_id > specified generation
         query_string = "SELECT generation_id FROM moves WHERE identifier='" + identifier + "'";
-        int gen_id = db->execAndGet(query_string.c_str(), identifier);
+        int gen_id = db.execAndGet(query_string.c_str(), identifier);
 
         if(gen_id > gen)
         {
@@ -38,10 +40,10 @@ namespace pkmnsim
 
         //After move verified as valid, generate next available queries
         query_string = "SELECT id FROM moves WHERE identifier='" + identifier + "'";
-        move_id = db->execAndGet(query_string.c_str(), identifier);
+        move_id = db.execAndGet(query_string.c_str(), identifier);
 
         query_string = "SELECT * FROM moves WHERE id=" + to_string(move_id);
-        SQLite::Statement moves_query(*db, query_string.c_str());
+        SQLite::Statement moves_query(db, query_string.c_str());
         moves_query.executeStep();
 
         //Get available values from queries
@@ -55,11 +57,11 @@ namespace pkmnsim
 
         //Move name
         query_string = "SELECT name FROM move_names WHERE move_id=" + to_string(move_id);
-        name = db->execAndGetStr(query_string.c_str(), identifier);
+        name = db.execAndGetStr(query_string.c_str(), identifier);
 
         //Type
         query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type_id);
-        type = db->execAndGetStr(query_string.c_str(), identifier);
+        type = db.execAndGetStr(query_string.c_str(), identifier);
     }
 
     base_move::sptr base_move::make(string identifier, int gen)
@@ -69,13 +71,12 @@ namespace pkmnsim
             //Match database's identifier format
             to_database_format(&identifier);
             
-            SQLite::Database db(get_database_path().c_str());
             /*
                 if(identifier == "curse") {}
                 else if(identifier == "hidden power") {}
                 else{
             */
-            return sptr(new base_move_mainimpl(identifier, &db, gen));
+            return sptr(new base_move_mainimpl(identifier, gen));
         }
         catch(const exception &e)
         {
