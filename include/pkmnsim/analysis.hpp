@@ -12,6 +12,7 @@
 
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/config.hpp>
+#include <pkmnsim/spec_pkmn.hpp>
 
 namespace pkmnsim
 {
@@ -51,7 +52,19 @@ namespace pkmnsim
     bool PKMNSIM_API is_stat_possible(base_pkmn::sptr b_pkmn, int, std::string stat, int level, int gen);
 
     /*
-     * Gets damage of a move, before taking type advantages and STAB.
+     * Gets damage of a move, before taking type advantages and STAB into account,
+     * and without random variation.
+     *
+     * Parameters:
+     *  - attacker: Specific Pokemon executing move
+     *  - defender: Specific Pokemon receiving move
+     *  - move: Move being executed
+     */
+    int PKMNSIM_API get_base_damage(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move);
+
+    /*
+     * Gets damage of a move, before taking type advantages and STAB into account,
+     * and without random variation.
      *
      * Parameters:
      *  - level: Pokemon's level for analysis
@@ -61,6 +74,18 @@ namespace pkmnsim
      */
     int PKMNSIM_API get_base_damage(int level, int attack, int defense, int base_power);
 
+    /*
+     * Gets range of damage of a move, taking type advantages and STAB into account.
+     *
+     * Parameters:
+     *  - attacker: Specific Pokemon executing move
+     *  - defender: Specific Pokemon receiving move
+     *  - move: Move being executed
+     *  - gen: Generation of analysis
+     *  - damage_range_vec: Reference to vector in which to return values
+     */
+    void PKMNSIM_API get_damage_range(spec_pkmn::sptr attacker, spec_pkmn::sptr defender,
+                                      base_move::sptr move, std::vector<int>& damage_range_vec);
 
     /*
      * Gets range of damage of a move, taking type advantages and STAB into account.
@@ -68,13 +93,14 @@ namespace pkmnsim
      * Parameters:
      *  - attacker: Base Pokemon executing move
      *  - defender: Base Pokemon receiving move
+     *  - move: Move being executed
      *  - attacker_level: Attacker's level, taken into account in equation
      *  - gen: Generation of analysis
      *  - damage_range_vec: Reference to vector in which to return values
      */
     void PKMNSIM_API get_damage_range(base_pkmn::sptr attacker, base_pkmn::sptr defender,
-                                      int attacker_level, int defender_level, int gen,
-                                      std::vector<int>& damage_range_vec);
+                                      base_move::sptr move, int attacker_level,
+                                      int defender_level, std::vector<int>& damage_range_vec);
 }
 
 #endif /* INCLUDED_ANALYSIS_HPP */

@@ -157,6 +157,11 @@ namespace pkmnsim
 			bool is_fully_evolved(void);
 
             /*
+             * Get generation from which stats were derived.
+             */
+            int get_generation(void);
+
+            /*
              * Get path of icon on filesystem.
              */
             std::string get_icon_path(void);

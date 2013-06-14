@@ -69,23 +69,138 @@ namespace pkmnsim
         return (stat_value > get_min_possible_stat(bpkmn,stat,level,gen) and stat_value < get_max_possible_stat(bpkmn,stat,level,gen));
     }
 
+    int get_base_damage(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move)
+    {
+        int level = attacker->get_level();
+        int base_power = move->get_base_power();
+        int attacker_ATK, defender_DEF;
+
+        int move_damage_class = move->get_move_damage_class();
+        switch(move_damage_class)
+        {
+            case Move_Classes::PHYSICAL:
+                attacker_ATK = attacker->get_stats()["ATK"];
+                defender_DEF = defender->get_stats()["DEF"];
+                break;
+
+            case Move_Classes::SPECIAL:
+                if(attacker->get_base_pkmn()->get_generation() == 1)
+                {
+                    attacker_ATK = attacker->get_stats()["SPCL"];
+                    defender_DEF = defender->get_stats()["SPCL"];
+                }
+                else
+                {
+                    attacker_ATK = attacker->get_stats()["SATK"];
+                    defender_DEF = defender->get_stats()["SDEF"];
+                }
+                break;
+
+            default:
+                return 0;
+        }
+
+        return (((2 * level + 10) / 250) + (attacker_ATK / defender_DEF) * base_power * 2);
+    }
+
     int get_base_damage(int level, int attack, int defense, int base_power)
     {
         return (((2 * level + 10) / 250) + (attack / defense) * base_power * 2);
     }
 
+    void get_damage_range(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move,
+                          vector<int>& damage_range_vec)
+    {
+        damage_range_vec.clear();
+        int attacker_ATK, defender_DEF;
+        int min_damage, max_damage;
+
+        int gen = attacker->get_base_pkmn()->get_generation();
+        int move_damage_class = move->get_move_damage_class();
+        switch(move_damage_class)
+        {
+            case Move_Classes::PHYSICAL:
+                attacker_ATK = attacker->get_stats()["ATK"];
+                defender_DEF = defender->get_stats()["DEF"];
+                break;
+
+            case Move_Classes::SPECIAL:
+                if(gen == 1)
+                {
+                    attacker_ATK = attacker->get_stats()["SPCL"];
+                    defender_DEF = defender->get_stats()["SPCL"];
+                }
+                else
+                {
+                    attacker_ATK = attacker->get_stats()["SATK"];
+                    defender_DEF = defender->get_stats()["SDEF"];
+                }
+                break;
+
+            default:
+                damage_range_vec.push_back(0);
+                damage_range_vec.push_back(0);
+                return;
+        }
+        min_damage = get_base_damage(attacker, defender, move) * 0.85;
+        max_damage = get_base_damage(attacker, defender, move);
+
+        double type_mod = get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[0], gen) *
+                          get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[1], gen);
+
+        min_damage *= type_mod;
+        max_damage *= type_mod;
+
+        if(type_mod != 0)
+        {
+            if(move->get_name() == "Seismic Toss" or move->get_name() == "Night Shade")
+            {
+                damage_range_vec.push_back(attacker->get_level());
+                damage_range_vec.push_back(attacker->get_level());
+                return;
+            }
+            else if(move->get_name() == "Dragon Rage")
+            {
+                damage_range_vec.push_back(40);
+                damage_range_vec.push_back(40);
+                return;
+            }
+            else if(move->get_name() == "SonicBoom")
+            {
+                damage_range_vec.push_back(20);
+                damage_range_vec.push_back(20);
+                return;
+            }
+            else
+            {
+                if(move->get_type() == attacker->get_base_pkmn()->get_types()[0] or
+                   move->get_type() == attacker->get_base_pkmn()->get_types()[1])
+                {
+                    min_damage *= 1.5;
+                    max_damage *= 1.5;
+                }
+            }
+            damage_range_vec.push_back(min_damage);
+            damage_range_vec.push_back(max_damage);
+        }
+        else
+        {
+            damage_range_vec.push_back(0);
+            damage_range_vec.push_back(0);
+        }
+    }
+
     //Abilities not taken into account
     void get_damage_range(base_pkmn::sptr attacker, base_pkmn::sptr defender, base_move::sptr move,
-                          int attacker_level, int defender_level, int gen, vector<int>& damage_range_vec)
+                          int attacker_level, int defender_level, vector<int>& damage_range_vec)
     {
-        srand( time(NULL) );
-
         damage_range_vec.clear();
         int attacker_min_ATK, attacker_max_ATK;
         int defender_min_DEF, defender_max_DEF;
         int min_damage, max_damage;
 
         int move_damage_class = move->get_move_damage_class();
+        int gen = attacker->get_generation();
         switch(move_damage_class)
         {
             case Move_Classes::PHYSICAL:

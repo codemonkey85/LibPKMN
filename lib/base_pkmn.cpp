@@ -213,6 +213,8 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
 
+    int base_pkmn::get_generation(void) {return from_gen;}
+
     string base_pkmn::get_icon_path(void) {return icon_path;}
 
     vector<base_move::sptr> base_pkmn::get_legal_moves(void) {return legal_moves;}
