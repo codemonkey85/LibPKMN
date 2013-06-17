@@ -8,7 +8,9 @@
 %include "pkmnsim.i"
 
 %{
+#include "pkmnsim/config.hpp"
 #include "pkmnsim/lists.hpp"
 %}
 
+%include "pkmnsim/config.hpp"
 %include "pkmnsim/lists.hpp"

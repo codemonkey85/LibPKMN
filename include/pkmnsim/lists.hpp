@@ -20,7 +20,7 @@ namespace pkmnsim
      */
     void PKMNSIM_API get_game_list(std::vector<std::string>& game_vec);
     void PKMNSIM_API get_game_group_list(std::vector<std::string>& game_vec);
-    void PKMNSIM_API get_pokemon_list(std::vector<std::string>& pkmn_vec);
+    //void PKMNSIM_API get_pokemon_list(std::vector<std::string>& pkmn_vec);
     void PKMNSIM_API get_type_list(std::vector<std::string>& type_vec, int gen);
 }
 
