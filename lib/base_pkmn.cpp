@@ -85,6 +85,13 @@ namespace pkmnsim
             type2 = db.execAndGetStr(query_string.c_str(), identifier);
         }
         else type2 = "None";
+
+        //Correct for Magnemite and Magneton in Generation 1
+        if(display_name == "Magnemite" or display_name == "Magneton")
+        {
+            type1 = "Electric";
+            type2 = "None";
+        }
        
         //Stats
         query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) + " AND stat_id IN (1,2,3,6)";
@@ -316,7 +323,14 @@ namespace pkmnsim
             }
         }
 
-        for(unsigned int i = 0; i < names.size(); i++) pkmn_vector.push_back(base_pkmn::make(names[i], gen, false));
+        for(unsigned int i = 0; i < names.size(); i++)
+        {
+            //Manually correct for Magnemite and Magneton in Gen 1
+            if(not ((names[i] == "magnemite" or names[i] == "magneton") and gen == 1))
+            {
+                pkmn_vector.push_back(base_pkmn::make(names[i], gen, false));
+            }
+        }
     }
 
     //Manually set Castform to sunny, rainy, or snowy forms
