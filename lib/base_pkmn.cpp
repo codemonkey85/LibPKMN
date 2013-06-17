@@ -322,7 +322,7 @@ namespace pkmnsim
     //Manually set Castform to sunny, rainy, or snowy forms
     void set_castform_type(base_pkmn::sptr base, string type)
     {
-        if(type != "Normal" and "Fire" and type != "Water" and type != "Ice")
+        if(type != "Normal" and type != "Fire" and type != "Water" and type != "Ice")
         {
             cerr << "Castform can only be Normal, Fire, Water, or Ice type." << endl;
             exit(EXIT_FAILURE);
