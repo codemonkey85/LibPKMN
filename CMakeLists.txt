@@ -69,13 +69,12 @@ SET(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING "")
 #Register components
 REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_FOUND" OFF)
 REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
-REGISTER_COMPONENT("Command Line C++ Applications" ENABLE_CMD_CPP_APPS ON "ENABLE_LIBPKMNSIM" OFF)
-REGISTER_COMPONENT("Qt4 C++ Applications" ENABLE_QT4_CPP_APPS ON "ENABLE_LIBPKMNSIM_QT4" OFF)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 add_subdirectory(share)
 add_subdirectory(include)
 add_subdirectory(lib)
+add_subdirectory(swig)
 add_subdirectory(apps)
 
 MESSAGE(STATUS "")

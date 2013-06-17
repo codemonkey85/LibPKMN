@@ -1,0 +1,15 @@
+#
+# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+#
+# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# or copy at http://opensource.org/licenses/MIT)
+#
+
+# Look for libraries and programs associated with different languages and
+# register components accordingly.
+
+FIND_PACKAGE(PythonInterp)
+FIND_PACKAGE(PythonLibs)
+
+REGISTER_COMPONENT("PKMNsim Library - Python Wrapper" ENABLE_LIBPKMNSIM_PYTHON ON
+                   "ENABLE_LIBPKMNSIM;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND" OFF)

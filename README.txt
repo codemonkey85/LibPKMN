@@ -18,7 +18,12 @@ Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK 
 
 Dependencies:
  * Boost (http://www.boost.org)
+ * LibSQLite (http://www.sqlite.org)
  * SQLite (http://www.sqlite.org)
- * Qt4 (http://www.qt-project.org) - optional
 
-README last updated: 2013-06-12
+Optional Dependencies:
+ * Qt4 (http://www.qt-project.org) - needed for Qt4 subclasses
+ * SWIG - needed for LibPKMNsim Python wrapper
+ * Python - needed for LibPKMNsim Python wrapper
+
+README last updated: 2013-06-17
