@@ -1,0 +1,33 @@
+#
+# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+#
+# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# or copy at http://opensource.org/licenses/MIT)
+#
+
+FILE(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/swig" PKMNSIM_SWIG_SOURCE_DIR)
+SET(PKMNSIM_SWIG_SOURCE_DIR ${PKMNSIM_SWIG_SOURCE_DIR} CACHE FILEPATH "PKMNsim SWIG source directory")
+
+SET(PKMNSIM_PYTHON_INCLUDE_DIRS
+    ${CMAKE_SOURCE_DIR}
+    ${PKMNSIM_SWIG_SOURCE_DIR}
+    ${Boost_INCLUDE_DIRS}
+    ${SQLITE3_INCLUDE_DIR}
+    ${PYTHON_INCLUDE_DIRS}
+)
+
+SET(CMAKE_SWIG_FLAGS -module pypkmnsim)
+FOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
+    LIST(APPEND CMAKE_SWIG_FLAGS "-I${dir}")
+ENDFOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
+
+SET(PKMNSIM_PYTHON_LIBRARIES
+    pkmnsim
+    ${PYTHON_LIBRARIES}
+)
+
+SET_SOURCE_FILES_PROPERTIES(pypkmnsim.i PROPERTIES CPLUSPLUS ON)
+
+INCLUDE(UseSWIG)
+SWIG_ADD_MODULE(pypkmnsim python pypkmnsim.i)
+SWIG_LINK_LIBRARIES(pypkmnsim ${PKMNSIM_PYTHON_LIBRARIES})

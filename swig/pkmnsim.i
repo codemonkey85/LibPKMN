@@ -11,6 +11,9 @@
  * file creates a dummy std::shared_ptr for SWIG to use instead.
  */
 
+%include "std_string.i"
+%include "std_vector.i"
+
 namespace std
 {
     template<class T> class shared_ptr
@@ -31,11 +34,11 @@ namespace std
  * rendered unnecessary. (Python only so far)
  */
 
-%ifdef SWIG_PYTHON
+#ifdef SWIG_PYTHON
     %define PKMNSIM_PYTHON_UNMAKE(CLASS_NAME)
         %template(CLASS_NAME ## _sptr std::shared_ptr<pkmnsim:: ## CLASS_NAME>;
         %pythoncode %{
             CLASS_NAME = CLASS_NAME.make;
         %}
     %enddef
-%endif
+#endif
