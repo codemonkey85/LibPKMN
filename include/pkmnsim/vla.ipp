@@ -23,7 +23,7 @@ namespace pkmnsim
         _vec.clear();
         max_items = items;
 
-        for(int i = 0; i < max_items; i++) _vec.push_back(*(new item_type()));
+        _vec = std::vector<item_type>(items);
 
         invalid_pos_err_msg = "Position must be 0-" + to_string(max_items) + ".";
     }
