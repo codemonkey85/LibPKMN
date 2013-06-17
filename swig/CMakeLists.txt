@@ -8,8 +8,11 @@
 # Look for libraries and programs associated with different languages and
 # register components accordingly.
 
-FIND_PACKAGE(PythonInterp)
-FIND_PACKAGE(PythonLibs)
+FIND_PACKAGE(SWIG)
+IF(SWIG_FOUND)
+    FIND_PACKAGE(PythonInterp)
+    FIND_PACKAGE(PythonLibs)
+ENDIF(SWIG_FOUND)
 
 REGISTER_COMPONENT("PKMNsim Library - Python Wrapper" ENABLE_LIBPKMNSIM_PYTHON ON
-                   "ENABLE_LIBPKMNSIM;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND" OFF)
+                   "ENABLE_LIBPKMNSIM;SWIG_FOUND;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND" OFF)
