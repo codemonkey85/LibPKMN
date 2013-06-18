@@ -7,6 +7,10 @@
 
 %include "pkmnsim.i"
 
+%ignore get_game_list;
+%ignore get_game_group_list;
+%ignore get_type_list;
+
 %{
 #include "pkmnsim/config.hpp"
 #include "pkmnsim/lists.hpp"

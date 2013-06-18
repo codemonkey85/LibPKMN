@@ -5,17 +5,19 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-/*
- * SWIG's std_shared_ptr.i files simply include boost_shared_ptr.i, but for
- * for ease of development, PKMNsim uses std::shared_ptr. Thus, this SWIG
- * file creates a dummy std::shared_ptr for SWIG to use instead.
- */
-
 %include "std_string.i"
 %include "std_vector.i"
+%include "stl.i"
+%include "typemaps.i"
 
 namespace std
 {
+    /*
+     * SWIG's std_shared_ptr.i files simply include boost_shared_ptr.i, but for
+     * for ease of development, PKMNsim uses std::shared_ptr. Thus, this SWIG
+     * file creates a dummy std::shared_ptr for SWIG to use instead.
+     */
+
     template<class T> class shared_ptr
     {
         public:
@@ -27,6 +29,10 @@ namespace std
             T * px;
             int pn;
     };
+
+    %template(vector_i) vector<int>;
+    %template(vector_d) vector<double>;
+    %template(vector_s) vector<string>;
 };
 
 /*
