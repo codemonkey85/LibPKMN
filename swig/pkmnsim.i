@@ -46,6 +46,7 @@ namespace std
     #include "pkmnsim/pkmn_types.hpp"
     #include "pkmnsim/base_move.hpp"
     #include "pkmnsim/base_pkmn.hpp"
+    #include "pkmnsim/spec_pkmn.hpp"
 %}
 
 %include "pkmnsim/config.hpp"
@@ -58,6 +59,7 @@ namespace std
 %include "pkmnsim/pkmn_types.hpp"
 %include "pkmnsim/base_move.hpp"
 %include "pkmnsim/base_pkmn.hpp"
+%include "pkmnsim/spec_pkmn.hpp"
 
 //Templates for different uses of dict and vla
 %template(dict_int_std_string) pkmnsim::dict<int, std::string>;

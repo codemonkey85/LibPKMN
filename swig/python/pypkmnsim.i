@@ -30,3 +30,4 @@
 PKMNSIM_PYTHON_FIX(base_move)
 PKMNSIM_PYTHON_FIX(base_pkmn)
 PKMNSIM_PYTHON_FIX(pkmn_nature)
+PKMNSIM_PYTHON_FIX(spec_pkmn)
