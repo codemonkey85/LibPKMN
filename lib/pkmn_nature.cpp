@@ -105,10 +105,10 @@ namespace pkmnsim
     {
         std::string info_string = "Nature: " + name + "\n";
         info_string += "Stat Mods:\n";
-        info_string += " - Attack: " + to_string(ATKmod);
-        info_string += " - Defense: " + to_string(DEFmod);
-        info_string += " - Special Attack: " + to_string(SATKmod);
-        info_string += " - Special Defense: " + to_string(SDEFmod);
+        info_string += " - Attack: " + to_string(ATKmod) + "\n";
+        info_string += " - Defense: " + to_string(DEFmod) + "\n";
+        info_string += " - Special Attack: " + to_string(SATKmod) + "\n";
+        info_string += " - Special Defense: " + to_string(SDEFmod) + "\n";
         info_string += " - Speed: " + to_string(SPDmod);
         
         return info_string;

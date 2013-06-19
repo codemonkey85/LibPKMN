@@ -35,16 +35,32 @@ namespace std
     %template(vector_s) vector<string>;
 };
 
-/*
- * To make development in other languages easier, the make function is
- * rendered unnecessary. (Python only so far)
- */
+%{
+    #include "pkmnsim/config.hpp"
+    #include "pkmnsim/dict.hpp"
+    #include "pkmnsim/enums.hpp"
+    #include "pkmnsim/lists.hpp"
+    #include "pkmnsim/vla.hpp"
+    
+    #include "pkmnsim/pkmn_nature.hpp"
+    #include "pkmnsim/pkmn_types.hpp"
+    #include "pkmnsim/base_move.hpp"
+    #include "pkmnsim/base_pkmn.hpp"
+%}
 
-#ifdef SWIG_PYTHON
-    %define PKMNSIM_PYTHON_UNMAKE(CLASS_NAME)
-        %template(CLASS_NAME ## _sptr std::shared_ptr<pkmnsim:: ## CLASS_NAME>;
-        %pythoncode %{
-            CLASS_NAME = CLASS_NAME.make;
-        %}
-    %enddef
-#endif
+%include "pkmnsim/config.hpp"
+%include "pkmnsim/dict.hpp"
+%include "pkmnsim/enums.hpp"
+%include "pkmnsim/lists.hpp"
+%include "pkmnsim/vla.hpp"
+
+%include "pkmnsim/pkmn_nature.hpp"
+%include "pkmnsim/pkmn_types.hpp"
+%include "pkmnsim/base_move.hpp"
+%include "pkmnsim/base_pkmn.hpp"
+
+//Templates for different uses of dict and vla
+%template(dict_int_std_string) pkmnsim::dict<int, std::string>;
+%template(dict_std_string_int) pkmnsim::dict<std::string, int>;
+%template(dict_std_string_double) pkmnsim::dict<std::string, double>;
+%template(vla_pkmnsim_base_move_sptr) pkmnsim::vla<std::shared_ptr<pkmnsim::base_move> >;

@@ -20,7 +20,7 @@ namespace pkmnsim
 
     namespace Genders
     {
-        enum genders: int
+        enum genders
         {
             MALE = 0,
             FEMALE = 1,
@@ -30,7 +30,7 @@ namespace pkmnsim
 
     namespace Move_Classes
     {
-        enum move_classes: int
+        enum move_classes
         {
             PHYSICAL = 1,
             SPECIAL = 2,
@@ -40,7 +40,7 @@ namespace pkmnsim
 
     namespace Statuses
     {
-        enum nonvolatile_statuses: int
+        enum nonvolatile_statuses
         {
             OK = 0, //No nonvolatile status
             BRN = 1, //Burn
