@@ -35,6 +35,14 @@ namespace std
     %template(vector_s) vector<string>;
 };
 
+//Should not be exposed
+%ignore pkmnsim::get_pkmn_id;
+%ignore pkmnsim::get_species_id;
+
+//Being part of a friend class makes this screwy
+%ignore pkmnsim::set_castform_type;
+%rename(set_castform_type) pkmnsim::set_castform;
+
 %{
     #include "pkmnsim/config.hpp"
     #include "pkmnsim/dict.hpp"
@@ -66,3 +74,4 @@ namespace std
 %template(dict_std_string_int) pkmnsim::dict<std::string, int>;
 %template(dict_std_string_double) pkmnsim::dict<std::string, double>;
 %template(vla_pkmnsim_base_move_sptr) pkmnsim::vla<std::shared_ptr<pkmnsim::base_move> >;
+%template(vector_base_pkmn) std::vector<std::shared_ptr<pkmnsim::base_pkmn> >;

@@ -333,6 +333,13 @@ namespace pkmnsim
         }
     }
 
+    vector<base_pkmn::sptr> get_pkmn_list_of_type(string type1, string type2, int gen, bool lax)
+    {
+        vector<base_pkmn::sptr> b_pkmn_vec;
+        get_pkmn_of_type(b_pkmn_vec, type1, type2, gen, lax);
+        return b_pkmn_vec;
+    }
+
     //Manually set Castform to sunny, rainy, or snowy forms
     void set_castform_type(base_pkmn::sptr base, string type)
     {
@@ -374,5 +381,10 @@ namespace pkmnsim
             base->icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "351-snowy.png").string();
             base->pkmn_id = 664;
         }
+    }
+
+    void set_castform(base_pkmn::sptr base, string type)
+    {
+        set_castform_type(base, type);
     }
 }

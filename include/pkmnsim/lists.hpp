@@ -23,6 +23,7 @@ namespace pkmnsim
     //void PKMNSIM_API get_pokemon_list(std::vector<std::string>& pkmn_vec);
     void PKMNSIM_API get_type_list(std::vector<std::string>& type_vec, int gen);
 
+    //Pass-by-value functions for SWIG's benefit
     std::vector<std::string> PKMNSIM_API get_game_vec();
     std::vector<std::string> PKMNSIM_API get_game_group_vec();
     std::vector<std::string> PKMNSIM_API get_type_vec(int gen);

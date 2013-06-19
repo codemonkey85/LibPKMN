@@ -23,7 +23,13 @@
 
 %ignore pkmnsim::get_game_list;
 %ignore pkmnsim::get_game_group_list;
+%ignore pkmnsim::get_pkmn_of_type;
 %ignore pkmnsim::get_type_list;
+
+%rename(get_game_list) pkmnsim::get_game_vec;
+%rename(get_game_group_list) pkmnsim::get_game_group_vec;
+%rename(get_pkmn_of_type) pkmnsim::get_pkmn_list_of_type;
+%rename(get_type_list) pkmnsim::get_type_vec;
 
 %include "pkmnsim.i"
 
