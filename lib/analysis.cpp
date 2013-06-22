@@ -100,12 +100,14 @@ namespace pkmnsim
                 return 0;
         }
 
-        return (((2 * level + 10) / 250) + (attacker_ATK / defender_DEF) * base_power * 2);
+        return int(floor((((2.0 * double(level) + 10.0) / 250.0) +
+               (double(attacker_ATK) / double(defender_DEF)) * double(base_power) * 2.0)));
     }
 
     int get_base_damage(int level, int attack, int defense, int base_power)
     {
-        return (((2 * level + 10) / 250) + (attack / defense) * base_power * 2);
+        return int(floor((((2.0 * double(level) + 10.0) / 250.0) +
+               (double(attack) / double(defense)) * double(base_power) * 2.0)));
     }
 
     void get_damage_range(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move,
@@ -142,14 +144,14 @@ namespace pkmnsim
                 damage_range_vec.push_back(0);
                 return;
         }
-        min_damage = get_base_damage(attacker, defender, move) * 0.85;
-        max_damage = get_base_damage(attacker, defender, move);
+        min_damage = int(floor(get_base_damage(attacker, defender, move) * 0.85));
+        max_damage = int(floor(get_base_damage(attacker, defender, move)));
 
-        double type_mod = get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[0], gen) *
-                          get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[1], gen);
+        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[0], gen)) *
+                          double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[1], gen));
 
-        min_damage *= type_mod;
-        max_damage *= type_mod;
+        min_damage = int(floor(double(min_damage) * type_mod));
+        max_damage = int(floor(double(max_damage) * type_mod));
 
         if(type_mod != 0)
         {
@@ -176,8 +178,8 @@ namespace pkmnsim
                 if(move->get_type() == attacker->get_base_pkmn()->get_types()[0] or
                    move->get_type() == attacker->get_base_pkmn()->get_types()[1])
                 {
-                    min_damage *= 1.5;
-                    max_damage *= 1.5;
+                    min_damage = int(floor(double(min_damage) * 1.5));
+                    max_damage = int(floor(double(max_damage) * 1.5));
                 }
             }
             damage_range_vec.push_back(min_damage);
@@ -232,14 +234,14 @@ namespace pkmnsim
                 damage_range_vec.push_back(0);
                 return;
         }
-        min_damage = get_base_damage(attacker_level, attacker_min_ATK, defender_max_DEF, move->get_base_power()) * 0.85;
+        min_damage = int(floor(get_base_damage(attacker_level, attacker_min_ATK, defender_max_DEF, move->get_base_power()) * 0.85));
         max_damage = get_base_damage(attacker_level, attacker_max_ATK, defender_min_DEF, move->get_base_power());
 
-        double type_mod = get_type_damage_mod(move->get_type(), defender->get_types()[0], gen) *
-                          get_type_damage_mod(move->get_type(), defender->get_types()[1], gen);
+        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_types()[0], gen)) *
+                          double(get_type_damage_mod(move->get_type(), defender->get_types()[1], gen));
 
-        min_damage *= type_mod;
-        max_damage *= type_mod;
+        min_damage = int(floor(double(min_damage) * type_mod));
+        max_damage = int(floor(double(type_mod) * type_mod));
 
         if(type_mod != 0)
         {
@@ -265,8 +267,8 @@ namespace pkmnsim
             {
                 if(move->get_type() == attacker->get_types()[0] or move->get_type() == attacker->get_types()[1])
                 {
-                    min_damage *= 1.5;
-                    max_damage *= 1.5;
+                    min_damage = int(floor(double(min_damage) * 1.5));
+                    max_damage = int(floor(double(max_damage) * 1.5));
                 }
             }
             damage_range_vec.push_back(min_damage);
