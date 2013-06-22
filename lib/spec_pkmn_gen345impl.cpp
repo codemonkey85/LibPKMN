@@ -117,9 +117,9 @@ namespace pkmnsim
     {
         string types_str;
         dict<int, string> types = base->get_types();
-        if(types[2] == "None") types_str = types[1];
+        if(types[1] == "None") types_str = types[0];
 
-        else types_str = types[1] + "/" + types[2];
+        else types_str = types[0] + "/" + types[1];
         string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
                          + to_string(DEF) + ", " + to_string(SATK) + ", "
                          + to_string(SDEF) + ", " + to_string(SPD);
@@ -157,8 +157,8 @@ namespace pkmnsim
     {
         string types_str;
         dict<int, string> types = base->get_types();
-        if(types[2] == "None") types_str = types[1];
-        else types_str = types[1] + "/" + types[2];
+        if(types[1] == "None") types_str = types[0];
+        else types_str = types[0] + "/" + types[1];
 
         string output_string;
         output_string = nickname + " (" + base->get_display_name() + ")\n"
@@ -184,8 +184,8 @@ namespace pkmnsim
                       + " - HP: " + to_string(evHP) + "\n"
                       + " - Attack: " + to_string(evATK) + "\n"
                       + " - Defense: " + to_string(evDEF) + "\n"
-                      + " - Special Attack: " + to_string(evSATK) + "\n";
-                      + " - Special Defense: " + to_string(evSDEF) + "\n";
+                      + " - Special Attack: " + to_string(evSATK) + "\n"
+                      + " - Special Defense: " + to_string(evSDEF) + "\n"
                       + " - Speed: " + to_string(evSPD) + "\n";
 
         return output_string;
@@ -195,16 +195,17 @@ namespace pkmnsim
     {
         dict<string, int> stats = base->get_base_stats();
 
-        int hp_val = int(floor(((ivHP + (2*stats["HP"]) + (0.25*evHP) + 100) * level)/100 + 10));
+        int hp_val = int(floor(((double(ivHP) + (2.0*double(stats["HP"])) + (0.25*double(evHP)) + 100.0)
+                     * double(level))/100.0 + 10.0));
         return hp_val;
     }
 
     int spec_pkmn_gen345impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
     {
         dict<string, int> stats = base->get_base_stats();
-
         double nature_mod = nature->get_mods()[stat];
-        int stat_val = int(ceil(((((ivSTAT + 2*(stats[stat]) + 0.25*(evSTAT)) * level)/100) + 5) * nature_mod));
+
+        int stat_val = int(ceil(((((double(ivSTAT) + 2.0*double(stats[stat]) + 0.25*double(evSTAT)) * double(level))/100.0) + 5.0) * nature_mod));
         return stat_val;
     }
 

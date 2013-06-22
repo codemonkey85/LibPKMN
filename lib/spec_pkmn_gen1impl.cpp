@@ -89,8 +89,8 @@ namespace pkmnsim
     {
         string types_str;
         dict<int, string> types = base->get_types();
-        if(types[2] == "None") types_str = types[1];
-        else types_str = types[1] + "/" + types[2];
+        if(types[1] == "None") types_str = types[0];
+        else types_str = types[0] + "/" + types[1];
         string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
                          + to_string(DEF) + ", " + to_string(SPD) + ", "
                          + to_string(SPCL);
@@ -108,8 +108,8 @@ namespace pkmnsim
     {
         string types_str;
         dict<int, string> types = base->get_types();
-        if(types[2] == "None") types_str = types[1];
-        else types_str = types[1] + "/" + types[2];
+        if(types[1] == "None") types_str = types[0];
+        else types_str = types[0] + "/" + types[1];
 
         string output_string;
         output_string = nickname + " (" + base->get_display_name() + ")\n"
@@ -162,7 +162,8 @@ namespace pkmnsim
     {
         dict<string, int> stats = base->get_base_stats();
 
-        int hp_val = int(floor((((ivHP + stats["HP"] + (pow(evHP,0.5)/8) + 50) * level)/50) + 10));
+        int hp_val = int(floor((((double(ivHP) + double(stats["HP"]) + (pow(double(evHP),0.5)/8.0)
+                     + 50.0) * double(level))/50.0) + 10.0));
         return hp_val;
     }
 
@@ -170,7 +171,8 @@ namespace pkmnsim
     {
         dict<string, int> stats = base->get_base_stats();
 
-        int stat_val = int(ceil((((ivSTAT + stats[stat] + (pow(evSTAT,0.5)/8)) * level)/50) + 5));
+        int stat_val = int(ceil((((double(ivSTAT) + double(stats[stat]) + (pow(double(evSTAT),0.5)/8.0))
+                       * double(level))/50.0) + 5.0));
         return stat_val;
     }
 }

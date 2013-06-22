@@ -22,11 +22,11 @@ namespace pkmnsim
 {
     pkmn_nature::pkmn_nature(string identifier)
     {
-        double ATKmod = 1.0;
-        double DEFmod = 1.0;
-        double SATKmod = 1.0;
-        double SDEFmod = 1.0;
-        double SPDmod = 1.0;
+        ATKmod = 1.0;
+        DEFmod = 1.0;
+        SATKmod = 1.0;
+        SDEFmod = 1.0;
+        SPDmod = 1.0;
 
         SQLite::Database db(get_database_path().c_str());
 
@@ -98,6 +98,7 @@ namespace pkmnsim
         mod_dict["SPD"] = SPDmod;
         mod_dict["SATK"] = SATKmod;
         mod_dict["SDEF"] = SDEFmod;
+
         return mod_dict;
     }
 
