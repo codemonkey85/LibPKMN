@@ -7,7 +7,7 @@
 
 #include <map>
 
-#include "base_pkmn_gen3impl.hpp"
+#include "base_pkmn_gen345impl.hpp"
 #include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
@@ -15,7 +15,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen3impl::base_pkmn_gen3impl(string identifier, int gen, bool query_moves):
+    base_pkmn_gen345impl::base_pkmn_gen345impl(string identifier, int gen, bool query_moves):
                                            base_pkmn(identifier, gen, query_moves)
     {
         SQLite::Database db(get_database_path().c_str());
@@ -110,7 +110,7 @@ namespace pkmnsim
         else ability3 = "None";
 
     }
-    string base_pkmn_gen3impl::get_info()
+    string base_pkmn_gen345impl::get_info()
     {
         string types_str;
         if(type2 == "None") types_str = type1;
@@ -128,7 +128,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    string base_pkmn_gen3impl::get_info_verbose()
+    string base_pkmn_gen345impl::get_info_verbose()
     {
         string types_str;
         if(type2 == "None") types_str = type1;
@@ -156,7 +156,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    dict<string, int> base_pkmn_gen3impl::get_base_stats()
+    dict<string, int> base_pkmn_gen345impl::get_base_stats()
     {
         dict<string,int> stats;
         stats["HP"] = baseHP;
@@ -168,7 +168,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string, int> base_pkmn_gen3impl::get_ev_yields()
+    dict<string, int> base_pkmn_gen345impl::get_ev_yields()
     {
         dict<string, int> stats;
         stats["HP"] = evHP;
@@ -180,11 +180,11 @@ namespace pkmnsim
         return stats;
     }
 
-    double base_pkmn_gen3impl::get_chance_male() {return chance_male;}
+    double base_pkmn_gen345impl::get_chance_male() {return chance_male;}
 
-    double base_pkmn_gen3impl::get_chance_female() {return chance_female;}
+    double base_pkmn_gen345impl::get_chance_female() {return chance_female;}
 
-    dict<int, string> base_pkmn_gen3impl::get_abilities()
+    dict<int, string> base_pkmn_gen345impl::get_abilities()
     {
         dict<int, string> abilities;
         abilities[0] = ability1;

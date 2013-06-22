@@ -10,13 +10,13 @@
 
 #include <boost/assign.hpp>
 
-#include "spec_pkmn_gen3impl.hpp"
+#include "spec_pkmn_gen345impl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn_gen3impl::spec_pkmn_gen3impl(base_pkmn::sptr b, int lvl, int gen,
+    spec_pkmn_gen345impl::spec_pkmn_gen345impl(base_pkmn::sptr b, int lvl, int gen,
                                            string m1, string m2, string m3, string m4,
                                            bool i): spec_pkmn(b,i,m1,m2,m3,m4,gen,lvl)
     {
@@ -68,7 +68,7 @@ namespace pkmnsim
         reset_volatile_status_map();
     }
 
-    dict<string, int> spec_pkmn_gen3impl::get_stats()
+    dict<string, int> spec_pkmn_gen345impl::get_stats()
     {
         dict<string, int> stats;
         stats["HP"] = HP;
@@ -81,7 +81,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string, int> spec_pkmn_gen3impl::get_IVs()
+    dict<string, int> spec_pkmn_gen345impl::get_IVs()
     {
         dict<string, int> stats;
         stats["HP"] = ivHP;
@@ -94,7 +94,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string, int> spec_pkmn_gen3impl::get_EVs()
+    dict<string, int> spec_pkmn_gen345impl::get_EVs()
     {
         dict<string, int> stats;
         stats["HP"] = evHP;
@@ -107,13 +107,13 @@ namespace pkmnsim
         return stats;
     }
 
-    int spec_pkmn_gen3impl::get_gender() {return gender;}
+    int spec_pkmn_gen345impl::get_gender() {return gender;}
 
-    pkmn_nature::sptr spec_pkmn_gen3impl::get_nature() {return nature;}
+    pkmn_nature::sptr spec_pkmn_gen345impl::get_nature() {return nature;}
 
-    std::string spec_pkmn_gen3impl::get_ability() {return ability;}
+    std::string spec_pkmn_gen345impl::get_ability() {return ability;}
 
-    string spec_pkmn_gen3impl::get_info()
+    string spec_pkmn_gen345impl::get_info()
     {
         string types_str;
         dict<int, string> types = base->get_types();
@@ -153,7 +153,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    string spec_pkmn_gen3impl::get_info_verbose()
+    string spec_pkmn_gen345impl::get_info_verbose()
     {
         string types_str;
         dict<int, string> types = base->get_types();
@@ -191,7 +191,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    int spec_pkmn_gen3impl::get_hp_from_iv_ev()
+    int spec_pkmn_gen345impl::get_hp_from_iv_ev()
     {
         dict<string, int> stats = base->get_base_stats();
 
@@ -199,7 +199,7 @@ namespace pkmnsim
         return hp_val;
     }
 
-    int spec_pkmn_gen3impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
+    int spec_pkmn_gen345impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
     {
         dict<string, int> stats = base->get_base_stats();
 
@@ -208,7 +208,7 @@ namespace pkmnsim
         return stat_val;
     }
 
-    void spec_pkmn_gen3impl::reset_volatile_status_map()
+    void spec_pkmn_gen345impl::reset_volatile_status_map()
     {
         volatile_status_map = boost::assign::map_list_of
             ("confusion",0)
@@ -248,7 +248,7 @@ namespace pkmnsim
         ;
     }
 
-    int spec_pkmn_gen3impl::determine_gender()
+    int spec_pkmn_gen345impl::determine_gender()
     {
         if(base->get_chance_male() + base->get_chance_female() == 0) return Genders::GENDERLESS;
         else if(base->get_chance_male() == 1.0) return Genders::MALE;
@@ -262,7 +262,7 @@ namespace pkmnsim
         }
     }
 
-    pkmn_nature::sptr spec_pkmn_gen3impl::determine_nature()
+    pkmn_nature::sptr spec_pkmn_gen345impl::determine_nature()
     {
         string nature_names[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
                                       "Docile","Relaxed","Impish","Lax","Timid","Hasty",
@@ -274,7 +274,7 @@ namespace pkmnsim
         return pkmn_nature::make(nature_names[index]);
     }
 
-    string spec_pkmn_gen3impl::determine_ability()
+    string spec_pkmn_gen345impl::determine_ability()
     {
         srand( time(NULL) );
         dict<int, string> abilities = base->get_abilities();

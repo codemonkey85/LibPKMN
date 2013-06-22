@@ -16,7 +16,7 @@
 
 #include "base_pkmn_gen1impl.hpp"
 #include "base_pkmn_gen2impl.hpp"
-#include "base_pkmn_gen3impl.hpp"
+#include "base_pkmn_gen345impl.hpp"
 #include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
@@ -146,7 +146,7 @@ namespace pkmnsim
                     return sptr(new base_pkmn_gen2impl(identifier, query_moves));
 
                 default:
-                    return sptr(new base_pkmn_gen3impl(identifier, gen, query_moves));
+                    return sptr(new base_pkmn_gen345impl(identifier, gen, query_moves));
             }
         }
         catch(const exception &e)

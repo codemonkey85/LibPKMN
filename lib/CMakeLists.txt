@@ -27,14 +27,14 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen1impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen2impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen3impl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen345impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_nature.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_types.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/lists.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen1impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen3impl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen345impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp

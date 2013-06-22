@@ -16,7 +16,7 @@
 #include "internal.hpp"
 #include "spec_pkmn_gen1impl.hpp"
 #include "spec_pkmn_gen2impl.hpp"
-#include "spec_pkmn_gen3impl.hpp"
+#include "spec_pkmn_gen345impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;
@@ -125,7 +125,7 @@ namespace pkmnsim
                                                        move1, move2, move3, move4, illegal));
 
                 default:
-                    return sptr(new spec_pkmn_gen3impl(base, level, gen,
+                    return sptr(new spec_pkmn_gen345impl(base, level, gen,
                                                        move1, move2, move3, move4, illegal));
             }
         }
