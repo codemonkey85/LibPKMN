@@ -67,4 +67,26 @@ namespace pkmnsim
             }
         }
     }
+
+    //List functions that pass by value, for SWIG's use
+    vector<string> get_game_vec()
+    {
+        vector<string> game_list;
+        get_game_list(game_list);
+        return game_list;
+    }
+
+    vector<string> get_game_group_vec()
+    {
+        vector<string> game_group_list;
+        get_game_group_list(game_group_list);
+        return game_group_list;
+    }
+
+    vector<string> get_type_vec(int gen)
+    {
+        vector<string> type_list;
+        get_type_list(type_list, gen);
+        return type_list;
+    }
 }

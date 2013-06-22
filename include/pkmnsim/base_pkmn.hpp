@@ -209,6 +209,12 @@ namespace pkmnsim
      *  - lax: If only one type is specified, use all type combos with this type
      */
     void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>& pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
+
+    //Pass-as-value get_pkmn_of_type for SWIG
+    std::vector<base_pkmn::sptr> PKMNSIM_API get_pkmn_list_of_type(std::string type1, std::string type2, int gen, bool lax);
+
+    //Same as set_castform_type, but not directly friended due to SWIG issues
+    void PKMNSIM_API set_castform(base_pkmn::sptr base, std::string type);
 }
 
 #endif /* INCLUDED_BASE_PKMN_HPP */
