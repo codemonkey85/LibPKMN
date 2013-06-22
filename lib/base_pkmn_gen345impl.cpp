@@ -140,9 +140,9 @@ namespace pkmnsim
         else abilities_str = ability1 + ", " + ability2 + ", " + ability3;
 
         string output_string;
-        output_string = display_name + "(#" + to_string(nat_pokedex_num) + ")\n"
+        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
                       + species + " Pokémon\n"
-                      + to_string(height) + "m, " + to_string(weight) + " kg\n"
+                      + to_string(height) + " m, " + to_string(weight) + " kg\n"
                       + "Abilities: " + abilities_str + "\n"
                       + "Base Stats:\n"
                       + " - HP: " + to_string(baseHP) + "\n"

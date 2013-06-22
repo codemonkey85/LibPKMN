@@ -140,8 +140,8 @@ namespace pkmnsim
         else types_str = types[1] + "/" + types[2];
 
         string output_string;
-        output_string = nickname + "(" + base->get_display_name() + ")\n"
-                      + "Level" + to_string(level) + "\n"
+        output_string = nickname + " (" + base->get_display_name() + ")\n"
+                      + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Held Item: " + held_item + "\n"
                       + "Stats:\n"
