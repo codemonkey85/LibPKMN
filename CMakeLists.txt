@@ -77,7 +77,6 @@ add_subdirectory(lib)
 add_subdirectory(swig)
 add_subdirectory(apps)
 
-MESSAGE(STATUS "")
 INCLUDE(PKMNsimPackage)
 
 PRINT_COMPONENT_SUMMARY()
