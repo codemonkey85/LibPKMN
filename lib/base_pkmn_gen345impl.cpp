@@ -192,4 +192,24 @@ namespace pkmnsim
         abilities[2] = ability3;
         return abilities;
     }
+
+    bool base_pkmn_gen345impl::has_gender_differences(void)
+    {
+        if(from_gen == 3) return false;
+        else return has_gender_diff;
+    }
+
+    string base_pkmn_gen345impl::get_sprite_path(bool is_male, bool is_shiny)
+    {
+        if(is_male)
+        {
+            if(is_shiny) return male_shiny_sprite_path;
+            else return male_sprite_path;
+        }
+        else
+        {
+            if(is_shiny) return female_shiny_sprite_path;
+            else return female_sprite_path;
+        }
+    }
 }

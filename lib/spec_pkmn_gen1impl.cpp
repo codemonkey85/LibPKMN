@@ -24,6 +24,8 @@ namespace pkmnsim
     {
         srand ( time(NULL) );
 
+        shiny = false;
+
         //Random individual values
         ivHP = rand() % 16;
         ivATK = rand() % 16;
@@ -43,6 +45,8 @@ namespace pkmnsim
         DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
         SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
         SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
+
+        sprite_path = b->get_sprite_path(true, false);
 
         nonvolatile_status = Statuses::OK;
         reset_volatile_status_map();

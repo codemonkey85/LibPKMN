@@ -102,6 +102,11 @@ namespace pkmnsim
             virtual pkmn_nature::sptr get_nature(void) {throw std::runtime_error("Not valid in this generation.");}
 
             /*
+             * Returns whether or not Pokemon is shiny.
+             */
+            bool is_shiny(void);
+
+            /*
              * Returns the Pokémon's stats.
              *
              * Query stats as follows:
@@ -165,11 +170,17 @@ namespace pkmnsim
              */
             virtual std::string get_info_verbose(void) = 0;
 
+            /*
+             * Returns the sprite path.
+             */
+            std::string get_sprite_path(void);
+
         protected:
             base_pkmn::sptr base;
             std::string nickname;
             int generation;
             int level;
+            bool shiny;
             int HP, ATK, DEF, SPD;
             int ivHP, ivATK, ivDEF, ivSPD;
             int evHP, evATK, evDEF, evSPD;
@@ -177,6 +188,7 @@ namespace pkmnsim
             int nonvolatile_status;
             vla<base_move::sptr> moves;
             int num_moves;
+            std::string sprite_path;
 
             virtual int get_hp_from_iv_ev() = 0;
             virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm

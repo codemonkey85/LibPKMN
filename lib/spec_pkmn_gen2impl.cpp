@@ -24,6 +24,11 @@ namespace pkmnsim
     {
         srand ( time(NULL) );
 
+        //Generation 2 uses IV's to determine shininess, but using the overall chance (1/8192) is simpler
+        int shiny_val = rand() % 8192;
+        if(shiny_val == 500) shiny = true; //Arbitrary
+        else shiny = false;
+
         //Random individual values
         ivHP = rand() % 16;
         ivATK = rand() % 16;
@@ -49,6 +54,8 @@ namespace pkmnsim
         SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
         SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
         SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSATK);
+
+        sprite_path = b->get_sprite_path((gender != Genders::FEMALE), shiny);
 
         nonvolatile_status = Statuses::OK;
         reset_volatile_status_map();

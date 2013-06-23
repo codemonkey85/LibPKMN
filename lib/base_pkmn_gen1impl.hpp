@@ -22,6 +22,8 @@ namespace pkmnsim
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);
             dict<std::string, int> get_ev_yields(void);
+            bool has_gender_differences();
+            std::string get_sprite_path(bool is_male, bool is_shiny);
 
         private:
             int baseSPCL;

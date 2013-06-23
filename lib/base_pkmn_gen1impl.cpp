@@ -79,4 +79,12 @@ namespace pkmnsim
         //In Generation 1, EV yields were the same as the corresponding base stat
         return get_base_stats();
     }
+
+    bool base_pkmn_gen1impl::has_gender_differences(void) {return false;}
+
+    string base_pkmn_gen1impl::get_sprite_path(bool is_male, bool is_shiny)
+    {
+        //Gender and shininess don't matter in Gen 1
+        return male_sprite_path;
+    }
 }

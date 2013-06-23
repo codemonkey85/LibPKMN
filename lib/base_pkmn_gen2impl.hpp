@@ -24,6 +24,8 @@ namespace pkmnsim
             dict<std::string, int> get_ev_yields(void);
             double get_chance_male();
             double get_chance_female();
+            bool has_gender_differences();
+            std::string get_sprite_path(bool is_male, bool is_shiny);
 
         private:
             int baseSATK, baseSDEF;

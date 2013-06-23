@@ -170,6 +170,20 @@ namespace pkmnsim
             std::string get_icon_path(void);
 
             /*
+             * Returns bool corresponding to whether or not this Pokemon has gender differences.
+             */
+            virtual bool has_gender_differences(void) = 0;
+
+            /*
+             * Get one of up to four sprite paths, using given parameters.
+             *
+             * Parameters:
+             *  - is_male: use a male sprite
+             *  - is_shiny: use the shiny sprite
+             */
+            virtual std::string get_sprite_path(bool is_male, bool is_shiny) = 0;
+
+            /*
              * Returns vector of moves that this Pokémon can legally learn in this generation.
              * NOTE: Vector will be empty if base_pkmn was declared with query_moves = False
              */
@@ -189,7 +203,10 @@ namespace pkmnsim
             double weight; //kilograms
             int baseHP, baseATK, baseDEF, baseSPD; //Base stats common to all generations
             int exp_yield;
+            bool has_gender_diff;
             std::string icon_path;
+            std::string male_sprite_path, female_sprite_path;
+            std::string male_shiny_sprite_path, female_shiny_sprite_path;
             std::vector<base_move::sptr> legal_moves; //All moves legally available
 
             //Only used internally

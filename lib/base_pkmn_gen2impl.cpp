@@ -119,4 +119,20 @@ namespace pkmnsim
     double base_pkmn_gen2impl::get_chance_male() {return chance_male;}
 
     double base_pkmn_gen2impl::get_chance_female() {return chance_female;}
+
+    bool base_pkmn_gen2impl::has_gender_differences(void) {return false;}
+
+    string base_pkmn_gen2impl::get_sprite_path(bool is_male, bool is_shiny)
+    {
+        if(is_male)
+        {
+            if(is_shiny) return male_shiny_sprite_path;
+            else return male_sprite_path;
+        }
+        else
+        {
+            if(is_shiny) return female_shiny_sprite_path;
+            else return female_sprite_path;
+        }
+    }
 }

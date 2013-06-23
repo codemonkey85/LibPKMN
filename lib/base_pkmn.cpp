@@ -105,7 +105,24 @@ namespace pkmnsim
         pokemon_stats_query.executeStep();
         baseSPD = pokemon_stats_query.getColumn(0); //base_stat
 
+        int has_gender_differences_raw = pokemon_species_query.getColumn(13); //has_gender_differences
+        has_gender_diff = bool(has_gender_differences_raw); //Cannot do directly
+
         icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / (to_string(nat_pokedex_num) + ".png")).string();
+
+        //Genderless sprite queries default to male
+        male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / (to_string(nat_pokedex_num) + ".png")).string();
+        male_shiny_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "shiny" / (to_string(nat_pokedex_num) + ".png")).string();
+        if(has_gender_diff)
+        {
+            female_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "female" / (to_string(nat_pokedex_num) + ".png")).string();
+            female_shiny_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "shiny" / "female" / (to_string(nat_pokedex_num) + ".png")).string();
+        }
+        else
+        {
+            female_sprite_path = male_sprite_path;
+            female_shiny_sprite_path = male_shiny_sprite_path;
+        }
 
         //version_group_ids in database
         string version_group_ids[] = {"(1,2,15)", "(3,4,16)", "(5,6,7,12,13)", "(8,9,10)", "(11,14)"};
