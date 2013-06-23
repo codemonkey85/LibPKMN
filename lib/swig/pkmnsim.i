@@ -46,7 +46,6 @@ namespace std
 %{
     #include "pkmnsim/config.hpp"
     #include "pkmnsim/dict.hpp"
-    #include "pkmnsim/enums.hpp"
     #include "pkmnsim/lists.hpp"
     #include "pkmnsim/vla.hpp"
     
@@ -59,7 +58,6 @@ namespace std
 
 %include "pkmnsim/config.hpp"
 %include "pkmnsim/dict.hpp"
-%include "pkmnsim/enums.hpp"
 %include "pkmnsim/lists.hpp"
 %include "pkmnsim/vla.hpp"
 
