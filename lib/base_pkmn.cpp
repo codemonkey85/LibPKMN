@@ -372,6 +372,10 @@ namespace pkmnsim
             base->type1 = "Normal";
             base->type2 = "None";
             base->icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "351.png").string();
+            base->male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351.png").string();
+            base->female_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351.png").string();
+            base->male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351.png").string();
+            base->female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351.png").string();
             base->pkmn_id = 351;
         }
         else if(type == "Fire")
@@ -380,6 +384,10 @@ namespace pkmnsim
             base->type1 = "Fire";
             base->type2 = "None";
             base->icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "351-sunny.png").string();
+            base->male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-sunny.png").string();
+            base->female_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-sunny.png").string();
+            base->male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-sunny.png").string();
+            base->female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-sunny.png").string();
             base->pkmn_id = 662;
         }
         else if(type == "Water")
@@ -388,6 +396,10 @@ namespace pkmnsim
             base->type1 = "Water";
             base->type2 = "None";
             base->icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "351-rainy.png").string();
+            base->male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-rainy.png").string();
+            base->female_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-rainy.png").string();
+            base->male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-rainy.png").string();
+            base->female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-rainy.png").string();
             base->pkmn_id = 663;
         }
         else
@@ -396,6 +408,10 @@ namespace pkmnsim
             base->type1 = "Ice";
             base->type2 = "None";
             base->icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "351-snowy.png").string();
+            base->male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-snowy.png").string();
+            base->female_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-snowy.png").string();
+            base->male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-snowy.png").string();
+            base->female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "351-snowy.png").string();
             base->pkmn_id = 664;
         }
     }
