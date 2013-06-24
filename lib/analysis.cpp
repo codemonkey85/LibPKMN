@@ -145,7 +145,7 @@ namespace pkmnsim
                 return;
         }
         min_damage = int(floor(get_base_damage(attacker, defender, move) * 0.85));
-        max_damage = int(floor(get_base_damage(attacker, defender, move)));
+        max_damage = get_base_damage(attacker, defender, move);
 
         double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[0], gen)) *
                           double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[1], gen));

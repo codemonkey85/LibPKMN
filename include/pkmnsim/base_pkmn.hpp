@@ -195,7 +195,7 @@ namespace pkmnsim
              * Parameters:
              *  - form: enum int representing form
              */
-            void PKMNSIM_API set_form(int form);
+            void set_form(int form);
 
             /*
              * Sets base to form specified by string.
@@ -203,7 +203,7 @@ namespace pkmnsim
              * Parameters:
              *  - form: string representing form
              */
-            void PKMNSIM_API set_form(std::string form);
+            void set_form(std::string form);
 
 
         protected:
