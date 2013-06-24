@@ -75,8 +75,8 @@ namespace pkmnsim
             enum forms
             {
                 PLANT_CLOAK = 0,
-                SANDY_CLOAK = 0,
-                TRASH_CLOAK = 0
+                SANDY_CLOAK = 1,
+                TRASH_CLOAK = 2
             };
         }
 
@@ -85,8 +85,8 @@ namespace pkmnsim
             enum forms
             {
                 PLANT_CLOAK = 0,
-                SANDY_CLOAK = 0,
-                TRASH_CLOAK = 0
+                SANDY_CLOAK = 1,
+                TRASH_CLOAK = 2
             };
         }
 
@@ -168,8 +168,7 @@ namespace pkmnsim
                 GHOST = 13,
                 DRAGON = 14,
                 DARK = 15,
-                STEEL = 16,
-                QUESTION = 17
+                STEEL = 16
             };
         }
 

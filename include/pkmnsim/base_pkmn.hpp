@@ -189,6 +189,23 @@ namespace pkmnsim
              */
             std::vector<base_move::sptr> get_legal_moves(void);
 
+            /*
+             * Sets base to form specified by enum int.
+             *
+             * Parameters:
+             *  - form: enum int representing form
+             */
+            void PKMNSIM_API set_form(int form);
+
+            /*
+             * Sets base to form specified by string.
+             *
+             * Parameters:
+             *  - form: string representing form
+             */
+            void PKMNSIM_API set_form(std::string form);
+
+
         protected:
             //Database values
 			std::string database_identifier;
@@ -202,6 +219,7 @@ namespace pkmnsim
             double height; //meters
             double weight; //kilograms
             int baseHP, baseATK, baseDEF, baseSPD; //Base stats common to all generations
+            int baseSPCL, baseSATK, baseSDEF; //Not used by all generations, but needed for set_form
             int exp_yield;
             bool has_gender_diff;
             std::string icon_path;
@@ -212,7 +230,6 @@ namespace pkmnsim
             //Only used internally
             friend int get_pkmn_id(sptr base);
             friend int get_species_id(sptr base);
-            friend void PKMNSIM_API set_castform_type(sptr base, std::string type);
     };
 
     /*
