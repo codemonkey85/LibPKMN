@@ -30,9 +30,27 @@ class stat_st
     int stat_value;
 };
 
+class stat_st2
+{
+    public:
+        stat_st2(std::string sn)
+        {
+            stat_name = sn;
+            pkmn_name = "Missingno.";
+            stat_value = -1;
+        }
+
+    std::string stat_name;
+    std::string pkmn_name; //To check if initialized
+    pkmnsim::base_pkmn::sptr b_pkmn;
+    int stat_value;
+};
+
 //Prototypes
 pkmnsim::dict<std::string, std::string> get_stat_map(void);
 void remove_unevolved_pokemon(std::vector<pkmnsim::base_pkmn::sptr>& pkmn_vector);
 int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st>& highest_stats,
                            std::vector<stat_st>& lowest_stats, int gen, bool lax, bool evolved);
+int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st2>& highest_stats,
+                           std::vector<stat_st2>& lowest_stats, int gen, bool lax, bool evolved);
 #endif /* INCLUDED_TYPE_STATS_COMMON_HPP */

@@ -205,13 +205,6 @@ namespace pkmnsim
              */
             void set_form(std::string form);
 
-            /*
-             * For Pokemon with multiple database entries, queries can produce base_pkmn values
-             * with attributes from multiple entries. This function fixes that.
-             */
-            void repair();
-
-
         protected:
             //Database values
 			std::string database_identifier;
@@ -233,22 +226,25 @@ namespace pkmnsim
             std::string male_shiny_sprite_path, female_shiny_sprite_path;
             std::vector<base_move::sptr> legal_moves; //All moves legally available
 
+            void repair(int id);
+
             //Only used internally
             friend int get_pkmn_id(sptr base);
             friend int get_species_id(sptr base);
+            /*
+             * Return a vector with all base Pokémon of specified type combo.
+             *
+             * Parameters:
+             *  - pkmn_vector:  A reference to a vector in which to place list of Pokémon.
+             *  - type1: The type (or one of the types) of Pokémon to return
+             *  - type2: The second type of the type combo of Pokémon to return
+             *  - gen: Only return Pokémon present in this generation.
+             *  - lax: If only one type is specified, use all type combos with this type
+             */
+            friend void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>& pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
+            
     };
 
-    /*
-     * Return a vector with all base Pokémon of specified type combo.
-     *
-     * Parameters:
-     *  - pkmn_vector:  A reference to a vector in which to place list of Pokémon.
-     *  - type1: The type (or one of the types) of Pokémon to return
-     *  - type2: The second type of the type combo of Pokémon to return
-     *  - gen: Only return Pokémon present in this generation.
-     *  - lax: If only one type is specified, use all type combos with this type
-     */
-    void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>& pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
 
     //Pass-as-value get_pkmn_of_type for SWIG
     std::vector<base_pkmn::sptr> PKMNSIM_API get_pkmn_list_of_type(std::string type1, std::string type2, int gen, bool lax);

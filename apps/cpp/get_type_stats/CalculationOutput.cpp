@@ -92,12 +92,12 @@ CalculationOutput::CalculationOutput(QWidget* parent, int gen): QWidget(parent)
 }
 
 //Slot to call when results are calculated by OptionsGroupBox
-void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats_vecs,
-                                          vector<vector<stat_st> > lowest_stats_vecs,
+void CalculationOutput::getAndShowResults(vector<vector<stat_st2> > highest_stats_vecs,
+                                          vector<vector<stat_st2> > lowest_stats_vecs,
                                           vector<int> errcodes, string type1, string type2)
 {
-    vector<stat_st> high_vec = highest_stats_vecs[generation-1];
-    vector<stat_st> low_vec = lowest_stats_vecs[generation-1];
+    vector<stat_st2> high_vec = highest_stats_vecs[generation-1];
+    vector<stat_st2> low_vec = lowest_stats_vecs[generation-1];
 
     QList<QGroupBox*> groupBoxQList = this->findChildren<QGroupBox*>();
     for(int i = 0; i < groupBoxQList.count(); i++)
@@ -120,24 +120,8 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
         else
         {
             //Add appropriate Pokemon
-            base_pkmn::sptr highPkmn = base_pkmn::make(high_vec[i].pkmn_name, generation, false);
-            base_pkmn::sptr lowPkmn = base_pkmn::make(low_vec[i].pkmn_name, generation, false);
-
-            //Manually set Castform form if necessary
-            if(highPkmn->get_display_name() == "Castform")
-            {
-                if(type1 == "Fire") highPkmn->set_form(Forms::Castform::SUNNY);
-                else if(type1 == "Water") highPkmn->set_form(Forms::Castform::RAINY);
-                else if(type1 == "Ice") highPkmn->set_form(Forms::Castform::SNOWY);
-                else highPkmn->set_form(Forms::Castform::NORMAL);
-            }
-            if(lowPkmn->get_display_name() == "Castform")
-            {
-                if(type1 == "Fire") lowPkmn->set_form(Forms::Castform::SUNNY);
-                else if(type1 == "Water") lowPkmn->set_form(Forms::Castform::RAINY);
-                else if(type1 == "Ice") lowPkmn->set_form(Forms::Castform::SNOWY);
-                else lowPkmn->set_form(Forms::Castform::NORMAL);
-            }
+            base_pkmn::sptr highPkmn = high_vec[i].b_pkmn;
+            base_pkmn::sptr lowPkmn = low_vec[i].b_pkmn;
 
             //Create BasePkmnDisplayWidgets
             BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);

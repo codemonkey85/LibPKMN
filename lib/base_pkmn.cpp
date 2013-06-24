@@ -147,7 +147,7 @@ namespace pkmnsim
 		}
         else legal_moves.clear();
 
-        repair();
+        repair(pkmn_id);
 	}
 	
     base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
@@ -1574,9 +1574,9 @@ namespace pkmnsim
         }
     }
 
-    void base_pkmn::repair()
+    void base_pkmn::repair(int id)
     {
-        switch(pkmn_id)
+        switch(id)
         {
             case 650: //Deoxys - Attack Forme
                 set_form(Forms::Deoxys::ATTACK);
@@ -1686,6 +1686,7 @@ namespace pkmnsim
         SQLite::Database db(get_database_path().c_str());
         string query_string;
         vector<string> names;
+        vector<int> applicable_ids;
         int pkmn_id, type1_id, type2_id;
 
         //Get type IDs
@@ -1772,7 +1773,11 @@ namespace pkmnsim
                 //Get generation ID to restrict list
                 query_string = "SELECT generation_id FROM pokemon_species WHERE identifier='" + pkmn_name + "'";
                 int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
-                if(generation_id <= gen) names.push_back(pkmn_name);
+                if(generation_id <= gen)
+                {
+                    applicable_ids.push_back(pkmn_ids[i]); //ID's that apply to final Pokemon
+                    names.push_back(pkmn_name);
+                }
             }
         }
 
@@ -1781,7 +1786,9 @@ namespace pkmnsim
             //Manually correct for Magnemite and Magneton in Gen 1
             if(not ((names[i] == "magnemite" or names[i] == "magneton") and gen == 1))
             {
-                pkmn_vector.push_back(base_pkmn::make(names[i], gen, false));
+                base_pkmn::sptr b_pkmn = base_pkmn::make(names[i], gen, false);
+                b_pkmn->repair(applicable_ids[i]);
+                pkmn_vector.push_back(b_pkmn);
             }
         }
     }
