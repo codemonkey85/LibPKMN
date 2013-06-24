@@ -7,8 +7,5 @@
 FILE(GLOB pkmn_sprites RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.png")
 
 FOREACH(icon ${pkmn_sprites})
-    INSTALL(FILES ${icon} DESTINATION ${PKG_DATA_DIR}/images/sprites COMPONENT "Images")
+    INSTALL(FILES ${icon} DESTINATION ${PKG_DATA_DIR}/images/sprites/female COMPONENT "Images")
 ENDFOREACH(icon)
-
-ADD_SUBDIRECTORY(female)
-ADD_SUBDIRECTORY(shiny)
