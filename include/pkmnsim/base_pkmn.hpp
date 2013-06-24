@@ -205,6 +205,12 @@ namespace pkmnsim
              */
             void set_form(std::string form);
 
+            /*
+             * For Pokemon with multiple database entries, queries can produce base_pkmn values
+             * with attributes from multiple entries. This function fixes that.
+             */
+            void repair();
+
 
         protected:
             //Database values

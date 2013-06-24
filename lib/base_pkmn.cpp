@@ -146,6 +146,8 @@ namespace pkmnsim
             }
 		}
         else legal_moves.clear();
+
+        repair();
 	}
 	
     base_pkmn::sptr base_pkmn::make(string identifier, int gen, bool query_moves)
@@ -1271,6 +1273,11 @@ namespace pkmnsim
                     exit(EXIT_FAILURE);
             }
         }
+        else
+        {
+            cerr << "This Pokemon has no alternate forms." << endl;
+            exit(EXIT_FAILURE);
+        }
     }
 
     //Better for SWIG, which doesn't see the enums
@@ -1559,6 +1566,116 @@ namespace pkmnsim
                 cerr << "Genesect has the following forms: Normal, Shock Drive, Burn Drive, Chill Drive, Douse Drive." << endl;
                 exit(EXIT_FAILURE);
             }
+        }
+        else
+        {
+            cerr << "This Pokemon has no alternate forms." << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    void base_pkmn::repair()
+    {
+        switch(pkmn_id)
+        {
+            case 650: //Deoxys - Attack Forme
+                set_form(Forms::Deoxys::ATTACK);
+                break;
+
+            case 651: //Deoxys - Defense Forme
+                set_form(Forms::Deoxys::DEFENSE);
+                break;
+
+            case 652: //Deoxys - Speed Forme
+                set_form(Forms::Deoxys::SPEED);
+                break;
+
+            case 653: //Wormadam - Sandy Cloak
+                set_form(Forms::Wormadam::SANDY_CLOAK);
+                break;
+
+            case 654: //Wormadam - Trash Cloak
+                set_form(Forms::Wormadam::TRASH_CLOAK);
+                break;
+
+            case 655: //Shaymin - Sky Forme
+                set_form(Forms::Shaymin::SKY);
+                break;
+
+            case 656: //Giratina - Origin Forme
+                set_form(Forms::Giratina::ORIGIN);
+                break;
+
+            case 657: //Rotom - Heat
+                set_form(Forms::Rotom::HEAT);
+                break;
+
+            case 658: //Rotom - Wash
+                set_form(Forms::Rotom::WASH);
+                break;
+
+            case 659: //Rotom - Frost
+                set_form(Forms::Rotom::FROST);
+                break;
+
+            case 660: //Rotom - Fan
+                set_form(Forms::Rotom::FAN);
+                break;
+
+            case 661: //Rotom - Mow
+                set_form(Forms::Rotom::MOW);
+                break;
+
+            case 662: //Castform - Sunny
+                set_form(Forms::Castform::SUNNY);
+                break;
+
+            case 663: //Castform - Rainy
+                set_form(Forms::Castform::RAINY);
+                break;
+
+            case 664: //Castform - Snowy
+                set_form(Forms::Castform::SNOWY);
+                break;
+
+            case 665: //Basculin - Blue-Striped
+                set_form(Forms::Basculin::BLUE_STRIPED);
+                break;
+
+            case 666: //Darmanitan - Zen
+                set_form(Forms::Darmanitan::ZEN);
+                break;
+
+            case 667: //Meleotta - Pirouette
+                set_form(Forms::Meleotta::PIROUETTE);
+                break;
+
+            case 668: //Tornadus - Therian
+                set_form(Forms::Tornadus::THERIAN);
+                break;
+
+            case 669: //Thundurus - Therian
+                set_form(Forms::Thundurus::THERIAN);
+                break;
+
+            case 670: //Landorus - Therian
+                set_form(Forms::Landorus::THERIAN);
+                break;
+
+            case 671: //Kyurem - Black
+                set_form(Forms::Kyurem::BLACK);
+                break;
+
+            case 672: //Kyurem - White
+                set_form(Forms::Kyurem::WHITE);
+                break;
+
+            case 673: //Keldeo - Resolute
+                set_form(Forms::Keldeo::RESOLUTE);
+                break;
+
+            default: //Nothing to do
+                break;
         }
     }
 
