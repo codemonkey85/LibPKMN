@@ -258,7 +258,7 @@ namespace pkmnsim
             };
         }
 
-        namespace Meleotta
+        namespace Meloetta
         {
             enum forms
             {

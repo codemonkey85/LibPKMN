@@ -1183,11 +1183,11 @@ namespace pkmnsim
                     exit(EXIT_FAILURE);
             }
         }
-        else if(display_name == "Meleotta")
+        else if(display_name == "Meloetta")
         {
             switch(form)
             {
-                case Forms::Meleotta::ARIA:
+                case Forms::Meloetta::ARIA:
                     pkmn_id = 647;
 
                     icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "648-aria.png").string();
@@ -1203,7 +1203,7 @@ namespace pkmnsim
                     baseSPD = 90;
                     break;
 
-                case Forms::Meleotta::PIROUETTE:
+                case Forms::Meloetta::PIROUETTE:
                     pkmn_id = 673;
 
                     icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "648-pirouette.png").string();
@@ -1220,7 +1220,7 @@ namespace pkmnsim
                     break;
 
                 default:
-                    cerr << "Meleotta has the following forms: Aria, Pirouette." << endl;
+                    cerr << "Meloetta has the following forms: Aria, Pirouette." << endl;
                     exit(EXIT_FAILURE);
             }
         }
@@ -1544,13 +1544,13 @@ namespace pkmnsim
                 exit(EXIT_FAILURE);
             }
         }
-        else if(display_name == "Meleotta")
+        else if(display_name == "Meloetta")
         {
-            if(form == "Aria") set_form(Forms::Meleotta::ARIA);
-            else if(form == "Pirouette") set_form(Forms::Meleotta::PIROUETTE);
+            if(form == "Aria") set_form(Forms::Meloetta::ARIA);
+            else if(form == "Pirouette") set_form(Forms::Meloetta::PIROUETTE);
             else
             {
-                cerr << "Meleotta has the following items: Aria, Pirouette." << endl;
+                cerr << "Meloetta has the following items: Aria, Pirouette." << endl;
                 exit(EXIT_FAILURE);
             }
         }
@@ -1646,8 +1646,8 @@ namespace pkmnsim
                 set_form(Forms::Darmanitan::ZEN);
                 break;
 
-            case 667: //Meleotta - Pirouette
-                set_form(Forms::Meleotta::PIROUETTE);
+            case 667: //Meloetta - Pirouette
+                set_form(Forms::Meloetta::PIROUETTE);
                 break;
 
             case 668: //Tornadus - Therian
@@ -1718,7 +1718,11 @@ namespace pkmnsim
                 //Get generation ID to restrict list
                 query_string = "SELECT generation_id FROM pokemon_species WHERE identifier='" + pkmn_name + "'";
                 int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
-                if(generation_id <= gen) names.push_back(pkmn_name);
+                if(generation_id <= gen)
+                {
+                    names.push_back(pkmn_name);
+                    applicable_ids.push_back(pkmn_id);
+                }
             }
         }
         else
