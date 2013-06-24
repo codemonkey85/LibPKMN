@@ -80,6 +80,7 @@ namespace pkmnsim
         string output_string;
         output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
                       + species + " Pokémon\n"
+                      + "Type: " + types_str + "\n"
                       + to_string(height) + " m, " + to_string(weight) + " kg\n"
                       + "Base Stats:\n"
                       + " - HP: " + to_string(baseHP) + "\n"
