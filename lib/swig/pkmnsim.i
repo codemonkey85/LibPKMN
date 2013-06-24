@@ -39,10 +39,6 @@ namespace std
 %ignore pkmnsim::get_pkmn_id;
 %ignore pkmnsim::get_species_id;
 
-//Being part of a friend class makes this screwy
-%ignore pkmnsim::set_castform_type;
-%rename(set_castform_type) pkmnsim::set_castform;
-
 %{
     #include "pkmnsim/config.hpp"
     #include "pkmnsim/dict.hpp"

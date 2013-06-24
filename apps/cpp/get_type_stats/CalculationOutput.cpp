@@ -5,6 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <pkmnsim/enums.hpp>
+
 #include "CalculationOutput.hpp"
 
 using namespace pkmnsim;
@@ -122,8 +124,20 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats
             base_pkmn::sptr lowPkmn = base_pkmn::make(low_vec[i].pkmn_name, generation, false);
 
             //Manually set Castform form if necessary
-            if(highPkmn->get_display_name() == "Castform") set_castform_type(highPkmn, type1);
-            if(lowPkmn->get_display_name() == "Castform") set_castform_type(lowPkmn, type1);
+            if(highPkmn->get_display_name() == "Castform")
+            {
+                if(type1 == "Fire") highPkmn->set_form(Forms::Castform::SUNNY);
+                else if(type1 == "Water") highPkmn->set_form(Forms::Castform::RAINY);
+                else if(type1 == "Ice") highPkmn->set_form(Forms::Castform::SNOWY);
+                else highPkmn->set_form(Forms::Castform::NORMAL);
+            }
+            if(lowPkmn->get_display_name() == "Castform")
+            {
+                if(type1 == "Fire") lowPkmn->set_form(Forms::Castform::SUNNY);
+                else if(type1 == "Water") lowPkmn->set_form(Forms::Castform::RAINY);
+                else if(type1 == "Ice") lowPkmn->set_form(Forms::Castform::SNOWY);
+                else lowPkmn->set_form(Forms::Castform::NORMAL);
+            }
 
             //Create BasePkmnDisplayWidgets
             BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);

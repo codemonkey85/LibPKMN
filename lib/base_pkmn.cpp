@@ -284,7 +284,7 @@ namespace pkmnsim
             }
             
         }
-        else if(display_name != "Castform")
+        else if(display_name == "Castform")
         {
             switch(form)
             {
@@ -341,11 +341,13 @@ namespace pkmnsim
                     exit(EXIT_FAILURE);
             }
         }
-        else if(display_name != "Deoxys")
+        else if(display_name == "Deoxys")
         {
             switch(form)
             {
                 case Forms::Deoxys::NORMAL:
+                    pkmn_id = 386;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "386.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "386.png").string();
                     female_sprite_path = male_sprite_path;
@@ -360,6 +362,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Deoxys::ATTACK:
+                    pkmn_id = 650;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "386-attack.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "386-attack.png").string();
                     female_sprite_path = male_sprite_path;
@@ -374,6 +378,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Deoxys::DEFENSE:
+                    pkmn_id = 651;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "386-defense.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "386-defense.png").string();
                     female_sprite_path = male_sprite_path;
@@ -388,6 +394,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Deoxys::SPEED:
+                    pkmn_id = 652;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "386-speed.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "386-speed.png").string();
                     female_sprite_path = male_sprite_path;
@@ -446,6 +454,7 @@ namespace pkmnsim
                 case Forms::Wormadam::PLANT_CLOAK:
                     type1 = "Bug";
                     type2 = "Grass";
+                    pkmn_id = 413;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "413-plant.png").string();
                     female_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "female" / "413-plant.png").string();
@@ -463,6 +472,7 @@ namespace pkmnsim
                 case Forms::Wormadam::SANDY_CLOAK:
                     type1 = "Bug";
                     type2 = "Ground";
+                    pkmn_id = 653;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "413-sandy.png").string();
                     female_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "female" / "413-sandy.png").string();
@@ -480,6 +490,7 @@ namespace pkmnsim
                 case Forms::Wormadam::TRASH_CLOAK:
                     type1 = "Bug";
                     type2 = "Steel";
+                    pkmn_id = 654;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "413-trash.png").string();
                     female_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "female" / "413-trash.png").string();
@@ -581,6 +592,7 @@ namespace pkmnsim
                 case Forms::Rotom::NORMAL:
                     type1 = "Electric";
                     type2 = "Ghost";
+                    pkmn_id = 479;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "479.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "479.png").string();
@@ -598,6 +610,7 @@ namespace pkmnsim
                 case Forms::Rotom::HEAT:
                     type1 = "Electric";
                     type2 = "Fire";
+                    pkmn_id = 657;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "479-heat.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "479-heat.png").string();
@@ -615,6 +628,7 @@ namespace pkmnsim
                 case Forms::Rotom::WASH:
                     type1 = "Electric";
                     type2 = "Water";
+                    pkmn_id = 658;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "479-wash.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "479-wash.png").string();
@@ -631,6 +645,7 @@ namespace pkmnsim
                 case Forms::Rotom::FROST:
                     type1 = "Electric";
                     type2 = "Ice";
+                    pkmn_id = 659;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "479-frost.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "479-frost.png").string();
@@ -647,6 +662,7 @@ namespace pkmnsim
                 case Forms::Rotom::FAN:
                     type1 = "Electric";
                     type2 = "Flying";
+                    pkmn_id = 660;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "479-fan.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "479-fan.png").string();
@@ -663,6 +679,7 @@ namespace pkmnsim
                 case Forms::Rotom::MOW:
                     type1 = "Electric";
                     type2 = "Grass";
+                    pkmn_id = 661;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "479-mow.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "479-mow.png").string();
@@ -686,6 +703,8 @@ namespace pkmnsim
             switch(form)
             {
                 case Forms::Giratina::ALTERED:
+                    pkmn_id = 487;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "487-altered.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "487-altered.png").string();
                     female_sprite_path = male_sprite_path;
@@ -699,6 +718,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Giratina::ORIGIN:
+                    pkmn_id = 656;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "487-origin.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "487-origin.png").string();
                     female_sprite_path = male_sprite_path;
@@ -723,6 +744,7 @@ namespace pkmnsim
                 case Forms::Shaymin::LAND:
                     type1 = "Grass";
                     type2 = "None";
+                    pkmn_id = 492;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "492-land.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "492-land.png").string();
@@ -740,6 +762,7 @@ namespace pkmnsim
                 case Forms::Shaymin::SKY:
                     type1 = "Grass";
                     type2 = "Flying";
+                    pkmn_id = 655;
 
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "492-sky.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "492-sky.png").string();
@@ -841,6 +864,8 @@ namespace pkmnsim
             switch(form)
             {
                 case Forms::Basculin::RED_STRIPED:
+                    pkmn_id = 550;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "550-red-striped.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "550-red-striped.png").string();
                     female_sprite_path = male_sprite_path;
@@ -849,6 +874,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Basculin::BLUE_STRIPED:
+                    pkmn_id = 665;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "550-blue-striped.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "550-blue-striped.png").string();
                     female_sprite_path = male_sprite_path;
@@ -866,6 +893,8 @@ namespace pkmnsim
             switch(form)
             {
                 case Forms::Darmanitan::STANDARD:
+                    pkmn_id = 555;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "555-standard.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "555-standard.png").string();
                     female_sprite_path = male_sprite_path;
@@ -880,6 +909,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Darmanitan::ZEN:
+                    pkmn_id = 666;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "555-zen.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "555-zen.png").string();
                     female_sprite_path = male_sprite_path;
@@ -898,11 +929,63 @@ namespace pkmnsim
                     exit(EXIT_FAILURE);
             }
         }
+        else if(display_name == "Deerling")
+        {
+            switch(form)
+            {
+                case Forms::Deerling::SPRING:
+                    set_form("Spring");
+                    break;
+
+                case Forms::Deerling::SUMMER:
+                    set_form("Summer");
+                    break;
+
+                case Forms::Deerling::AUTUMN:
+                    set_form("Autumn");
+                    break;
+
+                case Forms::Deerling::WINTER:
+                    set_form("Winter");
+                    break;
+
+                default:
+                    cerr << "Deerling has the following forms: Spring, Summer, Fall, Winter." << endl;
+                    exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Sawsbuck")
+        {
+            switch(form)
+            {
+                case Forms::Sawsbuck::SPRING:
+                    set_form("Spring");
+                    break;
+
+                case Forms::Sawsbuck::SUMMER:
+                    set_form("Summer");
+                    break;
+
+                case Forms::Sawsbuck::AUTUMN:
+                    set_form("Autumn");
+                    break;
+
+                case Forms::Sawsbuck::WINTER:
+                    set_form("Winter");
+                    break;
+
+                default:
+                    cerr << "Sawsbuck has the following forms: Spring, Summer, Fall, Winter." << endl;
+                    exit(EXIT_FAILURE);
+            }
+        }
         else if(display_name == "Tornadus")
         {
             switch(form)
             {
                 case Forms::Tornadus::INCARNATE:
+                    pkmn_id = 641;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "641-incarnate.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "641-incarnate.png").string();
                     female_sprite_path = male_sprite_path;
@@ -917,6 +1000,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Tornadus::THERIAN:
+                    pkmn_id = 668;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "641-therian.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "641-therian.png").string();
                     female_sprite_path = male_sprite_path;
@@ -940,6 +1025,8 @@ namespace pkmnsim
             switch(form)
             {
                 case Forms::Thundurus::INCARNATE:
+                    pkmn_id = 642;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "642-incarnate.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "642-incarnate.png").string();
                     female_sprite_path = male_sprite_path;
@@ -954,6 +1041,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Thundurus::THERIAN:
+                    pkmn_id = 669;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "642-therian.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "642-therian.png").string();
                     female_sprite_path = male_sprite_path;
@@ -977,6 +1066,8 @@ namespace pkmnsim
             switch(form)
             {
                 case Forms::Landorus::INCARNATE:
+                    pkmn_id = 645;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "645-incarnate.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "645-incarnate.png").string();
                     female_sprite_path = male_sprite_path;
@@ -991,6 +1082,8 @@ namespace pkmnsim
                     break;
 
                 case Forms::Landorus::THERIAN:
+                    pkmn_id = 670;
+
                     icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "645-therian.png").string();
                     male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "645-therian.png").string();
                     female_sprite_path = male_sprite_path;
@@ -1006,6 +1099,175 @@ namespace pkmnsim
 
                 default:
                     cerr << "Landorus has the following forms: Incarnate, Therian." << endl;
+                    exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Kyurem")
+        {
+            switch(form)
+            {
+                case Forms::Kyurem::NORMAL:
+                    pkmn_id = 646;
+
+                    icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "646.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "646.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "shiny" / "646.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+
+                    baseATK = 130;
+                    baseDEF = 90;
+                    baseSATK = 130;
+                    baseSDEF = 90;
+                    break;
+
+                case Forms::Kyurem::BLACK:
+                    pkmn_id = 671;
+
+                    icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "646-black.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "646-black.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "shiny" / "646-black.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+
+                    baseATK = 170;
+                    baseDEF = 100;
+                    baseSATK = 120;
+                    baseSDEF = 90;
+                    break;
+
+                case Forms::Kyurem::WHITE:
+                    pkmn_id = 672;
+
+                    icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / "646-white.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "646-white.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "shiny" / "646-white.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+
+                    baseATK = 120;
+                    baseDEF = 90;
+                    baseSATK = 170;
+                    baseSDEF = 100;
+                    break;
+
+                default:
+                    cerr << "Kyurem has the following forms: Normal, Black, White." << endl;
+                    exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Keldeo")
+        {
+            switch(form)
+            {
+                case Forms::Keldeo::ORDINARY:
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "647-ordinary.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "647-ordinary.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "647-ordinary.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                    break;
+
+                case Forms::Keldeo::RESOLUTE:
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "647-resolute.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "647-resolute.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "647-resolute.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                    break;
+
+                default:
+                    cerr << "Keldeo has the following forms: Ordinary, Resolute." << endl;
+                    exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Meleotta")
+        {
+            switch(form)
+            {
+                case Forms::Meleotta::ARIA:
+                    pkmn_id = 647;
+
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "648-aria.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "648-aria.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "648-aria.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+
+                    baseATK = 77;
+                    baseDEF = 77;
+                    baseSATK = 128;
+                    baseSDEF = 128;
+                    baseSPD = 90;
+                    break;
+
+                case Forms::Meleotta::PIROUETTE:
+                    pkmn_id = 673;
+
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "648-pirouette.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "648-pirouette.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "648-pirouette.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+
+                    baseATK = 128;
+                    baseDEF = 90;
+                    baseSATK = 77;
+                    baseSDEF = 77;
+                    baseSPD = 128;
+                    break;
+
+                default:
+                    cerr << "Meleotta has the following forms: Aria, Pirouette." << endl;
+                    exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Genesect")
+        {
+            switch(form)
+            {
+                case Forms::Genesect::NORMAL:
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "649.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "649.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "649.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                    break;
+
+                case Forms::Genesect::SHOCK_DRIVE:
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "649-shock.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "649-shock.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "649-shock.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                    break;
+
+                case Forms::Genesect::BURN_DRIVE:
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "649-burn.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "649-burn.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "649-burn.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                    break;
+
+                case Forms::Genesect::CHILL_DRIVE:
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "649-chill.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "649-chill.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "649-chill.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                    break;
+
+                case Forms::Genesect::DOUSE_DRIVE:
+                    icon_path = fs::path(fs::path(get_images_dir()) / "icons" / "649-douse.png").string();
+                    male_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "649-douse.png").string();
+                    female_sprite_path = male_sprite_path;
+                    male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "sprites" / "shiny" / "649-douse.png").string();
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                    break;
+
+                default:
+                    cerr << "Genesect has the following forms: Normal, Shock Drive, Burn Drive, Chill Drive, Douse Drive." << endl;
                     exit(EXIT_FAILURE);
             }
         }
@@ -1188,6 +1450,42 @@ namespace pkmnsim
                 exit(EXIT_FAILURE);
             }
         }
+        else if(display_name == "Deerling")
+        {
+            if(form != "Spring" and form != "Summer" and form != "Autumn" and form != "Winter")
+            {
+                transform(form.begin(), form.end(), form.begin(), ::tolower);
+                string basename = str(boost::format("585-%s.png") % form);
+                icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / basename.c_str()).string();
+                male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / basename.c_str()).string();
+                female_sprite_path = male_sprite_path;
+                male_shiny_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "shiny" / basename.c_str()).string();
+                female_shiny_sprite_path = male_shiny_sprite_path;
+            }
+            else
+            {
+                cerr << "Deerling has the following forms: Spring, Summer, Fall, Winter." << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Sawsbuck")
+        {
+            if(form != "Spring" and form != "Summer" and form != "Autumn" and form != "Winter")
+            {
+                transform(form.begin(), form.end(), form.begin(), ::tolower);
+                string basename = str(boost::format("586-%s.png") % form);
+                icon_path = fs::path(fs::path(get_images_dir().c_str()) / "icons" / basename.c_str()).string();
+                male_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / basename.c_str()).string();
+                female_sprite_path = male_sprite_path;
+                male_shiny_sprite_path = fs::path(fs::path(get_images_dir().c_str()) / "sprites" / "shiny" / basename.c_str()).string();
+                female_shiny_sprite_path = male_shiny_sprite_path;
+            }
+            else
+            {
+                cerr << "Deerling has the following forms: Spring, Summer, Fall, Winter." << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
         else if(display_name == "Tornadus")
         {
             if(form == "Incarnate") set_form(Forms::Tornadus::INCARNATE);
@@ -1215,6 +1513,50 @@ namespace pkmnsim
             else
             {
                 cerr << "Landorus has the following forms: Incarnate, Therian." << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Kyurem")
+        {
+            if(form == "Normal") set_form(Forms::Kyurem::NORMAL);
+            else if(form == "Black") set_form(Forms::Kyurem::BLACK);
+            else if(form == "White") set_form(Forms::Kyurem::WHITE);
+            else
+            {
+                cerr << "Kyurem has the following forms: Normal, Black, White." << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Keldeo")
+        {
+            if(form == "Ordinary") set_form(Forms::Keldeo::ORDINARY);
+            else if(form == "Resolute") set_form(Forms::Keldeo::RESOLUTE);
+            else
+            {
+                cerr << "Keldeo has the following forms: Ordinary, Resolute." << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Meleotta")
+        {
+            if(form == "Aria") set_form(Forms::Meleotta::ARIA);
+            else if(form == "Pirouette") set_form(Forms::Meleotta::PIROUETTE);
+            else
+            {
+                cerr << "Meleotta has the following items: Aria, Pirouette." << endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if(display_name == "Genesect")
+        {
+            if(form == "Normal") set_form(Forms::Genesect::NORMAL);
+            if(form == "Shock Drive") set_form(Forms::Genesect::SHOCK_DRIVE);
+            if(form == "Burn Drive") set_form(Forms::Genesect::BURN_DRIVE);
+            if(form == "Chill Drive") set_form(Forms::Genesect::CHILL_DRIVE);
+            if(form == "Douse Drive") set_form(Forms::Genesect::DOUSE_DRIVE);
+            else
+            {
+                cerr << "Genesect has the following forms: Normal, Shock Drive, Burn Drive, Chill Drive, Douse Drive." << endl;
                 exit(EXIT_FAILURE);
             }
         }
