@@ -67,6 +67,7 @@ REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQ
 REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
+add_subdirectory(pokehack)
 add_subdirectory(share)
 add_subdirectory(include)
 add_subdirectory(lib)
