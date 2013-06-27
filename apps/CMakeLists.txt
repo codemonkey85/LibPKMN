@@ -5,6 +5,10 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+####################################################################
+# Set which applications will build based on enabled library
+# components
+####################################################################
 REGISTER_COMPONENT("Applications - C++ Command Line" ENABLE_CMD_CPP_APPS ON "ENABLE_LIBPKMNSIM" OFF)
 REGISTER_COMPONENT("Applications - C++ Qt4" ENABLE_QT4_CPP_APPS ON "ENABLE_LIBPKMNSIM_QT4" OFF)
 REGISTER_COMPONENT("Applications - Python" ENABLE_PYTHON_APPS ON "ENABLE_PYPKMNSIM_LIB" OFF)

@@ -8,7 +8,10 @@
 FILE(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/lib/swig" PKMNSIM_SWIG_SOURCE_DIR)
 SET(PKMNSIM_SWIG_SOURCE_DIR ${PKMNSIM_SWIG_SOURCE_DIR} CACHE FILEPATH "PKMNsim SWIG source directory")
 
-# Set Python install directory
+####################################################################
+# Python install directory is system-specific, so use this
+# script to determine this system's install directory
+####################################################################
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
 from distutils import sysconfig
 print sysconfig.get_python_lib(plat_specific=True, prefix='')
@@ -40,6 +43,9 @@ SET(PKMNSIM_PYTHON_LIBRARIES
 
 SET_SOURCE_FILES_PROPERTIES(pypkmnsim_swig.i PROPERTIES CPLUSPLUS ON)
 
+####################################################################
+# Create SWIG Python wrapper of LibPKMNsim
+####################################################################
 INCLUDE(UseSWIG)
 SWIG_ADD_MODULE(pypkmnsim_swig python pypkmnsim_swig.i)
 IF(CMAKE_COMPILER_IS_GNUCXX)
@@ -52,7 +58,6 @@ SET(PYPKMNSIM_LIB_SOURCES
     ${CMAKE_CURRENT_BINARY_DIR}/pypkmnsim_swig.py
 )
 
-#Set install instructions
 INSTALL(
     FILES ${PYPKMNSIM_LIB_SOURCES}
     DESTINATION ${PKMNSIM_PYTHON_DIR}/PyPKMNsim

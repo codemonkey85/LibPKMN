@@ -10,17 +10,19 @@ SET(PKMNSIM_DATABASE_DIR ${DATABASE_DIR} CACHE FILEPATH "Database directory")
 
 FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db")
 
-#Copy over to binary directory for proper out-of-date behavior
+####################################################################
+# Database dump is distributed instead of a binary, so compile and
+# install in correct location
+####################################################################
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/pkmnsim_db_dump
     ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim_db_dump
-)
+COPYPONLY)
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
     COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db ".read ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim_db_dump"
     COMMENT "Compiling PKMNsim SQLite database"
 )
-
 ADD_CUSTOM_TARGET(
     pkmnsim.db ALL
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db

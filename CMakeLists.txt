@@ -4,19 +4,25 @@
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
 #
-cmake_minimum_required(VERSION 2.8.5)
-project(PKMNsim)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5)
+PROJECT(PKMNsim)
 
-set(PKMNsim_VERSION_MAJOR 0)
-set(PKMNsim_VERSION_MINOR 0)
-set(PKMNsim_VERSION_PATCH 1)
+SET(PKMNsim_VERSION_MAJOR 0)
+SET(PKMNsim_VERSION_MINOR 0)
+SET(PKMNsim_VERSION_PATCH 1)
 
+####################################################################
+# If this is set for a Windows build, all DLL dependencies will be
+# installed as well
+####################################################################
 SET(WIN7_PKG ${WIN7_PKG} CACHE BOOL "Building a Windows package")
 
-set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
+SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 INCLUDE(PKMNsimComponent)
 
-#Find dependencies
+####################################################################
+# Find dependencies and set global include and link options
+####################################################################
 FIND_PACKAGE(Boost COMPONENTS
     filesystem
     program_options
@@ -32,9 +38,12 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS} ${SQLITE3_INCLUDE_DIR})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS} ${SQLITE3_LIBRARY_DIRS})
 
 IF(MSVC)
-	ADD_DEFINITIONS(-DBOOST_ALL_DYN_LINK) #Set up Boost dynamic linking
+	ADD_DEFINITIONS(-DBOOST_ALL_DYN_LINK) #Let MSVC automatically link to Boost libs
 ENDIF(MSVC)
 
+####################################################################
+# Set install subdirectories
+####################################################################
 IF(NOT DEFINED LIB_SUFFIX AND REDHAT AND CMAKE_SYSTEM_PROCESSOR MATCHES "64$")
     SET(LIB_SUFFIX 64)
 ENDIF()
@@ -45,7 +54,7 @@ SET(INCLUDE_DIR include)
 SET(PKG_DATA_DIR share/pkmnsim)
 
 ########################################################################
-# Create Uninstall Target
+# Create uninstall target
 ########################################################################
 CONFIGURE_FILE(
     ${CMAKE_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in
@@ -56,25 +65,38 @@ ADD_CUSTOM_TARGET(uninstall
     ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
 )
 
-#select the release build type by default to get optimization flags
+########################################################################
+# Set build type to Release by default to enable optimization flags
+########################################################################
 IF(NOT CMAKE_BUILD_TYPE)
     SET(CMAKE_BUILD_TYPE "Release")
 ENDIF(NOT CMAKE_BUILD_TYPE)
 SET(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING "")
 
-#Register components
+########################################################################
+# Register LibPKMNsim components
+########################################################################
 REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_FOUND" OFF)
 REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
 
-include_directories(${CMAKE_SOURCE_DIR}/include)
-add_subdirectory(pokehack)
-add_subdirectory(share)
-add_subdirectory(include)
-add_subdirectory(lib)
-add_subdirectory(apps)
+########################################################################
+# Run CMake scripts in subdirectories
+########################################################################
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
+ADD_SUBDIRECTORY(pokehack)
+ADD_SUBDIRECTORY(share)
+ADD_SUBDIRECTORY(include)
+ADD_SUBDIRECTORY(lib)
+ADD_SUBDIRECTORY(apps)
 
+########################################################################
+# Set package settings
+########################################################################
 INCLUDE(PKMNsimPackage)
 
+########################################################################
+# Final display
+########################################################################
 PRINT_COMPONENT_SUMMARY()
 MESSAGE(STATUS "Building PKMNsim.")
 MESSAGE(STATUS " - Build type: ${CMAKE_BUILD_TYPE}")

@@ -42,9 +42,11 @@ IF(ENABLE_LIBPKMNSIM)
         ${sqlitecpp_sources}
     )
 
-    #Add Qt4 files if appropriate
+    ####################################################################
+    # If Qt is found, add Qt subclasses to LibPKMNsim
+    ####################################################################
     IF(ENABLE_LIBPKMNSIM_QT4)
-        add_subdirectory(qt4_classes)
+        ADD_SUBDIRECTORY(qt4_classes)
         INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
 
         INCLUDE(${QT_USE_FILE})
@@ -60,9 +62,17 @@ IF(ENABLE_LIBPKMNSIM)
 
     ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
     TARGET_LINK_LIBRARIES(pkmnsim ${libpkmnsim_libs})
+
+    ####################################################################
+    # GCC needs this setting to use std::shared_ptr
+    ####################################################################
     IF(CMAKE_COMPILER_IS_GNUCXX)
         SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+
+    ####################################################################
+    # MSVC needs this setting to export functions in pkmnsim.dll
+    ####################################################################
     SET_TARGET_PROPERTIES(pkmnsim PROPERTIES DEFINE_SYMBOL "PKMNSIM_DLL_EXPORTS")
     INSTALL(TARGETS pkmnsim
         LIBRARY DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.so

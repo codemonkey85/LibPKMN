@@ -21,7 +21,9 @@ ENDIF(SWIG_FOUND)
 REGISTER_COMPONENT("PyPKMNsim Library" ENABLE_PYPKMNSIM_LIB ON
                    "ENABLE_LIBPKMNSIM;SWIG_FOUND;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND;PYSQLITE3_FOUND" OFF)
 
-# Add subdirectories as appropriate
+####################################################################
+# Add subdirectories as appropriate based on enabled SWIG wrappers
+####################################################################
 IF(ENABLE_PYPKMNSIM_LIB)
     ADD_SUBDIRECTORY(python)
 ENDIF(ENABLE_PYPKMNSIM_LIB)

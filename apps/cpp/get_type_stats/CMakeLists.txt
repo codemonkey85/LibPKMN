@@ -13,9 +13,10 @@ IF(ENABLE_CMD_CPP_APPS)
     TARGET_LINK_LIBRARIES(get_type_stats pkmnsim)
     INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
     
-    #Use get_type_stats to determine all necessary DLL's for Windows to bring in
-    #if necessary (pkmnsim.dll will cover all Qt DLL's)
-    #NOTE: All necessary DLL's must be in the PATH
+    ####################################################################
+    # Use get_type_stats.exe to determine which DLL's to install
+    # if WIN7_PKG=ON is set when running CMake
+    ####################################################################
     IF(WIN7_PKG)
         INCLUDE(GetPrerequisites)
 
@@ -47,6 +48,10 @@ IF(ENABLE_QT4_CPP_APPS)
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
     TARGET_LINK_LIBRARIES(get_type_stats_gui pkmnsim ${QT_QTMAIN_LIBRARY})
     IF(MSVC)
+        ####################################################################
+        # This setting is necessary so opening the application from the
+        # Start Menu won't bring up a command line
+        ####################################################################
         SET_TARGET_PROPERTIES(get_type_stats_gui PROPERTIES LINK_FLAGS_RELEASE "/subsystem:windows")
     ENDIF(MSVC)
 
