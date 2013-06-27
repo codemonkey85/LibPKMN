@@ -7,8 +7,7 @@
 #ifndef INCLUDED_DICT_IPP
 #define INCLUDED_DICT_IPP
 
-#include <stdexcept>
-#include <string>
+#include <iostream>
 
 #include <pkmnsim/config.hpp>
 
@@ -77,7 +76,8 @@ namespace pkmnsim
             if (p.first == key) return p.second;
         }
         std::string err_msg = "Key '" + to_string(key) + "' not found.";
-        throw std::runtime_error(err_msg.c_str());
+        std::cerr << err_msg << std::endl;
+        exit(EXIT_FAILURE);
     }
 
     template <typename Key, typename Val>
@@ -94,7 +94,8 @@ namespace pkmnsim
             if (p.first == key) return p.second;
         }
         std::string err_msg = "Key '" + to_string(key) + "' not found.";
-        throw std::runtime_error(err_msg.c_str());
+        std::cerr << err_msg << std::endl;
+        exit(EXIT_FAILURE);
     }
 
     template <typename Key, typename Val>
@@ -122,7 +123,8 @@ namespace pkmnsim
             }
         }
         std::string err_msg = "Key '" + to_string(key) + "' not found.";
-        throw std::runtime_error(err_msg.c_str());
+        std::cerr << err_msg << std::endl;
+        exit(EXIT_FAILURE);
     }
 
 }

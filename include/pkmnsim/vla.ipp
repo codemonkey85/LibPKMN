@@ -8,7 +8,7 @@
 #ifndef INCLUDED_VLA_IPP
 #define INCLUDED_VLA_IPP
 
-#include <stdexcept>
+#include <iostream>
 
 #include <pkmnsim/config.hpp>
 
@@ -31,7 +31,11 @@ namespace pkmnsim
     template<typename item_type>
     item_type& vla<item_type>::operator[](int pos)
     {
-        if(pos < 0 or pos >= max_items) throw std::runtime_error(invalid_pos_err_msg.c_str());
+        if(pos < 0 or pos >= max_items)
+        {
+            std::cerr << invalid_pos_err_msg << std::endl;
+            exit(EXIT_FAILURE);
+        }
         else return _vec[pos];
     }
 }
