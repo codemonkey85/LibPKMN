@@ -16,11 +16,11 @@
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
+#include <pkmnsim/paths.hpp>
 
 #include "base_pkmn_gen1impl.hpp"
 #include "base_pkmn_gen2impl.hpp"
 #include "base_pkmn_gen345impl.hpp"
-#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 namespace fs = boost::filesystem;
@@ -155,7 +155,7 @@ namespace pkmnsim
         try
         {
             //Match database's identifier format
-            to_database_format(&identifier);
+            identifier = to_database_format(identifier);
 
             if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 

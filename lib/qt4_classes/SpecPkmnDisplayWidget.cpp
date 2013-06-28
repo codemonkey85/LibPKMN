@@ -5,8 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <pkmnsim/paths.hpp>
 #include <pkmnsim/SpecPkmnDisplayWidget.hpp>
-#include "../internal.hpp"
 
 #include <sstream>
 #include <string>

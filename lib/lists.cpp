@@ -9,8 +9,8 @@
 #include <stdexcept>
 
 #include <pkmnsim/lists.hpp>
+#include <pkmnsim/paths.hpp>
 
-#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;

@@ -43,6 +43,7 @@ namespace std
     #include "pkmnsim/config.hpp"
     #include "pkmnsim/dict.hpp"
     #include "pkmnsim/lists.hpp"
+    #include "pkmnsim/paths.hpp"
     #include "pkmnsim/vla.hpp"
     
     #include "pkmnsim/pkmn_nature.hpp"
@@ -55,6 +56,7 @@ namespace std
 %include "pkmnsim/config.hpp"
 %include "pkmnsim/dict.hpp"
 %include "pkmnsim/lists.hpp"
+%include "pkmnsim/paths.hpp"
 %include "pkmnsim/vla.hpp"
 
 %include "pkmnsim/pkmn_nature.hpp"

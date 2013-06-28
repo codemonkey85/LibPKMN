@@ -10,10 +10,10 @@
 #include <iostream>
 
 #include <pkmnsim/base_move.hpp>
+#include <pkmnsim/paths.hpp>
 
 //TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
 #include "base_move_mainimpl.hpp"
-#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 
@@ -69,7 +69,7 @@ namespace pkmnsim
         try
         {
             //Match database's identifier format
-            to_database_format(&identifier);
+            identifier = to_database_format(identifier);
             
             /*
                 if(identifier == "curse") {}

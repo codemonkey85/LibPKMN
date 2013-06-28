@@ -11,6 +11,7 @@
 #include <vector>
 
 #include <pkmnsim/base_move.hpp>
+#include <pkmnsim/paths.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
 
 #include "internal.hpp"

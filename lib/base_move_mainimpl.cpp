@@ -5,8 +5,9 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <pkmnsim/paths.hpp>
+
 #include "base_move_mainimpl.hpp"
-#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;

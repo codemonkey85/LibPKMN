@@ -11,9 +11,9 @@
 #include <string>
 #include <vector>
 
+#include <pkmnsim/paths.hpp>
 #include <pkmnsim/pkmn_types.hpp>
 
-#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;

@@ -7,8 +7,9 @@
 
 #include <stdio.h>
 
+#include <pkmnsim/paths.hpp>
+
 #include "base_pkmn_gen1impl.hpp"
-#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;

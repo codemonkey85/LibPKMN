@@ -13,13 +13,9 @@ IF(ENABLE_LIBPKMNSIM)
 
     #Configure database info for relevant library files
     CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/internal.cpp
-        ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/paths.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
     @ONLY)
-    CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/internal.hpp
-        ${CMAKE_CURRENT_BINARY_DIR}/internal.hpp
-    COPYONLY)
 
     LIST(APPEND libpkmnsim_libs ${SQLITE3_LIBRARY} ${Boost_LIBRARIES})
 
@@ -38,7 +34,8 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
-        ${CMAKE_CURRENT_BINARY_DIR}/internal.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/internal.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${sqlitecpp_sources}
     )
 

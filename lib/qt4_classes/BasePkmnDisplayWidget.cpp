@@ -6,7 +6,6 @@
  */
 
 #include <pkmnsim/BasePkmnDisplayWidget.hpp>
-#include "../internal.hpp"
 
 #include <boost/filesystem.hpp>
 
