@@ -13,6 +13,7 @@ Minimum required CMake version: 2.8
 Tested with GCC 4.6.3 and Microsoft Visual Studio 2010.
 
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source distributed under the MIT license.
+Pokehack (https://github.com/Grazfather/pokehack) source included as Git submodule.
 
 Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
@@ -27,4 +28,4 @@ Optional Dependencies:
  * Python - needed for LibPKMNsim Python wrapper
  * PySQLite3 - needed for LibPKMNsim Python wrapper
 
-README last updated: 2013-06-22
+README last updated: 2013-06-28
