@@ -207,6 +207,9 @@ namespace pkmnsim
             int gender;
             pkmn_nature::sptr nature;
             std::string ability;
+
+            friend class game_save;
+            friend class game_save_gen3impl;
     };
 }
 #endif /* INCLUDED_SPEC_PKMN_HPP */

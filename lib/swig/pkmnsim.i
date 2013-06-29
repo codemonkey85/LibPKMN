@@ -51,6 +51,7 @@ namespace std
     #include "pkmnsim/base_move.hpp"
     #include "pkmnsim/base_pkmn.hpp"
     #include "pkmnsim/spec_pkmn.hpp"
+    #include "pkmnsim/game_save.hpp"
 %}
 
 %include "pkmnsim/config.hpp"
@@ -64,6 +65,7 @@ namespace std
 %include "pkmnsim/base_move.hpp"
 %include "pkmnsim/base_pkmn.hpp"
 %include "pkmnsim/spec_pkmn.hpp"
+%include "pkmnsim/game_save.hpp"
 
 //Templates for different uses of dict and vla
 %template(dict_int_std_string) pkmnsim::dict<int, std::string>;
@@ -71,3 +73,4 @@ namespace std
 %template(dict_std_string_double) pkmnsim::dict<std::string, double>;
 %template(vla_pkmnsim_base_move_sptr) pkmnsim::vla<std::shared_ptr<pkmnsim::base_move> >;
 %template(vector_base_pkmn) std::vector<std::shared_ptr<pkmnsim::base_pkmn> >;
+%template(vector_spec_pkmn) std::vector<std::shared_ptr<pkmnsim::spec_pkmn> >;
