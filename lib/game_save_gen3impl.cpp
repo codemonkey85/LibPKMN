@@ -77,6 +77,31 @@ namespace pkmnsim
                                                  move1, move2, move3, move4,
                                                  true);
 
+        s_pkmn->held_item = items[pkmn_g_t->held];
+
+        s_pkmn->HP = b_pkmn_t->maxHP;
+        s_pkmn->ATK = b_pkmn_t->attack;
+        s_pkmn->DEF = b_pkmn_t->defense;
+        s_pkmn->SATK = b_pkmn_t->spatk;
+        s_pkmn->SDEF = b_pkmn_t->spdef;
+        s_pkmn->SPD = b_pkmn_t->speed;
+
+        s_pkmn->ivHP = pkmn_m_t->IVs.hp;
+        s_pkmn->ivATK = pkmn_m_t->IVs.atk;
+        s_pkmn->ivDEF = pkmn_m_t->IVs.def;
+        s_pkmn->ivSATK = pkmn_m_t->IVs.spatk;
+        s_pkmn->ivSDEF = pkmn_m_t->IVs.spdef;
+        s_pkmn->ivSPD = pkmn_m_t->IVs.spd;
+
+        s_pkmn->evHP = pkmn_e_t->hp;
+        s_pkmn->evATK = pkmn_e_t->attack;
+        s_pkmn->evDEF = pkmn_e_t->defense;
+        s_pkmn->evSATK = pkmn_e_t->spatk;
+        s_pkmn->evSDEF = pkmn_e_t->spdef;
+        s_pkmn->evSPD = pkmn_e_t->speed;
+
+        cout << s_pkmn->get_info() << endl << endl;
+
         return s_pkmn;
     }
 

@@ -33,7 +33,6 @@ namespace pkmnsim
         private:
             int gender;
             std::string ability;
-            std::string held_item;
             pkmn_nature::sptr nature;
             dict<std::string, int> volatile_status_map;
 

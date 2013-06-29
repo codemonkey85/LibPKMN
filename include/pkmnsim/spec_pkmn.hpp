@@ -178,6 +178,7 @@ namespace pkmnsim
         protected:
             base_pkmn::sptr base;
             std::string nickname;
+            std::string held_item;
             int generation;
             int level;
             bool shiny;

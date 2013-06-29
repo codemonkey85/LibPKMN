@@ -28,7 +28,6 @@ namespace pkmnsim
             int get_gender();
 
         private:
-            std::string held_item;
             dict<std::string, int> volatile_status_map;
 
             void reset_volatile_status_map();
