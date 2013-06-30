@@ -17,6 +17,8 @@ namespace pkmnsim
 {
     game_save_gen3impl::game_save_gen3impl(string filename, int game): game_save()
     {
+        parser = SaveParser::Instance();
+
         int game_type;
 
         switch(game)
@@ -31,6 +33,10 @@ namespace pkmnsim
             case Games::LEAF_GREEN:
                 game_type = 1;
                 break;
+
+            default:
+                cerr << "Only Ruby, Sapphire, Emerald, Fire Red, and Leaf Green currently supported." << endl;
+                exit(EXIT_FAILURE);
         }
 
         int err = parser->load(filename.c_str(), game_type);
@@ -99,8 +105,6 @@ namespace pkmnsim
         s_pkmn->evSATK = pkmn_e_t->spatk;
         s_pkmn->evSDEF = pkmn_e_t->spdef;
         s_pkmn->evSPD = pkmn_e_t->speed;
-
-        cout << s_pkmn->get_info_verbose() << endl << endl;
 
         return s_pkmn;
     }
