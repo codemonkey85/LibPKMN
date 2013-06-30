@@ -45,7 +45,7 @@ namespace pkmnsim
 
         party.clear();
         for(int i = 0; i < 6; i++)
-            if(pokemon_species[parser->pokemon_growth[i]->species])
+            if(string(pokemon_species[parser->pokemon_growth[i]->species]) != "No pokemon")
                 party.push_back(convert_to_spec_pkmn(parser->pokemon[i],
                                                      parser->pokemon_attacks[i],
                                                      parser->pokemon_effort[i],
@@ -66,11 +66,11 @@ namespace pkmnsim
         level = b_pkmn_t->level;
 
         move1 = to_database_format(attacks[pkmn_a_t->atk1]);
-        if(attacks[pkmn_a_t->atk2] == "No attack") move2 = "None";
+        if(string(attacks[pkmn_a_t->atk2]) == "No attack") move2 = "None";
         else move2 = to_database_format(attacks[pkmn_a_t->atk2]);
-        if(attacks[pkmn_a_t->atk3] == "No attack") move3 = "None";
+        if(string(attacks[pkmn_a_t->atk3]) == "No attack") move3 = "None";
         else move3 = to_database_format(attacks[pkmn_a_t->atk3]);
-        if(attacks[pkmn_a_t->atk4] == "No attack") move4 = "None";
+        if(string(attacks[pkmn_a_t->atk4]) == "No attack") move4 = "None";
         else move4 = to_database_format(attacks[pkmn_a_t->atk4]);
 
         spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 3, level,
@@ -100,7 +100,7 @@ namespace pkmnsim
         s_pkmn->evSDEF = pkmn_e_t->spdef;
         s_pkmn->evSPD = pkmn_e_t->speed;
 
-        cout << s_pkmn->get_info() << endl << endl;
+        cout << s_pkmn->get_info_verbose() << endl << endl;
 
         return s_pkmn;
     }
