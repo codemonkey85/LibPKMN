@@ -43,6 +43,7 @@ namespace pkmnsim
 
         ifstream ifile(database_path.string().c_str());
         if(not ifile) throw runtime_error("Could not find database!");
+        else ifile.close();
 
         return database_path.string();
     }
@@ -56,5 +57,16 @@ namespace pkmnsim
         if(not fs::exists(fs::path(images_dir))) throw runtime_error("Could not find images directory!");
         
         return string(images_dir);
+    }
+
+    //Get path for system's temporary directory
+    string get_tmp_dir(void)
+    {
+        const char* tmp_dir = getenv("TMP");
+
+        fs::path tmp_dir_path = fs::path(tmp_dir);
+
+        if(not fs::exists(fs::path(tmp_dir))) return "/tmp"; //Fallback
+        else return tmp_dir_path.string();
     }
 }
