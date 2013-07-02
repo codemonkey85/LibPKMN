@@ -6,10 +6,6 @@
 #
 
 IF(ENABLE_CMD_CPP_APPS)
-    CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/team_analysis_common.hpp
-        ${CMAKE_CURRENT_BINARY_DIR}/team_analysis_common.hpp
-    )
     ADD_EXECUTABLE(team_analysis team_analysis.cpp)
     IF(CMAKE_COMPILER_IS_GNUCXX)
         SET_TARGET_PROPERTIES(team_analysis PROPERTIES COMPILE_FLAGS "-std=c++0x")
