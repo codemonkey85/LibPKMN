@@ -10,6 +10,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include <boost/format.hpp>
+
 #include <pkmnsim/dict.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
@@ -36,8 +38,9 @@ namespace pkmnsim
         string query_string = "SELECT id FROM natures WHERE identifier='" + identifier + "'";
         int nature_id = db.execAndGet(query_string.c_str(), identifier);
 
-        query_string = "SELECT name FROM nature_names WHERE nature_id=" + to_string(nature_id);
-        name = db.execAndGetStr(query_string.c_str(), identifier);
+        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
+                                         % nature_id);
+        string name = db.execAndGetStr(query_string.c_str(), identifier);
 
         //Getting positive mod
         query_string = "SELECT increased_stat_id FROM natures WHERE identifier='" + identifier + "'";

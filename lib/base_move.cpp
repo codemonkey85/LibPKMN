@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <iostream>
 
+#include <boost/format.hpp>
+
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/paths.hpp>
 
@@ -56,11 +58,13 @@ namespace pkmnsim
         target_id = moves_query.getColumn(8); //target_id
 
         //Move name
-        query_string = "SELECT name FROM move_names WHERE move_id=" + to_string(move_id);
+        query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
+                                         % move_id);
         name = db.execAndGetStr(query_string.c_str(), identifier);
 
         //Type
-        query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type_id);
+        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
+                                         % type_id);
         type = db.execAndGetStr(query_string.c_str(), identifier);
     }
 

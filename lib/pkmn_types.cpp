@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+#include <boost/format.hpp>
+
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/pkmn_types.hpp>
 
@@ -41,8 +43,8 @@ namespace pkmnsim
             int type2_id = db.execAndGet(query_string.c_str(), type1);
 
             //Get damage mod from database
-            query_string = "SELECT damage_factor FROM type_efficacy WHERE damage_type_id=" + to_string(type1_id)
-                         + " AND target_type_id=" + to_string(type2_id);
+            query_string = str(boost::format("SELECT damage_factor FROM type_efficacy WHERE damage_type_id=%d AND target_type_id=%d")
+                                             % type1_id % type2_id);
             damage_mod = db.execAndGet(query_string.c_str());
 
             //TODO: Verify

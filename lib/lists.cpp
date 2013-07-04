@@ -55,7 +55,7 @@ namespace pkmnsim
         type_vec.clear();
     
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT name FROM type_names";
+        string query_string = "SELECT name FROM type_names WHERE local_language_id=9";
 
         SQLite::Statement type_names_query(db, query_string.c_str());
         while(type_names_query.executeStep())
