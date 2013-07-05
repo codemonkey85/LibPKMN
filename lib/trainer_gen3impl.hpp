@@ -7,6 +7,8 @@
 #ifndef INCLUDED_TRAINER_GEN3IMPL_HPP
 #define INCLUDED_TRAINER_GEN3IMPL_HPP
 
+#include "sqlitecpp/SQLiteCPP.h"
+
 #include <pkmnsim/trainer.hpp>
 
 #include <pokehack/SaveParser.h>
@@ -16,6 +18,7 @@ namespace pkmnsim
     class PKMNSIM_API trainer_gen3impl: public trainer
     {
         public:
+            trainer_gen3impl(SQLite::Database *import_db);
             trainer_gen3impl(std::string filename, int game);
 
             int get_money();

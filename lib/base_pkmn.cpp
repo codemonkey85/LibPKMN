@@ -75,7 +75,7 @@ namespace pkmnsim
         //Type 1
         query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_id) + " AND slot=1";
         int type1_id = db.execAndGet(query_string.c_str(), identifier);
-        query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type1_id);
+        query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type1_id) + " AND local_language_id=9";
         type1 = db.execAndGetStr(query_string.c_str(), identifier);
         
         //Type 2 (may be empty)

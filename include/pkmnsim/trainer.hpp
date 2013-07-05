@@ -30,7 +30,7 @@ namespace pkmnsim
             //Class constructors (should never be called directly)
             trainer(void);
 
-            static sptr make(std::string filename, int gen);
+            static sptr make(std::string filename, int game);
 
             int get_money(void);
 

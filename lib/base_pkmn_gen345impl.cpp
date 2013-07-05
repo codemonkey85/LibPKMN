@@ -73,7 +73,8 @@ namespace pkmnsim
         query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pkmn_id)
                      + " AND slot=1";
         int ability1_id = db.execAndGet(query_string.c_str(), identifier);
-        query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability1_id);
+        query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability1_id)
+                     + " AND local_language_id=9";
         ability1 = db.execAndGetStr(query_string.c_str(), identifier);
 
         //Ability 2 (not guaranteed, and if exists, might not exist in specified generation
@@ -88,7 +89,8 @@ namespace pkmnsim
             if(generation_id > gen) ability2 = "None";
             else
             {
-                query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability2_id);
+                query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability2_id)
+                             + " AND local_language_id=9";
                 ability2 = db.execAndGetStr(query_string.c_str(), identifier);
             }
         }
@@ -103,7 +105,8 @@ namespace pkmnsim
             if(ability3_query.executeStep()) //Will be false if no entry exists
             {
                 int ability3_id = db.execAndGet(query_string.c_str(), identifier);
-                query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability3_id);
+                query_string = "SELECT name FROM ability_names WHERE ability_id=" + to_string(ability3_id)
+                             + " AND local_language_id=9";
                 ability3 = db.execAndGetStr(query_string.c_str(), identifier);
             }
             else ability3 = "None";
