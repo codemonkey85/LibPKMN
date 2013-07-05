@@ -21,6 +21,7 @@
 %ignore pkmnsim::dict::operator[];
 %ignore pkmnsim::vla::operator[];
 
+%ignore pkmnsim::get_damage_range;
 %ignore pkmnsim::get_game_list;
 %ignore pkmnsim::get_game_group_list;
 %ignore pkmnsim::get_pkmn_of_type;

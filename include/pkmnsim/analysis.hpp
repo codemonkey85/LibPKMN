@@ -88,6 +88,12 @@ namespace pkmnsim
                                       base_move::sptr move, std::vector<int>& damage_range_vec);
 
     /*
+     * Pass-by-value equivalent of previous function.
+     */
+    std::vector<int> PKMNSIM_API get_damage_range_from_spec_pkmn(spec_pkmn::sptr attacker, spec_pkmn::sptr defender,
+                                                                 base_move::sptr move);
+
+    /*
      * Gets range of damage of a move, taking type advantages and STAB into account.
      *
      * Parameters:
@@ -101,6 +107,12 @@ namespace pkmnsim
     void PKMNSIM_API get_damage_range(base_pkmn::sptr attacker, base_pkmn::sptr defender,
                                       base_move::sptr move, int attacker_level,
                                       int defender_level, std::vector<int>& damage_range_vec);
+
+    /*
+     * Pass-by-value equivalent of previous function.
+     */
+    std::vector<int> PKMNSIM_API get_damage_range_from_base_pkmn(base_pkmn::sptr attacker, base_pkmn::sptr defender,
+                                                                 base_move::sptr move, int attacker_level, int defender_level);
 }
 
 #endif /* INCLUDED_ANALYSIS_HPP */

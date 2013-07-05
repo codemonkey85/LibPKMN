@@ -192,6 +192,13 @@ namespace pkmnsim
         }
     }
 
+    vector<int> get_damage_range_from_spec_pkmn(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move)
+    {
+        vector<int> vec;
+        get_damage_range(attacker, defender, move, vec);
+        return vec;
+    }
+
     //Abilities not taken into account
     void get_damage_range(base_pkmn::sptr attacker, base_pkmn::sptr defender, base_move::sptr move,
                           int attacker_level, int defender_level, vector<int>& damage_range_vec)
@@ -279,5 +286,13 @@ namespace pkmnsim
             damage_range_vec.push_back(0);
             damage_range_vec.push_back(0);
         }
+    }
+
+    vector<int> get_damage_range_from_base_pkmn(base_pkmn::sptr attacker, base_pkmn::sptr defender, base_move::sptr move,
+                                                int attacker_level, int defender_level)
+    {
+        vector<int> vec;
+        get_damage_range(attacker, defender, move, attacker_level, defender_level, vec);
+        return vec;
     }
 }
