@@ -21,25 +21,68 @@
 
 namespace pkmnsim
 {
+    /*
+     * Trainer Class
+     *
+     * This class takes in a save file or SQLite3 database created by
+     * PKMNsim and generates an object with all information corresponding
+     * to the source's trainer. The class stores the trainer's name,
+     * ID, amount of money, and team.
+     *
+     * NOTE: Only Generation 3 currently supported.
+     */
+
     class PKMNSIM_API trainer
     {
         public:
 
             typedef std::shared_ptr<trainer> sptr;
 
-            //Class constructors (should never be called directly)
+            //Class constructor (should never be called directly)
             trainer(void);
 
+            /*
+             * Returns a std::shared_ptr<trainer>of specified trainer.
+             * If filename is a valid SQLite database, it imports
+             * all values from the database. Otherwise, it attempts
+             * to interpret the file as a game save that corresponds
+             * to the game specified in the game parameter.
+             *
+             * Parameters:
+             *  - filename: path of SQLite database or save file
+             *  - game: Games enum value
+             */
             static sptr make(std::string filename, int game);
 
+            /*
+             * Returns the trainer's amount of money.
+             */
             int get_money(void);
 
+            /*
+             * Return a vector of spec_pkmn with the trainer's team.
+             *
+             * Parameters:
+             *  - party_vec: A reference to the vector in which to place the party.
+             */
             void get_party(std::vector<spec_pkmn::sptr>& party_vec);
 
+            /*
+             * Return a vector of spec_pkmn with the trainer's team.
+             */
             std::vector<spec_pkmn::sptr> get_party_vec(void);
 
+            /*
+             * Returns the trainer's name.
+             */
             std::string get_trainer_name(void);
 
+            /*
+             * Exports the trainer's values to a SQLite database.
+             *
+             * Parameters:
+             *  - filename: the name of the file in which to export the values
+             */
             virtual void export_to_file(std::string filename) = 0;
 
         protected:
