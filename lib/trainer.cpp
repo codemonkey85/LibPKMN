@@ -18,6 +18,11 @@ using namespace std;
 
 namespace pkmnsim
 {
+    trainer::trainer()
+    {
+        trainer_id = "?????";
+    }
+
     trainer::sptr trainer::make(string filename, int game)
     {
         ifstream ifile(filename);
