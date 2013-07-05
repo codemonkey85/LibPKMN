@@ -102,6 +102,8 @@ namespace pkmnsim
 
     int spec_pkmn_gen2impl::get_gender() {return gender;}
 
+    string spec_pkmn_gen2impl::get_held_item() {return held_item;}
+
     string spec_pkmn_gen2impl::get_info()
     {
         string types_str;

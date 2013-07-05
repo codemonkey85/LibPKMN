@@ -40,8 +40,10 @@ namespace pkmnsim
 
             std::string get_trainer_name(void);
 
+            virtual void export_to_file(std::string filename) = 0;
+
         protected:
-            int money, gender;
+            int money, from_game, gender;
             std::string trainer_name, trainer_id;
             std::vector<spec_pkmn::sptr> party;
     };

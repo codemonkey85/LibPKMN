@@ -24,6 +24,7 @@ namespace pkmnsim
             dict<std::string, int> get_stats();
             dict<std::string, int> get_IVs();
             dict<std::string, int> get_EVs();
+            std::string get_held_item();
             std::string get_info();
             std::string get_info_verbose();
             int get_gender();

@@ -24,6 +24,8 @@ namespace pkmnsim
 
             std::string get_trainer_name();
 
+            void export_to_file(std::string filename);
+
         private:
             SaveParser *parser;
 

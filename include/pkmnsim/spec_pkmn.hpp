@@ -161,6 +161,11 @@ namespace pkmnsim
             int get_generation(void);
 
             /*
+             * Returns the name of the held item.
+             */
+            virtual std::string get_held_item(void) {throw std::runtime_error("Not valid in this generation.");}
+
+            /*
              * Returns a string with basic information on the Pokémon.
              */
             virtual std::string get_info(void) = 0;

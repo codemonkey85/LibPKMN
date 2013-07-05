@@ -118,7 +118,9 @@ namespace pkmnsim
 
     pkmn_nature::sptr spec_pkmn_gen345impl::get_nature() {return nature;}
 
-    std::string spec_pkmn_gen345impl::get_ability() {return ability;}
+    string spec_pkmn_gen345impl::get_ability() {return ability;}
+
+    string spec_pkmn_gen345impl::get_held_item() {return held_item;}
 
     string spec_pkmn_gen345impl::get_info()
     {
