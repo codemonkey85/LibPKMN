@@ -9,13 +9,13 @@
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 
-#include "game_save_gen3impl.hpp"
+#include "trainer_gen3impl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    game_save_gen3impl::game_save_gen3impl(string filename, int game): game_save()
+    trainer_gen3impl::trainer_gen3impl(string filename, int game): trainer()
     {
         parser = SaveParser::Instance();
 
@@ -59,7 +59,7 @@ namespace pkmnsim
                                                      parser->pokemon_growth[i]));
     }
 
-    spec_pkmn::sptr game_save_gen3impl::convert_to_spec_pkmn(belt_pokemon_t* b_pkmn_t,
+    spec_pkmn::sptr trainer_gen3impl::convert_to_spec_pkmn(belt_pokemon_t* b_pkmn_t,
                                                              pokemon_attacks_t* pkmn_a_t,
                                                              pokemon_effort_t* pkmn_e_t,
                                                              pokemon_misc_t* pkmn_m_t,

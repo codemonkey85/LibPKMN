@@ -9,16 +9,16 @@
 #include <iostream>
 #include <string>
 
-#include "game_save_gen3impl.hpp"
+#include "trainer_gen3impl.hpp"
 
 #include <pkmnsim/enums.hpp>
-#include <pkmnsim/game_save.hpp>
+#include <pkmnsim/trainer.hpp>
 
 using namespace std;
 
 namespace pkmnsim
 {
-    game_save::sptr game_save::make(string filename, int game)
+    trainer::sptr trainer::make(string filename, int game)
     {
         ifstream ifile(filename);
         if(!ifile)
@@ -28,16 +28,16 @@ namespace pkmnsim
         }
         ifile.close();
 
-        //Only have game_save_gen3impl so far
-        return game_save::sptr(new game_save_gen3impl(filename, game));
+        //Only have trainer_gen3impl so far
+        return trainer::sptr(new trainer_gen3impl(filename, game));
     }
 
-    int game_save::get_money(void) {return money;}
+    int trainer::get_money(void) {return money;}
 
-    void game_save::get_party(vector<spec_pkmn::sptr>& party_vec) {party_vec = party;}
+    void trainer::get_party(vector<spec_pkmn::sptr>& party_vec) {party_vec = party;}
 
     //Return-by-value for SWIG's benefit
-    vector<spec_pkmn::sptr> game_save::get_party_vec(void) {return party;}
+    vector<spec_pkmn::sptr> trainer::get_party_vec(void) {return party;}
 
-    string game_save::get_trainer_name(void) {return trainer_name;}
+    string trainer::get_trainer_name(void) {return trainer_name;}
 }

@@ -25,13 +25,13 @@
 %ignore pkmnsim::get_game_group_list;
 %ignore pkmnsim::get_pkmn_of_type;
 %ignore pkmnsim::get_type_list;
-%ignore pkmnsim::game_save::get_party;
+%ignore pkmnsim::trainer::get_party;
 
 %rename(get_game_list) pkmnsim::get_game_vec;
 %rename(get_game_group_list) pkmnsim::get_game_group_vec;
 %rename(get_pkmn_of_type) pkmnsim::get_pkmn_list_of_type;
 %rename(get_type_list) pkmnsim::get_type_vec;
-%rename(get_party) pkmnsim::game_save::get_party_vec;
+%rename(get_party) pkmnsim::trainer::get_party_vec;
 
 %include "pkmnsim.i"
 
@@ -39,4 +39,4 @@ PKMNSIM_PYTHON_FIX(base_move)
 PKMNSIM_PYTHON_FIX(base_pkmn)
 PKMNSIM_PYTHON_FIX(pkmn_nature)
 PKMNSIM_PYTHON_FIX(spec_pkmn)
-PKMNSIM_PYTHON_FIX(game_save)
+PKMNSIM_PYTHON_FIX(trainer)

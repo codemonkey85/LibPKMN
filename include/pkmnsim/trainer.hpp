@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_GAME_SAVE_HPP
-#define INCLUDED_GAME_SAVE_HPP
+#ifndef INCLUDED_TRAINER_HPP
+#define INCLUDED_TRAINER_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -21,14 +21,14 @@
 
 namespace pkmnsim
 {
-    class PKMNSIM_API game_save
+    class PKMNSIM_API trainer
     {
         public:
 
-            typedef std::shared_ptr<game_save> sptr;
+            typedef std::shared_ptr<trainer> sptr;
 
             //Class constructors (should never be called directly)
-            game_save(void) {};
+            trainer(void) {};
 
             static sptr make(std::string filename, int gen);
 
@@ -47,4 +47,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_GAME_SAVE_HPP */
+#endif /* INCLUDED_TRAINER_HPP */

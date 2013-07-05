@@ -4,19 +4,19 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_GAME_SAVE_GEN3IMPL_HPP
-#define INCLUDED_GAME_SAVE_GEN3IMPL_HPP
+#ifndef INCLUDED_TRAINER_GEN3IMPL_HPP
+#define INCLUDED_TRAINER_GEN3IMPL_HPP
 
-#include <pkmnsim/game_save.hpp>
+#include <pkmnsim/trainer.hpp>
 
 #include <pokehack/SaveParser.h>
 
 namespace pkmnsim
 {
-    class PKMNSIM_API game_save_gen3impl: public game_save
+    class PKMNSIM_API trainer_gen3impl: public trainer
     {
         public:
-            game_save_gen3impl(std::string filename, int game);
+            trainer_gen3impl(std::string filename, int game);
 
             int get_money();
 
@@ -35,4 +35,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_GAME_SAVE_GEN3IMPL_HPP */
+#endif /* INCLUDED_TRAINER_GEN3IMPL_HPP */
