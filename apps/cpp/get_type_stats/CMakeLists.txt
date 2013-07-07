@@ -25,7 +25,7 @@ IF(ENABLE_CMD_CPP_APPS)
             "INCLUDE(BundleUtilities)
             fixup_bundle(\"${APPS}\" \"\" \"\")"
         COMPONENT Runtime)
-    ENDIF(WIN7_PKG)    
+    ENDIF(WIN7_PKG)
 ENDIF(ENABLE_CMD_CPP_APPS)
 
 IF(ENABLE_QT4_CPP_APPS)
