@@ -188,6 +188,9 @@ namespace pkmnsim
                     max_damage = int(floor(double(max_damage) * 1.5));
                 }
             }
+            if(min_damage == 0) min_damage = 1;
+            if(max_damage == 0) max_damage = 1;
+
             damage_range_vec.push_back(min_damage);
             damage_range_vec.push_back(max_damage);
         }
@@ -284,6 +287,9 @@ namespace pkmnsim
                     max_damage = int(floor(double(max_damage) * 1.5));
                 }
             }
+            if(min_damage == 0) min_damage = 1;
+            if(max_damage == 0) max_damage = 1;
+
             damage_range_vec.push_back(min_damage);
             damage_range_vec.push_back(max_damage);
         }

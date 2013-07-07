@@ -5,4 +5,4 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-ADD_SUBDIRECTORY(damage_calculator)
+INSTALL(PROGRAMS damage_calculator.py DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
