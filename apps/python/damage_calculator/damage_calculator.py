@@ -49,7 +49,7 @@ if __name__ == "__main__":
         elif type_mod < 1.0:
             type_mod_string = "It's not very effective..."
         elif type_mod > 1.0:
-            type_mod_string = "It's super effective..."
+            type_mod_string = "It's super effective!"
         else:
             type_mod_string = ""
     else:
