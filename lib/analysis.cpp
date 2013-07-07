@@ -28,15 +28,20 @@ namespace pkmnsim
 
         //Gen 1-2: IV = 0, EV = 0
         //Gen 3-5: IV = 0, EV = 0, disadvantageous nature
-        if(stat == "HP")
+        dict<string,int> stats = bpkmn->get_base_stats();
+        if(gen == 1 or gen == 2)
         {
-            if(gen == 1 or gen == 2) return int(floor((((bpkmn->get_base_stats()["HP"] + 50.0) * level) / 50.0) + 10.0));
-            else return int(floor((((2.0 * bpkmn->get_base_stats()["HP"]) * level) / 100.0) + 10.0));
+            if(stat == "HP")
+                return int(floor(((stats["HP"]+50.0)*level)/50.0)+10.0);
+            else
+                return int(floor((stats[stat]*level)/50)+5);
         }
         else
         {
-            if(gen == 1 or gen == 2) return int(floor((((bpkmn->get_base_stats()[stat] * level) / 50.0) + 5.0)));
-            else return int(floor(((((2.0 * bpkmn->get_base_stats()[stat]) * level) / 100.0) + 5.0) * 0.9));
+            if(stat == "HP")
+                return int(floor(((((2.0*stats["HP"])+100.0)*level)+10.0)/100.0));
+            else
+                return int(floor(((((2.0*stats[stat])*level)/100.0)+5.0)*0.9));
         }
     }
 
@@ -48,19 +53,20 @@ namespace pkmnsim
 
         //Gen 1-2: IV = 15, EV = 65535
         //Gen 3-5: IV = 31, EV = 255, advantageous nature
+        dict<string,int> stats = bpkmn->get_base_stats();
         if(gen == 1 or gen == 2)
         {
             if(stat == "HP")
-                return int(floor((((15 + bpkmn->get_base_stats()["HP"] + (pow(65535.0, 0.5) / 8.0) + 50) * level) / 50) + 10));
+                return int(floor(((((15.0+stats["HP"]+(pow(65535.0,0.5)/8.0)+50.0)*level)/50.0)+10.0)));
             else
-                return int(floor((((15 + bpkmn->get_base_stats()[stat] + (pow(65535.0, 0.5) / 8.0)) * level) / 50) + 5));
+                return int(floor((((15.0+stats[stat]+(pow(65535.0,0.5)/8.0))*level)/50.0)+5.0));
         }
         else
         {
             if(stat == "HP")
-                return int(floor(((31.0 + (2.0 * bpkmn->get_base_stats()["HP"]) + (255.0 / 4.0)) / 100.0) + 10.0));
+                return int(floor(((31.0+(2.0*stats[stat]+(255.0/4.0)+100.0)*level)/100.0)+10.0));
             else
-                return int(floor(((((31.0 + (2.0 * bpkmn->get_base_stats()[stat]) + (255 / 4)) * level) / 100.0) + 5.0) * 1.1));
+                return int(floor((((31.0 + (2.0*stats[stat]+(255.0/4.0)) * level) / 100.0) + 5.0) * 1.1));
         }
     }
 
@@ -100,13 +106,13 @@ namespace pkmnsim
                 return 0;
         }
 
-        return int(floor((((2.0 * double(level) + 10.0) / 250.0) +
+        return int(floor((((2.0 * double(level) + 10.0) / 250.0) *
                (double(attacker_ATK) / double(defender_DEF)) * double(base_power) * 2.0)));
     }
 
     int get_base_damage(int level, int attack, int defense, int base_power)
     {
-        return int(floor((((2.0 * double(level) + 10.0) / 250.0) +
+        return int(floor((((2.0 * double(level) + 10.0) / 250.0) *
                (double(attack) / double(defense)) * double(base_power) * 2.0)));
     }
 
@@ -248,7 +254,7 @@ namespace pkmnsim
                           double(get_type_damage_mod(move->get_type(), defender->get_types()[1], gen));
 
         min_damage = int(floor(double(min_damage) * type_mod));
-        max_damage = int(floor(double(type_mod) * type_mod));
+        max_damage = int(floor(double(max_damage) * type_mod));
 
         if(type_mod != 0)
         {

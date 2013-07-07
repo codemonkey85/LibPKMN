@@ -284,9 +284,9 @@ namespace pkmnsim
     {
         enum move_classes
         {
-            PHYSICAL = 1,
-            SPECIAL = 2,
-            EFFECT = 3
+            NON_DAMAGING = 1,
+            PHYSICAL = 2,
+            SPECIAL = 3
         };
     }
 
