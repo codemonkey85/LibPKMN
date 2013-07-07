@@ -34,7 +34,7 @@ namespace pkmnsim
             if(stat == "HP")
                 return int(floor(((stats["HP"]+50.0)*level)/50.0)+10.0);
             else
-                return int(floor((stats[stat]*level)/50)+5);
+                return int(floor((stats[stat]*level)/50.0)+5.0);
         }
         else
         {
