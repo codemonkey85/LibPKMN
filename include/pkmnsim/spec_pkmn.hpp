@@ -216,6 +216,7 @@ namespace pkmnsim
 
             friend class trainer;
             friend class trainer_gen3impl;
+            friend class trainer_gen4impl;
     };
 }
 #endif /* INCLUDED_SPEC_PKMN_HPP */

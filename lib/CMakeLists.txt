@@ -18,7 +18,7 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
     @ONLY)
 
-    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack)
+    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib)
 
     LIST(APPEND libpkmnsim_sources
         ${CMAKE_CURRENT_SOURCE_DIR}/sqlite3.c
@@ -36,6 +36,7 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen3impl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen4impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
@@ -62,6 +63,7 @@ IF(ENABLE_LIBPKMNSIM)
     ENDIF(ENABLE_LIBPKMNSIM_QT4)
 
     INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/pokehack/include)
+    INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/PokeLib/include)
     ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
     TARGET_LINK_LIBRARIES(pkmnsim ${libpkmnsim_libs})
 

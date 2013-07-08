@@ -84,6 +84,7 @@ REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "
 ########################################################################
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 ADD_SUBDIRECTORY(pokehack)
+ADD_SUBDIRECTORY(PokeLib)
 ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(lib)
