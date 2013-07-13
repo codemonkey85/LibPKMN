@@ -179,7 +179,7 @@ namespace pkmnsim
         }
 
         money = 0; //Placeholder until money is implemented in Pokehack
-        trainer_name = "Ash"; //Placeholder until trainer name is implemented in Pokehack
+        trainer_name = parser->get_text(parser->pokemon[0]->otname, 7);
 
         party.clear();
         for(int i = 0; i < 6; i++)
@@ -330,6 +330,7 @@ namespace pkmnsim
                                                  move1, move2, move3, move4,
                                                  true);
 
+        s_pkmn->nickname = parser->get_text(b_pkmn_t->name, 10);
         s_pkmn->held_item = items[pkmn_g_t->held];
 
         s_pkmn->HP = b_pkmn_t->maxHP;
