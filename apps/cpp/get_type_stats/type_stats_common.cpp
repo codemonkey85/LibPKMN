@@ -36,7 +36,7 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
 {
     vector<int> to_erase; //Gathering vector indices to erase
 
-    for(unsigned int i = 0; i < pkmn_vector.size(); i++)
+    for(int i = 0; i < pkmn_vector.size(); i++)
     {
         if(not pkmn_vector[i]->is_fully_evolved())
         {
@@ -44,7 +44,7 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
         }
     }
 
-    for(unsigned int j = to_erase.size()-1; j >= 0; j--)
+    for(int j = to_erase.size()-1; j >= 0; j--)
     {
         pkmn_vector.erase(pkmn_vector.begin() + to_erase[j]);
     }
