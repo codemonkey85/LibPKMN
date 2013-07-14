@@ -36,7 +36,7 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
 {
     vector<int> to_erase; //Gathering vector indices to erase
 
-    for(int i = 0; i < pkmn_vector.size(); i++)
+    for(unsigned int i = 0; i < pkmn_vector.size(); i++)
     {
         if(not pkmn_vector[i]->is_fully_evolved())
         {
@@ -44,7 +44,7 @@ void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
         }
     }
 
-    for(int j = to_erase.size()-1; j >= 0; j--)
+    for(unsigned int j = to_erase.size()-1; j >= 0; j--)
     {
         pkmn_vector.erase(pkmn_vector.begin() + to_erase[j]);
     }
@@ -74,12 +74,12 @@ int sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_s
     if(pkmn_vector.size() == 0) return 1;
     if(evolved) remove_unevolved_pokemon(pkmn_vector);
 
-    for(int i = 0; i < pkmn_vector.size(); i++)
+    for(unsigned int i = 0; i < pkmn_vector.size(); i++)
     {
         string pkmn_name = pkmn_vector[i]->get_display_name();
         dict<string, int> stats = pkmn_vector[i]->get_base_stats();
 
-        for(int j = 0; j < highest_stats.size(); j++)
+        for(unsigned int j = 0; j < highest_stats.size(); j++)
         {
             string stat_name = get_stat_map()[highest_stats[j].stat_name];
 
@@ -124,12 +124,12 @@ int sort_pokemon_by_stats(string type1, string type2, vector<stat_st2>& highest_
     if(pkmn_vector.size() == 0) return 1;
     if(evolved) remove_unevolved_pokemon(pkmn_vector);
 
-    for(int i = 0; i < pkmn_vector.size(); i++)
+    for(unsigned int i = 0; i < pkmn_vector.size(); i++)
     {
         string pkmn_name = pkmn_vector[i]->get_display_name();
         dict<string, int> stats = pkmn_vector[i]->get_base_stats();
 
-        for(int j = 0; j < highest_stats.size(); j++)
+        for(unsigned int j = 0; j < highest_stats.size(); j++)
         {
             string stat_name = get_stat_map()[highest_stats[j].stat_name];
 

@@ -153,8 +153,8 @@ namespace pkmnsim
         min_damage = int(floor(get_base_damage(attacker, defender, move) * 0.85));
         max_damage = get_base_damage(attacker, defender, move);
 
-        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[0], gen)) *
-                          double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[1], gen));
+        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[0], (gen == 1))) *
+                          double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[1], (gen == 1)));
 
         min_damage = int(floor(double(min_damage) * type_mod));
         max_damage = int(floor(double(max_damage) * type_mod));
@@ -268,8 +268,8 @@ namespace pkmnsim
         min_damage = int(floor(get_base_damage(attacker_level, attacker_min_ATK, defender_max_DEF, move->get_base_power()) * 0.85));
         max_damage = get_base_damage(attacker_level, attacker_max_ATK, defender_min_DEF, move->get_base_power());
 
-        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_types()[0], gen)) *
-                          double(get_type_damage_mod(move->get_type(), defender->get_types()[1], gen));
+        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_types()[0], (gen == 1))) *
+                          double(get_type_damage_mod(move->get_type(), defender->get_types()[1], (gen == 1)));
 
         min_damage = int(floor(double(min_damage) * type_mod));
         max_damage = int(floor(double(max_damage) * type_mod));
