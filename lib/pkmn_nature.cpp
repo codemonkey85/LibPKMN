@@ -40,7 +40,7 @@ namespace pkmnsim
 
         query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
                                          % nature_id);
-        string name = db.execAndGetStr(query_string.c_str(), identifier);
+        name = db.execAndGetStr(query_string.c_str(), identifier);
 
         //Getting positive mod
         query_string = "SELECT increased_stat_id FROM natures WHERE identifier='" + identifier + "'";

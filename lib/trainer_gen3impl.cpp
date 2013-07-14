@@ -7,13 +7,16 @@
 
 #include <fstream>
 #include <sstream>
+#include <vector>
 
+#include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
 
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
+#include <pkmnsim/pkmn_nature.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
 
 #include "sqlitecpp/SQLiteCPP.h"
@@ -25,7 +28,6 @@ namespace pkmnsim
 {
     trainer_gen3impl::trainer_gen3impl(SQLite::Database *import_db): trainer()
     {
-
         parser = SaveParser::Instance();
 
         SQLite::Database pkmnsim_db(get_database_path().c_str());
@@ -76,6 +78,7 @@ namespace pkmnsim
             int ivSATK = party_query.getColumn(25);
             int ivSDEF = party_query.getColumn(26);
             int ivSPD = party_query.getColumn(27);
+            string nature_name = party_query.getColumn(28);
 
             string identifier, item_held, move1, move2, move3, move4;
             identifier = pkmnsim_db.execAndGetStr(str(boost::format(
@@ -141,6 +144,7 @@ namespace pkmnsim
             s_pkmn->ivSATK = ivSATK;
             s_pkmn->ivSDEF = ivSDEF;
             s_pkmn->ivSPD = ivSPD;
+            s_pkmn->nature = pkmn_nature::make(nature_name);
 
             party.push_back(s_pkmn);
         }
@@ -249,6 +253,7 @@ namespace pkmnsim
                                  "ivSATK INTEGER NOT NULL,\n"
                                  "ivSDEF INTEGER NOT NULL,\n"
                                  "ivSPD INTEGER NOT NULL,\n"
+                                 "nature VARCHAR(20) NOT NULL,\n"
                                  "PRIMARY KEY(id));";
         export_db.exec(export_db_query_string.c_str());
         for(unsigned int i = 0; i < party.size(); i++)
@@ -294,12 +299,13 @@ namespace pkmnsim
                                                                    % moves[3]->get_name()).c_str()
                                                 );
             }
-            export_db.exec(str(boost::format("INSERT INTO party VALUES(%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
+            export_db.exec(str(boost::format("INSERT INTO party VALUES(%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,'%s');")
                                              % i % pkmn_id % species_id % party[i]->get_nickname() % party[i]->get_level()
                                              % item_held_id % move1_id % move2_id % move3_id % move4_id
                                              % stats["HP"] % stats["ATK"] % stats["DEF"] % stats["SATK"] % stats["SDEF"] % stats["SPD"]
                                              % EVs["HP"] % EVs["ATK"] % EVs["DEF"] % EVs["SATK"] % EVs["SDEF"] % EVs["SPD"]
-                                             % IVs["HP"] % IVs["ATK"] % IVs["DEF"] % IVs["SATK"] % IVs["SDEF"] % IVs["SPD"]).c_str()
+                                             % IVs["HP"] % IVs["ATK"] % IVs["DEF"] % IVs["SATK"] % IVs["SDEF"] % IVs["SPD"]
+                                             % party[i]->get_nature()->get_name()).c_str()
                           );
         }
         export_db.exec("COMMIT;");
@@ -332,6 +338,11 @@ namespace pkmnsim
 
         s_pkmn->nickname = parser->get_text(b_pkmn_t->name, 10);
         s_pkmn->held_item = items[pkmn_g_t->held];
+
+        string nature_from_pokehack = natures[b_pkmn_t->personality % 25];
+        vector<string> nature_halves;
+        boost::split(nature_halves, nature_from_pokehack, boost::is_any_of(" "));
+        s_pkmn->nature = pkmn_nature::make(nature_halves[0]);
 
         s_pkmn->HP = b_pkmn_t->maxHP;
         s_pkmn->ATK = b_pkmn_t->attack;
