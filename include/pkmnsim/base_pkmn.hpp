@@ -175,6 +175,16 @@ namespace pkmnsim
             virtual bool has_gender_differences(void) = 0;
 
             /*
+             * Returns pokemon.id from pkmnsim.db
+             */
+            int get_pokemon_id(void);
+            
+            /*
+             * Returns pokemon_species.id from pkmnsim.db
+             */
+            int get_species_id(void);
+            
+            /*
              * Get one of up to four sprite paths, using given parameters.
              *
              * Parameters:

@@ -14,7 +14,6 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
 
-#include "internal.hpp"
 #include "spec_pkmn_gen1impl.hpp"
 #include "spec_pkmn_gen2impl.hpp"
 #include "spec_pkmn_gen345impl.hpp"
@@ -32,8 +31,8 @@ namespace pkmnsim
         level = l;
         generation = g;
         SQLite::Database db(get_database_path().c_str()); //Filepath given by CMake
-        int base_pkmn_id = get_pkmn_id(base);
-        int base_species_id = get_species_id(base);
+        int base_pkmn_id = base->get_pokemon_id();
+        int base_species_id = base->get_species_id();
 
         moves = vla<base_move::sptr>(4);
         vector<base_move::sptr> base_legal_moves = base->get_legal_moves();

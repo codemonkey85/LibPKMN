@@ -106,4 +106,10 @@ namespace pkmnsim
     string base_move::get_base_effect(void) {return base_effect;}
 
     double base_move::get_base_effect_chance(void) {return base_effect_chance;}
+    
+    int base_move::get_move_id(void) {return move_id;}
+    
+    int base_move::get_type_id(void) {return type_id;}
+    
+    int base_move::get_target_id(void) {return target_id;}
 }

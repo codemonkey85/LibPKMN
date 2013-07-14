@@ -36,7 +36,7 @@ namespace pkmnsim
         identifier = to_database_format(identifier);
 
         string query_string = "SELECT id FROM natures WHERE identifier='" + identifier + "'";
-        int nature_id = db.execAndGet(query_string.c_str(), identifier);
+        nature_id = db.execAndGet(query_string.c_str(), identifier);
 
         query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
                                          % nature_id);
@@ -117,6 +117,8 @@ namespace pkmnsim
         
         return info_string;
     }
+    
+    int pkmn_nature::get_nature_id(void) {return nature_id;}
 
     pkmn_nature::sptr pkmn_nature::make(string identifier)
     {

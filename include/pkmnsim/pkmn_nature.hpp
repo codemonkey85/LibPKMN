@@ -61,7 +61,14 @@ namespace pkmnsim
              * Return string with all information on this nature.
              */
             std::string get_info(void);
+            
+            /*
+             * Returns natures.id from pkmnsim.db
+             */
+            int get_nature_id(void);
+            
         private:
+            int nature_id;
             std::string name;
             double ATKmod, DEFmod, SPDmod, SATKmod, SDEFmod;
     };

@@ -93,6 +93,21 @@ namespace pkmnsim
              * Returns chance of causing effect (0.0-1.0).
              */
             double get_base_effect_chance(void);
+            
+            /*
+             * Return moves.id from pkmnsim.db
+             */
+            int get_move_id(void);
+            
+            /*
+             * Return moves.type_id from pkmnsim.db
+             */
+            int get_type_id(void);
+            
+            /*
+             * Return moves.target_id from pkmnsim.db
+             */
+            int get_target_id(void);
 
         protected:
             //Database values

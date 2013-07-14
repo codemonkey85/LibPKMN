@@ -16,7 +16,6 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
 
-#include "internal.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 #include "trainer_gen3impl.hpp"
 
@@ -262,8 +261,8 @@ namespace pkmnsim
             //Intermediary variables for ID's
             int pkmn_id, species_id, item_held_id, move1_id, move2_id, move3_id, move4_id;
 
-            pkmn_id = get_pkmn_id(party[i]->get_base_pkmn());
-            species_id = get_species_id(party[i]->get_base_pkmn());
+            pkmn_id = party[i]->get_base_pkmn()->get_pokemon_id();
+            species_id = party[i]->get_base_pkmn()->get_species_id();
             if(party[i]->get_held_item() == "None" or party[i]->get_held_item() == "Nothing") item_held_id = -1;
             else
             {

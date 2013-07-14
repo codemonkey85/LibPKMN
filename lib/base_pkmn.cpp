@@ -246,6 +246,10 @@ namespace pkmnsim
 
     int base_pkmn::get_generation(void) {return from_gen;}
 
+    int base_pkmn::get_pokemon_id(void) {return pkmn_id;}
+    
+    int base_pkmn::get_species_id(void) {return species_id;}
+    
     string base_pkmn::get_icon_path(void) {return icon_path;}
 
     vector<base_move::sptr> base_pkmn::get_legal_moves(void) {return legal_moves;}
