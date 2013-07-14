@@ -15,11 +15,6 @@
 namespace pkmnsim
 {
     /*
-     * Returns a Pokemon's name in a format compatible with querying the database.
-     */
-    std::string PKMNSIM_API to_database_format(std::string identifier);
-
-    /*
      * Returns the path to the PKMNsim SQLite database.
      */
     std::string PKMNSIM_API get_database_path(void);

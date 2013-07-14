@@ -17,6 +17,7 @@
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/paths.hpp>
+#include <pkmnsim/database/queries.hpp>
 
 #include "base_pkmn_gen1impl.hpp"
 #include "base_pkmn_gen2impl.hpp"
@@ -157,7 +158,7 @@ namespace pkmnsim
         try
         {
             //Match database's identifier format
-            identifier = to_database_format(identifier);
+            identifier = database::to_database_format(identifier);
 
             if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 

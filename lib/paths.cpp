@@ -19,21 +19,6 @@ using namespace std;
 
 namespace pkmnsim
 {
-    //Transform identifier strings into proper format for database
-    string to_database_format(std::string identifier)
-    {
-        //Some manual changes
-        if(identifier == "Farfetch'd") identifier = "farfetchd";
-        else if(identifier == "Mr. Mime") identifier = "mr-mime";
-        else if(identifier == "Mime Jr.") identifier = "mime-jr";
-        else if(identifier == "Exp. Share") identifier = "exp-share";
-
-        transform(identifier.begin(), identifier.end(), identifier.begin(), ::tolower);
-        replace(identifier.begin(), identifier.end(), ' ', '-');
-
-        return identifier;
-    }
-
     //Get location of database
     string get_database_path(void)
     {

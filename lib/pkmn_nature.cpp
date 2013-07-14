@@ -15,6 +15,7 @@
 #include <pkmnsim/dict.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
+#include <pkmnsim/database/queries.hpp>
 
 #include "sqlitecpp/SQLiteCPP.h"
 
@@ -33,7 +34,7 @@ namespace pkmnsim
         SQLite::Database db(get_database_path().c_str());
 
         //Match database's identifier format
-        identifier = to_database_format(identifier);
+        identifier = database::to_database_format(identifier);
 
         string query_string = "SELECT id FROM natures WHERE identifier='" + identifier + "'";
         nature_id = db.execAndGet(query_string.c_str(), identifier);

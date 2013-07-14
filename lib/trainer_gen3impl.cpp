@@ -18,6 +18,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/database/queries.hpp>
 
 #include "sqlitecpp/SQLiteCPP.h"
 #include "trainer_gen3impl.hpp"
@@ -324,13 +325,13 @@ namespace pkmnsim
         identifier = pokemon_species[pkmn_g_t->species];
         level = b_pkmn_t->level;
 
-        move1 = to_database_format(attacks[pkmn_a_t->atk1]);
+        move1 = database::to_database_format(attacks[pkmn_a_t->atk1]);
         if(string(attacks[pkmn_a_t->atk2]) == "No attack") move2 = "None";
-        else move2 = to_database_format(attacks[pkmn_a_t->atk2]);
+        else move2 = database::to_database_format(attacks[pkmn_a_t->atk2]);
         if(string(attacks[pkmn_a_t->atk3]) == "No attack") move3 = "None";
-        else move3 = to_database_format(attacks[pkmn_a_t->atk3]);
+        else move3 = database::to_database_format(attacks[pkmn_a_t->atk3]);
         if(string(attacks[pkmn_a_t->atk4]) == "No attack") move4 = "None";
-        else move4 = to_database_format(attacks[pkmn_a_t->atk4]);
+        else move4 = database::to_database_format(attacks[pkmn_a_t->atk4]);
 
         spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 3, level,
                                                  move1, move2, move3, move4,
