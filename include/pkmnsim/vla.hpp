@@ -23,8 +23,14 @@ namespace pkmnsim
             //Constructor with generic item name
             vla(int max);
 
+            std::size_t size(void) const;
+
             //Get or set item at position pos
             item_type& operator[](int pos);
+
+            //Can't use [] with Python
+            item_type get(int pos) const;
+            void set(int pos, item_type val);
 
         private:
             std::vector<item_type> _vec;

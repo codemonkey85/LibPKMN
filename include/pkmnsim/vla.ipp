@@ -25,7 +25,13 @@ namespace pkmnsim
 
         _vec = std::vector<item_type>(items);
 
-        invalid_pos_err_msg = "Position must be 0-" + to_string(max_items) + ".";
+        invalid_pos_err_msg = "Position must be 0-" + to_string(max_items - 1) + ".";
+    }
+
+    template<typename item_type>
+    std::size_t vla<item_type>::size(void) const
+    {
+        return max_items;
     }
 
     template<typename item_type>
@@ -38,6 +44,24 @@ namespace pkmnsim
         }
         else return _vec[pos];
     }
+
+    template<typename item_type>
+    void vla<item_type>::set(int pos, item_type val)
+    {
+        if(pos < 0 or pos >= max_items)
+        {
+            std::cerr << invalid_pos_err_msg << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        else _vec[pos] = val;
+    }
+
+    template<typename item_type>
+    item_type vla<item_type>::get(int pos) const
+    {
+        return _vec[pos];
+    }
+
 }
 
 #endif /* INCLUDED_VLA_IPP */
