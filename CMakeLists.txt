@@ -28,14 +28,14 @@ FIND_PACKAGE(Boost COMPONENTS
     program_options
     system
 REQUIRED)
-FIND_PACKAGE(Sqlite3 REQUIRED)
+FIND_PROGRAM(SQLITE3_EXECUTABLE NAMES sqlite3)
 FIND_PACKAGE(Qt4)
 IF(QT4_FOUND)
     INCLUDE(UseQt4)
 ENDIF(QT4_FOUND)
 
-INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS} ${SQLITE3_INCLUDE_DIR})
-LINK_DIRECTORIES(${Boost_LIBRARY_DIRS} ${SQLITE3_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 IF(MSVC)
 	ADD_DEFINITIONS(-DBOOST_ALL_DYN_LINK) #Let MSVC automatically link to Boost libs
@@ -76,7 +76,7 @@ SET(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}" CACHE STRING "")
 ########################################################################
 # Register LibPKMNsim components
 ########################################################################
-REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_FOUND" OFF)
+REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_EXECUTABLE" OFF)
 REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
 
 ########################################################################
