@@ -161,7 +161,22 @@ namespace pkmnsim
 
         if(type_mod != 0)
         {
-            if(move->get_name() == "Seismic Toss" or move->get_name() == "Night Shade")
+            if(defender->get_base_pkmn()->get_display_name() == "Shedinja")
+            {
+                if(type_mod > 1.0)
+                {
+                    damage_range_vec.push_back(1);
+                    damage_range_vec.push_back(1);
+                    return;
+                }
+                else
+                {
+                    damage_range_vec.push_back(0);
+                    damage_range_vec.push_back(0);
+                    return;
+                }
+            }
+            else if(move->get_name() == "Seismic Toss" or move->get_name() == "Night Shade")
             {
                 damage_range_vec.push_back(attacker->get_level());
                 damage_range_vec.push_back(attacker->get_level());
@@ -261,6 +276,21 @@ namespace pkmnsim
 
         if(type_mod != 0)
         {
+            if(defender->get_display_name() == "Shedinja")
+            {
+                if(type_mod > 1.0)
+                {
+                    damage_range_vec.push_back(1);
+                    damage_range_vec.push_back(1);
+                    return;
+                }
+                else
+                {
+                    damage_range_vec.push_back(0);
+                    damage_range_vec.push_back(0);
+                    return;
+                }
+            }
             if(move->get_name() == "Seismic Toss" or move->get_name() == "Night Shade")
             {
                 damage_range_vec.push_back(attacker_level);
