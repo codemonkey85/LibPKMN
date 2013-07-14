@@ -5,10 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 FILE(GLOB pkmnsim_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
-LIST(APPEND pkmnsim_headers vla.ipp dict.ipp)
-
-ADD_SUBDIRECTORY(database)
 
 FOREACH(header ${pkmnsim_headers})
-    INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim COMPONENT Headers)
+    INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim/database COMPONENT Headers)
 ENDFOREACH(header)

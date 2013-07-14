@@ -27,12 +27,16 @@
 %ignore pkmnsim::get_pkmn_of_type;
 %ignore pkmnsim::get_type_list;
 %ignore pkmnsim::trainer::get_party;
+%ignore pkmnsim::get_table_list;
+%ignore pkmnsim::get_column_list;
 
 %rename(get_game_list) pkmnsim::get_game_vec;
 %rename(get_game_group_list) pkmnsim::get_game_group_vec;
 %rename(get_pkmn_of_type) pkmnsim::get_pkmn_list_of_type;
 %rename(get_type_list) pkmnsim::get_type_vec;
 %rename(get_party) pkmnsim::trainer::get_party_vec;
+%rename(get_table_list) pkmnsim::get_table_vec;
+%rename(get_column_list) pkmnsim::get_column_vec;
 
 %include "pkmnsim.i"
 

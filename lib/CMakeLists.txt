@@ -8,8 +8,9 @@
 #Place database location into relevant source files
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 
-IF(ENABLE_LIBPKMNSIM)                       
+IF(ENABLE_LIBPKMNSIM)
     FILE(GLOB sqlitecpp_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "sqlitecpp/*.c*")
+    FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
 
     #Configure database info for relevant library files
     CONFIGURE_FILE(
@@ -38,6 +39,7 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${sqlitecpp_sources}
+        ${database_sources}
     )
     
     ####################################################################
