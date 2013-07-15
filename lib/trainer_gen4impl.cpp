@@ -16,8 +16,8 @@
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/database/queries.hpp>
 
-#include "internal.hpp"
 #include "pokelib/data_tables.h"
 #include "sqlitecpp/SQLiteCPP.h"
 #include "trainer_gen4impl.hpp"
