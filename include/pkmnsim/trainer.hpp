@@ -83,7 +83,7 @@ namespace pkmnsim
              * Parameters:
              *  - filename: the name of the file in which to export the values
              */
-            virtual void export_to_file(std::string filename) = 0;
+            virtual void export_to_file(std::string filename);
 
         protected:
             int money, from_game, gender;

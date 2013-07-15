@@ -21,14 +21,6 @@ namespace pkmnsim
             trainer_gen3impl(SQLite::Database *import_db);
             trainer_gen3impl(std::string filename, int game);
 
-            int get_money();
-
-            void get_party(std::vector<spec_pkmn::sptr>& party_vec);
-
-            std::string get_trainer_name();
-
-            void export_to_file(std::string filename);
-
         private:
             SaveParser *parser;
 
