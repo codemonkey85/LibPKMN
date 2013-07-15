@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
     {
         if(i > 5) break;
 
-        string pkmn_name = pkmn_team[i]->get_display_name();
+        string pkmn_name = pkmn_team[i]->get_species_name();
         string type1 = pkmn_team[i]->get_types()[0];
         string type2 = pkmn_team[i]->get_types()[1];
         
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
     map<string, map<string, double> > team_mod_map;
     for(unsigned int i = 0; i < pkmn_team.size(); i++) //Iterate over Pokémon team
     {
-        string pkmn_name = pkmn_team[i]->get_display_name();
+        string pkmn_name = pkmn_team[i]->get_species_name();
 
         map<string, double> mod_map;
         for(unsigned int j = 0; j < type_list.size(); j++) //Iterate over type list
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
     cout << endl << "Individual weaknesses/resistances:" << endl;
     for(unsigned int i = 0; i < pkmn_team.size(); i++)
     {
-        string pkmn_name = pkmn_team[i]->get_display_name();
+        string pkmn_name = pkmn_team[i]->get_species_name();
         string output_string = get_pkmn_effectiveness_string(pkmn_name, team_mod_map[pkmn_name]);
 
         cout << output_string << endl;
@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
     map<string, int> not_very_effective_map;
     for(unsigned int i = 0; i < pkmn_team.size(); i++)
     {
-        string pkmn_name = pkmn_team[i]->get_display_name();
+        string pkmn_name = pkmn_team[i]->get_species_name();
 
         for(unsigned int j = 0; j < type_list.size(); j++)
         {

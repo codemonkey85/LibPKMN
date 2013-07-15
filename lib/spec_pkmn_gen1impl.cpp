@@ -100,7 +100,7 @@ namespace pkmnsim
                          + to_string(SPCL);
 
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + ")\n"
+        output_string = nickname + " (" + base->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Stats: " + stats_str;
@@ -116,7 +116,7 @@ namespace pkmnsim
         else types_str = types[0] + "/" + types[1];
 
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + ")\n"
+        output_string = nickname + " (" + base->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Stats:\n"

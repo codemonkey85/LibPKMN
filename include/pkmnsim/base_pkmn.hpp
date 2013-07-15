@@ -75,7 +75,7 @@ namespace pkmnsim
             /*
              * Returns Pokémon's display name (e.g. Bulbasaur).
              */
-            std::string get_display_name(void);
+            std::string get_species_name(void);
 
             /*
              * Returns Pokémon's National Pokedex number (1-649, as of Gen 5).

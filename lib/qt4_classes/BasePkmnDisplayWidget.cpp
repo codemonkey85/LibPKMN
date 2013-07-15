@@ -31,7 +31,7 @@ namespace pkmnsim
 
         //Define QString for rightLabel
         QString rightString = QString("%1").arg(
-            QString::fromStdString(b_pkmn->get_display_name())
+            QString::fromStdString(b_pkmn->get_species_name())
         );
 
         QImage spriteImage;

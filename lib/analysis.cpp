@@ -90,7 +90,7 @@ namespace pkmnsim
                 break;
 
             case Move_Classes::SPECIAL:
-                if(attacker->get_base_pkmn()->get_generation() == 1)
+                if(attacker->get_generation() == 1)
                 {
                     attacker_ATK = attacker->get_stats()["SPCL"];
                     defender_DEF = defender->get_stats()["SPCL"];
@@ -123,7 +123,7 @@ namespace pkmnsim
         int attacker_ATK, defender_DEF;
         int min_damage, max_damage;
 
-        int gen = attacker->get_base_pkmn()->get_generation();
+        int gen = attacker->get_generation();
         int move_damage_class = move->get_move_damage_class();
         switch(move_damage_class)
         {
@@ -153,15 +153,15 @@ namespace pkmnsim
         min_damage = int(floor(get_base_damage(attacker, defender, move) * 0.85));
         max_damage = get_base_damage(attacker, defender, move);
 
-        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[0], (gen == 1))) *
-                          double(get_type_damage_mod(move->get_type(), defender->get_base_pkmn()->get_types()[1], (gen == 1)));
+        double type_mod = double(get_type_damage_mod(move->get_type(), defender->get_types()[0], (gen == 1))) *
+                          double(get_type_damage_mod(move->get_type(), defender->get_types()[1], (gen == 1)));
 
         min_damage = int(floor(double(min_damage) * type_mod));
         max_damage = int(floor(double(max_damage) * type_mod));
 
         if(type_mod != 0)
         {
-            if(defender->get_base_pkmn()->get_display_name() == "Shedinja")
+            if(defender->get_species_name() == "Shedinja")
             {
                 if(type_mod > 1.0)
                 {
@@ -196,8 +196,8 @@ namespace pkmnsim
             }
             else
             {
-                if(move->get_type() == attacker->get_base_pkmn()->get_types()[0] or
-                   move->get_type() == attacker->get_base_pkmn()->get_types()[1])
+                if(move->get_type() == attacker->get_types()[0] or
+                   move->get_type() == attacker->get_types()[1])
                 {
                     min_damage = int(floor(double(min_damage) * 1.5));
                     max_damage = int(floor(double(max_damage) * 1.5));
@@ -276,7 +276,7 @@ namespace pkmnsim
 
         if(type_mod != 0)
         {
-            if(defender->get_display_name() == "Shedinja")
+            if(defender->get_species_name() == "Shedinja")
             {
                 if(type_mod > 1.0)
                 {

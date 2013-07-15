@@ -76,7 +76,7 @@ int sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_s
 
     for(unsigned int i = 0; i < pkmn_vector.size(); i++)
     {
-        string pkmn_name = pkmn_vector[i]->get_display_name();
+        string pkmn_name = pkmn_vector[i]->get_species_name();
         dict<string, int> stats = pkmn_vector[i]->get_base_stats();
 
         for(unsigned int j = 0; j < highest_stats.size(); j++)
@@ -126,7 +126,7 @@ int sort_pokemon_by_stats(string type1, string type2, vector<stat_st2>& highest_
 
     for(unsigned int i = 0; i < pkmn_vector.size(); i++)
     {
-        string pkmn_name = pkmn_vector[i]->get_display_name();
+        string pkmn_name = pkmn_vector[i]->get_species_name();
         dict<string, int> stats = pkmn_vector[i]->get_base_stats();
 
         for(unsigned int j = 0; j < highest_stats.size(); j++)

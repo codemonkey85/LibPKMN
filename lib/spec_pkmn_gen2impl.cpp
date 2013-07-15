@@ -132,7 +132,7 @@ namespace pkmnsim
         }
 
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + " " + gender_char + ")\n"
+        output_string = nickname + " (" + base->get_species_name() + " " + gender_char + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Held Item: " + held_item + "\n"
@@ -149,7 +149,7 @@ namespace pkmnsim
         else types_str = types[0] + "/" + types[1];
 
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + ")\n"
+        output_string = nickname + " (" + base->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Held Item: " + held_item + "\n"

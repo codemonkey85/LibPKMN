@@ -27,7 +27,7 @@ namespace pkmnsim
                          string m3, string m4, int g, int l)
     {
         base = b;
-        nickname = base->get_display_name();
+        nickname = base->get_species_name();
         level = l;
         generation = g;
         SQLite::Database db(get_database_path().c_str()); //Filepath given by CMake
@@ -140,6 +140,8 @@ namespace pkmnsim
 
     base_pkmn::sptr spec_pkmn::get_base_pkmn(void) {return base;}
 
+    dict<int, std::string> spec_pkmn::get_types(void) {return base->get_types();}
+
     string spec_pkmn::get_nickname(void) {return nickname;}
 
     int spec_pkmn::get_level(void) {return level;}
@@ -153,6 +155,8 @@ namespace pkmnsim
     string spec_pkmn::get_icon_path(void) {return icon_path;}
 
     string spec_pkmn::get_sprite_path(void) {return sprite_path;}
+
+    string spec_pkmn::get_species_name(void) {return base->get_species_name();}
 
     dict<string, int> spec_pkmn::get_base_stats(void) {return base->get_base_stats();}
 

@@ -181,7 +181,7 @@ namespace pkmnsim
         }
     }
 
-    string base_pkmn::get_display_name(void) {return display_name;}
+    string base_pkmn::get_species_name(void) {return display_name;}
 
     int base_pkmn::get_nat_pokedex_num(void) {return nat_pokedex_num;}
 

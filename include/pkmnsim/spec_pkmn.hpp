@@ -188,6 +188,8 @@ namespace pkmnsim
             /*
              * Functions to more easily access base_pkmn variables and functions.
              */
+            std::string get_species_name(void);
+            dict<int, std::string> get_types(void);
             dict<std::string, int> get_base_stats(void);
             dict<std::string, int> get_ev_yields(void);
             bool is_fully_evolved(void);

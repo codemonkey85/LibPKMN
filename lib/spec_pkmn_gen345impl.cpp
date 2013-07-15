@@ -61,7 +61,7 @@ namespace pkmnsim
         ability = determine_ability();
         held_item = "None";
 
-        if(base->get_display_name() == "Shedinja") HP = 1;
+        if(base->get_species_name() == "Shedinja") HP = 1;
         else HP = get_hp_from_iv_ev();
         ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
         DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
@@ -152,7 +152,7 @@ namespace pkmnsim
 
 
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + " " + gender_char + ")\n"
+        output_string = nickname + " (" + base->get_species_name() + " " + gender_char + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Ability: " + ability + "\n"
@@ -170,7 +170,7 @@ namespace pkmnsim
         else types_str = types[0] + "/" + types[1];
 
         string output_string;
-        output_string = nickname + " (" + base->get_display_name() + ")\n"
+        output_string = nickname + " (" + base->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Ability: " + ability + "\n"

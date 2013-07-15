@@ -182,8 +182,8 @@ namespace pkmnsim
             //Intermediary variables for ID's
             int pkmn_id, species_id, item_held_id, move1_id, move2_id, move3_id, move4_id;
 
-            pkmn_id = party[i]->get_base_pkmn()->get_pokemon_id();
-            species_id = party[i]->get_base_pkmn()->get_species_id();
+            pkmn_id = party[i]->get_pokemon_id();
+            species_id = party[i]->get_species_id();
             if(party[i]->get_held_item() == "None" or party[i]->get_held_item() == "Nothing") item_held_id = -1;
             else
             {
