@@ -37,6 +37,8 @@ namespace pkmnsim
         moves = vla<base_move::sptr>(4);
         vector<base_move::sptr> base_legal_moves = base->get_legal_moves();
 
+        icon_path = base->get_icon_path();
+
         if(i) //Don't care about legal moves
         {
             moves[0] = base_move::make(m1,g);
@@ -148,5 +150,17 @@ namespace pkmnsim
     
     int spec_pkmn::get_generation(void) {return generation;}
 
+    string spec_pkmn::get_icon_path(void) {return icon_path;}
+
     string spec_pkmn::get_sprite_path(void) {return sprite_path;}
+
+    dict<string, int> spec_pkmn::get_base_stats(void) {return base->get_base_stats();}
+
+    dict<string, int> spec_pkmn::get_ev_yields(void) {return base->get_ev_yields();}
+
+    bool spec_pkmn::is_fully_evolved(void) {return base->is_fully_evolved();}
+
+    int spec_pkmn::get_pokemon_id(void) {return base->get_pokemon_id();}
+
+    int spec_pkmn::get_species_id(void) {return base->get_species_id();}
 }

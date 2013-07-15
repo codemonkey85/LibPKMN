@@ -200,6 +200,32 @@ namespace pkmnsim
         return output_string;
     }
 
+    void spec_pkmn_gen345impl::set_form(int form)
+    {
+        base->set_form(form);
+        HP = get_hp_from_iv_ev();
+        ATK = get_stat_from_iv_ev("ATK", ivATK, evATK);
+        DEF = get_stat_from_iv_ev("DEF", ivDEF, evDEF);
+        SATK = get_stat_from_iv_ev("SATK", ivSATK, evSATK);
+        SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
+        SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
+        icon_path = base->get_icon_path();
+        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), shiny);
+    }
+
+    void spec_pkmn_gen345impl::set_form(std::string form)
+    {
+        base->set_form(form);
+        HP = get_hp_from_iv_ev();
+        ATK = get_stat_from_iv_ev("ATK", ivATK, evATK);
+        DEF = get_stat_from_iv_ev("DEF", ivDEF, evDEF);
+        SATK = get_stat_from_iv_ev("SATK", ivSATK, evSATK);
+        SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
+        SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
+        icon_path = base->get_icon_path();
+        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), shiny);
+    }
+
     int spec_pkmn_gen345impl::get_hp_from_iv_ev()
     {
         dict<string, int> stats = base->get_base_stats();

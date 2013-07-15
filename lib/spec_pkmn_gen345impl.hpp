@@ -30,6 +30,8 @@ namespace pkmnsim
             int get_gender();
             pkmn_nature::sptr get_nature();
             std::string get_ability();
+            void set_form(int form);
+            void set_form(std::string form);
 
         private:
             int gender;

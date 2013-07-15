@@ -141,6 +141,26 @@ namespace pkmnsim
         return output_string;
     }
 
+    void spec_pkmn_gen1impl::set_form(int form)
+    {
+        base->set_form(form);
+        HP = get_hp_from_iv_ev();
+        ATK = get_stat_from_iv_ev("ATK", ivATK, evATK);
+        DEF = get_stat_from_iv_ev("DEF", ivDEF, evDEF);
+        SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
+        SPCL = get_stat_from_iv_ev("SPCL", ivATK, evATK);
+    }
+
+    void spec_pkmn_gen1impl::set_form(std::string form)
+    {
+        base->set_form(form);
+        HP = get_hp_from_iv_ev();
+        ATK = get_stat_from_iv_ev("ATK", ivATK, evATK);
+        DEF = get_stat_from_iv_ev("DEF", ivDEF, evDEF);
+        SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
+        SPCL = get_stat_from_iv_ev("SPCL", ivATK, evATK);
+    }
+
     void spec_pkmn_gen1impl::reset_volatile_status_map()
     {
         volatile_status_map = boost::assign::map_list_of

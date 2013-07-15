@@ -27,6 +27,8 @@ namespace pkmnsim
             std::string get_info();
             std::string get_info_verbose();
             int get_gender();
+            void set_form(int form);
+            void set_form(std::string form);
 
         private:
             dict<std::string, int> volatile_status_map;

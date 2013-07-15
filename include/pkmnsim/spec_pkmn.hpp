@@ -176,9 +176,25 @@ namespace pkmnsim
             virtual std::string get_info_verbose(void) = 0;
 
             /*
+             * Returns the icon path.
+             */
+            std::string get_icon_path(void);
+
+            /*
              * Returns the sprite path.
              */
             std::string get_sprite_path(void);
+
+            /*
+             * Functions to more easily access base_pkmn variables and functions.
+             */
+            dict<std::string, int> get_base_stats(void);
+            dict<std::string, int> get_ev_yields(void);
+            bool is_fully_evolved(void);
+            int get_pokemon_id(void);
+            int get_species_id(void);
+            virtual void set_form(int form) = 0;
+            virtual void set_form(std::string form) = 0;
 
         protected:
             base_pkmn::sptr base;
@@ -194,7 +210,7 @@ namespace pkmnsim
             int nonvolatile_status;
             vla<base_move::sptr> moves;
             int num_moves;
-            std::string sprite_path;
+            std::string icon_path, sprite_path;
 
             virtual int get_hp_from_iv_ev() = 0;
             virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm

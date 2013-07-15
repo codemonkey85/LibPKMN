@@ -238,9 +238,6 @@ namespace pkmnsim
 
             void repair(int id);
 
-            //Only used internally
-            friend int get_pkmn_id(sptr base);
-            friend int get_species_id(sptr base);
             /*
              * Return a vector with all base Pokémon of specified type combo.
              *
