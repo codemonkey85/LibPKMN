@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include <boost/format.hpp>
 
@@ -153,7 +154,7 @@ namespace pkmnsim
 
         //Read save file and get size
         FILE* save_file;
-        save_file = fopen(filename.c_str(), "r");
+        save_file = fopen(filename.c_str(), "rb");
         fseek(save_file, 0, SEEK_END);
         size = ftell(save_file);
         rewind(save_file);
@@ -175,18 +176,15 @@ namespace pkmnsim
         }
         fclose(save_file);
 
-        save->parseRawSave();
+        if(!save->parseRawSave()) cout << "Couldn't load file." << endl;
 
         party.clear();
         PokeLib::Party* pokelib_party = save->getParty();
-        cout << "party size: " << (unsigned int)(pokelib_party->count()) << endl;
-        cout << "Save type: " << save->getSaveType() << endl;
-        //PokeLib::Pokemon pokelib_pkmn = pokelib_party->getPokemon(0);
-        /*for(unsigned int i = 0; i < (unsigned int)(pokelib_party->count()); i++)
+        for(unsigned int i = 0; i < (unsigned int)(pokelib_party->count()); i++)
         {
-            PokeLib::Pokemon pokelib_pkmn = pokelib_party->getPokemon(i);
+            PokeLib::Pokemon pokelib_pkmn = pokelib_party->getPokemon(i+1);
             party.push_back(convert_to_spec_pkmn(pokelib_pkmn));
-        }*/
+        }
     }
 
     void trainer_gen4impl::export_to_file(string filename)
@@ -259,8 +257,8 @@ namespace pkmnsim
             //Intermediary variables for ID's
             int pkmn_id, species_id, item_held_id, move1_id, move2_id, move3_id, move4_id;
 
-            pkmn_id = get_pkmn_id(party[i]->get_base_pkmn());
-            species_id = get_species_id(party[i]->get_base_pkmn());
+            pkmn_id = party[i]->get_base_pkmn()->get_pokemon_id();;
+            species_id = party[i]->get_base_pkmn()->get_species_id();
             if(party[i]->get_held_item() == "None" or party[i]->get_held_item() == "Nothing") item_held_id = -1;
             else
             {
@@ -309,18 +307,16 @@ namespace pkmnsim
         int level; 
 
         cout << "Inside convert_to_spec_pkmn" << endl;
-
-        cout << "size: " << sizeof(pokelib_pkmn) << endl;
-        /*identifier = PokeLib::species[int(pokelib_pkmn.pkm->pkm.species)];
+        identifier = PokeLib::species[int(pokelib_pkmn.pkm->pkm.species)];
         level = int(pokelib_pkmn.getLevel());
 
-        move1 = to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[0])]);
-        move2 = to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[1])]);
-        move3 = to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[2])]);
-        move4 = to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[3])]);
+        move1 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[0])]);
+        move2 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[1])]);
+        move3 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[2])]);
+        move4 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[3])]);
 
         spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 4, level, move1, move2, move3, move4, true);
 
-        cout << s_pkmn->get_info() << endl << endl;*/
+        return s_pkmn;
     }
 }
