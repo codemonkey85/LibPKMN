@@ -21,8 +21,6 @@ namespace pkmnsim
             trainer_gen4impl(SQLite::Database *import_db);
             trainer_gen4impl(std::string filename, int game);
 
-            void export_to_file(std::string filename);
-
         private:
             PokeLib::Save *save;
 
