@@ -82,6 +82,20 @@ REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "
 ########################################################################
 # Run CMake scripts in subdirectories
 ########################################################################
+function(PKMNSIM_CHECK_SUBMODULE directory)
+    if(NOT EXISTS ${CMAKE_SOURCE_DIR}/${directory}/CMakeLists.txt)
+        message(FATAL_ERROR "
+Submodule ${directory} does not exist.
+Did you remember to run the following commands?
+    git submodule init
+    git submodule update
+")
+    endif()
+endfunction(PKMNSIM_CHECK_SUBMODULE)
+
+PKMNSIM_CHECK_SUBMODULE(pokehack)
+PKMNSIM_CHECK_SUBMODULE(PokeLib)
+
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 ADD_SUBDIRECTORY(pokehack)
 ADD_SUBDIRECTORY(PokeLib)
