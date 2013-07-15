@@ -26,6 +26,7 @@
 %ignore pkmnsim::get_game_group_list;
 %ignore pkmnsim::get_pkmn_of_type;
 %ignore pkmnsim::get_type_list;
+%ignore pkmnsim::spec_pkmn::set_form(std::string);
 %ignore pkmnsim::trainer::get_party;
 %ignore pkmnsim::database::get_table_list;
 %ignore pkmnsim::database::get_column_list;
