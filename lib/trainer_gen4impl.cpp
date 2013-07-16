@@ -216,10 +216,23 @@ namespace pkmnsim
         memset(nickname_buffer,0,10);
         wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
         s_pkmn->nickname = nickname_buffer;
-
-		s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
-
+        s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
         s_pkmn->nature = pkmn_nature::make(PokeLib::nature[int(pokelib_pkmn.getNatureValue())]);
+        s_pkmn->shiny = pokelib_pkmn.isShiny();
+        switch(int(pokelib_pkmn.getGenderValue()))
+        {
+            case PokeLib::MALE:
+                gender = Genders::MALE;
+                break;
+
+            case PokeLib::FEMALE:
+                gender = Genders::FEMALE;
+                break;
+
+            default:
+                gender = Genders::GENDERLESS;
+                break;
+        }
 
         s_pkmn->HP = pokelib_pkmn.pkm->pkm.battle_max_hp;
         s_pkmn->ATK = pokelib_pkmn.pkm->pkm.battle_atk;

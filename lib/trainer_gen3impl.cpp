@@ -229,6 +229,20 @@ namespace pkmnsim
         boost::split(nature_halves, nature_from_pokehack, boost::is_any_of(" "));
         s_pkmn->nature = pkmn_nature::make(nature_halves[0]);
 
+        //Gender
+        int gender_from_pokehack = b_pkmn_t->personality % 256;
+        double chance_male = s_pkmn->get_base_pkmn()->get_chance_male();
+        double chance_female = s_pkmn->get_base_pkmn()->get_chance_female();
+        if(chance_male == 0.0 and chance_female == 0.0) gender = Genders::GENDERLESS;
+        else if(chance_male == 0.0) gender = Genders::FEMALE;
+        else if(chance_female == 0.0) gender = Genders::MALE;
+        else
+        {
+            if(gender_from_pokehack > int(floor(255*(1-chance_male)))) gender = Genders::MALE;
+            else gender = Genders::FEMALE;
+        }
+        
+
         s_pkmn->HP = b_pkmn_t->maxHP;
         s_pkmn->ATK = b_pkmn_t->attack;
         s_pkmn->DEF = b_pkmn_t->defense;
