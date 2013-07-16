@@ -159,6 +159,10 @@ namespace pkmnsim
 
 	string spec_pkmn::get_attribute(string attribute) {return attributes[attribute];}
 
+    dict<string, string> spec_pkmn::get_attributes(void) {return attributes;}
+
+    bool spec_pkmn::has_attribute(string attribute) {return attributes.has_key(attribute);}
+
 	void spec_pkmn::set_attribute(string attribute, string value) {attributes[attribute] = value;}
 
     string spec_pkmn::get_species_name(void) {return base->get_species_name();}

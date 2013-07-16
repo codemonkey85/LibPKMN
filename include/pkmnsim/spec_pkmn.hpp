@@ -194,6 +194,19 @@ namespace pkmnsim
 			 */
 			std::string get_attribute(std::string attribute);
 
+            /*
+             * Returns the full dict of attributes.
+             */
+            dict<std::string, std::string> get_attributes(void);
+
+            /*
+             * Check if spec_pkmn has given attribute.
+			 *
+			 * Parameters:
+			 *  - attribute: name of the attribute whose value will be returned
+			 */
+            bool has_attribute(std::string attribute);
+
 			/*
 			 * Edit or set a new attribute value.
 			 *
