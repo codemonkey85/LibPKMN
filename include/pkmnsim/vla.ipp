@@ -59,6 +59,11 @@ namespace pkmnsim
     template<typename item_type>
     item_type vla<item_type>::get(int pos) const
     {
+        if(pos < 0 or pos >= max_items)
+        {
+            std::cerr << invalid_pos_err_msg << std::endl;
+            exit(EXIT_FAILURE);
+        }
         return _vec[pos];
     }
 
