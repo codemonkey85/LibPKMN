@@ -217,6 +217,8 @@ namespace pkmnsim
         wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
         s_pkmn->nickname = nickname_buffer;
 
+		s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
+
         s_pkmn->nature = pkmn_nature::make(PokeLib::nature[int(pokelib_pkmn.getNatureValue())]);
 
         s_pkmn->HP = pokelib_pkmn.pkm->pkm.battle_max_hp;
