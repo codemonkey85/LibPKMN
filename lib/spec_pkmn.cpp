@@ -34,6 +34,7 @@ namespace pkmnsim
         int base_pkmn_id = base->get_pokemon_id();
         int base_species_id = base->get_species_id();
 
+		attributes = dict<string, string>();
         moves = vla<base_move::sptr>(4);
         vector<base_move::sptr> base_legal_moves = base->get_legal_moves();
 
@@ -155,6 +156,10 @@ namespace pkmnsim
     string spec_pkmn::get_icon_path(void) {return icon_path;}
 
     string spec_pkmn::get_sprite_path(void) {return sprite_path;}
+
+	string spec_pkmn::get_attribute(string attribute) {return attributes[attribute];}
+
+	void spec_pkmn::set_attribute(string attribute, string value) {attributes[attribute] = value;}
 
     string spec_pkmn::get_species_name(void) {return base->get_species_name();}
 

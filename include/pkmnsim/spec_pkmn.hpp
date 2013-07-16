@@ -185,6 +185,24 @@ namespace pkmnsim
              */
             std::string get_sprite_path(void);
 
+			/*
+			 * Get the current value of an attribute.
+			 * NOTE: This will throw an error if the attribute does not exist.
+			 *
+			 * Parameters:
+			 *  - attribute: name of the attribute whose value will be returned
+			 */
+			std::string get_attribute(std::string attribute);
+
+			/*
+			 * Edit or set a new attribute value.
+			 *
+			 * Parameters:
+			 *  - attribute: name of the attribute to edit/create
+			 *  - value: value of the attribute to set
+			 */
+			void set_attribute(std::string attribute, std::string value);
+
             /*
              * Functions to more easily access base_pkmn variables and functions.
              */
@@ -213,6 +231,7 @@ namespace pkmnsim
             vla<base_move::sptr> moves;
             int num_moves;
             std::string icon_path, sprite_path;
+			dict<std::string, std::string> attributes;
 
             virtual int get_hp_from_iv_ev() = 0;
             virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm
