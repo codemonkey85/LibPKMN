@@ -111,6 +111,8 @@ namespace pkmnsim
 
     string trainer::get_trainer_name(void) {return trainer_name;}
 
+    string trainer::get_trainer_id(void) {return trainer_id;}
+
     void trainer::export_to_file(string filename)
     {
         //Create or open file

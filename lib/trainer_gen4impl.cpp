@@ -189,6 +189,7 @@ namespace pkmnsim
 
         party.clear();
         PokeLib::Party* pokelib_party = save->getParty();
+        trainer_id = boost::lexical_cast<string>(pokelib_party->getPokemon(1).pkm->pkm.ot_id);
         for(unsigned int i = 0; i < (unsigned int)(pokelib_party->count()); i++)
         {
             PokeLib::Pokemon pokelib_pkmn = pokelib_party->getPokemon(i+1);

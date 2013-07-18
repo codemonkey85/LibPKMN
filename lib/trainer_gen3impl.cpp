@@ -11,6 +11,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/format.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
@@ -185,6 +186,8 @@ namespace pkmnsim
 
         money = 0; //Placeholder until money is implemented in Pokehack
         trainer_name = parser->get_text(parser->pokemon[0]->otname, 7);
+        short* trainer_id_short = (short*)&(parser->pokemon[0]->otid);
+        trainer_id = boost::lexical_cast<string>(trainer_id_short[0]);
 
         party.clear();
         for(int i = 0; i < 6; i++)

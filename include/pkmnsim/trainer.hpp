@@ -78,6 +78,11 @@ namespace pkmnsim
             std::string get_trainer_name(void);
 
             /*
+             * Returns the trainer's ID as a string.
+             */
+            std::string get_trainer_id(void);
+
+            /*
              * Exports the trainer's values to a SQLite database.
              *
              * Parameters:
