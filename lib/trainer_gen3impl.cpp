@@ -39,7 +39,7 @@ namespace pkmnsim
 
         from_game = trainer_info_query.getColumn(1);
         trainer_name = trainer_info_query.getColumnStr(2);
-        trainer_id = trainer_info_query.getColumnStr(3);
+        trainer_id = trainer_info_query.getColumn(3);
         int party_size = trainer_info_query.getColumn(4);
         money = trainer_info_query.getColumn(5);
 
@@ -187,7 +187,7 @@ namespace pkmnsim
         money = 0; //Placeholder until money is implemented in Pokehack
         trainer_name = parser->get_text(parser->pokemon[0]->otname, 7);
         short* trainer_id_short = (short*)&(parser->pokemon[0]->otid);
-        trainer_id = boost::lexical_cast<string>(trainer_id_short[0]);
+		trainer_id = int(trainer_id_short[0]);
 
         party.clear();
         for(int i = 0; i < 6; i++)

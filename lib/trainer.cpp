@@ -25,7 +25,7 @@ namespace pkmnsim
 {
     trainer::trainer()
     {
-        trainer_id = "?????";
+        trainer_id = 12345;
     }
 
     trainer::sptr trainer::make(string filename, int game)
@@ -111,7 +111,7 @@ namespace pkmnsim
 
     string trainer::get_trainer_name(void) {return trainer_name;}
 
-    string trainer::get_trainer_id(void) {return trainer_id;}
+    int trainer::get_trainer_id(void) {return trainer_id;}
 
     void trainer::export_to_file(string filename)
     {
@@ -130,12 +130,12 @@ namespace pkmnsim
                                  "id INTEGER NOT NULL,\n"
                                  "from_game INTEGER NOT NULL,\n"
                                  "trainer_name VARCHAR(7) NOT NULL,\n"
-                                 "trainer_id VARCHAR(5) NOT NULL,\n"
+                                 "trainer_id INTEGER NOT NULL,\n"
                                  "party_size INTEGER NOT NULL,\n"
                                  "money INTEGER NOT NULL,\n"
                                  "PRIMARY KEY(id));";
         export_db.exec(export_db_query_string.c_str());
-        export_db.exec(str(boost::format("INSERT INTO \"trainer_info\" VALUES(0,'%s','%s','%s',%d,%d)")
+        export_db.exec(str(boost::format("INSERT INTO \"trainer_info\" VALUES(0,'%s','%s',%d,%d,%d)")
                                          % from_game
                                          % trainer_name
                                          % trainer_id

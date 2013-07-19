@@ -80,7 +80,7 @@ namespace pkmnsim
             /*
              * Returns the trainer's ID as a string.
              */
-            std::string get_trainer_id(void);
+            int get_trainer_id(void);
 
             /*
              * Exports the trainer's values to a SQLite database.
@@ -91,8 +91,8 @@ namespace pkmnsim
             virtual void export_to_file(std::string filename);
 
         protected:
-            int money, from_game, gender;
-            std::string trainer_name, trainer_id;
+            int money, from_game, gender, trainer_id;
+            std::string trainer_name;
             std::vector<spec_pkmn::sptr> party;
     };
 }

@@ -37,7 +37,7 @@ namespace pkmnsim
 
         from_game = trainer_info_query.getColumn(1);
         trainer_name = trainer_info_query.getColumnStr(2);
-        trainer_id = trainer_info_query.getColumnStr(3);
+        trainer_id = trainer_info_query.getColumn(3);
         int party_size = trainer_info_query.getColumn(4);
         money = trainer_info_query.getColumn(5);
 
@@ -189,7 +189,7 @@ namespace pkmnsim
 
         party.clear();
         PokeLib::Party* pokelib_party = save->getParty();
-        trainer_id = boost::lexical_cast<string>(pokelib_party->getPokemon(1).pkm->pkm.ot_id);
+		trainer_id = int(pokelib_party->getPokemon(1).pkm->pkm.ot_id);
         for(unsigned int i = 0; i < (unsigned int)(pokelib_party->count()); i++)
         {
             PokeLib::Pokemon pokelib_pkmn = pokelib_party->getPokemon(i+1);
