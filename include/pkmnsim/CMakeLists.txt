@@ -9,6 +9,8 @@ LIST(APPEND pkmnsim_headers vla.ipp dict.ipp)
 
 ADD_SUBDIRECTORY(database)
 
-FOREACH(header ${pkmnsim_headers})
-    INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim COMPONENT Headers)
-ENDFOREACH(header)
+IF(NOT PKMNSIM_USED_AS_SUBMODULE)
+    FOREACH(header ${pkmnsim_headers})
+        INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim COMPONENT Headers)
+    ENDFOREACH(header)
+ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)

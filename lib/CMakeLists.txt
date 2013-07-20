@@ -49,7 +49,7 @@ IF(ENABLE_LIBPKMNSIM)
     ####################################################################
     IF(ENABLE_LIBPKMNSIM_QT4)
         ADD_SUBDIRECTORY(qt4_classes)
-        INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/include)
+        INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
 
         INCLUDE(${QT_USE_FILE})
         LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
@@ -62,8 +62,8 @@ IF(ENABLE_LIBPKMNSIM)
         LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
     ENDIF(ENABLE_LIBPKMNSIM_QT4)
 
-    INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/pokehack/include)
-    INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/PokeLib/include)
+    INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/pokehack/include)
+    INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PokeLib/include)
     ADD_LIBRARY(pkmnsim SHARED ${libpkmnsim_sources})
     TARGET_LINK_LIBRARIES(pkmnsim ${libpkmnsim_libs})
 

@@ -13,17 +13,17 @@ IF(ENABLE_WIN_PYTHON_PKG)
     ADD_CUSTOM_COMMAND(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/dist/damage_calculator.exe
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/lib/swig/python/pypkmnsim_swig.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/pypkmnsim_swig.py
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/lib/swig/python/${CMAKE_BUILD_TYPE}/_pypkmnsim_swig.pyd ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/_pypkmnsim_swig.pyd
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/swig/python/__init__.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/__init__.py
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/swig/python/Forms.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Forms.py
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/swig/python/Games.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Games.py
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/swig/python/Genders.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Genders.py
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/swig/python/Move_Classes.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Move_Classes.py
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/lib/swig/python/Statuses.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Statuses.py
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}/pkmnsim.dll ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.dll
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/pokehack/lib/${CMAKE_BUILD_TYPE}/pokehack.dll ${CMAKE_CURRENT_BINARY_DIR}/pokehack.dll
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/pokelib/lib/${CMAKE_BUILD_TYPE}/pokelib.dll ${CMAKE_CURRENT_BINARY_DIR}/pokelib.dll
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/lib/swig/python/pypkmnsim_swig.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/pypkmnsim_swig.py
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/lib/swig/python/${CMAKE_BUILD_TYPE}/_pypkmnsim_swig.pyd ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/_pypkmnsim_swig.pyd
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_SOURCE_DIR}/lib/swig/python/__init__.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/__init__.py
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_SOURCE_DIR}/lib/swig/python/Forms.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Forms.py
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_SOURCE_DIR}/lib/swig/python/Games.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Games.py
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_SOURCE_DIR}/lib/swig/python/Genders.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Genders.py
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_SOURCE_DIR}/lib/swig/python/Move_Classes.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Move_Classes.py
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_SOURCE_DIR}/lib/swig/python/Statuses.py ${CMAKE_CURRENT_BINARY_DIR}/PyPKMNsim/Statuses.py
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}/pkmnsim.dll ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.dll
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/pokehack/lib/${CMAKE_BUILD_TYPE}/pokehack.dll ${CMAKE_CURRENT_BINARY_DIR}/pokehack.dll
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/pokelib/lib/${CMAKE_BUILD_TYPE}/pokelib.dll ${CMAKE_CURRENT_BINARY_DIR}/pokelib.dll
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/setup.py py2exe
         DEPENDS ${PYPKMNSIM_REAL_SWIG_NAME}
         COMMENT "Building standalone Python program for damage_calculator"

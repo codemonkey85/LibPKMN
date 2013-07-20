@@ -6,6 +6,8 @@
 #
 FILE(GLOB pkmnsim_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
 
-FOREACH(header ${pkmnsim_headers})
-    INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim/database COMPONENT Headers)
-ENDFOREACH(header)
+IF(NOT PKMNSIM_USED_AS_SUBMODULE)
+    FOREACH(header ${pkmnsim_headers})
+        INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim/database COMPONENT Headers)
+    ENDFOREACH(header)
+ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
