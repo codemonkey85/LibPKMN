@@ -52,6 +52,23 @@ namespace pkmnsim
     bool PKMNSIM_API is_stat_possible(base_pkmn::sptr b_pkmn, int, std::string stat, int level, int gen);
 
     /*
+     * Get range of given stat for given base_pkmn.
+     *
+     * Parameters:
+     *  - b_pkmn: Base Pokemon whose stats to analyze
+     *  - stat: HP, ATK, DEF, SPD, SPCL, SATK, or SDEF
+     *  - level: Pokemon's level for analysis
+     *  - gen: Generation 1-5
+     *  - stat_vec: Reference to vector in which to return values
+     */
+    void PKMNSIM_API get_stat_range(base_pkmn::sptr b_pkmn, std::string stat, int level, int gen, std::vector<int>& stat_vec);
+
+    /*
+     * Pass-by-value equivalent of previous function.
+     */
+    std::vector<int> PKMNSIM_API get_stat_range_vec(base_pkmn::sptr b_pkmn, std::string stat, int level, int gen);
+
+    /*
      * Gets damage of a move, before taking type advantages and STAB into account,
      * and without random variation.
      *

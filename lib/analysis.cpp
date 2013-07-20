@@ -20,15 +20,15 @@ using namespace std;
 
 namespace pkmnsim
 {
-    int get_min_possible_stat(base_pkmn::sptr bpkmn, string stat, int level, int gen)
+    int get_min_possible_stat(base_pkmn::sptr b_pkmn, string stat, int level, int gen)
     {
         //Check inputs for errors
-        if(not bpkmn->get_base_stats().has_key(stat)) throw runtime_error("Invalid stat specified.");
+        if(not b_pkmn->get_base_stats().has_key(stat)) throw runtime_error("Invalid stat specified.");
         if(gen < 1 or gen > 5) throw runtime_error("Invalid generation specified.");
 
         //Gen 1-2: IV = 0, EV = 0
         //Gen 3-5: IV = 0, EV = 0, disadvantageous nature
-        dict<string,int> stats = bpkmn->get_base_stats();
+        dict<string,int> stats = b_pkmn->get_base_stats();
         if(gen == 1 or gen == 2)
         {
             if(stat == "HP")
@@ -45,15 +45,15 @@ namespace pkmnsim
         }
     }
 
-    int get_max_possible_stat(base_pkmn::sptr bpkmn, string stat, int level, int gen)
+    int get_max_possible_stat(base_pkmn::sptr b_pkmn, string stat, int level, int gen)
     {
         //Check inputs for errors
-        if(not bpkmn->get_base_stats().has_key(stat)) throw runtime_error("Invalid stat specified.");
+        if(not b_pkmn->get_base_stats().has_key(stat)) throw runtime_error("Invalid stat specified.");
         if(gen < 1 or gen > 5) throw runtime_error("Invalid generation specified.");
 
         //Gen 1-2: IV = 15, EV = 65535
         //Gen 3-5: IV = 31, EV = 255, advantageous nature
-        dict<string,int> stats = bpkmn->get_base_stats();
+        dict<string,int> stats = b_pkmn->get_base_stats();
         if(gen == 1 or gen == 2)
         {
             if(stat == "HP")
@@ -70,9 +70,25 @@ namespace pkmnsim
         }
     }
 
-    bool is_stat_possible(base_pkmn::sptr bpkmn, int stat_value, string stat, int level, int gen)
+    bool is_stat_possible(base_pkmn::sptr b_pkmn, int stat_value, string stat, int level, int gen)
     {
-        return (stat_value > get_min_possible_stat(bpkmn,stat,level,gen) and stat_value < get_max_possible_stat(bpkmn,stat,level,gen));
+        return (stat_value > get_min_possible_stat(b_pkmn,stat,level,gen) and stat_value < get_max_possible_stat(b_pkmn,stat,level,gen));
+    }
+
+    void get_stat_range(base_pkmn::sptr b_pkmn, string stat, int level, int gen, vector<int>& stat_vec)
+    {
+        stat_vec.clear();
+
+        stat_vec.push_back(get_min_possible_stat(b_pkmn, stat, level, gen));
+        stat_vec.push_back(get_max_possible_stat(b_pkmn, stat, level, gen));
+    }
+
+    vector<int> get_stat_range_vec(base_pkmn::sptr b_pkmn, string stat, int level, int gen)
+    {
+        vector<int> stat_vec;
+        get_stat_range(b_pkmn, stat, level, gen, stat_vec);
+
+        return stat_vec;
     }
 
     int get_base_damage(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move)
