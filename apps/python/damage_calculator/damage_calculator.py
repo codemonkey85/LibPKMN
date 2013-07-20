@@ -58,8 +58,8 @@ if __name__ == "__main__":
     #Output result
     print "\nAnalyzing attack scenario."
     print " - Generation %d" % options.gen
-    print " - Attacker: %s (Level %d)" % (attacker.get_display_name(), options.attacker_level)
-    print " - Defender: %s (Level %d)" % (defender.get_display_name(), options.defender_level)
+    print " - Attacker: %s (Level %d)" % (attacker.get_species_name(), options.attacker_level)
+    print " - Defender: %s (Level %d)" % (defender.get_species_name(), options.defender_level)
     print " - Move: %s (%s, Base Power %d)" % (move.get_name(), damage_class_string, move.get_base_power())
     if move.get_move_damage_class() != Move_Classes.NON_DAMAGING and type_mod != 1.0:
         print "\n%s" % type_mod_string
