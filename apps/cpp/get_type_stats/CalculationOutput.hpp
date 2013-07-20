@@ -16,7 +16,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <pkmnsim/BasePkmnDisplayWidget.hpp>
+#include <pkmnsim/qt4/BasePkmnDisplayWidget.hpp>
 
 #include "type_stats_common.hpp"
 

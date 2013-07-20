@@ -10,6 +10,7 @@
 #include <pkmnsim/base_pkmn.hpp>
 
 using namespace pkmnsim;
+using namespace pkmnsim::qt4;
 using namespace std;
 
 GetTypeStatsWindow::GetTypeStatsWindow(QWidget* parent): QWidget(parent)

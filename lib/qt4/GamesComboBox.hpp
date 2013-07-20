@@ -13,19 +13,22 @@
 
 namespace pkmnsim
 {
-    class PKMNSIM_API GamesComboBox: public QComboBox
+    namespace qt4
     {
-        Q_OBJECT
+        class PKMNSIM_API GamesComboBox: public QComboBox
+        {
+            Q_OBJECT
 
-        public:
-            GamesComboBox(QWidget* parent = 0, int gen = 5);
+            public:
+                GamesComboBox(QWidget* parent = 0, int gen = 5);
 
-        /*signals:
+            /*signals:
 
-        slots:
+            slots:
 
-        private:*/
-    };
+            private:*/
+        };
+    }
 }
 
 #endif /* INCLUDED_GAMESCOMBOBOX_HPP */

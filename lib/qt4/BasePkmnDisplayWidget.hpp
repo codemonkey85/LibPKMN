@@ -21,20 +21,23 @@
 
 namespace pkmnsim
 {
-    class PKMNSIM_API BasePkmnDisplayWidget: public QWidget
+    namespace qt4
     {
-        Q_OBJECT
-        
-        public:
-            BasePkmnDisplayWidget(QWidget* parent = 0, base_pkmn::sptr pkmn = *(new base_pkmn::sptr));
+        class PKMNSIM_API BasePkmnDisplayWidget: public QWidget
+        {
+            Q_OBJECT
             
-        /*signals:
-        
-        slots:*/
-        
-        private:
-            base_pkmn::sptr b_pkmn;
-    };
+            public:
+                BasePkmnDisplayWidget(QWidget* parent = 0, base_pkmn::sptr pkmn = *(new base_pkmn::sptr));
+                
+            /*signals:
+            
+            slots:*/
+            
+            private:
+                base_pkmn::sptr b_pkmn;
+        };
+    }
 }
 
 #endif /* INCLUDED_BASEPKMNDISPLAYWIDGET_HPP */

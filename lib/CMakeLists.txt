@@ -48,14 +48,14 @@ IF(ENABLE_LIBPKMNSIM)
     # If Qt is found, add Qt subclasses to LibPKMNsim
     ####################################################################
     IF(ENABLE_LIBPKMNSIM_QT4)
-        ADD_SUBDIRECTORY(qt4_classes)
+        ADD_SUBDIRECTORY(qt4)
         INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
 
         INCLUDE(${QT_USE_FILE})
         LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
 
-        FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4_classes/*.cpp")
-        FILE(GLOB libpkmnsim_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4_classes/*.hpp")
+        FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
+        FILE(GLOB libpkmnsim_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.hpp")
 
         QT4_WRAP_CPP(MOCSrcs ${libpkmnsim_qt4_headers})
 

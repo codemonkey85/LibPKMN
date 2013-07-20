@@ -19,8 +19,8 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-#include <pkmnsim/BasePkmnDisplayWidget.hpp>
-#include <pkmnsim/TypesComboBox.hpp>
+#include <pkmnsim/qt4/BasePkmnDisplayWidget.hpp>
+#include <pkmnsim/qt4/TypesComboBox.hpp>
 
 #include "CalculationOutput.hpp"
 #include "OptionsGroupBox.hpp"
