@@ -9,6 +9,13 @@ FILE(TO_NATIVE_PATH "${PKMNSIM_SOURCE_DIR}/lib/swig" PKMNSIM_SWIG_SOURCE_DIR)
 SET(PKMNSIM_SWIG_SOURCE_DIR ${PKMNSIM_SWIG_SOURCE_DIR} CACHE FILEPATH "PKMNsim SWIG source directory")
 
 ####################################################################
+# Check for PyQt4 and register component if found
+####################################################################
+PYTHON_CHECK_MODULE("PyQt4" PyQt4 True PYQT4_FOUND)
+REGISTER_COMPONENT("PyPKMNsim Library - PyQt4 Subclasses" ENABLE_PYPKMNSIM_PYQT4 ON
+                   "ENABLE_PYPKMNSIM_LIB;PYQT4_FOUND" OFF)
+
+####################################################################
 # Python install directory is system-specific, so use this
 # script to determine this system's install directory
 ####################################################################
