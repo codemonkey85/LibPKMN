@@ -28,8 +28,8 @@ if __name__ == "__main__":
     defender_min_HP = get_min_possible_stat(defender, "HP", options.defender_level, options.gen)
     defender_max_HP = get_max_possible_stat(defender, "HP", options.defender_level, options.gen)
 
-    damage_range = get_damage_range_from_base_pkmn(attacker, defender, move, options.attacker_level,
-                                                   options.defender_level)
+    (min_damage, max_damage) = get_damage_range_from_base_pkmn(attacker, defender, move, options.attacker_level,
+                                                               options.defender_level)
 
     #Getting proper stat strings
     if move.get_move_damage_class() == Move_Classes.PHYSICAL:
@@ -56,8 +56,7 @@ if __name__ == "__main__":
         type_mod_string = ""
     
     #Get defender's max HP
-    min_hp = get_min_possible_stat(defender, "HP", options.defender_level, options.gen)
-    max_hp = get_max_possible_stat(defender, "HP", options.defender_level, options.gen)
+    (min_hp, max_hp) = get_stat_range(defender, "HP", options.defender_level, options.gen)
 
     #Output result
     print "\nAnalyzing attack scenario."
@@ -68,40 +67,40 @@ if __name__ == "__main__":
     if move.get_move_damage_class() != Move_Classes.NON_DAMAGING and type_mod != 1.0:
         print "\n%s" % type_mod_string
     print "\nDamage Range:"
-    print " - Minimum: %d" % damage_range[0]
-    print " - Maximum: %d" % damage_range[1]
+    print " - Minimum: %d" % min_damage
+    print " - Maximum: %d" % max_damage
     print "\nDefender HP Range:"
     print " - Minimum: %d" % min_hp
     print " - Maximum: %d" % max_hp
-    if max_hp < damage_range[0]:
+    if max_hp < min_damage:
         print "\nThe defender is guaranteed to faint in this scenario."
-    elif min_hp > damage_range[1]:
-        min_damage_percent = (float(damage_range[0]) / float(min_hp)) * 100.0
-        max_damage_percent = (float(damage_range[1]) / float(min_hp)) * 100.0
+    elif min_hp > max_damage:
+        min_damage_percent = (float(min_damage) / float(min_hp)) * 100.0
+        max_damage_percent = (float(max_damage) / float(min_hp)) * 100.0
         print "\nThe defender is guaranteed to survive this attack.\n"
-        print "Best case scenario: %d HP (%2.2f%%) lost." % (damage_range[0], min_damage_percent)
-        print "Worst case scenario: %d HP (%2.2f%%) lost." % (damage_range[1], max_damage_percent)
+        print "Best case scenario: %d/%d HP (%2.2f%%) lost." % (min_damage, max_hp, min_damage_percent)
+        print "Worst case scenario: %d/%d HP (%2.2f%%) lost." % (max_damage, min_hp, max_damage_percent)
     else:
-        min_damage_worst_case_percent = (float(damage_range[0]) / float(min_hp)) * 100.0
-        min_damage_best_case_percent = (float(damage_range[0]) / float(max_hp)) * 100.0
+        min_damage_worst_case_percent = (float(min_damage) / float(min_hp)) * 100.0
+        min_damage_best_case_percent = (float(min_damage) / float(max_hp)) * 100.0
         print "\nMinimum damage:"
         if min_damage_best_case_percent < 100.0:
-            print " - Best case scenario: %d HP (%2.2f%%) lost." % (damage_range[0], min_damage_best_case_percent)
+            print " - Best case scenario: %d/%d HP (%2.2f%%) lost." % (min_damage, max_hp, min_damage_best_case_percent)
         else:
-            print " - Worst case secnario: the defender faints."
+            print " - Best case secnario: the defender faints."
         if min_damage_worst_case_percent < 100.0:
-            print " - Best case scenario: %d HP (%2.2f%%) lost." % (damage_range[0], min_damage_worst_case_percent)
+            print " - Worst case scenario: %d/%d HP (%2.2f%%) lost." % (min_damage, min_hp, min_damage_worst_case_percent)
         else:
             print " - Worst case scenario: the defender faints."
 
-        max_damage_worst_case_percent = (float(damage_range[1]) / float(min_hp)) * 100.0
-        max_damage_best_case_percent = (float(damage_range[1]) / float(max_hp)) * 100.0
+        max_damage_worst_case_percent = (float(max_damage) / float(min_hp)) * 100.0
+        max_damage_best_case_percent = (float(max_damage) / float(max_hp)) * 100.0
         print "\nMaximum damage:"
         if max_damage_best_case_percent < 100.0:
-            print " - Best case scenario: %d HP (%2.2f%%) lost." % (damage_range[1], max_damage_best_case_percent)
+            print " - Best case scenario: %d/%d HP (%2.2f%%) lost." % (max_damage, max_hp, max_damage_best_case_percent)
         else:
-            print " - Worst case secnario: the defender faints."
+            print " - Best case secnario: the defender faints."
         if max_damage_worst_case_percent < 100.0:
-            print " - Best case scenario: %d HP (%2.2f%%) lost." % (damage_range[1], max_damage_worst_case_percent)
+            print " - Worst case scenario: %d/%d HP (%2.2f%%) lost." % (max_damage, min_hp, max_damage_worst_case_percent)
         else:
             print " - Worst case scenario: the defender faints."
