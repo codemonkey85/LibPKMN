@@ -84,7 +84,7 @@ namespace pkmnsim
             return db.execAndGetStr(query_string.c_str(), "nature_id");
         }
 
-        string get_pokedex_entry(int species_id, int version)
+        string get_pokedex_entry_from_species_id(int species_id, int version)
         {
             //Some enum values need to be translated over to database ID's
             int to_database_id[] = {1,2,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22};
@@ -104,6 +104,15 @@ namespace pkmnsim
             }
 
             return entry;
+        }
+
+        string get_pokedex_entry_from_species_name(string species_name, int version)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_names WHERE name='%s'")
+                                                    % species_name);
+            int species_id = db.execAndGet(query_string.c_str());
+            return get_pokedex_entry_from_species_id(species_id, version);
         }
 
         string get_species_name_from_id(int species_id)

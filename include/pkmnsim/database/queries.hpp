@@ -54,7 +54,13 @@ namespace pkmnsim
          * Get the Pokedex entry associated with the given species ID
          * and version enum.
          */
-        std::string get_pokedex_entry(int species_id, int version);
+        std::string get_pokedex_entry_from_species_id(int species_id, int version);
+
+        /*
+         * Get the Pokedex entry associated with the given species name
+         * and version enum.
+         */
+        std::string get_pokedex_entry_from_species_name(std::string species_name, int version);
 
         /*
          * Get the Pokemon species name associated with the specified ID.
