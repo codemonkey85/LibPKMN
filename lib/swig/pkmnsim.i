@@ -55,6 +55,7 @@ namespace std
     #include "pkmnsim/analysis.hpp"
     
     #include "pkmnsim/database/lists.hpp"
+    #include "pkmnsim/database/queries.hpp"
 %}
 
 %include "pkmnsim/config.hpp"
@@ -72,6 +73,7 @@ namespace std
 %include "pkmnsim/analysis.hpp"
 
 %include "pkmnsim/database/lists.hpp"
+%include "pkmnsim/database/queries.hpp"
 
 //Templates for different uses of dict and vla
 %template(dict_int_std_string) pkmnsim::dict<int, std::string>;
