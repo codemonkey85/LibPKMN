@@ -264,6 +264,7 @@ namespace pkmnsim
             pkmn_nature::sptr nature;
             std::string ability;
 
+            friend class converter;
             friend class trainer;
             friend class trainer_gen3impl;
             friend class trainer_gen4impl;
