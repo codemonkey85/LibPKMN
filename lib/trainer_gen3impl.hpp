@@ -11,6 +11,8 @@
 
 #include <pkmnsim/trainer.hpp>
 
+#include <pokehack/SaveParser.h>
+
 #include "conversions.hpp"
 
 namespace pkmnsim

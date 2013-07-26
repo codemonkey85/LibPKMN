@@ -192,8 +192,7 @@ namespace pkmnsim
         party.clear();
         for(int i = 0; i < 6; i++)
             if(string(pokemon_species[parser->pokemon_growth[i]->species]) != "No pokemon")
-                party.push_back(converter::pokehack_pkmn_to_spec_pkmn(parser,
-                                                                      parser->pokemon[i],
+                party.push_back(converter::pokehack_pkmn_to_spec_pkmn(parser->pokemon[i],
                                                                       parser->pokemon_attacks[i],
                                                                       parser->pokemon_effort[i],
                                                                       parser->pokemon_misc[i],

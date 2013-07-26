@@ -23,10 +23,38 @@
 
 using namespace std;
 
+#define MAX_NICKNAME_LEN 10
+#define MAX_TRAINER_NAME_LEN 7
+
 namespace pkmnsim
 {
-    spec_pkmn::sptr converter::pokehack_pkmn_to_spec_pkmn(SaveParser* parser,
-                                                          belt_pokemon_t* b_pkmn_t,
+    //To avoid C/C++ include messiness while avoiding bringing in pokehack/SaveParser.h
+    char* converter::pokehack_get_text(unsigned char* raw, bool is_nickname)
+    {
+        char* actual_text;
+        int len;
+
+        if(is_nickname)
+        {
+            actual_text = new char[MAX_NICKNAME_LEN];
+            len = MAX_NICKNAME_LEN;
+        }
+        else
+        {
+            actual_text = new char[MAX_TRAINER_NAME_LEN];
+            len = MAX_TRAINER_NAME_LEN;
+        }
+
+        for(int i = 0; i < len; i++)
+        {
+            if(int(raw[i]) != 255) actual_text[i] = text[int(raw[i])];
+            else actual_text[i] = '\0';
+        }
+
+        return actual_text;
+    }
+
+    spec_pkmn::sptr converter::pokehack_pkmn_to_spec_pkmn(belt_pokemon_t* b_pkmn_t,
                                                           pokemon_attacks_t* pkmn_a_t,
                                                           pokemon_effort_t* pkmn_e_t,
                                                           pokemon_misc_t* pkmn_m_t,
@@ -50,7 +78,7 @@ namespace pkmnsim
                                                  move1, move2, move3, move4,
                                                  true);
 
-        s_pkmn->nickname = parser->get_text(b_pkmn_t->name, true);
+        s_pkmn->nickname = pokehack_get_text(b_pkmn_t->name, true);
         s_pkmn->held_item = items[pkmn_g_t->held];
 
         string nature_from_pokehack = natures[b_pkmn_t->personality % 25];
