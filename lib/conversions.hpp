@@ -27,6 +27,8 @@ namespace pkmnsim
                                                               pokemon_misc_t* pkmn_m_t,
                                                               pokemon_growth_t* pkmn_g_t);
 
+            static spec_pkmn::sptr pokelib_pkmn_to_spec_pkmn(PokeLib::Pokemon pokelib_pkmn);
+
         private:
             static char* pokehack_get_text(unsigned char* raw, bool is_nickname);
     };
