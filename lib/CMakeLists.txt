@@ -37,6 +37,7 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen3impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen4impl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen5impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/conversions.cpp
