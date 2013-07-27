@@ -209,8 +209,6 @@ namespace pkmnsim
             ('\0', int(0xFF))
         ;
 
-        int move1_pos, move2_pos, move3_pos, move4_pos, nature_pos, ability_pos;
-
         //Species position needs to be manually set for Nidoran's due to gender character
         if(s_pkmn->base->get_nat_pokedex_num() == 29) pkmn_g_t->species = 29; //Nidoran F
         if(s_pkmn->base->get_nat_pokedex_num() == 32) pkmn_g_t->species = 32; //Nidoran M
@@ -314,7 +312,7 @@ namespace pkmnsim
 
     PokeLib::Pokemon converter::spec_pkmn_to_pokelib_pkmn(spec_pkmn::sptr s_pkmn)
     {
-        int gender, species_pos, move1_pos, move2_pos, move3_pos, move4_pos, nature_pos, ability_pos;
+        int species_pos, move1_pos, move2_pos, move3_pos, move4_pos, nature_pos, ability_pos;
 
         PokeLib::Pokemon pokelib_pkmn;
         species_pos = distance(PokeLib::species, (find(PokeLib::species, PokeLib::species+656, s_pkmn->get_species_name().c_str())));
