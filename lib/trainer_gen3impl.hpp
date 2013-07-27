@@ -13,6 +13,8 @@
 
 #include <pokehack/SaveParser.h>
 
+#include "conversions.hpp"
+
 namespace pkmnsim
 {
     class PKMNSIM_API trainer_gen3impl: public trainer
@@ -23,12 +25,6 @@ namespace pkmnsim
 
         private:
             SaveParser *parser;
-
-            spec_pkmn::sptr convert_to_spec_pkmn(belt_pokemon_t* b_pkmn_t,
-                                                 pokemon_attacks_t* pkmn_a_t,
-                                                 pokemon_effort_t* pkmn_e_t,
-                                                 pokemon_misc_t* pkmn_m_t,
-                                                 pokemon_growth_t* pkmn_g_t);
     };
 }
 

@@ -39,6 +39,7 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen4impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/conversions.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${sqlitecpp_sources}
         ${database_sources}
