@@ -4,3 +4,6 @@
 [submodule "PokeLib"]
 	path = PokeLib
 	url = https://github.com/ncorgan/PokeLib.git
+[submodule "PKMDS-G5"]
+	path = PKMDS-G5
+	url = https://github.com/ncorgan/PKMDS-G5.git
