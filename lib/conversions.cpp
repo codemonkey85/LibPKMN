@@ -424,8 +424,6 @@ namespace pkmnsim
         s_pkmn->evSDEF = pkm->evs.spdef;
         s_pkmn->evSPD = pkm->evs.speed;
 
-        cout << s_pkmn->get_info_verbose() << endl << endl;
-
         return s_pkmn;
     }
 
