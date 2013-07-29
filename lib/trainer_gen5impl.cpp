@@ -153,9 +153,22 @@ namespace pkmnsim
 
         sav = new bw2sav_obj;
         pkm = new pokemon_obj;
-        opendb(get_database_path().c_str());
         read(filename.c_str(), sav);
 
-        wcout << getwstring(sav->cur.trainername).size() << endl;
+        money = 0; //Placeholder until money is implemented in PKMDS
+        wstring trainer_name_wide = getsavtrainername(sav->cur);
+        char trainer_name_buffer[8];
+        memset(trainer_name_buffer,0,8);
+        wcstombs(trainer_name_buffer, trainer_name_wide.c_str(), 8);
+        trainer_name = trainer_name_buffer;
+
+        party.clear();
+        for(unsigned int i = 0; i < sav->cur.party.size; i++)
+        {
+            pkm = &(sav->cur.party.pokemon[i].pkm_data);
+            decryptpkm(pkm);
+            party.push_back(converter::pkmds_pkmn_to_spec_pkmn(pkm));
+            encryptpkm(pkm);
+        }
     }
 }
