@@ -428,4 +428,41 @@ namespace pkmnsim
 
         return s_pkmn;
     }
+
+    void converter::spec_pkmn_to_pkmds_pkmn(spec_pkmn::sptr s_pkmn, pokemon_obj* pkm)
+    {
+        pkm->species = Species::pkmspecies(s_pkmn->get_base_pkmn()->get_nat_pokedex_num());
+        pkm->moves[0] = Moves::moves(s_pkmn->get_moves()[0]->get_move_id());
+        if(s_pkmn->get_moves()[1]->get_name() == "Struggle") pkm->moves[1] = Moves::NOTHING;
+        else pkm->moves[1] = Moves::moves(s_pkmn->get_moves()[1]->get_move_id());
+        if(s_pkmn->get_moves()[2]->get_name() == "Struggle") pkm->moves[2] = Moves::NOTHING;
+        else pkm->moves[2] = Moves::moves(s_pkmn->get_moves()[2]->get_move_id());
+        if(s_pkmn->get_moves()[3]->get_name() == "Struggle") pkm->moves[3] = Moves::NOTHING;
+        else pkm->moves[3] = Moves::moves(s_pkmn->get_moves()[3]->get_move_id());
+
+        //Unlike species and moves, nature ID's don't correspond to anything PKMNsim uses
+        unsigned char nature_map[] = {0,1,6,16,21,11,2,7,17,22,12,4,9,19,24,20,14,5,10,25,15,3,8,18,23,13};
+        pkm->nature = Natures::natures(nature_map[s_pkmn->nature->get_nature_id()]);
+        setlevel(pkm, s_pkmn->level);
+        #ifdef __linux__
+        setpkmnickname(pkm, (wchar_t*)getwstring((char*)s_pkmn->nickname.c_str(), s_pkmn->nickname.size()).c_str(), s_pkmn->nickname.size());
+        #else
+        setpkmnickname(pkm, (wchar_t*)getwstring(s_pkmn->nickname).c_str(), s_pkmn->nickname.size());
+        #endif
+
+        //Stats not stored anywhere in PKMDS, so just store EV's and IV's
+        pkm->ivs.hp = s_pkmn->ivHP;
+        pkm->ivs.attack = s_pkmn->ivATK;
+        pkm->ivs.defense = s_pkmn->ivDEF;
+        pkm->ivs.spatk = s_pkmn->ivSATK;
+        pkm->ivs.spdef = s_pkmn->ivSDEF;
+        pkm->ivs.speed = s_pkmn->ivSPD;
+
+        pkm->evs.hp = s_pkmn->evHP;
+        pkm->evs.attack = s_pkmn->evATK;
+        pkm->evs.defense = s_pkmn->evDEF;
+        pkm->evs.spatk = s_pkmn->evSATK;
+        pkm->evs.spdef = s_pkmn->evSDEF;
+        pkm->evs.speed = s_pkmn->evSPD;
+    }
 }
