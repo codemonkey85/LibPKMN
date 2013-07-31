@@ -523,4 +523,35 @@ namespace pkmnsim
 
         return pokelib_pkmn;
     }
+
+    void converter::pokehack_pkmn_to_pkmds_pkmn(belt_pokemon_t* b_pkmn_t,
+                                                pokemon_attacks_t* pkmn_a_t,
+                                                pokemon_effort_t* pkmn_e_t,
+                                                pokemon_misc_t* pkmn_m_t,
+                                                pokemon_growth_t* pkmn_g_t,
+                                                pokemon_obj* pkm)
+    {
+        pkm->species = Species::pkmspecies(pkmn_g_t->species);
+        setlevel(pkm, b_pkmn_t->level);
+        string pokehack_nickname(pokehack_get_text(b_pkmn_t->name, true));
+        #ifdef __linux__
+        setpkmnickname(pkm, (wchar_t*)getwstring((char*)pokehack_nickname.c_str(), pokehack_nickname.size()).c_str(), pokehack_nickname.size());
+        #else
+        setpkmnickname(pkm, (wchar_t*)getwstring(pokehack_nickname).c_str(), pokehack_nickname.size());
+        #endif
+        pkm->sid = b_pkmn_t->personality;
+
+        //Moves should have the same indices
+        pkm->moves[0] = Moves::moves(pkmn_a_t->atk1);
+        pkm->moves[1] = Moves::moves(pkmn_a_t->atk2);
+        pkm->moves[2] = Moves::moves(pkmn_a_t->atk3);
+        pkm->moves[3] = Moves::moves(pkmn_a_t->atk4);
+        pkm->pp[0] = pkmn_a_t->pp1;
+        pkm->pp[1] = pkmn_a_t->pp2;
+        pkm->pp[2] = pkmn_a_t->pp3;
+        pkm->pp[3] = pkmn_a_t->pp4;
+
+        //Stats
+        
+    }
 }

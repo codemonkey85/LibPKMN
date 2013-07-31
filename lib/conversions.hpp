@@ -49,6 +49,13 @@ namespace pkmnsim
                                                                   pokemon_misc_t* pkmn_m_t,
                                                                   pokemon_growth_t* pkmn_g_t);
 
+            static void pokehack_pkmn_to_pkmds_pkmn(belt_pokemon_t* b_pkmn_t,
+                                                    pokemon_attacks_t* pkmn_a_t,
+                                                    pokemon_effort_t* pkmn_e_t,
+                                                    pokemon_misc_t* pkmn_m_t,
+                                                    pokemon_growth_t* pkmn_g_t,
+                                                    pokemon_obj* pkm);
+
         private:
             static char* pokehack_get_text(unsigned char* raw, bool is_nickname);
     };
