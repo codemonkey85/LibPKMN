@@ -43,6 +43,12 @@ namespace pkmnsim
 
             static void spec_pkmn_to_pkmds_pkmn(spec_pkmn::sptr s_pkmn, party_pkm* p_pkm);
 
+            static PokeLib::Pokemon pokehack_pkmn_to_pokelib_pkmn(belt_pokemon_t* b_pkmn_t,
+                                                                  pokemon_attacks_t* pkmn_a_t,
+                                                                  pokemon_effort_t* pkmn_e_t,
+                                                                  pokemon_misc_t* pkmn_m_t,
+                                                                  pokemon_growth_t* pkmn_g_t);
+
         private:
             static char* pokehack_get_text(unsigned char* raw, bool is_nickname);
     };
