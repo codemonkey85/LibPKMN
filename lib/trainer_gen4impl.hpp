@@ -23,8 +23,6 @@ namespace pkmnsim
 
         private:
             PokeLib::Save *save;
-
-            spec_pkmn::sptr convert_to_spec_pkmn(PokeLib::Pokemon pokelib_pkmn);
     };
 }
 

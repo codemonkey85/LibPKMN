@@ -13,6 +13,7 @@
 
 #include <pokehack/pokestructs.h>
 #include <pokelib/pokelib.h>
+#include <pkmds/pkmds_g5.h>
 
 namespace pkmnsim
 {
@@ -37,6 +38,10 @@ namespace pkmnsim
             static spec_pkmn::sptr pokelib_pkmn_to_spec_pkmn(PokeLib::Pokemon pokelib_pkmn);
 
             static PokeLib::Pokemon spec_pkmn_to_pokelib_pkmn(spec_pkmn::sptr s_pkmn);
+
+            static spec_pkmn::sptr pkmds_pkmn_to_spec_pkmn(pokemon_obj* pkm);
+
+            static void spec_pkmn_to_pkmds_pkmn(spec_pkmn::sptr s_pkmn, pokemon_obj* pkm);
 
         private:
             static char* pokehack_get_text(unsigned char* raw, bool is_nickname);

@@ -14,6 +14,7 @@
 #include "sqlitecpp/SQLiteCPP.h"
 #include "trainer_gen3impl.hpp"
 #include "trainer_gen4impl.hpp"
+#include "trainer_gen5impl.hpp"
 
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
@@ -64,8 +65,14 @@ namespace pkmnsim
                     case Games::SOUL_SILVER:
                         return trainer::sptr(new trainer_gen4impl(&db));
 
+                    case Games::BLACK:
+                    case Games::WHITE:
+                    case Games::BLACK2:
+                    case Games::WHITE2:
+                        return trainer::sptr(new trainer_gen5impl(&db));
+
                     default:
-                        cerr << "Only Gen 3-4 supported." << endl;
+                        cerr << "Only Gen 3-5 supported." << endl;
                         exit(EXIT_FAILURE);
                 }
             }
@@ -89,8 +96,14 @@ namespace pkmnsim
                     case Games::SOUL_SILVER:
                         return trainer::sptr(new trainer_gen4impl(filename, game));
 
+                    case Games::BLACK:
+                    case Games::WHITE:
+                    case Games::BLACK2:
+                    case Games::WHITE2:
+                        return trainer::sptr(new trainer_gen5impl(filename, game));
+
                     default:
-                        cerr << "Only Gen 3-4 supported." << endl;
+                        cerr << "Only Gen 3-5 supported." << endl;
                         exit(EXIT_FAILURE);
                 }
             }
