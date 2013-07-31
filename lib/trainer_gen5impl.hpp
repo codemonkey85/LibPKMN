@@ -24,7 +24,7 @@ namespace pkmnsim
 
         private:
             bw2sav_obj* sav;
-            pokemon_obj* pkm;
+            party_pkm* p_pkm;
     };
 }
 

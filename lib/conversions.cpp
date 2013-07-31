@@ -358,37 +358,37 @@ namespace pkmnsim
         return pokelib_pkmn;
     }
 
-    spec_pkmn::sptr converter::pkmds_pkmn_to_spec_pkmn(pokemon_obj* pkm)
+    spec_pkmn::sptr converter::pkmds_pkmn_to_spec_pkmn(party_pkm* p_pkm)
     {
         opendb(get_database_path().c_str());
 
         string identifier, move1, move2, move3, move4;
         int level, gender;
 
-        identifier = database::to_database_format(lookuppkmname(pkm));
-        level = getpkmlevel(pkm);
+        identifier = database::to_database_format(lookuppkmname(p_pkm->pkm_data));
+        level = getpkmlevel(p_pkm->pkm_data);
 
-        move1 = lookupmovename(pkm->moves[0]);
-        if(pkm->moves[1] == Moves::NOTHING) move2 = "None";
-        else move2 = lookupmovename(pkm->moves[1]);
-        if(pkm->moves[2] == Moves::NOTHING) move3 = "None";
-        else move3 = lookupmovename(pkm->moves[2]);
-        if(pkm->moves[3] == Moves::NOTHING) move4 = "None";
-        else move4 = lookupmovename(pkm->moves[3]);
+        move1 = lookupmovename(p_pkm->pkm_data.moves[0]);
+        if(p_pkm->pkm_data.moves[1] == Moves::NOTHING) move2 = "None";
+        else move2 = lookupmovename(p_pkm->pkm_data.moves[1]);
+        if(p_pkm->pkm_data.moves[2] == Moves::NOTHING) move3 = "None";
+        else move3 = lookupmovename(p_pkm->pkm_data.moves[2]);
+        if(p_pkm->pkm_data.moves[3] == Moves::NOTHING) move4 = "None";
+        else move4 = lookupmovename(p_pkm->pkm_data.moves[3]);
 
         spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 5, level, move1, move2, move3, move4, true);
 
-        wstring nickname_wide = getpkmnickname(pkm);
+        wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
         char nickname_buffer[11];
         memset(nickname_buffer,0,11);
         wcstombs(nickname_buffer, nickname_wide.c_str(), 11);
         s_pkmn->nickname = nickname_buffer;
 
-        if(pkm->item == Items::NOTHING) s_pkmn->held_item = "None";
-        else s_pkmn->held_item = lookupitemname(pkm);
-        s_pkmn->nature = pkmn_nature::make(getnaturename(pkm));
-        s_pkmn->shiny = getpkmshiny(pkm);
-        switch(int(getpkmgender(pkm)))
+        if(p_pkm->pkm_data.item == Items::NOTHING) s_pkmn->held_item = "None";
+        else s_pkmn->held_item = lookupitemname(p_pkm->pkm_data);
+        s_pkmn->nature = pkmn_nature::make(getnaturename(p_pkm->pkm_data));
+        s_pkmn->shiny = getpkmshiny(p_pkm->pkm_data);
+        switch(int(getpkmgender(p_pkm->pkm_data)))
         {
             case ::Genders::male:
                 s_pkmn->gender = Genders::MALE;
@@ -403,64 +403,65 @@ namespace pkmnsim
                 break;
         }
 
-        s_pkmn->HP = getpkmstat(pkm, Stat_IDs::hp);
-        s_pkmn->ATK = getpkmstat(pkm, Stat_IDs::attack);
-        s_pkmn->DEF = getpkmstat(pkm, Stat_IDs::defense);
-        s_pkmn->SATK = getpkmstat(pkm, Stat_IDs::spatk);
-        s_pkmn->SDEF = getpkmstat(pkm, Stat_IDs::spdef);
-        s_pkmn->SPD = getpkmstat(pkm, Stat_IDs::speed);
+        s_pkmn->HP = getpkmstat(p_pkm->pkm_data, Stat_IDs::hp);
+        s_pkmn->ATK = getpkmstat(p_pkm->pkm_data, Stat_IDs::attack);
+        s_pkmn->DEF = getpkmstat(p_pkm->pkm_data, Stat_IDs::defense);
+        s_pkmn->SATK = getpkmstat(p_pkm->pkm_data, Stat_IDs::spatk);
+        s_pkmn->SDEF = getpkmstat(p_pkm->pkm_data, Stat_IDs::spdef);
+        s_pkmn->SPD = getpkmstat(p_pkm->pkm_data, Stat_IDs::speed);
 
-        s_pkmn->ivHP = pkm->ivs.hp;
-        s_pkmn->ivATK = pkm->ivs.attack;
-        s_pkmn->ivDEF = pkm->ivs.defense;
-        s_pkmn->ivSATK = pkm->ivs.spatk;
-        s_pkmn->ivSDEF = pkm->ivs.spdef;
-        s_pkmn->ivSPD = pkm->ivs.speed;
+        s_pkmn->ivHP = p_pkm->pkm_data.ivs.hp;
+        s_pkmn->ivATK = p_pkm->pkm_data.ivs.attack;
+        s_pkmn->ivDEF = p_pkm->pkm_data.ivs.defense;
+        s_pkmn->ivSATK = p_pkm->pkm_data.ivs.spatk;
+        s_pkmn->ivSDEF = p_pkm->pkm_data.ivs.spdef;
+        s_pkmn->ivSPD = p_pkm->pkm_data.ivs.speed;
 
-        s_pkmn->evHP = pkm->evs.hp;
-        s_pkmn->evATK = pkm->evs.attack;
-        s_pkmn->evDEF = pkm->evs.defense;
-        s_pkmn->evSATK = pkm->evs.spatk;
-        s_pkmn->evSDEF = pkm->evs.spdef;
-        s_pkmn->evSPD = pkm->evs.speed;
+        s_pkmn->evHP = p_pkm->pkm_data.evs.hp;
+        s_pkmn->evATK = p_pkm->pkm_data.evs.attack;
+        s_pkmn->evDEF = p_pkm->pkm_data.evs.defense;
+        s_pkmn->evSATK = p_pkm->pkm_data.evs.spatk;
+        s_pkmn->evSDEF = p_pkm->pkm_data.evs.spdef;
+        s_pkmn->evSPD = p_pkm->pkm_data.evs.speed;
 
         return s_pkmn;
     }
 
-    void converter::spec_pkmn_to_pkmds_pkmn(spec_pkmn::sptr s_pkmn, pokemon_obj* pkm)
+    void converter::spec_pkmn_to_pkmds_pkmn(spec_pkmn::sptr s_pkmn, party_pkm* p_pkm)
     {
-        pkm->species = Species::pkmspecies(s_pkmn->get_base_pkmn()->get_nat_pokedex_num());
-        pkm->moves[0] = Moves::moves(s_pkmn->get_moves()[0]->get_move_id());
-        if(s_pkmn->get_moves()[1]->get_name() == "Struggle") pkm->moves[1] = Moves::NOTHING;
-        else pkm->moves[1] = Moves::moves(s_pkmn->get_moves()[1]->get_move_id());
-        if(s_pkmn->get_moves()[2]->get_name() == "Struggle") pkm->moves[2] = Moves::NOTHING;
-        else pkm->moves[2] = Moves::moves(s_pkmn->get_moves()[2]->get_move_id());
-        if(s_pkmn->get_moves()[3]->get_name() == "Struggle") pkm->moves[3] = Moves::NOTHING;
-        else pkm->moves[3] = Moves::moves(s_pkmn->get_moves()[3]->get_move_id());
+        p_pkm->pkm_data.species = Species::pkmspecies(s_pkmn->get_base_pkmn()->get_nat_pokedex_num());
+        p_pkm->pkm_data.moves[0] = Moves::moves(s_pkmn->get_moves()[0]->get_move_id());
+        if(s_pkmn->get_moves()[1]->get_name() == "Struggle") p_pkm->pkm_data.moves[1] = Moves::NOTHING;
+        else p_pkm->pkm_data.moves[1] = Moves::moves(s_pkmn->get_moves()[1]->get_move_id());
+        if(s_pkmn->get_moves()[2]->get_name() == "Struggle") p_pkm->pkm_data.moves[2] = Moves::NOTHING;
+        else p_pkm->pkm_data.moves[2] = Moves::moves(s_pkmn->get_moves()[2]->get_move_id());
+        if(s_pkmn->get_moves()[3]->get_name() == "Struggle") p_pkm->pkm_data.moves[3] = Moves::NOTHING;
+        else p_pkm->pkm_data.moves[3] = Moves::moves(s_pkmn->get_moves()[3]->get_move_id());
 
         //Unlike species and moves, nature ID's don't correspond to anything PKMNsim uses
         unsigned char nature_map[] = {0,1,6,16,21,11,2,7,17,22,12,4,9,19,24,20,14,5,10,25,15,3,8,18,23,13};
-        pkm->nature = Natures::natures(nature_map[s_pkmn->nature->get_nature_id()]);
-        setlevel(pkm, s_pkmn->level);
+        p_pkm->pkm_data.nature = Natures::natures(nature_map[s_pkmn->nature->get_nature_id()]);
+        setlevel(p_pkm->pkm_data, s_pkmn->level);
         #ifdef __linux__
-        setpkmnickname(pkm, (wchar_t*)getwstring((char*)s_pkmn->nickname.c_str(), s_pkmn->nickname.size()).c_str(), s_pkmn->nickname.size());
+        setpkmnickname(p_pkm->pkm_data, (wchar_t*)getwstring((char*)s_pkmn->nickname.c_str(), s_pkmn->nickname.size()).c_str(), s_pkmn->nickname.size());
         #else
-        setpkmnickname(pkm, (wchar_t*)getwstring(s_pkmn->nickname).c_str(), s_pkmn->nickname.size());
+        setpkmnickname(p_pkm->pkm_data, (wchar_t*)getwstring(s_pkmn->nickname).c_str(), s_pkmn->nickname.size());
         #endif
 
-        //Stats not stored anywhere in PKMDS, so just store EV's and IV's
-        pkm->ivs.hp = s_pkmn->ivHP;
-        pkm->ivs.attack = s_pkmn->ivATK;
-        pkm->ivs.defense = s_pkmn->ivDEF;
-        pkm->ivs.spatk = s_pkmn->ivSATK;
-        pkm->ivs.spdef = s_pkmn->ivSDEF;
-        pkm->ivs.speed = s_pkmn->ivSPD;
+        p_pkm->party_data.maxhp = s_pkmn->HP;
 
-        pkm->evs.hp = s_pkmn->evHP;
-        pkm->evs.attack = s_pkmn->evATK;
-        pkm->evs.defense = s_pkmn->evDEF;
-        pkm->evs.spatk = s_pkmn->evSATK;
-        pkm->evs.spdef = s_pkmn->evSDEF;
-        pkm->evs.speed = s_pkmn->evSPD;
+        p_pkm->pkm_data.ivs.hp = s_pkmn->ivHP;
+        p_pkm->pkm_data.ivs.attack = s_pkmn->ivATK;
+        p_pkm->pkm_data.ivs.defense = s_pkmn->ivDEF;
+        p_pkm->pkm_data.ivs.spatk = s_pkmn->ivSATK;
+        p_pkm->pkm_data.ivs.spdef = s_pkmn->ivSDEF;
+        p_pkm->pkm_data.ivs.speed = s_pkmn->ivSPD;
+
+        p_pkm->pkm_data.evs.hp = s_pkmn->evHP;
+        p_pkm->pkm_data.evs.attack = s_pkmn->evATK;
+        p_pkm->pkm_data.evs.defense = s_pkmn->evDEF;
+        p_pkm->pkm_data.evs.spatk = s_pkmn->evSATK;
+        p_pkm->pkm_data.evs.spdef = s_pkmn->evSDEF;
+        p_pkm->pkm_data.evs.speed = s_pkmn->evSPD;
     }
 }

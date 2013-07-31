@@ -152,7 +152,7 @@ namespace pkmnsim
         from_game = game;
 
         sav = new bw2sav_obj;
-        pkm = new pokemon_obj;
+        p_pkm = new party_pkm;
         read(filename.c_str(), sav);
 
         money = 0; //Placeholder until money is implemented in PKMDS
@@ -165,10 +165,10 @@ namespace pkmnsim
         party.clear();
         for(unsigned int i = 0; i < sav->cur.party.size; i++)
         {
-            pkm = &(sav->cur.party.pokemon[i].pkm_data);
-            decryptpkm(pkm);
-            party.push_back(converter::pkmds_pkmn_to_spec_pkmn(pkm));
-            encryptpkm(pkm);
+            p_pkm = &(sav->cur.party.pokemon[i]);
+            decryptpkm(p_pkm->pkm_data);
+            party.push_back(converter::pkmds_pkmn_to_spec_pkmn(p_pkm));
+            encryptpkm(p_pkm->pkm_data);
         }
     }
 }
