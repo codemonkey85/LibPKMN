@@ -7,7 +7,10 @@
 
 #include <stdio.h>
 
+#include <boost/format.hpp>
+
 #include <pkmnsim/paths.hpp>
+#include <pkmnsim/database/queries.hpp>
 
 #include "base_pkmn_gen1impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
@@ -16,27 +19,24 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, bool query_moves):
-                                           base_pkmn(identifier, 1, query_moves)
-    {
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
-                            + " AND stat_id=9";
-        baseSPCL = db.execAndGet(query_string.c_str(), identifier); 
-    }
+    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier):
+                                           base_pkmn(identifier, 1) {}
 
     string base_pkmn_gen1impl::get_info()
     {
         string types_str;
-        if(type2 == "None") types_str = type1;
-        else types_str = type1 + "/" + type2;
+        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        else types_str = database::get_type_name_from_id(type1_id) + "/"
+                       + database::get_type_name_from_id(type2_id);
 
-        string stats_str = to_string(baseHP) + ", " + to_string(baseATK) + ", "
-                         + to_string(baseDEF) + ", " + to_string(baseSPD) + ", "
-                         + to_string(baseSPCL);
+        dict<string, int> stats = get_base_stats();
+
+        string stats_str = to_string(stats["HP"]) + ", " + to_string(stats["ATK"]) + ", "
+                         + to_string(stats["DEF"]) + ", " + to_string(stats["SPD"]) + ", "
+                         + to_string(stats["SPCL"]);
 
         string output_string;
-        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
+        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
                       + "Type: " + types_str + "\n"
                       + "Stats: " + stats_str;
 
@@ -46,21 +46,23 @@ namespace pkmnsim
     string base_pkmn_gen1impl::get_info_verbose()
     {
         string types_str;
-        if(type2 == "None") types_str = type1;
-        else types_str = type1 + "/" + type2;
+        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        else types_str = database::get_type_name_from_id(type1_id) + "/"
+                       + database::get_type_name_from_id(type2_id);
+
+        dict<string, int> stats = get_base_stats();
 
         string output_string;
-        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
-                      + species + " Pokémon\n"
+        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                      //+ species + " Pokémon\n"
                       + "Type: " + types_str + "\n"
-                      + to_string(height) + " m, " + to_string(weight) + " kg\n"
+                      + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
                       + "Base Stats:\n"
-                      + " - HP: " + to_string(baseHP) + "\n"
-                      + " - Attack: " + to_string(baseATK) + "\n"
-                      + " - Defense: " + to_string(baseDEF) + "\n"
-                      + " - Speed: " + to_string(baseSPD) + "\n"
-                      + " - Special: " + to_string(baseSPCL) + "\n"
-                      + " - Experience Yield: " + to_string(exp_yield);
+                      + " - HP: " + to_string(stats["HP"]) + "\n"
+                      + " - Attack: " + to_string(stats["ATK"]) + "\n"
+                      + " - Defense: " + to_string(stats["DEF"]) + "\n"
+                      + " - Speed: " + to_string(stats["SPD"]) + "\n"
+                      + " - Special: " + to_string(stats["SPCL"]);
 
         return output_string;
     }
@@ -68,11 +70,22 @@ namespace pkmnsim
     dict<string,int> base_pkmn_gen1impl::get_base_stats()
     {
         dict<string,int> stats;
-        stats["HP"] = baseHP;
-        stats["ATK"] = baseATK;
-        stats["DEF"] = baseDEF;
-        stats["SPD"] = baseSPD;
-        stats["SPCL"] = baseSPCL;
+
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) +
+                       " AND stat_id IN (1,2,3,6,9)";
+        SQLite::Statement stats_query(db, query_string.c_str());
+
+        stats_query.executeStep();
+        stats["HP"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["ATK"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["DEF"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SPD"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SPCL"] = stats_query.getColumn(0);
         return stats;
     }
 

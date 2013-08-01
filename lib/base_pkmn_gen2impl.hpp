@@ -17,7 +17,7 @@ namespace pkmnsim
     class PKMNSIM_API base_pkmn_gen2impl: public base_pkmn
     {
         public:
-            base_pkmn_gen2impl(std::string identifier, bool query_moves);
+            base_pkmn_gen2impl(std::string identifier);
             std::string get_info(void);
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);
@@ -28,8 +28,6 @@ namespace pkmnsim
             std::string get_sprite_path(bool is_male, bool is_shiny);
 
         private:
-            int baseSATK, baseSDEF;
-            double chance_male, chance_female;
     };
 }
 

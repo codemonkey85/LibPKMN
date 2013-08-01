@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     {
         //A team can only have six members
         if(count > 6) break;
-        pkmn_team.push_back(base_pkmn::make(pkmn_name, gen, true));
+        pkmn_team.push_back(base_pkmn::make(pkmn_name, gen));
         if(verbose) cout << "Successfully added Pokémon: " << pkmn_name << endl;
         count++;
     }

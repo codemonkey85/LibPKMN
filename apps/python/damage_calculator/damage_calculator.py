@@ -20,8 +20,8 @@ if __name__ == "__main__":
     (options,args) = parser.parse_args()
 
     #Generate relevant data structures
-    attacker = base_pkmn(options.attacker, options.gen, False)
-    defender = base_pkmn(options.defender, options.gen, False)
+    attacker = base_pkmn(options.attacker, options.gen)
+    defender = base_pkmn(options.defender, options.gen)
     move = base_move(options.move, options.gen)
 
     #Get defender's HP range for checking possibility of fainting

@@ -9,6 +9,7 @@
 #include <stdio.h>
 
 #include <pkmnsim/paths.hpp>
+#include <pkmnsim/database/queries.hpp>
 
 #include "base_pkmn_gen2impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
@@ -17,18 +18,103 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, bool query_moves):
-                                           base_pkmn(identifier, 2, query_moves)
+    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier):
+                                           base_pkmn(identifier, 2) {}
+
+    string base_pkmn_gen2impl::get_info()
+    {
+        string types_str;
+        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        else types_str = database::get_type_name_from_id(type1_id) + "/"
+                       + database::get_type_name_from_id(type2_id);
+
+        dict<string, int> stats = get_base_stats();
+
+        string stats_str = to_string(stats["HP"]) + ", " + to_string(stats["ATK"]) + ", "
+                         + to_string(stats["DEF"]) + ", " + to_string(stats["SATK"]) + ", "
+                         + to_string(stats["SDEF"]) + ", " + to_string(stats["SPD"]);
+
+        string output_string;
+        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                      + "Type: " + types_str + "\n"
+                      + "Stats: " + stats_str;
+
+        return output_string;
+    }
+
+    string base_pkmn_gen2impl::get_info_verbose()
+    {
+        string types_str;
+        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        else types_str = database::get_type_name_from_id(type1_id) + "/"
+                       + database::get_type_name_from_id(type2_id);
+
+        dict<string, int> stats = get_base_stats();
+
+        string output_string;
+        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                      + "Type: " + types_str + "\n"
+                      + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
+                      + "Base Stats:\n"
+                      + " - HP: " + to_string(stats["HP"]) + "\n"
+                      + " - Attack: " + to_string(stats["ATK"]) + "\n"
+                      + " - Defense: " + to_string(stats["DEF"]) + "\n"
+                      + " - Special Attack: " + to_string(stats["SATK"]) + "\n"
+                      + " - Special Defense: " + to_string(stats["SDEF"]) + "\n"
+                      + " - Speed: " + to_string(stats["SPD"]);
+    
+        return output_string;
+    }
+
+    dict<string,int> base_pkmn_gen2impl::get_base_stats()
+    {
+        dict<string,int> stats;
+
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) +
+                       " AND stat_id IN (1,2,3,4,5,6)";
+        SQLite::Statement stats_query(db, query_string.c_str());
+
+        stats_query.executeStep();
+        stats["HP"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["ATK"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["DEF"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SATK"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SDEF"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SPD"] = stats_query.getColumn(0);
+        return stats;
+    }
+
+    dict<string,int> base_pkmn_gen2impl::get_ev_yields()
+    {
+        dict<string,int> stats;
+
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) +
+                       "AND stat_id IN (1,2,3,4,6)";
+        SQLite::Statement stats_query(db, query_string.c_str());
+
+        stats_query.executeStep();
+        stats["HP"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["ATK"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["DEF"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SPCL"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SPD"] = stats_query.getColumn(0);
+        return stats;
+    }
+
+    double base_pkmn_gen2impl::get_chance_male()
     {
         SQLite::Database db(get_database_path().c_str());
-
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
-                            + " AND stat_id=4";
-        baseSATK = db.execAndGet(query_string.c_str(), identifier); 
-
-        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id)
-                     + " AND stat_id=5";
-        baseSDEF = db.execAndGet(query_string.c_str(), identifier); 
 
         //Gender rates
         map<int, double> gender_val_map; //Double is percentage male
@@ -39,88 +125,32 @@ namespace pkmnsim
         gender_val_map[6] = 0.25;
         gender_val_map[8] = 0.0;
 
-        query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-        int gender_val = db.execAndGet(query_string.c_str(), identifier);
+        string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+        int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
 
-        if(gender_val == -1)
-        {
-            chance_male = 0.0;
-            chance_female = 0.0;
-        }
-        else
-        {
-            chance_male = gender_val_map[gender_val];
-            chance_female = 1.0 - chance_male;
-        }
+        if(gender_val == -1) return 0.0;
+        else return gender_val_map[gender_val];
     }
 
-    string base_pkmn_gen2impl::get_info()
+    double base_pkmn_gen2impl::get_chance_female()
     {
-        string types_str;
-        if(type2 == "None") types_str = type1;
-        else types_str = type1 + "/" + type2;
+        SQLite::Database db(get_database_path().c_str());
 
-        string stats_str = to_string(baseHP) + ", " + to_string(baseATK) + ", "
-                         + to_string(baseDEF) + ", " + to_string(baseSATK) + ", "
-                         + to_string(baseSDEF) + ", " + to_string(baseSPD);
+        //Gender rates
+        map<int, double> gender_val_map; //Double is percentage male
+        gender_val_map[0] = 1.0;
+        gender_val_map[1] = 0.875;
+        gender_val_map[2] = 0.75;
+        gender_val_map[4] = 0.5;
+        gender_val_map[6] = 0.25;
+        gender_val_map[8] = 0.0;
 
-        string output_string;
-        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
-                      + "Type: " + types_str + "\n"
-                      + "Stats: " + stats_str;
+        string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+        int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
 
-        return output_string;
+        if(gender_val == -1) return 0.0;
+        else return (1.0 - gender_val_map[gender_val]);
     }
-
-    string base_pkmn_gen2impl::get_info_verbose()
-    {
-        string types_str;
-        if(type2 == "None") types_str = type1;
-        else types_str = type1 + "/" + type2;
-
-        string output_string;
-        output_string = display_name + " (#" + to_string(nat_pokedex_num) + ")\n"
-                      + species + " Pokémon\n"
-                      + "Type: " + types_str + "\n"
-                      + to_string(height) + " m, " + to_string(weight) + " kg\n"
-                      + "Base Stats:\n"
-                      + " - HP: " + to_string(baseHP) + "\n"
-                      + " - Attack: " + to_string(baseATK) + "\n"
-                      + " - Defense: " + to_string(baseDEF) + "\n"
-                      + " - Special Attack: " + to_string(baseSATK) + "\n"
-                      + " - Special Defense: " + to_string(baseSDEF) + "\n"
-                      + " - Speed: " + to_string(baseSPD) + "\n"
-                      + " - Experience Yield: " + to_string(exp_yield);
-    
-        return output_string;
-    }
-
-    dict<string,int> base_pkmn_gen2impl::get_base_stats()
-    {
-        dict<string,int> stats;
-        stats["HP"] = baseHP;
-        stats["ATK"] = baseATK;
-        stats["DEF"] = baseDEF;
-        stats["SATK"] = baseSATK;
-        stats["SDEF"] = baseSDEF;
-        stats["SPD"] = baseSPD;
-        return stats;
-    }
-
-    dict<string,int> base_pkmn_gen2impl::get_ev_yields()
-    {
-        dict<string,int> stats;
-        stats["HP"] = baseHP;
-        stats["ATK"] = baseATK;
-        stats["DEF"] = baseDEF;
-        stats["SPCL"] = baseSATK;
-        stats["SPD"] = baseSPD;
-        return stats;
-    }
-
-    double base_pkmn_gen2impl::get_chance_male() {return chance_male;}
-
-    double base_pkmn_gen2impl::get_chance_female() {return chance_female;}
 
     bool base_pkmn_gen2impl::has_gender_differences(void) {return false;}
 

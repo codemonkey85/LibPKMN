@@ -45,7 +45,7 @@ namespace pkmnsim
 
             //Class constructors (should never be called directly)
             spec_pkmn() {};
-            spec_pkmn(base_pkmn::sptr b, bool i, std::string m1, std::string m2,
+            spec_pkmn(base_pkmn::sptr b, std::string m1, std::string m2,
                       std::string m3, std::string m4, int g, int l);
 
 
@@ -65,8 +65,7 @@ namespace pkmnsim
              */
             static sptr make(std::string identifier, int gen, int level,
                              std::string move1, std::string move2,
-                             std::string move3, std::string move4,
-                             bool illegal);
+                             std::string move3, std::string move4);
 
             /*
              * Returns the base Pokémon used to generate this Pokémon.
