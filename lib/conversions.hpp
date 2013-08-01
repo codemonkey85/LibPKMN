@@ -54,7 +54,7 @@ namespace pkmnsim
                                                     pokemon_effort_t* pkmn_e_t,
                                                     pokemon_misc_t* pkmn_m_t,
                                                     pokemon_growth_t* pkmn_g_t,
-                                                    pokemon_obj* pkm);
+                                                    party_pkm* p_pkm);
 
         private:
             static char* pokehack_get_text(unsigned char* raw, bool is_nickname);

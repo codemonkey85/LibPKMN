@@ -456,6 +456,11 @@ namespace pkmnsim
         #endif
 
         p_pkm->party_data.maxhp = s_pkmn->HP;
+        p_pkm->party_data.attack = s_pkmn->ATK;
+        p_pkm->party_data.defense = s_pkmn->DEF;
+        p_pkm->party_data.spatk = s_pkmn->SATK;
+        p_pkm->party_data.spdef = s_pkmn->SDEF;
+        p_pkm->party_data.speed = s_pkmn->SPD;
 
         p_pkm->pkm_data.ivs.hp = s_pkmn->ivHP;
         p_pkm->pkm_data.ivs.attack = s_pkmn->ivATK;
@@ -529,27 +534,27 @@ namespace pkmnsim
                                                 pokemon_effort_t* pkmn_e_t,
                                                 pokemon_misc_t* pkmn_m_t,
                                                 pokemon_growth_t* pkmn_g_t,
-                                                pokemon_obj* pkm)
+                                                party_pkm* p_pkm)
     {
-        pkm->species = Species::pkmspecies(pkmn_g_t->species);
-        setlevel(pkm, b_pkmn_t->level);
+        p_pkm->pkm_data.species = Species::pkmspecies(pkmn_g_t->species);
+        setlevel(p_pkm->pkm_data, b_pkmn_t->level);
         string pokehack_nickname(pokehack_get_text(b_pkmn_t->name, true));
         #ifdef __linux__
-        setpkmnickname(pkm, (wchar_t*)getwstring((char*)pokehack_nickname.c_str(), pokehack_nickname.size()).c_str(), pokehack_nickname.size());
+        setpkmnickname(p_pkm->pkm_data, (wchar_t*)getwstring((char*)pokehack_nickname.c_str(), pokehack_nickname.size()).c_str(), pokehack_nickname.size());
         #else
-        setpkmnickname(pkm, (wchar_t*)getwstring(pokehack_nickname).c_str(), pokehack_nickname.size());
+        setpkmnickname(p_pkm->pkm_data, (wchar_t*)getwstring(pokehack_nickname).c_str(), pokehack_nickname.size());
         #endif
-        pkm->sid = b_pkmn_t->personality;
+        p_pkm->pkm_data.sid = b_pkmn_t->personality;
 
         //Moves should have the same indices
-        pkm->moves[0] = Moves::moves(pkmn_a_t->atk1);
-        pkm->moves[1] = Moves::moves(pkmn_a_t->atk2);
-        pkm->moves[2] = Moves::moves(pkmn_a_t->atk3);
-        pkm->moves[3] = Moves::moves(pkmn_a_t->atk4);
-        pkm->pp[0] = pkmn_a_t->pp1;
-        pkm->pp[1] = pkmn_a_t->pp2;
-        pkm->pp[2] = pkmn_a_t->pp3;
-        pkm->pp[3] = pkmn_a_t->pp4;
+        p_pkm->pkm_data.moves[0] = Moves::moves(pkmn_a_t->atk1);
+        p_pkm->pkm_data.moves[1] = Moves::moves(pkmn_a_t->atk2);
+        p_pkm->pkm_data.moves[2] = Moves::moves(pkmn_a_t->atk3);
+        p_pkm->pkm_data.moves[3] = Moves::moves(pkmn_a_t->atk4);
+        p_pkm->pkm_data.pp[0] = pkmn_a_t->pp1;
+        p_pkm->pkm_data.pp[1] = pkmn_a_t->pp2;
+        p_pkm->pkm_data.pp[2] = pkmn_a_t->pp3;
+        p_pkm->pkm_data.pp[3] = pkmn_a_t->pp4;
 
         //Stats
         
