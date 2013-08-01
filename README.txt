@@ -15,6 +15,7 @@ LibSQLite (http://www.sqlite.org) source included (public domain).
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source included under the MIT license.
 Pokehack (https://github.com/Grazfather/pokehack) source included as Git submodule.
 PokeLib (https://github.com/Chase-san/PokeLib) source included as Git submodule.
+PKMDS-G5 (https://github.com/codemonkey85/PKMDS-G5) source included as Git submodule.
 
 Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
@@ -28,4 +29,4 @@ Optional Dependencies:
  * Python - needed for LibPKMNsim Python wrapper
  * PySQLite3 - needed for LibPKMNsim Python wrapper
 
-README last updated: 2013-07-18
+README last updated: 2013-07-31
