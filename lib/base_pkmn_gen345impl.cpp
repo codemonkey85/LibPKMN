@@ -99,12 +99,24 @@ namespace pkmnsim
     dict<string, int> base_pkmn_gen345impl::get_ev_yields()
     {
         dict<string, int> stats;
-        stats["HP"] = evHP;
-        stats["ATK"] = evATK;
-        stats["DEF"] = evDEF;
-        stats["SATK"] = evSATK;
-        stats["SDEF"] = evSDEF;
-        stats["SPD"] = evSPD;
+
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) +
+                       " AND stat_id IN (1,2,3,4,6)";
+        SQLite::Statement stats_query(db, query_string.c_str());
+
+        stats_query.executeStep();
+        stats["HP"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["ATK"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["DEF"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SPCL"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+        stats["SPD"] = stats_query.getColumn(0);
+        stats_query.executeStep();
+
         return stats;
     }
 
