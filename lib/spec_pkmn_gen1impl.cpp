@@ -24,8 +24,6 @@ namespace pkmnsim
     {
         srand ( time(NULL) );
 
-        shiny = false;
-
         //Random individual values
         ivHP = rand() % 16;
         ivATK = rand() % 16;
@@ -140,6 +138,8 @@ namespace pkmnsim
 
         return output_string;
     }
+
+    bool spec_pkmn_gen1impl::is_shiny() {return false;}
 
     void spec_pkmn_gen1impl::set_form(int form)
     {

@@ -100,8 +100,6 @@ namespace pkmnsim
 
     int spec_pkmn::get_level(void) {return level;}
 
-    bool spec_pkmn::is_shiny(void) {return shiny;}
-
     vla<base_move::sptr> spec_pkmn::get_moves(void) {return moves;}
     
     int spec_pkmn::get_generation(void) {return generation;}

@@ -91,6 +91,9 @@ namespace pkmnsim
         vector<string> nature_halves;
         boost::split(nature_halves, nature_from_pokehack, boost::is_any_of(" "));
         s_pkmn->nature = pkmn_nature::make(nature_halves[0]);
+        s_pkmn->pid = b_pkmn_t->personality;
+        s_pkmn->sid = ((unsigned short*)(&b_pkmn_t->otid))[0];
+        s_pkmn->sid = ((unsigned short*)(&b_pkmn_t->otid))[1];
 
         //Gender
         int gender_from_pokehack = b_pkmn_t->personality % 256;
@@ -271,7 +274,9 @@ namespace pkmnsim
         s_pkmn->nickname = nickname_buffer;
         s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
         s_pkmn->nature = pkmn_nature::make(PokeLib::nature[int(pokelib_pkmn.getNatureValue())]);
-        s_pkmn->shiny = pokelib_pkmn.isShiny();
+        s_pkmn->pid = pokelib_pkmn.pkm->pkm.pid;
+        s_pkmn->sid = pokelib_pkmn.pkm->pkm.ot_sid;
+        s_pkmn->tid = pokelib_pkmn.pkm->pkm.ot_id;
         switch(int(pokelib_pkmn.getGenderValue()))
         {
             case PokeLib::MALE:
@@ -386,7 +391,9 @@ namespace pkmnsim
         if(p_pkm->pkm_data.item == Items::NOTHING) s_pkmn->held_item = "None";
         else s_pkmn->held_item = lookupitemname(p_pkm->pkm_data);
         s_pkmn->nature = pkmn_nature::make(getnaturename(p_pkm->pkm_data));
-        s_pkmn->shiny = getpkmshiny(p_pkm->pkm_data);
+        s_pkmn->pid = p_pkm->pkm_data.pid;
+        s_pkmn->sid = p_pkm->pkm_data.sid;
+        s_pkmn->tid = p_pkm->pkm_data.tid;
         switch(int(getpkmgender(p_pkm->pkm_data)))
         {
             case ::Genders::male:

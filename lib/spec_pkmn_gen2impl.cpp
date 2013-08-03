@@ -24,11 +24,6 @@ namespace pkmnsim
     {
         srand ( time(NULL) );
 
-        //Generation 2 uses IV's to determine shininess, but using the overall chance (1/8192) is simpler
-        int shiny_val = rand() % 8192;
-        if(shiny_val == 500) shiny = true; //Arbitrary
-        else shiny = false;
-
         //Random individual values
         ivHP = rand() % 16;
         ivATK = rand() % 16;
@@ -55,7 +50,7 @@ namespace pkmnsim
         SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
         SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSATK);
 
-        sprite_path = b->get_sprite_path((gender != Genders::FEMALE), shiny);
+        sprite_path = b->get_sprite_path((gender != Genders::FEMALE), is_shiny());
 
         nonvolatile_status = Statuses::OK;
         reset_volatile_status_map();
@@ -101,6 +96,15 @@ namespace pkmnsim
     }
 
     int spec_pkmn_gen2impl::get_gender() {return gender;}
+
+    bool spec_pkmn_gen2impl::is_shiny()
+    {
+        return (ivSPD == 10 and ivDEF == 10 and ivSPCL == 10 and
+                   (ivATK == 2 or ivATK == 3 or ivATK == 6 or
+                    ivATK == 7 or ivATK == 10 or ivATK == 11 or
+                    ivATK == 14 or ivATK == 15)
+               );
+    }
 
     string spec_pkmn_gen2impl::get_held_item() {return held_item;}
 
@@ -188,7 +192,7 @@ namespace pkmnsim
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
         icon_path = base->get_icon_path();
-        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), shiny);
+        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
     void spec_pkmn_gen2impl::set_form(std::string form)
@@ -201,7 +205,7 @@ namespace pkmnsim
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
         icon_path = base->get_icon_path();
-        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), shiny);
+        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
     void spec_pkmn_gen2impl::reset_volatile_status_map()

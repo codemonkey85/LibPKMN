@@ -25,6 +25,7 @@ namespace pkmnsim
             dict<std::string, int> get_EVs();
             std::string get_info();
             std::string get_info_verbose();
+            bool is_shiny();
             void set_form(int form);
             void set_form(std::string form);
 

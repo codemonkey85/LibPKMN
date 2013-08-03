@@ -28,6 +28,7 @@ namespace pkmnsim
             std::string get_info();
             std::string get_info_verbose();
             int get_gender();
+            bool is_shiny();
             pkmn_nature::sptr get_nature();
             std::string get_ability();
             void set_form(int form);

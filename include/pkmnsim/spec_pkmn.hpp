@@ -103,7 +103,7 @@ namespace pkmnsim
             /*
              * Returns whether or not Pokemon is shiny.
              */
-            bool is_shiny(void);
+            virtual bool is_shiny(void) = 0;
 
             /*
              * Returns the Pokémon's stats.
@@ -233,15 +233,17 @@ namespace pkmnsim
             std::string nickname;
             std::string held_item;
             int generation;
-            int level;
-            bool shiny;
-            int HP, ATK, DEF, SPD;
-            int ivHP, ivATK, ivDEF, ivSPD;
-            int evHP, evATK, evDEF, evSPD;
+            unsigned int level;
+            unsigned int pid;
+            unsigned short tid, sid;
+
+            unsigned int HP, ATK, DEF, SPD;
+            unsigned int ivHP, ivATK, ivDEF, ivSPD;
+            unsigned int evHP, evATK, evDEF, evSPD;
             dict<std::string, int> volatile_status_map;
-            int nonvolatile_status;
+            unsigned int nonvolatile_status;
             vla<base_move::sptr> moves;
-            int num_moves;
+            unsigned int num_moves;
             std::string icon_path, sprite_path;
 			dict<std::string, std::string> attributes;
 
