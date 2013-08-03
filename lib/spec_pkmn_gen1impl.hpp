@@ -19,13 +19,13 @@ namespace pkmnsim
         public:
             spec_pkmn_gen1impl(base_pkmn::sptr base, int lvl,
                                std::string m1, std::string m2,
-                               std::string m3, std::string m4,
-                               bool i);
+                               std::string m3, std::string m4);
             dict<std::string, int> get_stats();
             dict<std::string, int> get_IVs();
             dict<std::string, int> get_EVs();
             std::string get_info();
             std::string get_info_verbose();
+            bool is_shiny();
             void set_form(int form);
             void set_form(std::string form);
 

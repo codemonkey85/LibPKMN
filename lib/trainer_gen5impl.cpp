@@ -120,7 +120,7 @@ namespace pkmnsim
                                                 );
             }
 
-            spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 3, level, move1, move2, move3, move4, true);
+            spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 3, level, move1, move2, move3, move4);
 
             //Manually set other values
             s_pkmn->nickname = nickname;

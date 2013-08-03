@@ -17,15 +17,14 @@ using namespace std;
 namespace pkmnsim
 {
     spec_pkmn_gen345impl::spec_pkmn_gen345impl(base_pkmn::sptr b, int lvl, int gen,
-                                           string m1, string m2, string m3, string m4,
-                                           bool i): spec_pkmn(b,i,m1,m2,m3,m4,gen,lvl)
+                                           string m1, string m2, string m3, string m4): spec_pkmn(b,m1,m2,m3,m4,gen,lvl)
     {
         srand ( time(NULL) );
 
-        //Generation 2 uses IV's to determine shininess, but using the overall chance (1/8192) is simpler
-        int shiny_val = rand() % 8192;
-        if(shiny_val == 500) shiny = true; //Arbitrary
-        else shiny = false;
+        pid = rand();
+        unsigned int otid = rand();
+        sid = ((unsigned short*)(&otid))[0];
+        tid = ((unsigned short*)(&otid))[1];
 
         //Random individual values
         ivHP = rand() % 32;
@@ -61,7 +60,7 @@ namespace pkmnsim
         ability = determine_ability();
         held_item = "None";
 
-        if(base->get_species_name() == "Shedinja") HP = 1;
+        if(base->get_species_id () == 292) HP = 1;
         else HP = get_hp_from_iv_ev();
         ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
         DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
@@ -69,7 +68,7 @@ namespace pkmnsim
         SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
         SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSATK);
 
-        sprite_path = b->get_sprite_path((gender != Genders::FEMALE), shiny);
+        sprite_path = b->get_sprite_path((gender != Genders::FEMALE), is_shiny());
 
         nonvolatile_status = Statuses::OK;
         reset_volatile_status_map();
@@ -115,6 +114,16 @@ namespace pkmnsim
     }
 
     int spec_pkmn_gen345impl::get_gender() {return gender;}
+
+    bool spec_pkmn_gen345impl::is_shiny()
+    {
+        int p1, p2, E, F;
+        p1 = (pid & 0xFFFF0000) >> 16;
+        p2 = pid & 0xFFFF;
+        E = tid ^ sid;
+        F = p1 ^ p2;
+        return (E ^ F) < 8;
+    }
 
     pkmn_nature::sptr spec_pkmn_gen345impl::get_nature() {return nature;}
 
@@ -210,7 +219,7 @@ namespace pkmnsim
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
         icon_path = base->get_icon_path();
-        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), shiny);
+        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
     void spec_pkmn_gen345impl::set_form(std::string form)
@@ -223,7 +232,7 @@ namespace pkmnsim
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
         icon_path = base->get_icon_path();
-        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), shiny);
+        sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
     int spec_pkmn_gen345impl::get_hp_from_iv_ev()
@@ -291,10 +300,8 @@ namespace pkmnsim
         else if(base->get_chance_female() == 1.0) return Genders::FEMALE;
         else
         {
-            srand( time(NULL) );
-            double val = (rand() % 1000 + 1)/1000.0;
-            if(val <= base->get_chance_male()) return Genders::MALE;
-            else return Genders::FEMALE;
+            if((pid % 256) > int(floor(255*(1-base->get_chance_male())))) gender = Genders::MALE;
+            else gender = Genders::FEMALE;
         }
     }
 
@@ -305,9 +312,7 @@ namespace pkmnsim
                                       "Serious","Jolly","Naive","Modest","Mild","Quiet",
                                       "Bashful","Rash","Calm","Gentle","Sassy","Careful",
                                       "Quirky"};
-        srand( time(NULL) );
-        int index = rand() % 25;
-        return pkmn_nature::make(nature_names[index]);
+        return pkmn_nature::make(nature_names[pid % 25]);
     }
 
     string spec_pkmn_gen345impl::determine_ability()

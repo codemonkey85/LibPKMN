@@ -82,8 +82,7 @@ namespace pkmnsim
         else move4 = database::to_database_format(attacks[pkmn_a_t->atk4]);
 
         spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 3, level,
-                                                 move1, move2, move3, move4,
-                                                 true);
+                                                 move1, move2, move3, move4);
 
         s_pkmn->nickname = pokehack_get_text(b_pkmn_t->name, true);
         s_pkmn->held_item = items[pkmn_g_t->held];
@@ -92,6 +91,9 @@ namespace pkmnsim
         vector<string> nature_halves;
         boost::split(nature_halves, nature_from_pokehack, boost::is_any_of(" "));
         s_pkmn->nature = pkmn_nature::make(nature_halves[0]);
+        s_pkmn->pid = b_pkmn_t->personality;
+        s_pkmn->sid = ((unsigned short*)(&b_pkmn_t->otid))[0];
+        s_pkmn->sid = ((unsigned short*)(&b_pkmn_t->otid))[1];
 
         //Gender
         int gender_from_pokehack = b_pkmn_t->personality % 256;
@@ -263,7 +265,7 @@ namespace pkmnsim
         move3 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[2])]);
         move4 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[3])]);
 
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 4, level, move1, move2, move3, move4, true);
+        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 4, level, move1, move2, move3, move4);
 
         PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
         char nickname_buffer[10];
@@ -272,7 +274,9 @@ namespace pkmnsim
         s_pkmn->nickname = nickname_buffer;
         s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
         s_pkmn->nature = pkmn_nature::make(PokeLib::nature[int(pokelib_pkmn.getNatureValue())]);
-        s_pkmn->shiny = pokelib_pkmn.isShiny();
+        s_pkmn->pid = pokelib_pkmn.pkm->pkm.pid;
+        s_pkmn->sid = pokelib_pkmn.pkm->pkm.ot_sid;
+        s_pkmn->tid = pokelib_pkmn.pkm->pkm.ot_id;
         switch(int(pokelib_pkmn.getGenderValue()))
         {
             case PokeLib::MALE:
@@ -376,7 +380,7 @@ namespace pkmnsim
         if(p_pkm->pkm_data.moves[3] == Moves::NOTHING) move4 = "None";
         else move4 = lookupmovename(p_pkm->pkm_data.moves[3]);
 
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 5, level, move1, move2, move3, move4, true);
+        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 5, level, move1, move2, move3, move4);
 
         wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
         char nickname_buffer[11];
@@ -387,7 +391,9 @@ namespace pkmnsim
         if(p_pkm->pkm_data.item == Items::NOTHING) s_pkmn->held_item = "None";
         else s_pkmn->held_item = lookupitemname(p_pkm->pkm_data);
         s_pkmn->nature = pkmn_nature::make(getnaturename(p_pkm->pkm_data));
-        s_pkmn->shiny = getpkmshiny(p_pkm->pkm_data);
+        s_pkmn->pid = p_pkm->pkm_data.pid;
+        s_pkmn->sid = p_pkm->pkm_data.sid;
+        s_pkmn->tid = p_pkm->pkm_data.tid;
         switch(int(getpkmgender(p_pkm->pkm_data)))
         {
             case ::Genders::male:

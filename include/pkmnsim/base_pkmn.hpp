@@ -48,7 +48,7 @@ namespace pkmnsim
 
             //Class Constructors (should never be called directly)
 			base_pkmn(void) {};
-			base_pkmn(std::string identifier, int gen, bool query_moves);
+			base_pkmn(std::string identifier, int gen);
 			
             /*
              * Returns a std::shared_ptr<base_pkmn> of specified Pokémon.
@@ -59,7 +59,7 @@ namespace pkmnsim
              *  - gen: generation (1-5) from which to use Pokémon
              *  - query_moves: add list of legal moves (slows performance)
              */
-            static sptr make(std::string identifier, int gen, bool query_moves);
+            static sptr make(std::string identifier, int gen);
 
             /*
              * Returns a string with basic information on the Pokémon.
@@ -194,12 +194,6 @@ namespace pkmnsim
             virtual std::string get_sprite_path(bool is_male, bool is_shiny) = 0;
 
             /*
-             * Returns vector of moves that this Pokémon can legally learn in this generation.
-             * NOTE: Vector will be empty if base_pkmn was declared with query_moves = False
-             */
-            std::vector<base_move::sptr> get_legal_moves(void);
-
-            /*
              * Sets base to form specified by enum int.
              *
              * Parameters:
@@ -218,23 +212,10 @@ namespace pkmnsim
         protected:
             //Database values
 			std::string database_identifier;
-            int pkmn_id, species_id;
-
-            std::string display_name;
-			int from_gen;
-            int nat_pokedex_num;
-            std::string species;
-            std::string type1, type2;
-            double height; //meters
-            double weight; //kilograms
-            int baseHP, baseATK, baseDEF, baseSPD; //Base stats common to all generations
-            int baseSPCL, baseSATK, baseSDEF; //Not used by all generations, but needed for set_form
-            int exp_yield;
-            bool has_gender_diff;
+            int from_gen, pkmn_id, species_id, type1_id, type2_id;
             std::string icon_path;
             std::string male_sprite_path, female_sprite_path;
             std::string male_shiny_sprite_path, female_shiny_sprite_path;
-            std::vector<base_move::sptr> legal_moves; //All moves legally available
 
             void repair(int id);
 

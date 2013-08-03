@@ -19,12 +19,10 @@ using namespace std;
 namespace pkmnsim
 {
     spec_pkmn_gen1impl::spec_pkmn_gen1impl(base_pkmn::sptr b, int lvl, string m1,
-                                           string m2, string m3, string m4, bool i): spec_pkmn(
-                                           b,i,m1,m2,m3,m4,1,lvl)
+                                           string m2, string m3, string m4): spec_pkmn(
+                                           b,m1,m2,m3,m4,1,lvl)
     {
         srand ( time(NULL) );
-
-        shiny = false;
 
         //Random individual values
         ivHP = rand() % 16;
@@ -140,6 +138,8 @@ namespace pkmnsim
 
         return output_string;
     }
+
+    bool spec_pkmn_gen1impl::is_shiny() {return false;}
 
     void spec_pkmn_gen1impl::set_form(int form)
     {
