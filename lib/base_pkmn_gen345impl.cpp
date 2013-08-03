@@ -52,8 +52,8 @@ namespace pkmnsim
         dict<int, string> abilities = get_abilities();
 
         string abilities_str;
-        if(ability2 == "None") abilities_str = abilities[0]; //1 ability
-        else if(ability3 == "None") abilities_str = abilities[0] + ", " + abilities[1]; //2 abilities
+        if(abilities[1] == "None") abilities_str = abilities[0]; //1 ability
+        else if(abilities[2] == "None") abilities_str = abilities[0] + ", " + abilities[1]; //2 abilities
         else abilities_str = abilities[0] + ", " + abilities[1] + ", " + abilities[2];
 
         string output_string;
