@@ -12,7 +12,6 @@
 #include <vector>
 
 #include <boost/algorithm/string.hpp>
-#include <boost/assign.hpp>
 #include <boost/format.hpp>
 
 #include <pkmnsim/base_move.hpp>
@@ -139,80 +138,6 @@ namespace pkmnsim
                                                pokemon_misc_t* pkmn_m_t,
                                                pokemon_growth_t* pkmn_g_t)
     {
-        dict<char, int> pokehack_reverse_char_map = boost::assign::map_list_of
-            ('0', int(0xA1))
-            ('1', int(0xA2))
-            ('2', int(0xA3))
-            ('3', int(0xA4))
-            ('4', int(0xA5))
-            ('5', int(0xA6))
-            ('6', int(0xA7))
-            ('7', int(0xA8))
-            ('8', int(0xA9))
-            ('9', int(0xAA))
-            ('!', int(0xAB))
-            ('?', int(0xAC))
-            ('.', int(0xAD))
-            ('-', int(0xAE))
-            ('"', int(0xB1))
-            ('\'', int(0xB2))
-            ('/', int(0xBA))
-            ('A', int(0xBB))
-            ('B', int(0xBC))
-            ('C', int(0xBD))
-            ('D', int(0xBE))
-            ('E', int(0xBF))
-            ('F', int(0xC0))
-            ('G', int(0xC1))
-            ('H', int(0xC2))
-            ('I', int(0xC3))
-            ('J', int(0xC4))
-            ('K', int(0xC5))
-            ('L', int(0xC6))
-            ('M', int(0xC7))
-            ('N', int(0xC8))
-            ('O', int(0xC9))
-            ('P', int(0xCA))
-            ('Q', int(0xCB))
-            ('R', int(0xCC))
-            ('S', int(0xCD))
-            ('T', int(0xCE))
-            ('U', int(0xCF))
-            ('V', int(0xD0))
-            ('W', int(0xD1))
-            ('X', int(0xD2))
-            ('Y', int(0xD3))
-            ('Z', int(0xD4))
-            ('a', int(0xD5))
-            ('b', int(0xD6))
-            ('c', int(0xD7))
-            ('d', int(0xD8))
-            ('e', int(0xD9))
-            ('f', int(0xDA))
-            ('g', int(0xDB))
-            ('h', int(0xDC))
-            ('i', int(0xDD))
-            ('j', int(0xDE))
-            ('k', int(0xDF))
-            ('l', int(0xE0))
-            ('m', int(0xE1))
-            ('n', int(0xE2))
-            ('o', int(0xE3))
-            ('p', int(0xE4))
-            ('q', int(0xE5))
-            ('r', int(0xE6))
-            ('s', int(0xE7))
-            ('t', int(0xE8))
-            ('u', int(0xE9))
-            ('v', int(0xEA))
-            ('w', int(0xEB))
-            ('x', int(0xEC))
-            ('y', int(0xED))
-            ('z', int(0xEE))
-            (' ', int(0xEF))
-            ('\0', int(0xFF))
-        ;
-
         //Species position needs to be manually set for Nidoran's due to gender character
         if(s_pkmn->base->get_nat_pokedex_num() == 29) pkmn_g_t->species = 29; //Nidoran F
         if(s_pkmn->base->get_nat_pokedex_num() == 32) pkmn_g_t->species = 32; //Nidoran M
@@ -321,8 +246,6 @@ namespace pkmnsim
 
     PokeLib::Pokemon converter::spec_pkmn_to_pokelib_pkmn(spec_pkmn::sptr s_pkmn)
     {
-        int species_pos, move1, move2, move3, move4, nature, ability_pos;
-
         PokeLib::Pokemon pokelib_pkmn;
 
         pokelib_pkmn.pkm->pkm.species = s_pkmn->get_species_id();
@@ -366,7 +289,7 @@ namespace pkmnsim
         opendb(get_database_path().c_str());
 
         string identifier, move1, move2, move3, move4;
-        int level, gender;
+        int level;
 
         identifier = database::to_database_format(lookuppkmname(p_pkm->pkm_data));
         level = getpkmlevel(p_pkm->pkm_data);
@@ -583,5 +506,214 @@ namespace pkmnsim
         p_pkm->pkm_data.evs.spatk = pkmn_e_t->spatk;
         p_pkm->pkm_data.evs.spdef = pkmn_e_t->spdef;
         p_pkm->pkm_data.evs.speed = pkmn_e_t->speed;
+    }
+    
+    void converter::pokelib_pkmn_to_pokehack_pkmn(PokeLib::Pokemon pokelib_pkmn,
+                                                  belt_pokemon_t* b_pkmn_t,
+                                                  pokemon_attacks_t* pkmn_a_t,
+                                                  pokemon_effort_t* pkmn_e_t,
+                                                  pokemon_misc_t* pkmn_m_t,
+                                                  pokemon_growth_t* pkmn_g_t)
+    {        
+        pkmn_g_t->species = pokelib_pkmn.pkm->pkm.species;
+        unsigned short otid[2] = {pokelib_pkmn.pkm->pkm.ot_id, pokelib_pkmn.pkm->pkm.ot_sid};
+        b_pkmn_t->otid = *((unsigned int*)(&otid[0]));
+        b_pkmn_t->level = pokelib_pkmn.pkm->pkm.battle_level;
+        PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
+        char nickname_buffer[10];
+        memset(nickname_buffer,0,10);
+        wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
+        for(int i = 0; i < 10; i++)
+        {
+            if(nickname_buffer != 0) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname_buffer[i]];
+            else b_pkmn_t->name[i] = 0xFF;
+        }
+        
+        //Moves
+        pkmn_a_t->atk1 = pokelib_pkmn.pkm->pkm.move[0];
+        pkmn_a_t->atk2 = pokelib_pkmn.pkm->pkm.move[1];
+        pkmn_a_t->atk3 = pokelib_pkmn.pkm->pkm.move[2];
+        pkmn_a_t->atk4 = pokelib_pkmn.pkm->pkm.move[3];
+        pkmn_a_t->pp1 = pokelib_pkmn.pkm->pkm.movePP[0];
+        pkmn_a_t->pp2 = pokelib_pkmn.pkm->pkm.movePP[1];
+        pkmn_a_t->pp3 = pokelib_pkmn.pkm->pkm.movePP[2];
+        pkmn_a_t->pp4 = pokelib_pkmn.pkm->pkm.movePP[3];
+        
+        //Stats
+        b_pkmn_t->currentHP = pokelib_pkmn.pkm->pkm.battle_hp;
+        b_pkmn_t->maxHP = pokelib_pkmn.pkm->pkm.battle_max_hp;
+        b_pkmn_t->attack = pokelib_pkmn.pkm->pkm.battle_atk;
+        b_pkmn_t->defense = pokelib_pkmn.pkm->pkm.battle_def;
+        b_pkmn_t->spatk = pokelib_pkmn.pkm->pkm.battle_satk;
+        b_pkmn_t->spdef = pokelib_pkmn.pkm->pkm.battle_sdef;
+        b_pkmn_t->speed = pokelib_pkmn.pkm->pkm.battle_spd;
+        
+        //IV's
+        pkmn_m_t->IVs.hp = pokelib_pkmn.pkm->pkm.iv_hp;
+        pkmn_m_t->IVs.atk = pokelib_pkmn.pkm->pkm.iv_atk;
+        pkmn_m_t->IVs.def = pokelib_pkmn.pkm->pkm.iv_def;
+        pkmn_m_t->IVs.spatk = pokelib_pkmn.pkm->pkm.iv_satk;
+        pkmn_m_t->IVs.spdef = pokelib_pkmn.pkm->pkm.iv_sdef;
+        pkmn_m_t->IVs.spd = pokelib_pkmn.pkm->pkm.iv_spd;
+        
+        //EV's
+        pkmn_e_t->hp = pokelib_pkmn.pkm->pkm.ev_hp;
+        pkmn_e_t->attack = pokelib_pkmn.pkm->pkm.ev_atk;
+        pkmn_e_t->defense = pokelib_pkmn.pkm->pkm.ev_def;
+        pkmn_e_t->spatk = pokelib_pkmn.pkm->pkm.ev_satk;
+        pkmn_e_t->spdef = pokelib_pkmn.pkm->pkm.ev_sdef;
+        pkmn_e_t->speed = pokelib_pkmn.pkm->pkm.ev_spd;
+    }
+    
+    void converter::pokelib_pkmn_to_pkmds_pkmn(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm)
+    {
+        p_pkm->pkm_data.species = Species::pkmspecies(pokelib_pkmn.pkm->pkm.species);
+        setlevel(p_pkm->pkm_data, pokelib_pkmn.getLevel());
+        setpkmnickname(p_pkm->pkm_data, (wchar_t*)(pokelib_pkmn.getNickname().c_str()), pokelib_pkmn.getNickname().size());
+        p_pkm->pkm_data.pid = pokelib_pkmn.pkm->pkm.pid;
+        p_pkm->pkm_data.tid = pokelib_pkmn.pkm->pkm.ot_id;
+        p_pkm->pkm_data.sid = pokelib_pkmn.pkm->pkm.ot_sid;
+        
+        p_pkm->pkm_data.moves[0] = Moves::moves(pokelib_pkmn.pkm->pkm.move[0]);
+        p_pkm->pkm_data.moves[1] = Moves::moves(pokelib_pkmn.pkm->pkm.move[1]);
+        p_pkm->pkm_data.moves[2] = Moves::moves(pokelib_pkmn.pkm->pkm.move[2]);
+        p_pkm->pkm_data.moves[3] = Moves::moves(pokelib_pkmn.pkm->pkm.move[3]);
+        p_pkm->pkm_data.pp[0] = pokelib_pkmn.pkm->pkm.movePP[0];
+        p_pkm->pkm_data.pp[1] = pokelib_pkmn.pkm->pkm.movePP[1];
+        p_pkm->pkm_data.pp[2] = pokelib_pkmn.pkm->pkm.movePP[2];
+        p_pkm->pkm_data.pp[3] = pokelib_pkmn.pkm->pkm.movePP[3];
+        
+        //Stats
+        p_pkm->party_data.hp = pokelib_pkmn.pkm->pkm.battle_hp;
+        p_pkm->party_data.maxhp = pokelib_pkmn.pkm->pkm.battle_max_hp;
+        p_pkm->party_data.attack = pokelib_pkmn.pkm->pkm.battle_atk;
+        p_pkm->party_data.defense = pokelib_pkmn.pkm->pkm.battle_def;
+        p_pkm->party_data.spatk = pokelib_pkmn.pkm->pkm.battle_satk;
+        p_pkm->party_data.spdef = pokelib_pkmn.pkm->pkm.battle_sdef;
+        p_pkm->party_data.speed = pokelib_pkmn.pkm->pkm.battle_spd;
+        
+        //IV's
+        p_pkm->pkm_data.ivs.hp = pokelib_pkmn.pkm->pkm.iv_hp;
+        p_pkm->pkm_data.ivs.attack = pokelib_pkmn.pkm->pkm.iv_atk;
+        p_pkm->pkm_data.ivs.defense = pokelib_pkmn.pkm->pkm.iv_def;
+        p_pkm->pkm_data.ivs.spatk = pokelib_pkmn.pkm->pkm.iv_satk;
+        p_pkm->pkm_data.ivs.spdef = pokelib_pkmn.pkm->pkm.iv_sdef;
+        p_pkm->pkm_data.ivs.speed = pokelib_pkmn.pkm->pkm.iv_spd;
+        
+        //EV's
+        p_pkm->pkm_data.evs.hp = pokelib_pkmn.pkm->pkm.ev_hp;
+        p_pkm->pkm_data.evs.attack = pokelib_pkmn.pkm->pkm.ev_atk;
+        p_pkm->pkm_data.evs.defense = pokelib_pkmn.pkm->pkm.ev_def;
+        p_pkm->pkm_data.evs.spatk = pokelib_pkmn.pkm->pkm.ev_satk;
+        p_pkm->pkm_data.evs.spdef = pokelib_pkmn.pkm->pkm.ev_sdef;
+        p_pkm->pkm_data.evs.speed = pokelib_pkmn.pkm->pkm.ev_spd;
+    }
+    
+    void converter::pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
+                                                belt_pokemon_t* b_pkmn_t,
+                                                pokemon_attacks_t* pkmn_a_t,
+                                                pokemon_effort_t* pkmn_e_t,
+                                                pokemon_misc_t* pkmn_m_t,
+                                                pokemon_growth_t* pkmn_g_t)
+    {
+        pkmn_g_t->species = p_pkm->pkm_data.species;
+        b_pkmn_t->level = p_pkm->party_data.level;
+        wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
+        char nickname_buffer[11];
+        memset(nickname_buffer,0,11);
+        wcstombs(nickname_buffer, nickname_wide.c_str(), 11);
+        for(int i = 0; i < 10; i++)
+        {
+            if(nickname_buffer != 0) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname_buffer[i]];
+            else b_pkmn_t->name[i] = 0xFF;
+        }
+        b_pkmn_t->personality = p_pkm->pkm_data.pid;
+        unsigned short otid[2] = {p_pkm->pkm_data.tid, p_pkm->pkm_data.sid};
+        b_pkmn_t->otid = *((unsigned int*)(&otid[0]));
+
+        //Moves
+        pkmn_a_t->atk1 = p_pkm->pkm_data.moves[0];
+        pkmn_a_t->atk2 = p_pkm->pkm_data.moves[1];
+        pkmn_a_t->atk3 = p_pkm->pkm_data.moves[2];
+        pkmn_a_t->atk4 = p_pkm->pkm_data.moves[3];
+        pkmn_a_t->pp1 = p_pkm->pkm_data.pp[0];
+        pkmn_a_t->pp2 = p_pkm->pkm_data.pp[1];
+        pkmn_a_t->pp3 = p_pkm->pkm_data.pp[2];
+        pkmn_a_t->pp4 = p_pkm->pkm_data.pp[3];
+
+        //Stats
+        b_pkmn_t->currentHP = p_pkm->party_data.hp;
+        b_pkmn_t->maxHP = p_pkm->party_data.maxhp;
+        b_pkmn_t->attack = p_pkm->party_data.attack;
+        b_pkmn_t->defense = p_pkm->party_data.defense;
+        b_pkmn_t->spatk = p_pkm->party_data.spatk;
+        b_pkmn_t->spdef = p_pkm->party_data.spdef;
+        b_pkmn_t->speed = p_pkm->party_data.speed;
+        
+        //IV's
+        pkmn_m_t->IVs.hp = p_pkm->pkm_data.ivs.hp;
+        pkmn_m_t->IVs.atk = p_pkm->pkm_data.ivs.attack;
+        pkmn_m_t->IVs.def = p_pkm->pkm_data.ivs.defense;
+        pkmn_m_t->IVs.spatk = p_pkm->pkm_data.ivs.spatk;
+        pkmn_m_t->IVs.spdef = p_pkm->pkm_data.ivs.spdef;
+        pkmn_m_t->IVs.spd = p_pkm->pkm_data.ivs.speed;
+        
+        //EV's
+        pkmn_e_t->hp = p_pkm->pkm_data.evs.hp;
+        pkmn_e_t->attack = p_pkm->pkm_data.evs.attack;
+        pkmn_e_t->defense = p_pkm->pkm_data.evs.defense;
+        pkmn_e_t->spatk = p_pkm->pkm_data.evs.spatk;
+        pkmn_e_t->spdef = p_pkm->pkm_data.evs.spdef;
+        pkmn_e_t->speed = p_pkm->pkm_data.evs.speed;
+    }
+    
+    PokeLib::Pokemon converter::pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm)
+    {
+        PokeLib::Pokemon pokelib_pkmn;
+    
+        pokelib_pkmn.pkm->pkm.species = p_pkm->pkm_data.species;
+        pokelib_pkmn.setLevel(p_pkm->party_data.level);
+        pokelib_pkmn.setNickname(getpkmnickname(p_pkm->pkm_data));
+        pokelib_pkmn.pkm->pkm.pid = p_pkm->pkm_data.pid;
+        pokelib_pkmn.pkm->pkm.pid;
+        pokelib_pkmn.pkm->pkm.ot_id;
+        pokelib_pkmn.pkm->pkm.ot_sid;
+        
+        //Moves
+        pokelib_pkmn.pkm->pkm.move[0] = p_pkm->pkm_data.moves[0];
+        pokelib_pkmn.pkm->pkm.move[1] = p_pkm->pkm_data.moves[1];
+        pokelib_pkmn.pkm->pkm.move[2] = p_pkm->pkm_data.moves[2];
+        pokelib_pkmn.pkm->pkm.move[3] = p_pkm->pkm_data.moves[3];
+        pokelib_pkmn.pkm->pkm.movePP[0] = p_pkm->pkm_data.pp[0];
+        pokelib_pkmn.pkm->pkm.movePP[1] = p_pkm->pkm_data.pp[1];
+        pokelib_pkmn.pkm->pkm.movePP[2] = p_pkm->pkm_data.pp[2];
+        pokelib_pkmn.pkm->pkm.movePP[3] = p_pkm->pkm_data.pp[3];
+        
+        //Stats
+        pokelib_pkmn.pkm->pkm.battle_hp = p_pkm->party_data.hp;
+        pokelib_pkmn.pkm->pkm.battle_max_hp = p_pkm->party_data.maxhp;
+        pokelib_pkmn.pkm->pkm.battle_atk = p_pkm->party_data.attack;
+        pokelib_pkmn.pkm->pkm.battle_def = p_pkm->party_data.defense;
+        pokelib_pkmn.pkm->pkm.battle_satk = p_pkm->party_data.spatk;
+        pokelib_pkmn.pkm->pkm.battle_sdef = p_pkm->party_data.spdef;
+        pokelib_pkmn.pkm->pkm.battle_spd = p_pkm->party_data.speed;
+        
+        //IV's
+        pokelib_pkmn.pkm->pkm.iv_hp = p_pkm->pkm_data.ivs.hp;
+        pokelib_pkmn.pkm->pkm.iv_atk = p_pkm->pkm_data.ivs.attack;
+        pokelib_pkmn.pkm->pkm.iv_def = p_pkm->pkm_data.ivs.defense;
+        pokelib_pkmn.pkm->pkm.iv_satk = p_pkm->pkm_data.ivs.spatk;
+        pokelib_pkmn.pkm->pkm.iv_sdef = p_pkm->pkm_data.ivs.spdef;
+        pokelib_pkmn.pkm->pkm.iv_spd = p_pkm->pkm_data.ivs.speed;
+
+        //EV's
+        pokelib_pkmn.pkm->pkm.ev_hp = p_pkm->pkm_data.evs.hp;
+        pokelib_pkmn.pkm->pkm.ev_atk = p_pkm->pkm_data.evs.attack;
+        pokelib_pkmn.pkm->pkm.ev_def = p_pkm->pkm_data.evs.defense;
+        pokelib_pkmn.pkm->pkm.ev_satk = p_pkm->pkm_data.evs.spatk;
+        pokelib_pkmn.pkm->pkm.ev_sdef = p_pkm->pkm_data.evs.spdef;
+        pokelib_pkmn.pkm->pkm.ev_spd = p_pkm->pkm_data.evs.speed;
+
+        return pokelib_pkmn;
     }
 }
