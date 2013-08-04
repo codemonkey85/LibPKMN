@@ -14,7 +14,7 @@
 
 namespace pkmnsim
 {
-    class PKMNSIM_API base_pkmn_gen345impl: public base_pkmn
+    class base_pkmn_gen345impl: public base_pkmn
     {
         public:
             base_pkmn_gen345impl(std::string, int);

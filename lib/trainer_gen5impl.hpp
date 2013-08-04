@@ -16,7 +16,7 @@
 
 namespace pkmnsim
 {
-    class PKMNSIM_API trainer_gen5impl: public trainer
+    class trainer_gen5impl: public trainer
     {
         public:
             trainer_gen5impl(SQLite::Database *import_db);

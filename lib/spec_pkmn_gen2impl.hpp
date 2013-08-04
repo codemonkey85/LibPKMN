@@ -14,7 +14,7 @@
 
 namespace pkmnsim
 {
-    class PKMNSIM_API spec_pkmn_gen2impl: public spec_pkmn
+    class spec_pkmn_gen2impl: public spec_pkmn
     {
         public:
             spec_pkmn_gen2impl(base_pkmn::sptr base, int lvl,
