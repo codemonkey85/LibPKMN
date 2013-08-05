@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_TRAINER_HPP
-#define INCLUDED_TRAINER_HPP
+#ifndef INCLUDED_PKMNSIM_TRAINER_HPP
+#define INCLUDED_PKMNSIM_TRAINER_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -97,4 +97,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_TRAINER_HPP */
+#endif /* INCLUDED_PKMNSIM_TRAINER_HPP */

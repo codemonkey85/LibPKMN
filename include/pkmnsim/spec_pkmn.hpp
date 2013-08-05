@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_SPEC_PKMN_HPP
-#define INCLUDED_SPEC_PKMN_HPP
+#ifndef INCLUDED_PKMNSIM_SPEC_PKMN_HPP
+#define INCLUDED_PKMNSIM_SPEC_PKMN_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -272,4 +272,4 @@ namespace pkmnsim
             friend class trainer_gen5impl;
     };
 }
-#endif /* INCLUDED_SPEC_PKMN_HPP */
+#endif /* INCLUDED_PKMNSIM_SPEC_PKMN_HPP */

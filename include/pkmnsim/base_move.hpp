@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASE_MOVE_HPP
-#define INCLUDED_BASE_MOVE_HPP
+#ifndef INCLUDED_PKMNSIM_BASE_MOVE_HPP
+#define INCLUDED_PKMNSIM_BASE_MOVE_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -128,4 +128,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_BASE_MOVE_HPP */
+#endif /* INCLUDED_PKMNSIM_BASE_MOVE_HPP */

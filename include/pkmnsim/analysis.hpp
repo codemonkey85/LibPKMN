@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_ANALYSIS_HPP
-#define INCLUDED_ANALYSIS_HPP
+#ifndef INCLUDED_PKMNSIM_ANALYSIS_HPP
+#define INCLUDED_PKMNSIM_ANALYSIS_HPP
 
 #include <string>
 #include <vector>
@@ -132,4 +132,4 @@ namespace pkmnsim
                                                                  base_move::sptr move, int attacker_level, int defender_level);
 }
 
-#endif /* INCLUDED_ANALYSIS_HPP */
+#endif /* INCLUDED_PKMNSIM_ANALYSIS_HPP */

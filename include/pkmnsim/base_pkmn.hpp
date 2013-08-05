@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASE_PKMN_HPP
-#define INCLUDED_BASE_PKMN_HPP
+#ifndef INCLUDED_PKMNSIM_BASE_PKMN_HPP
+#define INCLUDED_PKMNSIM_BASE_PKMN_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -238,4 +238,4 @@ namespace pkmnsim
     std::vector<base_pkmn::sptr> PKMNSIM_API get_pkmn_list_of_type(std::string type1, std::string type2, int gen, bool lax);
 }
 
-#endif /* INCLUDED_BASE_PKMN_HPP */
+#endif /* INCLUDED_PKMNSIM_BASE_PKMN_HPP */

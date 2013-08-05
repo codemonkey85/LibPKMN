@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMN_NATURE_HPP
-#define INCLUDED_PKMN_NATURE_HPP
+#ifndef INCLUDED_PKMNSIM_PKMN_NATURE_HPP
+#define INCLUDED_PKMNSIM_PKMN_NATURE_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -74,4 +74,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_PKMN_NATURE_HPP */
+#endif /* INCLUDED_PKMNSIM_PKMN_NATURE_HPP */
