@@ -191,12 +191,12 @@ namespace pkmnsim
 			 * Parameters:
 			 *  - attribute: name of the attribute whose value will be returned
 			 */
-			std::string get_attribute(std::string attribute);
+			int get_attribute(std::string attribute);
 
             /*
              * Returns the full dict of attributes.
              */
-            dict<std::string, std::string> get_attributes(void);
+            dict<std::string, int> get_attributes(void);
 
             /*
              * Check if spec_pkmn has given attribute.
@@ -213,7 +213,7 @@ namespace pkmnsim
 			 *  - attribute: name of the attribute to edit/create
 			 *  - value: value of the attribute to set
 			 */
-			void set_attribute(std::string attribute, std::string value);
+			void set_attribute(std::string attribute, int value);
 
             /*
              * Functions to more easily access base_pkmn variables and functions.
@@ -245,7 +245,7 @@ namespace pkmnsim
             vla<base_move::sptr> moves;
             unsigned int num_moves;
             std::string icon_path, sprite_path;
-			dict<std::string, std::string> attributes;
+			dict<std::string, int> attributes;
 
             virtual int get_hp_from_iv_ev() = 0;
             virtual int get_stat_from_iv_ev(std::string, int, int) = 0; //Others share common algorithm
