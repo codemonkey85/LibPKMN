@@ -14,6 +14,7 @@
 #include "sqlitecpp/SQLiteCPP.h"
 
 #include <pokehack/pokestructs.h>
+#include <pokelib/data_tables.h>
 #include <pokelib/pokelib.h>
 #include <pkmds/pkmds_g5.h>
 
