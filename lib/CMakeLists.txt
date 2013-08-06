@@ -71,10 +71,12 @@ IF(ENABLE_LIBPKMNSIM)
     TARGET_LINK_LIBRARIES(pkmnsim ${libpkmnsim_libs})
 
     ####################################################################
-    # GCC needs this setting to use std::shared_ptr
+    # Compiler-specific flags
     ####################################################################
     IF(CMAKE_COMPILER_IS_GNUCXX)
         SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x")
+    ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++11")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
     ####################################################################
