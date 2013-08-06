@@ -364,12 +364,12 @@ namespace pkmnsim
         s_pkmn->attributes["star"] = p_pkm->pkm_data.markings.star;
         s_pkmn->attributes["diamond"] = p_pkm->pkm_data.markings.diamond;
         s_pkmn->attributes["country"] = int(p_pkm->pkm_data.country);
-        s_pkmn->attributes["sinnoh_cool"] = p_pkm->pkm_data.contest.cool;
-        s_pkmn->attributes["sinnoh_beauty"] = p_pkm->pkm_data.contest.beauty;
-        s_pkmn->attributes["sinnoh_cute"] = p_pkm->pkm_data.contest.cute;
-        s_pkmn->attributes["sinnoh_smart"] = p_pkm->pkm_data.contest.smart;
-        s_pkmn->attributes["sinnoh_tough"] = p_pkm->pkm_data.contest.tough;
-        s_pkmn->attributes["sinnoh_sheen"] = p_pkm->pkm_data.contest.sheen;
+        s_pkmn->attributes["cool"] = p_pkm->pkm_data.contest.cool;
+        s_pkmn->attributes["beauty"] = p_pkm->pkm_data.contest.beauty;
+        s_pkmn->attributes["cute"] = p_pkm->pkm_data.contest.cute;
+        s_pkmn->attributes["smart"] = p_pkm->pkm_data.contest.smart;
+        s_pkmn->attributes["tough"] = p_pkm->pkm_data.contest.tough;
+        s_pkmn->attributes["sheen"] = p_pkm->pkm_data.contest.sheen;
         s_pkmn->attributes["sinnoh_champ_ribbon"] = p_pkm->pkm_data.sribbon1.sinnoh_champ_ribbon;
         s_pkmn->attributes["ability_ribbon"] = p_pkm->pkm_data.sribbon1.ability_ribbon;
         s_pkmn->attributes["great_ability_ribbon"] = p_pkm->pkm_data.sribbon1.great_ability_ribbon;
@@ -480,18 +480,18 @@ namespace pkmnsim
             p_pkm->pkm_data.markings.circle = bool(s_pkmn->attributes["diamond"]);
         if(s_pkmn->attributes.has_key("country"))
             p_pkm->pkm_data.country = Countries::countries(s_pkmn->attributes["country"]);
-        if(s_pkmn->attributes.has_key("sinnoh_cool"))
-            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["sinnoh_cool"]);
-        if(s_pkmn->attributes.has_key("sinnoh_beauty"))
-            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["sinnoh_beauty"]);
-        if(s_pkmn->attributes.has_key("sinnoh_cute"))
-            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["sinnoh_cute"]);
-        if(s_pkmn->attributes.has_key("sinnoh_smart"))
-            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["sinnoh_smart"]);
-        if(s_pkmn->attributes.has_key("sinnoh_tough"))
-            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["sinnoh_tough"]);
-        if(s_pkmn->attributes.has_key("sinnoh_sheen"))
-            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["sinnoh_sheen"]);
+        if(s_pkmn->attributes.has_key("cool"))
+            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["cool"]);
+        if(s_pkmn->attributes.has_key("beauty"))
+            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["beauty"]);
+        if(s_pkmn->attributes.has_key("cute"))
+            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["cute"]);
+        if(s_pkmn->attributes.has_key("smart"))
+            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["smart"]);
+        if(s_pkmn->attributes.has_key("tough"))
+            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["tough"]);
+        if(s_pkmn->attributes.has_key("sheen"))
+            p_pkm->pkm_data.contest.cool = byte(s_pkmn->attributes["sheen"]);
         if(s_pkmn->attributes.has_key("sinnoh_champ_ribbon"))
             p_pkm->pkm_data.sribbon1.sinnoh_champ_ribbon = bool(s_pkmn->attributes["sinnoh_champ_ribbon"]);
         if(s_pkmn->attributes.has_key("ability_ribbon"))
