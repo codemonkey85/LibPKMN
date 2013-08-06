@@ -7,13 +7,25 @@
 #ifndef INCLUDED_PKMNSIM_CONFIG_HPP
 #define INCLUDED_PKMNSIM_CONFIG_HPP
 
+/***************************************************************************
+ * Allow use of and/or/not in MSVC
+ ***************************************************************************/
+#include <ciso646>
+
+/***************************************************************************
+ * In order to prevent users from needing Boost to develop off of
+ * LibPKMNsim, these alternatives are used to get around what would
+ * usually be done with Boost. These are mainly usd by dict and vla,
+ * which are publicly exposed.
+ ***************************************************************************/
+
 //Alternative to BOOST_FOREACH
 #define FOREACH(VAR, BEGIN, END) \
     for (auto _foreach_range = std::make_pair((BEGIN), (END)); _foreach_range.first != _foreach_range.second; ++_foreach_range.first) \
         if (bool _foreach_inner = false) {} else \
             for (VAR = *_foreach_range.first; !_foreach_inner; _foreach_inner = true)
 
-//Macro to convert number to std::string
+//Alternative to boost::lexical_cast
 #include <sstream>
 template <class T>
 inline std::string to_string (const T& t)
@@ -23,10 +35,9 @@ inline std::string to_string (const T& t)
     return ss.str();
 }
 
-// define logical operators
-#include <ciso646>
-
-//define cross platform attribute macros
+/***************************************************************************
+ * Define cross-platform macros
+ ***************************************************************************/
 #if defined(_MSC_VER)
     #define PKMNSIM_EXPORT         __declspec(dllexport)
     #define PKMNSIM_IMPORT         __declspec(dllimport)
@@ -48,14 +59,12 @@ inline std::string to_string (const T& t)
     #define PKMNSIM_ALIGNED(x)
 #endif
 
-// Define API declaration macro
 #ifdef PKMNSIM_DLL_EXPORTS
     #define PKMNSIM_API PKMNSIM_EXPORT
 #else
     #define PKMNSIM_API PKMNSIM_IMPORT
-#endif // PKMNSIM_DLL_EXPORTS
+#endif
 
-// Platform defines for conditional parts of headers:
 #if defined(linux) || defined(__linux) || defined(__linux__)
     #define PKMNSIM_PLATFORM_LINUX
 #elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
