@@ -160,6 +160,58 @@ namespace pkmnsim
         s_pkmn->attributes["hoenn_smart_ribbon_super"] = p_pkm->pkm_data.hribbon1.smart_ribbon_super;
         s_pkmn->attributes["hoenn_smart_ribbon_hyper"] = p_pkm->pkm_data.hribbon1.smart_ribbon_hyper;
         s_pkmn->attributes["hoenn_smart_ribbon_master"] = p_pkm->pkm_data.hribbon1.smart_ribbon_master;
+        s_pkmn->attributes["hoenn_tough_ribbon"] = p_pkm->pkm_data.hribbon2.tough_ribbon;
+        s_pkmn->attributes["hoenn_tough_ribbon_super"] = p_pkm->pkm_data.hribbon2.tough_ribbon_super;
+        s_pkmn->attributes["hoenn_tough_ribbon_hyper"] = p_pkm->pkm_data.hribbon2.tough_ribbon_hyper;
+        s_pkmn->attributes["hoenn_tough_ribbon_master"] = p_pkm->pkm_data.hribbon2.tough_ribbon_master;
+        s_pkmn->attributes["hoenn_champion_ribbon"] = p_pkm->pkm_data.hribbon2.champion_ribbon;
+        s_pkmn->attributes["hoenn_winning_ribbon"] = p_pkm->pkm_data.hribbon2.winning_ribbon;
+        s_pkmn->attributes["hoenn_victory_ribbon"] = p_pkm->pkm_data.hribbon2.victory_ribbon;
+        s_pkmn->attributes["hoenn_artist_ribbon"] = p_pkm->pkm_data.hribbon2.artist_ribbon;
+        s_pkmn->attributes["hoenn_effort_ribbon"] = p_pkm->pkm_data.hribbon2.effort_ribbon;
+        s_pkmn->attributes["hoenn_marine_ribbon"] = p_pkm->pkm_data.hribbon2.marine_ribbon;
+        s_pkmn->attributes["hoenn_land_ribbon"] = p_pkm->pkm_data.hribbon2.land_ribbon;
+        s_pkmn->attributes["hoenn_sky_ribbon"] = p_pkm->pkm_data.hribbon2.sky_ribbon;
+        s_pkmn->attributes["hoenn_country_ribbon"] = p_pkm->pkm_data.hribbon2.country_ribbon;
+        s_pkmn->attributes["hoenn_national_ribbon"] = p_pkm->pkm_data.hribbon2.national_ribbon;
+        s_pkmn->attributes["hoenn_earth_ribbon"] = p_pkm->pkm_data.hribbon2.earth_ribbon;
+        s_pkmn->attributes["hoenn_world_ribbon"] = p_pkm->pkm_data.hribbon2.world_ribbon;
+        s_pkmn->attributes["fateful_encounter"] = p_pkm->pkm_data.forms.fencounter;
+        s_pkmn->attributes["has_dream_world_ability"] = p_pkm->pkm_data.dwability.hasdwability;
+        s_pkmn->attributes["n_flag"] = p_pkm->pkm_data.dwability.n_pkm;
+        s_pkmn->attributes["original_game"] = int(p_pkm->pkm_data.hometown);
+        s_pkmn->attributes["sinnoh_cool_ribbon"] = p_pkm->pkm_data.sribbon3.cool_ribbon;
+        s_pkmn->attributes["sinnoh_cool_ribbon_great"] = p_pkm->pkm_data.sribbon3.cool_ribbon_great;
+        s_pkmn->attributes["sinnoh_cool_ribbon_ultra"] = p_pkm->pkm_data.sribbon3.cool_ribbon_ultra;
+        s_pkmn->attributes["sinnoh_cool_ribbon_master"] = p_pkm->pkm_data.sribbon3.cool_ribbon_master;
+        s_pkmn->attributes["sinnoh_beauty_ribbon"] = p_pkm->pkm_data.sribbon3.beauty_ribbon;
+        s_pkmn->attributes["sinnoh_beauty_ribbon_great"] = p_pkm->pkm_data.sribbon3.beauty_ribbon_great;
+        s_pkmn->attributes["sinnoh_beauty_ribbon_ultra"] = p_pkm->pkm_data.sribbon3.beauty_ribbon_ultra;
+        s_pkmn->attributes["sinnoh_beauty_ribbon_master"] = p_pkm->pkm_data.sribbon3.beauty_ribbon_master;
+        s_pkmn->attributes["sinnoh_cute_ribbon"] = p_pkm->pkm_data.sribbon3.cute_ribbon;
+        s_pkmn->attributes["sinnoh_cute_ribbon_great"] = p_pkm->pkm_data.sribbon3.cute_ribbon_great;
+        s_pkmn->attributes["sinnoh_cute_ribbon_ultra"] = p_pkm->pkm_data.sribbon3.cute_ribbon_ultra;
+        s_pkmn->attributes["sinnoh_cute_ribbon_master"] = p_pkm->pkm_data.sribbon3.cute_ribbon_master;
+        s_pkmn->attributes["sinnoh_smart_ribbon"] = p_pkm->pkm_data.sribbon3.smart_ribbon;
+        s_pkmn->attributes["sinnoh_smart_ribbon_great"] = p_pkm->pkm_data.sribbon3.smart_ribbon_great;
+        s_pkmn->attributes["sinnoh_smart_ribbon_ultra"] = p_pkm->pkm_data.sribbon3.smart_ribbon_ultra;
+        s_pkmn->attributes["sinnoh_smart_ribbon_master"] = p_pkm->pkm_data.sribbon3.smart_ribbon_master;
+        s_pkmn->attributes["sinnoh_tough_ribbon"] = p_pkm->pkm_data.sribbon4.tough_ribbon;
+        s_pkmn->attributes["sinnoh_tough_ribbon_great"] = p_pkm->pkm_data.sribbon4.tough_ribbon_great;
+        s_pkmn->attributes["sinnoh_tough_ribbon_ultra"] = p_pkm->pkm_data.sribbon4.tough_ribbon_ultra;
+        s_pkmn->attributes["sinnoh_tough_ribbon_master"] = p_pkm->pkm_data.sribbon4.tough_ribbon_master;
+        s_pkmn->attributes["eggmet_year"] = p_pkm->pkm_data.eggdate.year;
+        s_pkmn->attributes["eggmet_month"] = p_pkm->pkm_data.eggdate.month;
+        s_pkmn->attributes["eggmet_day"] = p_pkm->pkm_data.eggdate.day;
+        s_pkmn->attributes["met_year"] = p_pkm->pkm_data.metdate.year;
+        s_pkmn->attributes["met_month"] = p_pkm->pkm_data.metdate.month;
+        s_pkmn->attributes["met_day"] = p_pkm->pkm_data.metdate.day;
+        s_pkmn->attributes["eggmet_location"] = int(p_pkm->pkm_data.eggmet);
+        s_pkmn->attributes["met_location"] = int(p_pkm->pkm_data.met);
+        s_pkmn->attributes["unova_ball"] = int(p_pkm->pkm_data.ball);
+        s_pkmn->attributes["met_level"] = p_pkm->pkm_data.metlevel_otgender.metlevel;
+        s_pkmn->attributes["ot_gender"] = int(p_pkm->pkm_data.metlevel_otgender.metlevel);
+        s_pkmn->attributes["unova_encounter"] = int(p_pkm->pkm_data.encounter);
 
         return s_pkmn;
     }
@@ -326,6 +378,119 @@ namespace pkmnsim
             p_pkm->pkm_data.hribbon1.smart_ribbon_hyper = bool(s_pkmn->attributes["hoenn_smart_ribbon_hyper"]);
         if(s_pkmn->attributes.has_key("hoenn_smart_ribbon_master"))
             p_pkm->pkm_data.hribbon1.smart_ribbon_master = bool(s_pkmn->attributes["hoenn_smart_ribbon_master"]);
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon"))
+            p_pkm->pkm_data.hribbon2.tough_ribbon = bool(s_pkmn->attributes["hoenn_tough_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_super"))
+            p_pkm->pkm_data.hribbon2.tough_ribbon_super = bool(s_pkmn->attributes["hoenn_tough_ribbon_super"]);
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_hyper"))
+            p_pkm->pkm_data.hribbon2.tough_ribbon_hyper = bool(s_pkmn->attributes["hoenn_tough_ribbon_hyper"]);
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_master"))
+            p_pkm->pkm_data.hribbon2.tough_ribbon_master = bool(s_pkmn->attributes["hoenn_tough_ribbon_master"]);
+        if(s_pkmn->attributes.has_key("hoenn_champion_ribbon"))
+            p_pkm->pkm_data.hribbon2.champion_ribbon = bool(s_pkmn->attributes["hoenn_champion_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_winning_ribbon"))
+            p_pkm->pkm_data.hribbon2.winning_ribbon = bool(s_pkmn->attributes["hoenn_winning_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_victory_ribbon"))
+            p_pkm->pkm_data.hribbon2.victory_ribbon = bool(s_pkmn->attributes["hoenn_victory_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_artist_ribbon"))
+            p_pkm->pkm_data.hribbon2.artist_ribbon = bool(s_pkmn->attributes["hoenn_artist_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_effort_ribbon"))
+            p_pkm->pkm_data.hribbon2.effort_ribbon = bool(s_pkmn->attributes["hoenn_effort_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_marine_ribbon"))
+            p_pkm->pkm_data.hribbon2.marine_ribbon = bool(s_pkmn->attributes["hoenn_marine_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_land_ribbon"))
+            p_pkm->pkm_data.hribbon2.land_ribbon = bool(s_pkmn->attributes["hoenn_land_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_sky_ribbon"))
+            p_pkm->pkm_data.hribbon2.sky_ribbon = bool(s_pkmn->attributes["hoenn_sky_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_country_ribbon"))
+            p_pkm->pkm_data.hribbon2.country_ribbon = bool(s_pkmn->attributes["hoenn_country_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_national_ribbon"))
+            p_pkm->pkm_data.hribbon2.national_ribbon = bool(s_pkmn->attributes["hoenn_national_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_earth_ribbon"))
+            p_pkm->pkm_data.hribbon2.earth_ribbon = bool(s_pkmn->attributes["hoenn_earth_ribbon"]);
+        if(s_pkmn->attributes.has_key("hoenn_world_ribbon"))
+            p_pkm->pkm_data.hribbon2.world_ribbon = bool(s_pkmn->attributes["hoenn_world_ribbon"]);
+        if(s_pkmn->attributes.has_key("fateful_encounter"))
+            p_pkm->pkm_data.forms.fencounter = bool(s_pkmn->attributes["fateful_encounter"]);
+        if(s_pkmn->attributes.has_key("has_dream_world_ability"))
+            p_pkm->pkm_data.dwability.hasdwability = bool(s_pkmn->attributes["has_dream_world_ability"]);
+        if(s_pkmn->attributes.has_key("n_flag"))
+            p_pkm->pkm_data.dwability.n_pkm = bool(s_pkmn->attributes["n_flag"]);
+        if(s_pkmn->attributes.has_key("original_game"))
+            p_pkm->pkm_data.hometown = Hometowns::hometowns(s_pkmn->attributes["original_game"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cute_ribbon"))
+            p_pkm->pkm_data.sribbon3.cute_ribbon = bool(s_pkmn->attributes["sinnoh_cute_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cool_ribbon_great"))
+            p_pkm->pkm_data.sribbon3.cool_ribbon_great = bool(s_pkmn->attributes["sinnoh_cool_ribbon_great"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cool_ribbon_ultra"))
+            p_pkm->pkm_data.sribbon3.cool_ribbon_ultra = bool(s_pkmn->attributes["sinnoh_cool_ribbon_ultra"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cool_ribbon_master"))
+            p_pkm->pkm_data.sribbon3.cool_ribbon_master = bool(s_pkmn->attributes["sinnoh_cool_ribbon_master"]);
+        if(s_pkmn->attributes.has_key("sinnoh_beauty_ribbon"))
+            p_pkm->pkm_data.sribbon3.beauty_ribbon = bool(s_pkmn->attributes["sinnoh_beauty_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_beauty_ribbon_great"))
+            p_pkm->pkm_data.sribbon3.beauty_ribbon_great = bool(s_pkmn->attributes["sinnoh_beauty_ribbon_great"]);
+        if(s_pkmn->attributes.has_key("sinnoh_beauty_ribbon_ultra"))
+            p_pkm->pkm_data.sribbon3.beauty_ribbon_ultra = bool(s_pkmn->attributes["sinnoh_beauty_ribbon_ultra"]);
+        if(s_pkmn->attributes.has_key("sinnoh_beauty_ribbon_master"))
+            p_pkm->pkm_data.sribbon3.beauty_ribbon_master = bool(s_pkmn->attributes["sinnoh_beauty_ribbon_master"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cute_ribbon"))
+            p_pkm->pkm_data.sribbon3.cute_ribbon = bool(s_pkmn->attributes["sinnoh_cute_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cute_ribbon_great"))
+            p_pkm->pkm_data.sribbon3.cute_ribbon_great = bool(s_pkmn->attributes["sinnoh_cute_ribbon_great"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cute_ribbon_ultra"))
+            p_pkm->pkm_data.sribbon3.cute_ribbon_ultra = bool(s_pkmn->attributes["sinnoh_cute_ribbon_ultra"]);
+        if(s_pkmn->attributes.has_key("sinnoh_cute_ribbon_master"))
+            p_pkm->pkm_data.sribbon3.cute_ribbon_master = bool(s_pkmn->attributes["sinnoh_cute_ribbon_master"]);
+        if(s_pkmn->attributes.has_key("sinnoh_smart_ribbon"))
+            p_pkm->pkm_data.sribbon3.smart_ribbon = bool(s_pkmn->attributes["sinnoh_smart_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_smart_ribbon_great"))
+            p_pkm->pkm_data.sribbon3.smart_ribbon_great = bool(s_pkmn->attributes["sinnoh_smart_ribbon_great"]);
+        if(s_pkmn->attributes.has_key("sinnoh_smart_ribbon_ultra"))
+            p_pkm->pkm_data.sribbon3.smart_ribbon_ultra = bool(s_pkmn->attributes["sinnoh_smart_ribbon_ultra"]);
+        if(s_pkmn->attributes.has_key("sinnoh_smart_ribbon_master"))
+            p_pkm->pkm_data.sribbon3.smart_ribbon_master = bool(s_pkmn->attributes["sinnoh_smart_ribbon_master"]);
+        if(s_pkmn->attributes.has_key("sinnoh_tough_ribbon"))
+            p_pkm->pkm_data.sribbon4.tough_ribbon = bool(s_pkmn->attributes["sinnoh_tough_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_tough_ribbon_great"))
+            p_pkm->pkm_data.sribbon4.tough_ribbon_great = bool(s_pkmn->attributes["sinnoh_tough_ribbon_great"]);
+        if(s_pkmn->attributes.has_key("sinnoh_tough_ribbon_ultra"))
+            p_pkm->pkm_data.sribbon4.tough_ribbon_ultra = bool(s_pkmn->attributes["sinnoh_tough_ribbon_ultra"]);
+        if(s_pkmn->attributes.has_key("sinnoh_tough_ribbon_master"))
+            p_pkm->pkm_data.sribbon4.tough_ribbon_master = bool(s_pkmn->attributes["sinnoh_tough_ribbon_master"]);
+        if(s_pkmn->attributes.has_key("unova_ball"))
+            p_pkm->pkm_data.ball = Balls::balls(s_pkmn->attributes["unova_ball"]);
+
+        //Don't fill in datefields unless all three attributes are present
+        if(s_pkmn->attributes.has_key("eggmet_year") and s_pkmn->attributes.has_key("eggmet_month") and
+           s_pkmn->attributes.has_key("eggmet_day"))
+        {
+            p_pkm->pkm_data.eggdate.year = byte(s_pkmn->attributes["eggmet_year"]);
+            p_pkm->pkm_data.eggdate.month = byte(s_pkmn->attributes["eggmet_month"]);
+            p_pkm->pkm_data.eggdate.day = byte(s_pkmn->attributes["eggmet_day"]);
+        }
+        if(s_pkmn->attributes.has_key("met_year") and s_pkmn->attributes.has_key("met_month") and
+           s_pkmn->attributes.has_key("met_day"))
+        {
+            p_pkm->pkm_data.metdate.year = byte(s_pkmn->attributes["met_year"]);
+            p_pkm->pkm_data.metdate.month = byte(s_pkmn->attributes["met_month"]);
+            p_pkm->pkm_data.metdate.day = byte(s_pkmn->attributes["met_day"]);
+        }
+
+        if(s_pkmn->attributes.has_key("eggmet_location"))
+            p_pkm->pkm_data.eggmet = Locations::locations(s_pkmn->attributes["eggmet_location"]);
+        if(s_pkmn->attributes.has_key("met_location"))
+            p_pkm->pkm_data.met = Locations::locations(s_pkmn->attributes["met_location"]);
+        if(s_pkmn->attributes.has_key("met_level"))
+            p_pkm->pkm_data.metlevel_otgender.metlevel = byte(s_pkmn->attributes["met_level"]);
+        if(s_pkmn->attributes.has_key("met_level"))
+            #if defined(__linux__)
+            p_pkm->pkm_data.metlevel_otgender.metlevel = byte(s_pkmn->attributes["ot_gender"]);
+            #else
+            p_pkm->pkm_data.metlevel_otgender.metlevel = ::Genders::genders(s_pkmn->attributes["ot_gender"]);
+            #endif
+        if(s_pkmn->attributes.has_key("unova_encounter"))
+            p_pkm->pkm_data.encounter = Encounters::encounters(s_pkmn->attributes["unova_encounter"]);
     }
     
     void converter::pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
