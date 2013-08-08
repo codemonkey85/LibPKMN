@@ -24,6 +24,7 @@ IF(ENABLE_WIN_PYTHON_PKG)
         COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/lib/${CMAKE_BUILD_TYPE}/pkmnsim.dll ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.dll
         COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/pokehack/lib/${CMAKE_BUILD_TYPE}/pokehack.dll ${CMAKE_CURRENT_BINARY_DIR}/pokehack.dll
         COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/pokelib/lib/${CMAKE_BUILD_TYPE}/pokelib.dll ${CMAKE_CURRENT_BINARY_DIR}/pokelib.dll
+        COMMAND ${CMAKE_COMMAND} -E copy ${PKMNSIM_BINARY_DIR}/PKMDS-G5/lib/${CMAKE_BUILD_TYPE}/pkmds.dll ${CMAKE_CURRENT_BINARY_DIR}/pkmds.dll
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/setup.py py2exe
         DEPENDS ${PYPKMNSIM_REAL_SWIG_NAME}
         COMMENT "Building standalone Python program for damage_calculator"
