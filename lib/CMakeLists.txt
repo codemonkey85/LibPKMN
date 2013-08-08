@@ -34,13 +34,15 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen345impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pokehack_conversions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pokelib_conversions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pkmds_conversions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen3impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen4impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen5impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/conversions.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${sqlitecpp_sources}
         ${database_sources}
