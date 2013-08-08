@@ -6,6 +6,7 @@
  */
 
 #include <algorithm>
+#include <bitset>
 #include <fstream>
 #include <map>
 #include <sstream>
@@ -127,6 +128,58 @@ namespace pkmnsim
         s_pkmn->evSDEF = pkmn_e_t->spdef;
         s_pkmn->evSPD = pkmn_e_t->speed;
 
+        //Attributes
+        s_pkmn->attributes["friendship"] = int(pkmn_g_t->happiness);
+
+        //Need to get markings manually, Pokehack has no bitfield
+        bitset<4> markings_bitset(b_pkmn_t->mark);
+        s_pkmn->attributes["circle"] = int(markings_bitset[0]);
+        s_pkmn->attributes["triangle"] = int(markings_bitset[1]);
+        s_pkmn->attributes["square"] = int(markings_bitset[2]);
+        s_pkmn->attributes["heart"] = int(markings_bitset[3]);
+
+        s_pkmn->attributes["country"] = int(b_pkmn_t->language);
+        s_pkmn->attributes["cool"] = int(pkmn_e_t->coolness);
+        s_pkmn->attributes["beauty"] = int(pkmn_e_t->beauty);
+        s_pkmn->attributes["cute"] = int(pkmn_e_t->cuteness);
+        s_pkmn->attributes["smart"] = int(pkmn_e_t->smartness);
+        s_pkmn->attributes["tough"] = int(pkmn_e_t->toughness);
+
+        //Need to get ribbons manually, Pokehack has no bitfield
+        bitset<32> ribbons_bitset(pkmn_m_t->ribbons);
+        s_pkmn->attributes["hoenn_cool_ribbon"] = ribbons_bitset[0];
+        s_pkmn->attributes["hoenn_cool_ribbon_super"] = ribbons_bitset[1];
+        s_pkmn->attributes["hoenn_cool_ribbon_hyper"] = ribbons_bitset[2];
+        s_pkmn->attributes["hoenn_cool_ribbon_master"] = ribbons_bitset[3];
+        s_pkmn->attributes["hoenn_beauty_ribbon"] = ribbons_bitset[4];
+        s_pkmn->attributes["hoenn_beauty_ribbon_super"] = ribbons_bitset[5];
+        s_pkmn->attributes["hoenn_beauty_ribbon_hyper"] = ribbons_bitset[6];
+        s_pkmn->attributes["hoenn_beauty_ribbon_master"] = ribbons_bitset[7];
+        s_pkmn->attributes["hoenn_cute_ribbon"] = ribbons_bitset[8];
+        s_pkmn->attributes["hoenn_cute_ribbon_super"] = ribbons_bitset[9];
+        s_pkmn->attributes["hoenn_cute_ribbon_hyper"] = ribbons_bitset[10];
+        s_pkmn->attributes["hoenn_cute_ribbon_master"] = ribbons_bitset[11];
+        s_pkmn->attributes["hoenn_smart_ribbon"] = ribbons_bitset[12];
+        s_pkmn->attributes["hoenn_smart_ribbon_super"] = ribbons_bitset[13];
+        s_pkmn->attributes["hoenn_smart_ribbon_hyper"] = ribbons_bitset[14];
+        s_pkmn->attributes["hoenn_smart_ribbon_master"] = ribbons_bitset[15];
+        s_pkmn->attributes["hoenn_tough_ribbon"] = ribbons_bitset[16];
+        s_pkmn->attributes["hoenn_tough_ribbon_super"] = ribbons_bitset[17];
+        s_pkmn->attributes["hoenn_tough_ribbon_hyper"] = ribbons_bitset[18];
+        s_pkmn->attributes["hoenn_tough_ribbon_master"] = ribbons_bitset[19];
+        s_pkmn->attributes["hoenn_champion_ribbon"] = ribbons_bitset[20];
+        s_pkmn->attributes["hoenn_winning_ribbon"] = ribbons_bitset[21];
+        s_pkmn->attributes["hoenn_victory_ribbon"] = ribbons_bitset[22];
+        s_pkmn->attributes["hoenn_artist_ribbon"] = ribbons_bitset[23];
+        s_pkmn->attributes["hoenn_effort_ribbon"] = ribbons_bitset[24];
+        s_pkmn->attributes["hoenn_marine_ribbon"] = ribbons_bitset[25];
+        s_pkmn->attributes["hoenn_land_ribbon"] = ribbons_bitset[26];
+        s_pkmn->attributes["hoenn_sky_ribbon"] = ribbons_bitset[27];
+        s_pkmn->attributes["hoenn_country_ribbon"] = ribbons_bitset[28];
+        s_pkmn->attributes["hoenn_national_ribbon"] = ribbons_bitset[29];
+        s_pkmn->attributes["hoenn_earth_ribbon"] = ribbons_bitset[30];
+        s_pkmn->attributes["hoenn_world_ribbon"] = ribbons_bitset[31];
+
         return s_pkmn;
     }
 
@@ -177,5 +230,102 @@ namespace pkmnsim
         pkmn_e_t->spatk = s_pkmn->SATK;
         pkmn_e_t->spdef = s_pkmn->SDEF;
         pkmn_e_t->speed = s_pkmn->SPD;
+
+        //Attributes
+        if(s_pkmn->attributes.has_key("friendship"))
+            pkmn_g_t->happiness = (unsigned char)(s_pkmn->attributes["friendship"]);
+
+        //Need to set markings manually, Pokehack has no bitfield
+        bitset<4> markings_bitset(0);
+        if(s_pkmn->attributes.has_key("circle"))
+            markings_bitset[0] = s_pkmn->attributes["circle"];
+        if(s_pkmn->attributes.has_key("triangle"))
+            markings_bitset[1] = s_pkmn->attributes["triangle"];
+        if(s_pkmn->attributes.has_key("square"))
+            markings_bitset[2] = s_pkmn->attributes["square"];
+        if(s_pkmn->attributes.has_key("heart"))
+            markings_bitset[3] = s_pkmn->attributes["heart"];
+        b_pkmn_t->mark = (unsigned char)(markings_bitset.to_ulong());
+
+        if(s_pkmn->attributes.has_key("country"))
+            b_pkmn_t->language = (unsigned short)(s_pkmn->attributes["country"]);
+        if(s_pkmn->attributes.has_key("cool"))
+            pkmn_e_t->coolness = (unsigned char)(s_pkmn->attributes["coolness"]);
+        if(s_pkmn->attributes.has_key("beauty"))
+            pkmn_e_t->beauty = (unsigned char)(s_pkmn->attributes["beauty"]);
+        if(s_pkmn->attributes.has_key("cute"))
+            pkmn_e_t->cuteness = (unsigned char)(s_pkmn->attributes["cute"]);
+        if(s_pkmn->attributes.has_key("smart"))
+            pkmn_e_t->smartness = (unsigned char)(s_pkmn->attributes["smart"]);
+        if(s_pkmn->attributes.has_key("tough"))
+            pkmn_e_t->toughness = (unsigned char)(s_pkmn->attributes["tough"]);
+
+        //Need to set ribbons manually, Pokehack has no bitfield
+        bitset<32> ribbons_bitset(0);
+        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon"))
+            ribbons_bitset[0] = s_pkmn->attributes.has_key("hoenn_cool_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon_super"))
+            ribbons_bitset[1] = s_pkmn->attributes.has_key("hoenn_cool_ribbon_super");
+        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon_hyper"))
+            ribbons_bitset[2] = s_pkmn->attributes.has_key("hoenn_cool_ribbon_hyper");
+        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon_master"))
+            ribbons_bitset[3] = s_pkmn->attributes.has_key("hoenn_cool_ribbon_master");
+        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon"))
+            ribbons_bitset[4] = s_pkmn->attributes.has_key("hoenn_beauty_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon_super"))
+            ribbons_bitset[5] = s_pkmn->attributes.has_key("hoenn_beauty_ribbon_super");
+        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon_hyper"))
+            ribbons_bitset[6] = s_pkmn->attributes.has_key("hoenn_beauty_ribbon_hyper");
+        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon_master"))
+            ribbons_bitset[7] = s_pkmn->attributes.has_key("hoenn_beauty_ribbon_master");
+        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon"))
+            ribbons_bitset[8] = s_pkmn->attributes.has_key("hoenn_cute_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon_super"))
+            ribbons_bitset[9] = s_pkmn->attributes.has_key("hoenn_cute_ribbon_super");
+        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon_hyper"))
+            ribbons_bitset[10] = s_pkmn->attributes.has_key("hoenn_cute_ribbon_hyper");
+        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon_master"))
+            ribbons_bitset[11] = s_pkmn->attributes.has_key("hoenn_cute_ribbon_master");
+        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon"))
+            ribbons_bitset[12] = s_pkmn->attributes.has_key("hoenn_smart_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon_super"))
+            ribbons_bitset[13] = s_pkmn->attributes.has_key("hoenn_smart_ribbon_super");
+        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon_hyper"))
+            ribbons_bitset[14] = s_pkmn->attributes.has_key("hoenn_smart_ribbon_hyper");
+        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon_master"))
+            ribbons_bitset[15] = s_pkmn->attributes.has_key("hoenn_smart_ribbon_master");
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon"))
+            ribbons_bitset[16] = s_pkmn->attributes.has_key("hoenn_tough_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_super"))
+            ribbons_bitset[17] = s_pkmn->attributes.has_key("hoenn_tough_ribbon_super");
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_hyper"))
+            ribbons_bitset[18] = s_pkmn->attributes.has_key("hoenn_tough_ribbon_hyper");
+        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_master"))
+            ribbons_bitset[19] = s_pkmn->attributes.has_key("hoenn_tough_ribbon_master");
+        if(s_pkmn->attributes.has_key("hoenn_champion_ribbon"))
+            ribbons_bitset[20] = s_pkmn->attributes.has_key("hoenn_champion_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_winning_ribbon"))
+            ribbons_bitset[21] = s_pkmn->attributes.has_key("hoenn_winning_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_victory_ribbon"))
+            ribbons_bitset[22] = s_pkmn->attributes.has_key("hoenn_victory_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_artist_ribbon"))
+            ribbons_bitset[23] = s_pkmn->attributes.has_key("hoenn_artist_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_effort_ribbon"))
+            ribbons_bitset[24] = s_pkmn->attributes.has_key("hoenn_effort_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_marine_ribbon"))
+            ribbons_bitset[25] = s_pkmn->attributes.has_key("hoenn_marine_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_land_ribbon"))
+            ribbons_bitset[26] = s_pkmn->attributes.has_key("hoenn_land_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_sky_ribbon"))
+            ribbons_bitset[27] = s_pkmn->attributes.has_key("hoenn_sky_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_country_ribbon"))
+            ribbons_bitset[28] = s_pkmn->attributes.has_key("hoenn_country_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_national_ribbon"))
+            ribbons_bitset[29] = s_pkmn->attributes.has_key("hoenn_national_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_earth_ribbon"))
+            ribbons_bitset[30] = s_pkmn->attributes.has_key("hoenn_earth_ribbon");
+        if(s_pkmn->attributes.has_key("hoenn_world_ribbon"))
+            ribbons_bitset[31] = s_pkmn->attributes.has_key("hoenn_world_ribbon");
+        pkmn_m_t->ribbons = (unsigned int)(ribbons_bitset.to_ulong());
     }
 }
