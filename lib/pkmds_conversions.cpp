@@ -102,7 +102,7 @@ namespace pkmnsim
         s_pkmn->evSPD = p_pkm->pkm_data.evs.speed;
 
         //Attributes
-        s_pkmn->attributes["tameness"] = p_pkm->pkm_data.tameness;
+        s_pkmn->attributes["friendship"] = p_pkm->pkm_data.tameness;
         s_pkmn->attributes["circle"] = p_pkm->pkm_data.markings.circle;
         s_pkmn->attributes["triangle"] = p_pkm->pkm_data.markings.triangle;
         s_pkmn->attributes["square"] = p_pkm->pkm_data.markings.square;
@@ -117,33 +117,33 @@ namespace pkmnsim
         s_pkmn->attributes["tough"] = p_pkm->pkm_data.contest.tough;
         s_pkmn->attributes["sheen"] = p_pkm->pkm_data.contest.sheen;
         s_pkmn->attributes["sinnoh_champ_ribbon"] = p_pkm->pkm_data.sribbon1.sinnoh_champ_ribbon;
-        s_pkmn->attributes["ability_ribbon"] = p_pkm->pkm_data.sribbon1.ability_ribbon;
-        s_pkmn->attributes["great_ability_ribbon"] = p_pkm->pkm_data.sribbon1.great_ability_ribbon;
-        s_pkmn->attributes["double_ability_ribbon"] = p_pkm->pkm_data.sribbon1.double_ability_ribbon;
-        s_pkmn->attributes["multi_ability_ribbon"] = p_pkm->pkm_data.sribbon1.multi_ability_ribbon;
-        s_pkmn->attributes["pair_ability_ribbon"] = p_pkm->pkm_data.sribbon1.pair_ability_ribbon;
-        s_pkmn->attributes["world_ability_ribbon"] = p_pkm->pkm_data.sribbon1.world_ability_ribbon;
-        s_pkmn->attributes["alert_ribbon"] = p_pkm->pkm_data.sribbon1.alert_ribbon;
-        s_pkmn->attributes["shock_ribbon"] = p_pkm->pkm_data.sribbon1.shock_ribbon;
-        s_pkmn->attributes["downcast_ribbon"] = p_pkm->pkm_data.sribbon1.downcast_ribbon;
-        s_pkmn->attributes["careless_ribbon"] = p_pkm->pkm_data.sribbon1.careless_ribbon;
-        s_pkmn->attributes["relax_ribbon"] = p_pkm->pkm_data.sribbon1.relax_ribbon;
-        s_pkmn->attributes["snooze_ribbon"] = p_pkm->pkm_data.sribbon1.snooze_ribbon;
-        s_pkmn->attributes["smile_ribbon"] = p_pkm->pkm_data.sribbon1.smile_ribbon;
-        s_pkmn->attributes["gorgeous_ribbon"] = p_pkm->pkm_data.sribbon1.gorgeous_ribbon;
-        s_pkmn->attributes["royal_ribbon"] = p_pkm->pkm_data.sribbon1.royal_ribbon;
-        s_pkmn->attributes["gorgeous_royal_ribbon"] = p_pkm->pkm_data.sribbon2.gorgeous_royal_ribbon;
-        s_pkmn->attributes["footprint_ribbon"] = p_pkm->pkm_data.sribbon2.footprint_ribbon;
-        s_pkmn->attributes["record_ribbon"] = p_pkm->pkm_data.sribbon2.record_ribbon;
-        s_pkmn->attributes["history_ribbon"] = p_pkm->pkm_data.sribbon2.history_ribbon;
-        s_pkmn->attributes["legend_ribbon"] = p_pkm->pkm_data.sribbon2.legend_ribbon;
-        s_pkmn->attributes["red_ribbon"] = p_pkm->pkm_data.sribbon2.red_ribbon;
-        s_pkmn->attributes["green_ribbon"] = p_pkm->pkm_data.sribbon2.green_ribbon;
-        s_pkmn->attributes["blue_ribbon"] = p_pkm->pkm_data.sribbon2.blue_ribbon;
-        s_pkmn->attributes["festival_ribbon"] = p_pkm->pkm_data.sribbon2.festival_ribbon;
-        s_pkmn->attributes["carnival_ribbon"] = p_pkm->pkm_data.sribbon2.carnival_ribbon;
-        s_pkmn->attributes["classic_ribbon"] = p_pkm->pkm_data.sribbon2.classic_ribbon;
-        s_pkmn->attributes["premier_ribbon"] = p_pkm->pkm_data.sribbon2.premier_ribbon;
+        s_pkmn->attributes["sinnoh_ability_ribbon"] = p_pkm->pkm_data.sribbon1.ability_ribbon;
+        s_pkmn->attributes["sinnoh_great_ability_ribbon"] = p_pkm->pkm_data.sribbon1.great_ability_ribbon;
+        s_pkmn->attributes["sinnoh_double_ability_ribbon"] = p_pkm->pkm_data.sribbon1.double_ability_ribbon;
+        s_pkmn->attributes["sinnoh_multi_ability_ribbon"] = p_pkm->pkm_data.sribbon1.multi_ability_ribbon;
+        s_pkmn->attributes["sinnoh_pair_ability_ribbon"] = p_pkm->pkm_data.sribbon1.pair_ability_ribbon;
+        s_pkmn->attributes["sinnoh_world_ability_ribbon"] = p_pkm->pkm_data.sribbon1.world_ability_ribbon;
+        s_pkmn->attributes["sinnoh_alert_ribbon"] = p_pkm->pkm_data.sribbon1.alert_ribbon;
+        s_pkmn->attributes["sinnoh_shock_ribbon"] = p_pkm->pkm_data.sribbon1.shock_ribbon;
+        s_pkmn->attributes["sinnoh_downcast_ribbon"] = p_pkm->pkm_data.sribbon1.downcast_ribbon;
+        s_pkmn->attributes["sinnoh_careless_ribbon"] = p_pkm->pkm_data.sribbon1.careless_ribbon;
+        s_pkmn->attributes["sinnoh_relax_ribbon"] = p_pkm->pkm_data.sribbon1.relax_ribbon;
+        s_pkmn->attributes["sinnoh_snooze_ribbon"] = p_pkm->pkm_data.sribbon1.snooze_ribbon;
+        s_pkmn->attributes["sinnoh_smile_ribbon"] = p_pkm->pkm_data.sribbon1.smile_ribbon;
+        s_pkmn->attributes["sinnoh_gorgeous_ribbon"] = p_pkm->pkm_data.sribbon1.gorgeous_ribbon;
+        s_pkmn->attributes["sinnoh_royal_ribbon"] = p_pkm->pkm_data.sribbon1.royal_ribbon;
+        s_pkmn->attributes["sinnoh_gorgeous_royal_ribbon"] = p_pkm->pkm_data.sribbon2.gorgeous_royal_ribbon;
+        s_pkmn->attributes["sinnoh_footprint_ribbon"] = p_pkm->pkm_data.sribbon2.footprint_ribbon;
+        s_pkmn->attributes["sinnoh_record_ribbon"] = p_pkm->pkm_data.sribbon2.record_ribbon;
+        s_pkmn->attributes["sinnoh_history_ribbon"] = p_pkm->pkm_data.sribbon2.history_ribbon;
+        s_pkmn->attributes["sinnoh_legend_ribbon"] = p_pkm->pkm_data.sribbon2.legend_ribbon;
+        s_pkmn->attributes["sinnoh_red_ribbon"] = p_pkm->pkm_data.sribbon2.red_ribbon;
+        s_pkmn->attributes["sinnoh_green_ribbon"] = p_pkm->pkm_data.sribbon2.green_ribbon;
+        s_pkmn->attributes["sinnoh_blue_ribbon"] = p_pkm->pkm_data.sribbon2.blue_ribbon;
+        s_pkmn->attributes["sinnoh_festival_ribbon"] = p_pkm->pkm_data.sribbon2.festival_ribbon;
+        s_pkmn->attributes["sinnoh_carnival_ribbon"] = p_pkm->pkm_data.sribbon2.carnival_ribbon;
+        s_pkmn->attributes["sinnoh_classic_ribbon"] = p_pkm->pkm_data.sribbon2.classic_ribbon;
+        s_pkmn->attributes["sinnoh_premier_ribbon"] = p_pkm->pkm_data.sribbon2.premier_ribbon;
         s_pkmn->attributes["hoenn_cool_ribbon"] = p_pkm->pkm_data.hribbon1.cool_ribbon;
         s_pkmn->attributes["hoenn_cool_ribbon_super"] = p_pkm->pkm_data.hribbon1.cool_ribbon_super;
         s_pkmn->attributes["hoenn_cool_ribbon_hyper"] = p_pkm->pkm_data.hribbon1.cool_ribbon_hyper;
@@ -210,7 +210,7 @@ namespace pkmnsim
         s_pkmn->attributes["met_location"] = int(p_pkm->pkm_data.met);
         s_pkmn->attributes["unova_ball"] = int(p_pkm->pkm_data.ball);
         s_pkmn->attributes["met_level"] = p_pkm->pkm_data.metlevel_otgender.metlevel;
-        s_pkmn->attributes["ot_gender"] = int(p_pkm->pkm_data.metlevel_otgender.metlevel);
+        s_pkmn->attributes["ot_is_female"] = int(p_pkm->pkm_data.metlevel_otgender.metlevel);
         s_pkmn->attributes["unova_encounter"] = int(p_pkm->pkm_data.encounter);
 
         return s_pkmn;
@@ -262,8 +262,8 @@ namespace pkmnsim
         p_pkm->pkm_data.evs.speed = s_pkmn->evSPD;
 
         //Attributes
-        if(s_pkmn->attributes.has_key("tameness"))
-            p_pkm->pkm_data.tameness = byte(s_pkmn->attributes["tameness"]);
+        if(s_pkmn->attributes.has_key("friendship"))
+            p_pkm->pkm_data.tameness = byte(s_pkmn->attributes["friendship"]);
         if(s_pkmn->attributes.has_key("circle"))
             p_pkm->pkm_data.markings.circle = bool(s_pkmn->attributes["circle"]);
         if(s_pkmn->attributes.has_key("triangle"))
@@ -293,59 +293,59 @@ namespace pkmnsim
         if(s_pkmn->attributes.has_key("sinnoh_champ_ribbon"))
             p_pkm->pkm_data.sribbon1.sinnoh_champ_ribbon = bool(s_pkmn->attributes["sinnoh_champ_ribbon"]);
         if(s_pkmn->attributes.has_key("ability_ribbon"))
-            p_pkm->pkm_data.sribbon1.ability_ribbon = bool(s_pkmn->attributes["ability_ribbon"]);
-        if(s_pkmn->attributes.has_key("great_ability_ribbon"))
-            p_pkm->pkm_data.sribbon1.great_ability_ribbon = bool(s_pkmn->attributes["great_ability_ribbon"]);
-        if(s_pkmn->attributes.has_key("double_ability_ribbon"))
-            p_pkm->pkm_data.sribbon1.double_ability_ribbon = bool(s_pkmn->attributes["double_ability_ribbon"]);
-        if(s_pkmn->attributes.has_key("multi_ability_ribbon"))
-            p_pkm->pkm_data.sribbon1.multi_ability_ribbon = bool(s_pkmn->attributes["multi_ability_ribbon"]);
-        if(s_pkmn->attributes.has_key("pair_ability_ribbon"))
-            p_pkm->pkm_data.sribbon1.pair_ability_ribbon = bool(s_pkmn->attributes["pair_ability_ribbon"]);
-        if(s_pkmn->attributes.has_key("world_ability_ribbon"))
-            p_pkm->pkm_data.sribbon1.world_ability_ribbon = bool(s_pkmn->attributes["world_ability_ribbon"]);
-        if(s_pkmn->attributes.has_key("alert_ribbon"))
-            p_pkm->pkm_data.sribbon1.alert_ribbon = bool(s_pkmn->attributes["alert_ribbon"]);
-        if(s_pkmn->attributes.has_key("shock_ribbon"))
-            p_pkm->pkm_data.sribbon1.shock_ribbon = bool(s_pkmn->attributes["shock_ribbon"]);
-        if(s_pkmn->attributes.has_key("downcast_ribbon"))
-            p_pkm->pkm_data.sribbon1.downcast_ribbon = bool(s_pkmn->attributes["downcast_ribbon"]);
-        if(s_pkmn->attributes.has_key("careless_ribbon"))
-            p_pkm->pkm_data.sribbon1.careless_ribbon = bool(s_pkmn->attributes["careless_ribbon"]);
-        if(s_pkmn->attributes.has_key("relax_ribbon"))
-            p_pkm->pkm_data.sribbon1.relax_ribbon = bool(s_pkmn->attributes["relax_ribbon"]);
-        if(s_pkmn->attributes.has_key("snooze_ribbon"))
-            p_pkm->pkm_data.sribbon1.snooze_ribbon = bool(s_pkmn->attributes["snooze_ribbon"]);
-        if(s_pkmn->attributes.has_key("smile_ribbon"))
-            p_pkm->pkm_data.sribbon1.smile_ribbon = bool(s_pkmn->attributes["smile_ribbon"]);
-        if(s_pkmn->attributes.has_key("gorgeous_ribbon"))
-            p_pkm->pkm_data.sribbon1.gorgeous_ribbon = bool(s_pkmn->attributes["gorgeous_ribbon"]);
-        if(s_pkmn->attributes.has_key("royal_ribbon"))
-            p_pkm->pkm_data.sribbon1.royal_ribbon = bool(s_pkmn->attributes["royal_ribbon"]);
-        if(s_pkmn->attributes.has_key("gorgeous_royal_ribbon"))
-            p_pkm->pkm_data.sribbon2.gorgeous_royal_ribbon = bool(s_pkmn->attributes["gorgeous_royal_ribbon"]);
-        if(s_pkmn->attributes.has_key("footprint_ribbon"))
-            p_pkm->pkm_data.sribbon2.footprint_ribbon = bool(s_pkmn->attributes["footprint_ribbon"]);
-        if(s_pkmn->attributes.has_key("record_ribbon"))
-            p_pkm->pkm_data.sribbon2.record_ribbon = bool(s_pkmn->attributes["record_ribbon"]);
-        if(s_pkmn->attributes.has_key("history_ribbon"))
-            p_pkm->pkm_data.sribbon2.history_ribbon = bool(s_pkmn->attributes["history_ribbon"]);
-        if(s_pkmn->attributes.has_key("legend_ribbon"))
-            p_pkm->pkm_data.sribbon2.legend_ribbon = bool(s_pkmn->attributes["legend_ribbon"]);
-        if(s_pkmn->attributes.has_key("red_ribbon"))
-            p_pkm->pkm_data.sribbon2.red_ribbon = bool(s_pkmn->attributes["red_ribbon"]);
-        if(s_pkmn->attributes.has_key("green_ribbon"))
-            p_pkm->pkm_data.sribbon2.green_ribbon = bool(s_pkmn->attributes["green_ribbon"]);
-        if(s_pkmn->attributes.has_key("blue_ribbon"))
-            p_pkm->pkm_data.sribbon2.blue_ribbon = bool(s_pkmn->attributes["blue_ribbon"]);
-        if(s_pkmn->attributes.has_key("festival_ribbon"))
-            p_pkm->pkm_data.sribbon2.festival_ribbon = bool(s_pkmn->attributes["festival_ribbon"]);
-        if(s_pkmn->attributes.has_key("carnival_ribbon"))
-            p_pkm->pkm_data.sribbon2.carnival_ribbon = bool(s_pkmn->attributes["carnival_ribbon"]);
-        if(s_pkmn->attributes.has_key("classic_ribbon"))
-            p_pkm->pkm_data.sribbon2.classic_ribbon = bool(s_pkmn->attributes["classic_ribbon"]);
-        if(s_pkmn->attributes.has_key("premier_ribbon"))
-            p_pkm->pkm_data.sribbon2.premier_ribbon = bool(s_pkmn->attributes["premier_ribbon"]);
+            p_pkm->pkm_data.sribbon1.ability_ribbon = bool(s_pkmn->attributes["sinnoh_ability_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_great_ability_ribbon"))
+            p_pkm->pkm_data.sribbon1.great_ability_ribbon = bool(s_pkmn->attributes["sinnoh_great_ability_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_double_ability_ribbon"))
+            p_pkm->pkm_data.sribbon1.double_ability_ribbon = bool(s_pkmn->attributes["sinnoh_double_ability_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_multi_ability_ribbon"))
+            p_pkm->pkm_data.sribbon1.multi_ability_ribbon = bool(s_pkmn->attributes["sinnoh_multi_ability_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_pair_ability_ribbon"))
+            p_pkm->pkm_data.sribbon1.pair_ability_ribbon = bool(s_pkmn->attributes["sinnoh_pair_ability_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_world_ability_ribbon"))
+            p_pkm->pkm_data.sribbon1.world_ability_ribbon = bool(s_pkmn->attributes["sinnoh_world_ability_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_alert_ribbon"))
+            p_pkm->pkm_data.sribbon1.alert_ribbon = bool(s_pkmn->attributes["sinnoh_alert_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_shock_ribbon"))
+            p_pkm->pkm_data.sribbon1.shock_ribbon = bool(s_pkmn->attributes["sinnoh_shock_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_downcast_ribbon"))
+            p_pkm->pkm_data.sribbon1.downcast_ribbon = bool(s_pkmn->attributes["sinnoh_downcast_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_careless_ribbon"))
+            p_pkm->pkm_data.sribbon1.careless_ribbon = bool(s_pkmn->attributes["sinnoh_careless_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_relax_ribbon"))
+            p_pkm->pkm_data.sribbon1.relax_ribbon = bool(s_pkmn->attributes["sinnoh_relax_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_snooze_ribbon"))
+            p_pkm->pkm_data.sribbon1.snooze_ribbon = bool(s_pkmn->attributes["sinnoh_snooze_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_smile_ribbon"))
+            p_pkm->pkm_data.sribbon1.smile_ribbon = bool(s_pkmn->attributes["sinnoh_smile_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_gorgeous_ribbon"))
+            p_pkm->pkm_data.sribbon1.gorgeous_ribbon = bool(s_pkmn->attributes["sinnoh_gorgeous_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_royal_ribbon"))
+            p_pkm->pkm_data.sribbon1.royal_ribbon = bool(s_pkmn->attributes["sinnoh_royal_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_gorgeous_royal_ribbon"))
+            p_pkm->pkm_data.sribbon2.gorgeous_royal_ribbon = bool(s_pkmn->attributes["sinnoh_gorgeous_royal_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_footprint_ribbon"))
+            p_pkm->pkm_data.sribbon2.footprint_ribbon = bool(s_pkmn->attributes["sinnoh_footprint_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_record_ribbon"))
+            p_pkm->pkm_data.sribbon2.record_ribbon = bool(s_pkmn->attributes["sinnoh_record_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_history_ribbon"))
+            p_pkm->pkm_data.sribbon2.history_ribbon = bool(s_pkmn->attributes["sinnoh_history_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_legend_ribbon"))
+            p_pkm->pkm_data.sribbon2.legend_ribbon = bool(s_pkmn->attributes["sinnoh_legend_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_red_ribbon"))
+            p_pkm->pkm_data.sribbon2.red_ribbon = bool(s_pkmn->attributes["sinnoh_red_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_green_ribbon"))
+            p_pkm->pkm_data.sribbon2.green_ribbon = bool(s_pkmn->attributes["sinnoh_green_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_blue_ribbon"))
+            p_pkm->pkm_data.sribbon2.blue_ribbon = bool(s_pkmn->attributes["sinnoh_blue_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_festival_ribbon"))
+            p_pkm->pkm_data.sribbon2.festival_ribbon = bool(s_pkmn->attributes["sinnoh_festival_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_carnival_ribbon"))
+            p_pkm->pkm_data.sribbon2.carnival_ribbon = bool(s_pkmn->attributes["sinnoh_carnival_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_classic_ribbon"))
+            p_pkm->pkm_data.sribbon2.classic_ribbon = bool(s_pkmn->attributes["sinnoh_classic_ribbon"]);
+        if(s_pkmn->attributes.has_key("sinnoh_premier_ribbon"))
+            p_pkm->pkm_data.sribbon2.premier_ribbon = bool(s_pkmn->attributes["sinnoh_premier_ribbon"]);
         if(s_pkmn->attributes.has_key("hoenn_cute_ribbon"))
             p_pkm->pkm_data.hribbon1.cute_ribbon = bool(s_pkmn->attributes["hoenn_cute_ribbon"]);
         if(s_pkmn->attributes.has_key("hoenn_cool_ribbon_super"))
@@ -485,119 +485,11 @@ namespace pkmnsim
             p_pkm->pkm_data.metlevel_otgender.metlevel = byte(s_pkmn->attributes["met_level"]);
         if(s_pkmn->attributes.has_key("met_level"))
             #if defined(__linux__)
-            p_pkm->pkm_data.metlevel_otgender.metlevel = byte(s_pkmn->attributes["ot_gender"]);
+            p_pkm->pkm_data.metlevel_otgender.metlevel = byte(s_pkmn->attributes["ot_is_female"]);
             #else
-            p_pkm->pkm_data.metlevel_otgender.metlevel = ::Genders::genders(s_pkmn->attributes["ot_gender"]);
+            p_pkm->pkm_data.metlevel_otgender.metlevel = ::Genders::genders(s_pkmn->attributes["ot_is_female"]);
             #endif
         if(s_pkmn->attributes.has_key("unova_encounter"))
             p_pkm->pkm_data.encounter = Encounters::encounters(s_pkmn->attributes["unova_encounter"]);
-    }
-    
-    void converter::pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
-                                                belt_pokemon_t* b_pkmn_t,
-                                                pokemon_attacks_t* pkmn_a_t,
-                                                pokemon_effort_t* pkmn_e_t,
-                                                pokemon_misc_t* pkmn_m_t,
-                                                pokemon_growth_t* pkmn_g_t)
-    {
-        pkmn_g_t->species = p_pkm->pkm_data.species;
-        b_pkmn_t->level = p_pkm->party_data.level;
-        wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
-        char nickname_buffer[11];
-        memset(nickname_buffer,0,11);
-        wcstombs(nickname_buffer, nickname_wide.c_str(), 11);
-        for(int i = 0; i < 10; i++)
-        {
-            if(nickname_buffer != 0) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname_buffer[i]];
-            else b_pkmn_t->name[i] = 0xFF;
-        }
-        b_pkmn_t->personality = p_pkm->pkm_data.pid;
-        unsigned short otid[2] = {p_pkm->pkm_data.tid, p_pkm->pkm_data.sid};
-        b_pkmn_t->otid = *((unsigned int*)(&otid[0]));
-
-        //Moves
-        pkmn_a_t->atk1 = p_pkm->pkm_data.moves[0];
-        pkmn_a_t->atk2 = p_pkm->pkm_data.moves[1];
-        pkmn_a_t->atk3 = p_pkm->pkm_data.moves[2];
-        pkmn_a_t->atk4 = p_pkm->pkm_data.moves[3];
-        pkmn_a_t->pp1 = p_pkm->pkm_data.pp[0];
-        pkmn_a_t->pp2 = p_pkm->pkm_data.pp[1];
-        pkmn_a_t->pp3 = p_pkm->pkm_data.pp[2];
-        pkmn_a_t->pp4 = p_pkm->pkm_data.pp[3];
-
-        //Stats
-        b_pkmn_t->currentHP = p_pkm->party_data.hp;
-        b_pkmn_t->maxHP = p_pkm->party_data.maxhp;
-        b_pkmn_t->attack = p_pkm->party_data.attack;
-        b_pkmn_t->defense = p_pkm->party_data.defense;
-        b_pkmn_t->spatk = p_pkm->party_data.spatk;
-        b_pkmn_t->spdef = p_pkm->party_data.spdef;
-        b_pkmn_t->speed = p_pkm->party_data.speed;
-        
-        //IV's
-        pkmn_m_t->IVs.hp = p_pkm->pkm_data.ivs.hp;
-        pkmn_m_t->IVs.atk = p_pkm->pkm_data.ivs.attack;
-        pkmn_m_t->IVs.def = p_pkm->pkm_data.ivs.defense;
-        pkmn_m_t->IVs.spatk = p_pkm->pkm_data.ivs.spatk;
-        pkmn_m_t->IVs.spdef = p_pkm->pkm_data.ivs.spdef;
-        pkmn_m_t->IVs.spd = p_pkm->pkm_data.ivs.speed;
-        
-        //EV's
-        pkmn_e_t->hp = p_pkm->pkm_data.evs.hp;
-        pkmn_e_t->attack = p_pkm->pkm_data.evs.attack;
-        pkmn_e_t->defense = p_pkm->pkm_data.evs.defense;
-        pkmn_e_t->spatk = p_pkm->pkm_data.evs.spatk;
-        pkmn_e_t->spdef = p_pkm->pkm_data.evs.spdef;
-        pkmn_e_t->speed = p_pkm->pkm_data.evs.speed;
-    }
-    
-    PokeLib::Pokemon converter::pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm)
-    {
-        PokeLib::Pokemon pokelib_pkmn;
-    
-        pokelib_pkmn.pkm->pkm.species = p_pkm->pkm_data.species;
-        pokelib_pkmn.setLevel(p_pkm->party_data.level);
-        pokelib_pkmn.setNickname(getpkmnickname(p_pkm->pkm_data));
-        pokelib_pkmn.pkm->pkm.pid = p_pkm->pkm_data.pid;
-        pokelib_pkmn.pkm->pkm.pid;
-        pokelib_pkmn.pkm->pkm.ot_id;
-        pokelib_pkmn.pkm->pkm.ot_sid;
-        
-        //Moves
-        pokelib_pkmn.pkm->pkm.move[0] = p_pkm->pkm_data.moves[0];
-        pokelib_pkmn.pkm->pkm.move[1] = p_pkm->pkm_data.moves[1];
-        pokelib_pkmn.pkm->pkm.move[2] = p_pkm->pkm_data.moves[2];
-        pokelib_pkmn.pkm->pkm.move[3] = p_pkm->pkm_data.moves[3];
-        pokelib_pkmn.pkm->pkm.movePP[0] = p_pkm->pkm_data.pp[0];
-        pokelib_pkmn.pkm->pkm.movePP[1] = p_pkm->pkm_data.pp[1];
-        pokelib_pkmn.pkm->pkm.movePP[2] = p_pkm->pkm_data.pp[2];
-        pokelib_pkmn.pkm->pkm.movePP[3] = p_pkm->pkm_data.pp[3];
-        
-        //Stats
-        pokelib_pkmn.pkm->pkm.battle_hp = p_pkm->party_data.hp;
-        pokelib_pkmn.pkm->pkm.battle_max_hp = p_pkm->party_data.maxhp;
-        pokelib_pkmn.pkm->pkm.battle_atk = p_pkm->party_data.attack;
-        pokelib_pkmn.pkm->pkm.battle_def = p_pkm->party_data.defense;
-        pokelib_pkmn.pkm->pkm.battle_satk = p_pkm->party_data.spatk;
-        pokelib_pkmn.pkm->pkm.battle_sdef = p_pkm->party_data.spdef;
-        pokelib_pkmn.pkm->pkm.battle_spd = p_pkm->party_data.speed;
-        
-        //IV's
-        pokelib_pkmn.pkm->pkm.iv_hp = p_pkm->pkm_data.ivs.hp;
-        pokelib_pkmn.pkm->pkm.iv_atk = p_pkm->pkm_data.ivs.attack;
-        pokelib_pkmn.pkm->pkm.iv_def = p_pkm->pkm_data.ivs.defense;
-        pokelib_pkmn.pkm->pkm.iv_satk = p_pkm->pkm_data.ivs.spatk;
-        pokelib_pkmn.pkm->pkm.iv_sdef = p_pkm->pkm_data.ivs.spdef;
-        pokelib_pkmn.pkm->pkm.iv_spd = p_pkm->pkm_data.ivs.speed;
-
-        //EV's
-        pokelib_pkmn.pkm->pkm.ev_hp = p_pkm->pkm_data.evs.hp;
-        pokelib_pkmn.pkm->pkm.ev_atk = p_pkm->pkm_data.evs.attack;
-        pokelib_pkmn.pkm->pkm.ev_def = p_pkm->pkm_data.evs.defense;
-        pokelib_pkmn.pkm->pkm.ev_satk = p_pkm->pkm_data.evs.spatk;
-        pokelib_pkmn.pkm->pkm.ev_sdef = p_pkm->pkm_data.evs.spdef;
-        pokelib_pkmn.pkm->pkm.ev_spd = p_pkm->pkm_data.evs.speed;
-
-        return pokelib_pkmn;
     }
 }
