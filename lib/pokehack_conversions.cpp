@@ -146,7 +146,7 @@ namespace pkmnsim
         s_pkmn->attributes["tough"] = int(pkmn_e_t->toughness);
 
         //Need to get ribbons manually, Pokehack has no bitfield
-        bitset<32> ribbons_bitset(pkmn_m_t->ribbons);
+        bitset<32> ribbons_bitset(int(pkmn_m_t->ribbons));
         s_pkmn->attributes["hoenn_cool_ribbon"] = ribbons_bitset[0];
         s_pkmn->attributes["hoenn_cool_ribbon_super"] = ribbons_bitset[1];
         s_pkmn->attributes["hoenn_cool_ribbon_hyper"] = ribbons_bitset[2];
