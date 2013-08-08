@@ -18,10 +18,9 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
     @ONLY)
 
-    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds)
+    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds pkmds-sqlite3)
 
     LIST(APPEND libpkmnsim_sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/sqlite3.c
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen1impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen2impl.cpp
