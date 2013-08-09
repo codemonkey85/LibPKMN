@@ -9,7 +9,11 @@ Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
 Database used courtesy of Alex Munroe (http://www.veekun.com).
 
 Minimum required CMake version: 2.8
-Tested with GCC 4.6.3 and Microsoft Visual Studio 2010. Currently incompatible with Clang.
+
+Tested with:
+ * GCC 4.6.3
+ * Clang 3.0
+ * Microsoft Visual Studio 2010
 
 LibSQLite (http://www.sqlite.org) source included (public domain).
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source included under the MIT license.
@@ -29,4 +33,4 @@ Optional Dependencies:
  * Python - needed for LibPKMNsim Python wrapper
  * PySQLite3 - needed for LibPKMNsim Python wrapper
 
-README last updated: 2013-07-31
+README last updated: 2013-08-08
