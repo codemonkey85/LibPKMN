@@ -18,10 +18,9 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
     @ONLY)
 
-    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds)
+    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds pkmds-sqlite3)
 
     LIST(APPEND libpkmnsim_sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/sqlite3.c
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen1impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen2impl.cpp
@@ -34,13 +33,15 @@ IF(ENABLE_LIBPKMNSIM)
         ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen345impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pokehack_conversions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pokelib_conversions.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pkmds_conversions.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen3impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen4impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen5impl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/conversions.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${sqlitecpp_sources}
         ${database_sources}
@@ -71,10 +72,12 @@ IF(ENABLE_LIBPKMNSIM)
     TARGET_LINK_LIBRARIES(pkmnsim ${libpkmnsim_libs})
 
     ####################################################################
-    # GCC needs this setting to use std::shared_ptr
+    # Compiler-specific flags
     ####################################################################
     IF(CMAKE_COMPILER_IS_GNUCXX)
         SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x")
+    ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++11")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
     ####################################################################

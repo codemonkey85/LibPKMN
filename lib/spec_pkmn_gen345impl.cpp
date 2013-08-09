@@ -300,9 +300,12 @@ namespace pkmnsim
         else if(base->get_chance_female() == 1.0) return Genders::FEMALE;
         else
         {
-            if((pid % 256) > int(floor(255*(1-base->get_chance_male())))) gender = Genders::MALE;
-            else gender = Genders::FEMALE;
+            if((pid % 256) > int(floor(255*(1-base->get_chance_male())))) return Genders::MALE;
+            else return Genders::FEMALE;
         }
+
+        //Should never get here, this stops Clang from complaining
+        return Genders::MALE;
     }
 
     pkmn_nature::sptr spec_pkmn_gen345impl::determine_nature()
