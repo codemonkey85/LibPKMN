@@ -51,11 +51,14 @@ INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimComponent.cmake)
 ####################################################################
 # Find dependencies and set global include and link options
 ####################################################################
-FIND_PACKAGE(Boost COMPONENTS
+FIND_PACKAGE(Boost 1.48.0 COMPONENTS
     filesystem
     program_options
     system
 REQUIRED)
+IF(NOT Boost_FOUND)
+MESSAGE(FATAL_ERROR "Fatal error: Boost (version >= 1.48.0) required.\n")
+ENDIF(NOT Boost_FOUND)
 FIND_PROGRAM(SQLITE3_EXECUTABLE NAMES sqlite3)
 FIND_PACKAGE(Qt4)
 IF(QT4_FOUND)

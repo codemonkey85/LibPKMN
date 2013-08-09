@@ -12,7 +12,7 @@ Minimum required CMake version: 2.8
 
 Tested with:
  * GCC 4.6.3
- * Clang 3.0 (requires Boost 1.48 or above)
+ * Clang 3.0
  * Microsoft Visual Studio 2010
 
 LibSQLite (http://www.sqlite.org) source included (public domain).
