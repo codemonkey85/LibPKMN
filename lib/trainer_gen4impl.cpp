@@ -153,30 +153,7 @@ namespace pkmnsim
         from_game = game;
         size_t size, save_size;
 
-        //Read save file and get size
-        FILE* save_file;
-        save_file = fopen(filename.c_str(), "rb");
-        fseek(save_file, 0, SEEK_END);
-        size = ftell(save_file);
-        rewind(save_file);
-
-        //Determine which size game file actually is
-        if(size >= 0x80000) save_size = 0x80000;
-        else if(size > 0x40000 and size < 0x80000) save_size = 0x40000;
-        else
-        {
-            cerr << "File is too small to be a proper save file." << endl;
-            exit(EXIT_FAILURE);
-        }
-        save = new PokeLib::Save(size);
-        int result = fread(save->data, 1, save_size, save_file);
-        if(result != save_size)
-        {
-            cerr << "Problem reading save file." << endl;
-            exit(EXIT_FAILURE);
-        }
-        fclose(save_file);
-
+        save = new PokeLib::Save(filename.c_str());
         if(!save->parseRawSave()) cout << "Couldn't load file." << endl;
 
         PokeLib::Trainer* pokelib_trainer = save->getTrainer();
