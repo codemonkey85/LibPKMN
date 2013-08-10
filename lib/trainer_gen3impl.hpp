@@ -13,8 +13,6 @@
 
 #include <pokehack/SaveParser.h>
 
-#include "conversions.hpp"
-
 namespace pkmnsim
 {
     class trainer_gen3impl: public trainer

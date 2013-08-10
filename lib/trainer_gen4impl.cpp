@@ -15,12 +15,12 @@
 
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/conversions.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "conversions.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 #include "trainer_gen4impl.hpp"
 

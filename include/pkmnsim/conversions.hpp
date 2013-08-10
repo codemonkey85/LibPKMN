@@ -9,6 +9,7 @@
 
 #include <boost/assign.hpp>
 
+#include <pkmnsim/config.hpp>
 #include <pkmnsim/spec_pkmn.hpp>
 
 #include <pokehack/pokestructs.h>
@@ -18,7 +19,7 @@
 
 namespace pkmnsim
 {
-    class converter
+    class PKMNSIM_API converter
     {
         public:
             converter() {};

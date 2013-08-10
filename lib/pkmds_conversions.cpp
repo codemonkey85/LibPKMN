@@ -15,6 +15,7 @@
 #include <boost/format.hpp>
 
 #include <pkmnsim/base_move.hpp>
+#include <pkmnsim/conversions.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
@@ -23,7 +24,6 @@
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
-#include "conversions.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;
