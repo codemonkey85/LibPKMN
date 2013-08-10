@@ -54,7 +54,7 @@ namespace pkmnsim
         query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(species_id);
         pkmn_id = db.execAndGet(query_string.c_str());
         query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_id) + " AND slot=1";
-        int type1_id = db.execAndGet(query_string.c_str(), identifier);
+        type1_id = db.execAndGet(query_string.c_str(), identifier);
         query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_id) + " AND slot=2";
         SQLite::Statement type2_query(db, query_string.c_str());
         if(type2_query.executeStep()) type2_id = type2_query.getColumn(0);
