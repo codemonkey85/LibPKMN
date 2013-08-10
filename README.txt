@@ -24,7 +24,7 @@ PKMDS-G5 (https://github.com/codemonkey85/PKMDS-G5) source included as Git submo
 Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
 Dependencies:
- * Boost (http://www.boost.org)
+ * Boost 1.48 or above (http://www.boost.org)
  * SQLite3 (http://www.sqlite.org)
 
 Optional Dependencies:
@@ -33,4 +33,4 @@ Optional Dependencies:
  * Python - needed for LibPKMNsim Python wrapper
  * PySQLite3 - needed for LibPKMNsim Python wrapper
 
-README last updated: 2013-08-08
+README last updated: 2013-08-09
