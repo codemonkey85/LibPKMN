@@ -162,12 +162,13 @@ namespace pkmnsim
         wcstombs(trainer_name_buffer, trainer_name_wide.c_str(), 8);
         trainer_name = trainer_name_buffer;
 
+        converter pkmn_converter;
         party.clear();
         for(unsigned int i = 0; i < sav->cur.party.size; i++)
         {
             p_pkm = &(sav->cur.party.pokemon[i]);
             decryptpkm(p_pkm->pkm_data);
-            party.push_back(converter::pkmds_pkmn_to_spec_pkmn(p_pkm));
+            party.push_back(pkmn_converter.pkmds_pkmn_to_spec_pkmn(p_pkm));
             encryptpkm(p_pkm->pkm_data);
         }
     }

@@ -190,13 +190,14 @@ namespace pkmnsim
         short* trainer_id_short = (short*)&(parser->pokemon[0]->otid);
 		trainer_id = int(trainer_id_short[0]);
 
+        converter pkmn_converter;
         party.clear();
         for(int i = 0; i < 6; i++)
             if(string(pokemon_species[parser->pokemon_growth[i]->species]) != "No pokemon")
-                party.push_back(converter::pokehack_pkmn_to_spec_pkmn(parser->pokemon[i],
-                                                                      parser->pokemon_attacks[i],
-                                                                      parser->pokemon_effort[i],
-                                                                      parser->pokemon_misc[i],
-                                                                      parser->pokemon_growth[i]));
+                party.push_back(pkmn_converter.pokehack_pkmn_to_spec_pkmn(parser->pokemon[i],
+                                                                          parser->pokemon_attacks[i],
+                                                                          parser->pokemon_effort[i],
+                                                                          parser->pokemon_misc[i],
+                                                                          parser->pokemon_growth[i]));
     }
 }

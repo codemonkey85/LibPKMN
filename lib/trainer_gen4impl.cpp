@@ -164,13 +164,14 @@ namespace pkmnsim
         wcstombs(trainer_name_buffer, trainer_name_wide.c_str(), 7);
         trainer_name = trainer_name_buffer;
 
+        converter pkmn_converter;
         party.clear();
         PokeLib::Party* pokelib_party = save->getParty();
 		trainer_id = int(pokelib_party->getPokemon(1).pkm->pkm.ot_id);
         for(unsigned int i = 0; i < (unsigned int)(pokelib_party->count()); i++)
         {
             PokeLib::Pokemon pokelib_pkmn = pokelib_party->getPokemon(i+1);
-            party.push_back(converter::pokelib_pkmn_to_spec_pkmn(pokelib_pkmn));
+            party.push_back(pkmn_converter.pokelib_pkmn_to_spec_pkmn(pokelib_pkmn));
         }
     }
 }
