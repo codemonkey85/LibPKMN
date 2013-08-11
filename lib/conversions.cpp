@@ -1363,7 +1363,7 @@ namespace pkmnsim
         pokelib_pkmn.pkm->pkm.metLoc_Plat = char(3002);
 
         //If Pokemon was caught in a Gen 5 ball, set it to standard Poke Ball
-        if(pokelib_pkmn.pkm->pkm.pokeball > Balls::compball) pokelib_pkmn.pkm->pkm.pokeball = 0x4;
+        if(pokelib_pkmn.pkm->pkm.pokeball > char(Balls::compball)) pokelib_pkmn.pkm->pkm.pokeball = 0x4;
 
         //Manually set encounter type to Special Event
         pokelib_pkmn.pkm->pkm.encounterType = 0x0;
