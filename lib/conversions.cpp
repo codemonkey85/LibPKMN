@@ -1281,4 +1281,53 @@ namespace pkmnsim
         if(s_pkmn->attributes.has_key("unova_encounter"))
             p_pkm->pkm_data.encounter = Encounters::encounters(s_pkmn->attributes["unova_encounter"]);
     }
+
+    PokeLib::Pokemon converter::pokehack_pkmn_to_pokelib_pkmn(belt_pokemon_t* b_pkmn_t,
+                                                              pokemon_attacks_t* pkmn_a_t,
+                                                              pokemon_effort_t* pkmn_e_t,
+                                                              pokemon_misc_t* pkmn_m_t,
+                                                              pokemon_growth_t* pkmn_g_t)
+    {
+        return spec_pkmn_to_pokelib_pkmn(pokehack_pkmn_to_spec_pkmn(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t));
+    }
+
+    void converter::pokehack_pkmn_to_pkmds_pkmn(belt_pokemon_t* b_pkmn_t,
+                                                pokemon_attacks_t* pkmn_a_t,
+                                                pokemon_effort_t* pkmn_e_t,
+                                                pokemon_misc_t* pkmn_m_t,
+                                                pokemon_growth_t* pkmn_g_t,
+                                                party_pkm* p_pkm)
+    {
+        spec_pkmn_to_pkmds_pkmn(pokehack_pkmn_to_spec_pkmn(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
+    }
+
+    void converter::pokelib_pkmn_to_pokehack_pkmn(PokeLib::Pokemon pokelib_pkmn,
+                                                  belt_pokemon_t* b_pkmn_t,
+                                                  pokemon_attacks_t* pkmn_a_t,
+                                                  pokemon_effort_t* pkmn_e_t,
+                                                  pokemon_misc_t* pkmn_m_t,
+                                                  pokemon_growth_t* pkmn_g_t)
+    {
+        spec_pkmn_to_pokehack_pkmn(pokelib_pkmn_to_spec_pkmn(pokelib_pkmn), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
+    }
+
+    void converter::pokelib_pkmn_to_pkmds_pkmn(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm)
+    {
+        spec_pkmn_to_pkmds_pkmn(pokelib_pkmn_to_spec_pkmn(pokelib_pkmn), p_pkm);
+    }
+
+    void converter::pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
+                                                belt_pokemon_t* b_pkmn_t,
+                                                pokemon_attacks_t* pkmn_a_t,
+                                                pokemon_effort_t* pkmn_e_t,
+                                                pokemon_misc_t* pkmn_m_t,
+                                                pokemon_growth_t* pkmn_g_t)
+    {
+        spec_pkmn_to_pokehack_pkmn(pkmds_pkmn_to_spec_pkmn(p_pkm), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
+    }
+
+    PokeLib::Pokemon converter::pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm)
+    {
+        return spec_pkmn_to_pokelib_pkmn(pkmds_pkmn_to_spec_pkmn(p_pkm));
+    }
 }
