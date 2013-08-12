@@ -170,11 +170,6 @@ namespace pkmnsim
             int get_generation(void);
 
             /*
-             * Get path of icon on filesystem.
-             */
-            std::string get_icon_path(void);
-
-            /*
              * Returns bool corresponding to whether or not this Pokemon has gender differences.
              */
             virtual bool has_gender_differences(void) = 0;
@@ -188,6 +183,14 @@ namespace pkmnsim
              * Returns pokemon_species.id from pkmnsim.db
              */
             int get_species_id(void);
+            
+            /*
+             * Get path of icon on filesystem, using given gender.
+             *
+             * Parameters:
+             *  - is_male: use a male icon
+             */
+            virtual std::string get_icon_path(bool is_male) = 0;
             
             /*
              * Get one of up to four sprite paths, using given parameters.
@@ -220,8 +223,8 @@ namespace pkmnsim
             int from_gen, pkmn_id, species_id, type1_id, type2_id;
             
             int from_game;
-            std::string game_string;
-            std::string icon_path;
+            std::string game_string, images_game_string;
+            std::string male_icon_path, female_icon_path;
             std::string male_sprite_path, female_sprite_path;
             std::string male_shiny_sprite_path, female_shiny_sprite_path;
 

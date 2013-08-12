@@ -38,7 +38,7 @@ namespace pkmnsim
 		attributes = dict<string, int>();
         moves = vla<base_move::sptr>(4);
 
-        icon_path = base->get_icon_path();
+        icon_path = base->get_icon_path(true);
 
         moves[0] = base_move::make(m1,g);
         num_moves = 1;

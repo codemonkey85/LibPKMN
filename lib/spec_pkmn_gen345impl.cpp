@@ -219,7 +219,7 @@ namespace pkmnsim
         SATK = get_stat_from_iv_ev("SATK", ivSATK, evSATK);
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
-        icon_path = base->get_icon_path();
+        icon_path = base->get_icon_path((gender != Genders::FEMALE));
         sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
@@ -232,7 +232,7 @@ namespace pkmnsim
         SATK = get_stat_from_iv_ev("SATK", ivSATK, evSATK);
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
-        icon_path = base->get_icon_path();
+        icon_path = base->get_icon_path((gender != Genders::FEMALE));
         sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 

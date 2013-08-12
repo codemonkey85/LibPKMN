@@ -26,6 +26,7 @@ namespace pkmnsim
             double get_chance_female();
             dict<int, std::string> get_abilities(void);
             bool has_gender_differences(void);
+            std::string get_icon_path(bool is_male);
             std::string get_sprite_path(bool is_male, bool is_shiny);
     };
 }
