@@ -29,23 +29,29 @@ using namespace std;
 
 namespace pkmnsim
 {
-	base_pkmn::base_pkmn(string identifier, int gen)
+	base_pkmn::base_pkmn(string identifier, int game)
 	{
-        from_gen = gen;
+        from_game = game;
         database_identifier = identifier;
-    
+        
         SQLite::Database db(get_database_path().c_str());
-
         string query_string;
-
+        //Get generation and name from specified game enum
+        query_string = "SELECT version_group_id FROM versions WHERE id=" + to_string(game);
+        int version_group_id = db.execAndGet(query_string.c_str());
+        query_string = "SELECT generation_id FROM version_groups WHERE id=" + to_string(version_group_id);
+        from_gen = db.execAndGet(query_string.c_str());
+        query_string = "SELECT name FROM version_names WHERE version_id=" + to_string(game);
+        game_string = db.execAndGetStr(query_string.c_str(), "name");
+        
         //Fail if Pokémon's generation_id > specified gen
         query_string = "SELECT * FROM pokemon_species WHERE identifier='" + identifier + "'";
         SQLite::Statement pokemon_species_query(db, query_string.c_str());
         pokemon_species_query.executeStep();
         int gen_id = pokemon_species_query.getColumn(2); //generation_id
-        if(gen_id > gen)
+        if(gen_id > from_gen)
         {
-            string error_message = identifier + " not present in Generation " + to_string(gen) + ".";
+            string error_message = identifier + " not present in Generation " + to_string(from_gen) + ".";
             throw runtime_error(error_message.c_str());
         }
 
@@ -70,25 +76,32 @@ namespace pkmnsim
         repair(pkmn_id);
 	}
 	
-    base_pkmn::sptr base_pkmn::make(string identifier, int gen)
+    base_pkmn::sptr base_pkmn::make(string identifier, int game)
     {
         try
         {
             //Match database's identifier format
             identifier = database::to_database_format(identifier);
+            SQLite::Database db(get_database_path().c_str());
+            string query_string;
+            //Get generation from game enum
+            query_string = "SELECT version_group_id FROM versions WHERE id=" + to_string(game);
+            int version_group_id = db.execAndGet(query_string.c_str());
+            query_string = "SELECT generation_id FROM version_groups WHERE id=" + to_string(version_group_id);
+            int gen = db.execAndGet(query_string.c_str());
 
             if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
             switch(gen)
             {
                 case 1:
-                    return sptr(new base_pkmn_gen1impl(identifier));
+                    return sptr(new base_pkmn_gen1impl(identifier, game));
 
                 case 2:
-                    return sptr(new base_pkmn_gen2impl(identifier));
+                    return sptr(new base_pkmn_gen2impl(identifier, game));
 
                 default:
-                    return sptr(new base_pkmn_gen345impl(identifier, gen));
+                    return sptr(new base_pkmn_gen345impl(identifier, game));
             }
         }
         catch(const exception &e)
@@ -172,8 +185,8 @@ namespace pkmnsim
             //Get identifier for Pokémon
             query_string = "SELECT identifier FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
             string evol_identifier = db.execAndGetStr(query_string.c_str(), "No string");
-
-            evolution_vec.push_back(make(evol_identifier, from_gen));
+            
+            evolution_vec.push_back(make(evol_identifier, from_game));
         }
 	}
 	
@@ -185,6 +198,7 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
 
+    int base_pkmn::get_game_id(void) {return from_game;}
     int base_pkmn::get_generation(void) {return from_gen;}
     int base_pkmn::get_pokemon_id(void) {return pkmn_id;}
     int base_pkmn::get_species_id(void) {return species_id;}
@@ -1559,12 +1573,17 @@ namespace pkmnsim
             }
         }
 
+        //base_pkmn now takes a game ID in its constructor instead of a generation, but this
+        //function doesn't discriminate between games in the same generation, so this array
+        //guarantees that the given generation will use a game in that generation
+        int game_id_from_gen[] = {0,1,4,7,13,17};
+        
         for(unsigned int i = 0; i < names.size(); i++)
         {
             //Manually correct for Magnemite and Magneton in Gen 1
             if(not ((names[i] == "magnemite" or names[i] == "magneton") and gen == 1))
             {
-                base_pkmn::sptr b_pkmn = base_pkmn::make(names[i], gen);
+                base_pkmn::sptr b_pkmn = base_pkmn::make(names[i], game_id_from_gen[gen]);
                 b_pkmn->repair(applicable_ids[i]);
                 pkmn_vector.push_back(b_pkmn);
             }

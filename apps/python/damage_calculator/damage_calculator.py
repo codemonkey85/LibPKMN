@@ -19,9 +19,14 @@ if __name__ == "__main__":
     parser.add_option("--gen", type="int", default=5, help="Generation for analysis")
     (options,args) = parser.parse_args()
 
+    #base_pkmn now takes a game ID in its constructor instead of a generation, but this
+    #function doesn't discriminate between games in the same generation, so this array
+    #guarantees that the given generation will use a game in that generation
+    game_id_from_gen = [0,1,4,7,13,17];
+
     #Generate relevant data structures
-    attacker = base_pkmn(options.attacker, options.gen)
-    defender = base_pkmn(options.defender, options.gen)
+    attacker = base_pkmn(options.attacker, game_id_from_gen[options.gen])
+    defender = base_pkmn(options.defender, game_id_from_gen[options.gen])
     move = base_move(options.move, options.gen)
 
     #Get defender's HP range for checking possibility of fainting

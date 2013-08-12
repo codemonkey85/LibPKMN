@@ -17,9 +17,9 @@ namespace pkmnsim
     class spec_pkmn_gen2impl: public spec_pkmn
     {
         public:
-            spec_pkmn_gen2impl(base_pkmn::sptr base, int lvl,
-                               std::string m1, std::string m2, std::string m3,
-                               std::string m4);
+            spec_pkmn_gen2impl(base_pkmn::sptr base, int lvl, int g,
+                               std::string m1, std::string m2,
+                               std::string m3, std::string m4);
             dict<std::string, int> get_stats();
             dict<std::string, int> get_IVs();
             dict<std::string, int> get_EVs();

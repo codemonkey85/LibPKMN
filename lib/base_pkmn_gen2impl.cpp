@@ -18,8 +18,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier):
-                                           base_pkmn(identifier, 2) {}
+    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, int game):
+                                           base_pkmn(identifier, game) {}
 
     string base_pkmn_gen2impl::get_info()
     {

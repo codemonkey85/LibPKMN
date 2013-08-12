@@ -17,7 +17,7 @@ namespace pkmnsim
     class base_pkmn_gen2impl: public base_pkmn
     {
         public:
-            base_pkmn_gen2impl(std::string identifier);
+            base_pkmn_gen2impl(std::string identifier, int game);
             std::string get_info(void);
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);

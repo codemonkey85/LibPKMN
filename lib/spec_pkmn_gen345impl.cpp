@@ -16,8 +16,9 @@ using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn_gen345impl::spec_pkmn_gen345impl(base_pkmn::sptr b, int lvl, int gen,
-                                           string m1, string m2, string m3, string m4): spec_pkmn(b,m1,m2,m3,m4,gen,lvl)
+    spec_pkmn_gen345impl::spec_pkmn_gen345impl(base_pkmn::sptr b, int lvl, int g,
+                                           string m1, string m2, string m3, string m4): spec_pkmn(
+                                           b,m1,m2,m3,m4,g,lvl)
     {
         srand ( time(NULL) );
 

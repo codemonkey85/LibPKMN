@@ -18,7 +18,7 @@ namespace pkmnsim
     class spec_pkmn_gen345impl: public spec_pkmn
     {
         public:
-            spec_pkmn_gen345impl(base_pkmn::sptr base, int lvl, int gen,
+            spec_pkmn_gen345impl(base_pkmn::sptr base, int lvl, int game,
                                std::string m1, std::string m2, std::string m3,
                                std::string m4);
             dict<std::string, int> get_stats();
