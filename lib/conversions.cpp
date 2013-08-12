@@ -5,6 +5,10 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#ifdef _MSC_VER
+#pragma warning(disable:4800)
+#endif
+
 #include <algorithm>
 #include <bitset>
 #include <fstream>
