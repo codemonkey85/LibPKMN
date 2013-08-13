@@ -148,7 +148,7 @@ namespace pkmnsim
                                                           pokemon_growth_t* pkmn_g_t)
     {
         string identifier, move1, move2, move3, move4;
-        int level, gender;
+        int level, gender, from_game;
 
         identifier = pokemon_species[pkmn_g_t->species];
         level = b_pkmn_t->level;
@@ -161,7 +161,35 @@ namespace pkmnsim
         if(string(attacks[pkmn_a_t->atk4]) == "No attack") move4 = "None";
         else move4 = database::to_database_format(attacks[pkmn_a_t->atk4]);
 
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 3, level,
+        switch(pkmn_m_t->gamemsbs)
+        {
+            case 0: //Pokemon Colosseum Bonus Disk
+                from_game = Games::COLOSSEUM;
+                break;
+            case 1:
+                from_game = Games::SAPPHIRE;
+                break;
+            case 2:
+                from_game = Games::RUBY;
+                break;
+            case 3:
+                from_game = Games::EMERALD;
+                break;
+            case 4:
+                from_game = Games::FIRE_RED;
+                break;
+            case 5:
+                from_game = Games::LEAF_GREEN;
+                break;
+            case 15: //Colosseum or XD
+                from_game = Games::XD;
+                break;
+            default:
+                from_game = Games::RUBY;
+                break;
+        }
+        
+        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, from_game, level,
                                                  move1, move2, move3, move4);
 
         s_pkmn->nickname = pokehack_get_text(b_pkmn_t->name, true);
@@ -305,6 +333,31 @@ namespace pkmnsim
         pkmn_e_t->spdef = s_pkmn->SDEF;
         pkmn_e_t->speed = s_pkmn->SPD;
 
+        switch(s_pkmn->from_game)
+        {
+            case Games::RUBY:
+                pkmn_m_t->gamemsbs = 2;
+                break;
+            case Games::SAPPHIRE:
+                pkmn_m_t->gamemsbs = 1;
+                break;
+            case Games::EMERALD:
+                pkmn_m_t->gamemsbs = 3;
+                break;
+            case Games::FIRE_RED:
+                pkmn_m_t->gamemsbs = 4;
+                break;
+            case Games::LEAF_GREEN:
+                pkmn_m_t->gamemsbs = 5;
+                break;
+            case Games::COLOSSEUM:
+            case Games::XD:
+                pkmn_m_t->gamemsbs = 15;
+                break;
+            default:
+                pkmn_m_t->gamemsbs = 2;
+        }
+        
         //Attributes
         if(s_pkmn->attributes.has_key("friendship"))
             pkmn_g_t->happiness = s_pkmn->attributes["friendship"];
@@ -397,7 +450,7 @@ namespace pkmnsim
     spec_pkmn::sptr converter::pokelib_pkmn_to_spec_pkmn(PokeLib::Pokemon pokelib_pkmn)
     {
         string identifier, move1, move2, move3, move4;
-        int level, gender;
+        int level, gender, from_game;
 
         identifier = PokeLib::species[int(pokelib_pkmn.pkm->pkm.species)];
         level = int(pokelib_pkmn.getLevel());
@@ -407,7 +460,47 @@ namespace pkmnsim
         move3 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[2])]);
         move4 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[3])]);
 
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 4, level, move1, move2, move3, move4);
+        switch(pokelib_pkmn.pkm->pkm.hometown)
+        {
+            case 1:
+                from_game = Games::SAPPHIRE;
+                break;
+            case 2:
+                from_game = Games::RUBY;
+                break;
+            case 3:
+                from_game = Games::EMERALD;
+                break;
+            case 4:
+                from_game = Games::FIRE_RED;
+                break;
+            case 5:
+                from_game = Games::LEAF_GREEN;
+                break;
+            case 7:
+                from_game = Games::HEART_GOLD;
+                break;
+            case 8:
+                from_game = Games::SOUL_SILVER;
+                break;
+            case 10:
+                from_game = Games::DIAMOND;
+                break;
+            case 11:
+                from_game = Games::PEARL;
+                break;
+            case 12:
+                from_game = Games::PLATINUM;
+                break;
+            case 15:
+                from_game = Games::COLOSSEUM;
+                break;
+            default:
+                from_game = Games::DIAMOND;
+                break;
+        }
+        
+        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, from_game, level, move1, move2, move3, move4);
 
         PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
         char nickname_buffer[10];
@@ -605,6 +698,47 @@ namespace pkmnsim
         pokelib_pkmn.pkm->pkm.ev_sdef = s_pkmn->evSDEF;
         pokelib_pkmn.pkm->pkm.ev_spd = s_pkmn->evSPD;
 
+        switch(s_pkmn->from_game)
+        {
+            case Games::RUBY:
+                pokelib_pkmn.pkm->pkm.hometown = 2;
+                break;
+            case Games::SAPPHIRE:
+                pokelib_pkmn.pkm->pkm.hometown = 1;
+                break;
+            case Games::EMERALD:
+                pokelib_pkmn.pkm->pkm.hometown = 3;
+                break;
+            case Games::FIRE_RED:
+                pokelib_pkmn.pkm->pkm.hometown = 4;
+                break;
+            case Games::LEAF_GREEN:
+                pokelib_pkmn.pkm->pkm.hometown = 5;
+                break;
+            case Games::COLOSSEUM:
+            case Games::XD:
+                pokelib_pkmn.pkm->pkm.hometown = 15;
+                break;
+            case Games::DIAMOND:
+                pokelib_pkmn.pkm->pkm.hometown = 10;
+                break;
+            case Games::PEARL:
+                pokelib_pkmn.pkm->pkm.hometown = 11;
+                break;
+            case Games::PLATINUM:
+                pokelib_pkmn.pkm->pkm.hometown = 12;
+                break;
+            case Games::HEART_GOLD:
+                pokelib_pkmn.pkm->pkm.hometown = 7;
+                break;
+            case Games::SOUL_SILVER:
+                pokelib_pkmn.pkm->pkm.hometown = 8;
+                break;
+            default:
+                pokelib_pkmn.pkm->pkm.hometown = 10;
+                break;
+        }
+        
         //Attributes
         if(s_pkmn->attributes.has_key("friendship"))
             pokelib_pkmn.pkm->pkm.friendship = s_pkmn->attributes["friendship"];
@@ -828,7 +962,7 @@ namespace pkmnsim
         opendb(get_database_path().c_str());
 
         string identifier, move1, move2, move3, move4;
-        int level;
+        int level, from_game;
 
         identifier = database::to_database_format(lookuppkmname(p_pkm->pkm_data));
         level = getpkmlevel(p_pkm->pkm_data);
@@ -841,6 +975,58 @@ namespace pkmnsim
         if(p_pkm->pkm_data.moves[3] == Moves::NOTHING) move4 = "None";
         else move4 = lookupmovename(p_pkm->pkm_data.moves[3]);
 
+        switch(int(p_pkm->pkm_data.hometown))
+        {
+            case int(Hometowns::ruby):
+                from_game = Games::RUBY;
+                break;
+            case int(Hometowns::sapphire):
+                from_game = Games::SAPPHIRE;
+                break;
+            case int(Hometowns::emerald):
+                from_game = Games::EMERALD;
+                break;
+            case int(Hometowns::firered):
+                from_game = Games::FIRE_RED;
+                break;
+            case int(Hometowns::leafgreen):
+                from_game = Games::LEAF_GREEN;
+                break;
+            case int(Hometowns::colosseum):
+                from_game = Games::COLOSSEUM;
+                break;
+            case int(Hometowns::diamond):
+                from_game = Games::DIAMOND;
+                break;
+            case int(Hometowns::pearl):
+                from_game = Games::PEARL;
+                break;
+            case int(Hometowns::platinum):
+                from_game = Games::PLATINUM;
+                break;
+            case int(Hometowns::heartgold):
+                from_game = Games::HEART_GOLD;
+                break;
+            case int(Hometowns::soulsilver):
+                from_game = Games::SOUL_SILVER;
+                break;
+            case int(Hometowns::black):
+                from_game = Games::BLACK;
+                break;
+            case int(Hometowns::white):
+                from_game = Games::WHITE;
+                break;
+            case int(Hometowns::black2):
+                from_game = Games::BLACK2;
+                break;
+            case int(Hometowns::white2):
+                from_game = Games::WHITE2;
+                break;
+            default:
+                from_game = Games::BLACK;
+                break;
+        }
+        
         spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 5, level, move1, move2, move3, move4);
 
         wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
@@ -1053,6 +1239,56 @@ namespace pkmnsim
         p_pkm->pkm_data.evs.spatk = s_pkmn->evSATK;
         p_pkm->pkm_data.evs.spdef = s_pkmn->evSDEF;
         p_pkm->pkm_data.evs.speed = s_pkmn->evSPD;
+        
+        switch(s_pkmn->from_game)
+        {
+            case Games::RUBY:
+                p_pkm->pkm_data.hometown = Hometowns::ruby;
+                break;
+            case Games::SAPPHIRE:
+                p_pkm->pkm_data.hometown = Hometowns::sapphire;
+                break;
+            case Games::EMERALD:
+                p_pkm->pkm_data.hometown = Hometowns::emerald;
+                break;
+            case Games::FIRE_RED:
+                p_pkm->pkm_data.hometown = Hometowns::firered;
+                break;
+            case Games::LEAF_GREEN:
+                p_pkm->pkm_data.hometown = Hometowns::leafgreen;
+                break;
+            case Games::COLOSSEUM:
+            case Games::XD:
+                p_pkm->pkm_data.hometown = Hometowns::colosseum;
+                break;
+            case Games::DIAMOND:
+                p_pkm->pkm_data.hometown = Hometowns::diamond;
+                break;
+            case Games::PEARL:
+                p_pkm->pkm_data.hometown = Hometowns::pearl;
+                break;
+            case Games::PLATINUM:
+                p_pkm->pkm_data.hometown = Hometowns::platinum;
+                break;
+            case Games::HEART_GOLD:
+                p_pkm->pkm_data.hometown = Hometowns::heartgold;
+                break;
+            case Games::BLACK:
+                p_pkm->pkm_data.hometown = Hometowns::black;
+                break;
+            case Games::WHITE:
+                p_pkm->pkm_data.hometown = Hometowns::white;
+                break;
+            case Games::BLACK2:
+                p_pkm->pkm_data.hometown = Hometowns::black2;
+                break;
+            case Games::WHITE2:
+                p_pkm->pkm_data.hometown = Hometowns::white2;
+                break;
+            default:
+                p_pkm->pkm_data.hometown = Hometowns::black;
+                break;
+        }
 
         //Attributes
         if(s_pkmn->attributes.has_key("friendship"))
