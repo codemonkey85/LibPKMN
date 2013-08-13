@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 
+#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
 #include <pkmnsim/paths.hpp>
@@ -15,12 +16,35 @@
 #include "base_pkmn_gen1impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
+namespace fs = boost::filesystem;
 using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier):
-                                           base_pkmn(identifier, 1) {}
+    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, int game):
+                                           base_pkmn(identifier, game)
+    {
+        //Get final part of images path
+        switch(from_game)
+        {
+            case Games::RED:
+            case Games::BLUE:
+                images_game_string = "red-blue";
+                break;
+            case Games::YELLOW:
+                images_game_string = "yellow";
+                break;
+            default: //It should never get here
+                images_game_string = "red-blue";
+                break;
+        }
+    
+        boost::format png_format("%d.png");
+        female_icon_path = male_icon_path; //No genders in Generation 1
+        female_sprite_path = male_sprite_path; //No genders in Generation 1
+        male_shiny_sprite_path = male_sprite_path; //No shininess in Generation 1
+        female_shiny_sprite_path = male_sprite_path; //No shininess in Generation 1
+    }
 
     string base_pkmn_gen1impl::get_info()
     {
@@ -97,6 +121,12 @@ namespace pkmnsim
 
     bool base_pkmn_gen1impl::has_gender_differences(void) {return false;}
 
+    string base_pkmn_gen1impl::get_icon_path(bool is_male)
+    {
+        //Gender doesn't matter in Gen 1
+        return male_icon_path;
+    }
+    
     string base_pkmn_gen1impl::get_sprite_path(bool is_male, bool is_shiny)
     {
         //Gender and shininess don't matter in Gen 1

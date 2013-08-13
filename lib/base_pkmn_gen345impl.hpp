@@ -17,7 +17,7 @@ namespace pkmnsim
     class base_pkmn_gen345impl: public base_pkmn
     {
         public:
-            base_pkmn_gen345impl(std::string, int);
+            base_pkmn_gen345impl(std::string identifier, int game);
             std::string get_info(void);
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);
@@ -26,6 +26,7 @@ namespace pkmnsim
             double get_chance_female();
             dict<int, std::string> get_abilities(void);
             bool has_gender_differences(void);
+            std::string get_icon_path(bool is_male);
             std::string get_sprite_path(bool is_male, bool is_shiny);
     };
 }

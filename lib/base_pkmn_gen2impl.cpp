@@ -8,18 +8,46 @@
 #include <map>
 #include <stdio.h>
 
+#include <boost/filesystem.hpp>
+#include <boost/format.hpp>
+
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
 #include "base_pkmn_gen2impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
+namespace fs = boost::filesystem;
 using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier):
-                                           base_pkmn(identifier, 2) {}
+    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, int game):
+                                           base_pkmn(identifier, game)
+    {
+        //Get final part of images path
+        switch(from_game)
+        {
+            case Games::GOLD:
+                images_game_string = "gold";
+                break;
+            case Games::SILVER:
+                images_game_string = "silver";
+                break;
+            case Games::CRYSTAL:
+                images_game_string = "crystal";
+                break;
+            default: //It should never get here
+                images_game_string = "crystal";
+                break;
+        }
+        
+        boost::format png_format("%d.png");
+        female_icon_path = male_icon_path; //No gender differences in Generation 2
+        female_sprite_path = male_sprite_path; //No gender differences in Generation 2
+        male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
+        female_shiny_sprite_path = male_shiny_sprite_path; //No gender differences in Generation 2
+    }
 
     string base_pkmn_gen2impl::get_info()
     {
@@ -154,6 +182,12 @@ namespace pkmnsim
 
     bool base_pkmn_gen2impl::has_gender_differences(void) {return false;}
 
+    string base_pkmn_gen2impl::get_icon_path(bool is_male)
+    {
+        //Gender doesn't matter in Gen 2
+        return male_icon_path;
+    }
+    
     string base_pkmn_gen2impl::get_sprite_path(bool is_male, bool is_shiny)
     {
         if(is_male)

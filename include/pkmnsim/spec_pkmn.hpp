@@ -153,6 +153,11 @@ namespace pkmnsim
              * Returns the names of the Pokémon's moves.
              */
             vla<base_move::sptr> get_moves(void);
+
+            /*
+             * Returns the game ID used to generate this Pokemon.
+             */
+            int get_game_id(void);
             
             /*
              * Returns the generation used to generate this Pokemon.
@@ -232,7 +237,7 @@ namespace pkmnsim
             base_pkmn::sptr base;
             std::string nickname;
             std::string held_item;
-            int generation;
+            int from_game, from_gen;
             unsigned int level;
             unsigned int pid;
             unsigned short tid, sid;

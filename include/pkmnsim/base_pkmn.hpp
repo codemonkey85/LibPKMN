@@ -48,7 +48,7 @@ namespace pkmnsim
 
             //Class Constructors (should never be called directly)
 			base_pkmn(void) {};
-			base_pkmn(std::string identifier, int gen);
+			base_pkmn(std::string identifier, int game);
 			
             /*
              * Returns a std::shared_ptr<base_pkmn> of specified Pokémon.
@@ -59,7 +59,7 @@ namespace pkmnsim
              *  - gen: generation (1-5) from which to use Pokémon
              *  - query_moves: add list of legal moves (slows performance)
              */
-            static sptr make(std::string identifier, int gen);
+            static sptr make(std::string identifier, int game);
 
             /*
              * Returns a string with basic information on the Pokémon.
@@ -160,14 +160,14 @@ namespace pkmnsim
 			bool is_fully_evolved(void);
 
             /*
+             * Get game ID from which stats were derived.
+             */
+            int get_game_id(void);
+            
+            /*
              * Get generation from which stats were derived.
              */
             int get_generation(void);
-
-            /*
-             * Get path of icon on filesystem.
-             */
-            std::string get_icon_path(void);
 
             /*
              * Returns bool corresponding to whether or not this Pokemon has gender differences.
@@ -183,6 +183,14 @@ namespace pkmnsim
              * Returns pokemon_species.id from pkmnsim.db
              */
             int get_species_id(void);
+            
+            /*
+             * Get path of icon on filesystem, using given gender.
+             *
+             * Parameters:
+             *  - is_male: use a male icon
+             */
+            virtual std::string get_icon_path(bool is_male) = 0;
             
             /*
              * Get one of up to four sprite paths, using given parameters.
@@ -213,7 +221,10 @@ namespace pkmnsim
             //Database values
 			std::string database_identifier;
             int from_gen, pkmn_id, species_id, type1_id, type2_id;
-            std::string icon_path;
+            
+            int from_game;
+            std::string game_string, images_game_string;
+            std::string male_icon_path, female_icon_path;
             std::string male_sprite_path, female_sprite_path;
             std::string male_shiny_sprite_path, female_shiny_sprite_path;
 

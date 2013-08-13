@@ -16,8 +16,9 @@ using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn_gen345impl::spec_pkmn_gen345impl(base_pkmn::sptr b, int lvl, int gen,
-                                           string m1, string m2, string m3, string m4): spec_pkmn(b,m1,m2,m3,m4,gen,lvl)
+    spec_pkmn_gen345impl::spec_pkmn_gen345impl(base_pkmn::sptr b, int lvl, int g,
+                                           string m1, string m2, string m3, string m4): spec_pkmn(
+                                           b,m1,m2,m3,m4,g,lvl)
     {
         srand ( time(NULL) );
 
@@ -218,7 +219,7 @@ namespace pkmnsim
         SATK = get_stat_from_iv_ev("SATK", ivSATK, evSATK);
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
-        icon_path = base->get_icon_path();
+        icon_path = base->get_icon_path((gender != Genders::FEMALE));
         sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
@@ -231,7 +232,7 @@ namespace pkmnsim
         SATK = get_stat_from_iv_ev("SATK", ivSATK, evSATK);
         SDEF = get_stat_from_iv_ev("SDEF", ivSDEF, evSDEF);
         SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
-        icon_path = base->get_icon_path();
+        icon_path = base->get_icon_path((gender != Genders::FEMALE));
         sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 

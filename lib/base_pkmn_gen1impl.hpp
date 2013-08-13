@@ -17,12 +17,13 @@ namespace pkmnsim
     class base_pkmn_gen1impl: public base_pkmn
     {
         public:
-            base_pkmn_gen1impl(std::string identifier);
+            base_pkmn_gen1impl(std::string identifier, int game);
             std::string get_info(void);
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);
             dict<std::string, int> get_ev_yields(void);
             bool has_gender_differences();
+            std::string get_icon_path(bool is_male);
             std::string get_sprite_path(bool is_male, bool is_shiny);
     };
 }

@@ -6,9 +6,8 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-RED = 0
-BLUE = 1
-GREEN = 2
+RED = 1
+BLUE = 2
 YELLOW = 3
 GOLD = 4
 SILVER = 5
@@ -25,5 +24,7 @@ HEART_GOLD = 15
 SOUL_SILVER = 16
 BLACK = 17
 WHITE = 18
-BLACK2 = 19
-WHITE2 = 20
+COLOSSEUM = 19
+XD = 20
+BLACK2 = 21
+WHITE2 = 22
