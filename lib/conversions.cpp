@@ -1027,7 +1027,7 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 5, level, move1, move2, move3, move4);
+        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, from_game, level, move1, move2, move3, move4);
 
         wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
         char nickname_buffer[11];

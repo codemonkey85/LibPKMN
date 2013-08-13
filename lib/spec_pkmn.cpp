@@ -40,24 +40,24 @@ namespace pkmnsim
 
         icon_path = base->get_icon_path(true);
 
-        moves[0] = base_move::make(m1,g);
+        moves[0] = base_move::make(m1,from_gen);
         num_moves = 1;
-        if(m2 != "None") moves[1] = base_move::make(m2,g);
+        if(m2 != "None") moves[1] = base_move::make(m2,from_gen);
         else
         {
-            moves[1] = base_move::make("struggle",g);
+            moves[1] = base_move::make("struggle",from_gen);
             num_moves = 2;
         }
-        if(m3 != "None") moves[2] = base_move::make(m3,g);
+        if(m3 != "None") moves[2] = base_move::make(m3,from_gen);
         else
         {
-            moves[2] = base_move::make("struggle",g);
+            moves[2] = base_move::make("struggle",from_gen);
             num_moves = 3;
         }
-        if(m4 != "None") moves[3] = base_move::make(m4,g);
+        if(m4 != "None") moves[3] = base_move::make(m4,from_gen);
         else
         {
-            moves[3] = base_move::make("struggle",g);
+            moves[3] = base_move::make("struggle",from_gen);
             num_moves = 4;
         }
     }
