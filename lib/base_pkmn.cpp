@@ -65,14 +65,6 @@ namespace pkmnsim
         SQLite::Statement type2_query(db, query_string.c_str());
         if(type2_query.executeStep()) type2_id = type2_query.getColumn(0);
         else type2_id = -1;
-
-        boost::format png_format("%d.png");
-        boost::format gen_format("generation-%d");
-        
-        male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
-        male_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / (png_format % species_id).str()).string();
-
-        repair(pkmn_id);
 	}
 	
     base_pkmn::sptr base_pkmn::make(string identifier, int game)
@@ -206,7 +198,7 @@ namespace pkmnsim
     void base_pkmn::set_form(int form)
     {
         boost::format png_format("%d.png");
-        string gen_string = "generation-" + from_gen;
+        string gen_string = "generation-" + to_string(from_gen);
         
         switch(species_id)
         {

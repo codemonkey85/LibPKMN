@@ -27,6 +27,17 @@ namespace pkmnsim
         //Get final part of images path
         switch(from_game)
         {
+            case Games::RUBY:
+            case Games::SAPPHIRE:
+                images_game_string = "ruby-sapphire";
+                break;
+            case Games::EMERALD:
+                images_game_string = "emerald";
+                break;
+            case Games::FIRE_RED:
+            case Games::LEAF_GREEN:
+                images_game_string = "firered-leafgreen";
+                break;
             case Games::DIAMOND:
             case Games::PEARL:
                 images_game_string = "diamond-pearl";
@@ -38,8 +49,8 @@ namespace pkmnsim
             case Games::SOUL_SILVER:
                 images_game_string = "heartgold-soulsilver";
                 break;
-            default: //It should never get here
-                images_game_string = "platinum";
+            default: //Gen 5 all uses black-white
+                images_game_string = "black-white";
                 break;
         }
         
@@ -47,10 +58,13 @@ namespace pkmnsim
         boost::format gen_format("generation-%d");
         
         //Unfezant, Frillish and Jellicent have different icons for each gender
+        male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
         if(species_id == 521 or species_id == 592 or species_id == 593)
             female_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / "female" / (png_format % species_id).str()).string();
         else female_icon_path = male_icon_path;
         
+        male_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / (png_format % species_id).str()).string();
+        male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
         if(from_gen > 3 and has_gender_differences())
         {
             female_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "female" / (png_format % species_id).str()).string();
@@ -61,6 +75,8 @@ namespace pkmnsim
             female_sprite_path = male_sprite_path;
             female_shiny_sprite_path = male_shiny_sprite_path;
         }
+        
+        repair(pkmn_id);
     }
 
     string base_pkmn_gen345impl::get_info()

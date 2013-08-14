@@ -43,10 +43,15 @@ namespace pkmnsim
         }
         
         boost::format png_format("%d.png");
+        
+        male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
         female_icon_path = male_icon_path; //No gender differences in Generation 2
+        male_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / (png_format % species_id).str()).string();
         female_sprite_path = male_sprite_path; //No gender differences in Generation 2
         male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
         female_shiny_sprite_path = male_shiny_sprite_path; //No gender differences in Generation 2
+        
+        repair(pkmn_id);
     }
 
     string base_pkmn_gen2impl::get_info()
