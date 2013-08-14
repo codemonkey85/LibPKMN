@@ -151,7 +151,6 @@ namespace pkmnsim
     trainer_gen4impl::trainer_gen4impl(string filename, int game): trainer()
     {
         from_game = game;
-        size_t size, save_size;
 
         save = new PokeLib::Save(filename.c_str());
         if(!save->parseRawSave()) cout << "Couldn't load file." << endl;
