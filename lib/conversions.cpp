@@ -161,7 +161,7 @@ namespace pkmnsim
         if(string(attacks[pkmn_a_t->atk4]) == "No attack") move4 = "None";
         else move4 = database::to_database_format(attacks[pkmn_a_t->atk4]);
 
-        switch(pkmn_m_t->gamemsbs)
+        switch(pkmn_m_t->game)
         {
             case 0: //Pokemon Colosseum Bonus Disk
                 from_game = Games::COLOSSEUM;
@@ -336,26 +336,26 @@ namespace pkmnsim
         switch(s_pkmn->from_game)
         {
             case Games::RUBY:
-                pkmn_m_t->gamemsbs = 2;
+                pkmn_m_t->game = 2;
                 break;
             case Games::SAPPHIRE:
-                pkmn_m_t->gamemsbs = 1;
+                pkmn_m_t->game = 1;
                 break;
             case Games::EMERALD:
-                pkmn_m_t->gamemsbs = 3;
+                pkmn_m_t->game = 3;
                 break;
             case Games::FIRE_RED:
-                pkmn_m_t->gamemsbs = 4;
+                pkmn_m_t->game = 4;
                 break;
             case Games::LEAF_GREEN:
-                pkmn_m_t->gamemsbs = 5;
+                pkmn_m_t->game = 5;
                 break;
             case Games::COLOSSEUM:
             case Games::XD:
-                pkmn_m_t->gamemsbs = 15;
+                pkmn_m_t->game = 15;
                 break;
             default:
-                pkmn_m_t->gamemsbs = 2;
+                pkmn_m_t->game = 2;
         }
         
         //Attributes
