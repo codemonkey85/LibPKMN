@@ -15,7 +15,6 @@ Tested with:
  * Clang 3.0
  * Microsoft Visual Studio 2010
 
-LibSQLite (http://www.sqlite.org) source included (public domain).
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source included under the MIT license.
 Pokehack (https://github.com/Grazfather/pokehack) source included as Git submodule.
 PokeLib (https://github.com/Chase-san/PokeLib) source included as Git submodule.
@@ -33,4 +32,4 @@ Optional Dependencies:
  * Python - needed for LibPKMNsim Python wrapper
  * PySQLite3 - needed for LibPKMNsim Python wrapper
 
-README last updated: 2013-08-09
+README last updated: 2013-08-15
