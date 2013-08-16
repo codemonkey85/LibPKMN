@@ -1273,6 +1273,9 @@ namespace pkmnsim
             case Games::HEART_GOLD:
                 p_pkm->pkm_data.hometown = Hometowns::heartgold;
                 break;
+            case Games::SOUL_SILVER:
+                p_pkm->pkm_data.hometown = Hometowns::soulsilver;
+                break;
             case Games::BLACK:
                 p_pkm->pkm_data.hometown = Hometowns::black;
                 break;
