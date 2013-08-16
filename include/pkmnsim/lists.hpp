@@ -32,16 +32,27 @@ namespace pkmnsim
     void PKMNSIM_API get_game_group_list(std::vector<std::string>& game_group_vec);
 
     /*
+     * Returns a list of all Pokemon in given game.
+     *
+     * Parameters:
+     *  - pokemon_vec: Reference to a vector in which to place Pokemon names
+     *  - gen: Game from which to query Pokemon list
+     */
+    void PKMNSIM_API get_pokemon_list(std::vector<std::string>& pokemon_vec, int game);
+
+    /*
      * Returns a list of all types in given generation.
      *
      * Parameters:
      *  - type_vec: Reference to a vector in which to place type list.
+     *  - gen: Generation from which to query types
      */
     void PKMNSIM_API get_type_list(std::vector<std::string>& type_vec, int gen);
 
     //Pass-by-value functions for SWIG's benefit
     std::vector<std::string> PKMNSIM_API get_game_vec();
     std::vector<std::string> PKMNSIM_API get_game_group_vec();
+    std::vector<std::string> PKMNSIM_API get_pokemon_vec(int game);
     std::vector<std::string> PKMNSIM_API get_type_vec(int gen);
 }
 
