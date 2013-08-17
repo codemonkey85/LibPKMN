@@ -25,6 +25,7 @@
 %ignore pkmnsim::get_stat_range;
 %ignore pkmnsim::get_game_list;
 %ignore pkmnsim::get_game_group_list;
+%ignore pkmnsim::get_pokemon_list;
 %ignore pkmnsim::get_pkmn_of_type;
 %ignore pkmnsim::get_type_list;
 %ignore pkmnsim::spec_pkmn::set_form(std::string);
@@ -35,6 +36,7 @@
 %rename(get_stat_range) pkmnsim::get_stat_range_vec;
 %rename(get_game_list) pkmnsim::get_game_vec;
 %rename(get_game_group_list) pkmnsim::get_game_group_vec;
+%rename(get_pokemon_list) pkmnsim::get_pokemon_vec;
 %rename(get_pkmn_of_type) pkmnsim::get_pkmn_list_of_type;
 %rename(get_type_list) pkmnsim::get_type_vec;
 %rename(get_party) pkmnsim::trainer::get_party_vec;

@@ -37,6 +37,15 @@ class GamesComboBox(QComboBox):
         for i,game in enumerate(games_vec):
             self.addItem(QString(game), QVariant(i))
 
+class PokemonListComboBox(QComboBox):
+    def __init__(self, game, parent=None):
+        QComboBox.__init__(self, parent)
+
+        pokemon_vec = get_pokemon_list(game)
+
+        for i,pkmn in enumerate(pokemon_vec):
+            self.addItem(QString(pkmn), QVariant(i))
+
 class SpecPkmnDisplayWidget(QWidget):
     def __init__(self, pkmn, parent=None):
         QWidget.__init__(self, parent)
