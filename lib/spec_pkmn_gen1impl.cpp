@@ -75,6 +75,41 @@ namespace pkmnsim
         return stats;
     }
 
+    void spec_pkmn_gen1impl::set_IV(string IVname, int val)
+    {
+        if(val < 0 or val > 16)
+        {
+            cerr << "Gen 1 IV's must be 0-15." << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        if(IVname == "HP")
+        {
+            ivHP = val;
+            HP = get_hp_from_iv_ev();
+        }
+        else if(IVname == "ATK")
+        {
+            ivATK = val;
+            ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
+        }
+        else if(IVname == "DEF")
+        {
+            ivDEF = val;
+            DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
+        }
+        else if(IVname == "SPD")
+        {
+            ivSPD = val;
+            SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
+        }
+        else if(IVname == "SPCL")
+        {
+            ivSPCL = val;
+            SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
+        }
+    }
+
     dict<string, int> spec_pkmn_gen1impl::get_EVs()
     {
         dict<string, int> stats;
@@ -85,6 +120,41 @@ namespace pkmnsim
         stats["SPCL"] = evSPCL;
 
         return stats;
+    }
+
+    void spec_pkmn_gen1impl::set_EV(string EVname, int val)
+    {
+        if(val < 0 or val > 65535)
+        {
+            cerr << "Gen 1 EV's must be 0-65535." << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        if(EVname == "HP")
+        {
+            ivHP = val;
+            HP = get_hp_from_iv_ev();
+        }
+        else if(EVname == "ATK")
+        {
+            ivATK = val;
+            ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
+        }
+        else if(EVname == "DEF")
+        {
+            ivDEF = val;
+            DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
+        }
+        else if(EVname == "SPD")
+        {
+            ivSPD = val;
+            SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
+        }
+        else if(EVname == "SPCL")
+        {
+            ivSPCL = val;
+            SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
+        }
     }
 
     string spec_pkmn_gen1impl::get_info()
