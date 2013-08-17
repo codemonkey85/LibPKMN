@@ -22,7 +22,9 @@ namespace pkmnsim
                                std::string m3, std::string m4);
             dict<std::string, int> get_stats();
             dict<std::string, int> get_IVs();
+            void set_IV(std::string IVname, int val);
             dict<std::string, int> get_EVs();
+            void set_EV(std::string EVname, int val);
             std::string get_info();
             std::string get_info_verbose();
             bool is_shiny();

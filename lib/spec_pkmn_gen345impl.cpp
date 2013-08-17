@@ -101,6 +101,46 @@ namespace pkmnsim
         return stats;
     }
 
+    void spec_pkmn_gen345impl::set_IV(string IVname, int val)
+    {   
+        if(val < 0 or val > 31) 
+        {   
+            cerr << "Gen 3-5 IV's must be 0-31." << endl;
+            exit(EXIT_FAILURE);
+        }   
+
+        if(IVname == "HP")
+        {   
+            ivHP = val;
+            HP = get_hp_from_iv_ev();
+        }   
+        else if(IVname == "ATK")
+        {   
+            ivATK = val;
+            ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
+        }   
+        else if(IVname == "DEF")
+        {   
+            ivDEF = val;
+            DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
+        }   
+        else if(IVname == "SATK")
+        {   
+            ivSATK = val;
+            SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
+        }   
+        else if(IVname == "SDEF")
+        {   
+            ivSDEF = val;
+            SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSDEF);
+        }   
+        else if(IVname == "SPD")
+        {   
+            ivSPD = val;
+            SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
+        }   
+    }   
+
     dict<string, int> spec_pkmn_gen345impl::get_EVs()
     {
         dict<string, int> stats;
@@ -113,6 +153,46 @@ namespace pkmnsim
 
         return stats;
     }
+
+    void spec_pkmn_gen345impl::set_EV(string EVname, int val)
+    {   
+        if(val < 0 or val > 255) 
+        {   
+            cerr << "Gen 3-5 EV's must be 0-255." << endl;
+            exit(EXIT_FAILURE);
+        }   
+
+        if(EVname == "HP")
+        {   
+            evHP = val;
+            HP = get_hp_from_iv_ev();
+        }   
+        else if(EVname == "ATK")
+        {   
+            evATK = val;
+            ATK = get_stat_from_iv_ev("ATK",evATK,evATK);
+        }   
+        else if(EVname == "DEF")
+        {   
+            evDEF = val;
+            DEF = get_stat_from_iv_ev("DEF",evDEF,evDEF);
+        }   
+        else if(EVname == "SATK")
+        {   
+            evSATK = val;
+            SATK = get_stat_from_iv_ev("SATK",evSATK,evSATK);
+        }   
+        else if(EVname == "SDEF")
+        {   
+            evSDEF = val;
+            SDEF = get_stat_from_iv_ev("SDEF",evSDEF,evSDEF);
+        }   
+        else if(EVname == "SPD")
+        {   
+            evSPD = val;
+            SPD = get_stat_from_iv_ev("SPD",evSPD,evSPD);
+        }   
+    }   
 
     int spec_pkmn_gen345impl::get_gender() {return gender;}
 
@@ -131,6 +211,8 @@ namespace pkmnsim
     string spec_pkmn_gen345impl::get_ability() {return ability;}
 
     string spec_pkmn_gen345impl::get_held_item() {return held_item;}
+
+    void spec_pkmn_gen345impl::set_held_item(string name) {held_item = name;}
 
     string spec_pkmn_gen345impl::get_info()
     {

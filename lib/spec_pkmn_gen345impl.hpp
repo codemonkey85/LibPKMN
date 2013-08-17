@@ -23,8 +23,11 @@ namespace pkmnsim
                                std::string m4);
             dict<std::string, int> get_stats();
             dict<std::string, int> get_IVs();
+            void set_IV(std::string IVname, int val);
             dict<std::string, int> get_EVs();
+            void set_EV(std::string EVname, int val);
             std::string get_held_item();
+            void set_held_item(std::string name);
             std::string get_info();
             std::string get_info_verbose();
             int get_gender();

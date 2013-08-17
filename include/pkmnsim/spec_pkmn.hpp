@@ -134,6 +134,24 @@ namespace pkmnsim
              */
             virtual dict<std::string, int> get_IVs(void) = 0;
 
+            /*
+             * Sets the given IV.
+             *
+             * Parameters:
+             *  - IVname: name of IV to set
+             *  - val: value to set IV to
+             *
+             * Accepted IVname values:
+             *  - HP
+             *  - ATK
+             *  - DEF
+             *  - SPD
+             *  - SPCL (Gen 1 only)
+             *  - SATK (Gen 2-5 only)
+             *  - SDEF (Gen 2-5 only)
+             */
+            virtual void set_IV(std::string IVname, int val) = 0;
+
             /*!
              * Returns the Pokémon's effort values.
              * NOTE: These values are sometimes randomly generated.
@@ -148,6 +166,24 @@ namespace pkmnsim
              *  - Special Defense: dict_name["SDEF"] (Gen 2-5 only)
              */
             virtual dict<std::string, int> get_EVs(void) = 0;
+
+            /*
+             * Sets the given EV.
+             *
+             * Parameters:
+             *  - EVname: name of EV to set
+             *  - val: value to set EV to
+             *
+             * Accepted EVname values:
+             *  - HP
+             *  - ATK
+             *  - DEF
+             *  - SPD
+             *  - SPCL (Gen 1 only)
+             *  - SATK (Gen 2-5 only)
+             *  - SDEF (Gen 2-5 only)
+             */
+            virtual void set_EV(std::string EVname, int val) = 0;
 
             /*
              * Returns the names of the Pokémon's moves.
@@ -168,6 +204,15 @@ namespace pkmnsim
              * Returns the name of the held item.
              */
             virtual std::string get_held_item(void) {throw std::runtime_error("Not valid in this generation.");}
+
+            /*
+             * Sets the name of the held item.
+             * NOTE: Currently, no checks are done on validaity of input.
+             *
+             * Parameters:
+             *  - name: name of item
+             */
+            virtual void set_held_item(std::string name) {throw std::runtime_error("Not valid in this generation.");}
 
             /*
              * Returns a string with basic information on the Pokémon.
