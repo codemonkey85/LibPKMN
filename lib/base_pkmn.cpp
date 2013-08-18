@@ -115,11 +115,11 @@ namespace pkmnsim
     {
         dict<int, std::string> type_dict;
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type1_id);
+        string query_string = "SELECT name FROM type_names WHERE local_language_id=9 AND type_id=" + to_string(type1_id);
         type_dict[0] = db.execAndGetStr(query_string.c_str(), "name");
         if(type2_id != -1)
         {
-            query_string = "SELECT name FROM type_names WHERE type_id=" + to_string(type2_id);
+            query_string = "SELECT name FROM type_names WHERE local_language_id=9 AND type_id=" + to_string(type2_id);
             type_dict[1] = db.execAndGetStr(query_string.c_str(), "name");
         }
         else type_dict[1] = "None";
