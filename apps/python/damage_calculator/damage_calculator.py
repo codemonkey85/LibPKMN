@@ -45,8 +45,8 @@ if __name__ == "__main__":
         damage_class_string = "Non-damaging"
 
     #Get type mod
-    type_mod = get_type_damage_mod(move.get_type(), defender.get_types().get(0), (options.gen != 1))
-    type_mod *= get_type_damage_mod(move.get_type(), defender.get_types().get(1), (options.gen != 1))
+    type_mod = get_type_damage_mod(move.get_type(), defender.get_types()[0], (options.gen != 1))
+    type_mod *= get_type_damage_mod(move.get_type(), defender.get_types()[1], (options.gen != 1))
 
     if move.get_move_damage_class() != Move_Classes.NON_DAMAGING:
         if type_mod == 0.0:

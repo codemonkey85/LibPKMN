@@ -43,6 +43,24 @@
 %rename(get_table_list) pkmnsim::database::get_table_vec;
 %rename(get_column_list) pkmnsim::database::get_column_vec;
 
+//Extend dict and VLA to allow use of [] operator
+%extend pkmnsim::dict<int, std::string>{
+    std::string __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, std::string val) {(*self)[i] = val;}
+};
+%extend pkmnsim::dict<std::string, int>{
+    int __getitem__(std::string i) {return (*self)[i];}
+    void __setitem__(std::string i, int val) {(*self)[i] = val;}
+};
+%extend pkmnsim::dict<std::string, double>{
+    double __getitem__(std::string i) {return (*self)[i];}
+    void __setitem__(std::string i, double val) {(*self)[i] = val;}
+};
+%extend pkmnsim::vla<std::shared_ptr<pkmnsim::base_move> >{
+    std::shared_ptr<pkmnsim::base_move> __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, std::shared_ptr<pkmnsim::base_move> val) {(*self)[i] = val;}
+};
+
 %include "pkmnsim.i"
 
 PKMNSIM_PYTHON_FIX(base_move)
