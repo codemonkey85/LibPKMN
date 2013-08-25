@@ -7,12 +7,16 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <string>
+#include <vector>
+
+#include <boost/algorithm/string.hpp>
 
 using namespace std;
 
 int main()
 {
-    cout << "PKMNsim Configuration Info" << endl << endl;
+    cout << endl << "PKMNsim Configuration Info" << endl << endl;
 
     cout << "Git commits:" << endl;
     cout << " - PKMNsim:        @PKMNSIM_GIT_DESCRIBE@" << endl;
@@ -23,6 +27,12 @@ int main()
 
     cout << "Dependency versions:" << endl;
     cout << " - Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@" << endl;
+
+    string sqlite3_raw_version = "@SQLITE3_RAW_VERSION@";
+    vector<string> sqlite3_version_split;
+    boost::split(sqlite3_version_split, sqlite3_raw_version, boost::is_any_of(" "));
+    cout << " - SQLite " << sqlite3_version_split[0] << endl;
+
     if("@QT_VERSION_MAJOR@" != "")
         cout << " - Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@" << endl;
     if("@SWIG_VERSION@" != "")
