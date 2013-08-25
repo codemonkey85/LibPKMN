@@ -24,6 +24,4 @@ REGISTER_COMPONENT("PyPKMNsim Library - Core" ENABLE_PYPKMNSIM_LIB ON
 ####################################################################
 # Add subdirectories as appropriate based on enabled SWIG wrappers
 ####################################################################
-IF(ENABLE_PYPKMNSIM_LIB)
-    ADD_SUBDIRECTORY(python)
-ENDIF(ENABLE_PYPKMNSIM_LIB)
+ADD_SUBDIRECTORY(pkmnsim)

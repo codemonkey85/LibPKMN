@@ -5,7 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-FILE(TO_NATIVE_PATH "${PKMNSIM_SOURCE_DIR}/lib/swig" PKMNSIM_SWIG_SOURCE_DIR)
+FILE(TO_NATIVE_PATH "${PKMNSIM_SOURCE_DIR}/lib/swig/pkmnsim" PKMNSIM_SWIG_SOURCE_DIR)
 SET(PKMNSIM_SWIG_SOURCE_DIR ${PKMNSIM_SWIG_SOURCE_DIR} CACHE FILEPATH "PKMNsim SWIG source directory")
 
 ####################################################################
