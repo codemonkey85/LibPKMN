@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ *
+ * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+ * or copy at http://opensource.org/licenses/MIT)
+ */
+
+#include <stdlib.h>
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    cout << "PKMNsim Configuration Info" << endl << endl;
+
+    cout << "Git commits:" << endl;
+    cout << " - PKMNsim:        @PKMNSIM_GIT_DESCRIBE@" << endl;
+    cout << " - PKMNsim Images: @PKMNSIM_IMAGES_GIT_DESCRIBE@" << endl;
+    cout << " - Pokehack:       @POKEHACK_GIT_DESCRIBE@" << endl;
+    cout << " - PokeLib:        @POKELIB_GIT_DESCRIBE@" << endl;
+    cout << " - PKMDS:          @PKMDS_GIT_DESCRIBE@" << endl << endl;
+
+    cout << "Dependency versions:" << endl;
+    cout << " - Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@" << endl;
+    if("@QT_VERSION_MAJOR@" != "")
+        cout << " - Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@" << endl;
+    if("@SWIG_VERSION@" != "")
+        cout << " - SWIG @SWIG_VERSION@" << endl;
+
+    return EXIT_SUCCESS;
+}
