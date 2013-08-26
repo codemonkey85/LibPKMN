@@ -1,4 +1,4 @@
-PKMNsim - Pokémon Simulator
+Pokémon Simulator
 
 Data structures written to construct a Pokémon team, complete with movesets.
 This allows for apps to be written to find type weaknesses in teams, calculate
@@ -32,4 +32,4 @@ Optional Dependencies:
  * Python - needed for LibPKMNsim Python wrapper
  * PySQLite3 - needed for LibPKMNsim Python wrapper
 
-README last updated: 2013-08-15
+README last updated: 2013-08-26

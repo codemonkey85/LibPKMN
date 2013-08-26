@@ -24,7 +24,7 @@ COPYPONLY)
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db
     COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim.db ".read ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim_db_dump"
-    COMMENT "Compiling PKMNsim SQLite database"
+    COMMENT "Compiling Pokemon-sim SQLite database"
 )
 ADD_CUSTOM_TARGET(
     pkmnsim.db ALL

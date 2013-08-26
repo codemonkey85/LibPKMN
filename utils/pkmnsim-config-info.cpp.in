@@ -16,7 +16,7 @@ using namespace std;
 
 int main()
 {
-    cout << endl << "PKMNsim Configuration Info" << endl << endl;
+    cout << endl << "Pokemon Simulator - Configuration Info" << endl << endl;
 
     cout << "Git commits:" << endl;
     cout << " - PKMNsim:        @PKMNSIM_GIT_DESCRIBE@" << endl;
