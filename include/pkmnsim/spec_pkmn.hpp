@@ -321,5 +321,9 @@ namespace pkmnsim
             friend class trainer_gen4impl;
             friend class trainer_gen5impl;
     };
+
+    //Related typedefs
+    typedef std::vector<spec_pkmn::sptr> s_pkmn_vec_t;
+    typedef vla<spec_pkmn::sptr> s_pkmn_vla_t;
 }
 #endif /* INCLUDED_PKMNSIM_SPEC_PKMN_HPP */

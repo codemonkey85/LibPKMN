@@ -152,7 +152,7 @@ namespace pkmnsim
              * Parameters:
              *  - evolution_vec: Reference to a pointer in which to place Pokémon
 			 */
-			void get_evolutions(std::vector<sptr>& evolution_vec);
+			void get_evolutions(std::vector<sptr> &evolution_vec);
 
 			/*
 			 * If Pokémon is fully evolved, returns true. If it can evolve further, returns false.
@@ -217,6 +217,14 @@ namespace pkmnsim
              */
             void set_form(std::string form);
 
+            /*
+             * Update stats based on specified ID.
+             *
+             * Parameters:
+             *  - id: Pokemon ID to base repairs on
+             */
+            void repair(int id);
+
         protected:
             //Database values
 			std::string database_identifier;
@@ -228,25 +236,26 @@ namespace pkmnsim
             std::string male_sprite_path, female_sprite_path;
             std::string male_shiny_sprite_path, female_shiny_sprite_path;
 
-            void repair(int id);
-
-            /*
-             * Return a vector with all base Pokémon of specified type combo.
-             *
-             * Parameters:
-             *  - pkmn_vector:  A reference to a vector in which to place list of Pokémon.
-             *  - type1: The type (or one of the types) of Pokémon to return
-             *  - type2: The second type of the type combo of Pokémon to return
-             *  - gen: Only return Pokémon present in this generation.
-             *  - lax: If only one type is specified, use all type combos with this type
-             */
-            friend void PKMNSIM_API get_pkmn_of_type(std::vector<base_pkmn::sptr>& pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
-            
     };
 
+    //Related typedefs
+    typedef std::vector<base_pkmn::sptr> b_pkmn_vec_t;
+    typedef vla<base_pkmn::sptr> b_pkmn_vla_t;
+
+    /*
+     * Return a vector with all base Pokémon of specified type combo.
+     *
+     * Parameters:
+     *  - pkmn_vector:  A reference to a vector in which to place list of Pokémon.
+     *  - type1: The type (or one of the types) of Pokémon to return
+     *  - type2: The second type of the type combo of Pokémon to return
+     *  - gen: Only return Pokémon present in this generation.
+     *  - lax: If only one type is specified, use all type combos with this type
+     */
+    void PKMNSIM_API get_pkmn_of_type(b_pkmn_vec_t &pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
 
     //Pass-as-value get_pkmn_of_type for SWIG
-    std::vector<base_pkmn::sptr> PKMNSIM_API get_pkmn_list_of_type(std::string type1, std::string type2, int gen, bool lax);
+    b_pkmn_vec_t PKMNSIM_API get_pkmn_list_of_type(std::string type1, std::string type2, int gen, bool lax);
 }
 
 #endif /* INCLUDED_PKMNSIM_BASE_PKMN_HPP */

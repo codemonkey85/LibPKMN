@@ -117,10 +117,10 @@ namespace pkmnsim
 
     int trainer::get_money(void) {return money;}
 
-    void trainer::get_party(vector<spec_pkmn::sptr>& party_vec) {party_vec = party;}
+    void trainer::get_party(s_pkmn_vec_t &party_vec) {party_vec = party;}
 
     //Return-by-value for SWIG's benefit
-    vector<spec_pkmn::sptr> trainer::get_party_vec(void) {return party;}
+    s_pkmn_vec_t trainer::get_party_vec(void) {return party;}
 
     string trainer::get_trainer_name(void) {return trainer_name;}
 
@@ -192,7 +192,7 @@ namespace pkmnsim
             dict<string, int> stats = party[i]->get_stats();
             dict<string, int> EVs = party[i]->get_EVs();
             dict<string, int> IVs = party[i]->get_IVs();
-            vla<base_move::sptr> moves = party[i]->get_moves();
+            b_move_vla_t moves = party[i]->get_moves();
 
             //Intermediary variables for ID's
             int pkmn_id, species_id, item_held_id, move1_id, move2_id, move3_id, move4_id;

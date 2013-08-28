@@ -89,7 +89,7 @@ namespace pkmnsim
                 abilityNatureLabel = new QLabel(abilityNatureQString);
             }
             
-            vla<base_move::sptr> moves = s_pkmn->get_moves();
+            b_move_vla_t moves = s_pkmn->get_moves();
             QString attackOneQString = QString("%1").arg(
                 QString::fromStdString(moves[0]->get_name())
             );

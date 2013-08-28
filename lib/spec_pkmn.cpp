@@ -36,7 +36,7 @@ namespace pkmnsim
         int base_species_id = base->get_species_id();
 
 		attributes = dict<string, int>();
-        moves = vla<base_move::sptr>(4);
+        moves = b_move_vla_t(4);
 
         icon_path = base->get_icon_path(true);
 
@@ -101,7 +101,7 @@ namespace pkmnsim
 
     int spec_pkmn::get_level(void) {return level;}
 
-    vla<base_move::sptr> spec_pkmn::get_moves(void) {return moves;}
+    b_move_vla_t spec_pkmn::get_moves(void) {return moves;}
     
     int spec_pkmn::get_game_id(void) {return from_game;}
     

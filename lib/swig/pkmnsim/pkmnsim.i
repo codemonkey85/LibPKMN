@@ -79,6 +79,6 @@ namespace std
 %template(dict_int_std_string) pkmnsim::dict<int, std::string>;
 %template(dict_std_string_int) pkmnsim::dict<std::string, int>;
 %template(dict_std_string_double) pkmnsim::dict<std::string, double>;
-%template(vla_pkmnsim_base_move_sptr) pkmnsim::vla<std::shared_ptr<pkmnsim::base_move> >;
-%template(vector_base_pkmn) std::vector<std::shared_ptr<pkmnsim::base_pkmn> >;
-%template(vector_spec_pkmn) std::vector<std::shared_ptr<pkmnsim::spec_pkmn> >;
+%template(b_move_vla_t) pkmnsim::vla<std::shared_ptr<pkmnsim::base_move> >;
+%template(b_pkmn_vec_t) std::vector<std::shared_ptr<pkmnsim::base_pkmn> >;
+%template(s_pkmn_vec_t) std::vector<std::shared_ptr<pkmnsim::spec_pkmn> >;

@@ -17,6 +17,7 @@
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
 #include <pkmnsim/enums.hpp>
+#include <pkmnsim/vla.hpp>
 
 namespace pkmnsim
 {
@@ -126,6 +127,10 @@ namespace pkmnsim
             std::string base_effect;
             double base_effect_chance;
     };
+
+    //Related typedefs
+    typedef std::vector<base_move::sptr> b_move_vec_t;
+    typedef vla<base_move::sptr> b_move_vla_t;
 }
 
 #endif /* INCLUDED_PKMNSIM_BASE_MOVE_HPP */

@@ -141,7 +141,7 @@ namespace pkmnsim
         return (double(db.execAndGet(query_string.c_str())) / 10.0);
     }
 
-	void base_pkmn::get_evolutions(vector<sptr>& evolution_vec)
+	void base_pkmn::get_evolutions(b_pkmn_vec_t &evolution_vec)
 	{
         evolution_vec.clear();
 
@@ -183,7 +183,7 @@ namespace pkmnsim
 	
     bool base_pkmn::is_fully_evolved()
     {
-        vector<sptr> evolution_vec;
+        b_pkmn_vec_t evolution_vec;
         get_evolutions(evolution_vec);
 
         return (evolution_vec.begin() == evolution_vec.end());
@@ -1519,7 +1519,7 @@ namespace pkmnsim
         }
     }
 
-    void get_pkmn_of_type(vector<base_pkmn::sptr> &pkmn_vector, string type1, string type2, int gen, bool lax)
+    void get_pkmn_of_type(b_pkmn_vec_t &pkmn_vector, string type1, string type2, int gen, bool lax)
     {
         pkmn_vector.clear();
 
@@ -1642,9 +1642,9 @@ namespace pkmnsim
         }
     }
 
-    vector<base_pkmn::sptr> get_pkmn_list_of_type(string type1, string type2, int gen, bool lax)
+    b_pkmn_vec_t get_pkmn_list_of_type(string type1, string type2, int gen, bool lax)
     {
-        vector<base_pkmn::sptr> b_pkmn_vec;
+        b_pkmn_vec_t b_pkmn_vec;
         get_pkmn_of_type(b_pkmn_vec, type1, type2, gen, lax);
         return b_pkmn_vec;
     }
