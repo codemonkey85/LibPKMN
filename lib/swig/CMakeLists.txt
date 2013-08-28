@@ -25,3 +25,4 @@ REGISTER_COMPONENT("PyPKMNsim Library - Core" ENABLE_PYPKMNSIM_LIB ON
 # Add subdirectories as appropriate based on enabled SWIG wrappers
 ####################################################################
 ADD_SUBDIRECTORY(pkmnsim)
+ADD_SUBDIRECTORY(pokelib)
