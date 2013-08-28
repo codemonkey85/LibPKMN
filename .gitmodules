@@ -3,7 +3,7 @@
 	url = https://github.com/ncorgan/pokehack.git
 [submodule "PokeLib"]
 	path = PokeLib
-	url = https://github.com/ncorgan/PokeLib.git
+	url = https://github.com/ncorgan/PokeLib-cmake.git
 [submodule "PKMDS-G5"]
 	path = PKMDS-G5
 	url = https://github.com/ncorgan/PKMDS-G5.git
