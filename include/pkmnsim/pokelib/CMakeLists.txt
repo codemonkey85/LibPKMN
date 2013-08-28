@@ -5,13 +5,9 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 FILE(GLOB pkmnsim_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
-LIST(APPEND pkmnsim_headers vla.ipp dict.ipp)
-
-ADD_SUBDIRECTORY(database)
-ADD_SUBDIRECTORY(pokelib)
 
 IF(NOT PKMNSIM_USED_AS_SUBMODULE)
     FOREACH(header ${pkmnsim_headers})
-        INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim COMPONENT Headers)
+        INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmnsim/pokelib COMPONENT Headers)
     ENDFOREACH(header)
 ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
