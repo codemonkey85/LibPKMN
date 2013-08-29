@@ -48,6 +48,12 @@ SET(PKMNSIM_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "PKMNsim source 
 SET(PKMNSIM_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "PKMNsim binary directory")
 INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimComponent.cmake)
 
+########################################################################
+# Getting compilation info
+########################################################################
+INCLUDE(PKMNsimConfigInfo)
+MESSAGE(STATUS "")
+
 ####################################################################
 # Find dependencies and set global include and link options
 ####################################################################
