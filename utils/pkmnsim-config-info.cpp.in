@@ -30,8 +30,6 @@ int main()
 
     if("@QT_VERSION_MAJOR@" != "")
         cout << " - Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@" << endl;
-    if("@SWIG_VERSION@" != "")
-        cout << " - SWIG @SWIG_VERSION@" << endl;
 
     return EXIT_SUCCESS;
 }

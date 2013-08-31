@@ -119,9 +119,16 @@ PKMNSIM_CHECK_SUBMODULE(PokeLib)
 PKMNSIM_CHECK_SUBMODULE(PKMDS-G5)
 
 INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/include)
+
+########################################################################
+# Don't rebuild save parsing libraries if built as part of PkmnLibEx
+########################################################################
+IF(NOT DEFINED PKMNLIBEX_SOURCE_DIR)
 ADD_SUBDIRECTORY(pokehack)
 ADD_SUBDIRECTORY(PokeLib)
 ADD_SUBDIRECTORY(PKMDS-G5)
+ENDIF(NOT DEFINED PKMNLIBEX_SOURCE_DIR)
+
 ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(lib)
