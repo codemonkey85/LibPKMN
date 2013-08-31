@@ -28,8 +28,5 @@ Dependencies:
 
 Optional Dependencies:
  * Qt4 (http://www.qt-project.org) - needed for Qt4 subclasses
- * SWIG - needed for LibPKMNsim Python wrapper
- * Python - needed for LibPKMNsim Python wrapper
- * PySQLite3 - needed for LibPKMNsim Python wrapper
 
-README last updated: 2013-08-28
+README last updated: 2013-08-30
