@@ -18,7 +18,7 @@
 
 namespace pkmnsim
 {
-    class PKMNSIM_API converter
+    class converter
     {
         public:
             converter();

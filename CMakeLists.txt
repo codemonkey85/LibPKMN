@@ -51,8 +51,10 @@ INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimComponent.cmake)
 ########################################################################
 # Getting compilation info
 ########################################################################
-INCLUDE(PKMNsimConfigInfo)
-MESSAGE(STATUS "")
+IF(NOT PKMNSIM_USED_AS_SUBMODULE)
+    INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimConfigInfo.cmake)
+    MESSAGE(STATUS "")
+ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
 ####################################################################
 # Find dependencies and set global include and link options
@@ -66,10 +68,12 @@ IF(NOT Boost_FOUND)
 MESSAGE(FATAL_ERROR "Fatal error: Boost (version >= 1.48.0) required.\n")
 ENDIF(NOT Boost_FOUND)
 FIND_PROGRAM(SQLITE3_EXECUTABLE NAMES sqlite3)
-FIND_PACKAGE(Qt4)
-IF(QT4_FOUND)
-    INCLUDE(UseQt4)
-ENDIF(QT4_FOUND)
+IF(NOT PKMNSIM_USED_AS_SUBMODULE)
+    FIND_PACKAGE(Qt4)
+    IF(QT4_FOUND)
+        INCLUDE(UseQt4)
+    ENDIF(QT4_FOUND)
+ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
@@ -93,8 +97,8 @@ SET(PKG_DATA_DIR share/pkmnsim)
 ########################################################################
 # Register LibPKMNsim components
 ########################################################################
-REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_EXECUTABLE" OFF)
-REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
+PKMNSIM_REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_EXECUTABLE" OFF)
+PKMNSIM_REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
 
 ########################################################################
 # Run CMake scripts in subdirectories
@@ -145,11 +149,11 @@ INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimPackage.cmake)
 ########################################################################
 # Final display
 ########################################################################
-PRINT_COMPONENT_SUMMARY()
 IF(PKMNSIM_USED_AS_SUBMODULE)
-    MESSAGE(STATUS "Building PKMNsim as part of ${CMAKE_PROJECT_NAME}.")
+    MESSAGE(STATUS "Building Pokemon-sim as part of ${CMAKE_PROJECT_NAME}.")
 ELSE()
-    MESSAGE(STATUS "Building PKMNsim.")
+    PKMNSIM_PRINT_COMPONENT_SUMMARY()
+    MESSAGE(STATUS "Building Pokemon-sim.")
     MESSAGE(STATUS " - Build type: ${CMAKE_BUILD_TYPE}")
     MESSAGE(STATUS " - Compiler: ${CMAKE_CXX_COMPILER_ID}")
     IF(WIN32 AND WIN7_PKG)
