@@ -5,6 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <string>
@@ -28,8 +29,7 @@ int main()
 
     cout << " - SQLite 3.7.15.2" << endl;
 
-    if("@QT_VERSION_MAJOR@" != "")
-        cout << " - Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@" << endl;
+    cout << " - Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@" << endl;
 
     return EXIT_SUCCESS;
 }
