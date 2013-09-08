@@ -52,9 +52,11 @@ INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimComponent.cmake)
 # Testing automatic git submodule update
 ########################################################################
 FIND_PACKAGE(Git)
-MESSAGE(STATUS "Updating Git submodules.")
+MESSAGE(STATUS "")
+MESSAGE(STATUS "Updating Git submodules. This may take a while...")
 EXECUTE_PROCESS(
     COMMAND ${GIT_EXECUTABLE} submodule update --init
+    OUTPUT_QUIET
     WORKING_DIRECTORY ${PKMNSIM_SOURCE_DIR}
 )
 
