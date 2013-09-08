@@ -106,6 +106,13 @@ namespace pkmnsim
             return entry;
         }
 
+        int get_species_id_from_pokemon_id(int pkmn_id)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT species_id FROM pokemon WHERE id=%d") % pkmn_id);
+            return db.execAndGet(query_string.c_str());
+        }
+
         string get_pokedex_entry_from_species_name(string species_name, int version)
         {
             SQLite::Database db(get_database_path().c_str());
@@ -113,6 +120,13 @@ namespace pkmnsim
                                                     % species_name);
             int species_id = db.execAndGet(query_string.c_str());
             return get_pokedex_entry_from_species_id(species_id, version);
+        }
+
+        int get_species_id_from_name(string species_name)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_names WHERE name='%s'") % species_name);
+            return db.execAndGet(query_string.c_str());
         }
 
         string get_species_name_from_id(int species_id)

@@ -23,7 +23,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    pkmn_nature::pkmn_nature(string identifier)
+    pkmn_nature::pkmn_nature(int id)
     {
         ATKmod = 1.0;
         DEFmod = 1.0;
@@ -33,19 +33,15 @@ namespace pkmnsim
 
         SQLite::Database db(get_database_path().c_str());
 
-        //Match database's identifier format
-        identifier = database::to_database_format(identifier);
+        nature_id = id;
 
-        string query_string = "SELECT id FROM natures WHERE identifier='" + identifier + "'";
-        nature_id = db.execAndGet(query_string.c_str(), identifier);
-
-        query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
-                                         % nature_id);
-        name = db.execAndGetStr(query_string.c_str(), identifier);
+        string query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
+                                                % nature_id);
+        name = db.execAndGetStr(query_string.c_str(), "");
 
         //Getting positive mod
-        query_string = "SELECT increased_stat_id FROM natures WHERE identifier='" + identifier + "'";
-        int pos_id = db.execAndGet(query_string.c_str(), identifier);
+        query_string = "SELECT increased_stat_id FROM natures WHERE id=" + to_string(nature_id);
+        int pos_id = db.execAndGet(query_string.c_str(), "");
         switch(pos_id)
         {
             case 2:
@@ -68,8 +64,8 @@ namespace pkmnsim
         }
 
         //Getting negative mod
-        query_string = "SELECT decreased_stat_id FROM natures WHERE identifier='" + identifier + "'";
-        int neg_id = db.execAndGet(query_string.c_str(), identifier);
+        query_string = "SELECT decreased_stat_id FROM natures WHERE id=" + to_string(nature_id);
+        int neg_id = db.execAndGet(query_string.c_str(), "");
         switch(neg_id)
         {
             case 2:
@@ -121,9 +117,9 @@ namespace pkmnsim
     
     int pkmn_nature::get_nature_id(void) {return nature_id;}
 
-    pkmn_nature::sptr pkmn_nature::make(string identifier)
+    pkmn_nature::sptr pkmn_nature::make(int id)
     {
-        try {return pkmn_nature::sptr(new pkmn_nature(identifier));}
+        try {return pkmn_nature::sptr(new pkmn_nature(id));}
         catch(exception &e)
         {
             cout << "Caught exception: " << e.what() << endl;

@@ -29,10 +29,10 @@ using namespace std;
 
 namespace pkmnsim
 {
-	base_pokemon::base_pokemon(string identifier, int game)
+	base_pokemon::base_pokemon(int id, int game)
 	{
         from_game = game;
-        database_identifier = identifier;
+        species_id = id;
         
         SQLite::Database db(get_database_path().c_str());
         string query_string;
@@ -45,34 +45,32 @@ namespace pkmnsim
         game_string = db.execAndGetStr(query_string.c_str(), "name");
         
         //Fail if Pokémon's generation_id > specified gen
-        query_string = "SELECT * FROM pokemon_species WHERE identifier='" + identifier + "'";
+        query_string = "SELECT * FROM pokemon_species WHERE id=" + to_string(id);
         SQLite::Statement pokemon_species_query(db, query_string.c_str());
         pokemon_species_query.executeStep();
         int gen_id = pokemon_species_query.getColumn(2); //generation_id
         if(gen_id > from_gen)
         {
-            string error_message = identifier + " not present in Generation " + to_string(from_gen) + ".";
+            string error_message = database::get_species_name_from_id(id) + " not present in Generation " + to_string(from_gen) + ".";
             throw runtime_error(error_message.c_str());
         }
 
         //After Pokemon verified as valid, get necessary ID's
-        species_id = pokemon_species_query.getColumn(0); //id
         query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(species_id);
         pkmn_id = db.execAndGet(query_string.c_str());
         query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_id) + " AND slot=1";
-        type1_id = db.execAndGet(query_string.c_str(), identifier);
+        type1_id = db.execAndGet(query_string.c_str());
         query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_id) + " AND slot=2";
         SQLite::Statement type2_query(db, query_string.c_str());
         if(type2_query.executeStep()) type2_id = type2_query.getColumn(0);
         else type2_id = -1;
 	}
 	
-    base_pokemon::sptr base_pokemon::make(string identifier, int game)
+    base_pokemon::sptr base_pokemon::make(int id, int game)
     {
         try
         {
             //Match database's identifier format
-            identifier = database::to_database_format(identifier);
             SQLite::Database db(get_database_path().c_str());
             string query_string;
             //Get generation from game enum
@@ -86,13 +84,13 @@ namespace pkmnsim
             switch(gen)
             {
                 case 1:
-                    return sptr(new base_pokemon_gen1impl(identifier, game));
+                    return sptr(new base_pokemon_gen1impl(id, game));
 
                 case 2:
-                    return sptr(new base_pokemon_gen2impl(identifier, game));
+                    return sptr(new base_pokemon_gen2impl(id, game));
 
                 default:
-                    return sptr(new base_pokemon_gen345impl(identifier, game));
+                    return sptr(new base_pokemon_gen345impl(id, game));
             }
         }
         catch(const exception &e)
@@ -162,7 +160,7 @@ namespace pkmnsim
         for(unsigned int i = 0; i < evolution_ids.size(); i++)
         {
             query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
-            int generation_id = db.execAndGet(query_string.c_str(), database_identifier);
+            int generation_id = db.execAndGet(query_string.c_str());
             if(generation_id > from_gen) to_erase.push_back(i);
         }
         for(int j = to_erase.size()-1; j >= 0; j--)
@@ -171,14 +169,7 @@ namespace pkmnsim
         }
 
         //Fill vector with sptrs of all evolutions
-        for(unsigned int i = 0; i < evolution_ids.size(); i++)
-        {
-            //Get identifier for Pokémon
-            query_string = "SELECT identifier FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
-            string evol_identifier = db.execAndGetStr(query_string.c_str(), "No string");
-            
-            evolution_vec.push_back(make(evol_identifier, from_game));
-        }
+        for(unsigned int i = 0; i < evolution_ids.size(); i++) evolution_vec.push_back(make(evolution_ids[i], from_game));
 	}
 	
     bool base_pokemon::is_fully_evolved()
@@ -1525,7 +1516,6 @@ namespace pkmnsim
 
         SQLite::Database db(get_database_path().c_str());
         string query_string;
-        vector<string> names;
         vector<int> applicable_ids;
         int pkmn_id, type1_id, type2_id;
 
@@ -1552,15 +1542,11 @@ namespace pkmnsim
                 query_string = "SELECT species_id FROM pokemon WHERE id=" + to_string(pkmn_id);
                 int species_id = db.execAndGet(query_string.c_str());
 
-                query_string = "SELECT identifier FROM pokemon_species WHERE id=" + to_string(species_id);
-                string pkmn_name = db.execAndGetStr(query_string.c_str(), "No string");
-
                 //Get generation ID to restrict list
-                query_string = "SELECT generation_id FROM pokemon_species WHERE identifier='" + pkmn_name + "'";
-                int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
+                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
+                int generation_id = db.execAndGet(query_string.c_str());
                 if(generation_id <= gen)
                 {
-                    names.push_back(pkmn_name);
                     applicable_ids.push_back(pkmn_id);
                 }
             }
@@ -1615,13 +1601,9 @@ namespace pkmnsim
                 string pkmn_name = db.execAndGetStr(query_string.c_str(), "No string");
 
                 //Get generation ID to restrict list
-                query_string = "SELECT generation_id FROM pokemon_species WHERE identifier='" + pkmn_name + "'";
+                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
                 int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
-                if(generation_id <= gen)
-                {
-                    applicable_ids.push_back(pkmn_ids[i]); //ID's that apply to final Pokemon
-                    names.push_back(pkmn_name);
-                }
+                if(generation_id <= gen) applicable_ids.push_back(pkmn_ids[i]); //ID's that apply to final Pokemon
             }
         }
 
@@ -1630,12 +1612,14 @@ namespace pkmnsim
         //guarantees that the given generation will use a game in that generation
         int game_id_from_gen[] = {0,1,4,7,13,17};
         
-        for(unsigned int i = 0; i < names.size(); i++)
+        for(unsigned int i = 0; i < applicable_ids.size(); i++)
         {
             //Manually correct for Magnemite and Magneton in Gen 1
-            if(not ((names[i] == "magnemite" or names[i] == "magneton") and gen == 1))
+            int final_species_id = database::get_species_id_from_pokemon_id(applicable_ids[i]);
+            if(not ((database::get_species_name_from_id(final_species_id) == "Magnemite" or
+                     database::get_species_name_from_id(final_species_id) == "Magneton") and gen == 1))
             {
-                base_pokemon::sptr b_pkmn = base_pokemon::make(names[i], game_id_from_gen[gen]);
+                base_pokemon::sptr b_pkmn = base_pokemon::make(database::get_species_id_from_pokemon_id(applicable_ids[i]), game_id_from_gen[gen]);
                 b_pkmn->repair(applicable_ids[i]);
                 pkmn_vector.push_back(b_pkmn);
             }

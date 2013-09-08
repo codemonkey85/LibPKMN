@@ -99,11 +99,30 @@ namespace pkmnsim
         std::string PKMNSIM_API get_pokedex_entry_from_species_name(std::string species_name, int version);
 
         /*
+         * Pokemon with different forms have different Pokemon ID's for each
+         * form but have a common species ID. Specify a pokemon_id and get 
+         * a species_id.
+         *
+         * Parameters:
+         *  - pkmn_id: pokemon_id to query the database with
+         */
+        int PKMNSIM_API get_species_id_from_pokemon_id(int pkmn_id);
+
+        /*
+         * Query the PKMNsim database for the species ID associated with
+         * the given name.
+         *
+         * Parameters:
+         *  - species_id: name of species whose ID to query
+         */
+        int PKMNSIM_API get_species_id_from_name(std::string species_name);
+
+        /*
          * Query the PKMNsim database for the species name associated with
          * the given ID.
          *
          * Parameters:
-         *  - species_id: ID of ability whose name to query
+         *  - species_id: ID of species whose name to query
          */
         std::string PKMNSIM_API get_species_name_from_id(int species_id);
 

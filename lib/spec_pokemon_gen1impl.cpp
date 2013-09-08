@@ -18,8 +18,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    spec_pokemon_gen1impl::spec_pokemon_gen1impl(base_pokemon::sptr b, int lvl, int g, string m1,
-                                           string m2, string m3, string m4): spec_pokemon(
+    spec_pokemon_gen1impl::spec_pokemon_gen1impl(base_pokemon::sptr b, int lvl, int g, int m1,
+                                           int m2, int m3, int m4): spec_pokemon(
                                            b,m1,m2,m3,m4,g,lvl)
     {
         srand ( time(NULL) );

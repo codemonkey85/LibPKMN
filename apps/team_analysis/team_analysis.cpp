@@ -16,11 +16,11 @@
 #include <map>
 
 #include <pkmnsim/base_pokemon.hpp>
+#include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/analysis.hpp>
 
 #include "team_analysis_common.hpp"
-
 
 //TODO: take move types into account
 //TODO: take counter-effectiveness into account
@@ -124,11 +124,12 @@ int main(int argc, char *argv[])
     vector<base_pokemon::sptr> pkmn_team;
     int count = 0;
     cout << "Analyzing team..." << endl << endl;
+    int game_id_from_gen[] = {0,1,4,7,13,17};
     while(getline(team_file_input,pkmn_name))
     {
         //A team can only have six members
         if(count > 6) break;
-        pkmn_team.push_back(base_pokemon::make(pkmn_name, gen));
+        pkmn_team.push_back(base_pokemon::make(database::get_species_id_from_name(pkmn_name), game_id_from_gen[gen]));
         if(verbose) cout << "Successfully added Pokémon: " << pkmn_name << endl;
         count++;
     }

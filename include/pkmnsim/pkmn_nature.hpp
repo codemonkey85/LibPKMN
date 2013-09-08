@@ -36,15 +36,15 @@ namespace pkmnsim
 
             //Class constructors (should never be called directly)
             pkmn_nature(void) {};
-            pkmn_nature(std::string identifier);
+            pkmn_nature(int id);
 
             /*
              * Returns a std::shared_ptr<pkmn_nature> of specified nature.
              *
              * Parameters:
-             *  - identifier: name of nature
+             *  - id: enum associated with nature ID
              */
-            static sptr make(std::string identifier);
+            static sptr make(int id);
 
             /*
              * Returns the nature's name.

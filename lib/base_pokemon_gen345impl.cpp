@@ -21,8 +21,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pokemon_gen345impl::base_pokemon_gen345impl(string identifier, int game):
-                                           base_pokemon(identifier, game)
+    base_pokemon_gen345impl::base_pokemon_gen345impl(int id, int game):
+                                           base_pokemon(id, game)
     {
         //Get final part of images path
         switch(from_game)

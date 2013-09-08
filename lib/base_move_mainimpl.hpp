@@ -18,7 +18,7 @@ namespace pkmnsim
     class base_move_mainimpl: public base_move
     {
         public:
-            base_move_mainimpl(std::string identifier, int gen);
+            base_move_mainimpl(int id, int gen);
     };
 }
 

@@ -16,6 +16,7 @@
 
 #include <pkmnsim/analysis.hpp>
 #include <pkmnsim/base_pokemon.hpp>
+#include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/analysis.hpp>
@@ -39,7 +40,6 @@ int main(int argc, char *argv[])
         ("attacker-level", po::value<int>(&attacker_level)->default_value(50), "Level of attacking Pokemon.")
         ("defender-level", po::value<int>(&defender_level)->default_value(50), "Level of defending Pokemon.")
         ("gen", po::value<int>(&gen)->default_value(5), "Specify a generation (1-5).")
-        ("verbose", "Enable verbosity.")
     ;
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -69,9 +69,9 @@ int main(int argc, char *argv[])
     double type_mod = 1;
 
     //Generate relevant data structures
-    base_pokemon::sptr attacker = base_pokemon::make(attacker_name, game_id_from_gen[gen]);
-    base_pokemon::sptr defender = base_pokemon::make(defender_name, game_id_from_gen[gen]);
-    base_move::sptr move = base_move::make(move_name, gen);
+    base_pokemon::sptr attacker = base_pokemon::make(database::get_species_id_from_name(attacker_name), game_id_from_gen[gen]);
+    base_pokemon::sptr defender = base_pokemon::make(database::get_species_id_from_name(defender_name), game_id_from_gen[gen]);
+    base_move::sptr move = base_move::make(database::get_move_id_from_name(move_name), gen);
 
     //Get defender's HP range for checking possibility of fainting
     get_stat_range(defender, "HP", defender_level, gen, stat_range);

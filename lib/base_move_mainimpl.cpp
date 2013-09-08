@@ -16,7 +16,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_move_mainimpl::base_move_mainimpl(string identifier, int gen): base_move(identifier, gen)
+    base_move_mainimpl::base_move_mainimpl(int id, int gen): base_move(id, gen)
     {
         SQLite::Database db(get_database_path().c_str());
 
@@ -25,7 +25,7 @@ namespace pkmnsim
         int effect_id = db.execAndGet(query_string.c_str());
         query_string = str(boost::format("SELECT short_effect FROM move_effect_prose WHERE move_effect_id=%d AND local_language_id=9")
                                          % effect_id);
-        base_effect = db.execAndGetStr(query_string.c_str(), move_identifier);
+        base_effect = db.execAndGetStr(query_string.c_str(), "");
 
         query_string = "SELECT effect_chance FROM moves WHERE id=" + to_string(move_id);
         base_effect_chance = db.execAndGet(query_string.c_str());

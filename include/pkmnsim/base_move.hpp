@@ -35,17 +35,17 @@ namespace pkmnsim
 
             //Class Constructors (should never be called directly)
             base_move(void) {};
-            base_move(std::string identifier, int gen);
+            base_move(int id, int gen);
 
             /*
              * Returns a std::shared_ptr<base_move> of specified move.
              * Verifies validity of move+generation before returning value.
              *
              * Parameters:
-             *  - identifier: name of move
+             *  - move_id: Moves::moves enum value corresponding to desired move
              *  - gen: generation (1-5) from which to use move
              */
-            static sptr make(std::string identifier, int gen);
+            static sptr make(int id, int gen);
 
             //Used for moves with different effects based on Pokemon
             //static sptr make(std::string identifier, int gen, spec_pokemon::sptr<spec_pokemon> s_pkmn);
@@ -116,7 +116,6 @@ namespace pkmnsim
 
             std::string name;
             std::string description;
-            std::string move_identifier;
             std::string type;
             int base_power;
             int base_pp;

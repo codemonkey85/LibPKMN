@@ -12,6 +12,7 @@
 #include <boost/format.hpp>
 
 #include <pkmnsim/base_move.hpp>
+#include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
@@ -24,64 +25,70 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_move::base_move(string identifier, int gen)
+    base_move::base_move(int id, int gen)
     {
-        string query_string;
-        move_identifier = identifier;
-
-        SQLite::Database db(get_database_path().c_str());
-
-        //Fail if move's generation_id > specified generation
-        query_string = "SELECT generation_id FROM moves WHERE identifier='" + identifier + "'";
-        int gen_id = db.execAndGet(query_string.c_str(), identifier);
-
-        if(gen_id > gen)
+        if(id == Moves::NONE)
         {
-            string error_message = identifier + " not present in Generation " + to_string(gen) + ".";
-            throw runtime_error(error_message.c_str());
+            type_id = 0;
+            base_power = 0;
+            base_pp = 0;
+            base_accuracy = 0.0;
+            base_priority = 0.0;
+            target_id = 0;
+            name = "None";
         }
+        else
+        {
+            string query_string;
+            move_id = id;
 
-        //After move verified as valid, generate next available queries
-        query_string = "SELECT id FROM moves WHERE identifier='" + identifier + "'";
-        move_id = db.execAndGet(query_string.c_str(), identifier);
+            SQLite::Database db(get_database_path().c_str());
 
-        query_string = "SELECT * FROM moves WHERE id=" + to_string(move_id);
-        SQLite::Statement moves_query(db, query_string.c_str());
-        moves_query.executeStep();
+            //Fail if move's generation_id > specified generation
+            query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(id);
+            int gen_id = db.execAndGet(query_string.c_str());
 
-        //Get available values from queries
-        type_id = moves_query.getColumn(3); //type_id
-        base_power = moves_query.getColumn(4); //power
-        base_pp = moves_query.getColumn(5); //pp
-        base_accuracy = moves_query.getColumn(6); //accuracy
-        base_accuracy /= 10; //Stored as 0 < int < 100
-        base_priority = moves_query.getColumn(7); //priority
-        target_id = moves_query.getColumn(8); //target_id
+            if(gen_id > gen)
+            {
+                string error_message = database::get_move_name_from_id(id) + " not present in Generation " + to_string(gen) + ".";
+                throw runtime_error(error_message.c_str());
+            }
 
-        //Move name
-        query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
-                                         % move_id);
-        name = db.execAndGetStr(query_string.c_str(), identifier);
+            query_string = "SELECT * FROM moves WHERE id=" + to_string(move_id);
+            SQLite::Statement moves_query(db, query_string.c_str());
+            moves_query.executeStep();
 
-        //Type
-        query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
-                                         % type_id);
-        type = db.execAndGetStr(query_string.c_str(), identifier);
+            //Get available values from queries
+            type_id = moves_query.getColumn(3); //type_id
+            base_power = moves_query.getColumn(4); //power
+            base_pp = moves_query.getColumn(5); //pp
+            base_accuracy = moves_query.getColumn(6); //accuracy
+            base_accuracy /= 10; //Stored as 0 < int < 100
+            base_priority = moves_query.getColumn(7); //priority
+            target_id = moves_query.getColumn(8); //target_id
+
+            //Move name
+            query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
+                                             % move_id);
+            name = db.execAndGetStr(query_string.c_str(), "");
+
+            //Type
+            query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
+                                             % type_id);
+            type = db.execAndGetStr(query_string.c_str(), "");
+        }
     }
 
-    base_move::sptr base_move::make(string identifier, int gen)
+    base_move::sptr base_move::make(int id, int gen)
     {
         try
         {
-            //Match database's identifier format
-            identifier = database::to_database_format(identifier);
-            
             /*
                 if(identifier == "curse") {}
                 else if(identifier == "hidden power") {}
                 else{
             */
-            return sptr(new base_move_mainimpl(identifier, gen));
+            return sptr(new base_move_mainimpl(id, gen));
         }
         catch(const exception &e)
         {

@@ -19,8 +19,7 @@ namespace pkmnsim
     {
         public:
             spec_pokemon_gen345impl(base_pokemon::sptr base, int lvl, int game,
-                               std::string m1, std::string m2, std::string m3,
-                               std::string m4);
+                                    int m1, int m2, int m3, int m4);
             dict<std::string, int> get_stats();
             dict<std::string, int> get_IVs();
             void set_IV(std::string IVname, int val);

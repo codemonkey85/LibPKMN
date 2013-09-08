@@ -16,7 +16,6 @@
 #include <sstream>
 #include <vector>
 
-#include <boost/algorithm/string.hpp>
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 
@@ -147,19 +146,9 @@ namespace pkmnsim
                                                           pokemon_misc_t* pkmn_m_t,
                                                           pokemon_growth_t* pkmn_g_t)
     {
-        string identifier, move1, move2, move3, move4;
         int level, gender, from_game;
 
-        identifier = pokemon_species[pkmn_g_t->species];
         level = b_pkmn_t->level;
-
-        move1 = database::to_database_format(attacks[pkmn_a_t->atk1]);
-        if(string(attacks[pkmn_a_t->atk2]) == "No attack") move2 = "None";
-        else move2 = database::to_database_format(attacks[pkmn_a_t->atk2]);
-        if(string(attacks[pkmn_a_t->atk3]) == "No attack") move3 = "None";
-        else move3 = database::to_database_format(attacks[pkmn_a_t->atk3]);
-        if(string(attacks[pkmn_a_t->atk4]) == "No attack") move4 = "None";
-        else move4 = database::to_database_format(attacks[pkmn_a_t->atk4]);
 
         switch(pkmn_m_t->game)
         {
@@ -189,16 +178,14 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, from_game, level,
-                                                 move1, move2, move3, move4);
+        spec_pokemon::sptr s_pkmn = spec_pokemon::make(pkmn_g_t->species, from_game, level,
+                                                 pkmn_a_t->atk1, pkmn_a_t->atk2,
+                                                 pkmn_a_t->atk3, pkmn_a_t->atk4);
 
         s_pkmn->nickname = pokehack_get_text(b_pkmn_t->name, true);
         s_pkmn->held_item = items[pkmn_g_t->held];
 
-        string nature_from_pokehack = natures[b_pkmn_t->personality % 25];
-        vector<string> nature_halves;
-        boost::split(nature_halves, nature_from_pokehack, boost::is_any_of(" "));
-        s_pkmn->nature = pkmn_nature::make(nature_halves[0]);
+        s_pkmn->nature = pkmn_nature::make(b_pkmn_t->personality % 25);
         s_pkmn->pid = b_pkmn_t->personality;
         s_pkmn->tid = ((unsigned short*)(&b_pkmn_t->otid))[0];
         s_pkmn->sid = ((unsigned short*)(&b_pkmn_t->otid))[1];
@@ -449,16 +436,9 @@ namespace pkmnsim
 
     spec_pokemon::sptr converter::pokelib_pkmn_to_spec_pokemon(PokeLib::Pokemon pokelib_pkmn)
     {
-        string identifier, move1, move2, move3, move4;
         int level, gender, from_game;
 
-        identifier = PokeLib::species[int(pokelib_pkmn.pkm->pkm.species)];
         level = int(pokelib_pkmn.getLevel());
-
-        move1 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[0])]);
-        move2 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[1])]);
-        move3 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[2])]);
-        move4 = database::to_database_format(PokeLib::movelist[int(pokelib_pkmn.pkm->pkm.move[3])]);
 
         switch(pokelib_pkmn.pkm->pkm.hometown)
         {
@@ -500,7 +480,9 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, from_game, level, move1, move2, move3, move4);
+        spec_pokemon::sptr s_pkmn = spec_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,
+                                    pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
+                                    pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
         PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
         char nickname_buffer[10];
@@ -508,7 +490,7 @@ namespace pkmnsim
         wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
         s_pkmn->nickname = nickname_buffer;
         s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
-        s_pkmn->nature = pkmn_nature::make(PokeLib::nature[int(pokelib_pkmn.getNatureValue())]);
+        s_pkmn->nature = pkmn_nature::make(pokelib_pkmn.getNatureValue());
         s_pkmn->pid = pokelib_pkmn.pkm->pkm.pid;
         s_pkmn->tid = pokelib_pkmn.pkm->pkm.ot_id;
         s_pkmn->sid = pokelib_pkmn.pkm->pkm.ot_sid;
@@ -1027,7 +1009,9 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, from_game, level, move1, move2, move3, move4);
+        spec_pokemon::sptr s_pkmn = spec_pokemon::make(int(p_pkm->pkm_data.species), from_game, level,
+                                    int(p_pkm->pkm_data.moves[0]), int(p_pkm->pkm_data.moves[1]),
+                                    int(p_pkm->pkm_data.moves[2]), int(p_pkm->pkm_data.moves[3]));
 
         wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
         char nickname_buffer[11];
@@ -1037,7 +1021,7 @@ namespace pkmnsim
 
         if(p_pkm->pkm_data.item == Items::NOTHING) s_pkmn->held_item = "None";
         else s_pkmn->held_item = lookupitemname(p_pkm->pkm_data);
-        s_pkmn->nature = pkmn_nature::make(getnaturename(p_pkm->pkm_data));
+        s_pkmn->nature = pkmn_nature::make(p_pkm->pkm_data.nature);
         s_pkmn->pid = p_pkm->pkm_data.pid;
         s_pkmn->sid = p_pkm->pkm_data.sid;
         s_pkmn->tid = p_pkm->pkm_data.tid;

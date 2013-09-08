@@ -32,7 +32,7 @@ namespace pkmnsim
      * includes name, Pokedex number, height, weight, etc.
      *
      * The information generated for a base Pokémon class is dependent on
-     * the "identifier" parameter, which tells the program what to look for
+     * the "id" parameter, which tells the program what to look for
      * in the database, as well as the "gen" parameter, which specifies the
      * generation from which to grab stats. This is important because certain
      * stats were added between generations (Special Attack/Defense, gender,
@@ -48,18 +48,17 @@ namespace pkmnsim
 
             //Class Constructors (should never be called directly)
 			base_pokemon(void) {};
-			base_pokemon(std::string identifier, int game);
+			base_pokemon(int id, int game);
 			
             /*
              * Returns a std::shared_ptr<base_pokemon> of specified Pokémon.
              * Verifies validity of Pokémon+generation before returning value.
              *
              * Parameters:
-             *  - identifier: name of Pokémon
+             *  - id: enum value associated with Pokemon species ID
              *  - gen: generation (1-5) from which to use Pokémon
-             *  - query_moves: add list of legal moves (slows performance)
              */
-            static sptr make(std::string identifier, int game);
+            static sptr make(int id, int game);
 
             /*
              * Returns a string with basic information on the Pokémon.
@@ -227,7 +226,6 @@ namespace pkmnsim
 
         protected:
             //Database values
-			std::string database_identifier;
             int from_gen, pkmn_id, species_id, type1_id, type2_id;
             
             int from_game;

@@ -11,6 +11,7 @@
 #include <vector>
 
 #include <pkmnsim/base_move.hpp>
+#include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/spec_pokemon.hpp>
 
@@ -23,8 +24,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    spec_pokemon::spec_pokemon(base_pokemon::sptr b, string m1, string m2,
-                         string m3, string m4, int g, int l)
+    spec_pokemon::spec_pokemon(base_pokemon::sptr b, int m1, int m2,
+                               int m3, int m4, int g, int l)
     {
         base = b;
         nickname = base->get_species_name();
@@ -42,32 +43,32 @@ namespace pkmnsim
 
         moves[0] = base_move::make(m1,from_gen);
         num_moves = 1;
-        if(m2 != "None") moves[1] = base_move::make(m2,from_gen);
+        if(m2 != Moves::NONE) moves[1] = base_move::make(m2,from_gen);
         else
         {
-            moves[1] = base_move::make("struggle",from_gen);
+            moves[1] = base_move::make(Moves::NONE,from_gen);
             num_moves = 2;
         }
-        if(m3 != "None") moves[2] = base_move::make(m3,from_gen);
+        if(m3 != Moves::NONE) moves[2] = base_move::make(m3,from_gen);
         else
         {
-            moves[2] = base_move::make("struggle",from_gen);
+            moves[2] = base_move::make(Moves::NONE,from_gen);
             num_moves = 3;
         }
-        if(m4 != "None") moves[3] = base_move::make(m4,from_gen);
+        if(m4 != Moves::NONE) moves[3] = base_move::make(m4,from_gen);
         else
         {
-            moves[3] = base_move::make("struggle",from_gen);
+            moves[3] = base_move::make(Moves::NONE,from_gen);
             num_moves = 4;
         }
     }
 
-    spec_pokemon::sptr spec_pokemon::make(string identifier, int game, int level, string move1,
-                                    string move2, string move3, string move4)
+    spec_pokemon::sptr spec_pokemon::make(int id, int game, int level, int move1,
+                                          int move2, int move3, int move4)
     {
         try
         {
-            base_pokemon::sptr base = base_pokemon::make(identifier, game);
+            base_pokemon::sptr base = base_pokemon::make(id, game);
 
             if(base->get_generation() < 1 or base->get_generation() > 5) throw runtime_error("Gen must be 1-5.");
 

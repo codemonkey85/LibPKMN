@@ -45,8 +45,8 @@ namespace pkmnsim
 
             //Class constructors (should never be called directly)
             spec_pokemon() {};
-            spec_pokemon(base_pokemon::sptr b, std::string m1, std::string m2,
-                      std::string m3, std::string m4, int g, int l);
+            spec_pokemon(base_pokemon::sptr b, int m1, int m2, int m3, int m4,
+                         int g, int l);
 
 
             /*
@@ -54,18 +54,16 @@ namespace pkmnsim
              * Some values are random within bounds of specified values.
              *
              * Parameters:
-             *  - identifier: this Pokemon's base Pokemon's identifier.
+             *  - id: enum value associated with base Pokemon's species ID
              *  - gen: the generation whose algorithms to use.
              *  - level: Pokémon's level.
-             *  - move1: identifier for move 1.
-             *  - move2: identifier for move 2.
-             *  - move3: identifier for move 3.
-             *  - move4: identifier for move 4.
-             *  - illegal: ignore illegal stats, moves, etc.
+             *  - move1: enum value associated with move's ID
+             *  - move2: enum value associated with move's ID
+             *  - move3: enum value associated with move's ID
+             *  - move4: enum value associated with move's ID
              */
-            static sptr make(std::string identifier, int gen, int level,
-                             std::string move1, std::string move2,
-                             std::string move3, std::string move4);
+            static sptr make(int identifier, int gen, int level,
+                             int move1, int move2, int move3, int move4);
 
             /*
              * Returns the base Pokémon used to generate this Pokémon.

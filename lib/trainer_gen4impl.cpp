@@ -78,12 +78,10 @@ namespace pkmnsim
             int ivSATK = party_query.getColumn(25);
             int ivSDEF = party_query.getColumn(26);
             int ivSPD = party_query.getColumn(27);
+            int nature_id = party_query.getColumn(28);
 
-            string identifier, item_held, move1, move2, move3, move4;
-            identifier = pkmnsim_db.execAndGetStr(str(boost::format(
-                                                      "SELECT name FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9")
-                                                      % species_id).c_str(), "name"
-                                                 );
+            string item_held;
+
             if(item_held_id == -1) item_held = "None";
             else
             {
@@ -92,36 +90,9 @@ namespace pkmnsim
                                                          % item_held_id).c_str(), "name"
                                                     );
             }
-            move1 = pkmnsim_db.execAndGetStr(str(boost::format(
-                                                 "SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
-                                                 % move1_id).c_str(), "name"
-                                            );
-            if(move2_id == -1) move2 = "None";
-            else
-            {
-                move2 = pkmnsim_db.execAndGetStr(str(boost::format(
-                                                     "SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
-                                                     % move2_id).c_str(), "name"
-                                                );
-            }
-            if(move3_id == -1) move3 = "None";
-            else
-            {
-                move3 = pkmnsim_db.execAndGetStr(str(boost::format(
-                                                     "SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
-                                                     % move3_id).c_str(), "name"
-                                                );
-            }
-            if(move4_id == -1) move4 = "None";
-            else
-            {
-                move4 = pkmnsim_db.execAndGetStr(str(boost::format(
-                                                     "SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
-                                                     % move4_id).c_str(), "name"
-                                                );
-            }
 
-            spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, 3, level, move1, move2, move3, move4);
+            spec_pokemon::sptr s_pkmn = spec_pokemon::make(species_id, Games::DIAMOND, level,
+                                                           move1_id, move2_id, move3_id, move4_id);
 
             //Manually set other values
             s_pkmn->nickname = nickname;
@@ -143,6 +114,7 @@ namespace pkmnsim
             s_pkmn->ivSATK = ivSATK;
             s_pkmn->ivSDEF = ivSDEF;
             s_pkmn->ivSPD = ivSPD;
+            s_pkmn->nature = pkmn_nature::make(nature_id);
 
             party.push_back(s_pkmn);
         }

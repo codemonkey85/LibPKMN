@@ -17,7 +17,7 @@ namespace pkmnsim
     class base_pokemon_gen2impl: public base_pokemon
     {
         public:
-            base_pokemon_gen2impl(std::string identifier, int game);
+            base_pokemon_gen2impl(int id, int game);
             std::string get_info(void);
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);

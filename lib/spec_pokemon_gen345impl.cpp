@@ -17,7 +17,7 @@ using namespace std;
 namespace pkmnsim
 {
     spec_pokemon_gen345impl::spec_pokemon_gen345impl(base_pokemon::sptr b, int lvl, int g,
-                                           string m1, string m2, string m3, string m4): spec_pokemon(
+                                           int m1, int m2, int m3, int m4): spec_pokemon(
                                            b,m1,m2,m3,m4,g,lvl)
     {
         srand ( time(NULL) );
@@ -391,15 +391,7 @@ namespace pkmnsim
         return Genders::MALE;
     }
 
-    pkmn_nature::sptr spec_pokemon_gen345impl::determine_nature()
-    {
-        string nature_names[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
-                                      "Docile","Relaxed","Impish","Lax","Timid","Hasty",
-                                      "Serious","Jolly","Naive","Modest","Mild","Quiet",
-                                      "Bashful","Rash","Calm","Gentle","Sassy","Careful",
-                                      "Quirky"};
-        return pkmn_nature::make(nature_names[pid % 25]);
-    }
+    pkmn_nature::sptr spec_pokemon_gen345impl::determine_nature() {return pkmn_nature::make(pid % 25);}
 
     string spec_pokemon_gen345impl::determine_ability()
     {
