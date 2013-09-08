@@ -111,28 +111,6 @@ PKMNSIM_REGISTER_COMPONENT("Pokemon-sim Library" ENABLE_LIBRARY ON "Boost_FOUND;
 PKMNSIM_REGISTER_COMPONENT("Utilities" ENABLE_UTILITIES ON "ENABLE_LIBRARY" OFF)
 PKMNSIM_REGISTER_COMPONENT("Applications" ENABLE_APPS ON "ENABLE_LIBRARY" OFF)
 
-########################################################################
-# Run CMake scripts in subdirectories
-########################################################################
-FUNCTION(PKMNSIM_CHECK_SUBMODULE directory)
-    IF(PKMNSIM_USED_AS_SUBMODULE)
-        SET(update_string "git submodule update --init --recursive")
-    ELSE()
-        SET(update_string "git submodule update --init")
-    ENDIF(PKMNSIM_USED_AS_SUBMODULE)
-    IF(NOT EXISTS ${PKMNSIM_SOURCE_DIR}/${directory}/CMakeLists.txt)
-        message(FATAL_ERROR "
-Submodule ${directory} does not exist.
-Did you remember to run the following command?
-    ${update_string}
-")
-    ENDIF()
-ENDFUNCTION(PKMNSIM_CHECK_SUBMODULE)
-
-PKMNSIM_CHECK_SUBMODULE(pokehack)
-PKMNSIM_CHECK_SUBMODULE(PokeLib)
-PKMNSIM_CHECK_SUBMODULE(PKMDS-G5)
-
 INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/include)
 
 ########################################################################
