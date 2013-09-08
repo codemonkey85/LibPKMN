@@ -69,10 +69,8 @@ MESSAGE(FATAL_ERROR "Fatal error: Boost (version >= 1.48.0) required.\n")
 ENDIF(NOT Boost_FOUND)
 FIND_PROGRAM(SQLITE3_EXECUTABLE NAMES sqlite3)
 IF(NOT PKMNSIM_USED_AS_SUBMODULE)
-    FIND_PACKAGE(Qt4)
-    IF(QT4_FOUND)
-        INCLUDE(UseQt4)
-    ENDIF(QT4_FOUND)
+    FIND_PACKAGE(Qt4 REQUIRED)
+    INCLUDE(UseQt4)
 ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
@@ -97,8 +95,9 @@ SET(PKG_DATA_DIR share/pkmnsim)
 ########################################################################
 # Register LibPKMNsim components
 ########################################################################
-PKMNSIM_REGISTER_COMPONENT("PKMNsim Library - Core" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_EXECUTABLE" OFF)
-PKMNSIM_REGISTER_COMPONENT("PKMNsim Library - Qt4 Subclasses" ENABLE_LIBPKMNSIM_QT4 ON "ENABLE_LIBPKMNSIM;QT4_FOUND" OFF)
+PKMNSIM_REGISTER_COMPONENT("Pokemon-sim Library" ENABLE_LIBRARY ON "Boost_FOUND;SQLITE3_EXECUTABLE;QT4_FOUND" OFF)
+PKMNSIM_REGISTER_COMPONENT("Utilities" ENABLE_UTILITIES ON "ENABLE_LIBRARY" OFF)
+PKMNSIM_REGISTER_COMPONENT("Applications" ENABLE_APPS ON "ENABLE_LIBRARY" OFF)
 
 ########################################################################
 # Run CMake scripts in subdirectories

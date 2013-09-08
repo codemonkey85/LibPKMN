@@ -25,8 +25,6 @@ Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK 
 Dependencies:
  * Boost 1.48 or above (http://www.boost.org)
  * SQLite3 (http://www.sqlite.org)
+ * Qt4 (http://www.qt-project.org)
 
-Optional Dependencies:
- * Qt4 (http://www.qt-project.org) - needed for Qt4 subclasses
-
-README last updated: 2013-08-30
+README last updated: 2013-09-07

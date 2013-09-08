@@ -46,9 +46,9 @@ IF(ENABLE_LIBPKMNSIM)
     )
     
     ####################################################################
-    # If Qt is found, add Qt subclasses to LibPKMNsim
+    # If built standalone, build Qt4 subclasses
     ####################################################################
-    IF(ENABLE_LIBPKMNSIM_QT4)
+    IF(NOT PKMNSIM_USED_AS_SUBMODULE)
         ADD_SUBDIRECTORY(qt4)
         INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
 
@@ -61,7 +61,7 @@ IF(ENABLE_LIBPKMNSIM)
         QT4_WRAP_CPP(MOCSrcs ${libpkmnsim_qt4_headers})
 
         LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
-    ENDIF(ENABLE_LIBPKMNSIM_QT4)
+    ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/pokehack/include)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PokeLib/include)

@@ -5,9 +5,11 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/pkmnsim-config-info.cpp.in
-    ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-config-info.cpp
-@ONLY)
-ADD_EXECUTABLE(pkmnsim-config-info ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-config-info.cpp)
-INSTALL(TARGETS pkmnsim-config-info RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
+IF(ENABLE_UTILITIES)
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/pkmnsim-config-info.cpp.in
+        ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-config-info.cpp
+    @ONLY)
+    ADD_EXECUTABLE(pkmnsim-config-info ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-config-info.cpp)
+    INSTALL(TARGETS pkmnsim-config-info RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
+ENDIF(ENABLE_UTILITIES)
