@@ -255,6 +255,36 @@ namespace pkmnsim
         }
     }
 
+    void get_ability_list(vector<string>& ability_vec, int gen)
+    {
+        ability_vec.clear();
+    
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT id FROM abilities WHERE generation_id<=" + to_string(gen);
+        
+        SQLite::Statement query(db, query_string.c_str());
+        while(query.executeStep())
+        {
+            query_string = "SELECT name FROM ability_names WHERE local_language_id=9 ability_id=" + to_string(query.getColumn(0));
+            ability_vec.push_back(db.execAndGetStr(query_string.c_str(), ""));
+        }
+    }
+
+    void get_nature_list(vector<string>& nature_vec)
+    {
+        nature_vec.clear();
+
+        SQLite::Database db(get_database_path().c_str());
+        string query_str = "SELECT name FROM nature_names";
+        SQLite::Statement query(db, query_str.c_str());
+
+        while(query.executeStep())
+        {
+            string nature = query.getColumn(0);
+            nature_vec.push_back(nature);
+        }
+    }
+
     //List functions that pass by value, for SWIG's use
     vector<string> get_game_vec()
     {
@@ -282,5 +312,19 @@ namespace pkmnsim
         vector<string> type_list;
         get_type_list(type_list, gen);
         return type_list;
+    }
+
+    vector<string> get_ability_vec(int gen)
+    {
+        vector<string> ability_list;
+        get_ability_list(ability_list, gen);
+        return ability_list;
+    }
+
+    vector<string> get_nature_vec()
+    {
+        vector<string> nature_list;
+        get_nature_list(nature_list);
+        return nature_list;
     }
 }
