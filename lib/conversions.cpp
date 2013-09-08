@@ -968,11 +968,11 @@ namespace pkmnsim
         level = getpkmlevel(p_pkm->pkm_data);
 
         move1 = lookupmovename(p_pkm->pkm_data.moves[0]);
-        if(p_pkm->pkm_data.moves[1] == Moves::NOTHING) move2 = "None";
+        if(p_pkm->pkm_data.moves[1] == ::Moves::NOTHING) move2 = "None";
         else move2 = lookupmovename(p_pkm->pkm_data.moves[1]);
-        if(p_pkm->pkm_data.moves[2] == Moves::NOTHING) move3 = "None";
+        if(p_pkm->pkm_data.moves[2] == ::Moves::NOTHING) move3 = "None";
         else move3 = lookupmovename(p_pkm->pkm_data.moves[2]);
-        if(p_pkm->pkm_data.moves[3] == Moves::NOTHING) move4 = "None";
+        if(p_pkm->pkm_data.moves[3] == ::Moves::NOTHING) move4 = "None";
         else move4 = lookupmovename(p_pkm->pkm_data.moves[3]);
 
         switch(int(p_pkm->pkm_data.hometown))
@@ -1197,18 +1197,18 @@ namespace pkmnsim
 
     void converter::spec_pokemon_to_pkmds_pkmn(spec_pokemon::sptr s_pkmn, party_pkm* p_pkm)
     {
-        p_pkm->pkm_data.species = Species::pkmspecies(s_pkmn->get_base_pokemon()->get_nat_pokedex_num());
-        p_pkm->pkm_data.moves[0] = Moves::moves(s_pkmn->get_moves()[0]->get_move_id());
-        if(s_pkmn->get_moves()[1]->get_name() == "Struggle") p_pkm->pkm_data.moves[1] = Moves::NOTHING;
-        else p_pkm->pkm_data.moves[1] = Moves::moves(s_pkmn->get_moves()[1]->get_move_id());
-        if(s_pkmn->get_moves()[2]->get_name() == "Struggle") p_pkm->pkm_data.moves[2] = Moves::NOTHING;
-        else p_pkm->pkm_data.moves[2] = Moves::moves(s_pkmn->get_moves()[2]->get_move_id());
-        if(s_pkmn->get_moves()[3]->get_name() == "Struggle") p_pkm->pkm_data.moves[3] = Moves::NOTHING;
-        else p_pkm->pkm_data.moves[3] = Moves::moves(s_pkmn->get_moves()[3]->get_move_id());
+        p_pkm->pkm_data.species = ::Species::pkmspecies(s_pkmn->get_base_pokemon()->get_nat_pokedex_num());
+        p_pkm->pkm_data.moves[0] = ::Moves::moves(s_pkmn->get_moves()[0]->get_move_id());
+        if(s_pkmn->get_moves()[1]->get_name() == "Struggle") p_pkm->pkm_data.moves[1] = ::Moves::NOTHING;
+        else p_pkm->pkm_data.moves[1] = ::Moves::moves(s_pkmn->get_moves()[1]->get_move_id());
+        if(s_pkmn->get_moves()[2]->get_name() == "Struggle") p_pkm->pkm_data.moves[2] = ::Moves::NOTHING;
+        else p_pkm->pkm_data.moves[2] = ::Moves::moves(s_pkmn->get_moves()[2]->get_move_id());
+        if(s_pkmn->get_moves()[3]->get_name() == "Struggle") p_pkm->pkm_data.moves[3] = ::Moves::NOTHING;
+        else p_pkm->pkm_data.moves[3] = ::Moves::moves(s_pkmn->get_moves()[3]->get_move_id());
 
         //Unlike species and moves, nature ID's don't correspond to anything PKMNsim uses
         unsigned char nature_map[] = {0,1,6,16,21,11,2,7,17,22,12,4,9,19,24,20,14,5,10,25,15,3,8,18,23,13};
-        p_pkm->pkm_data.nature = Natures::natures(nature_map[s_pkmn->nature->get_nature_id()]);
+        p_pkm->pkm_data.nature = ::Natures::natures(nature_map[s_pkmn->nature->get_nature_id()]);
         setlevel(p_pkm->pkm_data, s_pkmn->level);
         #ifdef __linux__
         setpkmnickname(p_pkm->pkm_data, (wchar_t*)getwstring((char*)s_pkmn->nickname.c_str(), s_pkmn->nickname.size()).c_str(), s_pkmn->nickname.size());
