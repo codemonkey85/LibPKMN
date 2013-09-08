@@ -121,8 +121,8 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st2> > highest_stat
         else
         {
             //Add appropriate Pokemon
-            base_pkmn::sptr highPkmn = high_vec[i].b_pkmn;
-            base_pkmn::sptr lowPkmn = low_vec[i].b_pkmn;
+            base_pokemon::sptr highPkmn = high_vec[i].b_pkmn;
+            base_pokemon::sptr lowPkmn = low_vec[i].b_pkmn;
 
             //Create BasePkmnDisplayWidgets
             BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);

@@ -13,7 +13,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "base_pkmn_gen1impl.hpp"
+#include "base_pokemon_gen1impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 namespace fs = boost::filesystem;
@@ -21,8 +21,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen1impl::base_pkmn_gen1impl(string identifier, int game):
-                                           base_pkmn(identifier, game)
+    base_pokemon_gen1impl::base_pokemon_gen1impl(string identifier, int game):
+                                           base_pokemon(identifier, game)
     {
         //Get final part of images path
         switch(from_game)
@@ -51,7 +51,7 @@ namespace pkmnsim
         repair(pkmn_id);
     }
 
-    string base_pkmn_gen1impl::get_info()
+    string base_pokemon_gen1impl::get_info()
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -72,7 +72,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    string base_pkmn_gen1impl::get_info_verbose()
+    string base_pokemon_gen1impl::get_info_verbose()
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -96,7 +96,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    dict<string,int> base_pkmn_gen1impl::get_base_stats()
+    dict<string,int> base_pokemon_gen1impl::get_base_stats()
     {
         dict<string,int> stats;
 
@@ -118,21 +118,21 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string,int> base_pkmn_gen1impl::get_ev_yields()
+    dict<string,int> base_pokemon_gen1impl::get_ev_yields()
     {
         //In Generation 1, EV yields were the same as the corresponding base stat
         return get_base_stats();
     }
 
-    bool base_pkmn_gen1impl::has_gender_differences(void) {return false;}
+    bool base_pokemon_gen1impl::has_gender_differences(void) {return false;}
 
-    string base_pkmn_gen1impl::get_icon_path(bool is_male)
+    string base_pokemon_gen1impl::get_icon_path(bool is_male)
     {
         //Gender doesn't matter in Gen 1
         return male_icon_path;
     }
     
-    string base_pkmn_gen1impl::get_sprite_path(bool is_male, bool is_shiny)
+    string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny)
     {
         //Gender and shininess don't matter in Gen 1
         return male_sprite_path;

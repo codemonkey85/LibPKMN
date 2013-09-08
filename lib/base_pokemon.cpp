@@ -13,15 +13,15 @@
 #include <boost/format.hpp>
 
 #include <pkmnsim/base_move.hpp>
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "base_pkmn_gen1impl.hpp"
-#include "base_pkmn_gen2impl.hpp"
-#include "base_pkmn_gen345impl.hpp"
+#include "base_pokemon_gen1impl.hpp"
+#include "base_pokemon_gen2impl.hpp"
+#include "base_pokemon_gen345impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 namespace fs = boost::filesystem;
@@ -29,7 +29,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-	base_pkmn::base_pkmn(string identifier, int game)
+	base_pokemon::base_pokemon(string identifier, int game)
 	{
         from_game = game;
         database_identifier = identifier;
@@ -67,7 +67,7 @@ namespace pkmnsim
         else type2_id = -1;
 	}
 	
-    base_pkmn::sptr base_pkmn::make(string identifier, int game)
+    base_pokemon::sptr base_pokemon::make(string identifier, int game)
     {
         try
         {
@@ -86,13 +86,13 @@ namespace pkmnsim
             switch(gen)
             {
                 case 1:
-                    return sptr(new base_pkmn_gen1impl(identifier, game));
+                    return sptr(new base_pokemon_gen1impl(identifier, game));
 
                 case 2:
-                    return sptr(new base_pkmn_gen2impl(identifier, game));
+                    return sptr(new base_pokemon_gen2impl(identifier, game));
 
                 default:
-                    return sptr(new base_pkmn_gen345impl(identifier, game));
+                    return sptr(new base_pokemon_gen345impl(identifier, game));
             }
         }
         catch(const exception &e)
@@ -102,16 +102,16 @@ namespace pkmnsim
         }
     }
 
-    string base_pkmn::get_species_name(void)
+    string base_pokemon::get_species_name(void)
     {
         SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT name FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id=" + to_string(species_id);
         return db.execAndGetStr(query_string.c_str(), "name");
     }
 
-    int base_pkmn::get_nat_pokedex_num(void) {return species_id;}
+    int base_pokemon::get_nat_pokedex_num(void) {return species_id;}
 
-    dict<int, std::string> base_pkmn::get_types(void)
+    dict<int, std::string> base_pokemon::get_types(void)
     {
         dict<int, std::string> type_dict;
         SQLite::Database db(get_database_path().c_str());
@@ -127,21 +127,21 @@ namespace pkmnsim
         return type_dict;
     }
 
-    double base_pkmn::get_height(void)
+    double base_pokemon::get_height(void)
     {
         SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT height FROM pokemon WHERE id=" + to_string(pkmn_id);
         return (double(db.execAndGet(query_string.c_str())) / 10.0);
     }
 
-    double base_pkmn::get_weight(void)
+    double base_pokemon::get_weight(void)
     {
         SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT weight FROM pokemon WHERE id=" + to_string(pkmn_id);
         return (double(db.execAndGet(query_string.c_str())) / 10.0);
     }
 
-	void base_pkmn::get_evolutions(b_pkmn_vec_t &evolution_vec)
+	void base_pokemon::get_evolutions(b_pkmn_vec_t &evolution_vec)
 	{
         evolution_vec.clear();
 
@@ -181,7 +181,7 @@ namespace pkmnsim
         }
 	}
 	
-    bool base_pkmn::is_fully_evolved()
+    bool base_pokemon::is_fully_evolved()
     {
         b_pkmn_vec_t evolution_vec;
         get_evolutions(evolution_vec);
@@ -189,13 +189,13 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
 
-    int base_pkmn::get_game_id(void) {return from_game;}
-    int base_pkmn::get_generation(void) {return from_gen;}
-    int base_pkmn::get_pokemon_id(void) {return pkmn_id;}
-    int base_pkmn::get_species_id(void) {return species_id;}
+    int base_pokemon::get_game_id(void) {return from_game;}
+    int base_pokemon::get_generation(void) {return from_gen;}
+    int base_pokemon::get_pokemon_id(void) {return pkmn_id;}
+    int base_pokemon::get_species_id(void) {return species_id;}
 
     //Manually set Pokemon form
-    void base_pkmn::set_form(int form)
+    void base_pokemon::set_form(int form)
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + to_string(from_gen);
@@ -1110,7 +1110,7 @@ namespace pkmnsim
     }
 
     //Better for SWIG, which doesn't see the enums
-    void base_pkmn::set_form(string form)
+    void base_pokemon::set_form(string form)
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + from_gen;
@@ -1414,7 +1414,7 @@ namespace pkmnsim
         }
     }
 
-    void base_pkmn::repair(int id)
+    void base_pokemon::repair(int id)
     {
         switch(id)
         {
@@ -1625,7 +1625,7 @@ namespace pkmnsim
             }
         }
 
-        //base_pkmn now takes a game ID in its constructor instead of a generation, but this
+        //base_pokemon now takes a game ID in its constructor instead of a generation, but this
         //function doesn't discriminate between games in the same generation, so this array
         //guarantees that the given generation will use a game in that generation
         int game_id_from_gen[] = {0,1,4,7,13,17};
@@ -1635,7 +1635,7 @@ namespace pkmnsim
             //Manually correct for Magnemite and Magneton in Gen 1
             if(not ((names[i] == "magnemite" or names[i] == "magneton") and gen == 1))
             {
-                base_pkmn::sptr b_pkmn = base_pkmn::make(names[i], game_id_from_gen[gen]);
+                base_pokemon::sptr b_pkmn = base_pokemon::make(names[i], game_id_from_gen[gen]);
                 b_pkmn->repair(applicable_ids[i]);
                 pkmn_vector.push_back(b_pkmn);
             }

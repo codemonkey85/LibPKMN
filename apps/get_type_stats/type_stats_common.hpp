@@ -9,7 +9,7 @@
 
 #include <boost/assign.hpp>
 #include <string>
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/dict.hpp>
 #include <vector>
 
@@ -42,13 +42,13 @@ class stat_st2
 
     std::string stat_name;
     std::string pkmn_name; //To check if initialized
-    pkmnsim::base_pkmn::sptr b_pkmn;
+    pkmnsim::base_pokemon::sptr b_pkmn;
     int stat_value;
 };
 
 //Prototypes
 pkmnsim::dict<std::string, std::string> get_stat_map(void);
-void remove_unevolved_pokemon(std::vector<pkmnsim::base_pkmn::sptr>& pkmn_vector);
+void remove_unevolved_pokemon(std::vector<pkmnsim::base_pokemon::sptr>& pkmn_vector);
 int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st>& highest_stats,
                            std::vector<stat_st>& lowest_stats, int gen, bool lax, bool evolved);
 int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st2>& highest_stats,

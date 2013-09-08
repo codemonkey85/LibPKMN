@@ -40,18 +40,18 @@ namespace pkmnsim
      * 2-3. Therefore, a Gen 1 Pikachu will be very different than a
      * Gen 3 Pikachu.
      */
-    class PKMNSIM_API base_pkmn
+    class PKMNSIM_API base_pokemon
     {
         public:
 
-            typedef std::shared_ptr<base_pkmn> sptr;
+            typedef std::shared_ptr<base_pokemon> sptr;
 
             //Class Constructors (should never be called directly)
-			base_pkmn(void) {};
-			base_pkmn(std::string identifier, int game);
+			base_pokemon(void) {};
+			base_pokemon(std::string identifier, int game);
 			
             /*
-             * Returns a std::shared_ptr<base_pkmn> of specified Pokémon.
+             * Returns a std::shared_ptr<base_pokemon> of specified Pokémon.
              * Verifies validity of Pokémon+generation before returning value.
              *
              * Parameters:
@@ -146,7 +146,7 @@ namespace pkmnsim
             virtual dict<int, std::string> get_abilities(void) {throw std::runtime_error("Not valid in this generation.");}
 			
 			/*
-			 * If Pokémon can be evolved, returns vector of base_pkmn objects of all evolutions.
+			 * If Pokémon can be evolved, returns vector of base_pokemon objects of all evolutions.
              * If not, vector is empty.
              *
              * Parameters:
@@ -239,8 +239,8 @@ namespace pkmnsim
     };
 
     //Related typedefs
-    typedef std::vector<base_pkmn::sptr> b_pkmn_vec_t;
-    typedef vla<base_pkmn::sptr> b_pkmn_vla_t;
+    typedef std::vector<base_pokemon::sptr> b_pkmn_vec_t;
+    typedef vla<base_pokemon::sptr> b_pkmn_vla_t;
 
     /*
      * Return a vector with all base Pokémon of specified type combo.

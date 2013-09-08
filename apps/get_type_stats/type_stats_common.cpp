@@ -9,7 +9,7 @@
 
 #include <boost/assign.hpp>
 
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/dict.hpp>
 
 #include "type_stats_common.hpp"
@@ -17,7 +17,7 @@
 using namespace pkmnsim;
 using namespace std;
 
-//The values are what the base_pkmn subclasses return in get_base_stats()
+//The values are what the base_pokemon subclasses return in get_base_stats()
 dict<string, string> get_stat_map(void)
 {
     dict<string, string> stat_map = boost::assign::map_list_of
@@ -32,7 +32,7 @@ dict<string, string> get_stat_map(void)
     return stat_map;
 }
 
-void remove_unevolved_pokemon(vector<base_pkmn::sptr>& pkmn_vector)
+void remove_unevolved_pokemon(vector<base_pokemon::sptr>& pkmn_vector)
 {
     vector<int> to_erase; //Gathering vector indices to erase
 
@@ -67,7 +67,7 @@ int sort_pokemon_by_stats(string type1, string type2, vector<stat_st>& highest_s
         highest_stats.push_back(stat_st("Special Defense"));
     }
     lowest_stats = highest_stats;
-    vector<base_pkmn::sptr> pkmn_vector;
+    vector<base_pokemon::sptr> pkmn_vector;
 
     //Get relevant Pokémon and determine validity of options
     get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);
@@ -117,7 +117,7 @@ int sort_pokemon_by_stats(string type1, string type2, vector<stat_st2>& highest_
         highest_stats.push_back(stat_st2("Special Defense"));
     }
     lowest_stats = highest_stats;
-    vector<base_pkmn::sptr> pkmn_vector;
+    vector<base_pokemon::sptr> pkmn_vector;
 
     //Get relevant Pokémon and determine validity of options
     get_pkmn_of_type(pkmn_vector, type1, type2, gen, lax);

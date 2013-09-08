@@ -21,9 +21,9 @@ namespace pkmnsim
 {
     namespace qt4
     {
-        BasePkmnDisplayWidget::BasePkmnDisplayWidget(QWidget* parent, base_pkmn::sptr pkmn): QWidget(parent)
+        BasePkmnDisplayWidget::BasePkmnDisplayWidget(QWidget* parent, base_pokemon::sptr pkmn): QWidget(parent)
         {
-            //TODO: Check for valid base_pkmn in case default is used
+            //TODO: Check for valid base_pokemon in case default is used
             b_pkmn = pkmn;
             
             //Declare layouts and labels

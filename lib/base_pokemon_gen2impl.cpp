@@ -14,7 +14,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "base_pkmn_gen2impl.hpp"
+#include "base_pokemon_gen2impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 namespace fs = boost::filesystem;
@@ -22,8 +22,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen2impl::base_pkmn_gen2impl(string identifier, int game):
-                                           base_pkmn(identifier, game)
+    base_pokemon_gen2impl::base_pokemon_gen2impl(string identifier, int game):
+                                           base_pokemon(identifier, game)
     {
         //Get final part of images path
         switch(from_game)
@@ -54,7 +54,7 @@ namespace pkmnsim
         repair(pkmn_id);
     }
 
-    string base_pkmn_gen2impl::get_info()
+    string base_pokemon_gen2impl::get_info()
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -75,7 +75,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    string base_pkmn_gen2impl::get_info_verbose()
+    string base_pokemon_gen2impl::get_info_verbose()
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -99,7 +99,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    dict<string,int> base_pkmn_gen2impl::get_base_stats()
+    dict<string,int> base_pokemon_gen2impl::get_base_stats()
     {
         dict<string,int> stats;
 
@@ -123,7 +123,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string,int> base_pkmn_gen2impl::get_ev_yields()
+    dict<string,int> base_pokemon_gen2impl::get_ev_yields()
     {
         dict<string,int> stats;
 
@@ -145,7 +145,7 @@ namespace pkmnsim
         return stats;
     }
 
-    double base_pkmn_gen2impl::get_chance_male()
+    double base_pokemon_gen2impl::get_chance_male()
     {
         SQLite::Database db(get_database_path().c_str());
 
@@ -165,7 +165,7 @@ namespace pkmnsim
         else return gender_val_map[gender_val];
     }
 
-    double base_pkmn_gen2impl::get_chance_female()
+    double base_pokemon_gen2impl::get_chance_female()
     {
         SQLite::Database db(get_database_path().c_str());
 
@@ -185,15 +185,15 @@ namespace pkmnsim
         else return (1.0 - gender_val_map[gender_val]);
     }
 
-    bool base_pkmn_gen2impl::has_gender_differences(void) {return false;}
+    bool base_pokemon_gen2impl::has_gender_differences(void) {return false;}
 
-    string base_pkmn_gen2impl::get_icon_path(bool is_male)
+    string base_pokemon_gen2impl::get_icon_path(bool is_male)
     {
         //Gender doesn't matter in Gen 2
         return male_icon_path;
     }
     
-    string base_pkmn_gen2impl::get_sprite_path(bool is_male, bool is_shiny)
+    string base_pokemon_gen2impl::get_sprite_path(bool is_male, bool is_shiny)
     {
         if(is_male)
         {

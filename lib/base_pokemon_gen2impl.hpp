@@ -4,31 +4,30 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASE_PKMN_GEN3IMPL_HPP
-#define INCLUDED_BASE_PKMN_GEN3IMPL_HPP
+#ifndef INCLUDED_BASE_PKMN_GEN2IMPL_HPP
+#define INCLUDED_BASE_PKMN_GEN2IMPL_HPP
 
 #include <string>
 
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/dict.hpp>
 
 namespace pkmnsim
 {
-    class base_pkmn_gen345impl: public base_pkmn
+    class base_pokemon_gen2impl: public base_pokemon
     {
         public:
-            base_pkmn_gen345impl(std::string identifier, int game);
+            base_pokemon_gen2impl(std::string identifier, int game);
             std::string get_info(void);
             std::string get_info_verbose(void);
             dict<std::string, int> get_base_stats(void);
             dict<std::string, int> get_ev_yields(void);
             double get_chance_male();
             double get_chance_female();
-            dict<int, std::string> get_abilities(void);
-            bool has_gender_differences(void);
+            bool has_gender_differences();
             std::string get_icon_path(bool is_male);
             std::string get_sprite_path(bool is_male, bool is_shiny);
     };
 }
 
-#endif /* INCLUDED_BASE_PKMN_GEN3IMPL_HPP */
+#endif /* INCLUDED_BASE_PKMN_GEN2IMPL_HPP */

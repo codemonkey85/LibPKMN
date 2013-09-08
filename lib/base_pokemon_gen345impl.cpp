@@ -13,7 +13,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "base_pkmn_gen345impl.hpp"
+#include "base_pokemon_gen345impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 namespace fs = boost::filesystem;
@@ -21,8 +21,8 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pkmn_gen345impl::base_pkmn_gen345impl(string identifier, int game):
-                                           base_pkmn(identifier, game)
+    base_pokemon_gen345impl::base_pokemon_gen345impl(string identifier, int game):
+                                           base_pokemon(identifier, game)
     {
         //Get final part of images path
         switch(from_game)
@@ -79,7 +79,7 @@ namespace pkmnsim
         repair(pkmn_id);
     }
 
-    string base_pkmn_gen345impl::get_info()
+    string base_pokemon_gen345impl::get_info()
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -100,7 +100,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    string base_pkmn_gen345impl::get_info_verbose()
+    string base_pokemon_gen345impl::get_info_verbose()
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -131,7 +131,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    dict<string, int> base_pkmn_gen345impl::get_base_stats()
+    dict<string, int> base_pokemon_gen345impl::get_base_stats()
     {
         dict<string,int> stats;
 
@@ -155,7 +155,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string, int> base_pkmn_gen345impl::get_ev_yields()
+    dict<string, int> base_pokemon_gen345impl::get_ev_yields()
     {
         dict<string, int> stats;
 
@@ -179,7 +179,7 @@ namespace pkmnsim
         return stats;
     }
 
-    double base_pkmn_gen345impl::get_chance_male()
+    double base_pokemon_gen345impl::get_chance_male()
     {
         SQLite::Database db(get_database_path().c_str());
         
@@ -199,7 +199,7 @@ namespace pkmnsim
         else return gender_val_map[gender_val];
     }
 
-    double base_pkmn_gen345impl::get_chance_female()
+    double base_pokemon_gen345impl::get_chance_female()
     {
         SQLite::Database db(get_database_path().c_str());
 
@@ -219,7 +219,7 @@ namespace pkmnsim
         else return (1.0 - gender_val_map[gender_val]);
     }
 
-    dict<int, string> base_pkmn_gen345impl::get_abilities()
+    dict<int, string> base_pokemon_gen345impl::get_abilities()
     {
         SQLite::Database db(get_database_path().c_str());
         string ability1, ability2, ability3;
@@ -275,7 +275,7 @@ namespace pkmnsim
         return abilities;
     }
 
-    bool base_pkmn_gen345impl::has_gender_differences(void)
+    bool base_pokemon_gen345impl::has_gender_differences(void)
     {
         if(from_gen == 3) return false;
         else
@@ -286,7 +286,7 @@ namespace pkmnsim
         }
     }
 
-    string base_pkmn_gen345impl::get_icon_path(bool is_male)
+    string base_pokemon_gen345impl::get_icon_path(bool is_male)
     {
         if(from_gen > 3 and not is_male)
         {
@@ -295,7 +295,7 @@ namespace pkmnsim
         else return male_icon_path;
     }
     
-    string base_pkmn_gen345impl::get_sprite_path(bool is_male, bool is_shiny)
+    string base_pokemon_gen345impl::get_sprite_path(bool is_male, bool is_shiny)
     {
         if(is_male)
         {

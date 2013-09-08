@@ -9,7 +9,7 @@
 
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/spec_pokemon.hpp>
 
 #include <pokehack/pokestructs.h>
 #include <pokelib/data_tables.h>
@@ -24,7 +24,7 @@ namespace pkmnsim
             converter();
 
             /*
-             * Converts Pokehack's Pokemon data structures to PKMNsim's spec_pkmn.
+             * Converts Pokehack's Pokemon data structures to PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
@@ -33,24 +33,24 @@ namespace pkmnsim
              *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
              *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
              */
-            spec_pkmn::sptr pokehack_pkmn_to_spec_pkmn(belt_pokemon_t* b_pkmn_t,
+            spec_pokemon::sptr pokehack_pkmn_to_spec_pokemon(belt_pokemon_t* b_pkmn_t,
                                                        pokemon_attacks_t* pkmn_a_t,
                                                        pokemon_effort_t* pkmn_e_t,
                                                        pokemon_misc_t* pkmn_m_t,
                                                        pokemon_growth_t* pkmn_g_t);
 
             /*
-             * Converts PKMNsim's spec_pkmn to Pokehack's Pokemon data structures.
+             * Converts PKMNsim's spec_pokemon to Pokehack's Pokemon data structures.
              *
              * Parameters:
-             *  - s_pkmn: PKMNsim's spec_pkmn to convert
+             *  - s_pkmn: PKMNsim's spec_pokemon to convert
              *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
              *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
              *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
              *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
              *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
              */
-            void spec_pkmn_to_pokehack_pkmn(spec_pkmn::sptr s_pkmn,
+            void spec_pokemon_to_pokehack_pkmn(spec_pokemon::sptr s_pkmn,
                                             belt_pokemon_t* b_pkmn_t,
                                             pokemon_attacks_t* pkmn_a_t,
                                             pokemon_effort_t* pkmn_e_t,
@@ -58,7 +58,7 @@ namespace pkmnsim
                                             pokemon_growth_t* pkmn_g_t);
 
             /*
-             * Converts PokeLib's Pokemon data structure to PKMNsim's spec_pkmn.
+             * Converts PokeLib's Pokemon data structure to PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - pokelib_pkmn: PokeLib's Pokemon data structure to convert
@@ -68,36 +68,36 @@ namespace pkmnsim
              *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
              *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
              */
-            spec_pkmn::sptr pokelib_pkmn_to_spec_pkmn(PokeLib::Pokemon pokelib_pkmn);
+            spec_pokemon::sptr pokelib_pkmn_to_spec_pokemon(PokeLib::Pokemon pokelib_pkmn);
 
             /*
-             * Converts PKMNsim's spec_pkmn to Pokelib's Pokemon data structure.
+             * Converts PKMNsim's spec_pokemon to Pokelib's Pokemon data structure.
              *
              * Parameters:
-             *  - s_pkmn: PKMNsim's spec_pkmn to convert
+             *  - s_pkmn: PKMNsim's spec_pokemon to convert
              */
-            PokeLib::Pokemon spec_pkmn_to_pokelib_pkmn(spec_pkmn::sptr s_pkmn);
+            PokeLib::Pokemon spec_pokemon_to_pokelib_pkmn(spec_pokemon::sptr s_pkmn);
 
             /*
-             * Converts PKMDS's Pokemon data structure to PKMNsim's spec_pkmn.
+             * Converts PKMDS's Pokemon data structure to PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - p_pkm: PKMDS's Pokemon data structure to convert
              */
-            spec_pkmn::sptr pkmds_pkmn_to_spec_pkmn(party_pkm* p_pkm);
+            spec_pokemon::sptr pkmds_pkmn_to_spec_pokemon(party_pkm* p_pkm);
 
             /*
-             * Converts PKMNsim's spec_pkmn to PKMDS's Pokemon data structure.
+             * Converts PKMNsim's spec_pokemon to PKMDS's Pokemon data structure.
              *
              * Parameters:
-             *  - s_pkmn: PKMNsim's spec_pkmn to convert
+             *  - s_pkmn: PKMNsim's spec_pokemon to convert
              *  - p_pkm: PKMDS's Pokemon data structure to return conversion
              */
-            void spec_pkmn_to_pkmds_pkmn(spec_pkmn::sptr s_pkmn, party_pkm* p_pkm);
+            void spec_pokemon_to_pkmds_pkmn(spec_pokemon::sptr s_pkmn, party_pkm* p_pkm);
 
             /*
              * Converts Pokehack's Pokemon data structures to PokeLib's through
-             * PKMNsim's spec_pkmn.
+             * PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
@@ -114,7 +114,7 @@ namespace pkmnsim
 
             /*
              * Converts Pokehack's Pokemon data structures to PKMDS's through
-             * PKMNsim's spec_pkmn.
+             * PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
@@ -133,7 +133,7 @@ namespace pkmnsim
 
             /*
              * Converts PokeLib's Pokemon data structure to Pokehack's through
-             * PKMNsim's spec_pkmn.
+             * PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - pokelib_pkmn: PokeLib's Pokemon data structure to convert
@@ -152,7 +152,7 @@ namespace pkmnsim
 
             /*
              * Converts PokeLib's Pokemon data structure to Pokehack's through
-             * PKMNsim's spec_pkmn.
+             * PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - pokelib_pkmn: PokeLib's Pokemon data structure to convert
@@ -162,7 +162,7 @@ namespace pkmnsim
 
             /*
              * Converts PKMDS's Pokemon data structure to Pokehack's through
-             * PKMNsim's spec_pkmn.
+             * PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - p_pkm: PKMDS's Pokemon data structure to convert
@@ -181,7 +181,7 @@ namespace pkmnsim
 
             /*
              * Converts PKMDS's Pokemon data structure to PokeLib's through
-             * PKMNsim's spec_pkmn.
+             * PKMNsim's spec_pokemon.
              *
              * Parameters:
              *  - p_pkm: PKMDS's Pokemon data structure to convert

@@ -11,7 +11,7 @@
 
 #include <pkmnsim/analysis.hpp>
 #include <pkmnsim/base_move.hpp>
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/pkmn_types.hpp>
 
 using namespace std;
@@ -20,7 +20,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    int get_min_possible_stat(base_pkmn::sptr b_pkmn, string stat, int level, int gen)
+    int get_min_possible_stat(base_pokemon::sptr b_pkmn, string stat, int level, int gen)
     {
         //Check inputs for errors
         if(not b_pkmn->get_base_stats().has_key(stat)) throw runtime_error("Invalid stat specified.");
@@ -45,7 +45,7 @@ namespace pkmnsim
         }
     }
 
-    int get_max_possible_stat(base_pkmn::sptr b_pkmn, string stat, int level, int gen)
+    int get_max_possible_stat(base_pokemon::sptr b_pkmn, string stat, int level, int gen)
     {
         //Check inputs for errors
         if(not b_pkmn->get_base_stats().has_key(stat)) throw runtime_error("Invalid stat specified.");
@@ -70,12 +70,12 @@ namespace pkmnsim
         }
     }
 
-    bool is_stat_possible(base_pkmn::sptr b_pkmn, int stat_value, string stat, int level, int gen)
+    bool is_stat_possible(base_pokemon::sptr b_pkmn, int stat_value, string stat, int level, int gen)
     {
         return (stat_value > get_min_possible_stat(b_pkmn,stat,level,gen) and stat_value < get_max_possible_stat(b_pkmn,stat,level,gen));
     }
 
-    void get_stat_range(base_pkmn::sptr b_pkmn, string stat, int level, int gen, vector<int>& stat_vec)
+    void get_stat_range(base_pokemon::sptr b_pkmn, string stat, int level, int gen, vector<int>& stat_vec)
     {
         stat_vec.clear();
 
@@ -83,7 +83,7 @@ namespace pkmnsim
         stat_vec.push_back(get_max_possible_stat(b_pkmn, stat, level, gen));
     }
 
-    vector<int> get_stat_range_vec(base_pkmn::sptr b_pkmn, string stat, int level, int gen)
+    vector<int> get_stat_range_vec(base_pokemon::sptr b_pkmn, string stat, int level, int gen)
     {
         vector<int> stat_vec;
         get_stat_range(b_pkmn, stat, level, gen, stat_vec);
@@ -91,7 +91,7 @@ namespace pkmnsim
         return stat_vec;
     }
 
-    int get_base_damage(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move)
+    int get_base_damage(spec_pokemon::sptr attacker, spec_pokemon::sptr defender, base_move::sptr move)
     {
         int level = attacker->get_level();
         int base_power = move->get_base_power();
@@ -132,7 +132,7 @@ namespace pkmnsim
                (double(attack) / double(defense)) * double(base_power) * 2.0)));
     }
 
-    void get_damage_range(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move,
+    void get_damage_range(spec_pokemon::sptr attacker, spec_pokemon::sptr defender, base_move::sptr move,
                           vector<int>& damage_range_vec)
     {
         damage_range_vec.clear();
@@ -232,7 +232,7 @@ namespace pkmnsim
         }
     }
 
-    vector<int> get_damage_range_from_spec_pkmn(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move)
+    vector<int> get_damage_range_from_spec_pokemon(spec_pokemon::sptr attacker, spec_pokemon::sptr defender, base_move::sptr move)
     {
         vector<int> vec;
         get_damage_range(attacker, defender, move, vec);
@@ -240,7 +240,7 @@ namespace pkmnsim
     }
 
     //Abilities not taken into account
-    void get_damage_range(base_pkmn::sptr attacker, base_pkmn::sptr defender, base_move::sptr move,
+    void get_damage_range(base_pokemon::sptr attacker, base_pokemon::sptr defender, base_move::sptr move,
                           int attacker_level, int defender_level, vector<int>& damage_range_vec)
     {
         damage_range_vec.clear();
@@ -346,7 +346,7 @@ namespace pkmnsim
         }
     }
 
-    vector<int> get_damage_range_from_base_pkmn(base_pkmn::sptr attacker, base_pkmn::sptr defender, base_move::sptr move,
+    vector<int> get_damage_range_from_base_pokemon(base_pokemon::sptr attacker, base_pokemon::sptr defender, base_move::sptr move,
                                                 int attacker_level, int defender_level)
     {
         vector<int> vec;

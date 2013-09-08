@@ -15,7 +15,7 @@
 #include <iostream>
 #include <map>
 
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/pkmn_types.hpp>
 
@@ -121,14 +121,14 @@ int main(int argc, char *argv[])
     string pkmn_name;
 
     //Get Pokémon team and output
-    vector<base_pkmn::sptr> pkmn_team;
+    vector<base_pokemon::sptr> pkmn_team;
     int count = 0;
     cout << "Analyzing team..." << endl << endl;
     while(getline(team_file_input,pkmn_name))
     {
         //A team can only have six members
         if(count > 6) break;
-        pkmn_team.push_back(base_pkmn::make(pkmn_name, gen));
+        pkmn_team.push_back(base_pokemon::make(pkmn_name, gen));
         if(verbose) cout << "Successfully added Pokémon: " << pkmn_name << endl;
         count++;
     }

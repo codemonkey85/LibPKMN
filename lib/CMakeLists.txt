@@ -21,25 +21,25 @@ IF(ENABLE_LIBRARY)
     LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds pkmds-sqlite3)
 
     LIST(APPEND libpkmnsim_sources
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen1impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen2impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_pkmn_gen345impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_nature.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/pkmn_types.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/lists.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen1impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen2impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/spec_pkmn_gen345impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/analysis.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/conversions.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/trainer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen3impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen4impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/trainer_gen5impl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_move.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/base_move_mainimpl.cpp
+        base_pokemon.cpp
+        base_pokemon_gen1impl.cpp
+        base_pokemon_gen2impl.cpp
+        base_pokemon_gen345impl.cpp
+        pkmn_nature.cpp
+        pkmn_types.cpp
+        lists.cpp
+        spec_pokemon.cpp
+        spec_pokemon_gen1impl.cpp
+        spec_pokemon_gen2impl.cpp
+        spec_pokemon_gen345impl.cpp
+        analysis.cpp
+        conversions.cpp
+        trainer.cpp
+        trainer_gen3impl.cpp
+        trainer_gen4impl.cpp
+        trainer_gen5impl.cpp
+        base_move.cpp
+        base_move_mainimpl.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${sqlitecpp_sources}
         ${database_sources}

@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/dict.hpp>
 
 using namespace pkmnsim;
@@ -18,7 +18,7 @@ using namespace std;
 typedef map<string, int>::iterator si_iter;
 typedef map<string, double>::iterator sd_iter;
 
-map<string, int> get_type_overlaps(vector<base_pkmn::sptr> pkmn_team, vector<string> type_list)
+map<string, int> get_type_overlaps(vector<base_pokemon::sptr> pkmn_team, vector<string> type_list)
 {
     map<string, int> nums; //Key = type, val = number of Pokémon with that type
     for(unsigned int i = 0; i < type_list.size(); i++) nums[type_list[i]] = 0;

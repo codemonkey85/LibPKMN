@@ -17,7 +17,7 @@
 #include <vector>
 
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/spec_pokemon.hpp>
 
 namespace pkmnsim
 {
@@ -60,17 +60,17 @@ namespace pkmnsim
             int get_money(void);
 
             /*
-             * Return a vector of spec_pkmn with the trainer's team.
+             * Return a vector of spec_pokemon with the trainer's team.
              *
              * Parameters:
              *  - party_vec: A reference to the vector in which to place the party.
              */
-            void get_party(std::vector<spec_pkmn::sptr>& party_vec);
+            void get_party(std::vector<spec_pokemon::sptr>& party_vec);
 
             /*
-             * Return a vector of spec_pkmn with the trainer's team.
+             * Return a vector of spec_pokemon with the trainer's team.
              */
-            std::vector<spec_pkmn::sptr> get_party_vec(void);
+            std::vector<spec_pokemon::sptr> get_party_vec(void);
 
             /*
              * Returns the trainer's name.
@@ -93,7 +93,7 @@ namespace pkmnsim
         protected:
             int money, from_game, gender, trainer_id;
             std::string trainer_name;
-            std::vector<spec_pkmn::sptr> party;
+            std::vector<spec_pokemon::sptr> party;
     };
 }
 

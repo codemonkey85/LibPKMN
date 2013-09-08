@@ -10,7 +10,7 @@
 
 #include <boost/program_options.hpp>
 
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 
 #include "type_stats_common.hpp"
 

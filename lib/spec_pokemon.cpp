@@ -12,18 +12,18 @@
 
 #include <pkmnsim/base_move.hpp>
 #include <pkmnsim/paths.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/spec_pokemon.hpp>
 
-#include "spec_pkmn_gen1impl.hpp"
-#include "spec_pkmn_gen2impl.hpp"
-#include "spec_pkmn_gen345impl.hpp"
+#include "spec_pokemon_gen1impl.hpp"
+#include "spec_pokemon_gen2impl.hpp"
+#include "spec_pokemon_gen345impl.hpp"
 #include "sqlitecpp/SQLiteCPP.h"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn::spec_pkmn(base_pkmn::sptr b, string m1, string m2,
+    spec_pokemon::spec_pokemon(base_pokemon::sptr b, string m1, string m2,
                          string m3, string m4, int g, int l)
     {
         base = b;
@@ -32,7 +32,7 @@ namespace pkmnsim
         from_game = g;
         from_gen = b->get_generation();
         SQLite::Database db(get_database_path().c_str()); //Filepath given by CMake
-        int base_pkmn_id = base->get_pokemon_id();
+        int base_pokemon_id = base->get_pokemon_id();
         int base_species_id = base->get_species_id();
 
 		attributes = dict<string, int>();
@@ -62,27 +62,27 @@ namespace pkmnsim
         }
     }
 
-    spec_pkmn::sptr spec_pkmn::make(string identifier, int game, int level, string move1,
+    spec_pokemon::sptr spec_pokemon::make(string identifier, int game, int level, string move1,
                                     string move2, string move3, string move4)
     {
         try
         {
-            base_pkmn::sptr base = base_pkmn::make(identifier, game);
+            base_pokemon::sptr base = base_pokemon::make(identifier, game);
 
             if(base->get_generation() < 1 or base->get_generation() > 5) throw runtime_error("Gen must be 1-5.");
 
             switch(base->get_generation())
             {
                 case 1:
-                    return sptr(new spec_pkmn_gen1impl(base, level, game,
+                    return sptr(new spec_pokemon_gen1impl(base, level, game,
                                                        move1, move2, move3, move4));
 
                 case 2:
-                    return sptr(new spec_pkmn_gen2impl(base, level, game,
+                    return sptr(new spec_pokemon_gen2impl(base, level, game,
                                                        move1, move2, move3, move4));
 
                 default:
-                    return sptr(new spec_pkmn_gen345impl(base, level, game,
+                    return sptr(new spec_pokemon_gen345impl(base, level, game,
                                                        move1, move2, move3, move4));
             }
         }
@@ -93,41 +93,41 @@ namespace pkmnsim
         }
     }
 
-    base_pkmn::sptr spec_pkmn::get_base_pkmn(void) {return base;}
+    base_pokemon::sptr spec_pokemon::get_base_pokemon(void) {return base;}
 
-    dict<int, std::string> spec_pkmn::get_types(void) {return base->get_types();}
+    dict<int, std::string> spec_pokemon::get_types(void) {return base->get_types();}
 
-    string spec_pkmn::get_nickname(void) {return nickname;}
+    string spec_pokemon::get_nickname(void) {return nickname;}
 
-    int spec_pkmn::get_level(void) {return level;}
+    int spec_pokemon::get_level(void) {return level;}
 
-    b_move_vla_t spec_pkmn::get_moves(void) {return moves;}
+    b_move_vla_t spec_pokemon::get_moves(void) {return moves;}
     
-    int spec_pkmn::get_game_id(void) {return from_game;}
+    int spec_pokemon::get_game_id(void) {return from_game;}
     
-    int spec_pkmn::get_generation(void) {return from_gen;}
+    int spec_pokemon::get_generation(void) {return from_gen;}
 
-    string spec_pkmn::get_icon_path(void) {return icon_path;}
+    string spec_pokemon::get_icon_path(void) {return icon_path;}
 
-    string spec_pkmn::get_sprite_path(void) {return sprite_path;}
+    string spec_pokemon::get_sprite_path(void) {return sprite_path;}
 
-	int spec_pkmn::get_attribute(string attribute) {return attributes[attribute];}
+	int spec_pokemon::get_attribute(string attribute) {return attributes[attribute];}
 
-    dict<string, int> spec_pkmn::get_attributes(void) {return attributes;}
+    dict<string, int> spec_pokemon::get_attributes(void) {return attributes;}
 
-    bool spec_pkmn::has_attribute(string attribute) {return attributes.has_key(attribute);}
+    bool spec_pokemon::has_attribute(string attribute) {return attributes.has_key(attribute);}
 
-	void spec_pkmn::set_attribute(string attribute, int value) {attributes[attribute] = value;}
+	void spec_pokemon::set_attribute(string attribute, int value) {attributes[attribute] = value;}
 
-    string spec_pkmn::get_species_name(void) {return base->get_species_name();}
+    string spec_pokemon::get_species_name(void) {return base->get_species_name();}
 
-    dict<string, int> spec_pkmn::get_base_stats(void) {return base->get_base_stats();}
+    dict<string, int> spec_pokemon::get_base_stats(void) {return base->get_base_stats();}
 
-    dict<string, int> spec_pkmn::get_ev_yields(void) {return base->get_ev_yields();}
+    dict<string, int> spec_pokemon::get_ev_yields(void) {return base->get_ev_yields();}
 
-    bool spec_pkmn::is_fully_evolved(void) {return base->is_fully_evolved();}
+    bool spec_pokemon::is_fully_evolved(void) {return base->is_fully_evolved();}
 
-    int spec_pkmn::get_pokemon_id(void) {return base->get_pokemon_id();}
+    int spec_pokemon::get_pokemon_id(void) {return base->get_pokemon_id();}
 
-    int spec_pkmn::get_species_id(void) {return base->get_species_id();}
+    int spec_pokemon::get_species_id(void) {return base->get_species_id();}
 }

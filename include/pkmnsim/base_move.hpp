@@ -48,7 +48,7 @@ namespace pkmnsim
             static sptr make(std::string identifier, int gen);
 
             //Used for moves with different effects based on Pokemon
-            //static sptr make(std::string identifier, int gen, spec_pkmn::sptr<spec_pkmn> s_pkmn);
+            //static sptr make(std::string identifier, int gen, spec_pokemon::sptr<spec_pokemon> s_pkmn);
 
             /*
              * Returns move's name.

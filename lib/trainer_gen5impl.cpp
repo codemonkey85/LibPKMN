@@ -13,10 +13,10 @@
 #include <boost/format.hpp>
 
 #include <pkmnsim/base_move.hpp>
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/spec_pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
 
 #include <pkmnsim/conversions.hpp>
@@ -44,7 +44,7 @@ namespace pkmnsim
 
         for(unsigned int i = 0; i < party_size; i++)
         {
-            //Grab values from export database necessary to create spec_pkmn
+            //Grab values from export database necessary to create spec_pokemon
             SQLite::Statement party_query(*import_db, str(boost::format("SELECT * FROM party WHERE id=%d")
                                                                         % i).c_str()
                                          );
@@ -120,7 +120,7 @@ namespace pkmnsim
                                                 );
             }
 
-            spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, 3, level, move1, move2, move3, move4);
+            spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, 3, level, move1, move2, move3, move4);
 
             //Manually set other values
             s_pkmn->nickname = nickname;
@@ -168,7 +168,7 @@ namespace pkmnsim
         {
             p_pkm = &(sav->cur.party.pokemon[i]);
             decryptpkm(p_pkm->pkm_data);
-            party.push_back(pkmn_converter.pkmds_pkmn_to_spec_pkmn(p_pkm));
+            party.push_back(pkmn_converter.pkmds_pkmn_to_spec_pokemon(p_pkm));
             encryptpkm(p_pkm->pkm_data);
         }
     }

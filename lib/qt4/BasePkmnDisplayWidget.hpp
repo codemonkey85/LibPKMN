@@ -8,7 +8,7 @@
 #define INCLUDED_BASEPKMNDISPLAYWIDGET_HPP
 
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 
 #include <QChar>
 #include <QFormLayout>
@@ -28,14 +28,14 @@ namespace pkmnsim
             Q_OBJECT
             
             public:
-                BasePkmnDisplayWidget(QWidget* parent = 0, base_pkmn::sptr pkmn = *(new base_pkmn::sptr));
+                BasePkmnDisplayWidget(QWidget* parent = 0, base_pokemon::sptr pkmn = *(new base_pokemon::sptr));
                 
             /*signals:
             
             slots:*/
             
             private:
-                base_pkmn::sptr b_pkmn;
+                base_pokemon::sptr b_pkmn;
         };
     }
 }

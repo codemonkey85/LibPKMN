@@ -16,7 +16,7 @@
 #include <string>
 
 #include <pkmnsim/base_move.hpp>
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/dict.hpp>
 #include <pkmnsim/enums.hpp>
@@ -32,25 +32,25 @@ namespace pkmnsim
      * Pokémon, with its own stats, effort values, and individual
      * values.
      *
-     * This class depends on two values: a base_pkmn, which
+     * This class depends on two values: a base_pokemon, which
      * provides the base stats for the Pokémon, gender ratios, etc., 
      * and gen, which tells the class what algorithms to use to
      * determine its specific values.
      */
-    class PKMNSIM_API spec_pkmn
+    class PKMNSIM_API spec_pokemon
     {
         public:
 
-            typedef std::shared_ptr<spec_pkmn> sptr;
+            typedef std::shared_ptr<spec_pokemon> sptr;
 
             //Class constructors (should never be called directly)
-            spec_pkmn() {};
-            spec_pkmn(base_pkmn::sptr b, std::string m1, std::string m2,
+            spec_pokemon() {};
+            spec_pokemon(base_pokemon::sptr b, std::string m1, std::string m2,
                       std::string m3, std::string m4, int g, int l);
 
 
             /*
-             * Returns a std::shared_ptr<spec_pkmn> of generated specific Pokémon.
+             * Returns a std::shared_ptr<spec_pokemon> of generated specific Pokémon.
              * Some values are random within bounds of specified values.
              *
              * Parameters:
@@ -70,7 +70,7 @@ namespace pkmnsim
             /*
              * Returns the base Pokémon used to generate this Pokémon.
              */
-            base_pkmn::sptr get_base_pkmn(void);
+            base_pokemon::sptr get_base_pokemon(void);
 
             /*
              * Returns the Pokémon's nickname.
@@ -249,7 +249,7 @@ namespace pkmnsim
             dict<std::string, int> get_attributes(void);
 
             /*
-             * Check if spec_pkmn has given attribute.
+             * Check if spec_pokemon has given attribute.
 			 *
 			 * Parameters:
 			 *  - attribute: name of the attribute whose value will be returned
@@ -266,7 +266,7 @@ namespace pkmnsim
 			void set_attribute(std::string attribute, int value);
 
             /*
-             * Functions to more easily access base_pkmn variables and functions.
+             * Functions to more easily access base_pokemon variables and functions.
              */
             std::string get_species_name(void);
             dict<int, std::string> get_types(void);
@@ -279,7 +279,7 @@ namespace pkmnsim
             virtual void set_form(std::string form) = 0;
 
         protected:
-            base_pkmn::sptr base;
+            base_pokemon::sptr base;
             std::string nickname;
             std::string held_item;
             int from_game, from_gen;
@@ -323,7 +323,7 @@ namespace pkmnsim
     };
 
     //Related typedefs
-    typedef std::vector<spec_pkmn::sptr> s_pkmn_vec_t;
-    typedef vla<spec_pkmn::sptr> s_pkmn_vla_t;
+    typedef std::vector<spec_pokemon::sptr> s_pkmn_vec_t;
+    typedef vla<spec_pokemon::sptr> s_pkmn_vla_t;
 }
 #endif /* INCLUDED_PKMNSIM_SPEC_PKMN_HPP */

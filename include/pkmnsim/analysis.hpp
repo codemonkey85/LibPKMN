@@ -10,9 +10,9 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/spec_pokemon.hpp>
 
 namespace pkmnsim
 {
@@ -26,7 +26,7 @@ namespace pkmnsim
      *  - level: Pokemon's level for analysis
      *  - gen: Generation 1-5
      */
-    int PKMNSIM_API get_min_possible_stat(base_pkmn::sptr b_pkmn, std::string stat, int level, int gen);
+    int PKMNSIM_API get_min_possible_stat(base_pokemon::sptr b_pkmn, std::string stat, int level, int gen);
 
     /*
      * Returns the maximum possible stat of a Pokemon.
@@ -38,7 +38,7 @@ namespace pkmnsim
      *  - level: Pokemon's level for analysis
      *  - gen: Generation 1-5
      */
-    int PKMNSIM_API get_max_possible_stat(base_pkmn::sptr b_pkmn, std::string stat, int level, int gen);
+    int PKMNSIM_API get_max_possible_stat(base_pokemon::sptr b_pkmn, std::string stat, int level, int gen);
 
     /*
      * Checks validity of specified statistic by using above functions.
@@ -49,10 +49,10 @@ namespace pkmnsim
      *  - level: Pokemon's level for analysis
      *  - gen: Generation 1-5
      */
-    bool PKMNSIM_API is_stat_possible(base_pkmn::sptr b_pkmn, int, std::string stat, int level, int gen);
+    bool PKMNSIM_API is_stat_possible(base_pokemon::sptr b_pkmn, int, std::string stat, int level, int gen);
 
     /*
-     * Get range of given stat for given base_pkmn.
+     * Get range of given stat for given base_pokemon.
      *
      * Parameters:
      *  - b_pkmn: Base Pokemon whose stats to analyze
@@ -61,12 +61,12 @@ namespace pkmnsim
      *  - gen: Generation 1-5
      *  - stat_vec: Reference to vector in which to return values
      */
-    void PKMNSIM_API get_stat_range(base_pkmn::sptr b_pkmn, std::string stat, int level, int gen, std::vector<int>& stat_vec);
+    void PKMNSIM_API get_stat_range(base_pokemon::sptr b_pkmn, std::string stat, int level, int gen, std::vector<int>& stat_vec);
 
     /*
      * Pass-by-value equivalent of previous function.
      */
-    std::vector<int> PKMNSIM_API get_stat_range_vec(base_pkmn::sptr b_pkmn, std::string stat, int level, int gen);
+    std::vector<int> PKMNSIM_API get_stat_range_vec(base_pokemon::sptr b_pkmn, std::string stat, int level, int gen);
 
     /*
      * Gets damage of a move, before taking type advantages and STAB into account,
@@ -77,7 +77,7 @@ namespace pkmnsim
      *  - defender: Specific Pokemon receiving move
      *  - move: Move being executed
      */
-    int PKMNSIM_API get_base_damage(spec_pkmn::sptr attacker, spec_pkmn::sptr defender, base_move::sptr move);
+    int PKMNSIM_API get_base_damage(spec_pokemon::sptr attacker, spec_pokemon::sptr defender, base_move::sptr move);
 
     /*
      * Gets damage of a move, before taking type advantages and STAB into account,
@@ -101,13 +101,13 @@ namespace pkmnsim
      *  - gen: Generation of analysis
      *  - damage_range_vec: Reference to vector in which to return values
      */
-    void PKMNSIM_API get_damage_range(spec_pkmn::sptr attacker, spec_pkmn::sptr defender,
+    void PKMNSIM_API get_damage_range(spec_pokemon::sptr attacker, spec_pokemon::sptr defender,
                                       base_move::sptr move, std::vector<int>& damage_range_vec);
 
     /*
      * Pass-by-value equivalent of previous function.
      */
-    std::vector<int> PKMNSIM_API get_damage_range_from_spec_pkmn(spec_pkmn::sptr attacker, spec_pkmn::sptr defender,
+    std::vector<int> PKMNSIM_API get_damage_range_from_spec_pokemon(spec_pokemon::sptr attacker, spec_pokemon::sptr defender,
                                                                  base_move::sptr move);
 
     /*
@@ -121,14 +121,14 @@ namespace pkmnsim
      *  - gen: Generation of analysis
      *  - damage_range_vec: Reference to vector in which to return values
      */
-    void PKMNSIM_API get_damage_range(base_pkmn::sptr attacker, base_pkmn::sptr defender,
+    void PKMNSIM_API get_damage_range(base_pokemon::sptr attacker, base_pokemon::sptr defender,
                                       base_move::sptr move, int attacker_level,
                                       int defender_level, std::vector<int>& damage_range_vec);
 
     /*
      * Pass-by-value equivalent of previous function.
      */
-    std::vector<int> PKMNSIM_API get_damage_range_from_base_pkmn(base_pkmn::sptr attacker, base_pkmn::sptr defender,
+    std::vector<int> PKMNSIM_API get_damage_range_from_base_pokemon(base_pokemon::sptr attacker, base_pokemon::sptr defender,
                                                                  base_move::sptr move, int attacker_level, int defender_level);
 }
 

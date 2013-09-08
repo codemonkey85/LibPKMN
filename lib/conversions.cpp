@@ -24,7 +24,7 @@
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/pkmn_nature.hpp>
-#include <pkmnsim/spec_pkmn.hpp>
+#include <pkmnsim/spec_pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
 
 #include <pkmds/pkmds_g5_sqlite.h>
@@ -141,7 +141,7 @@ namespace pkmnsim
         return actual_text;
     }
 
-    spec_pkmn::sptr converter::pokehack_pkmn_to_spec_pkmn(belt_pokemon_t* b_pkmn_t,
+    spec_pokemon::sptr converter::pokehack_pkmn_to_spec_pokemon(belt_pokemon_t* b_pkmn_t,
                                                           pokemon_attacks_t* pkmn_a_t,
                                                           pokemon_effort_t* pkmn_e_t,
                                                           pokemon_misc_t* pkmn_m_t,
@@ -189,7 +189,7 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, from_game, level,
+        spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, from_game, level,
                                                  move1, move2, move3, move4);
 
         s_pkmn->nickname = pokehack_get_text(b_pkmn_t->name, true);
@@ -205,8 +205,8 @@ namespace pkmnsim
 
         //Gender
         int gender_from_pokehack = b_pkmn_t->personality % 256;
-        double chance_male = s_pkmn->get_base_pkmn()->get_chance_male();
-        double chance_female = s_pkmn->get_base_pkmn()->get_chance_female();
+        double chance_male = s_pkmn->get_base_pokemon()->get_chance_male();
+        double chance_female = s_pkmn->get_base_pokemon()->get_chance_female();
         if(chance_male == 0.0 and chance_female == 0.0) gender = Genders::GENDERLESS;
         else if(chance_male == 0.0) gender = Genders::FEMALE;
         else if(chance_female == 0.0) gender = Genders::MALE;
@@ -285,7 +285,7 @@ namespace pkmnsim
         return s_pkmn;
     }
 
-    void converter::spec_pkmn_to_pokehack_pkmn(spec_pkmn::sptr s_pkmn,
+    void converter::spec_pokemon_to_pokehack_pkmn(spec_pokemon::sptr s_pkmn,
                                                belt_pokemon_t* b_pkmn_t,
                                                pokemon_attacks_t* pkmn_a_t,
                                                pokemon_effort_t* pkmn_e_t,
@@ -447,7 +447,7 @@ namespace pkmnsim
             pkmn_m_t->ribbons.world = s_pkmn->attributes.has_key("hoenn_world_ribbon");
     }
 
-    spec_pkmn::sptr converter::pokelib_pkmn_to_spec_pkmn(PokeLib::Pokemon pokelib_pkmn)
+    spec_pokemon::sptr converter::pokelib_pkmn_to_spec_pokemon(PokeLib::Pokemon pokelib_pkmn)
     {
         string identifier, move1, move2, move3, move4;
         int level, gender, from_game;
@@ -500,7 +500,7 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, from_game, level, move1, move2, move3, move4);
+        spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, from_game, level, move1, move2, move3, move4);
 
         PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
         char nickname_buffer[10];
@@ -661,7 +661,7 @@ namespace pkmnsim
         return s_pkmn;
     }
 
-    PokeLib::Pokemon converter::spec_pkmn_to_pokelib_pkmn(spec_pkmn::sptr s_pkmn)
+    PokeLib::Pokemon converter::spec_pokemon_to_pokelib_pkmn(spec_pokemon::sptr s_pkmn)
     {
         PokeLib::Pokemon pokelib_pkmn;
 
@@ -957,7 +957,7 @@ namespace pkmnsim
         return pokelib_pkmn;
     }
 
-    spec_pkmn::sptr converter::pkmds_pkmn_to_spec_pkmn(party_pkm* p_pkm)
+    spec_pokemon::sptr converter::pkmds_pkmn_to_spec_pokemon(party_pkm* p_pkm)
     {
         opendb(get_database_path().c_str());
 
@@ -1027,7 +1027,7 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pkmn::sptr s_pkmn = spec_pkmn::make(identifier, from_game, level, move1, move2, move3, move4);
+        spec_pokemon::sptr s_pkmn = spec_pokemon::make(identifier, from_game, level, move1, move2, move3, move4);
 
         wstring nickname_wide = getpkmnickname(p_pkm->pkm_data);
         char nickname_buffer[11];
@@ -1195,9 +1195,9 @@ namespace pkmnsim
         return s_pkmn;
     }
 
-    void converter::spec_pkmn_to_pkmds_pkmn(spec_pkmn::sptr s_pkmn, party_pkm* p_pkm)
+    void converter::spec_pokemon_to_pkmds_pkmn(spec_pokemon::sptr s_pkmn, party_pkm* p_pkm)
     {
-        p_pkm->pkm_data.species = Species::pkmspecies(s_pkmn->get_base_pkmn()->get_nat_pokedex_num());
+        p_pkm->pkm_data.species = Species::pkmspecies(s_pkmn->get_base_pokemon()->get_nat_pokedex_num());
         p_pkm->pkm_data.moves[0] = Moves::moves(s_pkmn->get_moves()[0]->get_move_id());
         if(s_pkmn->get_moves()[1]->get_name() == "Struggle") p_pkm->pkm_data.moves[1] = Moves::NOTHING;
         else p_pkm->pkm_data.moves[1] = Moves::moves(s_pkmn->get_moves()[1]->get_move_id());
@@ -1531,7 +1531,7 @@ namespace pkmnsim
                                                               pokemon_misc_t* pkmn_m_t,
                                                               pokemon_growth_t* pkmn_g_t)
     {
-        PokeLib::Pokemon pokelib_pkmn = spec_pkmn_to_pokelib_pkmn(pokehack_pkmn_to_spec_pkmn(b_pkmn_t,
+        PokeLib::Pokemon pokelib_pkmn = spec_pokemon_to_pokelib_pkmn(pokehack_pkmn_to_spec_pokemon(b_pkmn_t,
                                                                   pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t));
 
         //Manually set egg met location to Faraway Place and met location to Pal Park
@@ -1553,7 +1553,7 @@ namespace pkmnsim
                                                 pokemon_growth_t* pkmn_g_t,
                                                 party_pkm* p_pkm)
     {
-        spec_pkmn_to_pkmds_pkmn(pokehack_pkmn_to_spec_pkmn(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
+        spec_pokemon_to_pkmds_pkmn(pokehack_pkmn_to_spec_pokemon(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
 
         //Manually set egg met and met locations to Faraway Place
         p_pkm->pkm_data.eggmet = Locations::farawayplace;
@@ -1567,7 +1567,7 @@ namespace pkmnsim
                                                   pokemon_misc_t* pkmn_m_t,
                                                   pokemon_growth_t* pkmn_g_t)
     {
-        spec_pkmn_to_pokehack_pkmn(pokelib_pkmn_to_spec_pkmn(pokelib_pkmn), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
+        spec_pokemon_to_pokehack_pkmn(pokelib_pkmn_to_spec_pokemon(pokelib_pkmn), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
 
         //Manually set met location to In-Game Trade
         pkmn_m_t->locationcaught = 255;
@@ -1578,7 +1578,7 @@ namespace pkmnsim
 
     void converter::pokelib_pkmn_to_pkmds_pkmn(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm)
     {
-        spec_pkmn_to_pkmds_pkmn(pokelib_pkmn_to_spec_pkmn(pokelib_pkmn), p_pkm);
+        spec_pokemon_to_pkmds_pkmn(pokelib_pkmn_to_spec_pokemon(pokelib_pkmn), p_pkm);
 
         //Manually set egg met location to Faraway place and met location to Poke Transfer
         p_pkm->pkm_data.eggmet = Locations::farawayplace;
@@ -1592,12 +1592,12 @@ namespace pkmnsim
                                                 pokemon_misc_t* pkmn_m_t,
                                                 pokemon_growth_t* pkmn_g_t)
     {
-        spec_pkmn_to_pokehack_pkmn(pkmds_pkmn_to_spec_pkmn(p_pkm), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
+        spec_pokemon_to_pokehack_pkmn(pkmds_pkmn_to_spec_pokemon(p_pkm), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
     }
 
     PokeLib::Pokemon converter::pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm)
     {
-        PokeLib::Pokemon pokelib_pkmn = spec_pkmn_to_pokelib_pkmn(pkmds_pkmn_to_spec_pkmn(p_pkm));
+        PokeLib::Pokemon pokelib_pkmn = spec_pokemon_to_pokelib_pkmn(pkmds_pkmn_to_spec_pokemon(p_pkm));
 
         //Manually set egg met and met locations to Faraway Place
         pokelib_pkmn.pkm->pkm.eggLoc_DP = char(3002);

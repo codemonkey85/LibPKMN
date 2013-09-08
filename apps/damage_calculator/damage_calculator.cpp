@@ -15,7 +15,7 @@
 #include <boost/program_options.hpp>
 
 #include <pkmnsim/analysis.hpp>
-#include <pkmnsim/base_pkmn.hpp>
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/pkmn_types.hpp>
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     }
 
     /*
-     * base_pkmn now takes a game ID in its constructor instead of a generation, but this
+     * base_pokemon now takes a game ID in its constructor instead of a generation, but this
      * application doesn't discriminate between games in the same generation, so this array
      * guarantees that the given generation will use a game in that generation.
      */
@@ -69,8 +69,8 @@ int main(int argc, char *argv[])
     double type_mod = 1;
 
     //Generate relevant data structures
-    base_pkmn::sptr attacker = base_pkmn::make(attacker_name, game_id_from_gen[gen]);
-    base_pkmn::sptr defender = base_pkmn::make(defender_name, game_id_from_gen[gen]);
+    base_pokemon::sptr attacker = base_pokemon::make(attacker_name, game_id_from_gen[gen]);
+    base_pokemon::sptr defender = base_pokemon::make(defender_name, game_id_from_gen[gen]);
     base_move::sptr move = base_move::make(move_name, gen);
 
     //Get defender's HP range for checking possibility of fainting

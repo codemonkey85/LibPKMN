@@ -12,14 +12,14 @@
 
 #include <pkmnsim/base_move.hpp>
 
-#include "spec_pkmn_gen1impl.hpp"
+#include "spec_pokemon_gen1impl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn_gen1impl::spec_pkmn_gen1impl(base_pkmn::sptr b, int lvl, int g, string m1,
-                                           string m2, string m3, string m4): spec_pkmn(
+    spec_pokemon_gen1impl::spec_pokemon_gen1impl(base_pokemon::sptr b, int lvl, int g, string m1,
+                                           string m2, string m3, string m4): spec_pokemon(
                                            b,m1,m2,m3,m4,g,lvl)
     {
         srand ( time(NULL) );
@@ -51,7 +51,7 @@ namespace pkmnsim
         
     }
 
-    dict<string, int> spec_pkmn_gen1impl::get_stats()
+    dict<string, int> spec_pokemon_gen1impl::get_stats()
     {
         dict<string, int> stats;
         stats["HP"] = HP;
@@ -63,7 +63,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string, int> spec_pkmn_gen1impl::get_IVs()
+    dict<string, int> spec_pokemon_gen1impl::get_IVs()
     {
         dict<string, int> stats;
         stats["HP"] = ivHP;
@@ -75,7 +75,7 @@ namespace pkmnsim
         return stats;
     }
 
-    void spec_pkmn_gen1impl::set_IV(string IVname, int val)
+    void spec_pokemon_gen1impl::set_IV(string IVname, int val)
     {
         if(val < 0 or val > 16)
         {
@@ -110,7 +110,7 @@ namespace pkmnsim
         }
     }
 
-    dict<string, int> spec_pkmn_gen1impl::get_EVs()
+    dict<string, int> spec_pokemon_gen1impl::get_EVs()
     {
         dict<string, int> stats;
         stats["HP"] = evHP;
@@ -122,7 +122,7 @@ namespace pkmnsim
         return stats;
     }
 
-    void spec_pkmn_gen1impl::set_EV(string EVname, int val)
+    void spec_pokemon_gen1impl::set_EV(string EVname, int val)
     {
         if(val < 0 or val > 65535)
         {
@@ -157,7 +157,7 @@ namespace pkmnsim
         }
     }
 
-    string spec_pkmn_gen1impl::get_info()
+    string spec_pokemon_gen1impl::get_info()
     {
         string types_str;
         dict<int, string> types = base->get_types();
@@ -176,7 +176,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    string spec_pkmn_gen1impl::get_info_verbose()
+    string spec_pokemon_gen1impl::get_info_verbose()
     {
         string types_str;
         dict<int, string> types = base->get_types();
@@ -209,9 +209,9 @@ namespace pkmnsim
         return output_string;
     }
 
-    bool spec_pkmn_gen1impl::is_shiny() {return false;}
+    bool spec_pokemon_gen1impl::is_shiny() {return false;}
 
-    void spec_pkmn_gen1impl::set_form(int form)
+    void spec_pokemon_gen1impl::set_form(int form)
     {
         base->set_form(form);
         HP = get_hp_from_iv_ev();
@@ -221,7 +221,7 @@ namespace pkmnsim
         SPCL = get_stat_from_iv_ev("SPCL", ivATK, evATK);
     }
 
-    void spec_pkmn_gen1impl::set_form(std::string form)
+    void spec_pokemon_gen1impl::set_form(std::string form)
     {
         base->set_form(form);
         HP = get_hp_from_iv_ev();
@@ -231,7 +231,7 @@ namespace pkmnsim
         SPCL = get_stat_from_iv_ev("SPCL", ivATK, evATK);
     }
 
-    void spec_pkmn_gen1impl::reset_volatile_status_map()
+    void spec_pokemon_gen1impl::reset_volatile_status_map()
     {
         volatile_status_map = boost::assign::map_list_of
             ("confusion",0)
@@ -252,7 +252,7 @@ namespace pkmnsim
         ;
     }
 
-    int spec_pkmn_gen1impl::get_hp_from_iv_ev()
+    int spec_pokemon_gen1impl::get_hp_from_iv_ev()
     {
         dict<string, int> stats = base->get_base_stats();
 
@@ -261,7 +261,7 @@ namespace pkmnsim
         return hp_val;
     }
 
-    int spec_pkmn_gen1impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
+    int spec_pokemon_gen1impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
     {
         dict<string, int> stats = base->get_base_stats();
 

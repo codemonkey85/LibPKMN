@@ -10,40 +10,59 @@
 
 #include <boost/assign.hpp>
 
-#include <pkmnsim/base_move.hpp>
-
-#include "spec_pkmn_gen2impl.hpp"
+#include "spec_pokemon_gen345impl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    spec_pkmn_gen2impl::spec_pkmn_gen2impl(base_pkmn::sptr b, int lvl, int g, string m1,
-                                           string m2, string m3, string m4): spec_pkmn(
+    spec_pokemon_gen345impl::spec_pokemon_gen345impl(base_pokemon::sptr b, int lvl, int g,
+                                           string m1, string m2, string m3, string m4): spec_pokemon(
                                            b,m1,m2,m3,m4,g,lvl)
     {
         srand ( time(NULL) );
 
-        //Random individual values
-        ivHP = rand() % 16;
-        ivATK = rand() % 16;
-        ivDEF = rand() % 16;
-        ivSPD = rand() % 16;
-        ivSATK = rand() % 16;
-        ivSDEF = rand() % 16;
+        pid = rand();
+        unsigned int otid = rand();
+        sid = ((unsigned short*)(&otid))[0];
+        tid = ((unsigned short*)(&otid))[1];
 
-        //Random effort values
-        evHP = rand() % 65536;
-        evATK = rand() % 65536;
-        evDEF = rand() % 65536;
-        evSPD = rand() % 65536;
-        evSATK = rand() % 65536;
-        evSDEF = rand() % 65536;
+        //Random individual values
+        ivHP = rand() % 32;
+        ivATK = rand() % 32;
+        ivDEF = rand() % 32;
+        ivSPD = rand() % 32;
+        ivSATK = rand() % 32;
+        ivSDEF = rand() % 32;
+
+        /*
+         * Random effort values within following rules:
+         *  - Sum <= 510
+         *  - EV <= 255
+         */
+        evHP = 256;
+        evATK = 256;
+        evDEF = 256;
+        evSPD = 256;
+        evSATK = 256;
+        evSDEF = 256;
+        while((evHP+evATK+evDEF+evSPD+evSATK+evSDEF)>510 || evHP>255 || evATK>255 || evDEF>255 || evSPD>255 || evSATK>255 || evSDEF>255)
+        {
+            evHP = rand() % 256;
+            evATK = rand() % 256;
+            evDEF = rand() % 256;
+            evSPD = rand() % 256;
+            evSATK = rand() % 256;
+            evSDEF = rand() % 256;
+        }
 
         gender = determine_gender();
+        nature = determine_nature();
+        ability = determine_ability();
         held_item = "None";
 
-        HP = get_hp_from_iv_ev();
+        if(base->get_species_id () == 292) HP = 1;
+        else HP = get_hp_from_iv_ev();
         ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
         DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
         SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
@@ -56,7 +75,7 @@ namespace pkmnsim
         reset_volatile_status_map();
     }
 
-    dict<string, int> spec_pkmn_gen2impl::get_stats()
+    dict<string, int> spec_pokemon_gen345impl::get_stats()
     {
         dict<string, int> stats;
         stats["HP"] = HP;
@@ -69,7 +88,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string, int> spec_pkmn_gen2impl::get_IVs()
+    dict<string, int> spec_pokemon_gen345impl::get_IVs()
     {
         dict<string, int> stats;
         stats["HP"] = ivHP;
@@ -82,47 +101,47 @@ namespace pkmnsim
         return stats;
     }
 
-    void spec_pkmn_gen2impl::set_IV(string IVname, int val)
-    {
-        if(val < 0 or val > 16)
-        {
-            cerr << "Gen 2 IV's must be 0-15." << endl;
+    void spec_pokemon_gen345impl::set_IV(string IVname, int val)
+    {   
+        if(val < 0 or val > 31) 
+        {   
+            cerr << "Gen 3-5 IV's must be 0-31." << endl;
             exit(EXIT_FAILURE);
-        }
+        }   
 
         if(IVname == "HP")
-        {
+        {   
             ivHP = val;
             HP = get_hp_from_iv_ev();
-        }
+        }   
         else if(IVname == "ATK")
-        {
+        {   
             ivATK = val;
             ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
-        }
+        }   
         else if(IVname == "DEF")
-        {
+        {   
             ivDEF = val;
             DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
-        }
+        }   
         else if(IVname == "SATK")
-        {
+        {   
             ivSATK = val;
             SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
-        }
+        }   
         else if(IVname == "SDEF")
-        {
+        {   
             ivSDEF = val;
             SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSDEF);
-        }
+        }   
         else if(IVname == "SPD")
-        {
+        {   
             ivSPD = val;
             SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
-        }
-    }
+        }   
+    }   
 
-    dict<string, int> spec_pkmn_gen2impl::get_EVs()
+    dict<string, int> spec_pokemon_gen345impl::get_EVs()
     {
         dict<string, int> stats;
         stats["HP"] = evHP;
@@ -135,67 +154,72 @@ namespace pkmnsim
         return stats;
     }
 
-    void spec_pkmn_gen2impl::set_EV(string EVname, int val)
-    {
-        if(val < 0 or val > 65535)
-        {
-            cerr << "Gen 2 EV's must be 0-65535." << endl;
+    void spec_pokemon_gen345impl::set_EV(string EVname, int val)
+    {   
+        if(val < 0 or val > 255) 
+        {   
+            cerr << "Gen 3-5 EV's must be 0-255." << endl;
             exit(EXIT_FAILURE);
-        }
+        }   
 
         if(EVname == "HP")
-        {
-            ivHP = val;
+        {   
+            evHP = val;
             HP = get_hp_from_iv_ev();
-        }
+        }   
         else if(EVname == "ATK")
-        {
-            ivATK = val;
-            ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
-        }
+        {   
+            evATK = val;
+            ATK = get_stat_from_iv_ev("ATK",evATK,evATK);
+        }   
         else if(EVname == "DEF")
-        {
-            ivDEF = val;
-            DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
-        }
+        {   
+            evDEF = val;
+            DEF = get_stat_from_iv_ev("DEF",evDEF,evDEF);
+        }   
         else if(EVname == "SATK")
-        {
-            ivSATK = val;
-            SATK = get_stat_from_iv_ev("SATK",ivSATK,evSATK);
-        }
+        {   
+            evSATK = val;
+            SATK = get_stat_from_iv_ev("SATK",evSATK,evSATK);
+        }   
         else if(EVname == "SDEF")
-        {
-            ivSDEF = val;
-            SDEF = get_stat_from_iv_ev("SDEF",ivSDEF,evSDEF);
-        }
+        {   
+            evSDEF = val;
+            SDEF = get_stat_from_iv_ev("SDEF",evSDEF,evSDEF);
+        }   
         else if(EVname == "SPD")
-        {
-            ivSPD = val;
-            SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
-        }
-    }
+        {   
+            evSPD = val;
+            SPD = get_stat_from_iv_ev("SPD",evSPD,evSPD);
+        }   
+    }   
 
+    int spec_pokemon_gen345impl::get_gender() {return gender;}
 
-    int spec_pkmn_gen2impl::get_gender() {return gender;}
-
-    bool spec_pkmn_gen2impl::is_shiny()
+    bool spec_pokemon_gen345impl::is_shiny()
     {
-        return (ivSPD == 10 and ivDEF == 10 and ivSPCL == 10 and
-                   (ivATK == 2 or ivATK == 3 or ivATK == 6 or
-                    ivATK == 7 or ivATK == 10 or ivATK == 11 or
-                    ivATK == 14 or ivATK == 15)
-               );
+        int p1, p2, E, F;
+        p1 = (pid & 0xFFFF0000) >> 16;
+        p2 = pid & 0xFFFF;
+        E = tid ^ sid;
+        F = p1 ^ p2;
+        return (E ^ F) < 8;
     }
 
-    string spec_pkmn_gen2impl::get_held_item() {return held_item;}
+    pkmn_nature::sptr spec_pokemon_gen345impl::get_nature() {return nature;}
 
-    void spec_pkmn_gen2impl::set_held_item(string name) {held_item = name;}
+    string spec_pokemon_gen345impl::get_ability() {return ability;}
 
-    string spec_pkmn_gen2impl::get_info()
+    string spec_pokemon_gen345impl::get_held_item() {return held_item;}
+
+    void spec_pokemon_gen345impl::set_held_item(string name) {held_item = name;}
+
+    string spec_pokemon_gen345impl::get_info()
     {
         string types_str;
-        dict<int,string> types = base->get_types();
+        dict<int, string> types = base->get_types();
         if(types[1] == "None") types_str = types[0];
+
         else types_str = types[0] + "/" + types[1];
         string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
                          + to_string(DEF) + ", " + to_string(SATK) + ", "
@@ -218,20 +242,22 @@ namespace pkmnsim
                 break;
         }
 
+
         string output_string;
         output_string = nickname + " (" + base->get_species_name() + " " + gender_char + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
+                      + "Ability: " + ability + "\n"
                       + "Held Item: " + held_item + "\n"
                       + "Stats: " + stats_str;
 
         return output_string;
     }
 
-    string spec_pkmn_gen2impl::get_info_verbose()
+    string spec_pokemon_gen345impl::get_info_verbose()
     {
         string types_str;
-        dict<int,string> types = base->get_types();
+        dict<int, string> types = base->get_types();
         if(types[1] == "None") types_str = types[0];
         else types_str = types[0] + "/" + types[1];
 
@@ -239,6 +265,7 @@ namespace pkmnsim
         output_string = nickname + " (" + base->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
+                      + "Ability: " + ability + "\n"
                       + "Held Item: " + held_item + "\n"
                       + "Stats:\n"
                       + " - HP: " + to_string(HP) + "\n"
@@ -265,7 +292,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    void spec_pkmn_gen2impl::set_form(int form)
+    void spec_pokemon_gen345impl::set_form(int form)
     {
         base->set_form(form);
         HP = get_hp_from_iv_ev();
@@ -278,7 +305,7 @@ namespace pkmnsim
         sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
-    void spec_pkmn_gen2impl::set_form(std::string form)
+    void spec_pokemon_gen345impl::set_form(std::string form)
     {
         base->set_form(form);
         HP = get_hp_from_iv_ev();
@@ -291,7 +318,25 @@ namespace pkmnsim
         sprite_path = base->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
-    void spec_pkmn_gen2impl::reset_volatile_status_map()
+    int spec_pokemon_gen345impl::get_hp_from_iv_ev()
+    {
+        dict<string, int> stats = base->get_base_stats();
+
+        int hp_val = int(floor(((double(ivHP) + (2.0*double(stats["HP"])) + (0.25*double(evHP)) + 100.0)
+                     * double(level))/100.0 + 10.0));
+        return hp_val;
+    }
+
+    int spec_pokemon_gen345impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
+    {
+        dict<string, int> stats = base->get_base_stats();
+        double nature_mod = nature->get_mods()[stat];
+
+        int stat_val = int(ceil(((((double(ivSTAT) + 2.0*double(stats[stat]) + 0.25*double(evSTAT)) * double(level))/100.0) + 5.0) * nature_mod));
+        return stat_val;
+    }
+
+    void spec_pokemon_gen345impl::reset_volatile_status_map()
     {
         volatile_status_map = boost::assign::map_list_of
             ("confusion",0)
@@ -331,35 +376,51 @@ namespace pkmnsim
         ;
     }
 
-    int spec_pkmn_gen2impl::get_hp_from_iv_ev()
-    {
-        dict<string, int> stats = base->get_base_stats();
-
-        int hp_val = int(floor((((double(ivHP) + double(stats["HP"]) + (pow(evHP,0.5)/8.0)
-                     + 50.0) * double(level))/50.0) + 10.0));
-        return hp_val;
-    }
-
-    int spec_pkmn_gen2impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
-    {
-        dict<string, int> stats = base->get_base_stats();
-
-        int stat_val = int(ceil((((double(ivSTAT) + double(stats[stat]) + (pow(evSTAT,0.5)/8.0))
-                       * double(level))/50.0) + 5.0));
-        return stat_val;
-    }
-
-    int spec_pkmn_gen2impl::determine_gender()
+    int spec_pokemon_gen345impl::determine_gender()
     {
         if(base->get_chance_male() + base->get_chance_female() == 0) return Genders::GENDERLESS;
         else if(base->get_chance_male() == 1.0) return Genders::MALE;
         else if(base->get_chance_female() == 1.0) return Genders::FEMALE;
         else
         {
-            srand( time(NULL) );
-            double val = (rand() % 1000 + 1)/1000.0;
-            if(val <= base->get_chance_male()) return Genders::MALE;
+            if((pid % 256) > int(floor(255*(1-base->get_chance_male())))) return Genders::MALE;
             else return Genders::FEMALE;
         }
+
+        //Should never get here, this stops Clang from complaining
+        return Genders::MALE;
+    }
+
+    pkmn_nature::sptr spec_pokemon_gen345impl::determine_nature()
+    {
+        string nature_names[] = {"Hardy","Lonely","Brave","Adamant","Naughty","Bold",
+                                      "Docile","Relaxed","Impish","Lax","Timid","Hasty",
+                                      "Serious","Jolly","Naive","Modest","Mild","Quiet",
+                                      "Bashful","Rash","Calm","Gentle","Sassy","Careful",
+                                      "Quirky"};
+        return pkmn_nature::make(nature_names[pid % 25]);
+    }
+
+    string spec_pokemon_gen345impl::determine_ability()
+    {
+        srand( time(NULL) );
+        dict<int, string> abilities = base->get_abilities();
+
+        if(abilities[1] == "None" and abilities[2] == "None") ability = abilities[0]; //Single ability
+        else if(abilities[2] == "None") ability = abilities[rand() % 2]; //Two abilities, no hidden ability
+        else if(abilities[1] == "None" and abilities[2] != "None") //One normal ability, one hidden ability
+        {
+            int num;
+
+            do
+            {
+                num = rand() % 3;
+            } while(num == 1);
+
+            ability = abilities[num];
+        }
+        else ability = abilities[rand() % 3]; //Three abilities
+		
+		return ability;
     }
 }

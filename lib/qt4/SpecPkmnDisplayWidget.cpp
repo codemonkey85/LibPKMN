@@ -18,9 +18,9 @@ namespace pkmnsim
 {
     namespace qt4
     {
-        SpecPkmnDisplayWidget::SpecPkmnDisplayWidget(QWidget* parent, spec_pkmn::sptr pkmn): QWidget(parent)
+        SpecPkmnDisplayWidget::SpecPkmnDisplayWidget(QWidget* parent, spec_pokemon::sptr pkmn): QWidget(parent)
         {
-            //TODO: Check for valid spec_pkmn in case default is used
+            //TODO: Check for valid spec_pokemon in case default is used
             s_pkmn = pkmn;
             QString images_dir = QString("%1").arg(
                 QString::fromStdString(get_images_dir())
