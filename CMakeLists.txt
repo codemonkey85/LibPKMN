@@ -49,6 +49,16 @@ SET(PKMNSIM_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "PKMNsim binary 
 INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimComponent.cmake)
 
 ########################################################################
+# Testing automatic git submodule update
+########################################################################
+FIND_PACKAGE(Git)
+MESSAGE(STATUS "Updating Git submodules.")
+EXECUTE_PROCESS(
+    COMMAND ${GIT_EXECUTABLE} submodule update --init
+    WORKING_DIRECTORY ${PKMNSIM_SOURCE_DIR}
+)
+
+########################################################################
 # Getting compilation info
 ########################################################################
 IF(NOT PKMNSIM_USED_AS_SUBMODULE)
