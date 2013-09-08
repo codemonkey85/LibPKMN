@@ -26,7 +26,6 @@ IF(ENABLE_LIBRARY)
         base_pokemon_gen2impl.cpp
         base_pokemon_gen345impl.cpp
         pkmn_nature.cpp
-        pkmn_types.cpp
         lists.cpp
         spec_pokemon.cpp
         spec_pokemon_gen1impl.cpp

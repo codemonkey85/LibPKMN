@@ -17,6 +17,16 @@
 namespace pkmnsim
 {
     /*
+     * Returns the damage mod an attack of type1 would have against a Pokémon of type2.
+     *
+     * Parameters:
+     *  - type1: Type of attack
+     *  - type2: Type of receiving Pokemon
+     *  - gen1: Whether or not analysis should be done with Gen 1 types
+     */
+    double PKMNSIM_API get_type_damage_mod(std::string type1, std::string type2, bool gen1);
+
+    /*
      * Returns the minimum possible stat of a Pokemon.
      * Uses 0 EV, 0 IV, and disadvantageous nature (Gen 3-5).
      *

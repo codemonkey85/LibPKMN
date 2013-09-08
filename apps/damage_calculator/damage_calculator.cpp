@@ -18,7 +18,7 @@
 #include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
-#include <pkmnsim/pkmn_types.hpp>
+#include <pkmnsim/analysis.hpp>
 
 namespace po = boost::program_options;
 using namespace pkmnsim;

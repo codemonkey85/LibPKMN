@@ -17,7 +17,7 @@
 
 #include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/lists.hpp>
-#include <pkmnsim/pkmn_types.hpp>
+#include <pkmnsim/analysis.hpp>
 
 #include "team_analysis_common.hpp"
 
