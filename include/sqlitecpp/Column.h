@@ -14,7 +14,8 @@
 #pragma once
 
 #include <sqlite3.h>
-#include "Exception.h"
+#include <sqlitecpp/Config.h>
+#include <sqlitecpp/Exception.h>
 
 namespace SQLite
 {
@@ -25,7 +26,7 @@ namespace SQLite
  *
  * A Column is a particular field of SQLite data in the current row of result of the Statement.
  */
-class Column
+class SQLITECPP_API Column
 {
 public:
     /**

@@ -18,7 +18,7 @@
 #include "spec_pokemon_gen1impl.hpp"
 #include "spec_pokemon_gen2impl.hpp"
 #include "spec_pokemon_gen345impl.hpp"
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 
 using namespace std;
 

@@ -29,7 +29,7 @@
 #include <pkmds/pkmds_g5_sqlite.h>
 
 #include <pkmnsim/conversions.hpp>
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 
 using namespace std;
 

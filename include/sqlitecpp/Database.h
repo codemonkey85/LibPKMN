@@ -16,8 +16,9 @@
 #include <sqlite3.h>
 #include <string>
 #include <string.h>
-#include "Exception.h"
-#include "Column.h"
+#include <sqlitecpp/Config.h>
+#include <sqlitecpp/Exception.h>
+#include <sqlitecpp/Column.h>
 
 namespace SQLite
 {
@@ -32,7 +33,7 @@ namespace SQLite
  * is opened in the constructor and closed in the destructor, so that there is
  * no need to worry about memory management or the validity of the underlying SQLite Connection.
  */
-class Database
+class SQLITECPP_API Database
 {
     friend class Statement;
 

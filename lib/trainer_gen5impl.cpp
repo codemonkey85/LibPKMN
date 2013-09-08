@@ -20,7 +20,7 @@
 #include <pkmnsim/database/queries.hpp>
 
 #include <pkmnsim/conversions.hpp>
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 #include "trainer_gen5impl.hpp"
 
 using namespace std;

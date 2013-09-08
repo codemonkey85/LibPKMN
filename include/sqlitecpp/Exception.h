@@ -15,6 +15,8 @@
 
 #include <stdexcept>
 
+#include <sqlitecpp/Config.h>
+
 #ifdef _WIN32
 #pragma warning(disable:4290) // Disable warning C4290: C++ exception specification ignored except to indicate a function is not __declspec(nothrow)
 #endif
@@ -25,7 +27,7 @@ namespace SQLite
 /**
  * @brief Encapsulation of the error message from SQLite3, based on std::runtime_error.
  */
-class Exception : public std::runtime_error
+class SQLITECPP_API Exception : public std::runtime_error
 {
 public:
     Exception(const std::string& aErrorMessage) :

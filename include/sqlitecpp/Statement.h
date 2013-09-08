@@ -14,7 +14,8 @@
 #pragma once
 
 #include <sqlite3.h>
-#include "Exception.h"
+#include <sqlitecpp/Config.h>
+#include <sqlitecpp/Exception.h>
 
 namespace SQLite
 {

@@ -10,6 +10,16 @@ FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PAT
 
 IF(ENABLE_LIBRARY)
     FILE(GLOB sqlitecpp_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "sqlitecpp/*.c*")
+
+    ADD_LIBRARY(sqlitecpp SHARED ${sqlitecpp_sources})
+    SET_TARGET_PROPERTIES(sqlitecpp PROPERTIES DEFINE_SYMBOL "SQLITECPP_DLL_EXPORTS")
+    TARGET_LINK_LIBRARIES(sqlitecpp pkmds-sqlite3)
+    INSTALL(TARGETS sqlitecpp
+        LIBRARY DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.so
+        ARCHIVE DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.lib
+        RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime #.dll
+    )
+
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
 
     #Configure database info for relevant library files
@@ -18,7 +28,7 @@ IF(ENABLE_LIBRARY)
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
     @ONLY)
 
-    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds pkmds-sqlite3)
+    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds sqlitecpp)
 
     LIST(APPEND libpkmnsim_sources
         base_pokemon.cpp
@@ -40,7 +50,6 @@ IF(ENABLE_LIBRARY)
         base_move.cpp
         base_move_mainimpl.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
-        ${sqlitecpp_sources}
         ${database_sources}
     )
     

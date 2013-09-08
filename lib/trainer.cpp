@@ -11,7 +11,7 @@
 
 #include <boost/format.hpp>
 
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 #include "trainer_gen3impl.hpp"
 #include "trainer_gen4impl.hpp"
 #include "trainer_gen5impl.hpp"

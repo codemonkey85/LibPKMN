@@ -8,10 +8,10 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#include "Statement.h"
+#include <sqlitecpp/Statement.h>
 
-#include "Database.h"
-#include "Column.h"
+#include <sqlitecpp/Database.h>
+#include <sqlitecpp/Column.h>
 #include <iostream>
 #include <pkmnsim/config.hpp>
 

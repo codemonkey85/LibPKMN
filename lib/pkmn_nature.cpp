@@ -17,7 +17,7 @@
 #include <pkmnsim/pkmn_nature.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 
 using namespace std;
 

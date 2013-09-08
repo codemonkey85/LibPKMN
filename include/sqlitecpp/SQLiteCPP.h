@@ -17,10 +17,10 @@
 #include <sqlite3.h>
 
 // Include useful headers of SQLiteCPP
-#include "Database.h"
-#include "Statement.h"
-#include "Column.h"
-#include "Transaction.h"
+#include <sqlitecpp/Database.h>
+#include <sqlitecpp/Statement.h>
+#include <sqlitecpp/Column.h>
+#include <sqlitecpp/Transaction.h>
 
 
 /**

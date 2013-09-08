@@ -10,7 +10,7 @@
 #include <pkmnsim/paths.hpp>
 
 #include "base_move_mainimpl.hpp"
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 
 using namespace std;
 

@@ -18,7 +18,7 @@
 
 //TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
 #include "base_move_mainimpl.hpp"
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 
 
 using namespace std;

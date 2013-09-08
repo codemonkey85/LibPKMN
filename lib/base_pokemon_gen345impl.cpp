@@ -14,7 +14,7 @@
 #include <pkmnsim/database/queries.hpp>
 
 #include "base_pokemon_gen345impl.hpp"
-#include "sqlitecpp/SQLiteCPP.h"
+#include <sqlitecpp/SQLiteCPP.h>
 
 namespace fs = boost::filesystem;
 using namespace std;
