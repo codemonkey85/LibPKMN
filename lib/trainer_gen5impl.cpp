@@ -19,7 +19,7 @@
 #include <pkmnsim/spec_pkmn.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "conversions.hpp"
+#include <pkmnsim/conversions.hpp>
 #include "sqlitecpp/SQLiteCPP.h"
 #include "trainer_gen5impl.hpp"
 
