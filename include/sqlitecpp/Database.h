@@ -20,6 +20,10 @@
 #include <sqlitecpp/Exception.h>
 #include <sqlitecpp/Column.h>
 
+#ifdef _WIN32
+#pragma warning(disable:4251) // Disable warning C4251
+#endif
+
 namespace SQLite
 {
 

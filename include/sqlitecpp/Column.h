@@ -94,7 +94,7 @@ private:
 };
 
 /// Standard std::ostream inserter
-std::ostream& operator<<(std::ostream &stream, const Column& column);
+SQLITECPP_API std::ostream& operator<<(std::ostream &stream, const Column& column);
 
 }  // namespace SQLite
 #endif /*COLUMN_H*/

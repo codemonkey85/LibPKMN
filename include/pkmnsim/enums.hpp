@@ -618,7 +618,7 @@ namespace pkmnsim
             BITE,
             GROWL,
             ROAR,
-            _SING,
+            __SING,
             SUPERSONIC,
             SONICBOOM,
             DISABLE,

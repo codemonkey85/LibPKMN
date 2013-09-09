@@ -17,6 +17,10 @@
 #include <sqlitecpp/Config.h>
 #include <sqlitecpp/Exception.h>
 
+#ifdef _WIN32
+#pragma warning(disable:4251) // Disable warning C4251
+#endif
+
 namespace SQLite
 {
 
@@ -34,7 +38,7 @@ class Column;
  * is compiled in the constructor and finalized in the destructor, so that there is
  * no need to worry about memory management or the validity of the underlying SQLite Statement.
  */
-class Statement
+class SQLITECPP_API Statement
 {
 public:
     /**
