@@ -6,8 +6,10 @@
  */
 
 #include <iostream>
+#include <math.h>
 #include <stdexcept>
 #include <string>
+#include <time.h>
 #include <vector>
 
 #include <pkmnsim/base_move.hpp>
@@ -27,6 +29,12 @@ namespace pkmnsim
     spec_pokemon::spec_pokemon(base_pokemon::sptr b, int m1, int m2,
                                int m3, int m4, int g, int l)
     {
+        srand(time(NULL));
+        personality = rand();
+        unsigned int otid = rand();
+        secret_id = ((unsigned short*)(&otid))[0];
+        trainer_id = ((unsigned short*)(&otid))[1];
+    
         base = b;
         nickname = base->get_species_name();
         level = l;

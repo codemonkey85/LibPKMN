@@ -282,8 +282,8 @@ namespace pkmnsim
             std::string held_item;
             int from_game, from_gen;
             unsigned int level;
-            unsigned int pid;
-            unsigned short tid, sid;
+            unsigned int personality;
+            unsigned short trainer_id, secret_id;
 
             unsigned int HP, ATK, DEF, SPD;
             unsigned int ivHP, ivATK, ivDEF, ivSPD;

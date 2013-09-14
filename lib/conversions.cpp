@@ -186,9 +186,9 @@ namespace pkmnsim
         s_pkmn->held_item = items[pkmn_g_t->held];
 
         s_pkmn->nature = pkmn_nature::make(b_pkmn_t->personality % 25);
-        s_pkmn->pid = b_pkmn_t->personality;
-        s_pkmn->tid = ((unsigned short*)(&b_pkmn_t->otid))[0];
-        s_pkmn->sid = ((unsigned short*)(&b_pkmn_t->otid))[1];
+        s_pkmn->personality = b_pkmn_t->personality;
+        s_pkmn->trainer_id = ((unsigned short*)(&b_pkmn_t->otid))[0];
+        s_pkmn->secret_id = ((unsigned short*)(&b_pkmn_t->otid))[1];
 
         //Gender
         int gender_from_pokehack = b_pkmn_t->personality % 256;
@@ -284,8 +284,8 @@ namespace pkmnsim
         if(s_pkmn->base->get_nat_pokedex_num() == 32) pkmn_g_t->species = 32; //Nidoran M
         else pkmn_g_t->species = distance(pokemon_species, (find(pokemon_species, pokemon_species+439, s_pkmn->get_species_name().c_str())));
 
-        b_pkmn_t->personality = s_pkmn->pid;
-        unsigned short otid[2] = {s_pkmn->tid, s_pkmn->sid};
+        b_pkmn_t->personality = s_pkmn->personality;
+        unsigned short otid[2] = {s_pkmn->trainer_id, s_pkmn->secret_id};
         b_pkmn_t->otid = *((unsigned int*)(&otid[0]));
         b_pkmn_t->level = s_pkmn->level;
         for(int i = 0; i < 10; i++)
@@ -491,9 +491,9 @@ namespace pkmnsim
         s_pkmn->nickname = nickname_buffer;
         s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
         s_pkmn->nature = pkmn_nature::make(pokelib_pkmn.getNatureValue());
-        s_pkmn->pid = pokelib_pkmn.pkm->pkm.pid;
-        s_pkmn->tid = pokelib_pkmn.pkm->pkm.ot_id;
-        s_pkmn->sid = pokelib_pkmn.pkm->pkm.ot_sid;
+        s_pkmn->personality = pokelib_pkmn.pkm->pkm.pid;
+        s_pkmn->trainer_id = pokelib_pkmn.pkm->pkm.ot_id;
+        s_pkmn->secret_id = pokelib_pkmn.pkm->pkm.ot_sid;
         switch(int(pokelib_pkmn.getGenderValue()))
         {
             case PokeLib::MALE:
@@ -650,9 +650,9 @@ namespace pkmnsim
         pokelib_pkmn.pkm->pkm.species = s_pkmn->get_species_id();
         pokelib_pkmn.setLevel(uint8_t(s_pkmn->level));
         pokelib_pkmn.setNickname(s_pkmn->nickname.c_str(), s_pkmn->nickname.size());
-        pokelib_pkmn.pkm->pkm.pid = s_pkmn->pid;
-        pokelib_pkmn.pkm->pkm.ot_id = s_pkmn->tid;
-        pokelib_pkmn.pkm->pkm.ot_sid = s_pkmn->sid;
+        pokelib_pkmn.pkm->pkm.pid = s_pkmn->personality;
+        pokelib_pkmn.pkm->pkm.ot_id = s_pkmn->trainer_id;
+        pokelib_pkmn.pkm->pkm.ot_sid = s_pkmn->secret_id;
 
         pokelib_pkmn.pkm->pkm.move[0] = s_pkmn->moves[0]->get_move_id();
         pokelib_pkmn.pkm->pkm.move[1] = s_pkmn->moves[1]->get_move_id();
@@ -1022,9 +1022,9 @@ namespace pkmnsim
         if(p_pkm->pkm_data.item == Items::NOTHING) s_pkmn->held_item = "None";
         else s_pkmn->held_item = lookupitemname(p_pkm->pkm_data);
         s_pkmn->nature = pkmn_nature::make(p_pkm->pkm_data.nature);
-        s_pkmn->pid = p_pkm->pkm_data.pid;
-        s_pkmn->sid = p_pkm->pkm_data.sid;
-        s_pkmn->tid = p_pkm->pkm_data.tid;
+        s_pkmn->personality = p_pkm->pkm_data.pid;
+        s_pkmn->secret_id = p_pkm->pkm_data.sid;
+        s_pkmn->trainer_id = p_pkm->pkm_data.tid;
         switch(int(getpkmgender(p_pkm->pkm_data)))
         {
             case ::Genders::male:
@@ -1199,9 +1199,9 @@ namespace pkmnsim
         #else
         setpkmnickname(p_pkm->pkm_data, (wchar_t*)getwstring(s_pkmn->nickname).c_str(), s_pkmn->nickname.size());
         #endif
-        p_pkm->pkm_data.pid = s_pkmn->pid;
-        p_pkm->pkm_data.sid = s_pkmn->sid;
-        p_pkm->pkm_data.tid = s_pkmn->tid;
+        p_pkm->pkm_data.pid = s_pkmn->personality;
+        p_pkm->pkm_data.sid = s_pkmn->secret_id;
+        p_pkm->pkm_data.tid = s_pkmn->trainer_id;
 
         p_pkm->party_data.maxhp = s_pkmn->HP;
         p_pkm->party_data.attack = s_pkmn->ATK;

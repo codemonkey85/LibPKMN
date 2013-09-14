@@ -22,10 +22,7 @@ namespace pkmnsim
     {
         srand ( time(NULL) );
 
-        pid = rand();
-        unsigned int otid = rand();
-        sid = ((unsigned short*)(&otid))[0];
-        tid = ((unsigned short*)(&otid))[1];
+        personality = rand();
 
         //Random individual values
         ivHP = rand() % 32;
@@ -199,9 +196,9 @@ namespace pkmnsim
     bool spec_pokemon_gen345impl::is_shiny()
     {
         int p1, p2, E, F;
-        p1 = (pid & 0xFFFF0000) >> 16;
-        p2 = pid & 0xFFFF;
-        E = tid ^ sid;
+        p1 = (personality & 0xFFFF0000) >> 16;
+        p2 = personality & 0xFFFF;
+        E = trainer_id ^ secret_id;
         F = p1 ^ p2;
         return (E ^ F) < 8;
     }
@@ -383,7 +380,7 @@ namespace pkmnsim
         else if(base->get_chance_female() == 1.0) return Genders::FEMALE;
         else
         {
-            if((pid % 256) > int(floor(255*(1-base->get_chance_male())))) return Genders::MALE;
+            if((personality % 256) > int(floor(255*(1-base->get_chance_male())))) return Genders::MALE;
             else return Genders::FEMALE;
         }
 
@@ -391,7 +388,7 @@ namespace pkmnsim
         return Genders::MALE;
     }
 
-    pkmn_nature::sptr spec_pokemon_gen345impl::determine_nature() {return pkmn_nature::make(pid % 25);}
+    pkmn_nature::sptr spec_pokemon_gen345impl::determine_nature() {return pkmn_nature::make(personality % 25);}
 
     string spec_pokemon_gen345impl::determine_ability()
     {
