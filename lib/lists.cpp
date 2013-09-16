@@ -15,6 +15,9 @@
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/paths.hpp>
 
+#include <pokehack/pokestructs.h>
+#include <pokelib/data_tables.h>
+
 #include <sqlitecpp/SQLiteCPP.h>
 
 using namespace std;
@@ -52,6 +55,79 @@ namespace pkmnsim
         game_group_vec.push_back("Heart Gold/Soul Silver");
         game_group_vec.push_back("Black/White");
         game_group_vec.push_back("Black 2/White 2");
+    }
+
+    void get_item_list(vector<string> &item_vec, int game)
+    {
+        item_vec.clear();
+        vector<string> temp_vec;
+
+        switch(game)
+        {
+            case Games::XD:
+            case Games::EMERALD:
+                //Gen 3 items appearing only in Emerald
+                item_vec.push_back(items[374]);
+                item_vec.push_back(items[373]);
+            case Games::FIRE_RED:
+            case Games::LEAF_GREEN:
+                //Gen 3 items appearing only  in Fire Red, Leaf Green, and Emerald
+                temp_vec.clear();
+                for(int i = 348; i < 374; i++) temp_vec.push_back(items[i]);
+                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
+            case Games::COLOSSEUM:
+            case Games::RUBY:
+            case Games::SAPPHIRE:
+                //Gen 3 items appearing in all Gen 3 games
+                temp_vec.clear();
+                for(int i = 0; i < 348; i++)
+                    if(items[i] != "Nothing" and items[i] != "???")
+                        temp_vec.push_back(items[i]);
+                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
+                break;
+
+            case Games::HEART_GOLD:
+            case Games::SOUL_SILVER:
+                //Gen 4 items appearing only in Heart Gold and Soul Silver
+                for(int i = 468; i < 536; i++) item_vec.push_back(PokeLib::items[i]);
+            case Games::PLATINUM:
+                //Gen 4 items appearing only in Platinum, Heart Gold, and Soul Silver
+                temp_vec.clear();
+                temp_vec.push_back(PokeLib::items[111]);
+                temp_vec.push_back(PokeLib::items[464]);
+                temp_vec.push_back(PokeLib::items[465]);
+                temp_vec.push_back(PokeLib::items[466]);
+                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
+            case Games::DIAMOND:
+            case Games::PEARL:
+                //Gen 4 items appearing in all Gen 4 games
+                temp_vec.clear();
+                for(int i = 0; i < 464; i++)
+                    if(i != 111 and PokeLib::items[i] != "???" and PokeLib::items[i] != "----")
+                        temp_vec.push_back(PokeLib::items[i]);
+                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
+                break;
+
+            case Games::BLACK:
+            case Games::WHITE:
+            {
+                SQLite::Database db(get_database_path().c_str());
+                string query_string = "SELECT name FROM item_names WHERE item_id<670 AND local_language_id=9";
+                SQLite::Statement query(db, query_string.c_str());
+                while(query.executeStep()) item_vec.push_back(query.getColumn(0));
+                break;
+            }
+
+            default: //For Black 2 and White 2, show all items, as well as for any invalid entry
+            {
+                SQLite::Database db(get_database_path().c_str());
+                string query_string = "SELECT name FROM item_names WHERE item_id AND local_language_id=9";
+                SQLite::Statement query(db, query_string.c_str());
+                while(query.executeStep()) item_vec.push_back(query.getColumn(0));
+                break;
+                break;
+            }
+        }
     }
 
     void get_pokemon_list(vector<string>& pokemon_vec, int game)
@@ -298,6 +374,13 @@ namespace pkmnsim
         vector<string> game_group_list;
         get_game_group_list(game_group_list);
         return game_group_list;
+    }
+
+    vector<string> get_item_vec(int game)
+    {
+        vector<string> item_list;
+        get_item_list(item_list, game);
+        return item_list;
     }
 
     vector<string> get_pokemon_vec(int game)
