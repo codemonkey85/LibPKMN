@@ -114,7 +114,11 @@ namespace pkmnsim
                 SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT name FROM item_names WHERE item_id<670 AND local_language_id=9";
                 SQLite::Statement query(db, query_string.c_str());
+                #ifdef PKMNSIM_PLATFORM_WIN32
                 while(query.executeStep()) item_vec.push_back(string(query.getColumn(0)));
+                #else
+                while(query.executeStep()) item_vec.push_back(query.getColumn(0));
+                #endif
                 break;
             }
 
@@ -123,8 +127,11 @@ namespace pkmnsim
                 SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT name FROM item_names WHERE item_id AND local_language_id=9";
                 SQLite::Statement query(db, query_string.c_str());
+                #ifdef PKMNSIM_PLATFORM_WIN32
                 while(query.executeStep()) item_vec.push_back(string(query.getColumn(0)));
-                break;
+                #else
+                while(query.executeStep()) item_vec.push_back(query.getColumn(0));
+                #endif
                 break;
             }
         }
