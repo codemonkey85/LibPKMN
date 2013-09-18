@@ -13,7 +13,6 @@
 #include <sqlitecpp/Database.h>
 #include <sqlitecpp/Column.h>
 #include <iostream>
-#include <pkmnsim/config.hpp>
 
 namespace SQLite
 {
