@@ -1,24 +1,6 @@
 Pokémon Simulator
 
-Data structures written to construct a Pokémon team, complete with movesets.
-This allows for apps to be written to find type weaknesses in teams, calculate
-damage ranges for different scenarios, and many other in-game situations.
-
-Pokémon info, algorithms, etc., all taken from:
-Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
-Database used courtesy of Alex Munroe (http://www.veekun.com).
-
-Minimum required CMake version: 2.8
-
-Tested with:
- * GCC 4.6.3
- * Clang 3.0
- * Microsoft Visual Studio 2010
-
-SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source included under the MIT license.
-Pokehack (https://github.com/Grazfather/pokehack) source included as Git submodule.
-PokeLib-CMake (https://github.com/ncorgan/PokeLib-cmake) source included as Git submodule.
-PKMDS-G5 (https://github.com/codemonkey85/PKMDS-G5) source included as Git submodule.
+NOTE: All current development is on the "complete_api_overhaul" branch; the structure of the repository is in the middle of changing. This API is stable on GCC, Clang, and MSVC, but it will no longer be updated. The "complete_api_overhaul" branch has no guarantee of compilability, but it will eventually be merged into master once it is stable.
 
 Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
@@ -27,4 +9,4 @@ Dependencies:
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
-README last updated: 2013-09-07
+README last updated: 2013-09-21
