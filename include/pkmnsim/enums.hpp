@@ -1823,6 +1823,47 @@ namespace pkmnsim
             GENESECT
         };
     }
+    
+    namespace Stats
+    {
+        enum stats
+        {
+            HP = 1,
+            ATTACK,
+            DEFENSE,
+            SPECIAL_ATTACK,
+            SPECIAL_DEFENSE,
+            SPEED,
+            SPECIAL = 9
+        }
+    }
+    
+    namespace Types
+    {
+        enum types
+        {
+            NONE,
+            NORMAL,
+            FIGHTING,
+            FLYING,
+            POISON,
+            GROUND,
+            ROCK,
+            BUG,
+            GHOST,
+            STEEL,
+            FIRE,
+            WATER,
+            GRASS,
+            ELECTRIC,
+            PSYCHIC,
+            ICE,
+            DRAGON,
+            DARK,
+            UNKNOWN=10001,
+            SHADOW
+        }
+    }
 }
 
 #endif /* INCLUDED_PKMNSIM_ENUMS_HPP */
