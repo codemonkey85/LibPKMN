@@ -4,111 +4,48 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_BASE_MOVE_HPP
-#define INCLUDED_PKMNSIM_BASE_MOVE_HPP
+#ifndef INCLUDED_PKMNSIM_MOVE_HPP
+#define INCLUDED_PKMNSIM_MOVE_HPP
 
 #ifdef _MSC_VER
 #include <memory>
 #else
 #include <tr1/memory>
 #endif
+
 #include <string>
 
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/dict.hpp>
 #include <pkmnsim/enums.hpp>
-#include <pkmnsim/vla.hpp>
+#include <pkmnsim/types/dict.hpp>
+#include <pkmnsim/types/vla.hpp>
 
 namespace pkmnsim
 {
-    /*
-     * Base Move Class
-     *
-     * This class generates an object with all the information for a battle move,
-     * as appropriate to the specified generation.
-     */
-    class PKMNSIM_API base_move
+    class PKMNSIM_API move
     {
         public:
 
-            typedef std::shared_ptr<base_move> sptr;
-
-            //Class Constructors (should never be called directly)
-            base_move(void) {};
-            base_move(int id, int gen);
-
-            /*
-             * Returns a std::shared_ptr<base_move> of specified move.
-             * Verifies validity of move+generation before returning value.
-             *
-             * Parameters:
-             *  - move_id: Moves::moves enum value corresponding to desired move
-             *  - gen: generation (1-5) from which to use move
-             */
+            typedef std::shared_ptr<move> sptr;
             static sptr make(int id, int gen);
 
-            //Used for moves with different effects based on Pokemon
-            //static sptr make(std::string identifier, int gen, spec_pokemon::sptr<spec_pokemon> s_pkmn);
-
-            /*
-             * Returns move's name.
-             */
-            std::string get_name(void);
-
-            /*
-             * Returns description of move's effects.
-             */
-            std::string get_description(void);
-
-            /*
-             * Returns move's type.
-             */
-            std::string get_type(void);
-
-            /*
-             * Returns move's base power value (to be input into damage algorithm).
-             */
-            int get_base_power(void);
-
-            /*
-             * Returns move's Power Points (number of times move can be used without replenishing)
-             */
-            int get_base_pp(void);
-
-            /*
-             * Returns move's chances of succeeding (0.0-1.0).
-             */
-            double get_base_accuracy(void);
-
-            /*
-             * Returns move's damage class (Physical, Special, Effect)
-             */
-            int get_move_damage_class(void);
-
-            /*
-             * Returns effect (burn, paralyze, etc) of move (without any in-battle changes).
-             */
-            std::string get_base_effect(void);
-
-            /*
-             * Returns chance of causing effect (0.0-1.0).
-             */
-            double get_base_effect_chance(void);
+            move() {};
+            virtual ~move() {};
             
-            /*
-             * Return moves.id from pkmnsim.db
-             */
-            int get_move_id(void);
-            
-            /*
-             * Return moves.type_id from pkmnsim.db
-             */
-            int get_type_id(void);
-            
-            /*
-             * Return moves.target_id from pkmnsim.db
-             */
-            int get_target_id(void);
+
+            virtual std::string get_name() const = 0;
+            virtual std::string get_description() const = 0;
+            virtual int get_type() const = 0;
+            virtual int get_base_power() const = 0;
+            virtual int get_base_pp() const = 0;
+            virtual double get_base_accuracy() const = 0;
+            virtual int get_move_damage_class() const = 0;
+            virtual std::string get_base_effect() const = 0;
+            virtual double get_base_effect_chance() const = 0;
+
+            virtual int get_move_id() const = 0;
+            virtual int get_type_id() const = 0;
+            virtual int get_target_id() const = 0;
 
         protected:
             //Database values
@@ -128,8 +65,8 @@ namespace pkmnsim
     };
 
     //Related typedefs
-    typedef std::vector<base_move::sptr> b_move_vec_t;
-    typedef vla<base_move::sptr> b_move_vla_t;
+    typedef std::vector<move::sptr> b_move_vec_t;
+    typedef vla<move::sptr> b_move_vla_t;
 }
 
-#endif /* INCLUDED_PKMNSIM_BASE_MOVE_HPP */
+#endif /* INCLUDED_PKMNSIM_MOVE_HPP */

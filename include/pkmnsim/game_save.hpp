@@ -12,7 +12,7 @@
 #else
 #include <tr1/memory>
 #endif
-#include <iostream>
+
 #include <string>
 #include <vector>
 
@@ -26,17 +26,25 @@ namespace pkmnsim
         public:
 
             typedef std::shared_ptr<trainer> sptr;
-
-            //Class constructors (should never be called directly)
-            game_save(void);
-
             static sptr make(std::string filename);
 
+            //Class constructors (should never be called directly)
+            game_save() {};
+            virtual ~game_save() {};
+
+            virtual trainer::sptr get_trainer() const = 0;
+            
+            virtual std::vector<unsigned int> get_time_played() = 0;
+            virtual std::vector<unsigned int> get_last_play_time() = 0;
+
         protected:
-            int game_id;
+            unsigned int game_id;
             unsigned char* raw_data;
             trainer::sptr game_trainer;
+            
+            unsigned int hours_played, minutes_played, seconds_played;
+            unsigned int year, month, day, hour, minute, second;
     };
 }
-
 #endif /* INCLUDED_PKMNSIM_GAME_SAVE_HPP */
+
