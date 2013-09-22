@@ -12,181 +12,67 @@
 #include <pkmnsim/spec_pokemon.hpp>
 
 #include <pokehack/pokestructs.h>
-#include <pokelib/data_tables.h>
 #include <pokelib/pokelib.h>
 #include <pkmds/pkmds_g5.h>
 
 namespace pkmnsim
 {
-    class converter
+    class PKMNSIM_API conversions
     {
         public:
             converter();
 
-            /*
-             * Converts Pokehack's Pokemon data structures to PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
-             *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
-             *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
-             *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
-             *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
-             */
-            spec_pokemon::sptr pokehack_pkmn_to_spec_pokemon(belt_pokemon_t* b_pkmn_t,
+            static spec_pokemon::sptr pokehack_pkmn_to_spec_pokemon(belt_pokemon_t* b_pkmn_t,
                                                        pokemon_attacks_t* pkmn_a_t,
                                                        pokemon_effort_t* pkmn_e_t,
                                                        pokemon_misc_t* pkmn_m_t,
                                                        pokemon_growth_t* pkmn_g_t);
 
-            /*
-             * Converts PKMNsim's spec_pokemon to Pokehack's Pokemon data structures.
-             *
-             * Parameters:
-             *  - s_pkmn: PKMNsim's spec_pokemon to convert
-             *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
-             *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
-             *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
-             *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
-             *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
-             */
-            void spec_pokemon_to_pokehack_pkmn(spec_pokemon::sptr s_pkmn,
+            static void spec_pokemon_to_pokehack_pkmn(spec_pokemon::sptr s_pkmn,
                                             belt_pokemon_t* b_pkmn_t,
                                             pokemon_attacks_t* pkmn_a_t,
                                             pokemon_effort_t* pkmn_e_t,
                                             pokemon_misc_t* pkmn_m_t,
                                             pokemon_growth_t* pkmn_g_t);
 
-            /*
-             * Converts PokeLib's Pokemon data structure to PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - pokelib_pkmn: PokeLib's Pokemon data structure to convert
-             *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
-             *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
-             *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
-             *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
-             *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
-             */
-            spec_pokemon::sptr pokelib_pkmn_to_spec_pokemon(PokeLib::Pokemon pokelib_pkmn);
+            static spec_pokemon::sptr pokelib_pkmn_to_spec_pokemon(PokeLib::Pokemon pokelib_pkmn);
 
-            /*
-             * Converts PKMNsim's spec_pokemon to Pokelib's Pokemon data structure.
-             *
-             * Parameters:
-             *  - s_pkmn: PKMNsim's spec_pokemon to convert
-             */
-            PokeLib::Pokemon spec_pokemon_to_pokelib_pkmn(spec_pokemon::sptr s_pkmn);
+            static PokeLib::Pokemon spec_pokemon_to_pokelib_pkmn(spec_pokemon::sptr s_pkmn);
 
-            /*
-             * Converts PKMDS's Pokemon data structure to PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - p_pkm: PKMDS's Pokemon data structure to convert
-             */
-            spec_pokemon::sptr pkmds_pkmn_to_spec_pokemon(party_pkm* p_pkm);
+            static spec_pokemon::sptr pkmds_pkmn_to_spec_pokemon(party_pkm* p_pkm);
 
-            /*
-             * Converts PKMNsim's spec_pokemon to PKMDS's Pokemon data structure.
-             *
-             * Parameters:
-             *  - s_pkmn: PKMNsim's spec_pokemon to convert
-             *  - p_pkm: PKMDS's Pokemon data structure to return conversion
-             */
-            void spec_pokemon_to_pkmds_pkmn(spec_pokemon::sptr s_pkmn, party_pkm* p_pkm);
+            static void spec_pokemon_to_pkmds_pkmn(spec_pokemon::sptr s_pkmn, party_pkm* p_pkm);
 
-            /*
-             * Converts Pokehack's Pokemon data structures to PokeLib's through
-             * PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
-             *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
-             *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
-             *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
-             *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
-             */
-            PokeLib::Pokemon pokehack_pkmn_to_pokelib_pkmn(belt_pokemon_t* b_pkmn_t,
+            static PokeLib::Pokemon pokehack_pkmn_to_pokelib_pkmn(belt_pokemon_t* b_pkmn_t,
                                                            pokemon_attacks_t* pkmn_a_t,
                                                            pokemon_effort_t* pkmn_e_t,
                                                            pokemon_misc_t* pkmn_m_t,
                                                            pokemon_growth_t* pkmn_g_t);
 
-            /*
-             * Converts Pokehack's Pokemon data structures to PKMDS's through
-             * PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
-             *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
-             *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
-             *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
-             *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
-             *  - p_pkm: PKMDS's Pokemon data structure to return conversion
-             */            
-            void pokehack_pkmn_to_pkmds_pkmn(belt_pokemon_t* b_pkmn_t,
+            static void pokehack_pkmn_to_pkmds_pkmn(belt_pokemon_t* b_pkmn_t,
                                              pokemon_attacks_t* pkmn_a_t,
                                              pokemon_effort_t* pkmn_e_t,
                                              pokemon_misc_t* pkmn_m_t,
                                              pokemon_growth_t* pkmn_g_t,
                                              party_pkm* p_pkm);
 
-            /*
-             * Converts PokeLib's Pokemon data structure to Pokehack's through
-             * PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - pokelib_pkmn: PokeLib's Pokemon data structure to convert
-             *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
-             *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
-             *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
-             *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
-             *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
-             */
-            void pokelib_pkmn_to_pokehack_pkmn(PokeLib::Pokemon pokelib_pkmn,
+            static void pokelib_pkmn_to_pokehack_pkmn(PokeLib::Pokemon pokelib_pkmn,
                                                belt_pokemon_t* b_pkmn_t,
                                                pokemon_attacks_t* pkmn_a_t,
                                                pokemon_effort_t* pkmn_e_t,
                                                pokemon_misc_t* pkmn_m_t,
                                                pokemon_growth_t* pkmn_g_t);
 
-            /*
-             * Converts PokeLib's Pokemon data structure to Pokehack's through
-             * PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - pokelib_pkmn: PokeLib's Pokemon data structure to convert
-             *  - p_pkm: PKMDS's Pokemon data structure to return conversion
-             */
-            void pokelib_pkmn_to_pkmds_pkmn(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm);
+            static void pokelib_pkmn_to_pkmds_pkmn(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm);
 
-            /*
-             * Converts PKMDS's Pokemon data structure to Pokehack's through
-             * PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - p_pkm: PKMDS's Pokemon data structure to convert
-             *  - b_pkmn_t: Pointer to Pokehack's Belt Pokemon data structure
-             *  - pkmn_a_t: Pointer to Pokehack's Pokemon Attacks data structure
-             *  - pkmn_e_t: Pointer to Pokehack's Pokemon Effort data structure
-             *  - pkmn_m_t: Pointer to Pokehack's Pokemon Misc Stats data structure
-             *  - pkmn_g_t: Pointer to Pokehack's Pokemon Growth data structure
-             */
-            void pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
+            static void pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
                                              belt_pokemon_t* b_pkmn_t,
                                              pokemon_attacks_t* pkmn_a_t,
                                              pokemon_effort_t* pkmn_e_t,
                                              pokemon_misc_t* pkmn_m_t,
                                              pokemon_growth_t* pkmn_g_t);
 
-            /*
-             * Converts PKMDS's Pokemon data structure to PokeLib's through
-             * PKMNsim's spec_pokemon.
-             *
-             * Parameters:
-             *  - p_pkm: PKMDS's Pokemon data structure to convert
-             */
-            PokeLib::Pokemon pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm);
+            static PokeLib::Pokemon pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm);
 
         private:
             char* pokehack_get_text(unsigned char* raw, bool is_nickname);
