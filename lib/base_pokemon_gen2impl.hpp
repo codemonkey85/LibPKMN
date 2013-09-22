@@ -27,12 +27,13 @@ namespace pkmnsim
             dict<unsigned int, unsigned int> get_ev_yields() const;
             double get_chance_male(void) const;
             double get_chance_female(void) const;
-            dict<unsigned int, unsigned in> get_abilities() const;
             bool has_gender_differences(void) const;
+            dict<unsigned int, unsigned in> get_abilities() const;
             
             std::string get_icon_path(bool is_male) const;
             std::string get_sprite_path(bool is_male, bool is_shiny) const;
-            void set_form(int form) const;
+            void set_form(unsigned int form);
+            void set_form(std::string form);
             void repair(int id) const;
             
             std::string get_egg_group_name() const;

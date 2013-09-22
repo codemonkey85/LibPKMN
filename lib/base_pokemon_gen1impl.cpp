@@ -10,19 +10,21 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
+#include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "base_pokemon_gen1impl.hpp"
 #include <sqlitecpp/SQLiteCPP.h>
+
+#include "base_pokemon_gen1impl.hpp"
 
 namespace fs = boost::filesystem;
 using namespace std;
 
 namespace pkmnsim
 {
-    base_pokemon_gen1impl::base_pokemon_gen1impl(int id, int game):
-                                           base_pokemon(id, game)
+    base_pokemon_gen1impl::base_pokemon_gen1impl(unsigned int id, unsigned int game):
+                                           base_pokemon_impl(id, game)
     {
         //Get final part of images path
         switch(from_game)
@@ -61,7 +63,7 @@ namespace pkmnsim
     string base_pokemon_gen1impl::get_info() const
     {
         string types_str;
-        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
         else types_str = database::get_type_name_from_id(type1_id) + "/"
                        + database::get_type_name_from_id(type2_id);
 
@@ -82,7 +84,7 @@ namespace pkmnsim
     string base_pokemon_gen1impl::get_info_verbose() const
     {
         string types_str;
-        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        if(type2_id == types::NONE) types_str = database::get_type_name_from_id(type1_id);
         else types_str = database::get_type_name_from_id(type1_id) + "/"
                        + database::get_type_name_from_id(type2_id);
 
@@ -115,7 +117,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string,int> base_pokemon_gen1impl::get_ev_yields() const
+    dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_ev_yields() const
     {
         //In Generation 1, EV yields were the same as the corresponding base stat
         return get_base_stats();
@@ -124,9 +126,15 @@ namespace pkmnsim
     //No genders in Gen 1
     double base_pokemon_gen1impl::get_chance_male() const {return 0.0;}
     double base_pokemon_gen1impl::get_chance_female() const {return 0.0;}
-    
     bool base_pokemon_gen1impl::has_gender_differences() const {return false;}
 
+    dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_abilities() const
+    {
+        //No abilities
+        dict<unsigned int,  unsigned int> abilities;
+        return abilities;
+    }    
+    
     string base_pokemon_gen1impl::get_icon_path(bool is_male) const
     {
         //Gender doesn't matter in Gen 1
@@ -139,8 +147,9 @@ namespace pkmnsim
         return male_sprite_path;
     }
     
-    void base_pokemon_gen1impl::set_form(unsigned int form) const {};
-    void base_pokemon_gen1impl::repair(unsigned int id) const {};
+    void base_pokemon_gen1impl::set_form(unsigned int form) {};
+    void base_pokemon_gen1impl::set_form(std::string form) {};
+    void base_pokemon_gen1impl::repair(unsigned int id) {};
     string base_pokemon_gen1impl::get_egg_group_name() const {return "N/A";}
     string base_pokemon_gen1impl::get_form_name() const {return get_species_name();}
     unsigned int base_pokemon_gen1impl::get_egg_group_id() const {return Egg_Groups::NONE;}

@@ -6,24 +6,25 @@
  */
 
 #include <map>
-#include <stdio.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
+#include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "base_pokemon_gen2impl.hpp"
 #include <sqlitecpp/SQLiteCPP.h>
+
+#include "base_pokemon_gen2impl.hpp"
 
 namespace fs = boost::filesystem;
 using namespace std;
 
 namespace pkmnsim
 {
-    base_pokemon_gen2impl::base_pokemon_gen2impl(int id, int game):
-                                           base_pokemon(id, game)
+    base_pokemon_gen2impl::base_pokemon_gen2impl(unsigned int id, unsigned int game):
+                                           base_pokemon_impl(id, game)
     {
         //Get final part of images path
         switch(from_game)
@@ -51,21 +52,32 @@ namespace pkmnsim
         male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
         female_shiny_sprite_path = male_shiny_sprite_path; //No gender differences in Generation 2
         
-        repair(pkmn_id);
+        //Even though most attributes are queried from the database when called, stats take a long time when
+        //doing a lot at once, so grab these upon instantiation
+        SQLite::Database db(get_database_path.c_str());
+        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
+                       " AND stat_id IN (3,5)";
+        SQLite::Statement query(db, query_string.c_str());
+        query.executeStep();
+        special_attack = query.getColumn(0);
+        query.executeStep();
+        special_defense = query.getColumn(0);
+        
+        repair(pokemon_id);
     }
 
-    string base_pokemon_gen2impl::get_info()
+    string base_pokemon_gen2impl::get_info() const
     {
         string types_str;
-        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
         else types_str = database::get_type_name_from_id(type1_id) + "/"
                        + database::get_type_name_from_id(type2_id);
 
-        dict<string, int> stats = get_base_stats();
+        dict<unsigned int, unsigned int> stats = get_base_stats();
 
-        string stats_str = to_string(stats["HP"]) + ", " + to_string(stats["ATK"]) + ", "
-                         + to_string(stats["DEF"]) + ", " + to_string(stats["SATK"]) + ", "
-                         + to_string(stats["SDEF"]) + ", " + to_string(stats["SPD"]);
+        string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
+                         + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPECIAL_ATTACK]) + ", "
+                         + to_string(stats[Stats::SPECIAL_DEFENSE]) + ", " + to_string(stats[Stats::SPEED]);
 
         string output_string;
         output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
@@ -75,82 +87,62 @@ namespace pkmnsim
         return output_string;
     }
 
-    string base_pokemon_gen2impl::get_info_verbose()
+    string base_pokemon_gen2impl::get_info_verbose() const
     {
         string types_str;
-        if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
+        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
         else types_str = database::get_type_name_from_id(type1_id) + "/"
                        + database::get_type_name_from_id(type2_id);
 
-        dict<string, int> stats = get_base_stats();
+        dict<unsigned int, unsigned int> stats = get_base_stats();
 
         string output_string;
         output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
                       + "Type: " + types_str + "\n"
                       + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
                       + "Base Stats:\n"
-                      + " - HP: " + to_string(stats["HP"]) + "\n"
-                      + " - Attack: " + to_string(stats["ATK"]) + "\n"
-                      + " - Defense: " + to_string(stats["DEF"]) + "\n"
-                      + " - Special Attack: " + to_string(stats["SATK"]) + "\n"
-                      + " - Special Defense: " + to_string(stats["SDEF"]) + "\n"
-                      + " - Speed: " + to_string(stats["SPD"]);
+                      + " - HP: " + to_string(stats[Stats::HP]) + "\n"
+                      + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
+                      + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
+                      + " - Special Attack: " + to_string(stats[Stats::SPECIAL_ATTACK]) + "\n"
+                      + " - Special Defense: " + to_string(stats[Stats::SPECIAL_DEFENSE]) + "\n"
+                      + " - Speed: " + to_string(stats[Stats::SPEED]);
     
         return output_string;
     }
 
-    dict<string,int> base_pokemon_gen2impl::get_base_stats()
+    dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_base_stats() const
     {
-        dict<string,int> stats;
-
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) +
-                       " AND stat_id IN (1,2,3,4,5,6)";
-        SQLite::Statement stats_query(db, query_string.c_str());
-
-        stats_query.executeStep();
-        stats["HP"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["ATK"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["DEF"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["SATK"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["SDEF"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["SPD"] = stats_query.getColumn(0);
+        dict<unsigned int, unsigned int> stats;
+        stats[Stats::HP] = hp;
+        stats[Stats::ATTACK] = attack;
+        stats[Stats::DEFENSE] = defense;
+        stats[Stats::SPECIAL_ATTACK] = special_attack;
+        stats[Stats::SPECIAL_DEFENSE] = special_defense;
+        stats[Stats::SPEED] = speed;
+        
         return stats;
     }
 
-    dict<string,int> base_pokemon_gen2impl::get_ev_yields()
+    dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_ev_yields() const
     {
-        dict<string,int> stats;
-
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) +
-                       "AND stat_id IN (1,2,3,4,6)";
-        SQLite::Statement stats_query(db, query_string.c_str());
-
-        stats_query.executeStep();
-        stats["HP"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["ATK"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["DEF"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["SPCL"] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        stats["SPD"] = stats_query.getColumn(0);
-        return stats;
+        dict<unsigned int, unsigned int> stats = get_base_stats();
+        dict<unsigned int, unsigned int> ev_yields;
+        ev_yields[Stats::HP] = stats[Stats::HP];
+        ev_yields[Stats::ATTACK] = stats[Stats::ATTACK];
+        ev_yields[Stats::DEFENSE] = stats[Stats::DEFENSE];
+        ev_yields[Stats::SPEED] = stats[Stats::SPEED];
+        ev_yields[Stats::SPECIAL] = stats[Stats::SPECIAL_ATTACK]; //For Gen 1 compatibility
+        
+        return ev_yields;
     }
 
-    double base_pokemon_gen2impl::get_chance_male()
+    double base_pokemon_gen2impl::get_chance_male() const
     {
         SQLite::Database db(get_database_path().c_str());
 
         //Gender rates
-        map<int, double> gender_val_map; //Double is percentage male
+        map<unsigned int, double> gender_val_map; //Double is percentage male
         gender_val_map[0] = 1.0;
         gender_val_map[1] = 0.875;
         gender_val_map[2] = 0.75;
@@ -165,7 +157,7 @@ namespace pkmnsim
         else return gender_val_map[gender_val];
     }
 
-    double base_pokemon_gen2impl::get_chance_female()
+    double base_pokemon_gen2impl::get_chance_female() const
     {
         SQLite::Database db(get_database_path().c_str());
 
@@ -185,25 +177,32 @@ namespace pkmnsim
         else return (1.0 - gender_val_map[gender_val]);
     }
 
-    bool base_pokemon_gen2impl::has_gender_differences(void) {return false;}
+    bool base_pokemon_gen2impl::has_gender_differences() const {return false;}
 
-    string base_pokemon_gen2impl::get_icon_path(bool is_male)
+    dict<unsigned int, unsigned int> get_abilities() const
+    {
+        dict<unsigned int, unsigned int> abilities;
+        return abilities;
+    }
+    
+    string base_pokemon_gen2impl::get_icon_path(bool is_male) const
     {
         //Gender doesn't matter in Gen 2
         return male_icon_path;
     }
     
-    string base_pokemon_gen2impl::get_sprite_path(bool is_male, bool is_shiny)
+    string base_pokemon_gen2impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
-        if(is_male)
-        {
-            if(is_shiny) return male_shiny_sprite_path;
-            else return male_sprite_path;
-        }
-        else
-        {
-            if(is_shiny) return female_shiny_sprite_path;
-            else return female_sprite_path;
-        }
+        //No separate male/female sprites
+        if(is_shiny) return male_shiny_sprite_path;
+        else return male_sprite_path;
     }
+    
+    void base_pokemon_gen2impl::set_form(unsigned int form) {};
+    void base_pokemon_gen2impl::set_form(std::string form) {};
+    void base_pokemon_gen2impl::repair(unsigned int id) {};
+    string base_pokemon_gen2impl::get_egg_group_name() const {return "N/A";}
+    string base_pokemon_gen2impl::get_form_name() const {return get_species_name();}
+    unsigned int base_pokemon_gen2impl::get_egg_group_id() const {return Egg_Groups::NONE;}
+    unsigned int base_pokemon_gen2impl::get_form_id() const {return species_id;}
 }

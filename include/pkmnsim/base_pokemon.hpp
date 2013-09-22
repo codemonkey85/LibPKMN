@@ -26,7 +26,7 @@ namespace pkmnsim
         public:
 
             typedef std::shared_ptr<base_pokemon> sptr;
-            static sptr make(int species_id, int game);
+            static sptr make(unsigned int species_id, unsigned int game);
 
 			base_pokemon() {};
             virtual ~base_pokemon() {};
