@@ -12,13 +12,14 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
-#include <pkmnsim/base_move.hpp>
+#include <pkmnsim/move.hpp>
 #include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
+#include "base_pokemon_impl.hpp"
 #include "base_pokemon_gen1impl.hpp"
 #include "base_pokemon_gen2impl.hpp"
 #include "base_pokemon_gen345impl.hpp"
@@ -1509,6 +1510,4 @@ namespace pkmnsim
                 break;
         }
     }
-
-    
 }

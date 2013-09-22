@@ -4,30 +4,42 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASE_PKMN_GEN2IMPL_HPP
-#define INCLUDED_BASE_PKMN_GEN2IMPL_HPP
+#ifndef INCLUDED_BASE_POKEMON_GEN2IMPL_HPP
+#define INCLUDED_BASE_POKEMON_GEN2IMPL_HPP
 
 #include <string>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/dict.hpp>
+#include "base_pkmn_impl.hpp"
+#include <pkmnsim/types/dict.hpp>
 
 namespace pkmnsim
 {
-    class base_pokemon_gen2impl: public base_pokemon
+    class base_pokemon_gen2impl: public base_pokemon_impl
     {
         public:
             base_pokemon_gen2impl(int id, int game);
-            std::string get_info(void);
-            std::string get_info_verbose(void);
-            dict<std::string, int> get_base_stats(void);
-            dict<std::string, int> get_ev_yields(void);
-            double get_chance_male();
-            double get_chance_female();
-            bool has_gender_differences();
-            std::string get_icon_path(bool is_male);
-            std::string get_sprite_path(bool is_male, bool is_shiny);
+            
+            std::string get_info() const;
+            std::string get_info_verbose() const;
+            
+            dict<unsigned int, std::string> get_types() const;
+            dict<unsigned int, unsigned int> get_base_stats() const;
+            dict<unsigned int, unsigned int> get_ev_yields() const;
+            double get_chance_male(void) const;
+            double get_chance_female(void) const;
+            dict<unsigned int, unsigned in> get_abilities() const;
+            bool has_gender_differences(void) const;
+            
+            std::string get_sprite_path(bool is_male, bool is_shiny) const;
+            void set_form(int form) const;
+            void repair(int id) const;
+            
+            std::string get_egg_group_name() const;
+            std::string get_form_name() const;
+            
+            int get_egg_group_id() const;
+            int get_form_id() const;
     };
 }
 
-#endif /* INCLUDED_BASE_PKMN_GEN2IMPL_HPP */
+#endif /* INCLUDED_BASE_POKEMON_GEN2IMPL_HPP */
