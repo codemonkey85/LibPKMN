@@ -36,7 +36,7 @@ namespace pkmnsim
 
             virtual int get_pokedex_num() const = 0;
             virtual std::string get_pokedex_entry() const = 0;
-            virtual dict<unsigned int, std::string> get_types() const = 0;
+            virtual dict<unsigned int, unsigned int> get_types() const = 0;
             virtual double get_height() const = 0;
             virtual double get_weight() const = 0;
             virtual dict<int, unsigned int> get_base_stats() const = 0;
@@ -59,14 +59,14 @@ namespace pkmnsim
             virtual std::string get_game_name() const = 0;
             virtual std::string get_species_name() const = 0;
             
-            virtual int get_egg_group_id() const = 0;
-            virtual int get_form_id() const = 0;
-            virtual int get_game_id() const = 0;
-            virtual int get_pokemon_id() const = 0;
-            virtual int get_species_id() const = 0;
+            virtual unsigned int get_egg_group_id() const = 0;
+            virtual unsigned int get_form_id() const = 0;
+            virtual unsigned int get_game_id() const = 0;
+            virtual unsigned int get_pokemon_id() const = 0;
+            virtual unsigned int get_species_id() const = 0;
             
         protected:
-            //Database values
+            
             unsigned int from_gen, form_id, pokemon_id, species_id, type1_id, type2_id;
             
             int from_game;

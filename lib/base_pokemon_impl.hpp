@@ -26,14 +26,14 @@ namespace pkmnsim
     {
         public:
 
-            base_pokemon_impl(int species_id, int game);
+            base_pokemon_impl(unsigned int species_id, unsigned int game);
 
             virtual std::string get_info() const = 0;
             virtual std::string get_info_verbose() const = 0;
 
             int get_pokedex_num() const;
             std::string get_pokedex_entry() const;
-            virtual dict<unsigned int, std::string> get_types() const = 0;
+            virtual dict<unsigned int, unsigned int> get_types() const = 0;
             double get_height() const;
             double get_weight() const;
             virtual dict<int, unsigned int> get_base_stats() const = 0;
@@ -56,21 +56,11 @@ namespace pkmnsim
             std::string get_game_name() const;
             std::string get_species_name() const;
             
-            virtual int get_egg_group_id() const = 0;
-            virtual int get_form_id() const = 0;
-            int get_game_id() const;
-            int get_pokemon_id() const;
-            int get_species_id() const;
-            
-        protected:
-            //Database values
-            unsigned int from_gen, form_id, pokemon_id, species_id, type1_id, type2_id;
-            
-            int from_game;
-            std::string game_string, images_game_string;
-            std::string male_icon_path, female_icon_path;
-            std::string male_sprite_path, female_sprite_path;
-            std::string male_shiny_sprite_path, female_shiny_sprite_path;
+            virtual unsigned int get_egg_group_id() const = 0;
+            virtual unsigned int get_form_id() const = 0;
+            unsigned int get_game_id() const;
+            unsigned int get_pokemon_id() const;
+            unsigned int get_species_id() const;
     };
 }
 

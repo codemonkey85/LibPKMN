@@ -31,25 +31,23 @@ IF(ENABLE_LIBRARY)
     LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds sqlitecpp)
 
     LIST(APPEND libpkmnsim_sources
-        base_pokemon.cpp
+        base_pokemon_impl.cpp
         base_pokemon_gen1impl.cpp
         base_pokemon_gen2impl.cpp
         base_pokemon_gen345impl.cpp
-        pkmn_nature.cpp
         lists.cpp
-        spec_pokemon.cpp
-        spec_pokemon_gen1impl.cpp
-        spec_pokemon_gen2impl.cpp
-        spec_pokemon_gen345impl.cpp
-        analysis.cpp
+        team_pokemon_impl.cpp
+        team_pokemon_gen1impl.cpp
+        team_pokemon_gen2impl.cpp
+        team_pokemon_gen345impl.cpp
         conversions.cpp
-        trainer.cpp
-        trainer_gen3impl.cpp
-        trainer_gen4impl.cpp
-        trainer_gen5impl.cpp
-        base_move.cpp
-        base_move_mainimpl.cpp
-        game_save.cpp
+        #trainer_impl.cpp
+        #trainer_gen3impl.cpp
+        #trainer_gen4impl.cpp
+        #trainer_gen5impl.cpp
+        move_impl.cpp
+        move_mainimpl.cpp
+        #game_save.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${database_sources}
     )

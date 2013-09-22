@@ -17,12 +17,12 @@ namespace pkmnsim
     class base_pokemon_gen2impl: public base_pokemon_impl
     {
         public:
-            base_pokemon_gen2impl(int id, int game);
+            base_pokemon_gen2impl(unsigned int id, unsigned int game);
             
             std::string get_info() const;
             std::string get_info_verbose() const;
             
-            dict<unsigned int, std::string> get_types() const;
+            dict<unsigned int, unsigned int> get_types() const;
             dict<unsigned int, unsigned int> get_base_stats() const;
             dict<unsigned int, unsigned int> get_ev_yields() const;
             double get_chance_male(void) const;
@@ -37,8 +37,8 @@ namespace pkmnsim
             std::string get_egg_group_name() const;
             std::string get_form_name() const;
             
-            int get_egg_group_id() const;
-            int get_form_id() const;
+            unsigned int get_egg_group_id() const;
+            unsigned int get_form_id() const;
     };
 }
 
