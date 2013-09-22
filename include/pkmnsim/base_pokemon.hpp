@@ -34,7 +34,7 @@ namespace pkmnsim
             virtual std::string get_info() const = 0;
             virtual std::string get_info_verbose() const = 0;
 
-            virtual int get_pokedex_num() const = 0;
+            virtual unsigned int get_pokedex_num() const = 0;
             virtual std::string get_pokedex_entry() const = 0;
             virtual dict<unsigned int, unsigned int> get_types() const = 0;
             virtual double get_height() const = 0;

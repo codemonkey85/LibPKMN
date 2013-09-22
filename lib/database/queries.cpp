@@ -39,14 +39,14 @@ namespace pkmnsim
             return identifier;
         }
 
-        int get_ability_id_from_name(string ability_name)
+        unsigned int get_ability_id_from_name(string ability_name)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT ability_id FROM ability_names WHERE name='%s'") % ability_name);
             return db.execAndGet(query_string.c_str());
         }
 
-        string get_ability_name_from_id(int ability_id)
+        string get_ability_name_from_id(unsigned int ability_id)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
@@ -54,14 +54,39 @@ namespace pkmnsim
             return db.execAndGetStr(query_string.c_str(), "ability_id");
         }
 
-        int get_move_id_from_name(string move_name)
+        unsigned int get_game_id_from_name(string game_name)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT version_id FROM version_names WHERE name='%s'")
+                                                    % game_name);
+            return db.execAndGet(query_string.c_str(), "version_id");
+        }
+        
+        string get_game_name_from_id(unsigned int game_id)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT name FROM version_names WHERE version_id=%d AND local_language_id=9")
+                                                    % move_id);
+            return db.execAndGetStr(query_string.c_str(), "version_id");
+        }
+        
+        unsigned int get_generation_from_game_id(unsigned int game_id)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = "SELECT version_group_id FROM versions WHERE id=" + to_string(game);
+            unsigned int version_group_id = db.execAndGet(query_string.c_str());
+            query_string = "SELECT generation_id FROM version_groups WHERE id=" + to_string(version_group_id);
+            return db.execAndGet(query_string.c_str(), "generation_id");
+        }
+        
+        unsigned int get_move_id_from_name(string move_name)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT move_id FROM move_names WHERE name='%s'") % move_name);
             return db.execAndGet(query_string.c_str());
         }
 
-        string get_move_name_from_id(int move_id)
+        string get_move_name_from_id(unsigned int move_id)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
@@ -69,14 +94,14 @@ namespace pkmnsim
             return db.execAndGetStr(query_string.c_str(), "move_id");
         }
 
-        int get_nature_id_from_name(string nature_name)
+        unsigned int get_nature_id_from_name(string nature_name)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT nature_id FROM nature_names WHERE name='%s'") % nature_name);
             return db.execAndGet(query_string.c_str());
         }
 
-        string get_nature_name_from_id(int nature_id)
+        string get_nature_name_from_id(unsigned int nature_id)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
@@ -84,7 +109,7 @@ namespace pkmnsim
             return db.execAndGetStr(query_string.c_str(), "nature_id");
         }
 
-        string get_pokedex_entry_from_species_id(int species_id, int version)
+        string get_pokedex_entry_from_species_id(unsigned int species_id, int version)
         {
             //Some enum values need to be translated over to database ID's
             int to_database_id[] = {1,2,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22};
@@ -106,7 +131,7 @@ namespace pkmnsim
             return entry;
         }
 
-        int get_species_id_from_pokemon_id(int pkmn_id)
+        unsigned int get_species_id_from_pokemon_id(unsigned int pkmn_id)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT species_id FROM pokemon WHERE id=%d") % pkmn_id);
@@ -122,14 +147,14 @@ namespace pkmnsim
             return get_pokedex_entry_from_species_id(species_id, version);
         }
 
-        int get_species_id_from_name(string species_name)
+        unsigned int get_species_id_from_name(string species_name)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_names WHERE name='%s'") % species_name);
             return db.execAndGet(query_string.c_str());
         }
 
-        string get_species_name_from_id(int species_id)
+        string get_species_name_from_id(unsigned int species_id)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9")
@@ -137,14 +162,14 @@ namespace pkmnsim
             return db.execAndGetStr(query_string.c_str(), "pokemon_species_id");
         }
 
-        int get_type_id_from_name(string type_name)
+        unsigned int get_type_id_from_name(string type_name)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT type_id FROM type_names WHERE name='%s'") % type_name);
             return db.execAndGet(query_string.c_str());
         }
 
-        string get_type_name_from_id(int type_id)
+        string get_type_name_from_id(unsigned int type_id)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9") % type_id);

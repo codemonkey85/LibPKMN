@@ -31,9 +31,9 @@ namespace pkmnsim
             virtual std::string get_info() const = 0;
             virtual std::string get_info_verbose() const = 0;
 
-            int get_pokedex_num() const;
+            unsigned int get_pokedex_num() const;
             std::string get_pokedex_entry() const;
-            virtual dict<unsigned int, unsigned int> get_types() const = 0;
+            dict<unsigned int, unsigned int> get_types() const;
             double get_height() const;
             double get_weight() const;
             virtual dict<int, unsigned int> get_base_stats() const = 0;
@@ -46,7 +46,7 @@ namespace pkmnsim
             unsigned int get_generation() const;
             virtual bool has_gender_differences() const = 0;
 
-            std::string get_icon_path(bool is_male);
+            virtual std::string get_icon_path(bool is_male) const = 0;
             virtual std::string get_sprite_path(bool is_male, bool is_shiny) const = 0;
             virtual void set_form(int form) const = 0;
             virtual void repair(int id) const = 0;

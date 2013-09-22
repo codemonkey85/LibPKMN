@@ -30,6 +30,7 @@ namespace pkmnsim
             dict<unsigned int, unsigned in> get_abilities() const;
             bool has_gender_differences(void) const;
             
+            std::string get_icon_path(bool is_male) const;
             std::string get_sprite_path(bool is_male, bool is_shiny) const;
             void set_form(int form) const;
             void repair(int id) const;
