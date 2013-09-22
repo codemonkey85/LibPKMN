@@ -58,7 +58,7 @@ namespace pkmnsim
         repair(pkmn_id);
     }
 
-    string base_pokemon_gen1impl::get_info()
+    string base_pokemon_gen1impl::get_info() const
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -79,7 +79,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    string base_pokemon_gen1impl::get_info_verbose()
+    string base_pokemon_gen1impl::get_info_verbose() const
     {
         string types_str;
         if(type2_id == -1) types_str = database::get_type_name_from_id(type1_id);
@@ -103,7 +103,7 @@ namespace pkmnsim
         return output_string;
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_base_stats()
+    dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_base_stats() const
     {
         dict<unsigned int, unsigned int> stats;
         stats[Stats::HP] = hp;
@@ -115,34 +115,34 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<string,int> base_pokemon_gen1impl::get_ev_yields()
+    dict<string,int> base_pokemon_gen1impl::get_ev_yields() const
     {
         //In Generation 1, EV yields were the same as the corresponding base stat
         return get_base_stats();
     }
 
     //No genders in Gen 1
-    double base_pokemon_gen1impl::get_chance_male() {return 0.0;}
-    double base_pokemon_gen1impl::get_chance_female() {return 0.0;}
+    double base_pokemon_gen1impl::get_chance_male() const {return 0.0;}
+    double base_pokemon_gen1impl::get_chance_female() const {return 0.0;}
     
-    bool base_pokemon_gen1impl::has_gender_differences() {return false;}
+    bool base_pokemon_gen1impl::has_gender_differences() const {return false;}
 
-    string base_pokemon_gen1impl::get_icon_path(bool is_male)
+    string base_pokemon_gen1impl::get_icon_path(bool is_male) const
     {
         //Gender doesn't matter in Gen 1
         return male_icon_path;
     }
     
-    string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny)
+    string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
         //Gender and shininess don't matter in Gen 1
         return male_sprite_path;
     }
     
-    void base_pokemon_gen1impl::set_form(unsigned int form) {};
-    void base_pokemon_gen1impl::repair(unsigned int id) {};
-    string base_pokemon_gen1impl::get_egg_group_name() {return "N/A";}
-    string base_pokemon_gen1impl::get_form_name() {return get_species_name();}
-    unsigned int base_pokemon_gen1impl::get_egg_group_id() {return Egg_Groups::NONE;}
-    unsigned int base_pokemon_gen1impl::get_form_id() {return species_id;}
+    void base_pokemon_gen1impl::set_form(unsigned int form) const {};
+    void base_pokemon_gen1impl::repair(unsigned int id) const {};
+    string base_pokemon_gen1impl::get_egg_group_name() const {return "N/A";}
+    string base_pokemon_gen1impl::get_form_name() const {return get_species_name();}
+    unsigned int base_pokemon_gen1impl::get_egg_group_id() const {return Egg_Groups::NONE;}
+    unsigned int base_pokemon_gen1impl::get_form_id() const {return species_id;}
 }

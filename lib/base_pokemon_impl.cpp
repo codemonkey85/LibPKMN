@@ -100,10 +100,10 @@ namespace pkmnsim
         speed = stats_query.getColumn(0);
     }
 
-    unsigned int base_pokemon_impl::get_pokedex_num() {return species_id;}
-    string base_pokemon_impl::get_pokedex_entry() {return database::get_pokedex_entry_from_species_id(species_id, game_id);}
+    unsigned int base_pokemon_impl::get_pokedex_num() const {return species_id;}
+    string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry_from_species_id(species_id, game_id);}
 
-    dict<unsigned int, unsigned int> base_pokemon_impl::get_types()
+    dict<unsigned int, unsigned int> base_pokemon_impl::get_types() const
     {
         dict<unsigned int, unsigned int> types;
         types[0] = type1_id;
@@ -111,21 +111,21 @@ namespace pkmnsim
         return types;
     }
     
-    double base_pokemon_impl::get_height()
+    double base_pokemon_impl::get_height() const
     {
         SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT height FROM pokemon WHERE id=" + to_string(pkmn_id);
         return (double(db.execAndGet(query_string.c_str())) / 10.0);
     }
     
-    double base_pokemon_impl::get_weight()
+    double base_pokemon_impl::get_weight() const
     {
         SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT weight FROM pokemon WHERE id=" + to_string(pkmn_id);
         return (double(db.execAndGet(query_string.c_str())) / 10.0);
     }
     
-    void base_pokemon_impl::get_evolutions(b_pkmn_vec_t &evolution_vec)
+    void base_pokemon_impl::get_evolutions(b_pkmn_vec_t &evolution_vec) const
     {
         evolution_vec.clear();
 
@@ -158,7 +158,7 @@ namespace pkmnsim
         for(unsigned int i = 0; i < evolution_ids.size(); i++) evolution_vec.push_back(make(evolution_ids[i], from_game));
     }
     
-    bool base_pokemon_impl::is_fully_evolved()
+    bool base_pokemon_impl::is_fully_evolved() const
     {
         b_pkmn_vec_t evolution_vec;
         get_evolutions(evolution_vec);
@@ -166,11 +166,11 @@ namespace pkmnsim
         return (evolution_vec.begin() == evolution_vec.end());
     }
     
-    unsigned int base_pokemon_impl::get_generation() {return from_gen;}
+    unsigned int base_pokemon_impl::get_generation() const {return from_gen;}
     
-    string base_pokemon_impl::get_game_name() {return database::get_game_name_from_id(game_id);}
-    string base_pokemon_impl::get_species_name() {return database::get_species_name_from_id(species_id);}
-    unsigned int base_pokemon_impl::get_game_id() {return game_id;}
-    unsigned int base_pokemon_impl::get_pokemon_id() {return pokemon_id;}
-    unsigned int bsae_pokemon_impl::get_species_id() {return species_id;}
+    string base_pokemon_impl::get_game_name() const {return database::get_game_name_from_id(game_id);}
+    string base_pokemon_impl::get_species_name() const {return database::get_species_name_from_id(species_id);}
+    unsigned int base_pokemon_impl::get_game_id() const {return game_id;}
+    unsigned int base_pokemon_impl::get_pokemon_id() const {return pokemon_id;}
+    unsigned int bsae_pokemon_impl::get_species_id() const {return species_id;}
 }
