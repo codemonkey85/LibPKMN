@@ -20,6 +20,9 @@ namespace pkmnsim
         unsigned int PKMNSIM_API get_ability_id_from_name(std::string ability_name);
         std::string PKMNSIM_API get_ability_name_from_id(unsigned int ability_id);
 
+        unsigned int PKMNSIM_API get_egg_group_id_from_name(std::string egg_group_name);
+        std::string PKMNSIM_API get_egg_group_name_form_id(unsigned int egg_group_id);
+        
         unsigned int PKMNSIM_API get_game_id_from_name(std::string game_name);
         std::string PKMNSIM_API get_game_name_from_id(unsigned int game_id);
         

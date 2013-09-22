@@ -72,10 +72,8 @@ namespace pkmnsim
         game_string = db.execAndGetStr(query_string.c_str(), "name");
         
         //Fail if Pokemon's generation_id > specified gen
-        query_string = "SELECT * FROM pokemon_species WHERE id=" + to_string(id);
-        SQLite::Statement pokemon_species_query(db, query_string.c_str());
-        pokemon_species_query.executeStep();
-        int gen_id = pokemon_species_query.getColumn(2); //generation_id
+        query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(id);
+        unsigned int gen_id = db.execandGet(query_string.c_str(), "generation_id");
         if(gen_id > from_gen)
         {
             string error_message = database::get_species_name_from_id(id) + " not present in Generation " + to_string(from_gen) + ".";
@@ -84,10 +82,25 @@ namespace pkmnsim
 
         //Get Pokemon ID from database
         query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(species_id);
-        pkmn_id = db.execAndGet(query_string.c_str());
+        pokemon_id = db.execAndGet(query_string.c_str());
+        
+        //Even though most attributes are queried from the database when called, stats take a long time when
+        //doing a lot at once, so grab these upon instantiation
+        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
+                       " AND stat_id IN (1,2,3,6)";
+        SQLite::Statement stats_query(db, query_string.c_str());
+
+        stats_query.executeStep();
+        hp = stats_query.getColumn(0);
+        stats_query.executeStep();
+        attack = stats_query.getColumn(0);
+        stats_query.executeStep();
+        defense = stats_query.getColumn(0);
+        stats_query.executeStep();
+        speed = stats_query.getColumn(0);
     }
 
-    unsigned int base_pokemon_impl::get_pokedex_number() {return species_id;}
+    unsigned int base_pokemon_impl::get_pokedex_num() {return species_id;}
     string base_pokemon_impl::get_pokedex_entry() {return database::get_pokedex_entry_from_species_id(species_id, game_id);}
 
     dict<unsigned int, unsigned int> base_pokemon_impl::get_types()

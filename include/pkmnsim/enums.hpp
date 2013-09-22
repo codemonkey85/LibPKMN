@@ -567,6 +567,29 @@ namespace pkmnsim
         };
     }
 
+    namespace Egg_Groups
+    {
+        enum egg_groups
+        {
+            NONE,
+            MONSTER,
+            WATER1,
+            BUG,
+            FLYING,
+            FIELD,
+            FAIRY,
+            GRASS,
+            HUMAN_LIKE,
+            WATER3,
+            MINERAL,
+            AMORPHOUS,
+            WATER2,
+            DITTO,
+            DRAGON,
+            UNDISCOVERED
+        }
+    }
+    
     namespace Moves
     {
         enum moves

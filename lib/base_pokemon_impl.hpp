@@ -48,8 +48,8 @@ namespace pkmnsim
 
             virtual std::string get_icon_path(bool is_male) const = 0;
             virtual std::string get_sprite_path(bool is_male, bool is_shiny) const = 0;
-            virtual void set_form(int form) const = 0;
-            virtual void repair(int id) const = 0;
+            virtual void set_form(int form) = 0;
+            virtual void repair(int id) = 0;
 
             virtual std::string get_egg_group_name() const = 0;
             virtual std::string get_form_name() const = 0;
