@@ -367,54 +367,120 @@ namespace pkmnsim
             nature_vec.push_back(nature);
         }
     }
-
-    //List functions that pass by value, for SWIG's use
-    vector<string> get_game_vec()
+    
+    void get_pkmn_of_type(b_pkmn_vec_t &pkmn_vector, string type1, string type2, int gen, bool lax)
     {
-        vector<string> game_list;
-        get_game_list(game_list);
-        return game_list;
-    }
+        pkmn_vector.clear();
 
-    vector<string> get_game_group_vec()
-    {
-        vector<string> game_group_list;
-        get_game_group_list(game_group_list);
-        return game_group_list;
-    }
+        SQLite::Database db(get_database_path().c_str());
+        string query_string;
+        vector<int> applicable_ids;
+        int pkmn_id, type1_id, type2_id;
 
-    vector<string> get_item_vec(int game)
-    {
-        vector<string> item_list;
-        get_item_list(item_list, game);
-        return item_list;
-    }
+        //Get type IDs
+        query_string = "SELECT type_id FROM type_names WHERE name='" + type1 + "'";
+        type1_id = db.execAndGet(query_string.c_str(), type1);
+        if(type2 != "None" and type2 != "Any")
+        {
+            query_string = "SELECT type_id FROM type_names WHERE name='" + type2 + "'";
+            type2_id = db.execAndGet(query_string.c_str(), type2);
+        }
 
-    vector<string> get_pokemon_vec(int game)
-    {
-        vector<string> pokemon_list;
-        get_pokemon_list(pokemon_list, game);
-        return pokemon_list;
-    }
+        if((type2 == "None" or type2 == "Any") and lax)
+        {
+            //Get IDs of Pokémon
+            query_string = "SELECT pokemon_id FROM pokemon_types WHERE type_id=" + to_string(type1_id);
+            SQLite::Statement pokemon_types_query(db, query_string.c_str());
 
-    vector<string> get_type_vec(int gen)
-    {
-        vector<string> type_list;
-        get_type_list(type_list, gen);
-        return type_list;
-    }
+            //Get any Pokémon of specified type (by itself or paired with any other)
+            while(pokemon_types_query.executeStep())
+            {
+                pkmn_id = pokemon_types_query.getColumn(0); //pokemon_id
 
-    vector<string> get_ability_vec(int gen)
-    {
-        vector<string> ability_list;
-        get_ability_list(ability_list, gen);
-        return ability_list;
-    }
+                query_string = "SELECT species_id FROM pokemon WHERE id=" + to_string(pkmn_id);
+                int species_id = db.execAndGet(query_string.c_str());
 
-    vector<string> get_nature_vec()
-    {
-        vector<string> nature_list;
-        get_nature_list(nature_list);
-        return nature_list;
+                //Get generation ID to restrict list
+                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
+                int generation_id = db.execAndGet(query_string.c_str());
+                if(generation_id <= gen)
+                {
+                    applicable_ids.push_back(pkmn_id);
+                }
+            }
+        }
+        else
+        {
+
+            //Get IDs of Pokémon matching first type
+            vector<int> pkmn_ids;
+            query_string = "SELECT pokemon_id FROM pokemon_types WHERE type_id=" + to_string(type1_id);
+            SQLite::Statement pokemon_types_id_query(db, query_string.c_str());
+
+            while(pokemon_types_id_query.executeStep()) pkmn_ids.push_back(pokemon_types_id_query.getColumn(0));
+
+            vector<int> to_erase;
+            if(type2 == "None")
+            {
+                //If only one type is specified, find number of entries with that ID and remove duplicates
+                for(unsigned int i = 0; i < pkmn_ids.size(); i++)
+                {
+                    int pkmn_count = 0; //Number of types Pokémon appears in pokemon_moves
+                    query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_ids[i]);
+                    SQLite::Statement inner_query(db, query_string.c_str());
+                    while(inner_query.executeStep()) pkmn_count++;
+
+                    if(pkmn_count > 1) to_erase.push_back(i);
+                }
+            }
+            else
+            {
+                //See if entry exists for other type, add to to_erase if not
+                for(unsigned int i = 0; i < pkmn_ids.size(); i++)
+                {
+                    query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_ids[i])
+                                 + " AND type_id=" + to_string(type2_id);
+                    SQLite::Statement inner_query(db, query_string.c_str());
+                    if(not inner_query.executeStep()) to_erase.push_back(i);
+                }
+            }
+
+            //Erase invalid entries
+            for(unsigned int i = to_erase.size()-1; i > 0; i--) pkmn_ids.erase(pkmn_ids.begin() + to_erase[i]);
+            pkmn_ids.erase(pkmn_ids.begin() + to_erase[0]);
+
+            //Get identifiers for remaining entries
+            for(unsigned int i = 0; i < pkmn_ids.size(); i++)
+            {
+                query_string = "SELECT species_id FROM pokemon WHERE id=" + to_string(pkmn_ids[i]);
+                int species_id = db.execAndGet(query_string.c_str());
+
+                query_string = "SELECT identifier FROM pokemon_species WHERE id=" + to_string(species_id);
+                string pkmn_name = db.execAndGetStr(query_string.c_str(), "No string");
+
+                //Get generation ID to restrict list
+                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
+                int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
+                if(generation_id <= gen) applicable_ids.push_back(pkmn_ids[i]); //ID's that apply to final Pokemon
+            }
+        }
+
+        //base_pokemon now takes a game ID in its constructor instead of a generation, but this
+        //function doesn't discriminate between games in the same generation, so this array
+        //guarantees that the given generation will use a game in that generation
+        int game_id_from_gen[] = {0,1,4,7,13,17};
+        
+        for(unsigned int i = 0; i < applicable_ids.size(); i++)
+        {
+            //Manually correct for Magnemite and Magneton in Gen 1
+            int final_species_id = database::get_species_id_from_pokemon_id(applicable_ids[i]);
+            if(not ((database::get_species_name_from_id(final_species_id) == "Magnemite" or
+                     database::get_species_name_from_id(final_species_id) == "Magneton") and gen == 1))
+            {
+                base_pokemon::sptr b_pkmn = base_pokemon::make(database::get_species_id_from_pokemon_id(applicable_ids[i]), game_id_from_gen[gen]);
+                b_pkmn->repair(applicable_ids[i]);
+                pkmn_vector.push_back(b_pkmn);
+            }
+        }
     }
 }
