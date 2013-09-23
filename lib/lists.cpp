@@ -14,6 +14,7 @@
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/lists.hpp>
 #include <pkmnsim/paths.hpp>
+#include <pkmnsim/database/queries.hpp>
 
 #include <pokehack/pokestructs.h>
 #include <pokelib/data_tables.h>

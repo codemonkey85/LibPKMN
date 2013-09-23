@@ -18,6 +18,7 @@
 
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/types/dict.hpp>
+#include <pkmnsim/types/vla.hpp>
 
 namespace pkmnsim
 {
@@ -39,8 +40,8 @@ namespace pkmnsim
             virtual dict<unsigned int, unsigned int> get_types() const = 0;
             virtual double get_height() const = 0;
             virtual double get_weight() const = 0;
-            virtual dict<int, unsigned int> get_base_stats() const = 0;
-            virtual dict<int, unsigned int> get_ev_yields() const = 0;
+            virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;
+            virtual dict<unsigned int, unsigned int> get_ev_yields() const = 0;
             virtual double get_chance_male() const = 0;
             virtual double get_chance_female() const = 0;
             virtual dict<unsigned int, unsigned int> get_abilities() const = 0;
@@ -54,12 +55,12 @@ namespace pkmnsim
             virtual void set_form(unsigned int form) = 0;
             virtual void repair(unsigned int id) = 0;
 
-            virtual std::string get_egg_group_name() const = 0;
+            virtual std::vector<std::string> get_egg_group_names() const = 0;
             virtual std::string get_form_name() const = 0;
             virtual std::string get_game_name() const = 0;
             virtual std::string get_species_name() const = 0;
             
-            virtual unsigned int get_egg_group_id() const = 0;
+            virtual std::vector<unsigned int> get_egg_group_ids() const = 0;
             virtual unsigned int get_form_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_pokemon_id() const = 0;
@@ -70,7 +71,7 @@ namespace pkmnsim
             unsigned int from_gen, form_id, pokemon_id, species_id, type1_id, type2_id;
             unsigned int hp, attack, defense, speed, special, special_attack, special_defense;
             
-            int from_game;
+            unsigned int from_game;
             std::string game_string, images_game_string;
             std::string male_icon_path, female_icon_path;
             std::string male_sprite_path, female_sprite_path;

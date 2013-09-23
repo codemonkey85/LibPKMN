@@ -73,7 +73,7 @@ namespace pkmnsim
         
         //Fail if Pokemon's generation_id > specified gen
         query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(id);
-        unsigned int gen_id = db.execandGet(query_string.c_str(), "generation_id");
+        unsigned int gen_id = db.execAndGet(query_string.c_str(), "generation_id");
         if(gen_id > from_gen)
         {
             string error_message = database::get_species_name_from_id(id) + " not present in Generation " + to_string(from_gen) + ".";
@@ -101,7 +101,7 @@ namespace pkmnsim
     }
 
     unsigned int base_pokemon_impl::get_pokedex_num() const {return species_id;}
-    string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry_from_species_id(species_id, game_id);}
+    string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry_from_species_id(species_id, from_game);}
 
     dict<unsigned int, unsigned int> base_pokemon_impl::get_types() const
     {
@@ -114,14 +114,14 @@ namespace pkmnsim
     double base_pokemon_impl::get_height() const
     {
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT height FROM pokemon WHERE id=" + to_string(pkmn_id);
+        string query_string = "SELECT height FROM pokemon WHERE id=" + to_string(pokemon_id);
         return (double(db.execAndGet(query_string.c_str())) / 10.0);
     }
     
     double base_pokemon_impl::get_weight() const
     {
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT weight FROM pokemon WHERE id=" + to_string(pkmn_id);
+        string query_string = "SELECT weight FROM pokemon WHERE id=" + to_string(pokemon_id);
         return (double(db.execAndGet(query_string.c_str())) / 10.0);
     }
     
@@ -146,7 +146,7 @@ namespace pkmnsim
         for(unsigned int i = 0; i < evolution_ids.size(); i++)
         {
             query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
-            int generation_id = db.execAndGet(query_string.c_str());
+            unsigned int generation_id = db.execAndGet(query_string.c_str());
             if(generation_id > from_gen) to_erase.push_back(i);
         }
         for(int j = to_erase.size()-1; j >= 0; j--)
@@ -168,9 +168,9 @@ namespace pkmnsim
     
     unsigned int base_pokemon_impl::get_generation() const {return from_gen;}
     
-    string base_pokemon_impl::get_game_name() const {return database::get_game_name_from_id(game_id);}
+    string base_pokemon_impl::get_game_name() const {return database::get_game_name_from_id(from_game);}
     string base_pokemon_impl::get_species_name() const {return database::get_species_name_from_id(species_id);}
-    unsigned int base_pokemon_impl::get_game_id() const {return game_id;}
+    unsigned int base_pokemon_impl::get_game_id() const {return from_game;}
     unsigned int base_pokemon_impl::get_pokemon_id() const {return pokemon_id;}
-    unsigned int bsae_pokemon_impl::get_species_id() const {return species_id;}
+    unsigned int base_pokemon_impl::get_species_id() const {return species_id;}
 }

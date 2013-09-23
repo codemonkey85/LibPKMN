@@ -39,6 +39,6 @@ namespace pkmnsim
     };
 }
 
-#include <pkmnsim/vla.ipp>
+#include <pkmnsim/types/vla.ipp>
 
 #endif /* INCLUDED_VLA_HPP */

@@ -52,12 +52,12 @@ namespace pkmnsim
 
         //Even though most attributes are queried from the database when called, stats take a long time when
         //doing a lot at once, so grab these upon instantiation
-        SQLite::Database db(get_database_path.c_str());
-        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
-                       " AND stat_id=9";
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
+                            + " AND stat_id=9";
         special = db.execAndGet(query_string.c_str(), "base_stat");
         
-        repair(pkmn_id);
+        repair(pokemon_id);
     }
 
     string base_pokemon_gen1impl::get_info() const
@@ -84,7 +84,7 @@ namespace pkmnsim
     string base_pokemon_gen1impl::get_info_verbose() const
     {
         string types_str;
-        if(type2_id == types::NONE) types_str = database::get_type_name_from_id(type1_id);
+        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
         else types_str = database::get_type_name_from_id(type1_id) + "/"
                        + database::get_type_name_from_id(type2_id);
 
@@ -150,8 +150,20 @@ namespace pkmnsim
     void base_pokemon_gen1impl::set_form(unsigned int form) {};
     void base_pokemon_gen1impl::set_form(std::string form) {};
     void base_pokemon_gen1impl::repair(unsigned int id) {};
-    string base_pokemon_gen1impl::get_egg_group_name() const {return "N/A";}
+
+    vector<string> base_pokemon_gen1impl::get_egg_group_names() const
+    {
+        vector<string> egg_group_vec;
+        return egg_group_vec;
+    }
+
     string base_pokemon_gen1impl::get_form_name() const {return get_species_name();}
-    unsigned int base_pokemon_gen1impl::get_egg_group_id() const {return Egg_Groups::NONE;}
+
+    vector<unsigned int> base_pokemon_gen1impl::get_egg_group_ids() const
+    {
+        vector<unsigned int> egg_group_vec;
+        return egg_group_vec;
+    }
+
     unsigned int base_pokemon_gen1impl::get_form_id() const {return species_id;}
 }

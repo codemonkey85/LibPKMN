@@ -587,7 +587,7 @@ namespace pkmnsim
             DITTO,
             DRAGON,
             UNDISCOVERED
-        }
+        };
     }
     
     namespace Moves
@@ -1858,7 +1858,7 @@ namespace pkmnsim
             SPECIAL_DEFENSE,
             SPEED,
             SPECIAL = 9
-        }
+        };
     }
     
     namespace Types
@@ -1885,7 +1885,7 @@ namespace pkmnsim
             DARK,
             UNKNOWN=10001,
             SHADOW
-        }
+        };
     }
 }
 

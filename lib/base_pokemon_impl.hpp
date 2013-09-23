@@ -36,8 +36,8 @@ namespace pkmnsim
             dict<unsigned int, unsigned int> get_types() const;
             double get_height() const;
             double get_weight() const;
-            virtual dict<int, unsigned int> get_base_stats() const = 0;
-            virtual dict<int, unsigned int> get_ev_yields() const = 0;
+            virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;
+            virtual dict<unsigned int, unsigned int> get_ev_yields() const = 0;
             virtual double get_chance_male() const = 0;
             virtual double get_chance_female() const = 0;
             virtual dict<unsigned int, unsigned int> get_abilities() const = 0;
@@ -50,14 +50,14 @@ namespace pkmnsim
             virtual std::string get_sprite_path(bool is_male, bool is_shiny) const = 0;
             virtual void set_form(unsigned int form) = 0;
             virtual void set_form(std::string form) = 0;
-            virtual void repair(int id) = 0;
+            virtual void repair(unsigned int id) = 0;
 
-            virtual std::string get_egg_group_name() const = 0;
+            virtual std::vector<std::string> get_egg_group_names() const = 0;
             virtual std::string get_form_name() const = 0;
             std::string get_game_name() const;
             std::string get_species_name() const;
             
-            virtual unsigned int get_egg_group_id() const = 0;
+            virtual std::vector<unsigned int> get_egg_group_ids() const = 0;
             virtual unsigned int get_form_id() const = 0;
             unsigned int get_game_id() const;
             unsigned int get_pokemon_id() const;

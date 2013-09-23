@@ -9,7 +9,7 @@
 
 #include <string>
 
-#include "base_pkmn_impl.hpp"
+#include "base_pokemon_impl.hpp"
 #include <pkmnsim/types/dict.hpp>
 
 namespace pkmnsim
@@ -27,7 +27,7 @@ namespace pkmnsim
             double get_chance_male() const;
             double get_chance_female() const;
             bool has_gender_differences() const;
-            dict<unsigned int, unsigned in> get_abilities() const;
+            dict<unsigned int, unsigned int> get_abilities() const;
             
             std::string get_icon_path(bool is_male) const;
             std::string get_sprite_path(bool is_male, bool is_shiny) const;
@@ -35,10 +35,10 @@ namespace pkmnsim
             void set_form(std::string form);
             void repair(unsigned int id);
             
-            std::string get_egg_group_name() const;
+            std::vector<std::string> get_egg_group_names() const;
             std::string get_form_name() const;
             
-            unsigned int get_egg_group_id() const;
+            std::vector<unsigned int> get_egg_group_ids() const;
             unsigned int get_form_id() const;
     };
 }

@@ -6,7 +6,7 @@
 #
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5)
 
-MESSAGE(FATAL_ERROR "Currently in development. Will not compile.")
+#MESSAGE(FATAL_ERROR "Currently in development. Will not compile.")
 
 IF(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     SET(PKMNSIM_USED_AS_SUBMODULE TRUE CACHE BOOL "Part of larger project")
@@ -128,8 +128,8 @@ ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(lib)
 IF(NOT PKMNSIM_USED_AS_SUBMODULE)
-    ADD_SUBDIRECTORY(utils)
-    ADD_SUBDIRECTORY(apps)
+    #ADD_SUBDIRECTORY(utils)
+    #ADD_SUBDIRECTORY(apps)
 ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
 ########################################################################

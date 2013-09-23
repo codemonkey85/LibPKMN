@@ -54,9 +54,9 @@ namespace pkmnsim
         
         //Even though most attributes are queried from the database when called, stats take a long time when
         //doing a lot at once, so grab these upon instantiation
-        SQLite::Database db(get_database_path.c_str());
-        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
-                       " AND stat_id IN (3,5)";
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
+                            + " AND stat_id IN (3,5)";
         SQLite::Statement query(db, query_string.c_str());
         query.executeStep();
         special_attack = query.getColumn(0);
@@ -179,7 +179,7 @@ namespace pkmnsim
 
     bool base_pokemon_gen2impl::has_gender_differences() const {return false;}
 
-    dict<unsigned int, unsigned int> get_abilities() const
+    dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_abilities() const
     {
         dict<unsigned int, unsigned int> abilities;
         return abilities;
@@ -201,8 +201,20 @@ namespace pkmnsim
     void base_pokemon_gen2impl::set_form(unsigned int form) {};
     void base_pokemon_gen2impl::set_form(std::string form) {};
     void base_pokemon_gen2impl::repair(unsigned int id) {};
-    string base_pokemon_gen2impl::get_egg_group_name() const {return "N/A";}
+    
+    vector<string> base_pokemon_gen2impl::get_egg_group_names() const
+    {
+        vector<string> egg_group_vec;
+        return egg_group_vec;
+    }
+    
     string base_pokemon_gen2impl::get_form_name() const {return get_species_name();}
-    unsigned int base_pokemon_gen2impl::get_egg_group_id() const {return Egg_Groups::NONE;}
+
+    vector<unsigned int> base_pokemon_gen2impl::get_egg_group_ids() const
+    {
+        vector<unsigned int> egg_group_vec;
+        return egg_group_vec;
+    }
+
     unsigned int base_pokemon_gen2impl::get_form_id() const {return species_id;}
 }

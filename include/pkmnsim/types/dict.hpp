@@ -49,6 +49,6 @@ namespace pkmnsim
 
 }
 
-#include <pkmnsim/dict.ipp>
+#include <pkmnsim/types/dict.ipp>
 
 #endif /* INCLUDED_DICT_HPP */

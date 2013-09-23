@@ -52,6 +52,11 @@ public:
     {
         return getInt();
     }
+    /// Inline cast operator to unsigned int
+    inline operator unsigned int() const
+    {
+        return getInt();
+    }
     /// Inline cast operator to 64bits integer
     inline operator sqlite3_int64() const
     {

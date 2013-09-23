@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+#include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/config.hpp>
 
 namespace pkmnsim

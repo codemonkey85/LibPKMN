@@ -11,6 +11,7 @@
 #include <boost/format.hpp>
 
 #include <pkmnsim/enums.hpp>
+#include <pkmnsim/lists.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
@@ -24,7 +25,7 @@ using namespace std;
 namespace pkmnsim
 {
     base_pokemon_gen345impl::base_pokemon_gen345impl(unsigned int id, unsigned int game):
-                                           base_pokemon(id, game)
+                                           base_pokemon_impl(id, game)
     {
         //Get final part of images path
         switch(from_game)
@@ -80,9 +81,9 @@ namespace pkmnsim
         
         //Even though most attributes are queried from the database when called, stats take a long time when
         //doing a lot at once, so grab these upon instantiation
-        SQLite::Database db(get_database_path.c_str());
-        query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
-                       " AND stat_id IN (3,5)";
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
+                            + " AND stat_id IN (3,5)";
         SQLite::Statement query(db, query_string.c_str());
         query.executeStep();
         special_attack = query.getColumn(0);
@@ -160,12 +161,12 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_ev_yields()
+    dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_ev_yields() const
     {
         dict<unsigned int, unsigned int> ev_yields;
 
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(pkmn_id) +
+        string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
                        " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement stats_query(db, query_string.c_str());
 
@@ -180,12 +181,12 @@ namespace pkmnsim
         stats_query.executeStep();
         ev_yields[Stats::SPECIAL_DEFENSE] = stats_query.getColumn(0);
         stats_query.executeStep();
-        ev_yields[Stats::SPEED] =  = stats_query.getColumn(0);
+        ev_yields[Stats::SPEED] = stats_query.getColumn(0);
 
         return ev_yields;
     }
 
-    double base_pokemon_gen345impl::get_chance_male()
+    double base_pokemon_gen345impl::get_chance_male() const
     {
         SQLite::Database db(get_database_path().c_str());
         
@@ -205,7 +206,7 @@ namespace pkmnsim
         else return gender_val_map[gender_val];
     }
 
-    double base_pokemon_gen345impl::get_chance_female()
+    double base_pokemon_gen345impl::get_chance_female() const
     {
         SQLite::Database db(get_database_path().c_str());
 
@@ -225,36 +226,36 @@ namespace pkmnsim
         else return (1.0 - gender_val_map[gender_val]);
     }
 
-    bool base_pokemon_gen345impl::has_gender_differences(void)
+    bool base_pokemon_gen345impl::has_gender_differences(void) const
     {
         if(from_gen == 3) return false;
         else
         {
             SQLite::Database db(get_database_path().c_str());
-            string query_string = "SELECT has_gender_differences FROM pokemon_species WHERE id=" + to_string(pkmn_id);
-            return int(db.execAndGet(query_string.c_str()));
+            string query_string = "SELECT has_gender_differences FROM pokemon_species WHERE id=" + to_string(pokemon_id);
+            return bool(int(db.execAndGet(query_string.c_str()))); //SQLite::Column needs to be manually cast to a bool
         }
     }
     
-    dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_abilities()
+    dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_abilities() const
     {
         dict<unsigned int, unsigned int> abilities;
         SQLite::Database db(get_database_path().c_str());
 
         //Ability 1 (guaranteed)
-        string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pkmn_id)
+        string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
                      + " AND slot=1";
         abilities[0] = db.execAndGet(query_string.c_str(), "ability_id");
 
         //Ability 2 (not guaranteed, and if exists, might not exist in specified generation
-        query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pkmn_id)
+        query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
                      + " AND slot=2";
         SQLite::Statement ability2_query(db, query_string.c_str());
         if(ability2_query.executeStep()) //Will be false if no entry exists
         {
-            int ability2_id = ability2_query.getColumn(0); //ability_id
+            unsigned int ability2_id = ability2_query.getColumn(0); //ability_id
             query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
-            int generation_id = db.execAndGet(query_string.c_str(), "generation_id");
+            unsigned int generation_id = db.execAndGet(query_string.c_str(), "generation_id");
             
             if(generation_id > from_gen) abilities[1] = Abilities::NONE;
             else abilities[1] = ability2_id;
@@ -264,7 +265,7 @@ namespace pkmnsim
         //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
         if(from_gen == 5)
         {
-            query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pkmn_id)
+            query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
                          + " AND slot=3";
             SQLite::Statement ability3_query(db, query_string.c_str());
             if(ability3_query.executeStep()) //Will be false if no entry exists
@@ -273,15 +274,17 @@ namespace pkmnsim
             }
             else abilities[2] = Abilities::NONE;
         }
+        
+        return abilities;
     }
 
-    string base_pokemon_gen345impl::get_icon_path(bool is_male)
+    string base_pokemon_gen345impl::get_icon_path(bool is_male) const
     {
         if(from_gen > 3 and not is_male) return female_icon_path;
         else return male_icon_path;
     }
     
-    string base_pokemon_gen345impl::get_sprite_path(bool is_male, bool is_shiny)
+    string base_pokemon_gen345impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
         if(is_male)
         {
@@ -296,7 +299,7 @@ namespace pkmnsim
     }
 	
     //Manually set Pokemon form
-    void base_pokemon::set_form(int form)
+    void base_pokemon_gen345impl::set_form(unsigned int form)
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + to_string(from_gen);
@@ -346,7 +349,7 @@ namespace pkmnsim
                     case Forms::Castform::NORMAL:
                         type1_id = 1;
                         type2_id = -1;
-                        pkmn_id = 351;
+                        pokemon_id = 351;
 
                         male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / "351.png").string();
                         female_icon_path = male_icon_path;
@@ -359,7 +362,7 @@ namespace pkmnsim
                     case Forms::Castform::SUNNY:
                         type1_id = 10;
                         type2_id = -1;
-                        pkmn_id = 662;
+                        pokemon_id = 662;
 
                         male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / "351-sunny.png").string();
                         female_icon_path = male_icon_path;
@@ -372,7 +375,7 @@ namespace pkmnsim
                     case Forms::Castform::RAINY:
                         type1_id = 11;
                         type2_id = -1;
-                        pkmn_id = 663;
+                        pokemon_id = 663;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "351-rainy.png").string();
                         female_icon_path = male_icon_path;
@@ -385,7 +388,7 @@ namespace pkmnsim
                     case Forms::Castform::SNOWY:
                         type1_id = 15;
                         type2_id = -1;
-                        pkmn_id = 664;
+                        pokemon_id = 664;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "351-snowy.png").string();
                         female_icon_path = male_icon_path;
@@ -405,7 +408,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Deoxys::NORMAL:
-                        pkmn_id = 386;
+                        pokemon_id = 386;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "386.png").string();
                         female_icon_path = male_icon_path;
@@ -416,7 +419,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Deoxys::ATTACK:
-                        pkmn_id = 650;
+                        pokemon_id = 650;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "386-attack.png").string();
                         female_icon_path = male_icon_path;
@@ -427,7 +430,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Deoxys::DEFENSE:
-                        pkmn_id = 651;
+                        pokemon_id = 651;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "386-defense.png").string();
                         female_icon_path = male_icon_path;
@@ -438,7 +441,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Deoxys::SPEED:
-                        pkmn_id = 652;
+                        pokemon_id = 652;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "386-speed.png").string();
                         female_icon_path = male_icon_path;
@@ -496,7 +499,7 @@ namespace pkmnsim
                     case Forms::Wormadam::PLANT_CLOAK:
                         type1_id = 7;
                         type2_id = 12;
-                        pkmn_id = 413;
+                        pokemon_id = 413;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "413-plant.png").string();
                         male_sprite_path = fs::path(fs::path(get_images_dir()) / gen_string.c_str() / images_game_string.c_str() / "female" / "413-plant.png").string();
@@ -508,7 +511,7 @@ namespace pkmnsim
                     case Forms::Wormadam::SANDY_CLOAK:
                         type1_id = 7;
                         type2_id = 5;
-                        pkmn_id = 653;
+                        pokemon_id = 653;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "413-sandy.png").string();
                         male_sprite_path = fs::path(fs::path(get_images_dir()) / gen_string.c_str() / images_game_string.c_str() / "female" / "413-sandy.png").string();
@@ -520,7 +523,7 @@ namespace pkmnsim
                     case Forms::Wormadam::TRASH_CLOAK:
                         type1_id = 7;
                         type2_id = 9;
-                        pkmn_id = 654;
+                        pokemon_id = 654;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "413-trash.png").string();
                         male_sprite_path = fs::path(fs::path(get_images_dir()) / gen_string.c_str() / images_game_string.c_str() / "female" / "413-trash.png").string();
@@ -622,7 +625,7 @@ namespace pkmnsim
                     case Forms::Rotom::NORMAL:
                         type1_id = 13;
                         type2_id = 8;
-                        pkmn_id = 479;
+                        pokemon_id = 479;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "479.png").string();
                         female_icon_path = male_icon_path;
@@ -635,7 +638,7 @@ namespace pkmnsim
                     case Forms::Rotom::HEAT:
                         type1_id = 13;
                         type2_id = 10;
-                        pkmn_id = 657;
+                        pokemon_id = 657;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "479-heat.png").string();
                         female_icon_path = male_icon_path;
@@ -648,7 +651,7 @@ namespace pkmnsim
                     case Forms::Rotom::WASH:
                         type1_id = 13;
                         type2_id = 11;
-                        pkmn_id = 658;
+                        pokemon_id = 658;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "479-wash.png").string();
                         female_icon_path = male_icon_path;
@@ -661,7 +664,7 @@ namespace pkmnsim
                     case Forms::Rotom::FROST:
                         type1_id = 13;
                         type2_id = 15;
-                        pkmn_id = 659;
+                        pokemon_id = 659;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "479-frost.png").string();
                         female_icon_path = male_icon_path;
@@ -674,7 +677,7 @@ namespace pkmnsim
                     case Forms::Rotom::FAN:
                         type1_id = 13;
                         type2_id = 3;
-                        pkmn_id = 660;
+                        pokemon_id = 660;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "479-fan.png").string();
                         female_icon_path = male_icon_path;
@@ -687,7 +690,7 @@ namespace pkmnsim
                     case Forms::Rotom::MOW:
                         type1_id = 13;
                         type2_id = 12;
-                        pkmn_id = 661;
+                        pokemon_id = 661;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "479-mow.png").string();
                         female_icon_path = male_icon_path;
@@ -707,7 +710,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Giratina::ALTERED:
-                        pkmn_id = 487;
+                        pokemon_id = 487;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "487-altered.png").string();
                         female_icon_path = male_icon_path;
@@ -718,7 +721,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Giratina::ORIGIN:
-                        pkmn_id = 656;
+                        pokemon_id = 656;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "487-origin.png").string();
                         female_icon_path = male_icon_path;
@@ -740,7 +743,7 @@ namespace pkmnsim
                     case Forms::Shaymin::LAND:
                         type1_id = 12;
                         type2_id = -1;
-                        pkmn_id = 492;
+                        pokemon_id = 492;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "492-land.png").string();
                         female_icon_path = male_icon_path;
@@ -753,7 +756,7 @@ namespace pkmnsim
                     case Forms::Shaymin::SKY:
                         type1_id = 12;
                         type2_id = 4;
-                        pkmn_id = 655;
+                        pokemon_id = 655;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "492-sky.png").string();
                         female_icon_path = male_icon_path;
@@ -850,7 +853,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Basculin::RED_STRIPED:
-                        pkmn_id = 550;
+                        pokemon_id = 550;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "550-red-striped.png").string();
                         female_icon_path = male_icon_path;
@@ -861,7 +864,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Basculin::BLUE_STRIPED:
-                        pkmn_id = 665;
+                        pokemon_id = 665;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "550-blue-striped.png").string();
                         female_icon_path = male_icon_path;
@@ -881,7 +884,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Darmanitan::STANDARD:
-                        pkmn_id = 555;
+                        pokemon_id = 555;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "555-standard.png").string();
                         female_icon_path = male_icon_path;
@@ -892,7 +895,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Darmanitan::ZEN:
-                        pkmn_id = 666;
+                        pokemon_id = 666;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "555-zen.png").string();
                         female_icon_path = male_icon_path;
@@ -961,7 +964,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Tornadus::INCARNATE:
-                        pkmn_id = 641;
+                        pokemon_id = 641;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "641-incarnate.png").string();
                         female_icon_path = male_icon_path;
@@ -972,7 +975,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Tornadus::THERIAN:
-                        pkmn_id = 668;
+                        pokemon_id = 668;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "641-therian.png").string();
                         female_icon_path = male_icon_path;
@@ -992,7 +995,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Thundurus::INCARNATE:
-                        pkmn_id = 642;
+                        pokemon_id = 642;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "642-incarnate.png").string();
                         female_icon_path = male_icon_path;
@@ -1003,7 +1006,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Thundurus::THERIAN:
-                        pkmn_id = 669;
+                        pokemon_id = 669;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "642-therian.png").string();
                         female_icon_path = male_icon_path;
@@ -1023,7 +1026,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Landorus::INCARNATE:
-                        pkmn_id = 645;
+                        pokemon_id = 645;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "645-incarnate.png").string();
                         female_icon_path = male_icon_path;
@@ -1034,7 +1037,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Landorus::THERIAN:
-                        pkmn_id = 670;
+                        pokemon_id = 670;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "645-therian.png").string();
                         female_icon_path = male_icon_path;
@@ -1054,7 +1057,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Kyurem::NORMAL:
-                        pkmn_id = 646;
+                        pokemon_id = 646;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "646.png").string();
                         female_icon_path = male_icon_path;
@@ -1065,7 +1068,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Kyurem::BLACK:
-                        pkmn_id = 671;
+                        pokemon_id = 671;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "646-black.png").string();
                         female_icon_path = male_icon_path;
@@ -1076,7 +1079,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Kyurem::WHITE:
-                        pkmn_id = 672;
+                        pokemon_id = 672;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "646-white.png").string();
                         female_icon_path = male_icon_path;
@@ -1123,7 +1126,7 @@ namespace pkmnsim
                 switch(form)
                 {
                     case Forms::Meloetta::ARIA:
-                        pkmn_id = 648;
+                        pokemon_id = 648;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "648-aria.png").string();
                         female_icon_path = male_icon_path;
@@ -1134,7 +1137,7 @@ namespace pkmnsim
                         break;
 
                     case Forms::Meloetta::PIROUETTE:
-                        pkmn_id = 673;
+                        pokemon_id = 673;
 
                         male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "648-pirouette.png").string();
                         female_icon_path = male_icon_path;
@@ -1210,7 +1213,7 @@ namespace pkmnsim
         }
     }
 
-    void base_pokemon::set_form(string form)
+    void base_pokemon_gen345impl::set_form(string form)
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + from_gen;
@@ -1514,7 +1517,7 @@ namespace pkmnsim
         }
     }
 
-    void base_pokemon::repair(int id)
+    void base_pokemon_gen345impl::repair(unsigned int id)
     {
         switch(id)
         {
@@ -1618,4 +1621,33 @@ namespace pkmnsim
                 break;
         }
     }
+    
+    vector<string> base_pokemon_gen345impl::get_egg_group_names() const
+    {
+        vector<unsigned int> egg_group_id_vec = get_egg_group_ids();
+        vector<string> egg_group_vec;
+        
+        for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
+            egg_group_vec.push_back(database::get_egg_group_name_from_id(egg_group_id_vec[i]));
+        
+        return egg_group_vec;
+    }
+    
+    string base_pokemon_gen345impl::get_form_name() const {return get_species_name();}
+    
+    vector<unsigned int> base_pokemon_gen345impl::get_egg_group_ids() const
+    {
+        vector<unsigned int> egg_group_vec;
+    
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id=" + to_string(species_id);
+        SQLite::Statement query(db, query_string.c_str());
+        
+        while(query.executeStep()) egg_group_vec.push_back(query.getColumn(0));
+        
+        return egg_group_vec;
+    }
+    
+    //TODO: Give Pokemon-sim its own internal way of distinguishing forms
+    unsigned int base_pokemon_gen345impl::get_form_id() const {return pokemon_id;}
 }
