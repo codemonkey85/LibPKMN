@@ -82,7 +82,7 @@ namespace pkmnsim
                 //Gen 3 items appearing in all Gen 3 games
                 temp_vec.clear();
                 for(int i = 0; i < 348; i++)
-                    if(items[i] != "Nothing" and items[i] != "???")
+                    if(not (strncmp(items[i], "Nothing", 7) or strncmp(items[i], "???", 3)))
                         temp_vec.push_back(items[i]);
                 item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
                 break;
@@ -104,7 +104,7 @@ namespace pkmnsim
                 //Gen 4 items appearing in all Gen 4 games
                 temp_vec.clear();
                 for(int i = 0; i < 464; i++)
-                    if(i != 111 and PokeLib::items[i] != "???" and PokeLib::items[i] != "----")
+                    if(i != 111 and not (strncmp(PokeLib::items[i], "???", 3) or strncmp(PokeLib::items[i], "----", 4)))
                         temp_vec.push_back(PokeLib::items[i]);
                 item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
                 break;
@@ -115,11 +115,11 @@ namespace pkmnsim
                 SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT name FROM item_names WHERE item_id<670 AND local_language_id=9";
                 SQLite::Statement query(db, query_string.c_str());
-                #ifdef PKMNSIM_PLATFORM_WIN32
-                while(query.executeStep()) item_vec.push_back(string(query.getColumn(0)));
-                #else
-                while(query.executeStep()) item_vec.push_back(query.getColumn(0));
-                #endif
+                while(query.executeStep())
+                {
+                    string result = query.getColumn(0); //Cannot do straight SQLite::Column to std::string conversion in push_back
+                    item_vec.push_back(result);
+                }
                 break;
             }
 
@@ -128,11 +128,11 @@ namespace pkmnsim
                 SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT name FROM item_names WHERE item_id AND local_language_id=9";
                 SQLite::Statement query(db, query_string.c_str());
-                #ifdef PKMNSIM_PLATFORM_WIN32
-                while(query.executeStep()) item_vec.push_back(string(query.getColumn(0)));
-                #else
-                while(query.executeStep()) item_vec.push_back(query.getColumn(0));
-                #endif
+                while(query.executeStep())
+                {
+                    string result = query.getColumn(0); //Cannot do straight SQLite::Column to std::string conversion in push_back
+                    item_vec.push_back(result);
+                }
                 break;
             }
         }
