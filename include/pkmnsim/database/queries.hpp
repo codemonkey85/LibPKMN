@@ -28,14 +28,20 @@ namespace pkmnsim
         
         unsigned int PKMNSIM_API get_generation_from_game_id(unsigned int game_id);
         
+        std::string PKMNSIM_API get_move_description_from_id(unsigned int move_id, unsigned int version);
+        std::string PKMNSIM_API get_move_description_from_name(std::string move_name, unsigned int version);
+        
         unsigned int PKMNSIM_API get_move_id_from_name(std::string move_name);
         std::string PKMNSIM_API get_move_name_from_id(unsigned int move_id);
 
+        double PKMNSIM_API get_nature_stat_effect_from_id(unsigned int nature_id, unsigned int stat);
+        double PKMNSIM_API get_nature_stat_effect_from_name(std::string nature_name, unsigned int stat);
+        
         unsigned int PKMNSIM_API get_nature_id_from_name(std::string nature_name);
         std::string PKMNSIM_API get_nature_name_from_id(unsigned int nature_id);
 
-        std::string PKMNSIM_API get_pokedex_entry_from_species_id(unsigned int species_id, int version);
-        std::string PKMNSIM_API get_pokedex_entry_from_species_name(std::string species_name, int version);
+        std::string PKMNSIM_API get_pokedex_entry_from_species_id(unsigned int species_id, unsigned int version);
+        std::string PKMNSIM_API get_pokedex_entry_from_species_name(std::string species_name, unsigned int version);
 
         unsigned int PKMNSIM_API get_species_id_from_pokemon_id(unsigned int pkmn_id);
         unsigned int PKMNSIM_API get_species_id_from_name(std::string species_name);
@@ -43,6 +49,8 @@ namespace pkmnsim
 
         unsigned int PKMNSIM_API get_type_id_from_name(std::string type_name);
         std::string PKMNSIM_API get_type_name_from_id(unsigned int type_id);
+        
+        unsigned int PKMNSIM_API get_version_group_from_id(unsigned int version_id);
     }
 }
 
