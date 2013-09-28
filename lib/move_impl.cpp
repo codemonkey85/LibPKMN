@@ -11,31 +11,49 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/base_move.hpp>
+#include <pkmnsim/move.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-//TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
-#include "base_move_mainimpl.hpp"
 #include <sqlitecpp/SQLiteCPP.h>
 
+//TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
+#include "move_mainimpl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    base_move::base_move(int id, int gen)
+    move::sptr move::make(unsigned int id, unsigned int game)
     {
+        try
+        {
+            /*
+                if(identifier == "curse") {}
+                else if(identifier == "hidden power") {}
+                else{
+            */
+            return sptr(new move_mainimpl(id, game));
+        }
+        catch(const exception &e)
+        {
+            cout << "Caught exception: " << e.what() << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    move_impl::move_impl(unsigned int id, unsigned int game): move()
+    {
+        from_game = game;
         if(id == Moves::NONE)
         {
             type_id = 0;
             base_power = 0;
             base_pp = 0;
             base_accuracy = 0.0;
-            base_priority = 0.0;
+            base_priority = 0;
             target_id = 0;
-            name = "None";
         }
         else
         {
@@ -46,11 +64,12 @@ namespace pkmnsim
 
             //Fail if move's generation_id > specified generation
             query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(id);
-            int gen_id = db.execAndGet(query_string.c_str());
+            unsigned int gen_id = db.execAndGet(query_string.c_str());
+            unsigned int game_gen = database::get_generation_from_game_id(from_game);
 
-            if(gen_id > gen)
+            if(gen_id > game_gen)
             {
-                string error_message = database::get_move_name_from_id(id) + " not present in Generation " + to_string(gen) + ".";
+                string error_message = get_name() + " not present in Generation " + to_string(game_gen) + ".";
                 throw runtime_error(error_message.c_str());
             }
 
@@ -66,58 +85,31 @@ namespace pkmnsim
             base_accuracy /= 10; //Stored as 0 < int < 100
             base_priority = moves_query.getColumn(7); //priority
             target_id = moves_query.getColumn(8); //target_id
-
-            //Move name
-            query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
-                                             % move_id);
-            name = db.execAndGetStr(query_string.c_str(), "");
-
-            //Type
-            query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9")
-                                             % type_id);
-            type = db.execAndGetStr(query_string.c_str(), "");
+            move_damage_class = moves_query.getColumn(9); //damage_class_id
         }
     }
 
-    base_move::sptr base_move::make(int id, int gen)
+    string move_impl::get_name() const {return database::get_move_name_from_id(move_id);}
+    string move_impl::get_description() const {return database::get_move_description_from_id(move_id, from_game);}
+    unsigned int move_impl::get_type() const {return type_id;}
+    unsigned int move_impl::get_base_power() const {return base_power;}
+    unsigned int move_impl::get_base_pp() const {return base_pp;}
+    double move_impl::get_base_accuracy() const {return base_accuracy;}
+    
+    unsigned int move_impl::get_move_damage_class() const
     {
-        try
-        {
-            /*
-                if(identifier == "curse") {}
-                else if(identifier == "hidden power") {}
-                else{
-            */
-            return sptr(new base_move_mainimpl(id, gen));
-        }
-        catch(const exception &e)
-        {
-            cout << "Caught exception: " << e.what() << endl;
-            exit(EXIT_FAILURE);
-        }
+        //In Gens 1-3, damage class depended on move type
+        //In Gens 4-5, damage class is specific to each move
+        unsigned int from_gen = database::get_generation_from_game_id(from_game);
+        if(from_gen >= 4) return move_damage_class;
+        else return database::get_damage_class_from_type(type_id);
     }
 
-    string base_move::get_name(void) {return name;}
-
-    string base_move::get_description(void) {return description;}
-
-    string base_move::get_type(void) {return type;}
-
-    int base_move::get_base_power(void) {return base_power;}
-
-    int base_move::get_base_pp(void) {return base_pp;}
-
-    double base_move::get_base_accuracy(void) {return base_accuracy;}
-
-    int base_move::get_move_damage_class(void) {return move_damage_class;}
-
-    string base_move::get_base_effect(void) {return base_effect;}
-
-    double base_move::get_base_effect_chance(void) {return base_effect_chance;}
-    
-    int base_move::get_move_id(void) {return move_id;}
-    
-    int base_move::get_type_id(void) {return type_id;}
-    
-    int base_move::get_target_id(void) {return target_id;}
+    string move_impl::get_base_effect() const {return base_effect;}
+    double move_impl::get_base_effect_chance() const {return base_effect_chance;}
+    unsigned int move_impl::get_priority() const {return base_priority;}
+    unsigned int move_impl::get_move_id() const {return move_id;}
+    unsigned int move_impl::get_type_id() const {return type_id;}
+    unsigned int move_impl::get_target_id() const {return target_id;}
+    unsigned int move_impl::get_game_id() const {return from_game;}
 }

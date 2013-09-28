@@ -45,8 +45,8 @@ IF(ENABLE_LIBRARY)
         #trainer_gen3impl.cpp
         #trainer_gen4impl.cpp
         #trainer_gen5impl.cpp
-        #move_impl.cpp
-        #move_mainimpl.cpp
+        move_impl.cpp
+        move_mainimpl.cpp
         #game_save.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${database_sources}

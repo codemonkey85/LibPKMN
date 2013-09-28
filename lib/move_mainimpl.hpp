@@ -4,22 +4,22 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASE_MOVE_MAINIMPL_HPP
-#define INCLUDED_BASE_MOVE_MAINIMPL_HPP
+#ifndef INCLUDED_MOVE_MAINIMPL_HPP
+#define INCLUDED_MOVE_MAINIMPL_HPP
 
 #include <string>
 
-#include <pkmnsim/base_move.hpp>
+#include "move_impl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    class base_move_mainimpl: public base_move
+    class move_mainimpl: public move_impl
     {
         public:
-            base_move_mainimpl(int id, int gen);
+            move_mainimpl(unsigned int id, unsigned int game);
     };
 }
 
-#endif /* INCLUDED_BASE_MOVE_MAINIMPL_HPP */
+#endif /* INCLUDED_MOVE_MAINIMPL_HPP */

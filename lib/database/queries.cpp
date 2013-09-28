@@ -54,6 +54,13 @@ namespace pkmnsim
             return db.execAndGetStr(query_string.c_str(), "name");
         }
 
+        unsigned int get_damage_class_from_type(unsigned int type_id)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT damage_class_id FROM types WHERE id=%d") % type_id);
+            return db.execAndGet(query_string.c_str());
+        }
+        
         unsigned int get_egg_group_id_from_name(string egg_group_name)
         {
             SQLite::Database db(get_database_path().c_str());
@@ -99,7 +106,7 @@ namespace pkmnsim
         {
             //Main Gen 1 games have no move descriptions, so convert version ID to Stadium
             //Convert enums to version_group_id
-            if(version < Games::GOLD) version = Games::STADIUM;
+            if(version < Games::GOLD) version = Games::STADIUM2;
             unsigned int version_group_id = get_version_group_from_id(version);
             
             SQLite::Database db(get_database_path().c_str());

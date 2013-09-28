@@ -9,20 +9,21 @@
 
 #include <pkmnsim/paths.hpp>
 
-#include "base_move_mainimpl.hpp"
 #include <sqlitecpp/SQLiteCPP.h>
+
+#include "move_mainimpl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    base_move_mainimpl::base_move_mainimpl(int id, int gen): base_move(id, gen)
+    move_mainimpl::move_mainimpl(unsigned int id, unsigned int game): move_impl(id, game)
     {
         SQLite::Database db(get_database_path().c_str());
 
        //Effect and chance
         string query_string = "SELECT effect_id FROM moves WHERE id=" + to_string(move_id);
-        int effect_id = db.execAndGet(query_string.c_str());
+        unsigned int effect_id = db.execAndGet(query_string.c_str());
         query_string = str(boost::format("SELECT short_effect FROM move_effect_prose WHERE move_effect_id=%d AND local_language_id=9")
                                          % effect_id);
         base_effect = db.execAndGetStr(query_string.c_str(), "");
