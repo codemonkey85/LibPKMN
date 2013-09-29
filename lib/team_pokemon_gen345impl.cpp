@@ -219,7 +219,7 @@ namespace pkmnsim
 
     void team_pokemon_gen345impl::set_EV(unsigned int EV, unsigned int val)
     {
-        if(val < 0 or val > 255)
+        if(val > 255)
         {
             cerr << "Gen 3-5 EV's must be 0-255." << endl;
             exit(EXIT_FAILURE);
@@ -264,7 +264,7 @@ namespace pkmnsim
     
     void team_pokemon_gen345impl::set_IV(unsigned int IV, unsigned int val)
     {
-        if(val < 0 or val > 255)
+        if(val > 31)
         {
             cerr << "Gen 3-5 IV's must be 0-31." << endl;
             exit(EXIT_FAILURE);

@@ -186,7 +186,7 @@ namespace pkmnsim
 
     void team_pokemon_gen2impl::set_EV(unsigned int EV, unsigned int val)
     {
-        if(val < 0 or val > 65535)
+        if(val > 65535)
         {
             cerr << "Gen 2 EV's must be 0-65535." << endl;
             exit(EXIT_FAILURE);
@@ -227,7 +227,7 @@ namespace pkmnsim
     
     void team_pokemon_gen2impl::set_IV(unsigned int IV, unsigned int val)
     {
-        if(val < 0 or val > 16)
+        if(val > 15)
         {
             cerr << "Gen 2 IV's must be 0-15." << endl;
             exit(EXIT_FAILURE);
