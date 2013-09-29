@@ -36,10 +36,10 @@ IF(ENABLE_LIBRARY)
         base_pokemon_gen2impl.cpp
         base_pokemon_gen345impl.cpp
         lists.cpp
-        #team_pokemon_impl.cpp
-        #team_pokemon_gen1impl.cpp
-        #team_pokemon_gen2impl.cpp
-        #team_pokemon_gen345impl.cpp
+        team_pokemon_impl.cpp
+        team_pokemon_gen1impl.cpp
+        team_pokemon_gen2impl.cpp
+        team_pokemon_gen345impl.cpp
         #conversions.cpp
         #trainer_impl.cpp
         #trainer_gen3impl.cpp

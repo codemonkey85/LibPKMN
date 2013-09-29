@@ -12,86 +12,44 @@
 #include <time.h>
 #include <vector>
 
-#include <pkmnsim/base_move.hpp>
+#include <pkmnsim/move.hpp>
 #include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/spec_pokemon.hpp>
+#include <pkmnsim/team_pokemon.hpp>
+#include <pkmnsim/database/queries.hpp>
 
-#include "spec_pokemon_gen1impl.hpp"
-#include "spec_pokemon_gen2impl.hpp"
-#include "spec_pokemon_gen345impl.hpp"
 #include <sqlitecpp/SQLiteCPP.h>
+
+#include "team_pokemon_impl.hpp"
+#include "team_pokemon_gen1impl.hpp"
+#include "team_pokemon_gen2impl.hpp"
+#include "team_pokemon_gen345impl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    spec_pokemon::spec_pokemon(base_pokemon::sptr b, int m1, int m2,
-                               int m3, int m4, int g, int l)
-    {
-        srand(time(NULL));
-        personality = rand();
-        unsigned int otid = rand();
-        secret_id = ((unsigned short*)(&otid))[0];
-        trainer_id = ((unsigned short*)(&otid))[1];
-    
-        base = b;
-        nickname = base->get_species_name();
-        level = l;
-        from_game = g;
-        from_gen = b->get_generation();
-        SQLite::Database db(get_database_path().c_str()); //Filepath given by CMake
-        int base_pokemon_id = base->get_pokemon_id();
-        int base_species_id = base->get_species_id();
-
-		attributes = dict<string, int>();
-        moves = b_move_vla_t(4);
-
-        icon_path = base->get_icon_path(true);
-
-        moves[0] = base_move::make(m1,from_gen);
-        num_moves = 1;
-        if(m2 != Moves::NONE) moves[1] = base_move::make(m2,from_gen);
-        else
-        {
-            moves[1] = base_move::make(Moves::NONE,from_gen);
-            num_moves = 2;
-        }
-        if(m3 != Moves::NONE) moves[2] = base_move::make(m3,from_gen);
-        else
-        {
-            moves[2] = base_move::make(Moves::NONE,from_gen);
-            num_moves = 3;
-        }
-        if(m4 != Moves::NONE) moves[3] = base_move::make(m4,from_gen);
-        else
-        {
-            moves[3] = base_move::make(Moves::NONE,from_gen);
-            num_moves = 4;
-        }
-    }
-
-    spec_pokemon::sptr spec_pokemon::make(int id, int game, int level, int move1,
-                                          int move2, int move3, int move4)
+    team_pokemon::sptr team_pokemon::make(unsigned int id, unsigned int game, unsigned int level,
+                                          unsigned int move1, unsigned int move2,
+                                          unsigned int move3, unsigned int move4)
     {
         try
         {
             base_pokemon::sptr base = base_pokemon::make(id, game);
-
+            
             if(base->get_generation() < 1 or base->get_generation() > 5) throw runtime_error("Gen must be 1-5.");
 
             switch(base->get_generation())
             {
                 case 1:
-                    return sptr(new spec_pokemon_gen1impl(base, level, game,
+                    return sptr(new team_pokemon_gen1impl(base, game, level,
                                                        move1, move2, move3, move4));
 
                 case 2:
-                    return sptr(new spec_pokemon_gen2impl(base, level, game,
+                    return sptr(new team_pokemon_gen2impl(base, game, level,
                                                        move1, move2, move3, move4));
 
                 default:
-                    return sptr(new spec_pokemon_gen345impl(base, level, game,
+                    return sptr(new team_pokemon_gen345impl(base, game, level,
                                                        move1, move2, move3, move4));
             }
         }
@@ -102,41 +60,114 @@ namespace pkmnsim
         }
     }
 
-    base_pokemon::sptr spec_pokemon::get_base_pokemon(void) {return base;}
-
-    dict<int, std::string> spec_pokemon::get_types(void) {return base->get_types();}
-
-    string spec_pokemon::get_nickname(void) {return nickname;}
-
-    int spec_pokemon::get_level(void) {return level;}
-
-    b_move_vla_t spec_pokemon::get_moves(void) {return moves;}
+    team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
+                                         unsigned int move1, unsigned int move2,
+                                         unsigned int move3, unsigned int move4): team_pokemon()
+    {
+        srand(time(NULL));
+        personality = rand();
+        trainer_id = rand();
     
-    int spec_pokemon::get_game_id(void) {return from_game;}
+        base_pkmn = base_pkmn;
+        nickname = base_pkmn->get_species_name();
+        level = lvl;
+        from_game = game;
+        from_gen = base_pkmn->get_generation();
+        int base_pokemon_id = base_pkmn->get_pokemon_id();
+        int base_species_id = base_pkmn->get_species_id();
+
+		attributes = dict<string, int>();
+        moves = b_move_vla_t(4);
+        vla<unsigned int> move_PPs(4);
+
+        icon_path = base_pkmn->get_icon_path(true);
+
+        moves[0] = move::make(move1, from_game);
+        move_PPs[0] = moves[0]->get_base_pp();
+        
+        moves[1] = move::make(move2, from_game);
+        move_PPs[1] = moves[1]->get_base_pp();
+        
+        moves[2] = move::make(move3, from_game);
+        move_PPs[2] = moves[2]->get_base_pp();
+        
+        moves[3] = move::make(move4, from_game);
+        move_PPs[3] = moves[3]->get_base_pp();
+    }
+
+    base_pokemon::sptr team_pokemon_impl::get_base_pokemon() const {return base_pkmn;}
+
+    string team_pokemon_impl::get_nickname() const {return nickname;}
+
+    unsigned int team_pokemon_impl::get_level() const {return level;}
+
+    b_move_vla_t team_pokemon_impl::get_moves() const {return moves;}
     
-    int spec_pokemon::get_generation(void) {return from_gen;}
+    vla<unsigned int> team_pokemon_impl::get_move_PPs() const {return move_PPs;}
 
-    string spec_pokemon::get_icon_path(void) {return icon_path;}
+    void team_pokemon_impl::set_move(unsigned int move_id, unsigned int pos)
+    {
+        //Will fail if move is incompatible with this generation
+        moves[pos] = move::make(move_id, from_game);
+    }
+    
+    void team_pokemon_impl::set_move_PP(unsigned int new_PP, unsigned int pos)
+    {
+        //TODO: implement PP Up stats
+        if(new_PP <= moves[pos]->get_base_pp()) move_PPs[pos] = new_PP;
+    }
+    
+    unsigned int team_pokemon_impl::get_status() const {return nonvolatile_status;}
+    
+    void team_pokemon_impl::set_status(unsigned int status)
+    {
+        if(status >= Statuses::OK and status <= Statuses::SLEEP) nonvolatile_status = status;
+        else status = Statuses::OK;
+    }
+    
+    unsigned int team_pokemon_impl::get_personality() const {return personality;}
+    
+    void team_pokemon_impl::set_personality(unsigned int new_personality) {personality = new_personality;}
 
-    string spec_pokemon::get_sprite_path(void) {return sprite_path;}
+    unsigned int team_pokemon_impl::get_generation() const {return from_gen;}
 
-	int spec_pokemon::get_attribute(string attribute) {return attributes[attribute];}
+    unsigned int team_pokemon_impl::get_held_item() const {return held_item;}
+    
+    void team_pokemon_impl::set_held_item(unsigned int item) {held_item = item;}
+    
+    string team_pokemon_impl::get_icon_path() const {return icon_path;}
 
-    dict<string, int> spec_pokemon::get_attributes(void) {return attributes;}
+    string team_pokemon_impl::get_sprite_path() const {return sprite_path;}
+    
+	int team_pokemon_impl::get_attribute(string attribute) const {return attributes[attribute];}
 
-    bool spec_pokemon::has_attribute(string attribute) {return attributes.has_key(attribute);}
+    dict<string, int> team_pokemon_impl::get_attributes() const {return attributes;}
 
-	void spec_pokemon::set_attribute(string attribute, int value) {attributes[attribute] = value;}
+    bool team_pokemon_impl::has_attribute(string attribute) const {return attributes.has_key(attribute);}
 
-    string spec_pokemon::get_species_name(void) {return base->get_species_name();}
+	void team_pokemon_impl::set_attribute(string attribute, int value) {attributes[attribute] = value;}
+    
+    void team_pokemon_impl::set_hidden_ability(bool val) {has_hidden_ability = val;}
+    
+    vector<string> team_pokemon_impl::get_egg_group_names() const {return base_pkmn->get_egg_group_names();}
 
-    dict<string, int> spec_pokemon::get_base_stats(void) {return base->get_base_stats();}
+    string team_pokemon_impl::get_game_name() const {return database::get_game_name_from_id(from_game);}
+    
+    string team_pokemon_impl::get_species_name() const {return base_pkmn->get_species_name();}
+    
+    vector<unsigned int> team_pokemon_impl::get_egg_group_ids() const {return base_pkmn->get_egg_group_ids();}
 
-    dict<string, int> spec_pokemon::get_ev_yields(void) {return base->get_ev_yields();}
+    unsigned int team_pokemon_impl::get_game_id() const {return from_game;}
+    
+    unsigned int team_pokemon_impl::get_pokemon_id() const {return base_pkmn->get_pokemon_id();}
 
-    bool spec_pokemon::is_fully_evolved(void) {return base->is_fully_evolved();}
+    unsigned int team_pokemon_impl::get_species_id() const {return base_pkmn->get_species_id();}
+    
+    dict<unsigned int, unsigned int> team_pokemon_impl::get_types() const {return base_pkmn->get_types();}
+    
+    dict<unsigned int, unsigned int> team_pokemon_impl::get_base_stats() const {return base_pkmn->get_base_stats();}
 
-    int spec_pokemon::get_pokemon_id(void) {return base->get_pokemon_id();}
+    dict<unsigned , unsigned int> team_pokemon_impl::get_ev_yields() const {return base_pkmn->get_ev_yields();}
 
-    int spec_pokemon::get_species_id(void) {return base->get_species_id();}
+    bool team_pokemon_impl::is_fully_evolved() const {return base_pkmn->is_fully_evolved();}
 }

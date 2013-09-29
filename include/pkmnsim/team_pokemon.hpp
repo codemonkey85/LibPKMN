@@ -42,10 +42,14 @@ namespace pkmnsim
             virtual base_pokemon::sptr get_base_pokemon() const = 0;
             virtual std::string get_nickname() const = 0;
             virtual unsigned int get_level() const = 0;
-            virtual vla<move::sptr> get_moves() = 0;
-            virtual vla<unsigned int> get_move_PPs() = 0;
-            virtual unsigned int get_volatile_status(int status) = 0;
-            virtual void set_volatile_status(int status, int val) = 0;
+
+            virtual vla<move::sptr> get_moves() const = 0;
+            virtual vla<unsigned int> get_move_PPs() const = 0;
+            virtual void set_move(unsigned int move_id, unsigned int pos) = 0;
+            virtual void set_move_PP(unsigned int new_PP, unsigned int pos) = 0;
+            
+            virtual unsigned int get_status() const = 0;
+            virtual void set_status(unsigned int status) = 0;
             
             virtual unsigned int get_personality() const = 0;
             virtual unsigned int get_ability() const = 0;
@@ -61,12 +65,10 @@ namespace pkmnsim
             
             virtual void set_EV(unsigned int EV, unsigned int val) = 0;
             virtual void set_IV(unsigned int IV, unsigned int val) = 0;
-            virtual void set_move(move::sptr, unsigned int pos) = 0;
             
             virtual unsigned int get_generation() const = 0;
-            virtual unsigned int get_nature() const = 0;
             virtual unsigned int get_held_item() const = 0;
-            virtual void set_held_item(int item) const = 0;
+            virtual void set_held_item(unsigned int item) = 0;
             virtual std::string get_icon_path() const = 0;
             virtual std::string get_sprite_path() const = 0;
             
@@ -74,40 +76,50 @@ namespace pkmnsim
             virtual dict<std::string, int> get_attributes() const = 0;
             virtual bool has_attribute(std::string attribute) const = 0;
 			virtual void set_attribute(std::string attribute, int value) = 0;
+            virtual void set_hidden_ability(bool val) = 0;
 
-            virtual std::string get_egg_group_name() const = 0;
+            virtual std::vector<std::string> get_egg_group_names() const = 0;
             virtual std::string get_form_name() const = 0;
             virtual std::string get_game_name() const = 0;
             virtual std::string get_species_name() const = 0;
             
-            virtual unsigned int get_egg_group_id() const = 0;
+            virtual std::vector<unsigned int> get_egg_group_ids() const = 0;
             virtual unsigned int get_form_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
             
-            virtual dict<unsigned int, std::string> get_types() const = 0;
-            virtual dict<std::string, unsigned int> get_base_stats() const = 0;
-            virtual dict<std::string, unsigned int> get_ev_yields() const = 0;
+            virtual dict<unsigned int, unsigned int> get_types() const = 0;
+            virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;
+            virtual dict<unsigned int, unsigned int> get_ev_yields() const = 0;
             virtual bool is_fully_evolved() const = 0;
-            virtual void set_form(int form) const = 0;
-            virtual void set_form(std::string form) const = 0;
+            virtual void set_form(unsigned int form) = 0;
+            virtual void set_form(std::string form) = 0;
 
         protected:
-            base_pokemon::sptr base;
+            base_pokemon::sptr base_pkmn;
             std::string nickname;
-            std::string held_item;
+            unsigned int held_item;
             unsigned int from_game, from_gen;
             unsigned int level;
             unsigned int personality;
-            unsigned short trainer_id, secret_id;
+            
+            union
+            {
+                struct
+                {
+                    unsigned short public_id;
+                    unsigned short secret_id;
+                } tid;
+                unsigned int trainer_id;
+            };
 
             unsigned int HP, ATK, DEF, SPD;
             unsigned int evHP, evATK, evDEF, evSPD;
             unsigned int ivHP, ivATK, ivDEF, ivSPD;
-            dict<unsigned int, unsigned int> volatile_status_map;
             unsigned int nonvolatile_status;
-            vla<base_move::sptr> moves;
+            b_move_vla_t moves;
+            vla<unsigned int> move_PPs;
             unsigned int num_moves;
             std::string icon_path, sprite_path;
 			dict<std::string, int> attributes;
@@ -115,13 +127,12 @@ namespace pkmnsim
             virtual unsigned int get_hp_from_ev_iv() const = 0;
             virtual unsigned int get_stat_from_ev_iv(unsigned int stat, unsigned int EV, unsigned int IV) const = 0;
 
-            virtual void reset_volatile_status_map() = 0;
-
             unsigned int SPCL, SATK, SDEF;
             unsigned int ivSPCL, ivSATK, ivSDEF;
             unsigned int evSPCL, evSATK, evSDEF;
             unsigned int gender;
-            unsigned int ability;
+            unsigned int ability, nature;
+            bool has_hidden_ability;
     };
 
     //Related typedefs

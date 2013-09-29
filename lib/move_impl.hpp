@@ -26,6 +26,7 @@ namespace pkmnsim
     class move_impl: public move
     {
         public:
+        
             move_impl::move_impl(unsigned int id, unsigned int game);
         
             virtual std::string get_name() const;

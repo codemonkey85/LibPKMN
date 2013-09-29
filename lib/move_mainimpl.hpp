@@ -18,6 +18,7 @@ namespace pkmnsim
     class move_mainimpl: public move_impl
     {
         public:
+        
             move_mainimpl(unsigned int id, unsigned int game);
     };
 }

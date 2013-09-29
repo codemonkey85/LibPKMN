@@ -8,19 +8,19 @@
 #include <math.h>
 #include <time.h>
 
-#include <boost/assign.hpp>
+#include <pkmnsim/enums.hpp>
+#include <pkmnsim/database/queries.hpp>
 
-#include <pkmnsim/base_move.hpp>
-
-#include "spec_pokemon_gen1impl.hpp"
+#include "team_pokemon_gen1impl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    spec_pokemon_gen1impl::spec_pokemon_gen1impl(base_pokemon::sptr b, int lvl, int g, int m1,
-                                           int m2, int m3, int m4): spec_pokemon(
-                                           b,m1,m2,m3,m4,g,lvl)
+    team_pokemon_gen1impl::team_pokemon_gen1impl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
+                                                 unsigned int move1, unsigned int move2,
+                                                 unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,lvl,
+                                                                                          move1,move2,move3,move4)
     {
         srand ( time(NULL) );
 
@@ -38,137 +38,33 @@ namespace pkmnsim
         evSPD = rand() % 65536;
         evSPCL = rand() % 65536;
 
-        HP = get_hp_from_iv_ev();
-        ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
-        DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
-        SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
-        SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
-
-        sprite_path = b->get_sprite_path(true, false);
+        HP = get_hp_from_ev_iv();
+        ATK = get_stat_from_ev_iv(Stats::ATTACK,evATK,ivATK);
+        DEF = get_stat_from_ev_iv(Stats::DEFENSE,evDEF,ivDEF);
+        SPD = get_stat_from_ev_iv(Stats::SPEED,evSPD,ivSPD);
+        SPCL = get_stat_from_ev_iv(Stats::SPECIAL,evSPCL,ivSPCL);
+        
+        held_item = 0; //Placeholder
+        
+        icon_path = base_pkmn->get_icon_path(true);
+        sprite_path = base_pkmn->get_sprite_path(true, false);
 
         nonvolatile_status = Statuses::OK;
-        reset_volatile_status_map();
-        
     }
 
-    dict<string, int> spec_pokemon_gen1impl::get_stats()
-    {
-        dict<string, int> stats;
-        stats["HP"] = HP;
-        stats["ATK"] = ATK;
-        stats["DEF"] = DEF;
-        stats["SPD"] = SPD;
-        stats["SPCL"] = SPCL;
-
-        return stats;
-    }
-
-    dict<string, int> spec_pokemon_gen1impl::get_IVs()
-    {
-        dict<string, int> stats;
-        stats["HP"] = ivHP;
-        stats["ATK"] = ivATK;
-        stats["DEF"] = ivDEF;
-        stats["SPD"] = ivSPD;
-        stats["SPCL"] = ivSPCL;
-
-        return stats;
-    }
-
-    void spec_pokemon_gen1impl::set_IV(string IVname, int val)
-    {
-        if(val < 0 or val > 16)
-        {
-            cerr << "Gen 1 IV's must be 0-15." << endl;
-            exit(EXIT_FAILURE);
-        }
-
-        if(IVname == "HP")
-        {
-            ivHP = val;
-            HP = get_hp_from_iv_ev();
-        }
-        else if(IVname == "ATK")
-        {
-            ivATK = val;
-            ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
-        }
-        else if(IVname == "DEF")
-        {
-            ivDEF = val;
-            DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
-        }
-        else if(IVname == "SPD")
-        {
-            ivSPD = val;
-            SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
-        }
-        else if(IVname == "SPCL")
-        {
-            ivSPCL = val;
-            SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
-        }
-    }
-
-    dict<string, int> spec_pokemon_gen1impl::get_EVs()
-    {
-        dict<string, int> stats;
-        stats["HP"] = evHP;
-        stats["ATK"] = evATK;
-        stats["DEF"] = evDEF;
-        stats["SPD"] = evSPD;
-        stats["SPCL"] = evSPCL;
-
-        return stats;
-    }
-
-    void spec_pokemon_gen1impl::set_EV(string EVname, int val)
-    {
-        if(val < 0 or val > 65535)
-        {
-            cerr << "Gen 1 EV's must be 0-65535." << endl;
-            exit(EXIT_FAILURE);
-        }
-
-        if(EVname == "HP")
-        {
-            ivHP = val;
-            HP = get_hp_from_iv_ev();
-        }
-        else if(EVname == "ATK")
-        {
-            ivATK = val;
-            ATK = get_stat_from_iv_ev("ATK",ivATK,evATK);
-        }
-        else if(EVname == "DEF")
-        {
-            ivDEF = val;
-            DEF = get_stat_from_iv_ev("DEF",ivDEF,evDEF);
-        }
-        else if(EVname == "SPD")
-        {
-            ivSPD = val;
-            SPD = get_stat_from_iv_ev("SPD",ivSPD,evSPD);
-        }
-        else if(EVname == "SPCL")
-        {
-            ivSPCL = val;
-            SPCL = get_stat_from_iv_ev("SPCL",ivSPCL,evSPCL);
-        }
-    }
-
-    string spec_pokemon_gen1impl::get_info()
+    string team_pokemon_gen1impl::get_info() const
     {
         string types_str;
-        dict<int, string> types = base->get_types();
-        if(types[1] == "None") types_str = types[0];
-        else types_str = types[0] + "/" + types[1];
+        dict<unsigned int, unsigned int> types = base_pkmn->get_types();
+        if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
+        else types_str = database::get_type_name_from_id(types[0]) + "/"
+                       + database::get_type_name_from_id(types[1]);
         string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
                          + to_string(DEF) + ", " + to_string(SPD) + ", "
                          + to_string(SPCL);
 
         string output_string;
-        output_string = nickname + " (" + base->get_species_name() + ")\n"
+        output_string = nickname + " (" + base_pkmn->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Stats: " + stats_str;
@@ -176,15 +72,16 @@ namespace pkmnsim
         return output_string;
     }
 
-    string spec_pokemon_gen1impl::get_info_verbose()
+    string team_pokemon_gen1impl::get_info_verbose() const
     {
         string types_str;
-        dict<int, string> types = base->get_types();
-        if(types[1] == "None") types_str = types[0];
-        else types_str = types[0] + "/" + types[1];
+        dict<unsigned int, unsigned int> types = base_pkmn->get_types();
+        if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
+        else types_str = database::get_type_name_from_id(types[0]) + "/"
+                       + database::get_type_name_from_id(types[1]);
 
         string output_string;
-        output_string = nickname + " (" + base->get_species_name() + ")\n"
+        output_string = nickname + " (" + base_pkmn->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Stats:\n"
@@ -209,64 +106,173 @@ namespace pkmnsim
         return output_string;
     }
 
-    bool spec_pokemon_gen1impl::is_shiny() {return false;}
-
-    void spec_pokemon_gen1impl::set_form(int form)
+    //No abilities in Gen 1, but don't throw error
+    unsigned int team_pokemon_gen1impl::get_ability() const {return Abilities::NONE;}
+    
+    //Gender doesn't exist in Gen 1, Male is default
+    unsigned int team_pokemon_gen1impl::get_gender() const {return Genders::MALE;}
+    
+    //No natures in Gen 1, but don't throw error
+    unsigned int team_pokemon_gen1impl::get_nature() const {return Natures::NONE;}
+    
+    //No shininess in Gen 1, but don't throw error
+    bool team_pokemon_gen1impl::is_shiny() const {return false;}
+    
+    dict<unsigned int, unsigned int> team_pokemon_gen1impl::get_stats() const
     {
-        base->set_form(form);
-        HP = get_hp_from_iv_ev();
-        ATK = get_stat_from_iv_ev("ATK", ivATK, evATK);
-        DEF = get_stat_from_iv_ev("DEF", ivDEF, evDEF);
-        SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
-        SPCL = get_stat_from_iv_ev("SPCL", ivATK, evATK);
+        dict<unsigned int, unsigned int> stats;
+        stats[Stats::HP] = HP;
+        stats[Stats::ATTACK] = ATK;
+        stats[Stats::DEFENSE] = DEF;
+        stats[Stats::SPEED] = SPD;
+        stats[Stats::SPECIAL] = SPCL;
+
+        return stats;
     }
 
-    void spec_pokemon_gen1impl::set_form(std::string form)
+    dict<unsigned int, unsigned int> team_pokemon_gen1impl::get_EVs() const
     {
-        base->set_form(form);
-        HP = get_hp_from_iv_ev();
-        ATK = get_stat_from_iv_ev("ATK", ivATK, evATK);
-        DEF = get_stat_from_iv_ev("DEF", ivDEF, evDEF);
-        SPD = get_stat_from_iv_ev("SPD", ivSPD, evSPD);
-        SPCL = get_stat_from_iv_ev("SPCL", ivATK, evATK);
+        dict<unsigned int, unsigned int> EVs;
+        EVs[Stats::HP] = evHP;
+        EVs[Stats::ATTACK] = evATK;
+        EVs[Stats::DEFENSE] = evDEF;
+        EVs[Stats::SPEED] = evSPD;
+        EVs[Stats::SPECIAL] = evSPCL;
+
+        return EVs;
+    }
+    
+    dict<unsigned int, unsigned int> team_pokemon_gen1impl::get_IVs() const
+    {
+        dict<unsigned int, unsigned int> IVs;
+        IVs[Stats::HP] = ivHP;
+        IVs[Stats::ATTACK] = ivATK;
+        IVs[Stats::DEFENSE] = ivDEF;
+        IVs[Stats::SPEED] = ivSPD;
+        IVs[Stats::SPECIAL] = ivSPCL;
+
+        return IVs;
     }
 
-    void spec_pokemon_gen1impl::reset_volatile_status_map()
+    void team_pokemon_gen1impl::set_EV(unsigned int EV, unsigned int val)
     {
-        volatile_status_map = boost::assign::map_list_of
-            ("confusion",0)
-            ("flinch",0)
-            ("heal block",0)
-            ("partially trapped",0)
-            ("seeded",0)
-            ("focus energy",0)
-            ("glowing",0)
-            ("magnetic levitation",0)
-            ("minimize",0)
-            ("recharging",0)
-            ("semi-invulnerable",0)
-            ("substitute",0)
-            ("taking in sunlight",0)
-            ("withdrawing",0)
-            ("whipping up a whirlwind",0)
-        ;
+        if(val < 0 or val > 65535)
+        {
+            cerr << "Gen 1 EV's must be 0-65535." << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        switch(EV)
+        {
+            case Stats::HP:
+                evHP = val;
+                HP = get_hp_from_ev_iv();
+                break;
+                
+            case Stats::ATTACK:
+                evATK = val;
+                ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
+                break;
+                
+            case Stats::DEFENSE:
+                evDEF = val;
+                DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
+                break;
+                
+            case Stats::SPEED:
+                evSPD = val;
+                SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
+                break;
+            
+            case Stats::SPECIAL:
+                evSPCL = val;
+                SPCL = get_stat_from_ev_iv(Stats::SPECIAL, evSPCL, ivSPCL);
+                break;
+            
+            default:
+                break;
+        }
+    }
+    
+    void team_pokemon_gen1impl::set_IV(unsigned int IV, unsigned int val)
+    {
+        if(val < 0 or val > 16)
+        {
+            cerr << "Gen 1 IV's must be 0-15." << endl;
+            exit(EXIT_FAILURE);
+        }
+
+        switch(IV)
+        {
+            case Stats::HP:
+                ivHP = val;
+                HP = get_hp_from_ev_iv();
+                break;
+                
+            case Stats::ATTACK:
+                ivATK = val;
+                ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
+                break;
+                
+            case Stats::DEFENSE:
+                ivDEF = val;
+                DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
+                break;
+                
+            case Stats::SPEED:
+                ivSPD = val;
+                SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
+                break;
+            
+            case Stats::SPECIAL:
+                ivSPCL = val;
+                SPCL = get_stat_from_ev_iv(Stats::SPECIAL, evSPCL, ivSPCL);
+                break;
+            
+            default:
+                break;
+        }
     }
 
-    int spec_pokemon_gen1impl::get_hp_from_iv_ev()
+    std::string team_pokemon_gen1impl::get_form_name() const {return base_pkmn->get_species_name();}
+    
+    unsigned int team_pokemon_gen1impl::get_form_id() const {return base_pkmn->get_pokemon_id();}
+    
+    void team_pokemon_gen1impl::set_form(unsigned int form)
     {
-        dict<string, int> stats = base->get_base_stats();
+        base_pkmn->set_form(form);
+        HP = get_hp_from_ev_iv();
+        ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
+        DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
+        SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
+        SPCL = get_stat_from_ev_iv(Stats::SPECIAL, evSPCL, ivSPCL);
+    }
 
-        int hp_val = int(floor((((double(ivHP) + double(stats["HP"]) + (pow(double(evHP),0.5)/8.0)
-                     + 50.0) * double(level))/50.0) + 10.0));
+    void team_pokemon_gen1impl::set_form(std::string form)
+    {
+        base_pkmn->set_form(form);
+        HP = get_hp_from_ev_iv();
+        ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
+        DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
+        SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
+        SPCL = get_stat_from_ev_iv(Stats::SPECIAL, evATK, ivATK);
+    }
+
+    unsigned int team_pokemon_gen1impl::get_hp_from_ev_iv() const
+    {
+        dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
+
+        unsigned int hp_val = int(floor((((double(ivHP) + double(stats[Stats::HP]) + (pow(double(evHP),0.5)/8.0)
+                            + 50.0) * double(level))/50.0) + 10.0));
         return hp_val;
     }
 
-    int spec_pokemon_gen1impl::get_stat_from_iv_ev(string stat, int ivSTAT, int evSTAT)
+    unsigned int team_pokemon_gen1impl::get_stat_from_ev_iv(unsigned int stat, unsigned int EV, unsigned int IV) const
     {
-        dict<string, int> stats = base->get_base_stats();
+        dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
 
-        int stat_val = int(ceil((((double(ivSTAT) + double(stats[stat]) + (pow(double(evSTAT),0.5)/8.0))
-                       * double(level))/50.0) + 5.0));
+        unsigned int stat_val = int(ceil((((double(IV) + double(stats[stat]) + (pow(double(EV),0.5)/8.0))
+                              * double(level))/50.0) + 5.0));
         return stat_val;
     }
 }

@@ -292,15 +292,15 @@ namespace pkmnsim
 
     namespace Statuses
     {
-        enum nonvolatile_statuses
+        enum statuses
         {
             OK = 0, //No nonvolatile status
-            BRN = 1, //Burn
-            FRZ = 2, //Frozen
-            PRZ = 3, //Paralysis
-            PSN = 4, //Poison
-            BPN = 5, //Bad Poison
-            SLP = 6 //Asleep
+            BURN = 1, //Burn
+            FREEZE = 2, //Frozen
+            PARALYZE = 3, //Paralysis
+            POISON = 4, //Poison
+            BAD_POISON = 5, //Bad Poison
+            SLEEP = 6 //Asleep
         };
     }
 
