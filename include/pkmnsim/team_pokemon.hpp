@@ -14,6 +14,7 @@
 #endif
 
 #include <string>
+#include <vector>
 
 #include <pkmnsim/move.hpp>
 #include <pkmnsim/base_pokemon.hpp>
@@ -77,6 +78,13 @@ namespace pkmnsim
 			virtual void set_attribute(std::string attribute, int value) = 0;
             virtual void set_hidden_ability(bool val) = 0;
 
+            virtual unsigned int get_trainer_id() const = 0;
+            virtual unsigned short get_public_trainer_id() const = 0;
+            virtual unsigned short get_secret_trainer_id() const = 0;
+            virtual void set_trainer_id(unsigned int id) = 0;
+            virtual void set_public_trainer_id(unsigned short id) = 0;
+            virtual void set_secret_trainer_id(unsigned short id) = 0;
+
             virtual std::vector<std::string> get_egg_group_names() const = 0;
             virtual std::string get_form_name() const = 0;
             virtual std::string get_game_name() const = 0;
@@ -137,6 +145,7 @@ namespace pkmnsim
     //Related typedefs
     typedef std::vector<team_pokemon::sptr> s_pkmn_vec_t;
     typedef vla<team_pokemon::sptr> s_pkmn_vla_t;
+    typedef vla<team_pokemon::sptr> pokemon_team_t;
 }
 
 #endif /* INCLUDED_PKMNSIM_TEAM_POKEMON_HPP */

@@ -148,6 +148,18 @@ namespace pkmnsim
 	void team_pokemon_impl::set_attribute(string attribute, int value) {attributes[attribute] = value;}
     
     void team_pokemon_impl::set_hidden_ability(bool val) {has_hidden_ability = val;}
+
+    unsigned int team_pokemon_impl::get_trainer_id() const {return trainer_id;}
+
+    unsigned short team_pokemon_impl::get_public_trainer_id() const {return tid.public_id;}
+
+    unsigned short team_pokemon_impl::get_secret_trainer_id() const {return tid.secret_id;}
+
+    void team_pokemon_impl::set_trainer_id(unsigned int id) {trainer_id = id;}
+
+    void team_pokemon_impl::set_public_trainer_id(unsigned short id) {tid.public_id = id;}
+
+    void team_pokemon_impl::set_secret_trainer_id(unsigned short id) {tid.secret_id = id;}
     
     vector<string> team_pokemon_impl::get_egg_group_names() const {return base_pkmn->get_egg_group_names();}
 

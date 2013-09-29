@@ -44,7 +44,14 @@ namespace pkmnsim
             dict<std::string, int> get_attributes() const;
             bool has_attribute(std::string attribute) const;
 			void set_attribute(std::string attribute, int value);
-            virtual void set_hidden_ability(bool val);
+            void set_hidden_ability(bool val);
+
+            unsigned int get_trainer_id() const;
+            unsigned short get_public_trainer_id() const;
+            unsigned short get_secret_trainer_id() const;
+            void set_trainer_id(unsigned int id);
+            void set_public_trainer_id(unsigned short id);
+            void set_secret_trainer_id(unsigned short id);
 
             std::vector<std::string> get_egg_group_names() const;
             std::string get_game_name() const;
