@@ -7,8 +7,6 @@
 #ifndef INCLUDED_MOVE_MAINIMPL_HPP
 #define INCLUDED_MOVE_MAINIMPL_HPP
 
-#include <string>
-
 #include "move_impl.hpp"
 
 using namespace std;

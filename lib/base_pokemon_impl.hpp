@@ -7,22 +7,11 @@
 #ifndef INCLUDED_BASE_POKEMON_IMPL_HPP
 #define INCLUDED_BASE_POKEMON_IMPL_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
-#include <string>
-#include <vector>
-
-#include <pkmnsim/config.hpp>
 #include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/types/dict.hpp>
 
 namespace pkmnsim
 {
-    class PKMNSIM_API base_pokemon_impl: public base_pokemon
+    class base_pokemon_impl: public base_pokemon
     {
         public:
 

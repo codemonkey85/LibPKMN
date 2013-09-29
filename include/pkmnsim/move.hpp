@@ -16,7 +16,6 @@
 #include <string>
 
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/enums.hpp>
 #include <pkmnsim/types/dict.hpp>
 #include <pkmnsim/types/vla.hpp>
 

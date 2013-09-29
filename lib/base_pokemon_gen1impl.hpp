@@ -10,7 +10,6 @@
 #include <string>
 
 #include "base_pokemon_impl.hpp"
-#include <pkmnsim/types/dict.hpp>
 
 namespace pkmnsim
 {

@@ -18,7 +18,6 @@
 #include <pkmnsim/move.hpp>
 #include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/enums.hpp>
 #include <pkmnsim/types/dict.hpp>
 #include <pkmnsim/types/vla.hpp>
 

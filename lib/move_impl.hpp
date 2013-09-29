@@ -7,19 +7,7 @@
 #ifndef INCLUDED_MOVE_IMPL_HPP
 #define INCLUDED_MOVE_IMPL_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
-#include <string>
-
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/enums.hpp>
 #include <pkmnsim/move.hpp>
-#include <pkmnsim/types/dict.hpp>
-#include <pkmnsim/types/vla.hpp>
 
 namespace pkmnsim
 {
@@ -45,10 +33,6 @@ namespace pkmnsim
             virtual unsigned int get_target_id() const;
             virtual unsigned int get_game_id() const;
     };
-
-    //Related typedefs
-    typedef std::vector<move::sptr> b_move_vec_t;
-    typedef vla<move::sptr> b_move_vla_t;
 }
 
 #endif /* INCLUDED_MOVE_IMPL_HPP */

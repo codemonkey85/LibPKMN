@@ -7,10 +7,7 @@
 #ifndef INCLUDED_BASE_POKEMON_GEN2IMPL_HPP
 #define INCLUDED_BASE_POKEMON_GEN2IMPL_HPP
 
-#include <string>
-
 #include "base_pokemon_impl.hpp"
-#include <pkmnsim/types/dict.hpp>
 
 namespace pkmnsim
 {
