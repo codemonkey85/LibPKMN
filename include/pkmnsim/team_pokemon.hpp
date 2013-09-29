@@ -41,7 +41,9 @@ namespace pkmnsim
             
             virtual base_pokemon::sptr get_base_pokemon() const = 0;
             virtual std::string get_nickname() const = 0;
+            virtual void set_nickname(std::string name) = 0;
             virtual unsigned int get_level() const = 0;
+            virtual void set_level(unsigned int lvl) = 0;
 
             virtual vla<move::sptr> get_moves() const = 0;
             virtual vla<unsigned int> get_move_PPs() const = 0;

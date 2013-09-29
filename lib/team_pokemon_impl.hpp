@@ -21,7 +21,9 @@ namespace pkmnsim
 
             base_pokemon::sptr get_base_pokemon() const;
             std::string get_nickname() const;
+            void set_nickname(std::string name);
             unsigned int get_level() const;
+            void set_level(unsigned int lvl);
             
             vla<move::sptr> get_moves() const;
             vla<unsigned int> get_move_PPs() const;
