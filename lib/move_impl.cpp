@@ -90,10 +90,15 @@ namespace pkmnsim
     }
 
     string move_impl::get_name() const {return database::get_move_name_from_id(move_id);}
+
     string move_impl::get_description() const {return database::get_move_description_from_id(move_id, from_game);}
+
     unsigned int move_impl::get_type() const {return type_id;}
+
     unsigned int move_impl::get_base_power() const {return base_power;}
+
     unsigned int move_impl::get_base_pp() const {return base_pp;}
+
     double move_impl::get_base_accuracy() const {return base_accuracy;}
     
     unsigned int move_impl::get_move_damage_class() const
@@ -106,10 +111,16 @@ namespace pkmnsim
     }
 
     string move_impl::get_base_effect() const {return base_effect;}
+
     double move_impl::get_base_effect_chance() const {return base_effect_chance;}
+
     unsigned int move_impl::get_priority() const {return base_priority;}
+
     unsigned int move_impl::get_move_id() const {return move_id;}
+
     unsigned int move_impl::get_type_id() const {return type_id;}
+
     unsigned int move_impl::get_target_id() const {return target_id;}
+
     unsigned int move_impl::get_game_id() const {return from_game;}
 }

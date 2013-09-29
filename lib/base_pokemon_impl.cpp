@@ -169,8 +169,12 @@ namespace pkmnsim
     unsigned int base_pokemon_impl::get_generation() const {return from_gen;}
     
     string base_pokemon_impl::get_game_name() const {return database::get_game_name_from_id(from_game);}
+
     string base_pokemon_impl::get_species_name() const {return database::get_species_name_from_id(species_id);}
+
     unsigned int base_pokemon_impl::get_game_id() const {return from_game;}
+
     unsigned int base_pokemon_impl::get_pokemon_id() const {return pokemon_id;}
+
     unsigned int base_pokemon_impl::get_species_id() const {return species_id;}
 }
