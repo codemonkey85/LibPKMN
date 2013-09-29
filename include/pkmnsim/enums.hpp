@@ -1190,6 +1190,48 @@ namespace pkmnsim
         };
     }
 
+    namespace Ribbons
+    {
+        namespace Hoenn
+        {
+            enum ribbons //Listed in opposite order for ease of use with bitset
+            {
+                WORLD,
+                EARTH,
+                NATIONAL,
+                COUNTRY,
+                SKY,
+                LAND,
+                MARINE,
+                EFFORT,
+                ARTIST,
+                VICTORY,
+                WINNING,
+                CHAMPION,
+                TOUGH_MASTER,
+                TOUGH_HYPER,
+                TOUGH_SUPER,
+                TOUGH,
+                SMART_MASTER,
+                SMART_HYPER,
+                SMART_SUPER,
+                SMART,
+                CUTE_MASTER,
+                CUTE_HYPER,
+                CUTE_SUPER,
+                CUTE,
+                BEAUTY_MASTER,
+                BEAUTY_HYPER,
+                BEAUTY_SUPER,
+                BEAUTY,
+                COOL_MASTER,
+                COOL_HYPER,
+                COOL_SUPER,
+                COOL
+            };
+        }
+    }
+    
     namespace Species
     {
         enum species

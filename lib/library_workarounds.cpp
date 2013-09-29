@@ -5,7 +5,11 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <bitset> 
+
 #include <boost/assign.hpp>
+
+#include <pkmnsim/enums.hpp>
 
 #include <pokehack/pokestructs.h>
 
@@ -14,8 +18,14 @@
 #define MAX_NICKNAME_LEN 10
 #define MAX_TRAINER_NAME_LEN 7
 
+using namespace std;
+
 namespace pkmnsim
 {
+    /***********
+     * Pokehack
+     ***********/
+
     dict<char, int> get_pokehack_reverse_char_map()
     {
         dict<char, int> pokehack_reverse_char_map = boost::assign::map_list_of
@@ -118,5 +128,137 @@ namespace pkmnsim
         }
 
         return actual_text;
+    }
+
+    uint8_t pokehack_get_IV(uint32_t* IVint, uint8_t IV)
+    {
+        bitset<32> IVs_bitset = int(*IVint);
+        bitset<5> end_bitset = 0;
+    
+        switch(IV)
+        {
+            case Stats::HP:
+                end_bitset[0] = IVs_bitset[27];
+                end_bitset[1] = IVs_bitset[28];
+                end_bitset[2] = IVs_bitset[29];
+                end_bitset[3] = IVs_bitset[30];
+                end_bitset[4] = IVs_bitset[31];
+                break;
+                
+            case Stats::ATTACK:
+                end_bitset[0] = IVs_bitset[22];
+                end_bitset[1] = IVs_bitset[23];
+                end_bitset[2] = IVs_bitset[24];
+                end_bitset[3] = IVs_bitset[25];
+                end_bitset[4] = IVs_bitset[26];
+                break;
+            
+            case Stats::DEFENSE:
+                end_bitset[0] = IVs_bitset[17];
+                end_bitset[1] = IVs_bitset[18];
+                end_bitset[2] = IVs_bitset[19];
+                end_bitset[3] = IVs_bitset[20];
+                end_bitset[4] = IVs_bitset[21];
+                break;
+                
+            case Stats::SPEED:
+                end_bitset[0] = IVs_bitset[12];
+                end_bitset[1] = IVs_bitset[13];
+                end_bitset[2] = IVs_bitset[14];
+                end_bitset[3] = IVs_bitset[15];
+                end_bitset[4] = IVs_bitset[16];
+                break;
+                
+            case Stats::SPECIAL_ATTACK:
+                end_bitset[0] = IVs_bitset[7];
+                end_bitset[1] = IVs_bitset[8];
+                end_bitset[2] = IVs_bitset[9];
+                end_bitset[3] = IVs_bitset[10];
+                end_bitset[4] = IVs_bitset[11];
+                break;
+                
+            case Stats::SPECIAL_DEFENSE:
+                end_bitset[0] = IVs_bitset[2];
+                end_bitset[1] = IVs_bitset[3];
+                end_bitset[2] = IVs_bitset[4];
+                end_bitset[3] = IVs_bitset[5];
+                end_bitset[4] = IVs_bitset[6];
+                break;
+                
+            default:
+                return 0;
+        }
+        return end_bitset.to_ulong();
+    }
+    
+    void pokehack_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
+    {
+        bitset<32> IVs_bitset = int(*IVint);
+        bitset<5> val_bitset = int(val);
+    
+        switch(IV)
+        {
+            case Stats::HP:
+                IVs_bitset[27] = val_bitset[0];
+                IVs_bitset[28] = val_bitset[1];
+                IVs_bitset[29] = val_bitset[2];
+                IVs_bitset[30] = val_bitset[3];
+                IVs_bitset[31] = val_bitset[4];
+                break;
+                
+            case Stats::ATTACK:
+                IVs_bitset[22] = val_bitset[0];
+                IVs_bitset[23] = val_bitset[1];
+                IVs_bitset[24] = val_bitset[2];
+                IVs_bitset[25] = val_bitset[3];
+                IVs_bitset[26] = val_bitset[4];
+                break;
+            
+            case Stats::DEFENSE:
+                IVs_bitset[17] = val_bitset[0];
+                IVs_bitset[18] = val_bitset[1];
+                IVs_bitset[19] = val_bitset[2];
+                IVs_bitset[20] = val_bitset[3];
+                IVs_bitset[21] = val_bitset[4];
+                break;
+                
+            case Stats::SPEED:
+                IVs_bitset[12] = val_bitset[0];
+                IVs_bitset[13] = val_bitset[1];
+                IVs_bitset[14] = val_bitset[2];
+                IVs_bitset[15] = val_bitset[3];
+                IVs_bitset[16] = val_bitset[4];
+                break;
+                
+            case Stats::SPECIAL_ATTACK:
+                IVs_bitset[7] = val_bitset[0];
+                IVs_bitset[8] = val_bitset[1];
+                IVs_bitset[9] = val_bitset[2];
+                IVs_bitset[10] = val_bitset[3];
+                IVs_bitset[11] = val_bitset[4];
+                break;
+                
+            case Stats::SPECIAL_DEFENSE:
+                IVs_bitset[2] = val_bitset[0];
+                IVs_bitset[3] = val_bitset[1];
+                IVs_bitset[4] = val_bitset[2];
+                IVs_bitset[5] = val_bitset[3];
+                IVs_bitset[6] = val_bitset[4];
+                break;
+        }
+        *IVint = IVs_bitset.to_ulong();
+    }
+    
+    bool pokehack_get_ribbon(uint32_t* ribbonint, uint8_t ribbon)
+    {
+        bitset<32> ribbon_bitset = int(*ribbonint);
+        return ribbon_bitset[ribbon];
+    }
+    
+    void pokehack_set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
+    {
+        bitset<32> ribbon_bitset = int(*ribbonint);
+        ribbon_bitset[ribbon] = val;
+        *ribbonint = ribbon_bitset.to_ulong();
     }
 }
