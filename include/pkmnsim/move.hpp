@@ -62,8 +62,9 @@ namespace pkmnsim
     };
 
     //Related typedefs
-    typedef std::vector<move::sptr> b_move_vec_t;
-    typedef vla<move::sptr> b_move_vla_t;
+    typedef std::vector<move::sptr> move_vec_t;
+    typedef vla<move::sptr> move_vla_t;
+    typedef vla<move::sptr> moveset_t;
 }
 
 #endif /* INCLUDED_PKMNSIM_MOVE_HPP */

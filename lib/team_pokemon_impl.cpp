@@ -77,7 +77,7 @@ namespace pkmnsim
         int base_species_id = base_pkmn->get_species_id();
 
 		attributes = dict<string, int>();
-        moves = b_move_vla_t(4);
+        moves = moveset_t(4);
         vla<unsigned int> move_PPs(4);
 
         icon_path = base_pkmn->get_icon_path(true);
@@ -112,7 +112,7 @@ namespace pkmnsim
         if(lvl > 0 and lvl <= 100) level = lvl;
     }
 
-    b_move_vla_t team_pokemon_impl::get_moves() const {return moves;}
+    moveset_t team_pokemon_impl::get_moves() const {return moves;}
     
     vla<unsigned int> team_pokemon_impl::get_move_PPs() const {return move_PPs;}
 

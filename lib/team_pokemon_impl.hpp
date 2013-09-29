@@ -25,7 +25,7 @@ namespace pkmnsim
             unsigned int get_level() const;
             void set_level(unsigned int lvl);
             
-            vla<move::sptr> get_moves() const;
+            moveset_t get_moves() const;
             vla<unsigned int> get_move_PPs() const;
             void set_move(unsigned int move_id, unsigned int pos);
             void set_move_PP(unsigned int new_PP, unsigned int pos);

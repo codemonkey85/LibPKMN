@@ -45,7 +45,7 @@ namespace pkmnsim
             virtual unsigned int get_level() const = 0;
             virtual void set_level(unsigned int lvl) = 0;
 
-            virtual vla<move::sptr> get_moves() const = 0;
+            virtual moveset_t get_moves() const = 0;
             virtual vla<unsigned int> get_move_PPs() const = 0;
             virtual void set_move(unsigned int move_id, unsigned int pos) = 0;
             virtual void set_move_PP(unsigned int new_PP, unsigned int pos) = 0;
@@ -127,7 +127,7 @@ namespace pkmnsim
             unsigned int evHP, evATK, evDEF, evSPD;
             unsigned int ivHP, ivATK, ivDEF, ivSPD;
             unsigned int nonvolatile_status;
-            b_move_vla_t moves;
+            moveset_t moves;
             vla<unsigned int> move_PPs;
             unsigned int num_moves;
             std::string icon_path, sprite_path;
