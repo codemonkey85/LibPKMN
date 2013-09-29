@@ -589,7 +589,20 @@ namespace pkmnsim
             UNDISCOVERED
         };
     }
-    
+ 
+    namespace Markings
+    {
+        enum markings
+        {
+            CIRCLE,
+            TRIANGLE,
+            SQUARE,
+            HEART,
+            STAR,
+            DIAMOND
+        };
+    }
+ 
     namespace Moves
     {
         enum moves
@@ -1190,11 +1203,11 @@ namespace pkmnsim
         };
     }
 
-    namespace Ribbons
+    namespace Ribbons //Listed in opposite order for ease of use with bitset
     {
         namespace Hoenn
         {
-            enum ribbons //Listed in opposite order for ease of use with bitset
+            enum ribbons
             {
                 WORLD,
                 EARTH,
@@ -1228,6 +1241,61 @@ namespace pkmnsim
                 COOL_HYPER,
                 COOL_SUPER,
                 COOL
+            };
+        }
+        
+        namespace Sinnoh
+        {
+            enum ribbons
+            {
+                TOUGH_MASTER = 4,
+                TOUGH_ULTRA,
+                TOUGH_GREAT,
+                TOUGH,
+                SMART_MASTER,
+                SMART_ULTRA,
+                SMART_GREAT,
+                SMART,
+                CUTE_MASTER,
+                CUTE_ULTRA,
+                CUTE_GREAT,
+                CUTE,
+                BEAUTY_MASTER,
+                BEAUTY_ULTRA,
+                BEAUTY_GREAT,
+                BEAUTY,
+                COOL_MASTER,
+                COOL_ULTRA,
+                COOL_GREAT,
+                COOL,
+                PREMIER = 28,
+                CLASSIC,
+                CARNIVAL,
+                FESTIVAL,
+                BLUE,
+                GREEN,
+                RED,
+                LEGEND,
+                HISTORY,
+                RECORD,
+                FOOTPRINT,
+                GORGEOUS_ROYAL,
+                ROYAL,
+                GORGEOUS,
+                SMILE,
+                SNOOZE,
+                RELAX,
+                CARELESS,
+                DOWNCAST,
+                SHOCK,
+                ALERT,
+                WORLD_ABILITY,
+                PAIR_ABILITY,
+                MULTI_ABILITY,
+                DOUBLE_ABILITY,
+                GREAT_ABILITY,
+                ABILITY,
+                CHAMPION
             };
         }
     }

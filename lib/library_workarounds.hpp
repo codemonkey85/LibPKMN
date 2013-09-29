@@ -21,9 +21,21 @@ namespace pkmnsim
     
     void pokehack_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val);
     
-    bool pokehack_get_ribbon(uint32_t* ribbonint, uint8_t ribbon);
+    bool get_marking(uint8_t* markint, uint8_t mark);
     
-    void pokehack_set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val);
+    void set_marking(uint8_t* markint, uint8_t mark, bool val);
+    
+    bool get_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon);
+    
+    void set_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val);
+    
+    bool get_sinnohA_ribbon(uint64_t* ribbonint, uint8_t ribbon);
+    
+    void set_sinnohA_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val);
+    
+    bool get_sinnohB_ribbon(uint64_t* ribbonint, uint8_t ribbon);
+    
+    void set_sinnohB_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val);
 }
 
 #endif /* INCLUDED_LIBRARY_WORKAROUNDS_HPP */

@@ -249,15 +249,41 @@ namespace pkmnsim
         *IVint = IVs_bitset.to_ulong();
     }
     
-    bool pokehack_get_ribbon(uint32_t* ribbonint, uint8_t ribbon)
+    bool get_marking(uint8_t* markint, uint8_t mark)
+    {
+        bitset<8> marking_bitset = int(*markint);
+        return marking_bitset[mark];
+    }
+    
+    void set_marking(uint8_t* markint, uint8_t mark, bool val)
+    {
+        bitset<8> marking_bitset = int(*markint);
+        marking_bitset[mark] = val;
+        *markint = marking_bitset.to_ulong();
+    }
+    
+    bool get_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon)
     {
         bitset<32> ribbon_bitset = int(*ribbonint);
         return ribbon_bitset[ribbon];
     }
     
-    void pokehack_set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
+    void set_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
     {
         bitset<32> ribbon_bitset = int(*ribbonint);
+        ribbon_bitset[ribbon] = val;
+        *ribbonint = ribbon_bitset.to_ulong();
+    }
+    
+    bool get_sinnoh_ribbon(uint64_t* ribbonint, uint8_t ribbon)
+    {
+        bitset<64> ribbon_bitset = int(*ribbonint);
+        return ribbon_bitset[ribbon];
+    }
+    
+    void set_sinnoh_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val)
+    {
+        bitset<64> ribbon_bitset = int(*ribbonint);
         ribbon_bitset[ribbon] = val;
         *ribbonint = ribbon_bitset.to_ulong();
     }
