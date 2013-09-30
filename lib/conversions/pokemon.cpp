@@ -9,270 +9,146 @@
 #pragma warning(disable:4800)
 #endif
 
-#include <algorithm>
-#include <bitset>
-#include <fstream>
-#include <map>
-#include <sstream>
+#include <string>
 #include <vector>
 
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 
-#include <pkmnsim/base_move.hpp>
 #include <pkmnsim/enums.hpp>
+#include <pkmnsim/move.hpp>
 #include <pkmnsim/paths.hpp>
-#include <pkmnsim/pkmn_nature.hpp>
-#include <pkmnsim/spec_pokemon.hpp>
+#include <pkmnsim/team_pokemon.hpp>
+#include <pkmnsim/conversions/pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
-#include <pkmnsim/conversions.hpp>
 #include <sqlitecpp/SQLiteCPP.h>
+
+#include "../library_workarounds.hpp"
 
 using namespace std;
 
-#define MAX_NICKNAME_LEN 10
-#define MAX_TRAINER_NAME_LEN 7
-
 namespace pkmnsim
 {
-    converter::converter()
+    namespace conversions
     {
-        pokehack_reverse_char_map = boost::assign::map_list_of
-            ('0', int(0xA1))
-            ('1', int(0xA2))
-            ('2', int(0xA3))
-            ('3', int(0xA4))
-            ('4', int(0xA5))
-            ('5', int(0xA6))
-            ('6', int(0xA7))
-            ('7', int(0xA8))
-            ('8', int(0xA9))
-            ('9', int(0xAA))
-            ('!', int(0xAB))
-            ('?', int(0xAC))
-            ('.', int(0xAD))
-            ('-', int(0xAE))
-            ('"', int(0xB1))
-            ('\'', int(0xB2))
-            ('/', int(0xBA))
-            ('A', int(0xBB))
-            ('B', int(0xBC))
-            ('C', int(0xBD))
-            ('D', int(0xBE))
-            ('E', int(0xBF))
-            ('F', int(0xC0))
-            ('G', int(0xC1))
-            ('H', int(0xC2))
-            ('I', int(0xC3))
-            ('J', int(0xC4))
-            ('K', int(0xC5))
-            ('L', int(0xC6))
-            ('M', int(0xC7))
-            ('N', int(0xC8))
-            ('O', int(0xC9))
-            ('P', int(0xCA))
-            ('Q', int(0xCB))
-            ('R', int(0xCC))
-            ('S', int(0xCD))
-            ('T', int(0xCE))
-            ('U', int(0xCF))
-            ('V', int(0xD0))
-            ('W', int(0xD1))
-            ('X', int(0xD2))
-            ('Y', int(0xD3))
-            ('Z', int(0xD4))
-            ('a', int(0xD5))
-            ('b', int(0xD6))
-            ('c', int(0xD7))
-            ('d', int(0xD8))
-            ('e', int(0xD9))
-            ('f', int(0xDA))
-            ('g', int(0xDB))
-            ('h', int(0xDC))
-            ('i', int(0xDD))
-            ('j', int(0xDE))
-            ('k', int(0xDF))
-            ('l', int(0xE0))
-            ('m', int(0xE1))
-            ('n', int(0xE2))
-            ('o', int(0xE3))
-            ('p', int(0xE4))
-            ('q', int(0xE5))
-            ('r', int(0xE6))
-            ('s', int(0xE7))
-            ('t', int(0xE8))
-            ('u', int(0xE9))
-            ('v', int(0xEA))
-            ('w', int(0xEB))
-            ('x', int(0xEC))
-            ('y', int(0xED))
-            ('z', int(0xEE))
-            (' ', int(0xEF))
-            ('\0', int(0xFF));
-    }
-
-    //To avoid C/C++ include messiness while avoiding bringing in pokehack/SaveParser.h
-    char* converter::pokehack_get_text(unsigned char* raw, bool is_nickname)
-    {
-        char* actual_text;
-        int len;
-
-        if(is_nickname)
+        team_pokemon::sptr pokehack_pokemon_to_team_pokemon(belt_pokemon_t* b_pkmn_t,
+                                                            pokemon_attacks_t* pkmn_a_t,
+                                                            pokemon_effort_t* pkmn_e_t,
+                                                            pokemon_misc_t* pkmn_m_t,
+                                                            pokemon_growth_t* pkmn_g_t)
         {
-            actual_text = new char[MAX_NICKNAME_LEN];
-            len = MAX_NICKNAME_LEN;
-        }
-        else
-        {
-            actual_text = new char[MAX_TRAINER_NAME_LEN];
-            len = MAX_TRAINER_NAME_LEN;
-        }
-
-        for(int i = 0; i < len; i++)
-        {
-            if(int(raw[i]) != 255) actual_text[i] = text[int(raw[i])];
-            else actual_text[i] = '\0';
-        }
-
-        return actual_text;
-    }
-
-    spec_pokemon::sptr converter::pokehack_pkmn_to_spec_pokemon(belt_pokemon_t* b_pkmn_t,
-                                                          pokemon_attacks_t* pkmn_a_t,
-                                                          pokemon_effort_t* pkmn_e_t,
-                                                          pokemon_misc_t* pkmn_m_t,
-                                                          pokemon_growth_t* pkmn_g_t)
-    {
-        int level, gender, from_game;
-
-        level = b_pkmn_t->level;
-
-        switch(pkmn_m_t->game)
-        {
-            case 0: //Pokemon Colosseum Bonus Disk
-                from_game = Games::COLOSSEUM;
-                break;
-            case 1:
-                from_game = Games::SAPPHIRE;
-                break;
-            case 2:
-                from_game = Games::RUBY;
-                break;
-            case 3:
-                from_game = Games::EMERALD;
-                break;
-            case 4:
-                from_game = Games::FIRE_RED;
-                break;
-            case 5:
-                from_game = Games::LEAF_GREEN;
-                break;
-            case 15: //Colosseum or XD
-                from_game = Games::XD;
-                break;
-            default:
-                from_game = Games::RUBY;
-                break;
-        }
-        
-        spec_pokemon::sptr s_pkmn = spec_pokemon::make(pkmn_g_t->species, from_game, level,
-                                                 pkmn_a_t->atk1, pkmn_a_t->atk2,
-                                                 pkmn_a_t->atk3, pkmn_a_t->atk4);
-
-        s_pkmn->nickname = pokehack_get_text(b_pkmn_t->name, true);
-        s_pkmn->held_item = items[pkmn_g_t->held];
-
-        s_pkmn->nature = pkmn_nature::make(b_pkmn_t->personality % 25);
-        s_pkmn->personality = b_pkmn_t->personality;
-        s_pkmn->trainer_id = ((unsigned short*)(&b_pkmn_t->otid))[0];
-        s_pkmn->secret_id = ((unsigned short*)(&b_pkmn_t->otid))[1];
-
-        //Gender
-        int gender_from_pokehack = b_pkmn_t->personality % 256;
-        double chance_male = s_pkmn->get_base_pokemon()->get_chance_male();
-        double chance_female = s_pkmn->get_base_pokemon()->get_chance_female();
-        if(chance_male == 0.0 and chance_female == 0.0) gender = Genders::GENDERLESS;
-        else if(chance_male == 0.0) gender = Genders::FEMALE;
-        else if(chance_female == 0.0) gender = Genders::MALE;
-        else
-        {
-            if(gender_from_pokehack > int(floor(255*(1-chance_male)))) gender = Genders::MALE;
-            else gender = Genders::FEMALE;
+            unsigned int level, from_game;
+            
+            level = b_pkmn_t->level;
+            
+            switch(pkmn_m_t->game)
+            {
+                case 0: //Pokemon Colosseum Bonus Disk
+                    from_game = Games::COLOSSEUM;
+                    break;
+                case 1:
+                    from_game = Games::SAPPHIRE;
+                    break;
+                case 2:
+                    from_game = Games::RUBY;
+                    break;
+                case 3:
+                    from_game = Games::EMERALD;
+                    break;
+                case 4:
+                    from_game = Games::FIRE_RED;
+                    break;
+                case 5:
+                    from_game = Games::LEAF_GREEN;
+                    break;
+                case 15: //Colosseum or XD
+                    from_game = Games::XD;
+                    break;
+                default:
+                    from_game = Games::RUBY;
+                    break;
+            }
+            
+            team_pokemon::sptr t_pkmn = team_pokemon::make(pkmn_g_t->species, from_game, level,
+                                                         pkmn_a_t->atk1, pkmn_a_t->atk2,
+                                                         pkmn_a_t->atk3, pkmn_a_t->atk4);
+                                                         
+            t_pkmn->set_nickname(pokehack_get_text(b_pkmn_t->name, true));
+            t_pkmn->set_held_item(pkmn_g_t->held);
+            t_pkmn->set_personality(b_pkmn_t->personality);
+            t_pkmn->set_trainer_id(b_pkmn_t->otid);
+            
+            t_pkmn->set_EV(Stats::HP, pkmn_e_t->hp);
+            t_pkmn->set_EV(Stats::ATTACK, pkmn_e_t->attack);
+            t_pkmn->set_EV(Stats::DEFENSE, pkmn_e_t->defense);
+            t_pkmn->set_EV(Stats::SPECIAL_ATTACK, pkmn_e_t->spatk);
+            t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, pkmn_e_t->spdef);
+            t_pkmn->set_EV(Stats::SPEED, pkmn_e_t->speed);
+            
+            t_pkmn->set_IV(Stats::HP, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV(Stats::SPEED, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::SPEED));
+            
+            t_pkmn->set_attribute("friendship", pkmn_g_t->happiness);
+            t_pkmn->set_attribute("circle", get_marking(&(b_pkmn_t->markint), Markings::CIRCLE));
+            t_pkmn->set_attribute("triangle", get_marking(&(b_pkmn_t->markint), Markings::TRIANGLE));
+            t_pkmn->set_attribute("square", get_marking(&(b_pkmn_t->markint), Markings::SQUARE));
+            t_pkmn->set_attribute("heart", get_marking(&(b_pkmn_t->markint), Markings::HEART));
+            t_pkmn->set_attribute("country", b_pkmn_t->language);
+            
+            t_pkmn->set_attribute("cool", pkmn_e_t->coolness);
+            t_pkmn->set_attribute("beauty", pkmn_e_t->beauty);
+            t_pkmn->set_attribute("cute", pkmn_e_t->cuteness);
+            t_pkmn->set_attribute("smart", pkmn_e_t->smartness);
+            t_pkmn->set_attribute("tough", pkmn_e_t->toughness);
+            
+            t_pkmn->set_attribute("hoenn_cool_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL));
+            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL_SUPER));
+            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL_HYPER));
+            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL_MASTER));
+            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY));
+            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY_SUPER));
+            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY_HYPER));
+            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY_MASTER));
+            t_pkmn->set_attribute("hoenn_cute_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE));
+            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE_SUPER));
+            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE_HYPER));
+            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE_MASTER));
+            t_pkmn->set_attribute("hoenn_smart_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART));
+            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART_SUPER));
+            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART_HYPER));
+            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART_MASTER));
+            t_pkmn->set_attribute("hoenn_tough_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH));
+            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH_SUPER));
+            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH_HYPER));
+            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH_MASTER));
+            
+            t_pkmn->set_attribute("hoenn_champion_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CHAMPION));
+            t_pkmn->set_attribute("hoenn_winning_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::WINNING));
+            t_pkmn->set_attribute("hoenn_victory_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::VICTORY));
+            t_pkmn->set_attribute("hoenn_artist_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::ARTIST));
+            t_pkmn->set_attribute("hoenn_effort_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::EFFORT));
+            t_pkmn->set_attribute("hoenn_marine_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::MARINE));
+            t_pkmn->set_attribute("hoenn_land_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::LAND));
+            t_pkmn->set_attribute("hoenn_sky_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SKY));
+            t_pkmn->set_attribute("hoenn_country_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COUNTRY));
+            t_pkmn->set_attribute("hoenn_national_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::NATIONAL));
+            t_pkmn->set_attribute("hoenn_earth_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::EARTH));
+            t_pkmn->set_attribute("hoenn_world_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::WORLD));
+            
+            return t_pkmn;
         }
 
-        s_pkmn->HP = b_pkmn_t->maxHP;
-        s_pkmn->ATK = b_pkmn_t->attack;
-        s_pkmn->DEF = b_pkmn_t->defense;
-        s_pkmn->SATK = b_pkmn_t->spatk;
-        s_pkmn->SDEF = b_pkmn_t->spdef;
-        s_pkmn->SPD = b_pkmn_t->speed;
+/*    
 
-        s_pkmn->ivHP = pkmn_m_t->IVs.hp;
-        s_pkmn->ivATK = pkmn_m_t->IVs.atk;
-        s_pkmn->ivDEF = pkmn_m_t->IVs.def;
-        s_pkmn->ivSATK = pkmn_m_t->IVs.spatk;
-        s_pkmn->ivSDEF = pkmn_m_t->IVs.spdef;
-        s_pkmn->ivSPD = pkmn_m_t->IVs.spd;
 
-        s_pkmn->evHP = pkmn_e_t->hp;
-        s_pkmn->evATK = pkmn_e_t->attack;
-        s_pkmn->evDEF = pkmn_e_t->defense;
-        s_pkmn->evSATK = pkmn_e_t->spatk;
-        s_pkmn->evSDEF = pkmn_e_t->spdef;
-        s_pkmn->evSPD = pkmn_e_t->speed;
-
-        //Attributes
-        s_pkmn->attributes["friendship"] = pkmn_g_t->happiness;
-        s_pkmn->attributes["circle"] = b_pkmn_t->mark.circle;
-        s_pkmn->attributes["triangle"] = b_pkmn_t->mark.triangle;
-        s_pkmn->attributes["square"] = b_pkmn_t->mark.square;
-        s_pkmn->attributes["heart"] = b_pkmn_t->mark.heart;
-        s_pkmn->attributes["country"] = b_pkmn_t->language;
-        s_pkmn->attributes["cool"] = pkmn_e_t->coolness;
-        s_pkmn->attributes["beauty"] = pkmn_e_t->beauty;
-        s_pkmn->attributes["cute"] = pkmn_e_t->cuteness;
-        s_pkmn->attributes["smart"] = pkmn_e_t->smartness;
-        s_pkmn->attributes["tough"] = pkmn_e_t->toughness;
-        s_pkmn->attributes["hoenn_cool_ribbon"] = pkmn_m_t->ribbons.coolnormal;
-        s_pkmn->attributes["hoenn_cool_ribbon_super"] = pkmn_m_t->ribbons.coolsuper;
-        s_pkmn->attributes["hoenn_cool_ribbon_hyper"] = pkmn_m_t->ribbons.coolhyper;
-        s_pkmn->attributes["hoenn_cool_ribbon_master"] = pkmn_m_t->ribbons.coolmaster;
-        s_pkmn->attributes["hoenn_beauty_ribbon"] = pkmn_m_t->ribbons.beautynormal;
-        s_pkmn->attributes["hoenn_beauty_ribbon_super"] = pkmn_m_t->ribbons.beautysuper;
-        s_pkmn->attributes["hoenn_beauty_ribbon_hyper"] = pkmn_m_t->ribbons.beautyhyper;
-        s_pkmn->attributes["hoenn_beauty_ribbon_master"] = pkmn_m_t->ribbons.beautymaster;
-        s_pkmn->attributes["hoenn_cute_ribbon"] = pkmn_m_t->ribbons.cutenormal;
-        s_pkmn->attributes["hoenn_cute_ribbon_super"] = pkmn_m_t->ribbons.cutesuper;
-        s_pkmn->attributes["hoenn_cute_ribbon_hyper"] = pkmn_m_t->ribbons.cutehyper;
-        s_pkmn->attributes["hoenn_cute_ribbon_master"] = pkmn_m_t->ribbons.cutemaster;
-        s_pkmn->attributes["hoenn_smart_ribbon"] = pkmn_m_t->ribbons.smartnormal;
-        s_pkmn->attributes["hoenn_smart_ribbon_super"] = pkmn_m_t->ribbons.smartsuper;
-        s_pkmn->attributes["hoenn_smart_ribbon_hyper"] = pkmn_m_t->ribbons.smarthyper;
-        s_pkmn->attributes["hoenn_smart_ribbon_master"] = pkmn_m_t->ribbons.smartmaster;
-        s_pkmn->attributes["hoenn_tough_ribbon"] = pkmn_m_t->ribbons.toughnormal;
-        s_pkmn->attributes["hoenn_tough_ribbon_super"] = pkmn_m_t->ribbons.toughsuper;
-        s_pkmn->attributes["hoenn_tough_ribbon_hyper"] = pkmn_m_t->ribbons.toughhyper;
-        s_pkmn->attributes["hoenn_tough_ribbon_master"] = pkmn_m_t->ribbons.toughmaster;
-        s_pkmn->attributes["hoenn_champion_ribbon"] = pkmn_m_t->ribbons.champion;
-        s_pkmn->attributes["hoenn_winning_ribbon"] = pkmn_m_t->ribbons.winning;
-        s_pkmn->attributes["hoenn_victory_ribbon"] = pkmn_m_t->ribbons.victory;
-        s_pkmn->attributes["hoenn_artist_ribbon"] = pkmn_m_t->ribbons.artist;
-        s_pkmn->attributes["hoenn_effort_ribbon"] = pkmn_m_t->ribbons.effort;
-        s_pkmn->attributes["hoenn_marine_ribbon"] = pkmn_m_t->ribbons.marine;
-        s_pkmn->attributes["hoenn_land_ribbon"] = pkmn_m_t->ribbons.land;
-        s_pkmn->attributes["hoenn_sky_ribbon"] = pkmn_m_t->ribbons.sky;
-        s_pkmn->attributes["hoenn_country_ribbon"] = pkmn_m_t->ribbons.country;
-        s_pkmn->attributes["hoenn_national_ribbon"] = pkmn_m_t->ribbons.national;
-        s_pkmn->attributes["hoenn_earth_ribbon"] = pkmn_m_t->ribbons.earth;
-        s_pkmn->attributes["hoenn_world_ribbon"] = pkmn_m_t->ribbons.world;
-
-        return s_pkmn;
-    }
-
-    void converter::spec_pokemon_to_pokehack_pkmn(spec_pokemon::sptr s_pkmn,
+    void team_pokemon_to_pokehack_pkmn(team_pokemon::sptr s_pkmn,
                                                belt_pokemon_t* b_pkmn_t,
                                                pokemon_attacks_t* pkmn_a_t,
                                                pokemon_effort_t* pkmn_e_t,
@@ -434,7 +310,7 @@ namespace pkmnsim
             pkmn_m_t->ribbons.world = s_pkmn->attributes.has_key("hoenn_world_ribbon");
     }
 
-    spec_pokemon::sptr converter::pokelib_pkmn_to_spec_pokemon(PokeLib::Pokemon pokelib_pkmn)
+    team_pokemon::sptr pokelib_pkmn_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
     {
         int level, gender, from_game;
 
@@ -480,7 +356,7 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pokemon::sptr s_pkmn = spec_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,
+        team_pokemon::sptr s_pkmn = team_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,
                                     pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
                                     pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
@@ -643,7 +519,7 @@ namespace pkmnsim
         return s_pkmn;
     }
 
-    PokeLib::Pokemon converter::spec_pokemon_to_pokelib_pkmn(spec_pokemon::sptr s_pkmn)
+    PokeLib::Pokemon team_pokemon_to_pokelib_pkmn(team_pokemon::sptr s_pkmn)
     {
         PokeLib::Pokemon pokelib_pkmn;
 
@@ -939,7 +815,7 @@ namespace pkmnsim
         return pokelib_pkmn;
     }
 
-    spec_pokemon::sptr converter::pkmds_pkmn_to_spec_pokemon(party_pkm* p_pkm)
+    team_pokemon::sptr pkmds_pkmn_to_team_pokemon(party_pkm* p_pkm)
     {
         opendb(get_database_path().c_str());
 
@@ -1009,7 +885,7 @@ namespace pkmnsim
                 break;
         }
         
-        spec_pokemon::sptr s_pkmn = spec_pokemon::make(int(p_pkm->pkm_data.species), from_game, level,
+        team_pokemon::sptr s_pkmn = team_pokemon::make(int(p_pkm->pkm_data.species), from_game, level,
                                     int(p_pkm->pkm_data.moves[0]), int(p_pkm->pkm_data.moves[1]),
                                     int(p_pkm->pkm_data.moves[2]), int(p_pkm->pkm_data.moves[3]));
 
@@ -1179,7 +1055,7 @@ namespace pkmnsim
         return s_pkmn;
     }
 
-    void converter::spec_pokemon_to_pkmds_pkmn(spec_pokemon::sptr s_pkmn, party_pkm* p_pkm)
+    void team_pokemon_to_pkmds_pkmn(team_pokemon::sptr s_pkmn, party_pkm* p_pkm)
     {
         p_pkm->pkm_data.species = ::Species::pkmspecies(s_pkmn->get_base_pokemon()->get_nat_pokedex_num());
         p_pkm->pkm_data.moves[0] = ::Moves::moves(s_pkmn->get_moves()[0]->get_move_id());
@@ -1509,13 +1385,13 @@ namespace pkmnsim
             p_pkm->pkm_data.encounter = Encounters::encounters(s_pkmn->attributes["unova_encounter"]);
     }
 
-    PokeLib::Pokemon converter::pokehack_pkmn_to_pokelib_pkmn(belt_pokemon_t* b_pkmn_t,
+    PokeLib::Pokemon pokehack_pkmn_to_pokelib_pkmn(belt_pokemon_t* b_pkmn_t,
                                                               pokemon_attacks_t* pkmn_a_t,
                                                               pokemon_effort_t* pkmn_e_t,
                                                               pokemon_misc_t* pkmn_m_t,
                                                               pokemon_growth_t* pkmn_g_t)
     {
-        PokeLib::Pokemon pokelib_pkmn = spec_pokemon_to_pokelib_pkmn(pokehack_pkmn_to_spec_pokemon(b_pkmn_t,
+        PokeLib::Pokemon pokelib_pkmn = team_pokemon_to_pokelib_pkmn(pokehack_pkmn_to_team_pokemon(b_pkmn_t,
                                                                   pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t));
 
         //Manually set egg met location to Faraway Place and met location to Pal Park
@@ -1530,28 +1406,28 @@ namespace pkmnsim
         return pokelib_pkmn;
     }
 
-    void converter::pokehack_pkmn_to_pkmds_pkmn(belt_pokemon_t* b_pkmn_t,
+    void pokehack_pkmn_to_pkmds_pkmn(belt_pokemon_t* b_pkmn_t,
                                                 pokemon_attacks_t* pkmn_a_t,
                                                 pokemon_effort_t* pkmn_e_t,
                                                 pokemon_misc_t* pkmn_m_t,
                                                 pokemon_growth_t* pkmn_g_t,
                                                 party_pkm* p_pkm)
     {
-        spec_pokemon_to_pkmds_pkmn(pokehack_pkmn_to_spec_pokemon(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
+        team_pokemon_to_pkmds_pkmn(pokehack_pkmn_to_team_pokemon(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
 
         //Manually set egg met and met locations to Faraway Place
         p_pkm->pkm_data.eggmet = Locations::farawayplace;
         p_pkm->pkm_data.met = Locations::farawayplace;
     }
 
-    void converter::pokelib_pkmn_to_pokehack_pkmn(PokeLib::Pokemon pokelib_pkmn,
+    void pokelib_pkmn_to_pokehack_pkmn(PokeLib::Pokemon pokelib_pkmn,
                                                   belt_pokemon_t* b_pkmn_t,
                                                   pokemon_attacks_t* pkmn_a_t,
                                                   pokemon_effort_t* pkmn_e_t,
                                                   pokemon_misc_t* pkmn_m_t,
                                                   pokemon_growth_t* pkmn_g_t)
     {
-        spec_pokemon_to_pokehack_pkmn(pokelib_pkmn_to_spec_pokemon(pokelib_pkmn), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
+        team_pokemon_to_pokehack_pkmn(pokelib_pkmn_to_team_pokemon(pokelib_pkmn), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
 
         //Manually set met location to In-Game Trade
         pkmn_m_t->locationcaught = 255;
@@ -1560,28 +1436,28 @@ namespace pkmnsim
         if(pkmn_m_t->pokeball > 0xC) pkmn_m_t->pokeball = 0x4;
     }
 
-    void converter::pokelib_pkmn_to_pkmds_pkmn(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm)
+    void pokelib_pkmn_to_pkmds_pkmn(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm)
     {
-        spec_pokemon_to_pkmds_pkmn(pokelib_pkmn_to_spec_pokemon(pokelib_pkmn), p_pkm);
+        team_pokemon_to_pkmds_pkmn(pokelib_pkmn_to_team_pokemon(pokelib_pkmn), p_pkm);
 
         //Manually set egg met location to Faraway place and met location to Poke Transfer
         p_pkm->pkm_data.eggmet = Locations::farawayplace;
         p_pkm->pkm_data.met = Locations::poketransfer;
     }
 
-    void converter::pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
+    void pkmds_pkmn_to_pokehack_pkmn(party_pkm* p_pkm,
                                                 belt_pokemon_t* b_pkmn_t,
                                                 pokemon_attacks_t* pkmn_a_t,
                                                 pokemon_effort_t* pkmn_e_t,
                                                 pokemon_misc_t* pkmn_m_t,
                                                 pokemon_growth_t* pkmn_g_t)
     {
-        spec_pokemon_to_pokehack_pkmn(pkmds_pkmn_to_spec_pokemon(p_pkm), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
+        team_pokemon_to_pokehack_pkmn(pkmds_pkmn_to_team_pokemon(p_pkm), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
     }
 
-    PokeLib::Pokemon converter::pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm)
+    PokeLib::Pokemon pkmds_pkmn_to_pokelib_pkmn(party_pkm* p_pkm)
     {
-        PokeLib::Pokemon pokelib_pkmn = spec_pokemon_to_pokelib_pkmn(pkmds_pkmn_to_spec_pokemon(p_pkm));
+        PokeLib::Pokemon pokelib_pkmn = team_pokemon_to_pokelib_pkmn(pkmds_pkmn_to_team_pokemon(p_pkm));
 
         //Manually set egg met and met locations to Faraway Place
         pokelib_pkmn.pkm->pkm.eggLoc_DP = char(3002);
@@ -1596,5 +1472,6 @@ namespace pkmnsim
         pokelib_pkmn.pkm->pkm.encounterType = 0x0;
 
         return pokelib_pkmn;
+    }*/
     }
 }

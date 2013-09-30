@@ -34,7 +34,7 @@ namespace pkmnsim
             void set_status(unsigned int status);
             
             unsigned int get_personality() const;
-            void set_personality(unsigned int new_personality);
+            virtual void set_personality(unsigned int new_personality);
             
             unsigned int get_generation() const;
             unsigned int get_held_item() const;

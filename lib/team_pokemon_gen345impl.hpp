@@ -22,6 +22,8 @@ namespace pkmnsim
             std::string get_info() const;
             std::string get_info_verbose() const;
             
+            void set_personality(unsigned int new_personality);
+            
             unsigned int get_ability() const;
             unsigned int get_gender() const;
             unsigned int get_nature() const;

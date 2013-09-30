@@ -156,6 +156,14 @@ namespace pkmnsim
         return output_string;
     }
     
+    void team_pokemon_gen345impl::set_personality(unsigned int new_personality)
+    {
+        personality = new_personality;
+        ability = determine_ability();
+        gender = determine_gender();
+        nature = determine_nature();
+    }
+    
     unsigned int team_pokemon_gen345impl::get_ability() const {return ability;}
     
     unsigned int team_pokemon_gen345impl::get_gender() const {return gender;}

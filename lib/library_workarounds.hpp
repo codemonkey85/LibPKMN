@@ -15,7 +15,7 @@ namespace pkmnsim
 {
     dict<char, int> get_pokehack_reverse_char_map();
     
-    char* pokehack_get_text();
+    char* pokehack_get_text(unsigned char* raw, bool is_nickname);
     
     uint8_t pokehack_get_IV(uint32_t* IVint, uint8_t IV);
     
