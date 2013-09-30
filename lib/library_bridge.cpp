@@ -13,7 +13,7 @@
 
 #include <pokehack/pokestructs.h>
 
-#include "library_workarounds.hpp"
+#include "library_bridge.hpp"
 
 #define MAX_NICKNAME_LEN 10
 #define MAX_TRAINER_NAME_LEN 7

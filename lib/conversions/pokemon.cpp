@@ -26,7 +26,7 @@
 
 #include <sqlitecpp/SQLiteCPP.h>
 
-#include "../library_workarounds.hpp"
+#include "../library_bridge.hpp"
 
 using namespace std;
 

@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_LIBRARY_WORKAROUNDS_HPP
-#define INCLUDED_LIBRARY_WORKAROUNDS_HPP
+#ifndef INCLUDED_LIBRARY_BRIDGE_HPP
+#define INCLUDED_LIBRARY_BRIDGE_HPP
 
 #include <stdint.h>
 
@@ -38,4 +38,4 @@ namespace pkmnsim
     void set_sinnohB_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val);
 }
 
-#endif /* INCLUDED_LIBRARY_WORKAROUNDS_HPP */
+#endif /* INCLUDED_LIBRARY_BRIDGE_HPP */

@@ -32,7 +32,7 @@ IF(ENABLE_LIBRARY)
     LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds sqlitecpp)
 
     LIST(APPEND libpkmnsim_sources
-        library_workarounds.cpp
+        library_bridge.cpp
         base_pokemon_impl.cpp
         base_pokemon_gen1impl.cpp
         base_pokemon_gen2impl.cpp
