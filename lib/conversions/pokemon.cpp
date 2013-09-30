@@ -145,171 +145,176 @@ namespace pkmnsim
             return t_pkmn;
         }
 
+        void team_pokemon_to_pokehack_pokemon(team_pokemon::sptr t_pkmn,
+                                              belt_pokemon_t* b_pkmn_t,
+                                              pokemon_attacks_t* pkmn_a_t,
+                                              pokemon_effort_t* pkmn_e_t,
+                                              pokemon_misc_t* pkmn_m_t,
+                                              pokemon_growth_t* pkmn_g_t)
+        {
+            pkmn_g_t->species = t_pkmn->get_species_id(); //TODO: account for different forms
+            b_pkmn_t->personality = t_pkmn->get_personality();
+            b_pkmn_t->otid = t_pkmn->get_trainer_id();
+            b_pkmn_t->level = t_pkmn->get_level();
+
+            dict<char, int> pokehack_reverse_char_map = get_pokehack_reverse_char_map();
+            string nickname = t_pkmn->get_nickname();
+            for(int i = 0; i < 10; i++)
+            {
+                if(i < nickname.size()) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
+                else b_pkmn_t->name[i] = 0xFF;
+            }
+
+            moveset_t moves = t_pkmn->get_moves();
+            pkmn_a_t->atk1 = moves[0]->get_move_id();
+            pkmn_a_t->atk2 = moves[1]->get_move_id();
+            pkmn_a_t->atk3 = moves[2]->get_move_id();
+            pkmn_a_t->atk4 = moves[3]->get_move_id();
+
+            pkmn_g_t->held = t_pkmn->get_held_item();
+
+            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
+            b_pkmn_t->maxHP = stats[Stats::HP];
+            b_pkmn_t->attack = stats[Stats::ATTACK];
+            b_pkmn_t->defense = stats[Stats::DEFENSE];
+            b_pkmn_t->spatk = stats[Stats::SPECIAL_ATTACK];
+            b_pkmn_t->spdef = stats[Stats::SPECIAL_DEFENSE];
+            b_pkmn_t->speed = stats[Stats::SPEED];
+
+            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
+            pkmn_e_t->hp = EVs[Stats::HP];
+            pkmn_e_t->attack = EVs[Stats::ATTACK];
+            pkmn_e_t->defense = EVs[Stats::DEFENSE];
+            pkmn_e_t->spatk = EVs[Stats::SPECIAL_ATTACK];
+            pkmn_e_t->spdef = EVs[Stats::SPECIAL_DEFENSE];
+            pkmn_e_t->speed = EVs[Stats::SPEED];
+
+            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            pokehack_set_IV(&(pkmn_m_t->IVint), Stats::HP, IVs[Stats::HP]);
+            pokehack_set_IV(&(pkmn_m_t->IVint), Stats::ATTACK, IVs[Stats::ATTACK]);
+            pokehack_set_IV(&(pkmn_m_t->IVint), Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            pokehack_set_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            pokehack_set_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            pokehack_set_IV(&(pkmn_m_t->IVint), Stats::SPEED, IVs[Stats::SPEED]);
+
+            switch(t_pkmn->get_game_id())
+            {
+                case Games::RUBY:
+                    pkmn_m_t->game = 2;
+                    break;
+                case Games::SAPPHIRE:
+                    pkmn_m_t->game = 1;
+                    break;
+                case Games::EMERALD:
+                    pkmn_m_t->game = 3;
+                    break;
+                case Games::FIRE_RED:
+                    pkmn_m_t->game = 4;
+                    break;
+                case Games::LEAF_GREEN:
+                    pkmn_m_t->game = 5;
+                    break;
+                case Games::COLOSSEUM:
+                case Games::XD:
+                    pkmn_m_t->game = 15;
+                    break;
+                default:
+                    pkmn_m_t->game = 2;
+            }
+            
+            //Attributes
+            if(t_pkmn->has_attribute("friendship"))
+                pkmn_g_t->happiness = t_pkmn->get_attribute("friendship");
+            if(t_pkmn->has_attribute("circle"))
+                set_marking(&(b_pkmn_t->markint), Markings::CIRCLE, t_pkmn->get_attribute("circle"));
+            if(t_pkmn->has_attribute("triangle"))
+                set_marking(&(b_pkmn_t->markint), Markings::TRIANGLE, t_pkmn->get_attribute("triangle"));
+            if(t_pkmn->has_attribute("square"))
+                set_marking(&(b_pkmn_t->markint), Markings::SQUARE, t_pkmn->get_attribute("square"));
+            if(t_pkmn->has_attribute("heart"))
+                set_marking(&(b_pkmn_t->markint), Markings::HEART, t_pkmn->get_attribute("heart"));
+            if(t_pkmn->has_attribute("country"));
+                b_pkmn_t->language = t_pkmn->get_attribute("country");
+
+            if(t_pkmn->has_attribute("cool"))
+                pkmn_e_t->coolness = t_pkmn->get_attribute("cool");
+            if(t_pkmn->has_attribute("beauty"))
+                pkmn_e_t->beauty = t_pkmn->get_attribute("beauty");
+            if(t_pkmn->has_attribute("cute"))
+                pkmn_e_t->cuteness = t_pkmn->get_attribute("cute");
+            if(t_pkmn->has_attribute("smart"))
+                pkmn_e_t->smartness = t_pkmn->get_attribute("smart");
+            if(t_pkmn->has_attribute("tough"))
+                pkmn_e_t->toughness = t_pkmn->get_attribute("tough");
+
+            if(t_pkmn->has_attribute("hoenn_cool_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_cool_super_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_cool_hyper_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_cool_master_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_beauty_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_beauty_super_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_beauty_hyper_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_beauty_master_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_cute_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_cute_super_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_cute_hyper_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_cute_master_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_smart_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_smart_super_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_smart_hyper_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_smart_master_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_tough_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_tough_super_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_tough_hyper_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_tough_master_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
+
+            if(t_pkmn->has_attribute("hoenn_champion_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_winning_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_victory_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_artist_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_effort_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_marine_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_land_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_sky_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_country_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_national_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_earth_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
+            if(t_pkmn->has_attribute("hoenn_world_ribbon"))
+                set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
+        }
+
 /*    
-
-
-    void team_pokemon_to_pokehack_pkmn(team_pokemon::sptr s_pkmn,
-                                               belt_pokemon_t* b_pkmn_t,
-                                               pokemon_attacks_t* pkmn_a_t,
-                                               pokemon_effort_t* pkmn_e_t,
-                                               pokemon_misc_t* pkmn_m_t,
-                                               pokemon_growth_t* pkmn_g_t)
-    {
-        //Species position needs to be manually set for Nidoran's due to gender character
-        if(s_pkmn->base->get_nat_pokedex_num() == 29) pkmn_g_t->species = 29; //Nidoran F
-        if(s_pkmn->base->get_nat_pokedex_num() == 32) pkmn_g_t->species = 32; //Nidoran M
-        else pkmn_g_t->species = distance(pokemon_species, (find(pokemon_species, pokemon_species+439, s_pkmn->get_species_name().c_str())));
-
-        b_pkmn_t->personality = s_pkmn->personality;
-        unsigned short otid[2] = {s_pkmn->trainer_id, s_pkmn->secret_id};
-        b_pkmn_t->otid = *((unsigned int*)(&otid[0]));
-        b_pkmn_t->level = s_pkmn->level;
-        for(int i = 0; i < 10; i++)
-        {
-            if(i < s_pkmn->nickname.size()) b_pkmn_t->name[i] = pokehack_reverse_char_map[s_pkmn->nickname[i]];
-            else b_pkmn_t->name[i] = 0xFF;
-        }
-        pkmn_a_t->atk1 = s_pkmn->moves[0]->get_move_id();
-        pkmn_a_t->atk2 = s_pkmn->moves[1]->get_move_id();
-        pkmn_a_t->atk3 = s_pkmn->moves[2]->get_move_id();
-        pkmn_a_t->atk4 = s_pkmn->moves[3]->get_move_id();
-        pkmn_g_t->held = distance(items, (find(items, items+376, s_pkmn->held_item.c_str())));
-
-        b_pkmn_t->maxHP = s_pkmn->HP;
-        b_pkmn_t->attack = s_pkmn->ATK;
-        b_pkmn_t->defense = s_pkmn->DEF;
-        b_pkmn_t->spatk = s_pkmn->SATK;
-        b_pkmn_t->spdef = s_pkmn->SDEF;
-        b_pkmn_t->speed = s_pkmn->SPD;
-
-        pkmn_m_t->IVs.hp = s_pkmn->ivHP;
-        pkmn_m_t->IVs.atk = s_pkmn->ivATK;
-        pkmn_m_t->IVs.def = s_pkmn->ivDEF;
-        pkmn_m_t->IVs.spatk = s_pkmn->ivSATK;
-        pkmn_m_t->IVs.spdef = s_pkmn->ivSDEF;
-        pkmn_m_t->IVs.spd = s_pkmn->ivSPD;
-
-        pkmn_e_t->hp = s_pkmn->HP;
-        pkmn_e_t->attack = s_pkmn->ATK;
-        pkmn_e_t->defense = s_pkmn->DEF;
-        pkmn_e_t->spatk = s_pkmn->SATK;
-        pkmn_e_t->spdef = s_pkmn->SDEF;
-        pkmn_e_t->speed = s_pkmn->SPD;
-
-        switch(s_pkmn->from_game)
-        {
-            case Games::RUBY:
-                pkmn_m_t->game = 2;
-                break;
-            case Games::SAPPHIRE:
-                pkmn_m_t->game = 1;
-                break;
-            case Games::EMERALD:
-                pkmn_m_t->game = 3;
-                break;
-            case Games::FIRE_RED:
-                pkmn_m_t->game = 4;
-                break;
-            case Games::LEAF_GREEN:
-                pkmn_m_t->game = 5;
-                break;
-            case Games::COLOSSEUM:
-            case Games::XD:
-                pkmn_m_t->game = 15;
-                break;
-            default:
-                pkmn_m_t->game = 2;
-        }
-        
-        //Attributes
-        if(s_pkmn->attributes.has_key("friendship"))
-            pkmn_g_t->happiness = s_pkmn->attributes["friendship"];
-        if(s_pkmn->attributes.has_key("circle"))
-            b_pkmn_t->mark.circle = s_pkmn->attributes["circle"];
-        if(s_pkmn->attributes.has_key("triangle"))
-            b_pkmn_t->mark.triangle = s_pkmn->attributes["triangle"];
-        if(s_pkmn->attributes.has_key("square"))
-            b_pkmn_t->mark.square = s_pkmn->attributes["square"];
-        if(s_pkmn->attributes.has_key("heart"))
-            b_pkmn_t->mark.heart = s_pkmn->attributes["heart"];
-        if(s_pkmn->attributes.has_key("country"))
-            b_pkmn_t->language = s_pkmn->attributes["country"];
-        if(s_pkmn->attributes.has_key("cool"))
-            pkmn_e_t->coolness = s_pkmn->attributes["coolness"];
-        if(s_pkmn->attributes.has_key("beauty"))
-            pkmn_e_t->beauty = s_pkmn->attributes["beauty"];
-        if(s_pkmn->attributes.has_key("cute"))
-            pkmn_e_t->cuteness = s_pkmn->attributes["cute"];
-        if(s_pkmn->attributes.has_key("smart"))
-            pkmn_e_t->smartness = s_pkmn->attributes["smart"];
-        if(s_pkmn->attributes.has_key("tough"))
-            pkmn_e_t->toughness = s_pkmn->attributes["tough"];
-        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon"))
-            pkmn_m_t->ribbons.coolnormal = s_pkmn->attributes.has_key("hoenn_cool_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon_super"))
-            pkmn_m_t->ribbons.coolsuper = s_pkmn->attributes.has_key("hoenn_cool_ribbon_super");
-        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon_hyper"))
-            pkmn_m_t->ribbons.coolhyper = s_pkmn->attributes.has_key("hoenn_cool_ribbon_hyper");
-        if(s_pkmn->attributes.has_key("hoenn_cool_ribbon_master"))
-            pkmn_m_t->ribbons.coolmaster = s_pkmn->attributes.has_key("hoenn_cool_ribbon_master");
-        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon"))
-            pkmn_m_t->ribbons.beautynormal = s_pkmn->attributes.has_key("hoenn_beauty_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon_super"))
-            pkmn_m_t->ribbons.beautysuper = s_pkmn->attributes.has_key("hoenn_beauty_ribbon_super");
-        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon_hyper"))
-            pkmn_m_t->ribbons.beautyhyper = s_pkmn->attributes.has_key("hoenn_beauty_ribbon_hyper");
-        if(s_pkmn->attributes.has_key("hoenn_beauty_ribbon_master"))
-            pkmn_m_t->ribbons.beautymaster = s_pkmn->attributes.has_key("hoenn_beauty_ribbon_master");
-        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon"))
-            pkmn_m_t->ribbons.cutenormal = s_pkmn->attributes.has_key("hoenn_cute_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon_super"))
-            pkmn_m_t->ribbons.cutesuper = s_pkmn->attributes.has_key("hoenn_cute_ribbon_super");
-        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon_hyper"))
-            pkmn_m_t->ribbons.cutehyper = s_pkmn->attributes.has_key("hoenn_cute_ribbon_hyper");
-        if(s_pkmn->attributes.has_key("hoenn_cute_ribbon_master"))
-            pkmn_m_t->ribbons.cutemaster = s_pkmn->attributes.has_key("hoenn_cute_ribbon_master");
-        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon"))
-            pkmn_m_t->ribbons.smartnormal = s_pkmn->attributes.has_key("hoenn_smart_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon_super"))
-            pkmn_m_t->ribbons.smartsuper = s_pkmn->attributes.has_key("hoenn_smart_ribbon_super");
-        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon_hyper"))
-            pkmn_m_t->ribbons.smarthyper = s_pkmn->attributes.has_key("hoenn_smart_ribbon_hyper");
-        if(s_pkmn->attributes.has_key("hoenn_smart_ribbon_master"))
-            pkmn_m_t->ribbons.smartmaster = s_pkmn->attributes.has_key("hoenn_smart_ribbon_master");
-        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon"))
-            pkmn_m_t->ribbons.toughnormal = s_pkmn->attributes.has_key("hoenn_tough_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_super"))
-            pkmn_m_t->ribbons.toughsuper = s_pkmn->attributes.has_key("hoenn_tough_ribbon_super");
-        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_hyper"))
-            pkmn_m_t->ribbons.toughhyper = s_pkmn->attributes.has_key("hoenn_tough_ribbon_hyper");
-        if(s_pkmn->attributes.has_key("hoenn_tough_ribbon_master"))
-            pkmn_m_t->ribbons.toughmaster = s_pkmn->attributes.has_key("hoenn_tough_ribbon_master");
-        if(s_pkmn->attributes.has_key("hoenn_champion_ribbon"))
-            pkmn_m_t->ribbons.champion = s_pkmn->attributes.has_key("hoenn_champion_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_winning_ribbon"))
-            pkmn_m_t->ribbons.winning = s_pkmn->attributes.has_key("hoenn_winning_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_victory_ribbon"))
-            pkmn_m_t->ribbons.victory = s_pkmn->attributes.has_key("hoenn_victory_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_artist_ribbon"))
-            pkmn_m_t->ribbons.artist = s_pkmn->attributes.has_key("hoenn_artist_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_effort_ribbon"))
-            pkmn_m_t->ribbons.effort = s_pkmn->attributes.has_key("hoenn_effort_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_marine_ribbon"))
-            pkmn_m_t->ribbons.marine = s_pkmn->attributes.has_key("hoenn_marine_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_land_ribbon"))
-            pkmn_m_t->ribbons.land = s_pkmn->attributes.has_key("hoenn_land_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_sky_ribbon"))
-            pkmn_m_t->ribbons.sky = s_pkmn->attributes.has_key("hoenn_sky_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_country_ribbon"))
-            pkmn_m_t->ribbons.country = s_pkmn->attributes.has_key("hoenn_country_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_national_ribbon"))
-            pkmn_m_t->ribbons.national = s_pkmn->attributes.has_key("hoenn_national_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_earth_ribbon"))
-            pkmn_m_t->ribbons.earth = s_pkmn->attributes.has_key("hoenn_earth_ribbon");
-        if(s_pkmn->attributes.has_key("hoenn_world_ribbon"))
-            pkmn_m_t->ribbons.world = s_pkmn->attributes.has_key("hoenn_world_ribbon");
-    }
-
     team_pokemon::sptr pokelib_pkmn_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
     {
         int level, gender, from_game;
