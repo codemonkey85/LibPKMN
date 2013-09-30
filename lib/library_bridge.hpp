@@ -36,6 +36,33 @@ namespace pkmnsim
     bool get_sinnohB_ribbon(uint64_t* ribbonint, uint8_t ribbon);
     
     void set_sinnohB_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val);
+
+    uint8_t pkmnsim_game_to_hometown(uint8_t game);
+
+    uint8_t hometown_to_pkmnsim_game(uint8_t hometown);
+
+    namespace Hometowns
+    {
+        enum hometowns
+        {
+            NONE,
+            SAPPHIRE,
+            RUBY,
+            EMERALD,
+            FIRE_RED,
+            LEAF_GREEN,
+            HEART_GOLD = 7,
+            SOUL_SILVER,
+            DIAMOND = 10,
+            PEARL,
+            PLATINUM,
+            COLOSSEUM_XD = 15,
+            WHITE = 20,
+            BLACK,
+            WHITE2,
+            BLACK2
+        };
+    }
 }
 
 #endif /* INCLUDED_LIBRARY_BRIDGE_HPP */

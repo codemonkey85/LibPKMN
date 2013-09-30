@@ -43,34 +43,7 @@ namespace pkmnsim
             unsigned int level, from_game;
             
             level = b_pkmn_t->level;
-            
-            switch(pkmn_m_t->game)
-            {
-                case 0: //Pokemon Colosseum Bonus Disk
-                    from_game = Games::COLOSSEUM;
-                    break;
-                case 1:
-                    from_game = Games::SAPPHIRE;
-                    break;
-                case 2:
-                    from_game = Games::RUBY;
-                    break;
-                case 3:
-                    from_game = Games::EMERALD;
-                    break;
-                case 4:
-                    from_game = Games::FIRE_RED;
-                    break;
-                case 5:
-                    from_game = Games::LEAF_GREEN;
-                    break;
-                case 15: //Colosseum or XD
-                    from_game = Games::XD;
-                    break;
-                default:
-                    from_game = Games::RUBY;
-                    break;
-            }
+            from_game = hometown_to_pkmnsim_game(pkmn_m_t->game);
             
             team_pokemon::sptr t_pkmn = team_pokemon::make(pkmn_g_t->species, from_game, level,
                                                          pkmn_a_t->atk1, pkmn_a_t->atk2,
@@ -197,30 +170,7 @@ namespace pkmnsim
             pokehack_set_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
             pokehack_set_IV(&(pkmn_m_t->IVint), Stats::SPEED, IVs[Stats::SPEED]);
 
-            switch(t_pkmn->get_game_id())
-            {
-                case Games::RUBY:
-                    pkmn_m_t->game = 2;
-                    break;
-                case Games::SAPPHIRE:
-                    pkmn_m_t->game = 1;
-                    break;
-                case Games::EMERALD:
-                    pkmn_m_t->game = 3;
-                    break;
-                case Games::FIRE_RED:
-                    pkmn_m_t->game = 4;
-                    break;
-                case Games::LEAF_GREEN:
-                    pkmn_m_t->game = 5;
-                    break;
-                case Games::COLOSSEUM:
-                case Games::XD:
-                    pkmn_m_t->game = 15;
-                    break;
-                default:
-                    pkmn_m_t->game = 2;
-            }
+            pkmn_m_t->game = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
             
             //Attributes
             if(t_pkmn->has_attribute("friendship"))

@@ -22,10 +22,6 @@ using namespace std;
 
 namespace pkmnsim
 {
-    /***********
-     * Pokehack
-     ***********/
-
     dict<char, int> get_pokehack_reverse_char_map()
     {
         dict<char, int> pokehack_reverse_char_map = boost::assign::map_list_of
@@ -286,5 +282,114 @@ namespace pkmnsim
         bitset<64> ribbon_bitset = int(*ribbonint);
         ribbon_bitset[ribbon] = val;
         *ribbonint = ribbon_bitset.to_ulong();
+    }
+
+    uint8_t pkmnsim_game_to_hometown(uint8_t game)
+    {
+        switch(game)
+        {
+            case Games::RUBY:
+                return Hometowns::RUBY;
+
+            case Games::SAPPHIRE:
+                return Hometowns::SAPPHIRE;
+
+            case Games::EMERALD:
+                return Hometowns::EMERALD;
+
+            case Games::FIRE_RED:
+                return Hometowns::FIRE_RED;
+
+            case Games::LEAF_GREEN:
+                return Hometowns::LEAF_GREEN;
+
+            case Games::COLOSSEUM:
+            case Games::XD:
+                return Hometowns::COLOSSEUM_XD;
+
+            case Games::DIAMOND:
+                return Hometowns::DIAMOND;
+
+            case Games::PEARL:
+                return Hometowns::PEARL;
+
+            case Games::PLATINUM:
+                return Hometowns::PLATINUM;
+
+            case Games::HEART_GOLD:
+                return Hometowns::HEART_GOLD;
+
+            case Games::SOUL_SILVER:
+                return Hometowns::SOUL_SILVER;
+
+            case Games::BLACK:
+                return Hometowns::BLACK;
+
+            case Games::WHITE:
+                return Hometowns::WHITE;
+
+            case Games::BLACK2:
+                return Hometowns::BLACK2;
+
+            case Games::WHITE2:
+                return Hometowns::WHITE2;
+
+            default:
+                return Hometowns::RUBY;
+        }
+    }
+
+    uint8_t hometown_to_pkmnsim_game(uint8_t hometown)
+    {
+        switch(hometown)
+        {
+            case Hometowns::RUBY:
+                return Games::RUBY;
+
+            case Hometowns::SAPPHIRE:
+                return Games::SAPPHIRE;
+
+            case Hometowns::EMERALD:
+                return Games::EMERALD;
+
+            case Hometowns::FIRE_RED:
+                return Games::FIRE_RED;
+
+            case Hometowns::LEAF_GREEN:
+                return Games::LEAF_GREEN;
+
+            case Hometowns::COLOSSEUM_XD:
+                return Games::XD;
+
+            case Hometowns::DIAMOND:
+                return Games::DIAMOND;
+
+            case Hometowns::PEARL:
+                return Games::PEARL;
+
+            case Hometowns::PLATINUM:
+                return Games::PLATINUM;
+
+            case Hometowns::HEART_GOLD:
+                return Games::HEART_GOLD;
+
+            case Hometowns::SOUL_SILVER:
+                return Games::SOUL_SILVER;
+
+            case Hometowns::BLACK:
+                return Games::BLACK;
+
+            case Hometowns::WHITE:
+                return Games::WHITE;
+
+            case Hometowns::BLACK2:
+                return Games::BLACK2;
+
+            case Hometowns::WHITE2:
+                return Games::WHITE2;
+
+            default:
+                return Games::RUBY;
+        }
     }
 }
