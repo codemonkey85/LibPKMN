@@ -271,17 +271,57 @@ namespace pkmnsim
         *ribbonint = ribbon_bitset.to_ulong();
     }
     
-    bool get_sinnoh_ribbon(uint64_t* ribbonint, uint8_t ribbon)
+    bool get_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon)
+    {
+        bitset<32> ribbon_bitset = int(*ribbonint);
+        return ribbon_bitset[ribbon];
+    }
+    
+    void set_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon, bool val)
+    {
+        bitset<32> ribbon_bitset = int(*ribbonint);
+        ribbon_bitset[ribbon] = val;
+        *ribbonint = ribbon_bitset.to_ulong();
+    }
+
+    bool get_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon)
     {
         bitset<64> ribbon_bitset = int(*ribbonint);
         return ribbon_bitset[ribbon];
     }
     
-    void set_sinnoh_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val)
+    void set_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon, bool val)
     {
         bitset<64> ribbon_bitset = int(*ribbonint);
         ribbon_bitset[ribbon] = val;
         *ribbonint = ribbon_bitset.to_ulong();
+    }
+
+    uint8_t get_gen4_5_metlevel(uint8_t* metlevelint)
+    {
+        return (*metlevelint >> 1);
+    }
+
+    void set_gen4_5_metlevel(uint8_t* metlevelint, uint8_t level)
+    {
+        bitset<8> metlevel_bitset = int(*metlevelint);
+        bitset<8> level_bitset = level;
+        for(int i = 0; i < 7; i++) metlevel_bitset[i+1] = level_bitset[i];
+
+        *metlevelint = metlevel_bitset.to_ulong();
+    }
+
+    bool get_gen4_5_otgender(uint8_t* metlevelint)
+    {
+        bitset<8> metlevel_bitset = int(*metlevelint);
+        return metlevel_bitset[0];
+    }
+
+    void set_gen4_5_otgender(uint8_t* metlevelint, bool is_female)
+    {
+        bitset<8> metlevel_bitset = int(*metlevelint);
+        metlevel_bitset[0] = is_female;
+        *metlevelint = metlevel_bitset.to_ulong();
     }
 
     uint8_t pkmnsim_game_to_hometown(uint8_t game)

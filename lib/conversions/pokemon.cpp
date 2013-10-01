@@ -183,7 +183,7 @@ namespace pkmnsim
                 set_marking(&(b_pkmn_t->markint), Markings::SQUARE, t_pkmn->get_attribute("square"));
             if(t_pkmn->has_attribute("heart"))
                 set_marking(&(b_pkmn_t->markint), Markings::HEART, t_pkmn->get_attribute("heart"));
-            if(t_pkmn->has_attribute("country"));
+            if(t_pkmn->has_attribute("country"))
                 b_pkmn_t->language = t_pkmn->get_attribute("country");
 
             if(t_pkmn->has_attribute("cool"))
@@ -264,294 +264,214 @@ namespace pkmnsim
                 set_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
         }
 
+        team_pokemon::sptr pokelib_pokemon_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
+        {
+            unsigned int level, from_game;
+
+            level = pokelib_pkmn.getLevel();
+            from_game = hometown_to_pkmnsim_game(pokelib_pkmn.pkm->pkm.hometown);
+
+            team_pokemon::sptr t_pkmn = team_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,
+                                        pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
+                                        pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
+
+            //TODO: implement better way of dealing with Unicode nicknames
+            PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
+            char nickname_buffer[10];
+            memset(nickname_buffer,0,10);
+            wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
+            t_pkmn->set_nickname(nickname_buffer);
+
+            t_pkmn->set_held_item(pokelib_pkmn.pkm->pkm.held_item);
+            t_pkmn->set_personality(pokelib_pkmn.pkm->pkm.pid);
+            t_pkmn->set_public_trainer_id(pokelib_pkmn.pkm->pkm.ot_id);
+            t_pkmn->set_secret_trainer_id(pokelib_pkmn.pkm->pkm.ot_sid);
+
+            t_pkmn->set_EV(Stats::HP, pokelib_pkmn.pkm->pkm.ev_hp);
+            t_pkmn->set_EV(Stats::ATTACK, pokelib_pkmn.pkm->pkm.ev_atk);
+            t_pkmn->set_EV(Stats::DEFENSE, pokelib_pkmn.pkm->pkm.ev_def);
+            t_pkmn->set_EV(Stats::SPECIAL_ATTACK, pokelib_pkmn.pkm->pkm.ev_satk);
+            t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, pokelib_pkmn.pkm->pkm.ev_sdef);
+            t_pkmn->set_EV(Stats::SPEED, pokelib_pkmn.pkm->pkm.ev_spd);
+
+            t_pkmn->set_IV(Stats::HP, pokelib_pkmn.pkm->pkm.iv_hp);
+            t_pkmn->set_IV(Stats::ATTACK, pokelib_pkmn.pkm->pkm.iv_atk);
+            t_pkmn->set_IV(Stats::DEFENSE, pokelib_pkmn.pkm->pkm.iv_def);
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, pokelib_pkmn.pkm->pkm.iv_satk);
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, pokelib_pkmn.pkm->pkm.iv_sdef);
+            t_pkmn->set_IV(Stats::SPEED, pokelib_pkmn.pkm->pkm.iv_spd);
+
+            //TODO: use form data to set Pokemon-sim form, is fateful encounter
+
+            //Attributes
+            t_pkmn->set_attribute("friendship", pokelib_pkmn.pkm->pkm.friendship);
+            t_pkmn->set_attribute("circle", get_marking(&(pokelib_pkmn.pkm->pkm.markings), Markings::CIRCLE));
+            t_pkmn->set_attribute("triangle", get_marking(&(pokelib_pkmn.pkm->pkm.markings), Markings::TRIANGLE));
+            t_pkmn->set_attribute("square", get_marking(&(pokelib_pkmn.pkm->pkm.markings), Markings::SQUARE));
+            t_pkmn->set_attribute("heart", get_marking(&(pokelib_pkmn.pkm->pkm.markings), Markings::HEART));
+            t_pkmn->set_attribute("star", get_marking(&(pokelib_pkmn.pkm->pkm.markings), Markings::STAR));
+            t_pkmn->set_attribute("diamond", get_marking(&(pokelib_pkmn.pkm->pkm.markings), Markings::DIAMOND));
+
+            t_pkmn->set_attribute("country", pokelib_pkmn.pkm->pkm.country);
+            t_pkmn->set_attribute("cool", pokelib_pkmn.pkm->pkm.contest_cool);
+            t_pkmn->set_attribute("beauty", pokelib_pkmn.pkm->pkm.contest_beauty);
+            t_pkmn->set_attribute("cute", pokelib_pkmn.pkm->pkm.contest_cute);
+            t_pkmn->set_attribute("smart", pokelib_pkmn.pkm->pkm.contest_smart);
+            t_pkmn->set_attribute("tough", pokelib_pkmn.pkm->pkm.contest_tough);
+            t_pkmn->set_attribute("sheen", pokelib_pkmn.pkm->pkm.contest_sheen);
+
+            t_pkmn->set_attribute("hoenn_cool_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL));
+            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_SUPER));
+            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_HYPER));
+            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_MASTER));
+            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY));
+            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_SUPER));
+            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_HYPER));
+            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_MASTER));
+            t_pkmn->set_attribute("hoenn_cute_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE));
+            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_SUPER));
+            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_HYPER));
+            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_MASTER));
+            t_pkmn->set_attribute("hoenn_smart_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART));
+            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_SUPER));
+            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_HYPER));
+            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_MASTER));
+            t_pkmn->set_attribute("hoenn_tough_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH));
+            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_SUPER));
+            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_HYPER));
+            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_MASTER));
+            
+            t_pkmn->set_attribute("hoenn_champion_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CHAMPION));
+            t_pkmn->set_attribute("hoenn_winning_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WINNING));
+            t_pkmn->set_attribute("hoenn_victory_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::VICTORY));
+            t_pkmn->set_attribute("hoenn_artist_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::ARTIST));
+            t_pkmn->set_attribute("hoenn_effort_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EFFORT));
+            t_pkmn->set_attribute("hoenn_marine_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::MARINE));
+            t_pkmn->set_attribute("hoenn_land_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::LAND));
+            t_pkmn->set_attribute("hoenn_sky_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SKY));
+            t_pkmn->set_attribute("hoenn_country_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COUNTRY));
+            t_pkmn->set_attribute("hoenn_national_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::NATIONAL));
+            t_pkmn->set_attribute("hoenn_earth_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EARTH));
+            t_pkmn->set_attribute("hoenn_world_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WORLD));
+
+            t_pkmn->set_attribute("sinnoh_champion_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CHAMPION));
+            t_pkmn->set_attribute("sinnoh_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ABILITY));
+            t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREAT_ABILITY));
+            t_pkmn->set_attribute("sinnoh_double_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOUBLE_ABILITY));
+            t_pkmn->set_attribute("sinnoh_multi_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::MULTI_ABILITY));
+            t_pkmn->set_attribute("sinnoh_pair_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PAIR_ABILITY));
+            t_pkmn->set_attribute("sinnoh_world_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::WORLD_ABILITY));
+            t_pkmn->set_attribute("sinnoh_alert_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ALERT));
+            t_pkmn->set_attribute("sinnoh_shock_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SHOCK));
+            t_pkmn->set_attribute("sinnoh_downcast_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOWNCAST));
+            t_pkmn->set_attribute("sinnoh_careless_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CARELESS));
+            t_pkmn->set_attribute("sinnoh_relax_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RELAX));
+            t_pkmn->set_attribute("sinnoh_snooze_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SNOOZE));
+            t_pkmn->set_attribute("sinnoh_smile_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SMILE));
+            t_pkmn->set_attribute("sinnoh_gorgeous_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS));
+            t_pkmn->set_attribute("sinnoh_royal_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ROYAL));
+            t_pkmn->set_attribute("sinnoh_gorgeous_royal_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS_ROYAL));
+            t_pkmn->set_attribute("sinnoh_footprint_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FOOTPRINT));
+            t_pkmn->set_attribute("sinnoh_record_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RECORD));
+            t_pkmn->set_attribute("sinnoh_history_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::HISTORY));
+            t_pkmn->set_attribute("sinnoh_legend_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::LEGEND));
+            t_pkmn->set_attribute("sinnoh_red_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RED));
+            t_pkmn->set_attribute("sinnoh_green_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREEN));
+            t_pkmn->set_attribute("sinnoh_blue_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::BLUE));
+            t_pkmn->set_attribute("sinnoh_festival_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_carnival_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_classic_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CLASSIC));
+            t_pkmn->set_attribute("sinnoh_premier_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PREMIER));
+
+            t_pkmn->set_attribute("sinnoh_cool_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL-23));
+            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY-23));
+            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_cute_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE-23));
+            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_smart_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART-23));
+            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_tough_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH-23));
+            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_MASTER-23));
+
+            //Get raw nickname chars for use later
+            t_pkmn->set_attribute("trainername_char1", pokelib_pkmn.pkm->pkm.ot_name[0]);
+            t_pkmn->set_attribute("trainername_char2", pokelib_pkmn.pkm->pkm.ot_name[1]);
+            t_pkmn->set_attribute("trainername_char3", pokelib_pkmn.pkm->pkm.ot_name[2]);
+            t_pkmn->set_attribute("trainername_char4", pokelib_pkmn.pkm->pkm.ot_name[3]);
+            t_pkmn->set_attribute("trainername_char5", pokelib_pkmn.pkm->pkm.ot_name[4]);
+            t_pkmn->set_attribute("trainername_char6", pokelib_pkmn.pkm->pkm.ot_name[5]);
+            t_pkmn->set_attribute("trainername_char7", pokelib_pkmn.pkm->pkm.ot_name[6]);
+            t_pkmn->set_attribute("trainername_char8", pokelib_pkmn.pkm->pkm.ot_name[7]);
+
+            t_pkmn->set_attribute("eggmet_year", pokelib_pkmn.pkm->pkm.eggDate[0]);
+            t_pkmn->set_attribute("eggmet_month", pokelib_pkmn.pkm->pkm.eggDate[1]);
+            t_pkmn->set_attribute("eggmet_day", pokelib_pkmn.pkm->pkm.eggDate[2]);
+            t_pkmn->set_attribute("met_year", pokelib_pkmn.pkm->pkm.metDate[0]);
+            t_pkmn->set_attribute("met_month", pokelib_pkmn.pkm->pkm.metDate[1]);
+            t_pkmn->set_attribute("met_day", pokelib_pkmn.pkm->pkm.metDate[2]);
+            t_pkmn->set_attribute("met_level", get_gen4_5_met_level(&(pokelib_pkmn.pkm->pkm.pokeball)+1));
+            t_pkmn->set_attribute("ot_is_female", get_gen4_5_otgender(&(pokelib_pkmn.pkm->pkm.pokeball)+1));
+
+            return t_pkmn;
+        }
+
+        PokeLib::Pokemon team_pokemon_to_pokelib_pokemon(team_pokemon::sptr t_pkmn)
+        {
+            PokeLib::Pokemon pokelib_pkmn;
+
+            pokelib_pkmn.pkm->pkm.species = t_pkmn->get_species_id();
+            pokelib_pkmn.setLevel(uint8_t(t_pkmn->get_level()));
+            pokelib_pkmn.setNickname(t_pkmn->get_nickname().c_str(), t_pkmn->get_nickname().size());
+            pokelib_pkmn.pkm->pkm.pid = t_pkmn->get_personality();
+            pokelib_pkmn.pkm->pkm.ot_id = t_pkmn->get_public_trainer_id();
+            pokelib_pkmn.pkm->pkm.ot_sid = t_pkmn->get_secret_trainer_id();
+
+            pokelib_pkmn.pkm->pkm.move[0] = t_pkmn->get_moves()[0]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[1] = t_pkmn->get_moves()[1]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[2] = t_pkmn->get_moves()[2]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[3] = t_pkmn->get_moves()[3]->get_move_id();
+
+            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
+            pokelib_pkmn.pkm->pkm.battle_max_hp = stats[Stats::HP];
+            pokelib_pkmn.pkm->pkm.battle_atk = stats[Stats::ATTACK];
+            pokelib_pkmn.pkm->pkm.battle_def = stats[Stats::DEFENSE];
+            pokelib_pkmn.pkm->pkm.battle_satk = stats[Stats::SPECIAL_ATTACK];
+            pokelib_pkmn.pkm->pkm.battle_sdef = stats[Stats::SPECIAL_DEFENSE];
+            pokelib_pkmn.pkm->pkm.battle_spd = stats[Stats::SPEED];
+
+            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
+            pokelib_pkmn.pkm->pkm.ev_hp = EVs[Stats::HP];
+            pokelib_pkmn.pkm->pkm.ev_atk = EVs[Stats::ATTACK];
+            pokelib_pkmn.pkm->pkm.ev_def = EVs[Stats::DEFENSE];
+            pokelib_pkmn.pkm->pkm.ev_satk = EVs[Stats::SPECIAL_ATTACK];
+            pokelib_pkmn.pkm->pkm.ev_sdef = EVs[Stats::SPECIAL_DEFENSE];
+            pokelib_pkmn.pkm->pkm.ev_spd = EVs[Stats::SPEED];
+
+            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            pokelib_pkmn.pkm->pkm.iv_hp = IVs[Stats::HP];
+            pokelib_pkmn.pkm->pkm.iv_atk = IVs[Stats::ATTACK];
+            pokelib_pkmn.pkm->pkm.iv_def = IVs[Stats::DEFENSE];
+            pokelib_pkmn.pkm->pkm.iv_satk = IVs[Stats::SPECIAL_ATTACK];
+            pokelib_pkmn.pkm->pkm.iv_sdef = IVs[Stats::SPECIAL_DEFENSE];
+            pokelib_pkmn.pkm->pkm.iv_spd = IVs[Stats::SPEED];
+
+            pokelib_pkmn.pkm->pkm.hometown = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
+
+            return pokelib_pkmn;
+        }
+
 /*    
-    team_pokemon::sptr pokelib_pkmn_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
-    {
-        int level, gender, from_game;
-
-        level = int(pokelib_pkmn.getLevel());
-
-        switch(pokelib_pkmn.pkm->pkm.hometown)
-        {
-            case 1:
-                from_game = Games::SAPPHIRE;
-                break;
-            case 2:
-                from_game = Games::RUBY;
-                break;
-            case 3:
-                from_game = Games::EMERALD;
-                break;
-            case 4:
-                from_game = Games::FIRE_RED;
-                break;
-            case 5:
-                from_game = Games::LEAF_GREEN;
-                break;
-            case 7:
-                from_game = Games::HEART_GOLD;
-                break;
-            case 8:
-                from_game = Games::SOUL_SILVER;
-                break;
-            case 10:
-                from_game = Games::DIAMOND;
-                break;
-            case 11:
-                from_game = Games::PEARL;
-                break;
-            case 12:
-                from_game = Games::PLATINUM;
-                break;
-            case 15:
-                from_game = Games::COLOSSEUM;
-                break;
-            default:
-                from_game = Games::DIAMOND;
-                break;
-        }
-        
-        team_pokemon::sptr s_pkmn = team_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,
-                                    pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
-                                    pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
-
-        PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
-        char nickname_buffer[10];
-        memset(nickname_buffer,0,10);
-        wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
-        s_pkmn->nickname = nickname_buffer;
-        s_pkmn->held_item = PokeLib::items[pokelib_pkmn.pkm->pkm.held_item];
-        s_pkmn->nature = pkmn_nature::make(pokelib_pkmn.getNatureValue());
-        s_pkmn->personality = pokelib_pkmn.pkm->pkm.pid;
-        s_pkmn->trainer_id = pokelib_pkmn.pkm->pkm.ot_id;
-        s_pkmn->secret_id = pokelib_pkmn.pkm->pkm.ot_sid;
-        switch(int(pokelib_pkmn.getGenderValue()))
-        {
-            case PokeLib::MALE:
-                gender = Genders::MALE;
-                break;
-
-            case PokeLib::FEMALE:
-                gender = Genders::FEMALE;
-                break;
-
-            default:
-                gender = Genders::GENDERLESS;
-                break;
-        }
-
-        s_pkmn->HP = pokelib_pkmn.pkm->pkm.battle_max_hp;
-        s_pkmn->ATK = pokelib_pkmn.pkm->pkm.battle_atk;
-        s_pkmn->DEF = pokelib_pkmn.pkm->pkm.battle_def;
-        s_pkmn->SATK = pokelib_pkmn.pkm->pkm.battle_satk;
-        s_pkmn->SDEF = pokelib_pkmn.pkm->pkm.battle_sdef;
-        s_pkmn->SPD = pokelib_pkmn.pkm->pkm.battle_spd;
-
-        s_pkmn->ivHP = pokelib_pkmn.pkm->pkm.iv_hp;
-        s_pkmn->ivATK = pokelib_pkmn.pkm->pkm.iv_atk;
-        s_pkmn->ivDEF = pokelib_pkmn.pkm->pkm.iv_def;
-        s_pkmn->ivSATK = pokelib_pkmn.pkm->pkm.iv_satk;
-        s_pkmn->ivSDEF = pokelib_pkmn.pkm->pkm.iv_sdef;
-        s_pkmn->ivSPD = pokelib_pkmn.pkm->pkm.iv_spd;
-
-        s_pkmn->evHP = pokelib_pkmn.pkm->pkm.ev_hp;
-        s_pkmn->evATK = pokelib_pkmn.pkm->pkm.ev_atk;
-        s_pkmn->evDEF = pokelib_pkmn.pkm->pkm.ev_def;
-        s_pkmn->evSATK = pokelib_pkmn.pkm->pkm.ev_satk;
-        s_pkmn->evSDEF = pokelib_pkmn.pkm->pkm.ev_sdef;
-        s_pkmn->evSPD = pokelib_pkmn.pkm->pkm.ev_spd;
-
-        //Attributes
-        s_pkmn->attributes["friendship"] = pokelib_pkmn.pkm->pkm.friendship;
-
-        //Need to get markings manually, no bitfield in PokeLib
-        bitset<8> markings_bitset(pokelib_pkmn.pkm->pkm.markings);
-        s_pkmn->attributes["circle"] = int(markings_bitset[0]);
-        s_pkmn->attributes["triangle"] = int(markings_bitset[1]);
-        s_pkmn->attributes["square"] = int(markings_bitset[2]);
-        s_pkmn->attributes["heart"] = int(markings_bitset[3]);
-        s_pkmn->attributes["star"] = int(markings_bitset[4]);
-        s_pkmn->attributes["diamond"] = int(markings_bitset[5]);
-
-        s_pkmn->attributes["country"] = pokelib_pkmn.pkm->pkm.country;
-        s_pkmn->attributes["cool"] = pokelib_pkmn.pkm->pkm.contest_cool;
-        s_pkmn->attributes["beauty"] = pokelib_pkmn.pkm->pkm.contest_beauty;
-        s_pkmn->attributes["cute"] = pokelib_pkmn.pkm->pkm.contest_cute;
-        s_pkmn->attributes["smart"] = pokelib_pkmn.pkm->pkm.contest_smart;
-        s_pkmn->attributes["tough"] = pokelib_pkmn.pkm->pkm.contest_tough;
-        s_pkmn->attributes["sheen"] = pokelib_pkmn.pkm->pkm.contest_sheen;
-        s_pkmn->attributes["sinnoh_champ_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.sinnoh_champ;
-        s_pkmn->attributes["sinnoh_ability_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.ability;
-        s_pkmn->attributes["sinnoh_great_ability_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.great_ability;
-        s_pkmn->attributes["sinnoh_double_ability_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.double_ability;
-        s_pkmn->attributes["sinnoh_multi_ability_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.multi_ability;
-        s_pkmn->attributes["sinnoh_pair_ability_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.pair_ability;
-        s_pkmn->attributes["sinnoh_world_ability_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.world_ability;
-        s_pkmn->attributes["sinnoh_alert_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.alert;
-        s_pkmn->attributes["sinnoh_shock_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.shock;
-        s_pkmn->attributes["sinnoh_downcast_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.downcast;
-        s_pkmn->attributes["sinnoh_careless_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.careless;
-        s_pkmn->attributes["sinnoh_relax_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.relax;
-        s_pkmn->attributes["sinnoh_snooze_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.ability;
-        s_pkmn->attributes["sinnoh_smile_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.smile;
-        s_pkmn->attributes["sinnoh_gorgeous_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.gorgeous;
-        s_pkmn->attributes["sinnoh_royal_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.royal;
-        s_pkmn->attributes["sinnoh_gorgeous_royal_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.gorgeous_royal;
-        s_pkmn->attributes["sinnoh_footprint_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.footprint;
-        s_pkmn->attributes["sinnoh_record_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.record;
-        s_pkmn->attributes["sinnoh_history_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.history;
-        s_pkmn->attributes["sinnoh_legend_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.legend;
-        s_pkmn->attributes["sinnoh_red_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.red;
-        s_pkmn->attributes["sinnoh_green_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.green;
-        s_pkmn->attributes["sinnoh_blue_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.blue;
-        s_pkmn->attributes["sinnoh_festival_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.festival;
-        s_pkmn->attributes["sinnoh_carnival_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.carnival;
-        s_pkmn->attributes["sinnoh_classic_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.classic;
-        s_pkmn->attributes["sinnoh_premier_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohA.premier;
-        s_pkmn->attributes["hoenn_cool_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cool_normal;
-        s_pkmn->attributes["hoenn_cool_ribbon_super"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cool_super;
-        s_pkmn->attributes["hoenn_cool_ribbon_hyper"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cool_hyper;
-        s_pkmn->attributes["hoenn_cool_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cool_master;
-        s_pkmn->attributes["hoenn_beauty_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.beauty_normal;
-        s_pkmn->attributes["hoenn_beauty_ribbon_super"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.beauty_super;
-        s_pkmn->attributes["hoenn_beauty_ribbon_hyper"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.beauty_hyper;
-        s_pkmn->attributes["hoenn_cute_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cute_master;
-        s_pkmn->attributes["hoenn_cute_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cute_normal;
-        s_pkmn->attributes["hoenn_cute_ribbon_super"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cute_super;
-        s_pkmn->attributes["hoenn_cute_ribbon_hyper"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cute_hyper;
-        s_pkmn->attributes["hoenn_cute_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.cute_master;
-        s_pkmn->attributes["hoenn_smart_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.smart_normal;
-        s_pkmn->attributes["hoenn_smart_ribbon_super"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.smart_super;
-        s_pkmn->attributes["hoenn_smart_ribbon_hyper"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.smart_hyper;
-        s_pkmn->attributes["hoenn_smart_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.smart_master;
-        s_pkmn->attributes["hoenn_tough_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.tough_normal;
-        s_pkmn->attributes["hoenn_tough_ribbon_super"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.tough_super;
-        s_pkmn->attributes["hoenn_tough_ribbon_hyper"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.tough_hyper;
-        s_pkmn->attributes["hoenn_tough_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.tough_master;
-        s_pkmn->attributes["hoenn_champion_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.champion;
-        s_pkmn->attributes["hoenn_winning_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.winning;
-        s_pkmn->attributes["hoenn_victory_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.victory;
-        s_pkmn->attributes["hoenn_artist_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.artist;
-        s_pkmn->attributes["hoenn_effort_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.effort;
-        s_pkmn->attributes["hoenn_marine_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.marine;
-        s_pkmn->attributes["hoenn_land_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.land;
-        s_pkmn->attributes["hoenn_sky_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.sky;
-        s_pkmn->attributes["hoenn_country_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.country;
-        s_pkmn->attributes["hoenn_national_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.national;
-        s_pkmn->attributes["hoenn_earth_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.earth;
-        s_pkmn->attributes["hoenn_world_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonHoenn.world;
-        s_pkmn->attributes["sinnoh_encounter"] = pokelib_pkmn.pkm->pkm.encounterType;
-        s_pkmn->attributes["original_game"] = pokelib_pkmn.pkm->pkm.hometown;
-        s_pkmn->attributes["sinnoh_cool_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cool_normal;
-        s_pkmn->attributes["sinnoh_cool_ribbon_great"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cool_super;
-        s_pkmn->attributes["sinnoh_cool_ribbon_ultra"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cool_hyper;
-        s_pkmn->attributes["sinnoh_cool_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cool_master;
-        s_pkmn->attributes["sinnoh_beauty_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.beauty_normal;
-        s_pkmn->attributes["sinnoh_beauty_ribbon_great"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.beauty_super;
-        s_pkmn->attributes["sinnoh_beauty_ribbon_ultra"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.beauty_hyper;
-        s_pkmn->attributes["sinnoh_cute_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cute_master;
-        s_pkmn->attributes["sinnoh_cute_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cute_normal;
-        s_pkmn->attributes["sinnoh_cute_ribbon_great"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cute_super;
-        s_pkmn->attributes["sinnoh_cute_ribbon_ultra"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cute_hyper;
-        s_pkmn->attributes["sinnoh_cute_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.cute_master;
-        s_pkmn->attributes["sinnoh_smart_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.smart_normal;
-        s_pkmn->attributes["sinnoh_smart_ribbon_great"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.smart_super;
-        s_pkmn->attributes["sinnoh_smart_ribbon_ultra"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.smart_hyper;
-        s_pkmn->attributes["sinnoh_smart_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.smart_master;
-        s_pkmn->attributes["sinnoh_tough_ribbon"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.tough_normal;
-        s_pkmn->attributes["sinnoh_tough_ribbon_great"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.tough_super;
-        s_pkmn->attributes["sinnoh_tough_ribbon_ultra"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.tough_hyper;
-        s_pkmn->attributes["sinnoh_tough_ribbon_master"] = pokelib_pkmn.pkm->pkm.ribbonSinnohB.tough_master;
-        s_pkmn->attributes["eggmet_year"] = pokelib_pkmn.pkm->pkm.eggDate[0];
-        s_pkmn->attributes["eggmet_month"] = pokelib_pkmn.pkm->pkm.eggDate[1];
-        s_pkmn->attributes["eggmet_day"] = pokelib_pkmn.pkm->pkm.eggDate[2];
-        s_pkmn->attributes["met_year"] = pokelib_pkmn.pkm->pkm.metDate[0];
-        s_pkmn->attributes["met_month"] = pokelib_pkmn.pkm->pkm.metDate[1];
-        s_pkmn->attributes["met_day"] = pokelib_pkmn.pkm->pkm.metDate[2];
-        s_pkmn->attributes["met_level"] = pokelib_pkmn.pkm->pkm.metLevel;
-        s_pkmn->attributes["ot_is_female"] = pokelib_pkmn.pkm->pkm.ot_female;
-
-        return s_pkmn;
-    }
-
-    PokeLib::Pokemon team_pokemon_to_pokelib_pkmn(team_pokemon::sptr s_pkmn)
-    {
-        PokeLib::Pokemon pokelib_pkmn;
-
-        pokelib_pkmn.pkm->pkm.species = s_pkmn->get_species_id();
-        pokelib_pkmn.setLevel(uint8_t(s_pkmn->level));
-        pokelib_pkmn.setNickname(s_pkmn->nickname.c_str(), s_pkmn->nickname.size());
-        pokelib_pkmn.pkm->pkm.pid = s_pkmn->personality;
-        pokelib_pkmn.pkm->pkm.ot_id = s_pkmn->trainer_id;
-        pokelib_pkmn.pkm->pkm.ot_sid = s_pkmn->secret_id;
-
-        pokelib_pkmn.pkm->pkm.move[0] = s_pkmn->moves[0]->get_move_id();
-        pokelib_pkmn.pkm->pkm.move[1] = s_pkmn->moves[1]->get_move_id();
-        pokelib_pkmn.pkm->pkm.move[2] = s_pkmn->moves[2]->get_move_id();
-        pokelib_pkmn.pkm->pkm.move[3] = s_pkmn->moves[3]->get_move_id();
-
-        pokelib_pkmn.pkm->pkm.battle_max_hp = s_pkmn->HP;
-        pokelib_pkmn.pkm->pkm.battle_atk = s_pkmn->ATK;
-        pokelib_pkmn.pkm->pkm.battle_def = s_pkmn->DEF;
-        pokelib_pkmn.pkm->pkm.battle_satk = s_pkmn->SATK;
-        pokelib_pkmn.pkm->pkm.battle_sdef = s_pkmn->SDEF;
-        pokelib_pkmn.pkm->pkm.battle_spd = s_pkmn->SPD;
-
-        pokelib_pkmn.pkm->pkm.iv_hp = s_pkmn->ivHP;
-        pokelib_pkmn.pkm->pkm.iv_atk = s_pkmn->ivATK;
-        pokelib_pkmn.pkm->pkm.iv_def = s_pkmn->ivDEF;
-        pokelib_pkmn.pkm->pkm.iv_satk = s_pkmn->ivSATK;
-        pokelib_pkmn.pkm->pkm.iv_sdef = s_pkmn->ivSDEF;
-        pokelib_pkmn.pkm->pkm.iv_spd = s_pkmn->ivSPD;
-
-        pokelib_pkmn.pkm->pkm.ev_hp = s_pkmn->evHP;
-        pokelib_pkmn.pkm->pkm.ev_atk = s_pkmn->evATK;
-        pokelib_pkmn.pkm->pkm.ev_def = s_pkmn->evDEF;
-        pokelib_pkmn.pkm->pkm.ev_satk = s_pkmn->evSATK;
-        pokelib_pkmn.pkm->pkm.ev_sdef = s_pkmn->evSDEF;
-        pokelib_pkmn.pkm->pkm.ev_spd = s_pkmn->evSPD;
-
-        switch(s_pkmn->from_game)
-        {
-            case Games::RUBY:
-                pokelib_pkmn.pkm->pkm.hometown = 2;
-                break;
-            case Games::SAPPHIRE:
-                pokelib_pkmn.pkm->pkm.hometown = 1;
-                break;
-            case Games::EMERALD:
-                pokelib_pkmn.pkm->pkm.hometown = 3;
-                break;
-            case Games::FIRE_RED:
-                pokelib_pkmn.pkm->pkm.hometown = 4;
-                break;
-            case Games::LEAF_GREEN:
-                pokelib_pkmn.pkm->pkm.hometown = 5;
-                break;
-            case Games::COLOSSEUM:
-            case Games::XD:
-                pokelib_pkmn.pkm->pkm.hometown = 15;
-                break;
-            case Games::DIAMOND:
-                pokelib_pkmn.pkm->pkm.hometown = 10;
-                break;
-            case Games::PEARL:
-                pokelib_pkmn.pkm->pkm.hometown = 11;
-                break;
-            case Games::PLATINUM:
-                pokelib_pkmn.pkm->pkm.hometown = 12;
-                break;
-            case Games::HEART_GOLD:
-                pokelib_pkmn.pkm->pkm.hometown = 7;
-                break;
-            case Games::SOUL_SILVER:
-                pokelib_pkmn.pkm->pkm.hometown = 8;
-                break;
-            default:
-                pokelib_pkmn.pkm->pkm.hometown = 10;
-                break;
-        }
-        
         //Attributes
         if(s_pkmn->attributes.has_key("friendship"))
             pokelib_pkmn.pkm->pkm.friendship = s_pkmn->attributes["friendship"];

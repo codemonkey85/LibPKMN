@@ -29,13 +29,21 @@ namespace pkmnsim
     
     void set_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val);
     
-    bool get_sinnohA_ribbon(uint64_t* ribbonint, uint8_t ribbon);
+    bool get_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon);
     
-    void set_sinnohA_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val);
+    void set_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon, bool val);
     
-    bool get_sinnohB_ribbon(uint64_t* ribbonint, uint8_t ribbon);
+    bool get_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon);
     
-    void set_sinnohB_ribbon(uint64_t* ribbonint, uint8_t ribbon, bool val);
+    void set_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon, bool val);
+
+    uint8_t get_gen4_5_met_level(uint8_t* metlevelint);
+
+    void set_gen4_5_met_level(uint8_t* metlevelint, uint8_t level);
+
+    bool get_gen4_5_otgender(uint8_t* metlevelint);
+
+    void set_gen4_5_otgender(uint8_t* metlevelint, bool is_female);
 
     uint8_t pkmnsim_game_to_hometown(uint8_t game);
 
