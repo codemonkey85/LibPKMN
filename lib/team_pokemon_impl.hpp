@@ -24,6 +24,8 @@ namespace pkmnsim
             void set_nickname(std::string name);
             unsigned int get_level() const;
             void set_level(unsigned int lvl);
+            unsigned int get_met_level() const;
+            void set_met_level(unsigned int lvl);
             
             moveset_t get_moves() const;
             vla<unsigned int> get_move_PPs() const;

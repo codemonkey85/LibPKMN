@@ -44,6 +44,8 @@ namespace pkmnsim
             virtual void set_nickname(std::string name) = 0;
             virtual unsigned int get_level() const = 0;
             virtual void set_level(unsigned int lvl) = 0;
+            virtual unsigned int get_met_level() const = 0;
+            virtual void set_met_level(unsigned int lvl) = 0;
 
             virtual moveset_t get_moves() const = 0;
             virtual vla<unsigned int> get_move_PPs() const = 0;
@@ -110,7 +112,7 @@ namespace pkmnsim
             std::string nickname;
             unsigned int held_item;
             unsigned int from_game, from_gen;
-            unsigned int level;
+            unsigned int level, met_level;
             unsigned int personality;
             
             union

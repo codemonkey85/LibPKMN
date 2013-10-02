@@ -112,6 +112,13 @@ namespace pkmnsim
         if(lvl > 0 and lvl <= 100) level = lvl;
     }
 
+    unsigned int team_pokemon_impl::get_met_level() const {return met_level;}
+    
+    void team_pokemon_impl::set_met_level(unsigned int lvl)
+    {
+        if(lvl > 0 and lvl <= 100) met_level = lvl;
+    }
+
     moveset_t team_pokemon_impl::get_moves() const {return moves;}
     
     vla<unsigned int> team_pokemon_impl::get_move_PPs() const {return move_PPs;}
