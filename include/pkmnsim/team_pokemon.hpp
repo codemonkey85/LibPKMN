@@ -73,6 +73,8 @@ namespace pkmnsim
             virtual unsigned int get_generation() const = 0;
             virtual unsigned int get_held_item() const = 0;
             virtual void set_held_item(unsigned int item) = 0;
+            virtual unsigned int get_ball() const = 0;
+            virtual void set_ball(unsigned int new_ball) = 0;
             virtual std::string get_icon_path() const = 0;
             virtual std::string get_sprite_path() const = 0;
             
@@ -110,7 +112,7 @@ namespace pkmnsim
         protected:
             base_pokemon::sptr base_pkmn;
             std::string nickname;
-            unsigned int held_item;
+            unsigned int held_item, ball;
             unsigned int from_game, from_gen;
             unsigned int level, met_level;
             unsigned int personality;

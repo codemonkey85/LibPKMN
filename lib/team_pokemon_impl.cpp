@@ -73,8 +73,8 @@ namespace pkmnsim
         level = lvl;
         from_game = game;
         from_gen = base_pkmn->get_generation();
-        int base_pokemon_id = base_pkmn->get_pokemon_id();
-        int base_species_id = base_pkmn->get_species_id();
+        held_item = 0;
+        ball = PokeBalls::POKE_BALL;
 
 		attributes = dict<string, int>();
         moves = moveset_t(4);
@@ -152,6 +152,10 @@ namespace pkmnsim
     unsigned int team_pokemon_impl::get_held_item() const {return held_item;}
     
     void team_pokemon_impl::set_held_item(unsigned int item) {held_item = item;}
+
+    unsigned int team_pokemon_impl::get_ball() const {return ball;}
+
+    void team_pokemon_impl::set_ball(unsigned int new_ball) {ball = new_ball;}
     
     string team_pokemon_impl::get_icon_path() const {return icon_path;}
 

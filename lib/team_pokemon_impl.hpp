@@ -41,6 +41,8 @@ namespace pkmnsim
             unsigned int get_generation() const;
             unsigned int get_held_item() const;
             void set_held_item(unsigned int item);
+            unsigned int get_ball() const;
+            void set_ball(unsigned int new_ball);
             std::string get_icon_path() const;
             std::string get_sprite_path() const;
             
