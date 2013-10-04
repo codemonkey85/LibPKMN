@@ -297,6 +297,24 @@ namespace pkmnsim
         *ribbonint = ribbon_bitset.to_ulong();
     }
 
+    uint8_t get_gen3_metlevel(uint16_t* metlevelint)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        bitset<8> metlevel_int = 0;
+        for(int i = 15; i > 8; i--) metlevel_int[i-8] = metlevel_bitset[i];
+
+        return metlevel_int.to_ulong();
+    }
+
+    void set_gen3_metlevel(uint16_t* metlevelint, uint8_t level)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        bitset<8> metlevel_int = level;
+        for(int i = 0; i < 7; i++) metlevel_bitset[i+8] = metlevel_int[i];
+
+        *metlevelint = metlevel_bitset.to_ulong();
+    }
+
     uint8_t get_gen4_5_metlevel(uint8_t* metlevelint)
     {
         return (*metlevelint >> 1);
@@ -311,6 +329,20 @@ namespace pkmnsim
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
+    bool get_gen3_otgender(uint16_t* metlevelint)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        return metlevel_bitset[0];
+    }
+
+    void set_gen3_otgender(uint16_t* metlevelint, bool is_female)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        metlevel_bitset[0] = is_female;
+        
+        *metlevelint = metlevel_bitset.to_ulong();
+    }
+
     bool get_gen4_5_otgender(uint8_t* metlevelint)
     {
         bitset<8> metlevel_bitset = int(*metlevelint);
@@ -321,6 +353,24 @@ namespace pkmnsim
     {
         bitset<8> metlevel_bitset = int(*metlevelint);
         metlevel_bitset[0] = is_female;
+        *metlevelint = metlevel_bitset.to_ulong();
+    }
+
+    uint8_t get_gen3_ball(uint16_t* metlevelint)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        bitset<8> ball_bitset = 0;
+        for(int i = 0; i < 4; i++) ball_bitset[i] = metlevel_bitset[i+1];
+
+        return ball_bitset.to_ulong();
+    }
+
+    void set_gen3_ball(uint16_t* metlevelint, uint8_t ball)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        bitset<8> ball_bitset = ball;
+        for(int i = 0; i < 4; i++) metlevel_bitset[i+1] = ball_bitset[i];
+
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
