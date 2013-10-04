@@ -84,6 +84,8 @@ namespace pkmnsim
 			virtual void set_attribute(std::string attribute, int value) = 0;
             virtual void set_hidden_ability(bool val) = 0;
 
+            virtual unsigned int get_trainer_gender() const = 0;
+            virtual void set_trainer_gender(unsigned int new_gender) = 0;
             virtual unsigned int get_trainer_id() const = 0;
             virtual unsigned short get_public_trainer_id() const = 0;
             virtual unsigned short get_secret_trainer_id() const = 0;
@@ -143,7 +145,7 @@ namespace pkmnsim
             unsigned int SPCL, SATK, SDEF;
             unsigned int ivSPCL, ivSATK, ivSDEF;
             unsigned int evSPCL, evSATK, evSDEF;
-            unsigned int gender;
+            unsigned int gender, otgender;
             unsigned int ability, nature;
             bool has_hidden_ability;
     };

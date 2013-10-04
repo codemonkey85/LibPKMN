@@ -52,6 +52,8 @@ namespace pkmnsim
 			void set_attribute(std::string attribute, int value);
             void set_hidden_ability(bool val);
 
+            unsigned int get_trainer_gender() const;
+            void set_trainer_gender(unsigned int new_gender);
             unsigned int get_trainer_id() const;
             unsigned short get_public_trainer_id() const;
             unsigned short get_secret_trainer_id() const;

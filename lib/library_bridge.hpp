@@ -37,17 +37,21 @@ namespace pkmnsim
     
     void set_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon, bool val);
 
+    uint8_t get_gen3_ball(uint16_t* metlevelint);
+
+    void set_gen3_ball(uint16_t* metlevelint, uint8_t ball);
+
     uint8_t get_gen3_met_level(uint16_t* metlevelint);
 
-    void get_gen3_met_level(uint16_t* metlevelint, uint8_t level);
+    void set_gen3_met_level(uint16_t* metlevelint, uint8_t level);
 
     uint8_t get_gen4_5_met_level(uint8_t* metlevelint);
 
     void set_gen4_5_met_level(uint8_t* metlevelint, uint8_t level);
 
-    bool get_gen3_otgender(uint8_t* metlevelint);
+    bool get_gen3_otgender(uint16_t* metlevelint);
 
-    void set_gen3_otgender(uint8_t* metlevelint, bool is_female);
+    void set_gen3_otgender(uint16_t* metlevelint, bool is_female);
 
     bool get_gen4_5_otgender(uint8_t* metlevelint);
 

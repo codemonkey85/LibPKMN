@@ -67,7 +67,12 @@ namespace pkmnsim
             t_pkmn->set_IV(Stats::SPECIAL_ATTACK, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_ATTACK));
             t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_DEFENSE));
             t_pkmn->set_IV(Stats::SPEED, pokehack_get_IV(&(pkmn_m_t->IVint), Stats::SPEED));
-            
+           
+            t_pkmn->set_met_level(get_gen3_met_level(((uint16_t*)&(pkmn_m_t->locationcaught)+1)));
+            t_pkmn->set_ball(game_ball_to_pkmnsim_ball(get_gen3_ball(((uint16_t*)&(pkmn_m_t->locationcaught)+1))));
+            if(get_gen3_otgender(((uint16_t*)&(pkmn_m_t->locationcaught)+1))) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            else t_pkmn->set_trainer_gender(Genders::MALE);
+ 
             t_pkmn->set_attribute("friendship", pkmn_g_t->happiness);
             t_pkmn->set_attribute("circle", get_marking(&(b_pkmn_t->markint), Markings::CIRCLE));
             t_pkmn->set_attribute("triangle", get_marking(&(b_pkmn_t->markint), Markings::TRIANGLE));
@@ -145,6 +150,10 @@ namespace pkmnsim
             pkmn_a_t->atk4 = moves[3]->get_move_id();
 
             pkmn_g_t->held = t_pkmn->get_held_item();
+
+            set_gen3_met_level(((uint16_t*)(&pkmn_m_t->locationcaught)+1), t_pkmn->get_met_level());
+            set_gen3_ball(((uint16_t*)(&pkmn_m_t->locationcaught)+1), pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
+            set_gen3_otgender(((uint16_t*)(&pkmn_m_t->locationcaught)+1), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
             dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
             b_pkmn_t->maxHP = stats[Stats::HP];
@@ -281,6 +290,11 @@ namespace pkmnsim
             memset(nickname_buffer,0,10);
             wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
             t_pkmn->set_nickname(nickname_buffer);
+
+            t_pkmn->set_met_level(get_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1)));
+            t_pkmn->set_ball(game_ball_to_pkmnsim_ball(pokelib_pkmn.pkm->pkm.pokeball));
+            if(get_gen4_5_otgender((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1)) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            else t_pkmn->set_trainer_gender(Genders::MALE);
 
             t_pkmn->set_held_item(pokelib_pkmn.pkm->pkm.held_item);
             t_pkmn->set_personality(pokelib_pkmn.pkm->pkm.pid);
@@ -436,6 +450,10 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.pid = t_pkmn->get_personality();
             pokelib_pkmn.pkm->pkm.ot_id = t_pkmn->get_public_trainer_id();
             pokelib_pkmn.pkm->pkm.ot_sid = t_pkmn->get_secret_trainer_id();
+
+            set_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1), t_pkmn->get_met_level());
+            pokelib_pkmn.pkm->pkm.pokeball = pkmnsim_ball_to_game_ball(t_pkmn->get_ball());
+            set_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
             pokelib_pkmn.pkm->pkm.move[0] = t_pkmn->get_moves()[0]->get_move_id();
             pokelib_pkmn.pkm->pkm.move[1] = t_pkmn->get_moves()[1]->get_move_id();

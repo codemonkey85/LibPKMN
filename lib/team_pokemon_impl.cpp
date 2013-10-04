@@ -171,6 +171,10 @@ namespace pkmnsim
     
     void team_pokemon_impl::set_hidden_ability(bool val) {has_hidden_ability = val;}
 
+    unsigned int team_pokemon_impl::get_trainer_gender() const {return otgender;}
+
+    void team_pokemon_impl::set_trainer_gender(unsigned int new_gender) {otgender = new_gender;}
+
     unsigned int team_pokemon_impl::get_trainer_id() const {return trainer_id;}
 
     unsigned short team_pokemon_impl::get_public_trainer_id() const {return tid.public_id;}

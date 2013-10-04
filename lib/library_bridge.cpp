@@ -298,6 +298,24 @@ namespace pkmnsim
         *ribbonint = ribbon_bitset.to_ulong();
     }
 
+    uint8_t get_gen3_ball(uint16_t* metlevelint)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        bitset<8> ball_bitset = 0;
+        for(int i = 0; i < 4; i++) ball_bitset[i] = metlevel_bitset[i+1];
+
+        return ball_bitset.to_ulong();
+    }
+
+    void set_gen3_ball(uint16_t* metlevelint, uint8_t ball)
+    {
+        bitset<16> metlevel_bitset = int(*metlevelint);
+        bitset<8> ball_bitset = ball;
+        for(int i = 0; i < 4; i++) metlevel_bitset[i+1] = ball_bitset[i];
+
+        *metlevelint = metlevel_bitset.to_ulong();
+    }
+
     uint8_t get_gen3_metlevel(uint16_t* metlevelint)
     {
         bitset<16> metlevel_bitset = int(*metlevelint);
@@ -354,24 +372,6 @@ namespace pkmnsim
     {
         bitset<8> metlevel_bitset = int(*metlevelint);
         metlevel_bitset[0] = is_female;
-        *metlevelint = metlevel_bitset.to_ulong();
-    }
-
-    uint8_t get_gen3_ball(uint16_t* metlevelint)
-    {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> ball_bitset = 0;
-        for(int i = 0; i < 4; i++) ball_bitset[i] = metlevel_bitset[i+1];
-
-        return ball_bitset.to_ulong();
-    }
-
-    void set_gen3_ball(uint16_t* metlevelint, uint8_t ball)
-    {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> ball_bitset = ball;
-        for(int i = 0; i < 4; i++) metlevel_bitset[i+1] = ball_bitset[i];
-
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
