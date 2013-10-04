@@ -1203,6 +1203,40 @@ namespace pkmnsim
         };
     }
 
+    namespace PokeBalls
+    {
+        enum pokeballs
+        {
+            UNKNOWN,
+            POKE_BALL,
+            GREAT_BALL,
+            ULTRA_BALL,
+            MASTER_BALL,
+            SAFARI_BALL,
+            LEVEL_BALL,
+            LURE_BALL,
+            MOON_BALL,
+            FRIEND_BALL,
+            LOVE_BALL,
+            HEAVY_BALL,
+            FAST_BALL,
+            SPORT_BALL,
+            PREMIER_BALL,
+            REPEAT_BALL,
+            TIMER_BALL,
+            NEST_BALL,
+            NET_BALL,
+            DIVE_BALL,
+            LUXURY_BALL,
+            HEAL_BALL,
+            QUICK_BALL,
+            DUSK_BALL,
+            CHERISH_BALL,
+            PARK_BALL,
+            DREAM_BALL
+        };
+    }
+
     namespace Ribbons //Listed in opposite order for ease of use with bitset
     {
         namespace Hoenn
