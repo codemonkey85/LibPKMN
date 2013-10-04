@@ -57,6 +57,10 @@ namespace pkmnsim
 
     uint8_t hometown_to_pkmnsim_game(uint8_t hometown);
 
+    uint8_t pkmnsim_ball_to_game_ball(uint8_t ball);
+    
+    uint8_t game_ball_to_pkmnsim_ball(uint8_t game_ball);
+
     namespace Hometowns
     {
         enum hometowns
