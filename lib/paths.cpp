@@ -19,8 +19,23 @@ using namespace std;
 
 namespace pkmnsim
 {
+    //Get location of APPDATA
+    string get_appdata_path()
+    {
+        //Windows
+        const char* appdata_dir = getenv("APPDATA");
+        if(appdata_dir and fs::exists(fs::path(appdata_dir))) return string(appdata_dir);
+        
+        //Linux
+        appdata_dir = getenv("HOME");
+        if(appdata_dir and fs::exists(fs::path(appdata_dir))) return string(appdata_dir);
+        
+        //If it's gotten to this point, fall back to the temp directory
+        return get_tmp_dir();
+    }
+
     //Get location of database
-    string get_database_path(void)
+    string get_database_path()
     {
         const char* database_dir = getenv("PKMNSIM_DATABASE_DIR"); //Environment variable
         if(database_dir == NULL) database_dir = "@PKMNSIM_DATABASE_DIR@"; //CMake variable
@@ -28,14 +43,14 @@ namespace pkmnsim
         fs::path database_path = fs::path(database_dir) / "pkmnsim.db";
 
         ifstream ifile(database_path.string().c_str());
-        if(not ifile) throw runtime_error("Could not find database!");
+        if(not fs::exists(database_path)) throw runtime_error("Could not find database!");
         else ifile.close();
 
         return database_path.string();
     }
     
     //Get images directory
-    string get_images_dir(void)
+    string get_images_dir()
     {
         const char* images_dir = getenv("PKMNSIM_IMAGES_DIR"); //Environment variable
         if(images_dir == NULL) images_dir = "@PKMNSIM_IMAGES_DIR@"; //CMake variable
@@ -46,7 +61,7 @@ namespace pkmnsim
     }
 
     //Get path for system's temporary directory
-    string get_tmp_dir(void)
+    string get_tmp_dir()
     {
         const char* tmp_dir = getenv("TMP");
 
