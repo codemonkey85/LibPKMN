@@ -120,6 +120,26 @@ namespace pkmnsim
             t_pkmn->set_attribute("hoenn_earth_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::EARTH));
             t_pkmn->set_attribute("hoenn_world_ribbon", get_hoenn_ribbon(&(pkmn_m_t->ribbonint), Ribbons::Hoenn::WORLD));
             
+            //Get raw nickname and trainer name chars for later use
+            t_pkmn->set_attribute("nickname_char1", b_pkmn_t->name[0]);
+            t_pkmn->set_attribute("nickname_char2", b_pkmn_t->name[1]);
+            t_pkmn->set_attribute("nickname_char3", b_pkmn_t->name[2]);
+            t_pkmn->set_attribute("nickname_char4", b_pkmn_t->name[3]);
+            t_pkmn->set_attribute("nickname_char5", b_pkmn_t->name[4]);
+            t_pkmn->set_attribute("nickname_char6", b_pkmn_t->name[5]);
+            t_pkmn->set_attribute("nickname_char7", b_pkmn_t->name[6]);
+            t_pkmn->set_attribute("nickname_char8", b_pkmn_t->name[7]);
+            t_pkmn->set_attribute("nickname_char9", b_pkmn_t->name[8]);
+            t_pkmn->set_attribute("nickname_char10", b_pkmn_t->name[9]);
+
+            t_pkmn->set_attribute("trainername_char1", b_pkmn_t->otname[0]);
+            t_pkmn->set_attribute("trainername_char2", b_pkmn_t->otname[1]);
+            t_pkmn->set_attribute("trainername_char3", b_pkmn_t->otname[2]);
+            t_pkmn->set_attribute("trainername_char4", b_pkmn_t->otname[3]);
+            t_pkmn->set_attribute("trainername_char5", b_pkmn_t->otname[4]);
+            t_pkmn->set_attribute("trainername_char6", b_pkmn_t->otname[5]);
+            t_pkmn->set_attribute("trainername_char7", b_pkmn_t->otname[6]);
+
             return t_pkmn;
         }
 
@@ -418,7 +438,19 @@ namespace pkmnsim
             t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23));
             t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_MASTER-23));
 
-            //Get raw nickname chars for use later
+            //Get raw nickname and trainer name chars for use later
+            t_pkmn->set_attribute("nickname_char1", pokelib_pkmn.pkm->pkm.nickname[0]);
+            t_pkmn->set_attribute("nickname_char2", pokelib_pkmn.pkm->pkm.nickname[1]);
+            t_pkmn->set_attribute("nickname_char3", pokelib_pkmn.pkm->pkm.nickname[2]);
+            t_pkmn->set_attribute("nickname_char4", pokelib_pkmn.pkm->pkm.nickname[3]);
+            t_pkmn->set_attribute("nickname_char5", pokelib_pkmn.pkm->pkm.nickname[4]);
+            t_pkmn->set_attribute("nickname_char6", pokelib_pkmn.pkm->pkm.nickname[5]);
+            t_pkmn->set_attribute("nickname_char7", pokelib_pkmn.pkm->pkm.nickname[6]);
+            t_pkmn->set_attribute("nickname_char8", pokelib_pkmn.pkm->pkm.nickname[7]);
+            t_pkmn->set_attribute("nickname_char9", pokelib_pkmn.pkm->pkm.nickname[8]);
+            t_pkmn->set_attribute("nickname_char10", pokelib_pkmn.pkm->pkm.nickname[9]);
+            t_pkmn->set_attribute("nickname_char11", pokelib_pkmn.pkm->pkm.nickname[10]);
+
             t_pkmn->set_attribute("trainername_char1", pokelib_pkmn.pkm->pkm.ot_name[0]);
             t_pkmn->set_attribute("trainername_char2", pokelib_pkmn.pkm->pkm.ot_name[1]);
             t_pkmn->set_attribute("trainername_char3", pokelib_pkmn.pkm->pkm.ot_name[2]);
