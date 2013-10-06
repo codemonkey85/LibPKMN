@@ -58,20 +58,20 @@ IF(ENABLE_LIBRARY)
     ####################################################################
     # If built standalone, build Qt4 subclasses
     ####################################################################
-    #IF(NOT PKMNSIM_USED_AS_SUBMODULE)
-    #    ADD_SUBDIRECTORY(qt4)
-    #    INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
-    #
-    #    INCLUDE(${QT_USE_FILE})
-    #    LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    #
-    #    FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
-    #    FILE(GLOB libpkmnsim_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.hpp")
-    #
-    #    QT4_WRAP_CPP(MOCSrcs ${libpkmnsim_qt4_headers})
-    #
-    #    LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
-    #ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
+    IF(NOT PKMNSIM_USED_AS_SUBMODULE)
+        ADD_SUBDIRECTORY(qt4)
+        INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
+    
+        INCLUDE(${QT_USE_FILE})
+        LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
+    
+        FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
+        FILE(GLOB libpkmnsim_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.hpp")
+    
+        QT4_WRAP_CPP(MOCSrcs ${libpkmnsim_qt4_headers})
+    
+        LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
+    ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/pokehack/include)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PokeLib/include)

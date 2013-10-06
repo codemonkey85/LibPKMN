@@ -5,7 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <pkmnsim/qt4/BasePkmnDisplayWidget.hpp>
+#include <pkmnsim/qt4/BasePokemonDisplayWidget.hpp>
 
 #include <boost/filesystem.hpp>
 
@@ -21,7 +21,7 @@ namespace pkmnsim
 {
     namespace qt4
     {
-        BasePkmnDisplayWidget::BasePkmnDisplayWidget(QWidget* parent, base_pokemon::sptr pkmn): QWidget(parent)
+        BasePokemonDisplayWidget::BasePokemonDisplayWidget(QWidget* parent, base_pokemon::sptr pkmn): QWidget(parent)
         {
             //TODO: Check for valid base_pokemon in case default is used
             b_pkmn = pkmn;

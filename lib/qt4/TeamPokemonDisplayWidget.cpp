@@ -5,8 +5,10 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
-#include <pkmnsim/qt4/SpecPkmnDisplayWidget.hpp>
+#include <pkmnsim/database/queries.hpp>
+#include <pkmnsim/qt4/TeamPokemonDisplayWidget.hpp>
 
 #include <sstream>
 #include <string>
@@ -18,14 +20,11 @@ namespace pkmnsim
 {
     namespace qt4
     {
-        SpecPkmnDisplayWidget::SpecPkmnDisplayWidget(QWidget* parent, spec_pokemon::sptr pkmn): QWidget(parent)
+        TeamPokemonDisplayWidget::TeamPokemonDisplayWidget(QWidget* parent, team_pokemon::sptr pkmn): QWidget(parent)
         {
-            //TODO: Check for valid spec_pokemon in case default is used
-            s_pkmn = pkmn;
-            QString images_dir = QString("%1").arg(
-                QString::fromStdString(get_images_dir())
-            );
-            int gen = s_pkmn->get_generation();
+            //TODO: Check for valid team_pokemon in case default is used
+            t_pkmn = pkmn;
+            int game = t_pkmn->get_game_id();
             
             //Declare layouts and labels
             QVBoxLayout* mainLayout = new QVBoxLayout();
@@ -42,7 +41,7 @@ namespace pkmnsim
 
             //Get gender character
             QChar gender;
-            switch(s_pkmn->get_gender())
+            switch(t_pkmn->get_gender())
             {
                 case Genders::MALE:
                     gender = QChar('M');
@@ -59,20 +58,20 @@ namespace pkmnsim
             
             //Fill labels
             QString pokemonQString;
-            if(gen == 1) pokemonQString = QString("%1 (%2)").arg(
-                QString::fromStdString(s_pkmn->get_species_name()),
-                QString::fromStdString(s_pkmn->get_nickname())
+            if(database::get_generation_from_game_id(game) == 1) pokemonQString = QString("%1 (%2)").arg(
+                QString::fromStdString(t_pkmn->get_species_name()),
+                QString::fromStdString(t_pkmn->get_nickname())
             );
             else pokemonQString = QString("%1 (%2 - %3)").arg(
-                QString::fromStdString(s_pkmn->get_species_name()),
-                QString::fromStdString(s_pkmn->get_nickname()),
+                QString::fromStdString(t_pkmn->get_species_name()),
+                QString::fromStdString(t_pkmn->get_nickname()),
                 gender
             );
             QLabel* pokemonLabel = new QLabel(pokemonQString);
             
             QString itemQString; //items not implemented, defaulting to None
             QLabel* itemLabel;
-            if(gen >= 2)
+            if(database::get_generation_from_game_id(game) >= 2)
             {
                 itemQString = QString("Item Held: None");
                 itemLabel = new QLabel(itemQString);
@@ -80,16 +79,16 @@ namespace pkmnsim
             
             QString abilityNatureQString;
             QLabel* abilityNatureLabel;
-            if(gen >= 3)
+            if(database::get_generation_from_game_id(game) >= 3)
             {
                 abilityNatureQString = QString("Ability: %1, Nature: %2").arg(
-                    QString::fromStdString(s_pkmn->get_ability()),
-                    QString::fromStdString(s_pkmn->get_nature()->get_name())
+                    QString::fromStdString(database::get_ability_name_from_id(t_pkmn->get_ability())),
+                    QString::fromStdString(database::get_nature_name_from_id(t_pkmn->get_nature()))
                 );
                 abilityNatureLabel = new QLabel(abilityNatureQString);
             }
             
-            b_move_vla_t moves = s_pkmn->get_moves();
+            moveset_t moves = t_pkmn->get_moves();
             QString attackOneQString = QString("%1").arg(
                 QString::fromStdString(moves[0]->get_name())
             );
@@ -115,12 +114,12 @@ namespace pkmnsim
             attackFourLayout->addWidget(attackFourLabel);
             
             mainLayout->addLayout(pokemonLayout);
-            if(gen >= 2)
+            if(database::get_generation_from_game_id(game) >= 2)
             {
                 itemLayout->addWidget(itemLabel);
                 mainLayout->addLayout(itemLayout);
             }
-            if(gen >= 3)
+            if(database::get_generation_from_game_id(game) >= 3)
             {
                 abilityNatureLayout->addWidget(abilityNatureLabel);
                 mainLayout->addLayout(abilityNatureLayout);

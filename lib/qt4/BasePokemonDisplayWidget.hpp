@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASEPKMNDISPLAYWIDGET_HPP
-#define INCLUDED_BASEPKMNDISPLAYWIDGET_HPP
+#ifndef INCLUDED_PKMNSIM_QT4_BASEPOKEMONDISPLAYWIDGET_HPP
+#define INCLUDED_PKMNSIM_QT4_BASEPOKEMONDISPLAYWIDGET_HPP
 
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/base_pokemon.hpp>
@@ -23,12 +23,12 @@ namespace pkmnsim
 {
     namespace qt4
     {
-        class PKMNSIM_API BasePkmnDisplayWidget: public QWidget
+        class PKMNSIM_API BasePokemonDisplayWidget: public QWidget
         {
             Q_OBJECT
             
             public:
-                BasePkmnDisplayWidget(QWidget* parent = 0, base_pokemon::sptr pkmn = *(new base_pokemon::sptr));
+                BasePokemonDisplayWidget(QWidget* parent = 0, base_pokemon::sptr pkmn = *(new base_pokemon::sptr));
                 
             /*signals:
             
@@ -40,4 +40,4 @@ namespace pkmnsim
     }
 }
 
-#endif /* INCLUDED_BASEPKMNDISPLAYWIDGET_HPP */
+#endif /* INCLUDED_PKMNSIM_QT4_BASEPOKEMONDISPLAYWIDGET_HPP */
