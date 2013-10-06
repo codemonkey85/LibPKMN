@@ -316,7 +316,7 @@ namespace pkmnsim
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
-    uint8_t get_gen3_metlevel(uint16_t* metlevelint)
+    uint8_t get_gen3_met_level(uint16_t* metlevelint)
     {
         bitset<16> metlevel_bitset = int(*metlevelint);
         bitset<8> metlevel_int = 0;
@@ -325,7 +325,7 @@ namespace pkmnsim
         return metlevel_int.to_ulong();
     }
 
-    void set_gen3_metlevel(uint16_t* metlevelint, uint8_t level)
+    void set_gen3_met_level(uint16_t* metlevelint, uint8_t level)
     {
         bitset<16> metlevel_bitset = int(*metlevelint);
         bitset<8> metlevel_int = level;
@@ -334,12 +334,12 @@ namespace pkmnsim
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
-    uint8_t get_gen4_5_metlevel(uint8_t* metlevelint)
+    uint8_t get_gen4_5_met_level(uint8_t* metlevelint)
     {
         return (*metlevelint >> 1);
     }
 
-    void set_gen4_5_metlevel(uint8_t* metlevelint, uint8_t level)
+    void set_gen4_5_met_level(uint8_t* metlevelint, uint8_t level)
     {
         bitset<8> metlevel_bitset = int(*metlevelint);
         bitset<8> level_bitset = level;
