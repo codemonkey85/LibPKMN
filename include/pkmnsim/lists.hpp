@@ -76,16 +76,8 @@ namespace pkmnsim
      */
     void PKMNSIM_API get_nature_list(std::vector<std::string>& ability_vec);
 
-    void PKMNSIM_API get_pkmn_of_type(b_pkmn_vec_t &pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
-    
-    //Pass-by-value functions for SWIG's benefit
-    std::vector<std::string> PKMNSIM_API get_game_vec();
-    std::vector<std::string> PKMNSIM_API get_game_group_vec();
-    std::vector<std::string> PKMNSIM_API get_item_vec(int game);
-    std::vector<std::string> PKMNSIM_API get_pokemon_vec(int game);
-    std::vector<std::string> PKMNSIM_API get_type_vec(int gen);
-    std::vector<std::string> PKMNSIM_API get_ability_vec(int gen);
-    std::vector<std::string> PKMNSIM_API get_nature_vec();
+    void PKMNSIM_API get_pokemon_of_type(b_pkmn_vec_t &pkmn_vector, std::string type1, std::string type2, int gen, bool lax);
+
 }
 
 #endif /* INCLUDED_PKMNSIM_LISTS_HPP */
