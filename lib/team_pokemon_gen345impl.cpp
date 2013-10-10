@@ -5,14 +5,12 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <math.h>
-#include <time.h>
-
 #include <boost/format.hpp>
 
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
+#include <pkmnsim/types/prng.hpp>
 
 #include <sqlitecpp/SQLiteCPP.h>
 
@@ -27,15 +25,16 @@ namespace pkmnsim
                                                      unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,lvl,
                                                                                               move1,move2,move3,move4)
     {
-        srand ( time(NULL) );
+        prng rand_gen;
+        unsigned int gen = database::get_generation_from_game_id(game);
 
         //Random individual values
-        ivHP = rand() % 32;
-        ivATK = rand() % 32;
-        ivDEF = rand() % 32;
-        ivSPD = rand() % 32;
-        ivSATK = rand() % 32;
-        ivSDEF = rand() % 32;
+        ivHP = rand_gen.lcrng_next(gen) % 32;
+        ivATK = rand_gen.lcrng_next(gen) % 32;
+        ivDEF = rand_gen.lcrng_next(gen) % 32;
+        ivSPD = rand_gen.lcrng_next(gen) % 32;
+        ivSATK = rand_gen.lcrng_next(gen) % 32;
+        ivSDEF = rand_gen.lcrng_next(gen) % 32;
 
         /*
          * Random effort values within following rules:
@@ -50,12 +49,12 @@ namespace pkmnsim
         evSDEF = 256;
         while((evHP+evATK+evDEF+evSPD+evSATK+evSDEF)>510 || evHP>255 || evATK>255 || evDEF>255 || evSPD>255 || evSATK>255 || evSDEF>255)
         {
-            evHP = rand() % 256;
-            evATK = rand() % 256;
-            evDEF = rand() % 256;
-            evSPD = rand() % 256;
-            evSATK = rand() % 256;
-            evSDEF = rand() % 256;
+            evHP = rand_gen.lcrng_next(gen) % 256;
+            evATK = rand_gen.lcrng_next(gen) % 256;
+            evDEF = rand_gen.lcrng_next(gen) % 256;
+            evSPD = rand_gen.lcrng_next(gen) % 256;
+            evSATK = rand_gen.lcrng_next(gen) % 256;
+            evSDEF = rand_gen.lcrng_next(gen) % 256;
         }
 
         gender = determine_gender();

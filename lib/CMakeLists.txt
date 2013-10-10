@@ -33,6 +33,7 @@ IF(ENABLE_LIBRARY)
 
     LIST(APPEND libpkmnsim_sources
         library_bridge.cpp
+        prng.cpp
         base_pokemon_impl.cpp
         base_pokemon_gen1impl.cpp
         base_pokemon_gen2impl.cpp
