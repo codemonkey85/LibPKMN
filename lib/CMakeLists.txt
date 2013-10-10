@@ -44,9 +44,6 @@ IF(ENABLE_LIBRARY)
         team_pokemon_gen2impl.cpp
         team_pokemon_gen345impl.cpp
         trainer_impl.cpp
-        #trainer_gen3impl.cpp
-        #trainer_gen4impl.cpp
-        #trainer_gen5impl.cpp
         move_impl.cpp
         move_mainimpl.cpp
         #game_save.cpp
