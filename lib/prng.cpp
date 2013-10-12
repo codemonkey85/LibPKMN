@@ -12,6 +12,12 @@
 
 namespace pkmnsim
 {
+    uint32_t prng::lcrng_seed;
+    uint64_t prng::gen5_lcrng_seed;
+    uint32_t prng::arng_seed;
+    unsigned int prng::mtrng_pos;
+    uint32_t prng::mtrng_seeds[];
+
     prng::prng()
     {
         srand( time(NULL) );

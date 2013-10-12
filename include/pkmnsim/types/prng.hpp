@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_TYPES_PRNG_HPP
-#define INCLUDED_TYPES_PRNG_HPP
+#ifndef INCLUDED_PKMNSIM_TYPES_PRNG_HPP
+#define INCLUDED_PKMNSIM_TYPES_PRNG_HPP
 
 #include <cstdint>
 
@@ -16,7 +16,6 @@ namespace pkmnsim
     class PKMNSIM_API prng
     {
         public:
-
             prng();
 
             uint64_t lcrng_next(uint32_t gen);
@@ -36,4 +35,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_TYPES_PRNG_HPP */
+#endif /* INCLUDED_PKMNSIM_TYPES_PRNG_HPP */
