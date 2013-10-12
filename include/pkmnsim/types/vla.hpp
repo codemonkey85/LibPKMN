@@ -5,8 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef INCLUDED_VLA_HPP
-#define INCLUDED_VLA_HPP
+#ifndef INCLUDED_PKMNSIM_TYPES_VLA_HPP
+#define INCLUDED_PKMNSIM_TYPES_VLA_HPP
 
 #include <string>
 #include <vector>
@@ -41,4 +41,4 @@ namespace pkmnsim
 
 #include <pkmnsim/types/vla.ipp>
 
-#endif /* INCLUDED_VLA_HPP */
+#endif /* INCLUDED_PKMNSIM_TYPES_VLA_HPP */
