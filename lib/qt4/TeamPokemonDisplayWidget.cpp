@@ -60,11 +60,11 @@ namespace pkmnsim
             QString pokemonQString;
             if(database::get_generation_from_game_id(game) == 1) pokemonQString = QString("%1 (%2)").arg(
                 QString::fromStdString(t_pkmn->get_species_name()),
-                QString::fromStdString(t_pkmn->get_nickname())
+                QString::fromStdString(t_pkmn->get_nickname().std_string())
             );
             else pokemonQString = QString("%1 (%2 - %3)").arg(
                 QString::fromStdString(t_pkmn->get_species_name()),
-                QString::fromStdString(t_pkmn->get_nickname()),
+                QString::fromStdString(t_pkmn->get_nickname().std_string()),
                 gender
             );
             QLabel* pokemonLabel = new QLabel(pokemonQString);

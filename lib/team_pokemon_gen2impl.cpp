@@ -83,7 +83,7 @@ namespace pkmnsim
         }
 
         string output_string;
-        output_string = nickname + " (" + base_pkmn->get_species_name() + " " + gender_char + ")\n"
+        output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + " " + gender_char + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Held Item: " + to_string(held_item) + "\n"
@@ -101,7 +101,7 @@ namespace pkmnsim
                        + database::get_type_name_from_id(types[1]);
 
         string output_string;
-        output_string = nickname + " (" + base_pkmn->get_species_name() + ")\n"
+        output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
                       + "Level " + to_string(level) + "\n"
                       + "Type: " + types_str + "\n"
                       + "Held Item: " + to_string(held_item) + "\n"

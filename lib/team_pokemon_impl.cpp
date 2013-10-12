@@ -98,12 +98,12 @@ namespace pkmnsim
 
     base_pokemon::sptr team_pokemon_impl::get_base_pokemon() const {return base_pkmn;}
 
-    string team_pokemon_impl::get_nickname() const {return nickname;}
+    pokemon_text team_pokemon_impl::get_nickname() const {return nickname;}
     
-    void team_pokemon_impl::set_nickname(std::string name)
+    void team_pokemon_impl::set_nickname(pokemon_text name)
     {
-        if(name.length() == 0) nickname = base_pkmn->get_species_name();
-        else if(name.length() <= 10) nickname = name;
+        if(name.std_string().length() == 0) nickname = pokemon_text(base_pkmn->get_species_name());
+        else if(name.std_string().length() <= 10) nickname = name;
     }
 
     unsigned int team_pokemon_impl::get_level() const {return level;}

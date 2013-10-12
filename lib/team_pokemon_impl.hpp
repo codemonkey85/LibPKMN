@@ -20,8 +20,8 @@ namespace pkmnsim
                               unsigned int move3, unsigned int move4);
 
             base_pokemon::sptr get_base_pokemon() const;
-            std::string get_nickname() const;
-            void set_nickname(std::string name);
+            pokemon_text get_nickname() const;
+            void set_nickname(pokemon_text name);
             unsigned int get_level() const;
             void set_level(unsigned int lvl);
             unsigned int get_met_level() const;

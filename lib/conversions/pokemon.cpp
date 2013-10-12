@@ -21,6 +21,7 @@
 #include <pkmnsim/team_pokemon.hpp>
 #include <pkmnsim/conversions/pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
+#include <pkmnsim/types/pokemon_text.hpp>
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
@@ -49,7 +50,7 @@ namespace pkmnsim
                                                          pkmn_a_t->atk1, pkmn_a_t->atk2,
                                                          pkmn_a_t->atk3, pkmn_a_t->atk4);
                                                          
-            t_pkmn->set_nickname(pokehack_get_text(b_pkmn_t->name, true));
+            t_pkmn->set_nickname(pokemon_text(pokehack_get_text(b_pkmn_t->name, true)));
             t_pkmn->set_held_item(pkmn_g_t->held);
             t_pkmn->set_personality(b_pkmn_t->personality);
             t_pkmn->set_trainer_id(b_pkmn_t->otid);
@@ -156,7 +157,7 @@ namespace pkmnsim
             b_pkmn_t->level = t_pkmn->get_level();
 
             dict<char, int> pokehack_reverse_char_map = get_pokehack_reverse_char_map();
-            string nickname = t_pkmn->get_nickname();
+            string nickname = t_pkmn->get_nickname().std_string();
             for(int i = 0; i < 10; i++)
             {
                 if(i < nickname.size()) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
@@ -304,12 +305,7 @@ namespace pkmnsim
                                         pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
                                         pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
-            //TODO: implement better way of dealing with Unicode nicknames
-            PokeLib::widetext nickname_wide = pokelib_pkmn.getNickname();
-            char nickname_buffer[10];
-            memset(nickname_buffer,0,10);
-            wcstombs(nickname_buffer, nickname_wide.c_str(), 10);
-            t_pkmn->set_nickname(nickname_buffer);
+            t_pkmn->set_nickname(pokemon_text(pokelib_pkmn.getNickname()));
 
             t_pkmn->set_met_level(get_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1)));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(pokelib_pkmn.pkm->pkm.pokeball));
@@ -478,7 +474,7 @@ namespace pkmnsim
 
             pokelib_pkmn.pkm->pkm.species = t_pkmn->get_species_id();
             pokelib_pkmn.setLevel(uint8_t(t_pkmn->get_level()));
-            pokelib_pkmn.setNickname(t_pkmn->get_nickname().c_str(), t_pkmn->get_nickname().size());
+            pokelib_pkmn.setNickname(t_pkmn->get_nickname().std_wstring());
             pokelib_pkmn.pkm->pkm.pid = t_pkmn->get_personality();
             pokelib_pkmn.pkm->pkm.ot_id = t_pkmn->get_public_trainer_id();
             pokelib_pkmn.pkm->pkm.ot_sid = t_pkmn->get_secret_trainer_id();
