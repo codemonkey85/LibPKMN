@@ -51,6 +51,7 @@ namespace pkmnsim
                                                          pkmn_a_t->atk3, pkmn_a_t->atk4);
                                                          
             t_pkmn->set_nickname(pokehack_get_text(b_pkmn_t->name, true));
+            t_pkmn->set_trainer_name(pokehack_get_text(b_pkmn_t->otname, false));
             t_pkmn->set_held_item(pkmn_g_t->held);
             t_pkmn->set_personality(b_pkmn_t->personality);
             t_pkmn->set_trainer_id(b_pkmn_t->otid);
@@ -162,6 +163,12 @@ namespace pkmnsim
             {
                 if(i < nickname.size()) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
                 else b_pkmn_t->name[i] = 0xFF;
+            }
+            string trainer_name = t_pkmn->get_trainer_name();
+            for(int i = 0; i < 7; i++)
+            {
+                if(i < trainer_name.size()) b_pkmn_t->otname[i] = pokehack_reverse_char_map[trainer_name[i]];
+                else b_pkmn_t->otname[i] = 0xFF;
             }
 
             moveset_t moves = t_pkmn->get_moves();
@@ -306,6 +313,7 @@ namespace pkmnsim
                                         pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
             t_pkmn->set_nickname(pokelib_pkmn.getNickname());
+            t_pkmn->set_trainer_name(pokelib_pkmn.getTrainerName());
 
             t_pkmn->set_met_level(get_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1)));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(pokelib_pkmn.pkm->pkm.pokeball));
@@ -475,6 +483,7 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.species = t_pkmn->get_species_id();
             pokelib_pkmn.setLevel(uint8_t(t_pkmn->get_level()));
             pokelib_pkmn.setNickname(t_pkmn->get_nickname());
+            pokelib_pkmn.setTrainerName(t_pkmn->get_trainer_name());
             pokelib_pkmn.pkm->pkm.pid = t_pkmn->get_personality();
             pokelib_pkmn.pkm->pkm.ot_id = t_pkmn->get_public_trainer_id();
             pokelib_pkmn.pkm->pkm.ot_sid = t_pkmn->get_secret_trainer_id();

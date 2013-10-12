@@ -43,6 +43,8 @@ namespace pkmnsim
             virtual base_pokemon::sptr get_base_pokemon() const = 0;
             virtual pokemon_text get_nickname() const = 0;
             virtual void set_nickname(pokemon_text name) = 0;
+            virtual pokemon_text get_trainer_name() const = 0;
+            virtual void set_trainer_name(pokemon_text name) = 0;
             virtual unsigned int get_level() const = 0;
             virtual void set_level(unsigned int lvl) = 0;
             virtual unsigned int get_met_level() const = 0;
@@ -114,7 +116,7 @@ namespace pkmnsim
 
         protected:
             base_pokemon::sptr base_pkmn;
-            pokemon_text nickname;
+            pokemon_text nickname, trainer_name;
             unsigned int held_item, ball;
             unsigned int from_game, from_gen;
             unsigned int level, met_level;

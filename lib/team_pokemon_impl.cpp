@@ -71,6 +71,7 @@ namespace pkmnsim
     
         base_pkmn = base_pkmn;
         nickname = base_pkmn->get_species_name();
+        trainer_name = "Ash";
         level = lvl;
         from_game = game;
         from_gen = base_pkmn->get_generation();
@@ -102,8 +103,16 @@ namespace pkmnsim
     
     void team_pokemon_impl::set_nickname(pokemon_text name)
     {
-        if(name.std_string().length() == 0) nickname = pokemon_text(base_pkmn->get_species_name());
+        if(name.std_string().length() == 0) nickname = base_pkmn->get_species_name();
         else if(name.std_string().length() <= 10) nickname = name;
+    }
+    
+    pokemon_text team_pokemon_impl::get_trainer_name() const {return trainer_name;}
+    
+    void team_pokemon_impl::set_trainer_name(pokemon_text name)
+    {
+        if(name.std_string().length() == 0) nickname = "Ash"; //Reset to default
+        else if(name.std_string().length() <= 7) nickname = name;
     }
 
     unsigned int team_pokemon_impl::get_level() const {return level;}

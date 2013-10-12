@@ -22,6 +22,8 @@ namespace pkmnsim
             base_pokemon::sptr get_base_pokemon() const;
             pokemon_text get_nickname() const;
             void set_nickname(pokemon_text name);
+            pokemon_text get_trainer_name() const;
+            void set_trainer_name(pokemon_text name);
             unsigned int get_level() const;
             void set_level(unsigned int lvl);
             unsigned int get_met_level() const;
