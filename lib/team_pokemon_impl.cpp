@@ -6,16 +6,15 @@
  */
 
 #include <iostream>
-#include <math.h>
 #include <stdexcept>
 #include <string>
-#include <time.h>
 #include <vector>
 
 #include <pkmnsim/move.hpp>
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/team_pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
+#include <pkmnsim/types/prng.hpp>
 
 #include <sqlitecpp/SQLiteCPP.h>
 
@@ -64,9 +63,11 @@ namespace pkmnsim
                                          unsigned int move1, unsigned int move2,
                                          unsigned int move3, unsigned int move4): team_pokemon()
     {
-        srand(time(NULL));
-        personality = rand();
-        trainer_id = rand();
+        prng rand_gen;
+        unsigned int gen = database::get_generation_from_game_id(game);
+        
+        personality = rand_gen.lcrng_next(gen);
+        trainer_id = rand_gen.lcrng_next(gen);
     
         base_pkmn = base_pkmn;
         nickname = base_pkmn->get_species_name();
