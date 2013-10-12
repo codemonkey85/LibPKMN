@@ -31,6 +31,11 @@ namespace pkmnsim
             void set(const wchar_t* input);
             void set(std::string input);
             void set(std::wstring input);
+            
+            //Typecasts
+            inline operator std::string() const {return stdstring;}
+            inline operator std::wstring() const {return stdwstring;}
+            
 
         private:
         
