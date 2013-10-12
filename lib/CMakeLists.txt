@@ -29,11 +29,14 @@ IF(ENABLE_LIBRARY)
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
     @ONLY)
 
+    INCLUDE(${QT_USE_FILE})
+    LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
     LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib pkmds sqlitecpp)
 
     LIST(APPEND libpkmnsim_sources
         library_bridge.cpp
         prng.cpp
+        pokemon_text.cpp
         base_pokemon_impl.cpp
         base_pokemon_gen1impl.cpp
         base_pokemon_gen2impl.cpp
@@ -59,10 +62,7 @@ IF(ENABLE_LIBRARY)
     IF(NOT PKMNSIM_USED_AS_SUBMODULE)
         ADD_SUBDIRECTORY(qt4)
         INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
-    
-        INCLUDE(${QT_USE_FILE})
-        LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    
+        
         FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
         FILE(GLOB libpkmnsim_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.hpp")
     
