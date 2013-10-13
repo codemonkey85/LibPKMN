@@ -72,7 +72,7 @@ namespace pkmnsim
             intermediary = QString::fromUtf16((const ushort*)input.c_str());
             stdwstring = std::wstring((const wchar_t*)intermediary.utf16());
         #else
-            intermediary = QString::fromWCharArray(input);
+            intermediary = QString::fromStdWString(input);
             stdwstring = intermediary.toStdWString();
         #endif
         
