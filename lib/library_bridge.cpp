@@ -127,7 +127,7 @@ namespace pkmnsim
         return actual_text;
     }
 
-    uint8_t pokehack_get_IV(uint32_t* IVint, uint8_t IV)
+    uint8_t gen3_4_5_get_IV(uint32_t* IVint, uint8_t IV)
     {
         bitset<32> IVs_bitset = int(*IVint);
         bitset<5> end_bitset = 0;
@@ -188,7 +188,7 @@ namespace pkmnsim
         return end_bitset.to_ulong();
     }
     
-    void pokehack_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
+    void gen3_4_5_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
     {
         bitset<32> IVs_bitset = int(*IVint);
         bitset<5> val_bitset = int(val);
