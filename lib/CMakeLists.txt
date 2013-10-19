@@ -20,9 +20,9 @@ IF(ENABLE_LIBRARY)
         RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime #.dll
     )
 
-    #FILE(GLOB conversions_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "conversions/*.c*")
+    FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
-
+    
     #Configure database info for relevant library files
     CONFIGURE_FILE(
         ${CMAKE_CURRENT_SOURCE_DIR}/paths.cpp
@@ -52,6 +52,7 @@ IF(ENABLE_LIBRARY)
         #game_save_impl.cpp
         conversions/pokemon.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
+        ${analysis_sources}
         ${conversions_sources}
         ${database_sources}
     )

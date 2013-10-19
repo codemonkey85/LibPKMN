@@ -12,15 +12,16 @@
 
 #include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/config.hpp>
-#include <pkmnsim/spec_pokemon.hpp>
 
 namespace pkmnsim
 {
-    int PKMNSIM_API get_min_possible_stat(base_pokemon::sptr b_pkmn, int stat, int level, int gen);
-    int PKMNSIM_API get_max_possible_stat(base_pokemon::sptr b_pkmn, int stat, int level, int gen);
-    bool PKMNSIM_API is_stat_possible(base_pokemon::sptr b_pkmn, int, int stat, int level, int gen);
-    void PKMNSIM_API get_stat_range(base_pokemon::sptr b_pkmn, int int stat, int level, int gen, std::vector<int> &stat_vec);
-    std::vector<int> PKMNSIM_API get_stat_range_vec(base_pokemon::sptr b_pkmn, int stat, int level, int gen);
+    namespace analysis
+    {
+        unsigned int PKMNSIM_API get_min_possible_stat(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen);
+        unsigned int PKMNSIM_API get_max_possible_stat(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen);
+        bool PKMNSIM_API is_stat_possible(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen);
+        void PKMNSIM_API get_stat_range(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen, std::vector<unsigned int> &stat_vec);
+    }
 }
 
 #endif /* INCLUDED_PKMNSIM_ANALYSIS_STATS_HPP */
