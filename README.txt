@@ -8,6 +8,10 @@ Pokémon info, algorithms, etc., all taken from:
 Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
 Database used courtesy of Alex Munroe (http://www.veekun.com).
 
+Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
+
+---
+
 Minimum required CMake version: 2.8
 
 Tested with:
@@ -27,4 +31,4 @@ Dependencies:
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
-README last updated: 2013-09-07
+README last updated: 2013-10-18
