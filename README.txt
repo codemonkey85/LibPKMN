@@ -21,7 +21,7 @@ Tested with:
 
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source included under the MIT license.
 Pokehack (https://github.com/Grazfather/pokehack) source included as Git submodule.
-PokeLib-CMake (https://github.com/ncorgan/PokeLib-cmake) source included as Git submodule.
+PokeLib-NC (https://github.com/ncorgan/PokeLib-NC) source included as Git submodule.
 PKMDS-G5 (https://github.com/codemonkey85/PKMDS-G5) source included as Git submodule.
 
 Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
