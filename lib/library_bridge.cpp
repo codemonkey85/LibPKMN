@@ -5,6 +5,10 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#ifdef _MSC_VER
+#pragma warning(disable:4244)
+#endif
+ 
 #include <bitset> 
 
 #include <boost/assign.hpp>
