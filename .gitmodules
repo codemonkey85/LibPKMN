@@ -9,4 +9,4 @@
 	url = https://github.com/ncorgan/PKMDS-G5.git
 [submodule "share/pkmnsim/images"]
 	path = share/pkmnsim/images
-	url = https://github.com/ncorgan/pkmnsim-images.git
+	url = https://github.com/ncorgan/Pokemon-sim-images.git

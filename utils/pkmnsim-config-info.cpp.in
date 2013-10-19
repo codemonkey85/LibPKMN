@@ -18,11 +18,11 @@ int main()
     cout << endl << "Pokemon Simulator - Configuration Info" << endl << endl;
 
     cout << "Git commits:" << endl;
-    cout << " - PKMNsim:        @PKMNSIM_GIT_DESCRIBE@" << endl;
-    cout << " - PKMNsim Images: @PKMNSIM_IMAGES_GIT_DESCRIBE@" << endl;
-    cout << " - Pokehack:       @POKEHACK_GIT_DESCRIBE@" << endl;
-    cout << " - PokeLib:        @POKELIB_GIT_DESCRIBE@" << endl;
-    cout << " - PKMDS:          @PKMDS_GIT_DESCRIBE@" << endl << endl;
+    cout << " - Pokemon-sim:        @PKMNSIM_GIT_DESCRIBE@" << endl;
+    cout << " - Pokemon-sim Images: @PKMNSIM_IMAGES_GIT_DESCRIBE@" << endl;
+    cout << " - Pokehack:           @POKEHACK_GIT_DESCRIBE@" << endl;
+    cout << " - PokeLib-NC:         @POKELIB_GIT_DESCRIBE@" << endl;
+    cout << " - PKMDS:              @PKMDS_GIT_DESCRIBE@" << endl << endl;
 
     cout << "Dependency versions:" << endl;
     cout << " - Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@" << endl;
