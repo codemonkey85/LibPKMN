@@ -868,8 +868,8 @@ namespace pkmnsim
                 ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_nickname().std_wstring().c_str()), t_pkmn->get_nickname().std_wstring().size());
                 ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_trainer_name().std_wstring().c_str()), t_pkmn->get_trainer_name().std_wstring().size());
             #else
-                ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_nickname().c_str()), t_pkmn->get_nickname().std_wstring().size());
-                ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_trainer_name().c_str()), t_pkmn->get_trainer_name().std_wstring().size());
+                ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_nickname().const_wchar_t()), t_pkmn->get_nickname().std_wstring().size());
+                ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_trainer_name().const_wchar_t()), t_pkmn->get_trainer_name().std_wstring().size());
             #endif
 
             set_gen4_5_met_level(((uint8_t*)&(p_pkm->pkm_data.ball)+1), t_pkmn->get_met_level());
@@ -1122,7 +1122,7 @@ namespace pkmnsim
                                                              pokemon_misc_t* pkmn_m_t,
                                                              pokemon_growth_t* pkmn_g_t)
         {
-            PokeLib::Pokemon pokelib_pkmn = team_pokemon_to_pokelib_pokemon(pokehack_pkmn_to_team_pokemon(b_pkmn_t,
+            PokeLib::Pokemon pokelib_pkmn = team_pokemon_to_pokelib_pokemon(pokehack_pokemon_to_team_pokemon(b_pkmn_t,
                                                                             pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t));
 
             //Manually set egg met location to Faraway Place and met location to Pal Park
@@ -1144,7 +1144,7 @@ namespace pkmnsim
                                                pokemon_growth_t* pkmn_g_t,
                                                party_pkm* p_pkm)
         {
-            team_pokemon_to_pkmds_pokemon(pokehack_pkmn_to_team_pokemon(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
+            team_pokemon_to_pkmds_pokemon(pokehack_pokemon_to_team_pokemon(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
 
             //Manually set egg met and met locations to Faraway Place
             p_pkm->pkm_data.eggmet = Locations::farawayplace;
@@ -1169,7 +1169,7 @@ namespace pkmnsim
 
         void pokelib_pokemon_to_pkmds_pokemon(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm)
         {
-            team_pokemon_to_pkmds_pokemon(pokelib_pkmn_to_team_pokemon(pokelib_pkmn), p_pkm);
+            team_pokemon_to_pkmds_pokemon(pokelib_pokemon_to_team_pokemon(pokelib_pkmn), p_pkm);
 
             //Manually set egg met location to Faraway place and met location to Poke Transfer
             p_pkm->pkm_data.eggmet = Locations::farawayplace;
@@ -1183,12 +1183,12 @@ namespace pkmnsim
                                                pokemon_misc_t* pkmn_m_t,
                                                pokemon_growth_t* pkmn_g_t)
         {
-            team_pokemon_to_pokehack_pokemon(pkmds_pkmn_to_team_pokemon(p_pkm), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
+            team_pokemon_to_pokehack_pokemon(pkmds_pokemon_to_team_pokemon(p_pkm), b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t);
         }
 
         PokeLib::Pokemon pkmds_pokemon_to_pokelib_pokemon(party_pkm* p_pkm)
         {
-            PokeLib::Pokemon pokelib_pkmn = team_pokemon_to_pokelib_pokemon(pkmds_pkmn_to_team_pokemon(p_pkm));
+            PokeLib::Pokemon pokelib_pkmn = team_pokemon_to_pokelib_pokemon(pkmds_pokemon_to_team_pokemon(p_pkm));
 
             //Manually set egg met and met locations to Faraway Place
             pokelib_pkmn.pkm->pkm.eggLoc_DP = char(3002);

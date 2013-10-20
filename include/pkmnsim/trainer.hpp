@@ -17,6 +17,7 @@
 
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/team_pokemon.hpp>
+#include <pkmnsim/types/pokemon_text.hpp>
 #include <pkmnsim/types/vla.hpp>
 
 namespace pkmnsim
@@ -66,7 +67,7 @@ namespace pkmnsim
                 unsigned int trainer_id;
             };
 
-            std::string trainer_name;
+            pokemon_text trainer_name;
             pokemon_team_t party;
     };
 }

@@ -66,7 +66,7 @@ namespace pkmnsim
     
     void pokemon_text::set(std::wstring input)
     {
-        QString intermediary = QString::fromStdWString(input);
+        QString intermediary;
         
         #ifdef _MSC_VER
             intermediary = QString::fromUtf16((const ushort*)input.c_str());
