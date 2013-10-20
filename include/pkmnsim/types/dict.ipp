@@ -8,6 +8,7 @@
 #define INCLUDED_PKMNSIM_TYPES_DICT_IPP
 
 #include <iostream>
+#include <stdlib.h>
 
 #include <pkmnsim/config.hpp>
 

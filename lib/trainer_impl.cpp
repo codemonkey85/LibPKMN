@@ -68,7 +68,7 @@ namespace pkmnsim
 
     void trainer_impl::set_trainer_name(std::string new_name)
     {
-        trainer_name = (new_name.length() > 10) ? trainer_name : new_name;
+        trainer_name = (new_name.length() > 10) ? trainer_name : pokemon_text(new_name);
     }
 
     unsigned int trainer_impl::get_trainer_id() const {return trainer_id;}

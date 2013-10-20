@@ -532,7 +532,7 @@ namespace pkmnsim
                 return ::Balls::fastball;
 
             case PokeBalls::SPORT_BALL:
-                return ::Balls::compball;
+                return ::Balls::sportball;
 
             case PokeBalls::PREMIER_BALL:
                 return ::Balls::premierball;
@@ -654,7 +654,7 @@ namespace pkmnsim
             case ::Balls::moonball:
                 return PokeBalls::MOON_BALL;
 
-            case ::Balls::compball:
+            case ::Balls::sportball:
                 return PokeBalls::SPORT_BALL;
 
             case ::Balls::dreamball:

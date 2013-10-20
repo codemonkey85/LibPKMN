@@ -15,9 +15,10 @@ Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting o
 Minimum required CMake version: 2.8
 
 Tested with:
- * GCC 4.6.3
- * Clang 3.0
- * Microsoft Visual Studio 2010
+ * GCC 4.6.3 (Ubuntu 12.04)
+ * GCC 4.7.3 (Cygwin 1.7.25)
+ * Clang 3.0 (Ubuntu 12.04)
+ * Microsoft Visual Studio 2010 (Windows 7)
 
 SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source included under the MIT license.
 Pokehack (https://github.com/Grazfather/pokehack) source included as Git submodule.
@@ -31,4 +32,4 @@ Dependencies:
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
-README last updated: 2013-10-18
+README last updated: 2013-10-20

@@ -1147,8 +1147,8 @@ namespace pkmnsim
             team_pokemon_to_pkmds_pokemon(pokehack_pokemon_to_team_pokemon(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
 
             //Manually set egg met and met locations to Faraway Place
-            p_pkm->pkm_data.eggmet = Locations::farawayplace;
-            p_pkm->pkm_data.met = Locations::farawayplace;
+            p_pkm->pkm_data.eggmet = Locations::unovafarawayplace;
+            p_pkm->pkm_data.met = Locations::unovafarawayplace;
         }
 
         void pokelib_pokemon_to_pokehack_pokemon(PokeLib::Pokemon pokelib_pkmn,
@@ -1172,7 +1172,7 @@ namespace pkmnsim
             team_pokemon_to_pkmds_pokemon(pokelib_pokemon_to_team_pokemon(pokelib_pkmn), p_pkm);
 
             //Manually set egg met location to Faraway place and met location to Poke Transfer
-            p_pkm->pkm_data.eggmet = Locations::farawayplace;
+            p_pkm->pkm_data.eggmet = Locations::unovafarawayplace;
             p_pkm->pkm_data.met = Locations::poketransfer;
         }
 
@@ -1197,7 +1197,7 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.metLoc_Plat = char(3002);
 
             //If Pokemon was caught in a Gen 5 ball, set it to standard Poke Ball
-            if(pokelib_pkmn.pkm->pkm.pokeball > char(Balls::compball)) pokelib_pkmn.pkm->pkm.pokeball = 0x4;
+            if(pokelib_pkmn.pkm->pkm.pokeball > char(Balls::sportball)) pokelib_pkmn.pkm->pkm.pokeball = 0x4;
 
             //Manually set encounter type to Special Event
             pokelib_pkmn.pkm->pkm.encounterType = 0x0;
