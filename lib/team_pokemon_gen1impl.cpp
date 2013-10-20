@@ -54,56 +54,72 @@ namespace pkmnsim
 
     string team_pokemon_gen1impl::get_info() const
     {
-        string types_str;
-        dict<unsigned int, unsigned int> types = base_pkmn->get_types();
-        if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
-        else types_str = database::get_type_name_from_id(types[0]) + "/"
-                       + database::get_type_name_from_id(types[1]);
-        string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
-                         + to_string(DEF) + ", " + to_string(SPD) + ", "
-                         + to_string(SPCL);
+        switch(get_species_id())
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        string output_string;
-        output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
-                      + "Level " + to_string(level) + "\n"
-                      + "Type: " + types_str + "\n"
-                      + "Stats: " + stats_str;
+            default:
+                string types_str;
+                dict<unsigned int, unsigned int> types = base_pkmn->get_types();
+                if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
+                else types_str = database::get_type_name_from_id(types[0]) + "/"
+                               + database::get_type_name_from_id(types[1]);
+                string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
+                                 + to_string(DEF) + ", " + to_string(SPD) + ", "
+                                 + to_string(SPCL);
 
-        return output_string;
+                string output_string;
+                output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
+                              + "Level " + to_string(level) + "\n"
+                              + "Type: " + types_str + "\n"
+                              + "Stats: " + stats_str;
+
+                return output_string;
+        }
     }
 
     string team_pokemon_gen1impl::get_info_verbose() const
     {
-        string types_str;
-        dict<unsigned int, unsigned int> types = base_pkmn->get_types();
-        if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
-        else types_str = database::get_type_name_from_id(types[0]) + "/"
-                       + database::get_type_name_from_id(types[1]);
+        switch(get_species_id())
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        string output_string;
-        output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
-                      + "Level " + to_string(level) + "\n"
-                      + "Type: " + types_str + "\n"
-                      + "Stats:\n"
-                      + " - HP: " + to_string(HP) + "\n"
-                      + " - Attack: " + to_string(ATK) + "\n"
-                      + " - Defense: " + to_string(DEF) + "\n"
-                      + " - Speed: " + to_string(SPD) + "\n"
-                      + " - Special: " + to_string(SPCL) + "\n"
-                      + "Individual Values:\n"
-                      + " - HP: " + to_string(ivHP) + "\n"
-                      + " - Attack: " + to_string(ivATK) + "\n"
-                      + " - Defense: " + to_string(ivDEF) + "\n"
-                      + " - Speed: " + to_string(ivSPD) + "\n"
-                      + " - Special: " + to_string(ivSPCL) + "\n"
-                      + "Effort Values:\n"
-                      + " - HP: " + to_string(evHP) + "\n"
-                      + " - Attack: " + to_string(evATK) + "\n"
-                      + " - Defense: " + to_string(evDEF) + "\n"
-                      + " - Speed: " + to_string(evSPD) + "\n"
-                      + " - Special: " + to_string(evSPCL) + "\n";
+            default:
+                string types_str;
+                dict<unsigned int, unsigned int> types = base_pkmn->get_types();
+                if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
+                else types_str = database::get_type_name_from_id(types[0]) + "/"
+                               + database::get_type_name_from_id(types[1]);
 
-        return output_string;
+                string output_string;
+                output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
+                              + "Level " + to_string(level) + "\n"
+                              + "Type: " + types_str + "\n"
+                              + "Stats:\n"
+                              + " - HP: " + to_string(HP) + "\n"
+                              + " - Attack: " + to_string(ATK) + "\n"
+                              + " - Defense: " + to_string(DEF) + "\n"
+                              + " - Speed: " + to_string(SPD) + "\n"
+                              + " - Special: " + to_string(SPCL) + "\n"
+                              + "Individual Values:\n"
+                              + " - HP: " + to_string(ivHP) + "\n"
+                              + " - Attack: " + to_string(ivATK) + "\n"
+                              + " - Defense: " + to_string(ivDEF) + "\n"
+                              + " - Speed: " + to_string(ivSPD) + "\n"
+                              + " - Special: " + to_string(ivSPCL) + "\n"
+                              + "Effort Values:\n"
+                              + " - HP: " + to_string(evHP) + "\n"
+                              + " - Attack: " + to_string(evATK) + "\n"
+                              + " - Defense: " + to_string(evDEF) + "\n"
+                              + " - Speed: " + to_string(evSPD) + "\n"
+                              + " - Special: " + to_string(evSPCL) + "\n";
+
+                return output_string;
+        }
     }
 
     //No abilities in Gen 1, but don't throw error

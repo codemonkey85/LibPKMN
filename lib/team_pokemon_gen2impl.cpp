@@ -56,78 +56,94 @@ namespace pkmnsim
 
     string team_pokemon_gen2impl::get_info() const
     {
-        string types_str;
-        dict<unsigned int, unsigned int> types = base_pkmn->get_types();
-        if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
-        else types_str = database::get_type_name_from_id(types[0]) + "/"
-                       + database::get_type_name_from_id(types[1]);
-        string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
-                         + to_string(DEF) + ", " + to_string(SATK) + ", "
-                         + to_string(SDEF) + ", " + to_string(SPD);
-
-        //Get gender character
-        char gender_char;
-        switch(gender)
+        switch(get_species_id())
         {
-            case Genders::MALE:
-                gender_char = 'M';
-                break;
-
-            case Genders::FEMALE:
-                gender_char = 'F';
-                break;
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
             default:
-                gender_char = 'N';
-                break;
+                string types_str;
+                dict<unsigned int, unsigned int> types = base_pkmn->get_types();
+                if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
+                else types_str = database::get_type_name_from_id(types[0]) + "/"
+                               + database::get_type_name_from_id(types[1]);
+                string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
+                                 + to_string(DEF) + ", " + to_string(SATK) + ", "
+                                 + to_string(SDEF) + ", " + to_string(SPD);
+
+                //Get gender character
+                char gender_char;
+                switch(gender)
+                {
+                    case Genders::MALE:
+                        gender_char = 'M';
+                        break;
+
+                    case Genders::FEMALE:
+                        gender_char = 'F';
+                        break;
+
+                    default:
+                        gender_char = 'N';
+                        break;
+                }
+
+                string output_string;
+                output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + " " + gender_char + ")\n"
+                              + "Level " + to_string(level) + "\n"
+                              + "Type: " + types_str + "\n"
+                              + "Held Item: " + to_string(held_item) + "\n"
+                              + "Stats: " + stats_str;
+
+                return output_string;
         }
-
-        string output_string;
-        output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + " " + gender_char + ")\n"
-                      + "Level " + to_string(level) + "\n"
-                      + "Type: " + types_str + "\n"
-                      + "Held Item: " + to_string(held_item) + "\n"
-                      + "Stats: " + stats_str;
-
-        return output_string;
     }
 
     string team_pokemon_gen2impl::get_info_verbose() const
     {
-        string types_str;
-        dict<unsigned int, unsigned int> types = base_pkmn->get_types();
-        if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
-        else types_str = database::get_type_name_from_id(types[0]) + "/"
-                       + database::get_type_name_from_id(types[1]);
+        switch(get_species_id())
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        string output_string;
-        output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
-                      + "Level " + to_string(level) + "\n"
-                      + "Type: " + types_str + "\n"
-                      + "Held Item: " + to_string(held_item) + "\n"
-                      + "Stats:\n"
-                      + " - HP: " + to_string(HP) + "\n"
-                      + " - Attack: " + to_string(ATK) + "\n"
-                      + " - Defense: " + to_string(DEF) + "\n"
-                      + " - Special Attack: " + to_string(SATK) + "\n"
-                      + " - Special Defense: " + to_string(SDEF) + "\n"
-                      + " - Speed: " + to_string(SPD) + "\n"
-                      + "Individual Values:\n"
-                      + " - HP: " + to_string(ivHP) + "\n"
-                      + " - Attack: " + to_string(ivATK) + "\n"
-                      + " - Defense: " + to_string(ivDEF) + "\n"
-                      + " - Special Attack: " + to_string(ivSATK) + "\n"
-                      + " - Special Defense: " + to_string(ivSDEF) + "\n"
-                      + " - Speed: " + to_string(ivSPD) + "\n"
-                      + "Effort Values:\n"
-                      + " - HP: " + to_string(evHP) + "\n"
-                      + " - Attack: " + to_string(evATK) + "\n"
-                      + " - Defense: " + to_string(evDEF) + "\n"
-                      + " - Special Attack: " + to_string(evSATK) + "\n"
-                      + " - Special Defense: " + to_string(evSDEF) + "\n"
-                      + " - Speed: " + to_string(evSPD) + "\n";
+            default:
+                string types_str;
+                dict<unsigned int, unsigned int> types = base_pkmn->get_types();
+                if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
+                else types_str = database::get_type_name_from_id(types[0]) + "/"
+                               + database::get_type_name_from_id(types[1]);
 
-        return output_string;
+                string output_string;
+                output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
+                              + "Level " + to_string(level) + "\n"
+                              + "Type: " + types_str + "\n"
+                              + "Held Item: " + to_string(held_item) + "\n"
+                              + "Stats:\n"
+                              + " - HP: " + to_string(HP) + "\n"
+                              + " - Attack: " + to_string(ATK) + "\n"
+                              + " - Defense: " + to_string(DEF) + "\n"
+                              + " - Special Attack: " + to_string(SATK) + "\n"
+                              + " - Special Defense: " + to_string(SDEF) + "\n"
+                              + " - Speed: " + to_string(SPD) + "\n"
+                              + "Individual Values:\n"
+                              + " - HP: " + to_string(ivHP) + "\n"
+                              + " - Attack: " + to_string(ivATK) + "\n"
+                              + " - Defense: " + to_string(ivDEF) + "\n"
+                              + " - Special Attack: " + to_string(ivSATK) + "\n"
+                              + " - Special Defense: " + to_string(ivSDEF) + "\n"
+                              + " - Speed: " + to_string(ivSPD) + "\n"
+                              + "Effort Values:\n"
+                              + " - HP: " + to_string(evHP) + "\n"
+                              + " - Attack: " + to_string(evATK) + "\n"
+                              + " - Defense: " + to_string(evDEF) + "\n"
+                              + " - Special Attack: " + to_string(evSATK) + "\n"
+                              + " - Special Defense: " + to_string(evSDEF) + "\n"
+                              + " - Speed: " + to_string(evSPD) + "\n";
+
+                return output_string;
+        }
     }
 
     //No abilities in Gen 2, but don't throw error
