@@ -80,7 +80,7 @@ namespace pkmnsim
 
 		attributes = dict<string, int>();
         moves = moveset_t(4);
-        vla<unsigned int> move_PPs(4);
+        move_PPs = vla<unsigned int>(4);
 
         icon_path = base_pkmn->get_icon_path(true);
 
