@@ -29,11 +29,6 @@ namespace pkmnsim
     {
         try
         {
-            /*
-                if(identifier == "curse") {}
-                else if(identifier == "hidden power") {}
-                else{
-            */
             return sptr(new move_mainimpl(id, game));
         }
         catch(const exception &e)
@@ -48,6 +43,17 @@ namespace pkmnsim
         from_game = game;
         if(id == Moves::NONE)
         {
+            move_id = Moves::NONE;
+            type_id = 0;
+            base_power = 0;
+            base_pp = 0;
+            base_accuracy = 0.0;
+            base_priority = 0;
+            target_id = 0;
+        }
+        else if(id == Moves::INVALID)
+        {
+            move_id = Moves::INVALID;
             type_id = 0;
             base_power = 0;
             base_pp = 0;
@@ -89,9 +95,33 @@ namespace pkmnsim
         }
     }
 
-    string move_impl::get_name() const {return database::get_move_name_from_id(move_id);}
+    string move_impl::get_name() const
+    {
+        switch(move_id)
+        {
+            case Moves::NONE:
+                return "None";
 
-    string move_impl::get_description() const {return database::get_move_description_from_id(move_id, from_game);}
+            case Moves::INVALID:
+                return "Invalid Move";
+
+            default:
+               return database::get_move_name_from_id(move_id);
+        }
+    }
+
+    string move_impl::get_description() const
+    {
+        switch(move_id)
+        {
+            case Moves::NONE:
+            case Moves::INVALID:
+                return "No info";
+
+            default:
+                return database::get_move_description_from_id(move_id, from_game);
+        }
+    }
 
     unsigned int move_impl::get_type() const {return type_id;}
 
@@ -103,11 +133,19 @@ namespace pkmnsim
     
     unsigned int move_impl::get_move_damage_class() const
     {
-        //In Gens 1-3, damage class depended on move type
-        //In Gens 4-5, damage class is specific to each move
-        unsigned int from_gen = database::get_generation_from_game_id(from_game);
-        if(from_gen >= 4) return move_damage_class;
-        else return database::get_damage_class_from_type(type_id);
+        switch(move_id)
+        {
+            case Moves::NONE:
+            case Moves::INVALID:
+                return 0;
+
+            default:
+                //In Gens 1-3, damage class depended on move type
+                //In Gens 4-5, damage class is specific to each move
+                unsigned int from_gen = database::get_generation_from_game_id(from_game);
+                if(from_gen >= 4) return move_damage_class;
+                else return database::get_damage_class_from_type(type_id);
+        }
     }
 
     string move_impl::get_base_effect() const {return base_effect;}

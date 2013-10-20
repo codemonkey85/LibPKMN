@@ -1166,7 +1166,8 @@ namespace pkmnsim
             ICICLE_CRASH,
             V_CREATE,
             FUSION_FLARE,
-            FUSION_BOLT
+            FUSION_BOLT,
+            INVALID = 1000
         };
     }
 
