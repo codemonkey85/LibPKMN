@@ -36,16 +36,16 @@ namespace pkmnsim
             if(gen == 1 or gen == 2)
             {
                 if(stat == Stats::HP)
-                    return unsigned int(floor(((stats[Stats::HP]+50.0)*level)/50.0)+10.0);
+                    return (unsigned int)(floor(((stats[Stats::HP]+50.0)*level)/50.0)+10.0);
                 else
-                    return unsigned int(floor((stats[stat]*level)/50.0)+5.0);
+                    return (unsigned int)(floor((stats[stat]*level)/50.0)+5.0);
             }
             else
             {
                 if(stat == Stats::HP)
-                    return unsigned int(floor(((((2.0*stats[Stats::HP])+100.0)*level)+10.0)/100.0));
+                    return (unsigned int)(floor(((((2.0*stats[Stats::HP])+100.0)*level)+10.0)/100.0));
                 else
-                    return unsigned int(floor(((((2.0*stats[stat])*level)/100.0)+5.0)*0.9));
+                    return (unsigned int)(floor(((((2.0*stats[stat])*level)/100.0)+5.0)*0.9));
             }
         }
 
@@ -61,16 +61,16 @@ namespace pkmnsim
             if(gen == 1 or gen == 2)
             {
                 if(stat == Stats::HP)
-                    return unsigned int(floor(((((15.0+stats[Stats::HP]+(pow(65535.0,0.5)/8.0)+50.0)*level)/50.0)+10.0)));
+                    return (unsigned int)(floor(((((15.0+stats[Stats::HP]+(pow(65535.0,0.5)/8.0)+50.0)*level)/50.0)+10.0)));
                 else
-                    return unsigned int(floor((((15.0+stats[stat]+(pow(65535.0,0.5)/8.0))*level)/50.0)+5.0));
+                    return (unsigned int)(floor((((15.0+stats[stat]+(pow(65535.0,0.5)/8.0))*level)/50.0)+5.0));
             }
             else
             {
                 if(stat == Stats::HP)
-                    return unsigned int(floor(((31.0+(2.0*stats[stat]+(255.0/4.0)+100.0)*level)/100.0)+10.0));
+                    return (unsigned int)(floor(((31.0+(2.0*stats[stat]+(255.0/4.0)+100.0)*level)/100.0)+10.0));
                 else
-                    return unsigned int(floor((((31.0 + (2.0*stats[stat]+(255.0/4.0)) * level) / 100.0) + 5.0) * 1.1));
+                    return (unsigned int)(floor((((31.0 + (2.0*stats[stat]+(255.0/4.0)) * level) / 100.0) + 5.0) * 1.1));
             }
         }
 

@@ -80,13 +80,13 @@ namespace pkmnsim
                     return 0;
             }
 
-            return unsigned int(floor((((2.0 * double(level) + 10.0) / 250.0) *
+            return (unsigned int)(floor((((2.0 * double(level) + 10.0) / 250.0) *
                    (double(attacker_ATK) / double(defender_DEF)) * double(base_power) * 2.0)));
         }
 
         unsigned int get_base_damage(unsigned int level, unsigned int attack, unsigned int defense, unsigned int base_power)
         {
-            return unsigned int(floor((((2.0 * double(level) + 10.0) / 250.0) *
+            return (unsigned int)(floor((((2.0 * double(level) + 10.0) / 250.0) *
                    (double(attack) / double(defense)) * double(base_power) * 2.0)));
         }
 
@@ -124,14 +124,14 @@ namespace pkmnsim
                     damage_range_vec.push_back(0);
                     return;
             }
-            min_damage = unsigned int(floor(get_base_damage(attacker, defender, attack) * 0.85));
+            min_damage = (unsigned int)(floor(get_base_damage(attacker, defender, attack) * 0.85));
             max_damage = get_base_damage(attacker, defender, attack);
 
             double type_mod = double(get_type_damage_mod(attack->get_type(), defender->get_types()[0], (gen == 1))) *
                               double(get_type_damage_mod(attack->get_type(), defender->get_types()[1], (gen == 1)));
 
-            min_damage = unsigned int(floor(double(min_damage) * type_mod));
-            max_damage = unsigned int(floor(double(max_damage) * type_mod));
+            min_damage = (unsigned int)(floor(double(min_damage) * type_mod));
+            max_damage = (unsigned int)(floor(double(max_damage) * type_mod));
 
             if(type_mod != 0)
             {
@@ -173,8 +173,8 @@ namespace pkmnsim
                     if(attack->get_type() == attacker->get_types()[0] or
                        attack->get_type() == attacker->get_types()[1])
                     {
-                        min_damage = unsigned int(floor(double(min_damage) * 1.5));
-                        max_damage = unsigned int(floor(double(max_damage) * 1.5));
+                        min_damage = (unsigned int)(floor(double(min_damage) * 1.5));
+                        max_damage = (unsigned int)(floor(double(max_damage) * 1.5));
                     }
                 }
                 if(min_damage == 0) min_damage = 1;
@@ -232,14 +232,14 @@ namespace pkmnsim
                     damage_range_vec.push_back(0);
                     return;
             }
-            min_damage = unsigned int(floor(get_base_damage(attacker_level, attacker_min_ATK, defender_max_DEF, attack->get_base_power()) * 0.85));
+            min_damage = (unsigned int)(floor(get_base_damage(attacker_level, attacker_min_ATK, defender_max_DEF, attack->get_base_power()) * 0.85));
             max_damage = get_base_damage(attacker_level, attacker_max_ATK, defender_min_DEF, attack->get_base_power());
 
             double type_mod = double(get_type_damage_mod(attack->get_type(), defender->get_types()[0], (gen == 1))) *
                               double(get_type_damage_mod(attack->get_type(), defender->get_types()[1], (gen == 1)));
 
-            min_damage = unsigned int(floor(double(min_damage) * type_mod));
-            max_damage = unsigned int(floor(double(max_damage) * type_mod));
+            min_damage = (unsigned int)(floor(double(min_damage) * type_mod));
+            max_damage = (unsigned int)(floor(double(max_damage) * type_mod));
 
             if(type_mod != 0)
             {
@@ -281,8 +281,8 @@ namespace pkmnsim
                     if(attack->get_type() == attacker->get_types()[0] or
                        attack->get_type() == attacker->get_types()[1])
                     {
-                        min_damage = unsigned int(floor(double(min_damage) * 1.5));
-                        max_damage = unsigned int(floor(double(max_damage) * 1.5));
+                        min_damage = (unsigned int)(floor(double(min_damage) * 1.5));
+                        max_damage = (unsigned int)(floor(double(max_damage) * 1.5));
                     }
                 }
                 if(min_damage == 0) min_damage = 1;
