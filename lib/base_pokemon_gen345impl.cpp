@@ -60,92 +60,131 @@ namespace pkmnsim
         boost::format png_format("%d.png");
         boost::format gen_format("generation-%d");
         
-        //Unfezant, Frillish and Jellicent have different icons for each gender
-        male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
-        if(species_id == Species::UNFEZANT or species_id == Species::FRILLISH or species_id == Species::JELLICENT)
-            female_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / "female" / (png_format % species_id).str()).string();
-        else female_icon_path = male_icon_path;
-        
-        male_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / (png_format % species_id).str()).string();
-        male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
-        if(from_gen > 3 and has_gender_differences())
+        switch(id)
         {
-            female_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "female" / (png_format % species_id).str()).string();
-            female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "shiny" / "female" / (png_format % species_id).str()).string();
+            case Species::NONE: //None
+                male_icon_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                female_icon_path = male_icon_path;
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                female_sprite_path = female_icon_path;
+                male_shiny_sprite_path = male_sprite_path;
+                female_shiny_sprite_path = female_sprite_path;
+                break;
+
+            case Species::INVALID: //Invalid
+                male_icon_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                female_icon_path = male_icon_path;
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                female_sprite_path = female_icon_path;
+                male_shiny_sprite_path = male_sprite_path;
+                female_shiny_sprite_path = female_sprite_path;
+                break;
+
+            default:
+                //Unfezant, Frillish and Jellicent have different icons for each gender
+                male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
+                if(species_id == Species::UNFEZANT or species_id == Species::FRILLISH or species_id == Species::JELLICENT)
+                    female_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / "female" / (png_format % species_id).str()).string();
+                else female_icon_path = male_icon_path;
+                
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / (png_format % species_id).str()).string();
+                male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
+                if(from_gen > 3 and has_gender_differences())
+                {
+                    female_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "female" / (png_format % species_id).str()).string();
+                    female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "shiny" / "female" / (png_format % species_id).str()).string();
+                }
+                else
+                {
+                    female_sprite_path = male_sprite_path;
+                    female_shiny_sprite_path = male_shiny_sprite_path;
+                }
+                
+                //Even though most attributes are queried from the database when called, stats take a long time when
+                //doing a lot at once, so grab these upon instantiation
+                SQLite::Database db(get_database_path().c_str());
+                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
+                                    + " AND stat_id IN (3,5)";
+                SQLite::Statement query(db, query_string.c_str());
+                query.executeStep();
+                special_attack = query.getColumn(0);
+                query.executeStep();
+                special_defense = query.getColumn(0);
+                
+                repair(pokemon_id);
+                break;
         }
-        else
-        {
-            female_sprite_path = male_sprite_path;
-            female_shiny_sprite_path = male_shiny_sprite_path;
-        }
-        
-        //Even though most attributes are queried from the database when called, stats take a long time when
-        //doing a lot at once, so grab these upon instantiation
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
-                            + " AND stat_id IN (3,5)";
-        SQLite::Statement query(db, query_string.c_str());
-        query.executeStep();
-        special_attack = query.getColumn(0);
-        query.executeStep();
-        special_defense = query.getColumn(0);
-        
-        repair(pokemon_id);
     }
 
     string base_pokemon_gen345impl::get_info() const
     {
-        string types_str;
-        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-        else types_str = database::get_type_name_from_id(type1_id) + "/"
-                       + database::get_type_name_from_id(type2_id);
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        dict<unsigned int, unsigned int> stats = get_base_stats();
+            default:
+                string types_str;
+                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
+                else types_str = database::get_type_name_from_id(type1_id) + "/"
+                               + database::get_type_name_from_id(type2_id);
 
-        string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
-                         + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPECIAL_ATTACK]) + ", "
-                         + to_string(stats[Stats::SPECIAL_DEFENSE]) + ", " + to_string(stats[Stats::SPEED]);
+                dict<unsigned int, unsigned int> stats = get_base_stats();
 
-        string output_string;
-        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                      + "Type: " + types_str + "\n"
-                      + "Stats: " + stats_str;
+                string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
+                                 + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPECIAL_ATTACK]) + ", "
+                                 + to_string(stats[Stats::SPECIAL_DEFENSE]) + ", " + to_string(stats[Stats::SPEED]);
 
-        return output_string;
+                string output_string;
+                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                              + "Type: " + types_str + "\n"
+                              + "Stats: " + stats_str;
+
+                return output_string;
+        }
     }
 
     string base_pokemon_gen345impl::get_info_verbose() const
     {
-        string types_str;
-        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-        else types_str = database::get_type_name_from_id(type1_id) + "/"
-                       + database::get_type_name_from_id(type2_id);
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        dict<unsigned int, unsigned int> stats = get_base_stats();
-        dict<unsigned int, unsigned int> abilities = get_abilities();
+            default:
+                string types_str;
+                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
+                else types_str = database::get_type_name_from_id(type1_id) + "/"
+                               + database::get_type_name_from_id(type2_id);
 
-        string abilities_str;
-        if(abilities[1] == Abilities::NONE) abilities_str = database::get_ability_name_from_id(abilities[0]); //1 ability
-        else if(abilities[2] == Abilities::NONE) abilities_str = database::get_ability_name_from_id(abilities[0])
-                                                      + ", " + database::get_ability_name_from_id(abilities[1]); //2 abilities
-        else abilities_str = database::get_ability_name_from_id(abilities[0]) + ", "
-                           + database::get_ability_name_from_id(abilities[1]) + ", "
-                           + database::get_ability_name_from_id(abilities[2]);
+                dict<unsigned int, unsigned int> stats = get_base_stats();
+                dict<unsigned int, unsigned int> abilities = get_abilities();
 
-        string output_string;
-        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                      + "Type: " + types_str + "\n"
-                      + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
-                      + "Abilities: " + abilities_str + "\n"
-                      + "Base Stats:\n"
-                      + " - HP: " + to_string(stats[Stats::HP]) + "\n"
-                      + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
-                      + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
-                      + " - Special Attack: " + to_string(stats[Stats::SPECIAL_ATTACK]) + "\n"
-                      + " - Special Defense: " + to_string(stats[Stats::SPECIAL_DEFENSE]) + "\n"
-                      + " - Speed: " + to_string(stats[Stats::SPEED]);
+                string abilities_str;
+                if(abilities[1] == Abilities::NONE) abilities_str = database::get_ability_name_from_id(abilities[0]); //1 ability
+                else if(abilities[2] == Abilities::NONE) abilities_str = database::get_ability_name_from_id(abilities[0])
+                                                              + ", " + database::get_ability_name_from_id(abilities[1]); //2 abilities
+                else abilities_str = database::get_ability_name_from_id(abilities[0]) + ", "
+                                   + database::get_ability_name_from_id(abilities[1]) + ", "
+                                   + database::get_ability_name_from_id(abilities[2]);
 
-        return output_string;
+                string output_string;
+                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                              + "Type: " + types_str + "\n"
+                              + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
+                              + "Abilities: " + abilities_str + "\n"
+                              + "Base Stats:\n"
+                              + " - HP: " + to_string(stats[Stats::HP]) + "\n"
+                              + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
+                              + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
+                              + " - Special Attack: " + to_string(stats[Stats::SPECIAL_ATTACK]) + "\n"
+                              + " - Special Defense: " + to_string(stats[Stats::SPECIAL_DEFENSE]) + "\n"
+                              + " - Speed: " + to_string(stats[Stats::SPEED]);
+
+                return output_string;
+        }
     }
 
     dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_base_stats() const
@@ -164,71 +203,99 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_ev_yields() const
     {
         dict<unsigned int, unsigned int> ev_yields;
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                ev_yields[Stats::HP] = 0;
+                ev_yields[Stats::ATTACK] = 0;
+                ev_yields[Stats::DEFENSE] = 0;
+                ev_yields[Stats::SPECIAL_ATTACK] = 0;
+                ev_yields[Stats::SPECIAL_DEFENSE] = 0;
+                ev_yields[Stats::SPEED] = 0;
 
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
-                       " AND stat_id IN (1,2,3,4,5,6)";
-        SQLite::Statement stats_query(db, query_string.c_str());
+            default:
+                SQLite::Database db(get_database_path().c_str());
+                string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
+                               " AND stat_id IN (1,2,3,4,5,6)";
+                SQLite::Statement stats_query(db, query_string.c_str());
 
-        stats_query.executeStep();
-        ev_yields[Stats::HP] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        ev_yields[Stats::ATTACK] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        ev_yields[Stats::DEFENSE] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        ev_yields[Stats::SPECIAL_ATTACK] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        ev_yields[Stats::SPECIAL_DEFENSE] = stats_query.getColumn(0);
-        stats_query.executeStep();
-        ev_yields[Stats::SPEED] = stats_query.getColumn(0);
+                stats_query.executeStep();
+                ev_yields[Stats::HP] = stats_query.getColumn(0);
+                stats_query.executeStep();
+                ev_yields[Stats::ATTACK] = stats_query.getColumn(0);
+                stats_query.executeStep();
+                ev_yields[Stats::DEFENSE] = stats_query.getColumn(0);
+                stats_query.executeStep();
+                ev_yields[Stats::SPECIAL_ATTACK] = stats_query.getColumn(0);
+                stats_query.executeStep();
+                ev_yields[Stats::SPECIAL_DEFENSE] = stats_query.getColumn(0);
+                stats_query.executeStep();
+                ev_yields[Stats::SPEED] = stats_query.getColumn(0);
 
-        return ev_yields;
+                return ev_yields;
+        }
     }
 
     double base_pokemon_gen345impl::get_chance_male() const
     {
-        SQLite::Database db(get_database_path().c_str());
-        
-        //Gender rates
-        map<int, double> gender_val_map; //Double is percentage male
-        gender_val_map[0] = 1.0;
-        gender_val_map[1] = 0.875;
-        gender_val_map[2] = 0.75;
-        gender_val_map[4] = 0.5;
-        gender_val_map[6] = 0.25;
-        gender_val_map[8] = 0.0;
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return 0.0;
 
-        string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-        int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+            default:
+                SQLite::Database db(get_database_path().c_str());
+                
+                //Gender rates
+                map<int, double> gender_val_map; //Double is percentage male
+                gender_val_map[0] = 1.0;
+                gender_val_map[1] = 0.875;
+                gender_val_map[2] = 0.75;
+                gender_val_map[4] = 0.5;
+                gender_val_map[6] = 0.25;
+                gender_val_map[8] = 0.0;
 
-        if(gender_val == -1) return 0.0;
-        else return gender_val_map[gender_val];
+                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+                int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+
+                if(gender_val == -1) return 0.0;
+                else return gender_val_map[gender_val];
+        }
     }
 
     double base_pokemon_gen345impl::get_chance_female() const
     {
-        SQLite::Database db(get_database_path().c_str());
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return 0.0;
 
-        //Gender rates
-        map<int, double> gender_val_map; //Double is percentage male
-        gender_val_map[0] = 1.0;
-        gender_val_map[1] = 0.875;
-        gender_val_map[2] = 0.75;
-        gender_val_map[4] = 0.5;
-        gender_val_map[6] = 0.25;
-        gender_val_map[8] = 0.0;
+            default:
+                SQLite::Database db(get_database_path().c_str());
 
-        string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-        int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+                //Gender rates
+                map<int, double> gender_val_map; //Double is percentage male
+                gender_val_map[0] = 1.0;
+                gender_val_map[1] = 0.875;
+                gender_val_map[2] = 0.75;
+                gender_val_map[4] = 0.5;
+                gender_val_map[6] = 0.25;
+                gender_val_map[8] = 0.0;
 
-        if(gender_val == -1) return 0.0;
-        else return (1.0 - gender_val_map[gender_val]);
+                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+                int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+
+                if(gender_val == -1) return 0.0;
+                else return (1.0 - gender_val_map[gender_val]);
+        }
     }
 
     bool base_pokemon_gen345impl::has_gender_differences(void) const
     {
-        if(from_gen == 3) return false;
+        if(from_gen == 3 or species_id == Species::NONE or species_id == Species::INVALID) return false;
         else
         {
             SQLite::Database db(get_database_path().c_str());
@@ -240,42 +307,50 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_abilities() const
     {
         dict<unsigned int, unsigned int> abilities;
-        SQLite::Database db(get_database_path().c_str());
-
-        //Ability 1 (guaranteed)
-        string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
-                     + " AND slot=1";
-        abilities[0] = db.execAndGet(query_string.c_str(), "ability_id");
-
-        //Ability 2 (not guaranteed, and if exists, might not exist in specified generation
-        query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
-                     + " AND slot=2";
-        SQLite::Statement ability2_query(db, query_string.c_str());
-        if(ability2_query.executeStep()) //Will be false if no entry exists
+        switch(species_id)
         {
-            unsigned int ability2_id = ability2_query.getColumn(0); //ability_id
-            query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
-            unsigned int generation_id = db.execAndGet(query_string.c_str(), "generation_id");
-            
-            if(generation_id > from_gen) abilities[1] = Abilities::NONE;
-            else abilities[1] = ability2_id;
-        }
-        else abilities[1] = Abilities::NONE;
+            case Species::NONE:
+            case Species::INVALID:
+                return abilities;
 
-        //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
-        if(from_gen == 5)
-        {
-            query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
-                         + " AND slot=3";
-            SQLite::Statement ability3_query(db, query_string.c_str());
-            if(ability3_query.executeStep()) //Will be false if no entry exists
-            {
-                abilities[2] = db.execAndGet(query_string.c_str(), "ability_id");
-            }
-            else abilities[2] = Abilities::NONE;
+            default:
+                SQLite::Database db(get_database_path().c_str());
+
+                //Ability 1 (guaranteed)
+                string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
+                             + " AND slot=1";
+                abilities[0] = db.execAndGet(query_string.c_str(), "ability_id");
+
+                //Ability 2 (not guaranteed, and if exists, might not exist in specified generation
+                query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
+                             + " AND slot=2";
+                SQLite::Statement ability2_query(db, query_string.c_str());
+                if(ability2_query.executeStep()) //Will be false if no entry exists
+                {
+                    unsigned int ability2_id = ability2_query.getColumn(0); //ability_id
+                    query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
+                    unsigned int generation_id = db.execAndGet(query_string.c_str(), "generation_id");
+                    
+                    if(generation_id > from_gen) abilities[1] = Abilities::NONE;
+                    else abilities[1] = ability2_id;
+                }
+                else abilities[1] = Abilities::NONE;
+
+                //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
+                if(from_gen == 5)
+                {
+                    query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(pokemon_id)
+                                 + " AND slot=3";
+                    SQLite::Statement ability3_query(db, query_string.c_str());
+                    if(ability3_query.executeStep()) //Will be false if no entry exists
+                    {
+                        abilities[2] = db.execAndGet(query_string.c_str(), "ability_id");
+                    }
+                    else abilities[2] = Abilities::NONE;
+                }
+                
+                return abilities;
         }
-        
-        return abilities;
     }
 
     string base_pokemon_gen345impl::get_icon_path(bool is_male) const
@@ -1208,8 +1283,7 @@ namespace pkmnsim
                 break;
 
             default:
-                cerr << "This Pokemon has no alternate forms." << endl;
-                exit(EXIT_FAILURE);
+                break;
         }
     }
 
@@ -1512,8 +1586,7 @@ namespace pkmnsim
                 break;
 
             default:
-                cerr << "This Pokemon has no alternate forms." << endl;
-                exit(EXIT_FAILURE);
+                break;
         }
     }
 
@@ -1626,11 +1699,18 @@ namespace pkmnsim
     {
         vector<unsigned int> egg_group_id_vec = get_egg_group_ids();
         vector<string> egg_group_vec;
-        
-        for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
-            egg_group_vec.push_back(database::get_egg_group_name_from_id(egg_group_id_vec[i]));
-        
-        return egg_group_vec;
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return egg_group_vec;
+
+            default:
+                for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
+                    egg_group_vec.push_back(database::get_egg_group_name_from_id(egg_group_id_vec[i]));
+                
+                return egg_group_vec;
+        }
     }
     
     string base_pokemon_gen345impl::get_form_name() const {return get_species_name();}
@@ -1638,14 +1718,21 @@ namespace pkmnsim
     vector<unsigned int> base_pokemon_gen345impl::get_egg_group_ids() const
     {
         vector<unsigned int> egg_group_vec;
-    
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id=" + to_string(species_id);
-        SQLite::Statement query(db, query_string.c_str());
-        
-        while(query.executeStep()) egg_group_vec.push_back(query.getColumn(0));
-        
-        return egg_group_vec;
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return egg_group_vec;
+
+            default:
+                SQLite::Database db(get_database_path().c_str());
+                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id=" + to_string(species_id);
+                SQLite::Statement query(db, query_string.c_str());
+                
+                while(query.executeStep()) egg_group_vec.push_back(query.getColumn(0));
+                
+                return egg_group_vec;
+        }
     }
     
     //TODO: Give Pokemon-sim its own internal way of distinguishing forms

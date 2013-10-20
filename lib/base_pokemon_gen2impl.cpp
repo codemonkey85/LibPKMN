@@ -44,71 +44,109 @@ namespace pkmnsim
         }
         
         boost::format png_format("%d.png");
-        
-        male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
-        female_icon_path = male_icon_path; //No gender differences in Generation 2
-        male_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / (png_format % species_id).str()).string();
-        female_sprite_path = male_sprite_path; //No gender differences in Generation 2
-        male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
-        female_shiny_sprite_path = male_shiny_sprite_path; //No gender differences in Generation 2
-        
-        //Even though most attributes are queried from the database when called, stats take a long time when
-        //doing a lot at once, so grab these upon instantiation
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
-                            + " AND stat_id IN (3,5)";
-        SQLite::Statement query(db, query_string.c_str());
-        query.executeStep();
-        special_attack = query.getColumn(0);
-        query.executeStep();
-        special_defense = query.getColumn(0);
-        
-        repair(pokemon_id);
+        switch(id)
+        {
+            case Species::NONE: //None
+                male_icon_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                female_icon_path = male_icon_path;
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                female_sprite_path = female_icon_path;
+                male_shiny_sprite_path = male_sprite_path;
+                female_shiny_sprite_path = female_sprite_path;
+                break;
+
+            case Species::INVALID: //Invalid
+                male_icon_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                female_icon_path = male_icon_path;
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                female_sprite_path = female_icon_path;
+                male_shiny_sprite_path = male_sprite_path;
+                female_shiny_sprite_path = female_sprite_path;
+                break;
+
+            default:
+                male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
+                female_icon_path = male_icon_path; //No gender differences in Generation 2
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / (png_format % species_id).str()).string();
+                female_sprite_path = male_sprite_path; //No gender differences in Generation 2
+                male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
+                female_shiny_sprite_path = male_shiny_sprite_path; //No gender differences in Generation 2
+                
+                //Even though most attributes are queried from the database when called, stats take a long time when
+                //doing a lot at once, so grab these upon instantiation
+                SQLite::Database db(get_database_path().c_str());
+                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
+                                    + " AND stat_id IN (3,5)";
+                SQLite::Statement query(db, query_string.c_str());
+                query.executeStep();
+                special_attack = query.getColumn(0);
+                query.executeStep();
+                special_defense = query.getColumn(0);
+                
+                repair(pokemon_id);
+                break;
+        }
     }
 
     string base_pokemon_gen2impl::get_info() const
     {
-        string types_str;
-        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-        else types_str = database::get_type_name_from_id(type1_id) + "/"
-                       + database::get_type_name_from_id(type2_id);
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        dict<unsigned int, unsigned int> stats = get_base_stats();
+            default:
+                string types_str;
+                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
+                else types_str = database::get_type_name_from_id(type1_id) + "/"
+                               + database::get_type_name_from_id(type2_id);
 
-        string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
-                         + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPECIAL_ATTACK]) + ", "
-                         + to_string(stats[Stats::SPECIAL_DEFENSE]) + ", " + to_string(stats[Stats::SPEED]);
+                dict<unsigned int, unsigned int> stats = get_base_stats();
 
-        string output_string;
-        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                      + "Type: " + types_str + "\n"
-                      + "Stats: " + stats_str;
+                string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
+                                 + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPECIAL_ATTACK]) + ", "
+                                 + to_string(stats[Stats::SPECIAL_DEFENSE]) + ", " + to_string(stats[Stats::SPEED]);
 
-        return output_string;
+                string output_string;
+                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                              + "Type: " + types_str + "\n"
+                              + "Stats: " + stats_str;
+
+                return output_string;
+        }
     }
 
     string base_pokemon_gen2impl::get_info_verbose() const
     {
-        string types_str;
-        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-        else types_str = database::get_type_name_from_id(type1_id) + "/"
-                       + database::get_type_name_from_id(type2_id);
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        dict<unsigned int, unsigned int> stats = get_base_stats();
+            default:
+                string types_str;
+                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
+                else types_str = database::get_type_name_from_id(type1_id) + "/"
+                               + database::get_type_name_from_id(type2_id);
 
-        string output_string;
-        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                      + "Type: " + types_str + "\n"
-                      + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
-                      + "Base Stats:\n"
-                      + " - HP: " + to_string(stats[Stats::HP]) + "\n"
-                      + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
-                      + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
-                      + " - Special Attack: " + to_string(stats[Stats::SPECIAL_ATTACK]) + "\n"
-                      + " - Special Defense: " + to_string(stats[Stats::SPECIAL_DEFENSE]) + "\n"
-                      + " - Speed: " + to_string(stats[Stats::SPEED]);
-    
-        return output_string;
+                dict<unsigned int, unsigned int> stats = get_base_stats();
+
+                string output_string;
+                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                              + "Type: " + types_str + "\n"
+                              + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
+                              + "Base Stats:\n"
+                              + " - HP: " + to_string(stats[Stats::HP]) + "\n"
+                              + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
+                              + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
+                              + " - Special Attack: " + to_string(stats[Stats::SPECIAL_ATTACK]) + "\n"
+                              + " - Special Defense: " + to_string(stats[Stats::SPECIAL_DEFENSE]) + "\n"
+                              + " - Speed: " + to_string(stats[Stats::SPEED]);
+            
+                return output_string;
+        }
     }
 
     dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_base_stats() const
@@ -139,42 +177,58 @@ namespace pkmnsim
 
     double base_pokemon_gen2impl::get_chance_male() const
     {
-        SQLite::Database db(get_database_path().c_str());
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return 0.0;
 
-        //Gender rates
-        map<unsigned int, double> gender_val_map; //Double is percentage male
-        gender_val_map[0] = 1.0;
-        gender_val_map[1] = 0.875;
-        gender_val_map[2] = 0.75;
-        gender_val_map[4] = 0.5;
-        gender_val_map[6] = 0.25;
-        gender_val_map[8] = 0.0;
+            default:
+                SQLite::Database db(get_database_path().c_str());
 
-        string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-        int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+                //Gender rates
+                map<unsigned int, double> gender_val_map; //Double is percentage male
+                gender_val_map[0] = 1.0;
+                gender_val_map[1] = 0.875;
+                gender_val_map[2] = 0.75;
+                gender_val_map[4] = 0.5;
+                gender_val_map[6] = 0.25;
+                gender_val_map[8] = 0.0;
 
-        if(gender_val == -1) return 0.0;
-        else return gender_val_map[gender_val];
+                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+                int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+
+                if(gender_val == -1) return 0.0;
+                else return gender_val_map[gender_val];
+        }
     }
 
     double base_pokemon_gen2impl::get_chance_female() const
     {
-        SQLite::Database db(get_database_path().c_str());
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return 0.0;
 
-        //Gender rates
-        map<int, double> gender_val_map; //Double is percentage male
-        gender_val_map[0] = 1.0;
-        gender_val_map[1] = 0.875;
-        gender_val_map[2] = 0.75;
-        gender_val_map[4] = 0.5;
-        gender_val_map[6] = 0.25;
-        gender_val_map[8] = 0.0;
+            default:
+                SQLite::Database db(get_database_path().c_str());
 
-        string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-        int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+                //Gender rates
+                map<int, double> gender_val_map; //Double is percentage male
+                gender_val_map[0] = 1.0;
+                gender_val_map[1] = 0.875;
+                gender_val_map[2] = 0.75;
+                gender_val_map[4] = 0.5;
+                gender_val_map[6] = 0.25;
+                gender_val_map[8] = 0.0;
 
-        if(gender_val == -1) return 0.0;
-        else return (1.0 - gender_val_map[gender_val]);
+                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+                int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+
+                if(gender_val == -1) return 0.0;
+                else return (1.0 - gender_val_map[gender_val]);
+        }
     }
 
     bool base_pokemon_gen2impl::has_gender_differences() const {return false;}

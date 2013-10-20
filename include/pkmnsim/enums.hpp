@@ -1987,7 +1987,8 @@ namespace pkmnsim
             KYUREM,
             KELDEO,
             MELOETTA,
-            GENESECT
+            GENESECT,
+            INVALID = 1000
         };
     }
     

@@ -40,69 +40,107 @@ namespace pkmnsim
                 images_game_string = "yellow";
                 break;
         }
-    
-        boost::format png_format("%d.png");
-        
-        male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
-        female_icon_path = male_icon_path; //No genders in Generation 1
-        male_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-1" / images_game_string.c_str() / (png_format % species_id).str()).string();
-        female_sprite_path = male_sprite_path; //No genders in Generation 1
-        male_shiny_sprite_path = male_sprite_path; //No shininess in Generation 1
-        female_shiny_sprite_path = male_sprite_path; //No shininess in Generation 1
 
-        //Even though most attributes are queried from the database when called, stats take a long time when
-        //doing a lot at once, so grab these upon instantiation
-        SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
-                            + " AND stat_id=9";
-        special = db.execAndGet(query_string.c_str(), "base_stat");
-        
-        repair(pokemon_id);
+        boost::format png_format("%d.png");
+        switch(id)
+        {   
+            case Species::NONE: //None
+                male_icon_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                female_icon_path = male_icon_path;
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                female_sprite_path = female_icon_path;
+                male_shiny_sprite_path = male_sprite_path;
+                female_shiny_sprite_path = female_sprite_path;
+                break;
+            
+            case Species::INVALID: //Invalid
+                male_icon_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                female_icon_path = male_icon_path;
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                female_sprite_path = female_icon_path;
+                male_shiny_sprite_path = male_sprite_path;
+                female_shiny_sprite_path = female_sprite_path;
+                break;
+            
+            default:
+                male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
+                female_icon_path = male_icon_path; //No genders in Generation 1
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-1" / images_game_string.c_str() / (png_format % species_id).str()).string();
+                female_sprite_path = male_sprite_path; //No genders in Generation 1
+                male_shiny_sprite_path = male_sprite_path; //No shininess in Generation 1
+                female_shiny_sprite_path = male_sprite_path; //No shininess in Generation 1
+
+                //Even though most attributes are queried from the database when called, stats take a long time when
+                //doing a lot at once, so grab these upon instantiation
+                SQLite::Database db(get_database_path().c_str());
+                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
+                                    + " AND stat_id=9";
+                special = db.execAndGet(query_string.c_str(), "base_stat");
+                
+                repair(pokemon_id);
+                break;
+        }
     }
 
     string base_pokemon_gen1impl::get_info() const
     {
-        string types_str;
-        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-        else types_str = database::get_type_name_from_id(type1_id) + "/"
-                       + database::get_type_name_from_id(type2_id);
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        dict<unsigned int, unsigned int> stats = get_base_stats();
+            default:
+                string types_str;
+                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
+                else types_str = database::get_type_name_from_id(type1_id) + "/"
+                               + database::get_type_name_from_id(type2_id);
 
-        string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
-                         + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPEED]) + ", "
-                         + to_string(stats[Stats::SPECIAL]);
+                dict<unsigned int, unsigned int> stats = get_base_stats();
 
-        string output_string;
-        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                      + "Type: " + types_str + "\n"
-                      + "Stats: " + stats_str;
+                string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
+                                 + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPEED]) + ", "
+                                 + to_string(stats[Stats::SPECIAL]);
 
-        return output_string;
+                string output_string;
+                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                              + "Type: " + types_str + "\n"
+                              + "Stats: " + stats_str;
+
+                return output_string;
+        }
     }
 
     string base_pokemon_gen1impl::get_info_verbose() const
     {
-        string types_str;
-        if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-        else types_str = database::get_type_name_from_id(type1_id) + "/"
-                       + database::get_type_name_from_id(type2_id);
+        switch(species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return "No info";
 
-        dict<unsigned int, unsigned int> stats = get_base_stats();
+            default:
+                string types_str;
+                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
+                else types_str = database::get_type_name_from_id(type1_id) + "/"
+                               + database::get_type_name_from_id(type2_id);
 
-        string output_string;
-        output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                      //+ species + " Pokémon\n"
-                      + "Type: " + types_str + "\n"
-                      + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
-                      + "Base Stats:\n"
-                      + " - HP: " + to_string(stats[Stats::HP]) + "\n"
-                      + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
-                      + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
-                      + " - Speed: " + to_string(stats[Stats::SPEED]) + "\n"
-                      + " - Special: " + to_string(stats[Stats::SPECIAL]);
+                dict<unsigned int, unsigned int> stats = get_base_stats();
 
-        return output_string;
+                string output_string;
+                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
+                              //+ species + " Pokémon\n"
+                              + "Type: " + types_str + "\n"
+                              + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
+                              + "Base Stats:\n"
+                              + " - HP: " + to_string(stats[Stats::HP]) + "\n"
+                              + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
+                              + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
+                              + " - Speed: " + to_string(stats[Stats::SPEED]) + "\n"
+                              + " - Special: " + to_string(stats[Stats::SPECIAL]);
+
+                return output_string;
+        }
     }
 
     dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_base_stats() const
