@@ -35,7 +35,6 @@ namespace pkmnsim
             //Typecasts
             inline operator std::string() const {return stdstring;}
             inline operator std::wstring() const {return stdwstring;}
-            
 
         private:
         
