@@ -32,10 +32,6 @@ namespace pkmnsim
     bool get_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon);
     
     void set_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon, bool val);
-    
-    bool get_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon);
-    
-    void set_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon, bool val);
 
     uint8_t get_gen3_ball(uint16_t* metlevelint);
 

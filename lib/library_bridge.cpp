@@ -289,19 +289,6 @@ namespace pkmnsim
         *ribbonint = ribbon_bitset.to_ulong();
     }
 
-    bool get_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon)
-    {
-        bitset<64> ribbon_bitset = int(*ribbonint);
-        return ribbon_bitset[ribbon];
-    }
-    
-    void set_sinnoh_ribbon64(uint64_t* ribbonint, uint8_t ribbon, bool val)
-    {
-        bitset<64> ribbon_bitset = int(*ribbonint);
-        ribbon_bitset[ribbon] = val;
-        *ribbonint = ribbon_bitset.to_ulong();
-    }
-
     uint8_t get_gen3_ball(uint16_t* metlevelint)
     {
         bitset<16> metlevel_bitset = int(*metlevelint);
