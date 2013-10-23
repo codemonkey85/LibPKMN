@@ -6,7 +6,7 @@
 #
 
 IF(ENABLE_APPS)
-    ADD_SUBDIRECTORY(get_type_stats)
-    ADD_SUBDIRECTORY(team_analysis)
+    #ADD_SUBDIRECTORY(get_type_stats)
+    #ADD_SUBDIRECTORY(team_analysis)
     ADD_SUBDIRECTORY(damage_calculator)
 ENDIF(ENABLE_APPS)

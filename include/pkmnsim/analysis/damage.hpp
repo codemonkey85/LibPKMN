@@ -30,7 +30,7 @@ namespace pkmnsim
                                           
         void PKMNSIM_API get_damage_range(base_pokemon::sptr attacker, base_pokemon::sptr defender,
                                           move::sptr attack, unsigned int attacker_level,
-                                          int defender_level, std::vector<unsigned int> &damage_range_vec);
+                                          unsigned int defender_level, std::vector<unsigned int> &damage_range_vec);
     }
 }
 

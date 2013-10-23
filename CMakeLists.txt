@@ -143,7 +143,7 @@ ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(lib)
 IF(NOT PKMNSIM_USED_AS_SUBMODULE)
     ADD_SUBDIRECTORY(utils)
-    #ADD_SUBDIRECTORY(apps)
+    ADD_SUBDIRECTORY(apps)
 ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
 ########################################################################
