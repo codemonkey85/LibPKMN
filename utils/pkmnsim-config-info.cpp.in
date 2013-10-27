@@ -22,13 +22,11 @@ int main()
     cout << " - Pokemon-sim Images: @PKMNSIM_IMAGES_GIT_DESCRIBE@" << endl;
     cout << " - Pokehack:           @POKEHACK_GIT_DESCRIBE@" << endl;
     cout << " - PokeLib-NC:         @POKELIB_GIT_DESCRIBE@" << endl;
-    cout << " - PKMDS:              @PKMDS_GIT_DESCRIBE@" << endl << endl;
+    cout << " - PKMDS:              @PKMDS_GIT_DESCRIBE@" << endl;
+    cout << " - SQLiteC++:          @SQLITECPP_GIT_DESCRIBE@" << endl << endl;
 
     cout << "Dependency versions:" << endl;
     cout << " - Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@" << endl;
-
-    cout << " - SQLite 3.7.15.2" << endl;
-
     cout << " - Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@" << endl;
 
     return EXIT_SUCCESS;
