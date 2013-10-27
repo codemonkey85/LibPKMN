@@ -570,6 +570,7 @@ namespace pkmnsim
     {
         enum items
         {
+            NONE,
             MASTER_BALL,
             ULTRA_BALL,
             GREAT_BALL,
@@ -1247,7 +1248,18 @@ namespace pkmnsim
             GRUBBY_HANKY,
             COLRESS_MCHN,
             DROPPED_ITEM,
-            REVEAL_GLASS
+            REVEAL_GLASS,
+            BERRY,
+            GOLD_BERRY,
+            PRZCUREBERRY,
+            PSNCUREBERRY,
+            BITTER_BERRY,
+            BURNT_BERRY,
+            ICE_BERRY,
+            MINT_BERRY,
+            MIRACLEBERRY,
+            MYSTERYBERRY,
+            INVALID = 1000
         };
     }
     
