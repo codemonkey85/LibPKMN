@@ -75,7 +75,11 @@ IF(ENABLE_LIBRARY)
     # Compiler-specific flags
     ####################################################################
     IF(CMAKE_COMPILER_IS_GNUCXX)
-        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
+        IF(LINUX)
+            SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
+        ELSE() #Cygwin
+            SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x")
+        ENDIF(LINUX)
     ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
