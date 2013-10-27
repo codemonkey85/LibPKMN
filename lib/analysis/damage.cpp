@@ -18,7 +18,7 @@
 #include <pkmnsim/analysis/damage.hpp>
 #include <pkmnsim/analysis/stats.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "../SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 

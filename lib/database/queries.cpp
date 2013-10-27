@@ -142,7 +142,7 @@ namespace pkmnsim
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM move_names WHERE move_id=%d AND local_language_id=9")
                                                     % move_id);
-            return db.execAndGet(query_string.c_str());
+            return string((const char*)db.execAndGet(query_string.c_str()));
         }
 
         double get_nature_stat_effect_from_id(unsigned int nature_id, unsigned int stat)
