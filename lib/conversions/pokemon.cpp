@@ -19,14 +19,14 @@
 #include <pkmnsim/move.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/team_pokemon.hpp>
-#include <pkmnsim/conversions/pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/types/pokemon_text.hpp>
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "../SQLiteCpp/src/SQLiteC++.h"
 
+#include "pokemon.hpp"
 #include "../library_bridge.hpp"
 
 using namespace std;
