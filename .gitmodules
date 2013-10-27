@@ -10,3 +10,6 @@
 [submodule "share/pkmnsim/images"]
 	path = share/pkmnsim/images
 	url = https://github.com/ncorgan/Pokemon-sim-images.git
+[submodule "lib/SQLiteCpp"]
+	path = lib/SQLiteCpp
+	url = https://github.com/ncorgan/SQLiteCpp.git

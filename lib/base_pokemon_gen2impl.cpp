@@ -14,7 +14,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 #include "base_pokemon_gen2impl.hpp"
 
@@ -79,9 +79,9 @@ namespace pkmnsim
                                     + " AND stat_id IN (3,5)";
                 SQLite::Statement query(db, query_string.c_str());
                 query.executeStep();
-                special_attack = query.getColumn(0);
+                special_attack = int(query.getColumn(0));
                 query.executeStep();
-                special_defense = query.getColumn(0);
+                special_defense = int(query.getColumn(0));
                 
                 repair(pokemon_id);
                 break;
@@ -196,7 +196,7 @@ namespace pkmnsim
                 gender_val_map[8] = 0.0;
 
                 string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-                int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+                int gender_val = db.execAndGet(query_string.c_str());
 
                 if(gender_val == -1) return 0.0;
                 else return gender_val_map[gender_val];
@@ -224,7 +224,7 @@ namespace pkmnsim
                 gender_val_map[8] = 0.0;
 
                 string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
-                int gender_val = db.execAndGet(query_string.c_str(), "gender_rate");
+                int gender_val = db.execAndGet(query_string.c_str());
 
                 if(gender_val == -1) return 0.0;
                 else return (1.0 - gender_val_map[gender_val]);

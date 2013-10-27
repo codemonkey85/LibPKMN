@@ -87,7 +87,7 @@ namespace pkmnsim
             if(item_held_id == -1) item_held = "None";
             else
             {
-                item_held = pkmnsim_db.execAndGetStr(str(boost::format(
+                item_held = pkmnsim_db.execAndGet(str(boost::format(
                                                          "SELECT name FROM item_names WHERE item_id=%d")
                                                          % item_held_id).c_str(), "name"
                                                     );

@@ -16,8 +16,6 @@
 #include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/types/prng.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
-
 #include "team_pokemon_impl.hpp"
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"

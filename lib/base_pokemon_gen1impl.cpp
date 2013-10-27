@@ -14,7 +14,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 #include "base_pokemon_gen1impl.hpp"
 
@@ -75,7 +75,7 @@ namespace pkmnsim
                 SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
                                     + " AND stat_id=9";
-                special = db.execAndGet(query_string.c_str(), "base_stat");
+                special = int(db.execAndGet(query_string.c_str()));
                 
                 repair(pokemon_id);
                 break;

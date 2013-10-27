@@ -11,7 +11,7 @@
 
 #include <boost/format.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/game_save.hpp>

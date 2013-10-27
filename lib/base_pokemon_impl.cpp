@@ -16,7 +16,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 #include "base_pokemon_impl.hpp"
 #include "base_pokemon_gen1impl.hpp"
@@ -106,13 +106,13 @@ namespace pkmnsim
                 query_string = "SELECT version_group_id FROM versions WHERE id=" + to_string(game);
                 int version_group_id = db.execAndGet(query_string.c_str());
                 query_string = "SELECT generation_id FROM version_groups WHERE id=" + to_string(version_group_id);
-                from_gen = db.execAndGet(query_string.c_str());
+                from_gen = int(db.execAndGet(query_string.c_str()));
                 query_string = "SELECT name FROM version_names WHERE version_id=" + to_string(game);
-                game_string = db.execAndGetStr(query_string.c_str(), "name");
+                game_string = string((const char*)db.execAndGet(query_string.c_str()));
                 
                 //Fail if Pokemon's generation_id > specified gen
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(id);
-                unsigned int gen_id = db.execAndGet(query_string.c_str(), "generation_id");
+                unsigned int gen_id = int(db.execAndGet(query_string.c_str()));
                 if(gen_id > from_gen)
                 {
                     string error_message = database::get_species_name_from_id(id) + " not present in Generation " + to_string(from_gen) + ".";
@@ -121,7 +121,7 @@ namespace pkmnsim
 
                 //Get Pokemon ID from database
                 query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(species_id);
-                pokemon_id = db.execAndGet(query_string.c_str());
+                pokemon_id = int(db.execAndGet(query_string.c_str()));
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
@@ -130,13 +130,13 @@ namespace pkmnsim
             SQLite::Statement stats_query(db, query_string.c_str());
 
             stats_query.executeStep();
-            hp = stats_query.getColumn(0);
+            hp = int(stats_query.getColumn(0));
             stats_query.executeStep();
-            attack = stats_query.getColumn(0);
+            attack = int(stats_query.getColumn(0));
             stats_query.executeStep();
-            defense = stats_query.getColumn(0);
+            defense = int(stats_query.getColumn(0));
             stats_query.executeStep();
-            speed = stats_query.getColumn(0);
+            speed = int(stats_query.getColumn(0));
         }
     }
 
@@ -204,7 +204,7 @@ namespace pkmnsim
             for(unsigned int i = 0; i < evolution_ids.size(); i++)
             {
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
-                unsigned int generation_id = db.execAndGet(query_string.c_str());
+                int generation_id = db.execAndGet(query_string.c_str());
                 if(generation_id > from_gen) to_erase.push_back(i);
             }
             for(int j = to_erase.size()-1; j >= 0; j--)

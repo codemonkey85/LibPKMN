@@ -16,7 +16,7 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 //TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
 #include "move_mainimpl.hpp"
@@ -70,8 +70,8 @@ namespace pkmnsim
 
             //Fail if move's generation_id > specified generation
             query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(id);
-            unsigned int gen_id = db.execAndGet(query_string.c_str());
-            unsigned int game_gen = database::get_generation_from_game_id(from_game);
+            int gen_id = db.execAndGet(query_string.c_str());
+            int game_gen = database::get_generation_from_game_id(from_game);
 
             if(gen_id > game_gen)
             {
@@ -84,14 +84,14 @@ namespace pkmnsim
             moves_query.executeStep();
 
             //Get available values from queries
-            type_id = moves_query.getColumn(3); //type_id
-            base_power = moves_query.getColumn(4); //power
-            base_pp = moves_query.getColumn(5); //pp
-            base_accuracy = moves_query.getColumn(6); //accuracy
+            type_id = int(moves_query.getColumn(3)); //type_id
+            base_power = int(moves_query.getColumn(4)); //power
+            base_pp = int(moves_query.getColumn(5)); //pp
+            base_accuracy = int(moves_query.getColumn(6)); //accuracy
             base_accuracy /= 10; //Stored as 0 < int < 100
-            base_priority = moves_query.getColumn(7); //priority
-            target_id = moves_query.getColumn(8); //target_id
-            move_damage_class = moves_query.getColumn(9); //damage_class_id
+            base_priority = int(moves_query.getColumn(7)); //priority
+            target_id = int(moves_query.getColumn(8)); //target_id
+            move_damage_class = int(moves_query.getColumn(9)); //damage_class_id
         }
     }
 

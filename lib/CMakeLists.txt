@@ -9,16 +9,7 @@
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 
 IF(ENABLE_LIBRARY)
-    FILE(GLOB sqlitecpp_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "sqlitecpp/*.c*")
-
-    ADD_LIBRARY(sqlitecpp SHARED ${sqlitecpp_sources})
-    SET_TARGET_PROPERTIES(sqlitecpp PROPERTIES DEFINE_SYMBOL "SQLITECPP_DLL_EXPORTS")
-    TARGET_LINK_LIBRARIES(sqlitecpp pkmds-sqlite3)
-    INSTALL(TARGETS sqlitecpp
-        LIBRARY DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.so
-        ARCHIVE DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.lib
-        RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime #.dll
-    )
+    ADD_SUBDIRECTORY(SQLiteCpp/src)
 
     FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
@@ -31,7 +22,7 @@ IF(ENABLE_LIBRARY)
 
     INCLUDE(${QT_USE_FILE})
     LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib-nc pkmds sqlitecpp)
+    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib-nc pkmds SQLiteCpp)
 
     LIST(APPEND libpkmnsim_sources
         library_bridge.cpp
@@ -82,9 +73,9 @@ IF(ENABLE_LIBRARY)
     # Compiler-specific flags
     ####################################################################
     IF(CMAKE_COMPILER_IS_GNUCXX)
-        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x")
+        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
     ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++11")
+        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
     ####################################################################

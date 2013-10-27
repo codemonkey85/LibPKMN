@@ -10,7 +10,7 @@
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 #include "move_mainimpl.hpp"
 
@@ -33,16 +33,16 @@ namespace pkmnsim
 
                //Effect and chance
                 string query_string = "SELECT effect_id FROM moves WHERE id=" + to_string(move_id);
-                unsigned int effect_id = db.execAndGet(query_string.c_str());
+                int effect_id = db.execAndGet(query_string.c_str());
                 query_string = str(boost::format("SELECT short_effect FROM move_effect_prose WHERE move_effect_id=%d AND local_language_id=9")
                                                  % effect_id);
-                base_effect = db.execAndGetStr(query_string.c_str(), "");
+                base_effect = int(db.execAndGet(query_string.c_str()));
 
                 query_string = "SELECT effect_chance FROM moves WHERE id=" + to_string(move_id);
-                base_effect_chance = db.execAndGet(query_string.c_str());
+                base_effect_chance = int(db.execAndGet(query_string.c_str())) / 100;
 
                 query_string = "SELECT damage_class_id FROM moves WHERE id=" + to_string(move_id);
-                move_damage_class = db.execAndGet(query_string.c_str());
+                move_damage_class = int(db.execAndGet(query_string.c_str()));
         }
     }
 }

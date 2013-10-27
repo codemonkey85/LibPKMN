@@ -12,7 +12,7 @@
 #include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/types/prng.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 #include "team_pokemon_gen345impl.hpp"
 
@@ -359,11 +359,11 @@ namespace pkmnsim
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = "SELECT id FROM pokemon_forms WHERE pokemon_id=%d" + base_pkmn->get_pokemon_id();
-            unsigned int id = db.execAndGet(query_string.c_str());
+            int id = db.execAndGet(query_string.c_str());
             
             query_string = str(boost::format("SELECT pokemon_name FROM pokemon_form_names WHERE pokemon_form_id=%d AND local_language_id=9")
                                              % id);
-            return db.execAndGetStr(query_string.c_str(), "pokemon_name");
+            return string((const char*)db.execAndGet(query_string.c_str()));
         }
     }
     
@@ -425,7 +425,7 @@ namespace pkmnsim
         else if(has_hidden_ability and from_gen >= 5)
         {
             query_string = "SELECT ability_id FROM pokemon_abilities WHERE is_hidden=1 AND pokemon_id=" + base_pkmn->get_pokemon_id();
-            return db.execAndGet(query_string.c_str());
+            return int(db.execAndGet(query_string.c_str()));
         }
         else
         {
@@ -433,11 +433,11 @@ namespace pkmnsim
             query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=1 AND pokemon_id=" + base_pkmn->get_pokemon_id();
             SQLite::Statement query(db, query_string.c_str());
             
-            if(query.executeStep() and ability_num == 1) return query.getColumn(0);
+            if(query.executeStep() and ability_num == 1) return int(query.getColumn(0));
             else
             {
                 query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=0 AND pokemon_id" + base_pkmn->get_pokemon_id();
-                return db.execAndGet(query_string.c_str());
+                return int(db.execAndGet(query_string.c_str()));
             }
         }
     }

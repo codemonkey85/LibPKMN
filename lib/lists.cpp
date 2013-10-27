@@ -19,7 +19,7 @@
 #include <pokehack/pokestructs.h>
 #include <pokelib/data_tables.h>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
@@ -166,7 +166,7 @@ namespace pkmnsim
             else
             {
                 query_string = "SELECT name FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id=" + to_string(species_id);
-                normal_name = db.execAndGetStr(query_string.c_str(), "name");
+                normal_name = string((const char*)db.execAndGet(query_string.c_str()));
             }
 
             query_string = "SELECT id,form_identifier FROM pokemon_forms WHERE form_identifier!='NULL' AND pokemon_id=" + to_string(pokemon_id);
@@ -180,7 +180,7 @@ namespace pkmnsim
                 string form_identifier = inner_query.getColumn(1);
 
                 query_string = "SELECT form_name FROM pokemon_form_names WHERE local_language_id=9 AND pokemon_form_id=" + to_string(form_id);
-                string form_name = db.execAndGet(query_string.c_str());
+                string form_name = string((const char*)db.execAndGet(query_string.c_str()));
                 vector<string> form_halves;
                 boost::split(form_halves, form_name, boost::is_any_of(" "));
                 string full_form_name = (form_format % normal_name % form_halves[0]).str();
@@ -331,7 +331,7 @@ namespace pkmnsim
         SQLite::Statement type_names_query(db, query_string.c_str());
         while(type_names_query.executeStep())
         {
-            string type = type_names_query.getColumn(0);
+            string type = string((const char*)type_names_query.getColumn(0));
             if(not (gen == 1 and (type == "Steel" or type == "Dark")) and type != "???" and type != "Shadow")
             {
                 type_vec.push_back(type);
@@ -350,7 +350,7 @@ namespace pkmnsim
         while(query.executeStep())
         {
             query_string = "SELECT name FROM ability_names WHERE local_language_id=9 ability_id=" + to_string(query.getColumn(0));
-            ability_vec.push_back(db.execAndGetStr(query_string.c_str(), ""));
+            ability_vec.push_back(string((const char*)db.execAndGet(query_string.c_str())));
         }
     }
 
@@ -364,7 +364,7 @@ namespace pkmnsim
 
         while(query.executeStep())
         {
-            string nature = query.getColumn(0);
+            string nature = string((const char*)query.getColumn(0));
             nature_vec.push_back(nature);
         }
     }
@@ -380,11 +380,11 @@ namespace pkmnsim
 
         //Get type IDs
         query_string = "SELECT type_id FROM type_names WHERE name='" + type1 + "'";
-        type1_id = db.execAndGet(query_string.c_str(), type1);
+        type1_id = int(db.execAndGet(query_string.c_str()));
         if(type2 != "None" and type2 != "Any")
         {
             query_string = "SELECT type_id FROM type_names WHERE name='" + type2 + "'";
-            type2_id = db.execAndGet(query_string.c_str(), type2);
+            type2_id = int(db.execAndGet(query_string.c_str()));
         }
 
         if((type2 == "None" or type2 == "Any") and lax)
@@ -457,11 +457,11 @@ namespace pkmnsim
                 int species_id = db.execAndGet(query_string.c_str());
 
                 query_string = "SELECT identifier FROM pokemon_species WHERE id=" + to_string(species_id);
-                string pkmn_name = db.execAndGetStr(query_string.c_str(), "No string");
+                string pkmn_name = db.execAndGet(query_string.c_str());
 
                 //Get generation ID to restrict list
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
-                int generation_id = db.execAndGet(query_string.c_str(), pkmn_name);
+                int generation_id = db.execAndGet(query_string.c_str());
                 if(generation_id <= gen) applicable_ids.push_back(pkmn_ids[i]); //ID's that apply to final Pokemon
             }
         }

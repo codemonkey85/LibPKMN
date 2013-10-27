@@ -13,7 +13,7 @@
 #include <pkmnsim/database/lists.hpp>
 #include <pkmnsim/paths.hpp>
 
-#include <sqlitecpp/SQLiteCPP.h>
+#include "../SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
