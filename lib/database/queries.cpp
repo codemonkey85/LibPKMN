@@ -161,6 +161,18 @@ namespace pkmnsim
             return string((const char*)db.execAndGet(query_string.c_str()));
         }
         
+        unsigned int get_item_category(unsigned int item_id)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT category_id FROM items WHERE id=") % item_id);
+            return int(db.execAndGet(query_string.c_str()));
+        }
+        
+        unsigned int get_item_category(string item_name)
+        {
+            return int(get_item_category(get_item_id(item_name)));
+        }
+        
         string get_move_description(unsigned int move_id, unsigned int version)
         {
             //Main Gen 1 games have no move descriptions, so convert version ID to Stadium 2

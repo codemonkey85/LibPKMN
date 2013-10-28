@@ -39,6 +39,9 @@ namespace pkmnsim
         unsigned int PKMNSIM_API get_item_id(std::string item_name);
         std::string PKMNSIM_API get_item_name(unsigned int item_id);
 
+        unsigned int PKMNSIM_API get_item_category(unsigned int item_id);
+        unsigned int PKMNSIM_API get_item_category(std::string item_name);
+        
         std::string PKMNSIM_API get_move_description(unsigned int move_id, unsigned int version);
         std::string PKMNSIM_API get_move_description(std::string move_name, unsigned int version);
         
