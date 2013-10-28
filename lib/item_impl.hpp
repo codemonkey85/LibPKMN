@@ -20,10 +20,10 @@ namespace pkmnsim
             unsigned int get_game_id();
             unsigned int get_category_id();
             std::string get_category_name();
-            virtual unsigned int get_index();
+            unsigned int get_index();
             unsigned int get_item_id();
-            virtual std::string get_description();
-            virtual std::string get_name();
+            std::string get_description();
+            std::string get_name();
     };
 }
 

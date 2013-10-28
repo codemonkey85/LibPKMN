@@ -12,6 +12,7 @@
 #include <boost/format.hpp>
 
 #include "item_impl.hpp"
+#include "item_berryimpl.hpp"
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/item.hpp>
 #include <pkmnsim/paths.hpp>
@@ -29,12 +30,12 @@ namespace pkmnsim
         {
             return sptr(new item_machineimpl(id, game));
         }
-        else if((id >= Items::CHERI_BERRY and id <= Items::ROWAP_BERRY)
+        else */if((id >= Items::CHERI_BERRY and id <= Items::ROWAP_BERRY)
                 or (id >= Items::BERRY and id <= Items::MYSTERYBERRY))
         {
             return sptr(new item_berryimpl(id, game));
         }
-        else */return sptr(new item_impl(id, game));
+        else return sptr(new item_impl(id, game));
     }
     
     item_impl::item_impl(unsigned int id, unsigned int game): item()
