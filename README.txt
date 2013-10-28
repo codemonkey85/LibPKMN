@@ -29,14 +29,16 @@ Tested with:
  * Clang 3.0 (Ubuntu 12.04)
  * Microsoft Visual Studio 2010 (Windows 7)
 
-SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) source included under the MIT license.
-Pokehack (https://github.com/Grazfather/pokehack) source included as Git submodule.
-PokeLib-NC (https://github.com/ncorgan/PokeLib-NC) source included as Git submodule.
-PKMDS-G5 (https://github.com/codemonkey85/PKMDS-G5) source included as Git submodule.
+Git submodules:
+ * Pokemon-sim Images (https://github.com/ncorgan/Pokemon-sim-images) - Pokemon sprites and icons
+ * SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) - SQLite3 C++ wrapper
+ * Pokehack (https://github.com/Grazfather/pokehack) - Gen 3 save editing library
+ * PokeLib-NC (https://github.com/ncorgan/PokeLib-NC) - Gen 4 save editing library
+ * PKMDS-G5 (https://github.com/codemonkey85/PKMDS-G5) - Gen 5 save editing library
 
 Dependencies:
  * Boost 1.48 or above (http://www.boost.org)
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
-README last updated: 2013-10-23
+README last updated: 2013-10-27
