@@ -71,7 +71,7 @@ namespace pkmnsim
             //Fail if move's generation_id > specified generation
             query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(id);
             int gen_id = db.execAndGet(query_string.c_str());
-            int game_gen = database::get_generation_from_game_id(from_game);
+            int game_gen = database::get_generation(from_game);
 
             if(gen_id > game_gen)
             {
@@ -106,7 +106,7 @@ namespace pkmnsim
                 return "Invalid Move";
 
             default:
-               return database::get_move_name_from_id(move_id);
+               return database::get_move_name(move_id);
         }
     }
 
@@ -119,7 +119,7 @@ namespace pkmnsim
                 return "No info";
 
             default:
-                return database::get_move_description_from_id(move_id, from_game);
+                return database::get_move_description(move_id, from_game);
         }
     }
 
@@ -142,9 +142,9 @@ namespace pkmnsim
             default:
                 //In Gens 1-3, damage class depended on move type
                 //In Gens 4-5, damage class is specific to each move
-                unsigned int from_gen = database::get_generation_from_game_id(from_game);
+                unsigned int from_gen = database::get_generation(from_game);
                 if(from_gen >= 4) return move_damage_class;
-                else return database::get_damage_class_from_type(type_id);
+                else return database::get_damage_class(type_id);
         }
     }
 

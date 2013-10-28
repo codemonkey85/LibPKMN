@@ -32,7 +32,7 @@ namespace pkmnsim
         try
         {
             //Get generation from game enum
-            int gen = database::get_generation_from_game_id(game);
+            int gen = database::get_generation(game);
 
             if(gen < 1 or gen > 5) throw runtime_error("Gen must be 1-5.");
 
@@ -115,7 +115,7 @@ namespace pkmnsim
                 unsigned int gen_id = int(db.execAndGet(query_string.c_str()));
                 if(gen_id > from_gen)
                 {
-                    string error_message = database::get_species_name_from_id(id) + " not present in Generation " + to_string(from_gen) + ".";
+                    string error_message = database::get_species_name(from_gen) + ".";
                     throw runtime_error(error_message.c_str());
                 }
 
@@ -141,7 +141,7 @@ namespace pkmnsim
     }
 
     unsigned int base_pokemon_impl::get_pokedex_num() const {return species_id;}
-    string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry_from_species_id(species_id, from_game);}
+    string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry(species_id, from_game);}
 
     dict<unsigned int, unsigned int> base_pokemon_impl::get_types() const
     {
@@ -227,7 +227,7 @@ namespace pkmnsim
     
     unsigned int base_pokemon_impl::get_generation() const {return from_gen;}
     
-    string base_pokemon_impl::get_game_name() const {return database::get_game_name_from_id(from_game);}
+    string base_pokemon_impl::get_game_name() const {return database::get_game_name(from_game);}
 
     string base_pokemon_impl::get_species_name() const
     {
@@ -240,7 +240,7 @@ namespace pkmnsim
                 return "Invalid Pokemon";
 
             default:
-                return database::get_species_name_from_id(species_id);
+                return database::get_species_name(species_id);
         }
     }
 

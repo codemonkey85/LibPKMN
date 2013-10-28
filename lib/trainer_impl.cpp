@@ -30,7 +30,7 @@ namespace pkmnsim
         trainer_name = name;
         gender = gndr;
         money = gender;
-        trainer_id = rand_gen.lcrng_next(database::get_generation_from_game_id(game));
+        trainer_id = rand_gen.lcrng_next(database::get_generation(game));
 
         pokemon_team_t party = pokemon_team_t(6);
         for(int i = 0; i < 6; i++)

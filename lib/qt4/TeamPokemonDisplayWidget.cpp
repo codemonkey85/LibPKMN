@@ -58,7 +58,7 @@ namespace pkmnsim
             
             //Fill labels
             QString pokemonQString;
-            if(database::get_generation_from_game_id(game) == 1) pokemonQString = QString("%1 (%2)").arg(
+            if(database::get_generation(game) == 1) pokemonQString = QString("%1 (%2)").arg(
                 QString::fromStdString(t_pkmn->get_species_name()),
                 QString::fromStdString(t_pkmn->get_nickname().std_string())
             );
@@ -71,7 +71,7 @@ namespace pkmnsim
             
             QString itemQString; //items not implemented, defaulting to None
             QLabel* itemLabel;
-            if(database::get_generation_from_game_id(game) >= 2)
+            if(database::get_generation(game) >= 2)
             {
                 itemQString = QString("Item Held: None");
                 itemLabel = new QLabel(itemQString);
@@ -79,11 +79,11 @@ namespace pkmnsim
             
             QString abilityNatureQString;
             QLabel* abilityNatureLabel;
-            if(database::get_generation_from_game_id(game) >= 3)
+            if(database::get_generation(game) >= 3)
             {
                 abilityNatureQString = QString("Ability: %1, Nature: %2").arg(
-                    QString::fromStdString(database::get_ability_name_from_id(t_pkmn->get_ability())),
-                    QString::fromStdString(database::get_nature_name_from_id(t_pkmn->get_nature()))
+                    QString::fromStdString(database::get_ability_name(t_pkmn->get_ability())),
+                    QString::fromStdString(database::get_nature_name(t_pkmn->get_nature()))
                 );
                 abilityNatureLabel = new QLabel(abilityNatureQString);
             }
@@ -114,12 +114,12 @@ namespace pkmnsim
             attackFourLayout->addWidget(attackFourLabel);
             
             mainLayout->addLayout(pokemonLayout);
-            if(database::get_generation_from_game_id(game) >= 2)
+            if(database::get_generation(game) >= 2)
             {
                 itemLayout->addWidget(itemLabel);
                 mainLayout->addLayout(itemLayout);
             }
-            if(database::get_generation_from_game_id(game) >= 3)
+            if(database::get_generation(game) >= 3)
             {
                 abilityNatureLayout->addWidget(abilityNatureLabel);
                 mainLayout->addLayout(abilityNatureLayout);

@@ -62,7 +62,7 @@ namespace pkmnsim
                                          unsigned int move3, unsigned int move4): team_pokemon()
     {
         prng rand_gen;
-        unsigned int gen = database::get_generation_from_game_id(game);
+        unsigned int gen = database::get_generation(game);
         
         personality = rand_gen.lcrng_next(gen);
         trainer_id = rand_gen.lcrng_next(gen);
@@ -197,7 +197,7 @@ namespace pkmnsim
     
     vector<string> team_pokemon_impl::get_egg_group_names() const {return base_pkmn->get_egg_group_names();}
 
-    string team_pokemon_impl::get_game_name() const {return database::get_game_name_from_id(from_game);}
+    string team_pokemon_impl::get_game_name() const {return database::get_game_name(from_game);}
     
     string team_pokemon_impl::get_species_name() const {return base_pkmn->get_species_name();}
     

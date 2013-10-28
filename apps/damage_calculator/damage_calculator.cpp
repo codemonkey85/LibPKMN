@@ -70,9 +70,9 @@ int main(int argc, char *argv[])
     double type_mod = 1;
 
     //Generate relevant data structures
-    base_pokemon::sptr attacker = base_pokemon::make(database::get_species_id_from_name(attacker_name), game_id_from_gen[gen]);
-    base_pokemon::sptr defender = base_pokemon::make(database::get_species_id_from_name(defender_name), game_id_from_gen[gen]);
-    move::sptr attack = move::make(database::get_move_id_from_name(move_name), gen);
+    base_pokemon::sptr attacker = base_pokemon::make(database::get_species_id(attacker_name), game_id_from_gen[gen]);
+    base_pokemon::sptr defender = base_pokemon::make(database::get_species_id(defender_name), game_id_from_gen[gen]);
+    move::sptr attack = move::make(database::get_move_id(move_name), gen);
 
     //Get defender's HP range for checking possibility of fainting
     get_stat_range(defender, Stats::HP, defender_level, gen, stat_range);

@@ -126,9 +126,9 @@ namespace pkmnsim
 
             default:
                 string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-                else types_str = database::get_type_name_from_id(type1_id) + "/"
-                               + database::get_type_name_from_id(type2_id);
+                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
+                else types_str = database::get_type_name(type1_id) + "/"
+                               + database::get_type_name(type2_id);
 
                 dict<unsigned int, unsigned int> stats = get_base_stats();
 
@@ -155,20 +155,20 @@ namespace pkmnsim
 
             default:
                 string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-                else types_str = database::get_type_name_from_id(type1_id) + "/"
-                               + database::get_type_name_from_id(type2_id);
+                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
+                else types_str = database::get_type_name(type1_id) + "/"
+                               + database::get_type_name(type2_id);
 
                 dict<unsigned int, unsigned int> stats = get_base_stats();
                 dict<unsigned int, unsigned int> abilities = get_abilities();
 
                 string abilities_str;
-                if(abilities[1] == Abilities::NONE) abilities_str = database::get_ability_name_from_id(abilities[0]); //1 ability
-                else if(abilities[2] == Abilities::NONE) abilities_str = database::get_ability_name_from_id(abilities[0])
-                                                              + ", " + database::get_ability_name_from_id(abilities[1]); //2 abilities
-                else abilities_str = database::get_ability_name_from_id(abilities[0]) + ", "
-                                   + database::get_ability_name_from_id(abilities[1]) + ", "
-                                   + database::get_ability_name_from_id(abilities[2]);
+                if(abilities[1] == Abilities::NONE) abilities_str = database::get_ability_name(abilities[0]); //1 ability
+                else if(abilities[2] == Abilities::NONE) abilities_str = database::get_ability_name(abilities[0])
+                                                              + ", " + database::get_ability_name(abilities[1]); //2 abilities
+                else abilities_str = database::get_ability_name(abilities[0]) + ", "
+                                   + database::get_ability_name(abilities[1]) + ", "
+                                   + database::get_ability_name(abilities[2]);
 
                 string output_string;
                 output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
@@ -1431,7 +1431,7 @@ namespace pkmnsim
 
                 if(find(type_vec.begin(), type_vec.end(), form) != type_vec.end())
                 {
-                    type1_id = database::get_type_id_from_name(form);
+                    type1_id = database::get_type_id(form);
                     type2_id = -1;
                     transform(form.begin(), form.end(), form.begin(), ::tolower);
                     string basename = (boost::format("493-%s.png") % form).str();
@@ -1707,7 +1707,7 @@ namespace pkmnsim
 
             default:
                 for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
-                    egg_group_vec.push_back(database::get_egg_group_name_from_id(egg_group_id_vec[i]));
+                    egg_group_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
                 
                 return egg_group_vec;
         }

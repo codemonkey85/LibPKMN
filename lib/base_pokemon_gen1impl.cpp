@@ -92,9 +92,9 @@ namespace pkmnsim
 
             default:
                 string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-                else types_str = database::get_type_name_from_id(type1_id) + "/"
-                               + database::get_type_name_from_id(type2_id);
+                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
+                else types_str = database::get_type_name(type1_id) + "/"
+                               + database::get_type_name(type2_id);
 
                 dict<unsigned int, unsigned int> stats = get_base_stats();
 
@@ -121,9 +121,9 @@ namespace pkmnsim
 
             default:
                 string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name_from_id(type1_id);
-                else types_str = database::get_type_name_from_id(type1_id) + "/"
-                               + database::get_type_name_from_id(type2_id);
+                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
+                else types_str = database::get_type_name(type1_id) + "/"
+                               + database::get_type_name(type2_id);
 
                 dict<unsigned int, unsigned int> stats = get_base_stats();
 

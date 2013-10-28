@@ -41,12 +41,12 @@ namespace pkmnsim
         gender = determine_gender();
         held_item = 0; //Placeholder
 
-        HP = get_hp_from_ev_iv();
-        ATK = get_stat_from_ev_iv(Stats::ATTACK,evATK,ivATK);
-        DEF = get_stat_from_ev_iv(Stats::DEFENSE,evDEF,ivDEF);
-        SPD = get_stat_from_ev_iv(Stats::SPEED,evSPD,ivSPD);
-        SATK = get_stat_from_ev_iv(Stats::SPECIAL_ATTACK,evSPCL,ivSPCL);
-        SDEF = get_stat_from_ev_iv(Stats::SPECIAL_DEFENSE,evSPCL,ivSPCL);
+        HP = get_hp();
+        ATK = get_stat(Stats::ATTACK,evATK,ivATK);
+        DEF = get_stat(Stats::DEFENSE,evDEF,ivDEF);
+        SPD = get_stat(Stats::SPEED,evSPD,ivSPD);
+        SATK = get_stat(Stats::SPECIAL_ATTACK,evSPCL,ivSPCL);
+        SDEF = get_stat(Stats::SPECIAL_DEFENSE,evSPCL,ivSPCL);
 
         icon_path = base_pkmn->get_icon_path(true);
         sprite_path = base_pkmn->get_sprite_path((gender != Genders::FEMALE), is_shiny());
@@ -65,9 +65,9 @@ namespace pkmnsim
             default:
                 string types_str;
                 dict<unsigned int, unsigned int> types = base_pkmn->get_types();
-                if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
-                else types_str = database::get_type_name_from_id(types[0]) + "/"
-                               + database::get_type_name_from_id(types[1]);
+                if(types[1] == Types::NONE) types_str = database::get_type_name(types[0]);
+                else types_str = database::get_type_name(types[0]) + "/"
+                               + database::get_type_name(types[1]);
                 string stats_str = to_string(HP) + ", " + to_string(ATK) + ", "
                                  + to_string(DEF) + ", " + to_string(SATK) + ", "
                                  + to_string(SDEF) + ", " + to_string(SPD);
@@ -111,9 +111,9 @@ namespace pkmnsim
             default:
                 string types_str;
                 dict<unsigned int, unsigned int> types = base_pkmn->get_types();
-                if(types[1] == Types::NONE) types_str = database::get_type_name_from_id(types[0]);
-                else types_str = database::get_type_name_from_id(types[0]) + "/"
-                               + database::get_type_name_from_id(types[1]);
+                if(types[1] == Types::NONE) types_str = database::get_type_name(types[0]);
+                else types_str = database::get_type_name(types[0]) + "/"
+                               + database::get_type_name(types[1]);
 
                 string output_string;
                 output_string = nickname.std_string() + " (" + base_pkmn->get_species_name() + ")\n"
@@ -212,28 +212,28 @@ namespace pkmnsim
         {
             case Stats::HP:
                 evHP = val;
-                HP = get_hp_from_ev_iv();
+                HP = get_hp();
                 break;
                 
             case Stats::ATTACK:
                 evATK = val;
-                ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
+                ATK = get_stat(Stats::ATTACK, evATK, ivATK);
                 break;
                 
             case Stats::DEFENSE:
                 evDEF = val;
-                DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
+                DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
                 break;
             
             case Stats::SPEED:
                 evSPD = val;
-                SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
+                SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
                 break;
             
             case Stats::SPECIAL:
                 evSPCL = val;
-                SATK = get_stat_from_ev_iv(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
-                SDEF = get_stat_from_ev_iv(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
+                SATK = get_stat(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
+                SDEF = get_stat(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
                 break;
             
             default:
@@ -253,28 +253,28 @@ namespace pkmnsim
         {
             case Stats::HP:
                 ivHP = val;
-                HP = get_hp_from_ev_iv();
+                HP = get_hp();
                 break;
                 
             case Stats::ATTACK:
                 ivATK = val;
-                ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
+                ATK = get_stat(Stats::ATTACK, evATK, ivATK);
                 break;
                 
             case Stats::DEFENSE:
                 ivDEF = val;
-                DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
+                DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
                 break;
                 
             case Stats::SPEED:
                 ivSPD = val;
-                SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
+                SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
                 break;
             
             case Stats::SPECIAL:
                 ivSPCL = val;
-                SATK = get_stat_from_ev_iv(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
-                SDEF = get_stat_from_ev_iv(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
+                SATK = get_stat(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
+                SDEF = get_stat(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
                 break;
             
             default:
@@ -289,12 +289,12 @@ namespace pkmnsim
     void team_pokemon_gen2impl::set_form(unsigned int form)
     {
         base_pkmn->set_form(form);
-        HP = get_hp_from_ev_iv();
-        ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
-        DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
-        SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
-        SATK = get_stat_from_ev_iv(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
-        SDEF = get_stat_from_ev_iv(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
+        HP = get_hp();
+        ATK = get_stat(Stats::ATTACK, evATK, ivATK);
+        DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
+        SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
+        SATK = get_stat(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
+        SDEF = get_stat(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
         icon_path = base_pkmn->get_icon_path(true);
         sprite_path = base_pkmn->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
@@ -302,17 +302,17 @@ namespace pkmnsim
     void team_pokemon_gen2impl::set_form(std::string form)
     {
         base_pkmn->set_form(form);
-        HP = get_hp_from_ev_iv();
-        ATK = get_stat_from_ev_iv(Stats::ATTACK, evATK, ivATK);
-        DEF = get_stat_from_ev_iv(Stats::DEFENSE, evDEF, ivDEF);
-        SPD = get_stat_from_ev_iv(Stats::SPEED, evSPD, ivSPD);
-        SATK = get_stat_from_ev_iv(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
-        SDEF = get_stat_from_ev_iv(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
+        HP = get_hp();
+        ATK = get_stat(Stats::ATTACK, evATK, ivATK);
+        DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
+        SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
+        SATK = get_stat(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
+        SDEF = get_stat(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
         icon_path = base_pkmn->get_icon_path(true);
         sprite_path = base_pkmn->get_sprite_path((gender != Genders::FEMALE), is_shiny());
     }
 
-    unsigned int team_pokemon_gen2impl::get_hp_from_ev_iv() const
+    unsigned int team_pokemon_gen2impl::get_hp() const
     {
         dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
 
@@ -321,7 +321,7 @@ namespace pkmnsim
         return hp_val;
     }
 
-    unsigned int team_pokemon_gen2impl::get_stat_from_ev_iv(unsigned int stat, unsigned int EV, unsigned int IV) const
+    unsigned int team_pokemon_gen2impl::get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
     {
         dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
 

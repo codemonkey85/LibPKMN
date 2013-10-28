@@ -142,8 +142,8 @@ namespace pkmnsim
             std::string icon_path, sprite_path;
 			dict<std::string, int> attributes;
 
-            virtual unsigned int get_hp_from_ev_iv() const = 0;
-            virtual unsigned int get_stat_from_ev_iv(unsigned int stat, unsigned int EV, unsigned int IV) const = 0;
+            virtual unsigned int get_hp() const = 0;
+            virtual unsigned int get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const = 0;
 
             unsigned int SPCL, SATK, SDEF;
             unsigned int ivSPCL, ivSATK, ivSDEF;

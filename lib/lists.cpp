@@ -474,11 +474,11 @@ namespace pkmnsim
         for(unsigned int i = 0; i < applicable_ids.size(); i++)
         {
             //Manually correct for Magnemite and Magneton in Gen 1
-            int final_species_id = database::get_species_id_from_pokemon_id(applicable_ids[i]);
-            if(not ((database::get_species_name_from_id(final_species_id) == "Magnemite" or
-                     database::get_species_name_from_id(final_species_id) == "Magneton") and gen == 1))
+            int final_species_id = database::get_species_id(applicable_ids[i]);
+            if(not ((database::get_species_name(final_species_id) == "Magnemite" or
+                     database::get_species_name(final_species_id) == "Magneton") and gen == 1))
             {
-                base_pokemon::sptr b_pkmn = base_pokemon::make(database::get_species_id_from_pokemon_id(applicable_ids[i]), game_id_from_gen[gen]);
+                base_pokemon::sptr b_pkmn = base_pokemon::make(database::get_species_id(applicable_ids[i]), game_id_from_gen[gen]);
                 b_pkmn->repair(applicable_ids[i]);
                 pkmn_vector.push_back(b_pkmn);
             }

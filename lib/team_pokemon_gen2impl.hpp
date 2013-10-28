@@ -42,8 +42,8 @@ namespace pkmnsim
 
         private:
         
-            unsigned int get_hp_from_ev_iv() const;
-            unsigned int get_stat_from_ev_iv(unsigned int stat, unsigned int EV, unsigned int IV) const;
+            unsigned int get_hp() const;
+            unsigned int get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const;
             
             unsigned int determine_gender() const;
     };
