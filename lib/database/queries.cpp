@@ -18,6 +18,8 @@
 
 #include "../SQLiteCpp/src/SQLiteC++.h"
 
+//TODO: idiot-proofing
+
 using namespace std;
 
 namespace pkmnsim
@@ -101,10 +103,67 @@ namespace pkmnsim
             query_string = "SELECT generation_id FROM version_groups WHERE id=" + to_string(version_group_id);
             return int(db.execAndGet(query_string.c_str()));
         }
+
+        unsigned int get_item_index_from_id(unsigned int item_id, unsigned int version)
+        {
+            int gen = get_generation_from_game_id(version);
+            
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = "SELECT game_index FROM item_game_indices WHERE item_id=" + to_string(item_id);
+            return int(db.execAndGet(query_string.c_str()));
+        }
+        
+        unsigned int get_item_index_from_name(string item_name, unsigned int version)
+        {
+            return get_item_index_from_id(get_item_id_from_name(item_name), version);
+        }
+        
+        string get_item_description_from_id(unsigned int item_id, unsigned int version)
+        {
+            //Main Gen 1 games have no item descriptions, so convert version ID to Stadium 2
+            //Convert enums to version_group_id
+            if(version < Games::GOLD) version = Games::STADIUM2;
+            unsigned int version_group_id = get_version_group_from_id(version);
+            
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT flavor_text FROM item_flavor_text WHERE item_id=%d AND version_group_id=%d AND language_id=9")
+                                                    % item_id % version_group_id);
+            string entry = string((const char*)db.execAndGet(query_string.c_str()));
+            string s;
+            istringstream iss(entry);
+            entry = "";
+            while(iss >> s)
+            {
+                if (entry != "") entry += " " + s;
+                else entry = s;
+            }
+
+            return entry;
+        }
+        
+        string get_item_description_from_name(string item_name, unsigned int version)
+        {
+            return get_item_description_from_id(get_item_id_from_name(item_name), version);
+        }
+        
+        unsigned int get_item_id_from_name(string item_name)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT item_id FROM item_names WHERE name='%s'") % item_name);
+            return int(db.execAndGet(query_string.c_str()));
+        }
+
+        string get_item_name_from_id(unsigned int item_id)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT name FROM item_names WHERE item_id=%d AND local_language_id=9")
+                                                    % item_id);
+            return string((const char*)db.execAndGet(query_string.c_str()));
+        }
         
         string get_move_description_from_id(unsigned int move_id, unsigned int version)
         {
-            //Main Gen 1 games have no move descriptions, so convert version ID to Stadium
+            //Main Gen 1 games have no move descriptions, so convert version ID to Stadium 2
             //Convert enums to version_group_id
             if(version < Games::GOLD) version = Games::STADIUM2;
             unsigned int version_group_id = get_version_group_from_id(version);

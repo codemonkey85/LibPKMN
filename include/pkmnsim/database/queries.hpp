@@ -29,7 +29,16 @@ namespace pkmnsim
         std::string PKMNSIM_API get_game_name_from_id(unsigned int game_id);
         
         unsigned int PKMNSIM_API get_generation_from_game_id(unsigned int game_id);
+
+        unsigned int PKMNSIM_API get_item_index_from_id(unsigned int item_id, unsigned int version);
+        unsigned int PKMNSIM_API get_item_index_from_name(std::string item_name, unsigned int version);
         
+        std::string PKMNSIM_API get_item_description_from_id(unsigned int item_id, unsigned int version);
+        std::string PKMNSIM_API get_item_description_from_name(std::string name, unsigned int version);
+        
+        unsigned int PKMNSIM_API get_item_id_from_name(std::string item_name);
+        std::string PKMNSIM_API get_item_name_from_id(unsigned int item_id);
+
         std::string PKMNSIM_API get_move_description_from_id(unsigned int move_id, unsigned int version);
         std::string PKMNSIM_API get_move_description_from_name(std::string move_name, unsigned int version);
         
