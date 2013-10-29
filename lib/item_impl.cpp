@@ -13,6 +13,7 @@
 
 #include "item_impl.hpp"
 #include "item_berryimpl.hpp"
+#include "item_machineimpl.hpp"
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/item.hpp>
 #include <pkmnsim/paths.hpp>
@@ -26,11 +27,11 @@ namespace pkmnsim
 {
     item::sptr item::make(unsigned int id, unsigned int game)
     {
-        /*if(id >= Items::TM01 and id <= Items::HM08)
+        if(id >= Items::TM01 and id <= Items::HM08)
         {
             return sptr(new item_machineimpl(id, game));
         }
-        else */if((id >= Items::CHERI_BERRY and id <= Items::ROWAP_BERRY)
+        else if((id >= Items::CHERI_BERRY and id <= Items::ROWAP_BERRY)
                 or (id >= Items::BERRY and id <= Items::MYSTERYBERRY))
         {
             return sptr(new item_berryimpl(id, game));

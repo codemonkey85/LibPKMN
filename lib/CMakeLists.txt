@@ -42,6 +42,7 @@ IF(ENABLE_LIBRARY)
         trainer_impl.cpp
         item_impl.cpp
         item_berryimpl.cpp
+        item_machineimpl.cpp
         move_impl.cpp
         move_mainimpl.cpp
         #game_save_impl.cpp
