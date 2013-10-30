@@ -153,6 +153,14 @@ namespace pkmnsim
             return int(db.execAndGet(query_string.c_str()));
         }
 
+        unsigned int get_item_id(unsigned int item_index, unsigned int game)
+        {
+            SQLite::Database db(get_database_path().c_str());
+            string query_string = str(boost::format("SELECT item_id FROM item_game_indices WHERE generation=%d AND game_index=%d")
+                                      % get_generation(game) % item_index);
+            return int(db.execAndGet(query_string.c_str()));
+        }
+        
         string get_item_name(unsigned int item_id)
         {
             SQLite::Database db(get_database_path().c_str());

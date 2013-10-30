@@ -37,6 +37,7 @@ namespace pkmnsim
         std::string PKMNSIM_API get_item_description(std::string name, unsigned int version);
         
         unsigned int PKMNSIM_API get_item_id(std::string item_name);
+        unsigned int PKMNSIM_API get_item_id(unsigned int item_index, unsigned int game);
         std::string PKMNSIM_API get_item_name(unsigned int item_id);
 
         unsigned int PKMNSIM_API get_item_category(unsigned int item_id);
