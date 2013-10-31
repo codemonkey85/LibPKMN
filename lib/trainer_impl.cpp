@@ -5,6 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <boost/cast.hpp>
+
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/trainer.hpp>
@@ -65,19 +67,19 @@ namespace pkmnsim
             {
                 case 1:
                 {
-                    team_pokemon_gen1impl actual1 = *(dynamic_cast<team_pokemon_gen1impl*>(to_return.get()));
+                    team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(to_return.get()));
                     return team_pokemon::sptr(&actual1);
                 }
                     
                 case 2:
                 {
-                    team_pokemon_gen2impl actual2 = *(dynamic_cast<team_pokemon_gen2impl*>(to_return.get()));
+                    team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(to_return.get()));
                     return team_pokemon::sptr(&actual2);
                 }
                                     
                 default:
                 {
-                    team_pokemon_gen345impl actual345 = *(dynamic_cast<team_pokemon_gen345impl*>(to_return.get()));
+                    team_pokemon_gen345impl actual345 = *(boost::polymorphic_downcast<team_pokemon_gen345impl*>(to_return.get()));
                     return team_pokemon::sptr(&actual345);
                 }
             }
