@@ -25,7 +25,7 @@ namespace pkmnsim
             void set_money(unsigned int new_money);
 
             pokemon_team_t get_party();
-            team_pokemon::sptr get_pokemon(unsigned int pos);
+            team_pokemon::sptr get_pokemon(unsigned int pos, bool copy = true);
 
             void set_party(pokemon_team_t &team);
             void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn);

@@ -11,6 +11,10 @@
 #include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/types/prng.hpp>
 
+#include "team_pokemon_gen1impl.hpp"
+#include "team_pokemon_gen2impl.hpp"
+#include "team_pokemon_gen345impl.hpp"
+
 #include "trainer_impl.hpp"
 
 using namespace std;
@@ -51,9 +55,34 @@ namespace pkmnsim
 
     pokemon_team_t trainer_impl::get_party() {return party;}
 
-    team_pokemon::sptr trainer_impl::get_pokemon(unsigned int pos)
+    team_pokemon::sptr trainer_impl::get_pokemon(unsigned int pos, bool copy)
     {
-        return (pos > 6) ? party[5] : party[pos];
+        team_pokemon::sptr to_return = (pos > 6) ? party[5] : party[pos];
+        
+        if(copy)
+        {
+            switch(database::get_generation(game_id))
+            {
+                case 1:
+                {
+                    team_pokemon_gen1impl actual1 = *(dynamic_cast<team_pokemon_gen1impl*>(to_return.get()));
+                    return team_pokemon::sptr(&actual1);
+                }
+                    
+                case 2:
+                {
+                    team_pokemon_gen2impl actual2 = *(dynamic_cast<team_pokemon_gen2impl*>(to_return.get()));
+                    return team_pokemon::sptr(&actual2);
+                }
+                                    
+                default:
+                {
+                    team_pokemon_gen345impl actual345 = *(dynamic_cast<team_pokemon_gen345impl*>(to_return.get()));
+                    return team_pokemon::sptr(&actual345);
+                }
+            }
+        }
+        else return to_return;
     }
 
     void trainer_impl::set_party(pokemon_team_t &team) {party = team;}

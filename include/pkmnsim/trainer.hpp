@@ -39,7 +39,7 @@ namespace pkmnsim
             virtual void set_money(unsigned int new_money) = 0;
 
             virtual pokemon_team_t get_party() = 0;
-            virtual team_pokemon::sptr get_pokemon(unsigned int pos) = 0;
+            virtual team_pokemon::sptr get_pokemon(unsigned int pos, bool copy = true) = 0;
 
             virtual void set_party(pokemon_team_t &team) = 0;
             virtual void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn) = 0;
