@@ -19,11 +19,11 @@ IF(SWIG_FOUND)
     
     # Compiler-specific flags
     IF(CMAKE_COMPILER_IS_GNUCXX)
-        IF(LINUX)
+        IF(UNIX)
             SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
         ELSE() #Cygwin
             SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++0x")
-        ENDIF(LINUX)
+        ENDIF(UNIX)
     ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
@@ -37,7 +37,7 @@ IF(SWIG_FOUND)
 ENDIF(SWIG_FOUND)
 
 PKMNSIM_REGISTER_COMPONENT("PyPKMNsim - Python Bindings" ENABLE_PYPKMNSIM ON
-                           "ENABLE_LIBRARY;PYQT4_FOUND" OFF)
+                           "ENABLE_LIBRARY;SWIG_FOUND;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND;PYQT4_FOUND" OFF)
 
 ####################################################################
 # Add subdirectories as appropriate based on enabled SWIG wrappers
