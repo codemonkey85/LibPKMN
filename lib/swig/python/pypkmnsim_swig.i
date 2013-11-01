@@ -39,6 +39,12 @@
     void __setitem__(int i, pkmnsim::team_pokemon::sptr val) {(*self)[i] = val;}
 };
 
+//Make pokemon_text act more like a string when printed
+%extend pkmnsim::pokemon_text{
+    char* __repr__() {return (char*)((*self).const_char());}
+    char* __str__() {return (char*)((*self).const_char());}
+};
+
 %ignore pkmnsim::analysis::get_damage_range;
 %ignore pkmnsim::analysis::get_stat_range;
 %rename(get_damage_range) pkmnsim::get_damage_range_vec;
