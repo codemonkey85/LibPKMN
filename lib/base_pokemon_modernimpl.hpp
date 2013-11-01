@@ -11,10 +11,10 @@
 
 namespace pkmnsim
 {
-    class base_pokemon_gen345impl: public base_pokemon_impl
+    class base_pokemon_modernimpl: public base_pokemon_impl
     {
         public:
-            base_pokemon_gen345impl(unsigned int id, unsigned int game);
+            base_pokemon_modernimpl(unsigned int id, unsigned int game);
             
             std::string get_info() const;
             std::string get_info_verbose() const;

@@ -11,11 +11,11 @@
 
 namespace pkmnsim
 {
-    class team_pokemon_gen345impl: public team_pokemon_impl
+    class team_pokemon_modernimpl: public team_pokemon_impl
     {
         public:
 
-            team_pokemon_gen345impl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
+            team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
                                     unsigned int move1, unsigned int move2,
                                     unsigned int move3, unsigned int move4);
 

@@ -14,13 +14,13 @@
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-#include "team_pokemon_gen345impl.hpp"
+#include "team_pokemon_modernimpl.hpp"
 
 using namespace std;
 
 namespace pkmnsim
 {
-    team_pokemon_gen345impl::team_pokemon_gen345impl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
+    team_pokemon_modernimpl::team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
                                                      unsigned int move1, unsigned int move2,
                                                      unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,lvl,
                                                                                               move1,move2,move3,move4)
@@ -76,7 +76,7 @@ namespace pkmnsim
         nonvolatile_status = Statuses::OK;
     }
 
-    string team_pokemon_gen345impl::get_info() const
+    string team_pokemon_modernimpl::get_info() const
     {
         switch(get_species_id())
         {
@@ -123,7 +123,7 @@ namespace pkmnsim
         }
     }
 
-    string team_pokemon_gen345impl::get_info_verbose() const
+    string team_pokemon_modernimpl::get_info_verbose() const
     {
         switch(get_species_id())
         {
@@ -187,7 +187,7 @@ namespace pkmnsim
         }
     }
     
-    void team_pokemon_gen345impl::set_personality(unsigned int new_personality)
+    void team_pokemon_modernimpl::set_personality(unsigned int new_personality)
     {
         personality = new_personality;
         ability = determine_ability();
@@ -195,13 +195,13 @@ namespace pkmnsim
         nature = determine_nature();
     }
     
-    unsigned int team_pokemon_gen345impl::get_ability() const {return ability;}
+    unsigned int team_pokemon_modernimpl::get_ability() const {return ability;}
     
-    unsigned int team_pokemon_gen345impl::get_gender() const {return gender;}
+    unsigned int team_pokemon_modernimpl::get_gender() const {return gender;}
 
-    unsigned int team_pokemon_gen345impl::get_nature() const {return nature;}
+    unsigned int team_pokemon_modernimpl::get_nature() const {return nature;}
     
-    bool team_pokemon_gen345impl::is_shiny() const
+    bool team_pokemon_modernimpl::is_shiny() const
     {
         int p1, p2, E, F;
         p1 = (personality & 0xFFFF0000) >> 16;
@@ -211,13 +211,13 @@ namespace pkmnsim
         return (E ^ F) < 8;
     }
     
-    void team_pokemon_gen345impl::set_hidden_ability(bool val)
+    void team_pokemon_modernimpl::set_hidden_ability(bool val)
     {
         has_hidden_ability = val;
         ability = determine_ability();
     }
     
-    dict<unsigned int, unsigned int> team_pokemon_gen345impl::get_stats() const
+    dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_stats() const
     {
         dict<unsigned int, unsigned int> stats;
         stats[Stats::HP] = HP;
@@ -230,7 +230,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<unsigned int, unsigned int> team_pokemon_gen345impl::get_EVs() const
+    dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_EVs() const
     {
         dict<unsigned int, unsigned int> EVs;
         EVs[Stats::HP] = evHP;
@@ -243,7 +243,7 @@ namespace pkmnsim
         return EVs;
     }
     
-    dict<unsigned int, unsigned int> team_pokemon_gen345impl::get_IVs() const
+    dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_IVs() const
     {
         dict<unsigned int, unsigned int> IVs;
         IVs[Stats::HP] = ivHP;
@@ -256,7 +256,7 @@ namespace pkmnsim
         return IVs;
     }
 
-    void team_pokemon_gen345impl::set_EV(unsigned int EV, unsigned int val)
+    void team_pokemon_modernimpl::set_EV(unsigned int EV, unsigned int val)
     {
         if(val > 255)
         {
@@ -301,7 +301,7 @@ namespace pkmnsim
         }
     }
     
-    void team_pokemon_gen345impl::set_IV(unsigned int IV, unsigned int val)
+    void team_pokemon_modernimpl::set_IV(unsigned int IV, unsigned int val)
     {
         if(val > 31)
         {
@@ -348,7 +348,7 @@ namespace pkmnsim
 
     //TODO: better way of internally dealing with alternate forms
     
-    std::string team_pokemon_gen345impl::get_form_name() const
+    std::string team_pokemon_modernimpl::get_form_name() const
     {
         //Still doesn't account for things like West Sea vs. East Sea Shellos
         //Will need to be done with ugly manual work
@@ -367,9 +367,9 @@ namespace pkmnsim
         }
     }
     
-    unsigned int team_pokemon_gen345impl::get_form_id() const {return base_pkmn->get_pokemon_id();}
+    unsigned int team_pokemon_modernimpl::get_form_id() const {return base_pkmn->get_pokemon_id();}
     
-    void team_pokemon_gen345impl::set_form(unsigned int form)
+    void team_pokemon_modernimpl::set_form(unsigned int form)
     {
         base_pkmn->set_form(form);
         HP = get_hp();
@@ -383,7 +383,7 @@ namespace pkmnsim
         ability = determine_ability();
     }
 
-    void team_pokemon_gen345impl::set_form(std::string form)
+    void team_pokemon_modernimpl::set_form(std::string form)
     {
         base_pkmn->set_form(form);
         HP = get_hp();
@@ -397,7 +397,7 @@ namespace pkmnsim
         ability = determine_ability();
     }
 
-    unsigned int team_pokemon_gen345impl::get_hp() const
+    unsigned int team_pokemon_modernimpl::get_hp() const
     {
         dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
 
@@ -406,7 +406,7 @@ namespace pkmnsim
         return hp_val;
     }
 
-    unsigned int team_pokemon_gen345impl::get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
+    unsigned int team_pokemon_modernimpl::get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
     {
         dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
         double nature_mod = database::get_nature_stat_effect(nature, stat);
@@ -416,7 +416,7 @@ namespace pkmnsim
         return stat_val;
     }
 
-    unsigned int team_pokemon_gen345impl::determine_ability() const
+    unsigned int team_pokemon_modernimpl::determine_ability() const
     {
         SQLite::Database db(get_database_path().c_str());
         string query_string;
@@ -442,7 +442,7 @@ namespace pkmnsim
         }
     }
     
-    unsigned int team_pokemon_gen345impl::determine_gender() const
+    unsigned int team_pokemon_modernimpl::determine_gender() const
     {
         if(base_pkmn->get_chance_male() + base_pkmn->get_chance_female() == 0
         or base_pkmn->get_species_id() == Species::NONE
@@ -459,5 +459,5 @@ namespace pkmnsim
         return Genders::MALE;
     }
     
-    unsigned int team_pokemon_gen345impl::determine_nature() const {return (personality % 25);}
+    unsigned int team_pokemon_modernimpl::determine_nature() const {return (personality % 25);}
 }

@@ -19,7 +19,7 @@
 #include "team_pokemon_impl.hpp"
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
-#include "team_pokemon_gen345impl.hpp"
+#include "team_pokemon_modernimpl.hpp"
 
 using namespace std;
 
@@ -46,7 +46,7 @@ namespace pkmnsim
                                                        move1, move2, move3, move4));
 
                 default:
-                    return sptr(new team_pokemon_gen345impl(base, game, level,
+                    return sptr(new team_pokemon_modernimpl(base, game, level,
                                                        move1, move2, move3, move4));
             }
         }
