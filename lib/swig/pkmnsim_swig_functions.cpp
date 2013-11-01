@@ -7,6 +7,7 @@
 
 #include <pkmnsim/analysis/damage.hpp>
 #include <pkmnsim/analysis/stats.hpp>
+#include <pkmnsim/database/lists.hpp>
 
 #include "pkmnsim_swig_functions.hpp"
 
@@ -29,10 +30,24 @@ namespace pkmnsim
         return damage_range_vec;
     }
     
-    std::vector<unsigned int> get_damage_range_vec(team_pokemon::sptr attacker, team_pokemon::sptr defender, move::sptr attack)
+    vector<unsigned int> get_damage_range_vec(team_pokemon::sptr attacker, team_pokemon::sptr defender, move::sptr attack)
     {
         vector<unsigned int> damage_range_vec;
         analysis::get_damage_range(attacker, defender, attack, damage_range_vec);
         return damage_range_vec;
+    }
+
+    vector<string> get_table_vec(void)
+    {
+        vector<string> table_list;
+        database::get_table_list(table_list);
+        return table_list;
+    }
+
+    vector<string> get_column_vec(string table_name)
+    {
+        vector<string> column_list;
+        database::get_column_list(column_list, table_name);
+        return column_list;
     }
 }

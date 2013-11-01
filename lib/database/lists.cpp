@@ -21,7 +21,7 @@ namespace pkmnsim
 {
     namespace database
     {
-        void get_table_list(vector<string>& vec)
+        void get_table_list(vector<string> &vec)
         {
             vec.clear();
 
@@ -36,7 +36,7 @@ namespace pkmnsim
             }
         }
 
-        void get_column_list(vector<string>& vec, string table_name)
+        void get_column_list(vector<string> &vec, string table_name)
         {
             vec.clear();
 
@@ -49,20 +49,6 @@ namespace pkmnsim
                 string column_name = query.getColumn(1);
                 vec.push_back(column_name);
             }
-        }
-        //List functions that pass by value, for SWIG's use
-        vector<string> get_table_vec(void)
-        {
-            vector<string> table_list;
-            get_table_list(table_list);
-            return table_list;
-        }
-
-        vector<string> get_column_vec(string table_name)
-        {
-            vector<string> column_list;
-            get_column_list(column_list, table_name);
-            return column_list;
         }
     }
 }

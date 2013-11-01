@@ -23,7 +23,7 @@ namespace pkmnsim
          * Parameters:
          *  - vec: a reference to a vector in which to return list of tables
          */
-        void PKMNSIM_API get_table_list(std::vector<std::string>& vec);
+        void PKMNSIM_API get_table_list(std::vector<std::string> &vec);
 
         /*
          * Return a list of columns in a given table from the PKMNsim database.
@@ -32,11 +32,7 @@ namespace pkmnsim
          *  - vec: a reference to a vector in which to return list of columns
          *  - table_name: name of table to search
          */
-        void PKMNSIM_API get_column_list(std::vector<std::string>& vec, std::string table_name);
-
-        //Pass-by-value functions for SWIG's benefit
-        std::vector<std::string> PKMNSIM_API get_table_vec(void);
-        std::vector<std::string> PKMNSIM_API get_column_vec(std::string table_name);
+        void PKMNSIM_API get_column_list(std::vector<std::string> &vec, std::string table_name);
     }
 }
 

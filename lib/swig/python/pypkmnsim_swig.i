@@ -47,8 +47,12 @@
 
 %ignore pkmnsim::analysis::get_damage_range;
 %ignore pkmnsim::analysis::get_stat_range;
+%ignore pkmnsim::database::get_table_list;
+%ignore pkmnsim::database::get_column_list;
 %rename(get_damage_range) pkmnsim::get_damage_range_vec;
 %rename(get_stat_range) pkmnsim::get_stat_range_vec;
+%rename(get_table_list) pkmnsim::get_table_vec;
+%rename(get_column_list) pkmnsim::get_column_vec;
 
 %include "pkmnsim.i"
 
