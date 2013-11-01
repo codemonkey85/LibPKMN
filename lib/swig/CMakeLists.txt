@@ -10,6 +10,24 @@
 
 FIND_PACKAGE(SWIG)
 IF(SWIG_FOUND)
+
+    ####################################################################
+    # Static library with functions only used in SWIG bindings
+    ####################################################################
+    ADD_LIBRARY(pkmnsim-swig STATIC pkmnsim_swig_functions.cpp)
+    TARGET_LINK_LIBRARIES(pkmnsim-swig pkmnsim)
+    
+    # Compiler-specific flags
+    IF(CMAKE_COMPILER_IS_GNUCXX)
+        IF(LINUX)
+            SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
+        ELSE() #Cygwin
+            SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++0x")
+        ENDIF(LINUX)
+    ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
+    ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+
     FIND_PACKAGE(PythonInterp)
     FIND_PACKAGE(PythonLibs)
     IF(PYTHONINTERP_FOUND)
