@@ -17,14 +17,14 @@
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-#include "base_pokemon_gen345impl.hpp"
+#include "base_pokemon_modernimpl.hpp"
 
 namespace fs = boost::filesystem;
 using namespace std;
 
 namespace pkmnsim
 {
-    base_pokemon_gen345impl::base_pokemon_gen345impl(unsigned int id, unsigned int game):
+    base_pokemon_modernimpl::base_pokemon_modernimpl(unsigned int id, unsigned int game):
                                            base_pokemon_impl(id, game)
     {
         //Get final part of images path
@@ -116,7 +116,7 @@ namespace pkmnsim
         }
     }
 
-    string base_pokemon_gen345impl::get_info() const
+    string base_pokemon_modernimpl::get_info() const
     {
         switch(species_id)
         {
@@ -145,7 +145,7 @@ namespace pkmnsim
         }
     }
 
-    string base_pokemon_gen345impl::get_info_verbose() const
+    string base_pokemon_modernimpl::get_info_verbose() const
     {
         switch(species_id)
         {
@@ -187,7 +187,7 @@ namespace pkmnsim
         }
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_base_stats() const
+    dict<unsigned int, unsigned int> base_pokemon_modernimpl::get_base_stats() const
     {
         dict<unsigned int, unsigned int> stats;
         stats[Stats::HP] = hp;
@@ -200,7 +200,7 @@ namespace pkmnsim
         return stats;
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_ev_yields() const
+    dict<unsigned int, unsigned int> base_pokemon_modernimpl::get_ev_yields() const
     {
         dict<unsigned int, unsigned int> ev_yields;
         switch(species_id)
@@ -237,7 +237,7 @@ namespace pkmnsim
         }
     }
 
-    double base_pokemon_gen345impl::get_chance_male() const
+    double base_pokemon_modernimpl::get_chance_male() const
     {
         switch(species_id)
         {
@@ -265,7 +265,7 @@ namespace pkmnsim
         }
     }
 
-    double base_pokemon_gen345impl::get_chance_female() const
+    double base_pokemon_modernimpl::get_chance_female() const
     {
         switch(species_id)
         {
@@ -293,7 +293,7 @@ namespace pkmnsim
         }
     }
 
-    bool base_pokemon_gen345impl::has_gender_differences(void) const
+    bool base_pokemon_modernimpl::has_gender_differences(void) const
     {
         if(from_gen == 3 or species_id == Species::NONE or species_id == Species::INVALID) return false;
         else
@@ -304,7 +304,7 @@ namespace pkmnsim
         }
     }
     
-    dict<unsigned int, unsigned int> base_pokemon_gen345impl::get_abilities() const
+    dict<unsigned int, unsigned int> base_pokemon_modernimpl::get_abilities() const
     {
         dict<unsigned int, unsigned int> abilities;
         switch(species_id)
@@ -353,13 +353,13 @@ namespace pkmnsim
         }
     }
 
-    string base_pokemon_gen345impl::get_icon_path(bool is_male) const
+    string base_pokemon_modernimpl::get_icon_path(bool is_male) const
     {
         if(from_gen > 3 and not is_male) return female_icon_path;
         else return male_icon_path;
     }
     
-    string base_pokemon_gen345impl::get_sprite_path(bool is_male, bool is_shiny) const
+    string base_pokemon_modernimpl::get_sprite_path(bool is_male, bool is_shiny) const
     {
         if(is_male)
         {
@@ -374,7 +374,7 @@ namespace pkmnsim
     }
 	
     //Manually set Pokemon form
-    void base_pokemon_gen345impl::set_form(unsigned int form)
+    void base_pokemon_modernimpl::set_form(unsigned int form)
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + to_string(from_gen);
@@ -1287,7 +1287,7 @@ namespace pkmnsim
         }
     }
 
-    void base_pokemon_gen345impl::set_form(string form)
+    void base_pokemon_modernimpl::set_form(string form)
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + from_gen;
@@ -1590,7 +1590,7 @@ namespace pkmnsim
         }
     }
 
-    void base_pokemon_gen345impl::repair(unsigned int id)
+    void base_pokemon_modernimpl::repair(unsigned int id)
     {
         switch(id)
         {
@@ -1695,7 +1695,7 @@ namespace pkmnsim
         }
     }
     
-    vector<string> base_pokemon_gen345impl::get_egg_group_names() const
+    vector<string> base_pokemon_modernimpl::get_egg_group_names() const
     {
         vector<unsigned int> egg_group_id_vec = get_egg_group_ids();
         vector<string> egg_group_vec;
@@ -1713,9 +1713,9 @@ namespace pkmnsim
         }
     }
     
-    string base_pokemon_gen345impl::get_form_name() const {return get_species_name();}
+    string base_pokemon_modernimpl::get_form_name() const {return get_species_name();}
     
-    vector<unsigned int> base_pokemon_gen345impl::get_egg_group_ids() const
+    vector<unsigned int> base_pokemon_modernimpl::get_egg_group_ids() const
     {
         vector<unsigned int> egg_group_vec;
         switch(species_id)
@@ -1736,5 +1736,5 @@ namespace pkmnsim
     }
     
     //TODO: Give Pokemon-sim its own internal way of distinguishing forms
-    unsigned int base_pokemon_gen345impl::get_form_id() const {return pokemon_id;}
+    unsigned int base_pokemon_modernimpl::get_form_id() const {return pokemon_id;}
 }

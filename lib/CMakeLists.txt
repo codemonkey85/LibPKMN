@@ -32,12 +32,12 @@ IF(ENABLE_LIBRARY)
         base_pokemon_impl.cpp
         base_pokemon_gen1impl.cpp
         base_pokemon_gen2impl.cpp
-        base_pokemon_gen345impl.cpp
+        base_pokemon_modernimpl.cpp
         lists.cpp
         team_pokemon_impl.cpp
         team_pokemon_gen1impl.cpp
         team_pokemon_gen2impl.cpp
-        team_pokemon_gen345impl.cpp
+        team_pokemon_modernimpl.cpp
         trainer_impl.cpp
         item_impl.cpp
         item_berryimpl.cpp

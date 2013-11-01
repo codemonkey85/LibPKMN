@@ -21,7 +21,7 @@
 #include "base_pokemon_impl.hpp"
 #include "base_pokemon_gen1impl.hpp"
 #include "base_pokemon_gen2impl.hpp"
-#include "base_pokemon_gen345impl.hpp"
+#include "base_pokemon_modernimpl.hpp"
 
 using namespace std;
 
@@ -45,7 +45,7 @@ namespace pkmnsim
                     return sptr(new base_pokemon_gen2impl(id, game));
 
                 default:
-                    return sptr(new base_pokemon_gen345impl(id, game));
+                    return sptr(new base_pokemon_modernimpl(id, game));
             }
         }
         catch(const exception &e)

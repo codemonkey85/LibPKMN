@@ -15,7 +15,7 @@
 
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
-#include "team_pokemon_gen345impl.hpp"
+#include "team_pokemon_modernimpl.hpp"
 
 #include "trainer_impl.hpp"
 
@@ -79,7 +79,7 @@ namespace pkmnsim
                                     
                 default:
                 {
-                    team_pokemon_gen345impl actual345 = *(boost::polymorphic_downcast<team_pokemon_gen345impl*>(to_return.get()));
+                    team_pokemon_modernimpl actual345 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(to_return.get()));
                     return team_pokemon::sptr(&actual345);
                 }
             }
