@@ -21,28 +21,28 @@
 %ignore pkmnsim::dict::operator[];
 %ignore pkmnsim::vla::operator[];
 
-%ignore pkmnsim::get_damage_range;
-%ignore pkmnsim::get_game_list;
-%ignore pkmnsim::get_game_group_list;
-%ignore pkmnsim::get_pkmn_of_type;
-%ignore pkmnsim::get_type_list;
-%ignore pkmnsim::spec_pkmn::set_form(std::string);
-%ignore pkmnsim::trainer::get_party;
-%ignore pkmnsim::database::get_table_list;
-%ignore pkmnsim::database::get_column_list;
-
-%rename(get_game_list) pkmnsim::get_game_vec;
-%rename(get_game_group_list) pkmnsim::get_game_group_vec;
-%rename(get_pkmn_of_type) pkmnsim::get_pkmn_list_of_type;
-%rename(get_type_list) pkmnsim::get_type_vec;
-%rename(get_party) pkmnsim::trainer::get_party_vec;
-%rename(get_table_list) pkmnsim::database::get_table_vec;
-%rename(get_column_list) pkmnsim::database::get_column_vec;
+//Extend dict and VLA to allow use of [] operator
+%extend pkmnsim::dict<unsigned int, unsigned int>{
+    unsigned int __getitem__(unsigned int i) {return (*self)[i];}
+    void __setitem__(unsigned int i, unsigned int val) {(*self)[i] = val;}
+};
+%extend pkmnsim::dict<std::string, int>{
+    int __getitem__(std::string i) {return (*self)[i];}
+    void __setitem__(std::string i, int val) {(*self)[i] = val;}
+};
+%extend pkmnsim::vla<pkmnsim::move::sptr>{
+    pkmnsim::move::sptr __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, pkmnsim::move::sptr val) {(*self)[i] = val;}
+};
+%extend pkmnsim::vla<pkmnsim::team_pokemon::sptr>{
+    pkmnsim::team_pokemon::sptr __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, pkmnsim::team_pokemon::sptr val) {(*self)[i] = val;}
+};
 
 %include "pkmnsim.i"
 
-PKMNSIM_PYTHON_FIX(base_move)
-PKMNSIM_PYTHON_FIX(base_pkmn)
-PKMNSIM_PYTHON_FIX(pkmn_nature)
-PKMNSIM_PYTHON_FIX(spec_pkmn)
+PKMNSIM_PYTHON_FIX(base_pokemon)
+PKMNSIM_PYTHON_FIX(item)
+PKMNSIM_PYTHON_FIX(move)
+PKMNSIM_PYTHON_FIX(team_pokemon)
 PKMNSIM_PYTHON_FIX(trainer)

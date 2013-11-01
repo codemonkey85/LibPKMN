@@ -154,8 +154,8 @@ namespace pkmnsim
     };
 
     //Related typedefs
-    typedef std::vector<team_pokemon::sptr> s_pkmn_vec_t;
-    typedef vla<team_pokemon::sptr> s_pkmn_vla_t;
+    typedef std::vector<team_pokemon::sptr> t_pkmn_vec_t;
+    typedef vla<team_pokemon::sptr> t_pkmn_vla_t;
     typedef vla<team_pokemon::sptr> pokemon_team_t;
 }
 

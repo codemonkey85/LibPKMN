@@ -281,7 +281,7 @@ namespace pkmnsim
             return entry;
         }
 
-        string get_pokedex_entry(string species_name, int version)
+        string get_pokedex_entry(string species_name, unsigned int version)
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_names WHERE name='%s'")

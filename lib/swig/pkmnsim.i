@@ -7,6 +7,7 @@
 
 %include "std_string.i"
 %include "std_vector.i"
+%include "std_wstring.i"
 %include "stl.i"
 %include "typemaps.i"
 
@@ -30,53 +31,64 @@ namespace std
             int pn;
     };
 
-    %template(vector_i) vector<int>;
-    %template(vector_d) vector<double>;
-    %template(vector_s) vector<string>;
+    %template(int_vec) vector<int>;
+    %template(double_vec) vector<double>;
+    %template(string_vec) vector<string>;
+    %template(uint_vec) vector<unsigned int>;
 };
-
-//Should not be exposed
-%ignore pkmnsim::get_pkmn_id;
-%ignore pkmnsim::get_species_id;
 
 %{
     #include "pkmnsim/config.hpp"
-    #include "pkmnsim/dict.hpp"
-    #include "pkmnsim/lists.hpp"
     #include "pkmnsim/paths.hpp"
-    #include "pkmnsim/vla.hpp"
 
-    #include "pkmnsim/pkmn_nature.hpp"
-    #include "pkmnsim/pkmn_types.hpp"
-    #include "pkmnsim/base_move.hpp"
-    #include "pkmnsim/base_pkmn.hpp"
-    #include "pkmnsim/spec_pkmn.hpp"
+    #include "pkmnsim/types/dict.hpp"
+    #include "pkmnsim/types/pokemon_text.hpp"
+    #include "pkmnsim/types/vla.hpp"
+    
+    #include "pkmnsim/base_pokemon.hpp"
+    #include "pkmnsim/item.hpp"
+    #include "pkmnsim/move.hpp"
+    #include "pkmnsim/team_pokemon.hpp"
     #include "pkmnsim/trainer.hpp"
-    #include "pkmnsim/analysis.hpp"
+    
+    #include "pkmnsim/analysis/damage.hpp"
+    #include "pkmnsim/analysis/stats.hpp"
     
     #include "pkmnsim/database/lists.hpp"
+    #include "pkmnsim/database/queries.hpp"
+    
+    #include "pkmnsim/lists.hpp"
 %}
 
 %include "pkmnsim/config.hpp"
-%include "pkmnsim/dict.hpp"
-%include "pkmnsim/lists.hpp"
 %include "pkmnsim/paths.hpp"
-%include "pkmnsim/vla.hpp"
 
-%include "pkmnsim/pkmn_nature.hpp"
-%include "pkmnsim/pkmn_types.hpp"
-%include "pkmnsim/base_move.hpp"
-%include "pkmnsim/base_pkmn.hpp"
-%include "pkmnsim/spec_pkmn.hpp"
+%include "pkmnsim/types/dict.hpp"
+%include "pkmnsim/types/pokemon_text.hpp"
+%include "pkmnsim/types/vla.hpp"
+
+%include "pkmnsim/base_pokemon.hpp"
+%include "pkmnsim/item.hpp"
+%include "pkmnsim/move.hpp"
+%include "pkmnsim/team_pokemon.hpp"
 %include "pkmnsim/trainer.hpp"
-%include "pkmnsim/analysis.hpp"
+
+%include "pkmnsim/analysis/damage.hpp"
+%include "pkmnsim/analysis/stats.hpp"
 
 %include "pkmnsim/database/lists.hpp"
+%include "pkmnsim/database/queries.hpp"
 
-//Templates for different uses of dict and vla
-%template(dict_int_std_string) pkmnsim::dict<int, std::string>;
-%template(dict_std_string_int) pkmnsim::dict<std::string, int>;
-%template(dict_std_string_double) pkmnsim::dict<std::string, double>;
-%template(vla_pkmnsim_base_move_sptr) pkmnsim::vla<std::shared_ptr<pkmnsim::base_move> >;
-%template(vector_base_pkmn) std::vector<std::shared_ptr<pkmnsim::base_pkmn> >;
-%template(vector_spec_pkmn) std::vector<std::shared_ptr<pkmnsim::spec_pkmn> >;
+%include "pkmnsim/lists.hpp"
+
+//Templates for common uses of dict and vla
+%template(dict_uint_uint) pkmnsim::dict<unsigned int, unsigned int>;
+%template(dict_string_int) pkmnsim::dict<std::string, int>;
+%template(vla_uint) pkmnsim::vla<unsigned int>;
+
+%template(b_pkmn_vec_t) std::vector<pkmnsim::base_pokemon::sptr>;
+%template(b_pkmn_vla_t) pkmnsim::vla<pkmnsim::base_pokemon::sptr>;
+%template(move_vec_t) std::vector<pkmnsim::move::sptr>;
+%template(moveset_t) pkmnsim::vla<pkmnsim::move::sptr>;
+%template(team_pkmn_vec_t) std::vector<pkmnsim::team_pokemon::sptr>;
+%template(pokemon_team_t) pkmnsim::vla<pkmnsim::team_pokemon::sptr>;

@@ -19,7 +19,7 @@ namespace pkmnsim
     {
         unsigned int PKMNSIM_API get_min_possible_stat(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen);
         unsigned int PKMNSIM_API get_max_possible_stat(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen);
-        bool PKMNSIM_API is_stat_possible(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen);
+        bool PKMNSIM_API is_stat_possible(base_pokemon::sptr b_pkmn, unsigned int stat_value, unsigned int stat, unsigned int level, unsigned int gen);
         void PKMNSIM_API get_stat_range(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen, std::vector<unsigned int> &stat_vec);
     }
 }

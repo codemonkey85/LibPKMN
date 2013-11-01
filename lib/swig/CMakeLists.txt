@@ -14,16 +14,16 @@ IF(SWIG_FOUND)
     FIND_PACKAGE(PythonLibs)
     IF(PYTHONINTERP_FOUND)
         INCLUDE(PKMNsimPython)
-        PYTHON_CHECK_MODULE("PySQLite3" sqlite3 True PYSQLITE3_FOUND)
+        PYTHON_CHECK_MODULE("PyQt4" PyQt4 True PYQT4_FOUND)
     ENDIF(PYTHONINTERP_FOUND)
 ENDIF(SWIG_FOUND)
 
-REGISTER_COMPONENT("PyPKMNsim Library" ENABLE_PYPKMNSIM_LIB ON
-                   "ENABLE_LIBPKMNSIM;SWIG_FOUND;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND;PYSQLITE3_FOUND" OFF)
+PKMNSIM_REGISTER_COMPONENT("PyPKMNsim - Python Bindings" ENABLE_PYPKMNSIM ON
+                           "ENABLE_LIBRARY;PYQT4_FOUND" OFF)
 
 ####################################################################
 # Add subdirectories as appropriate based on enabled SWIG wrappers
 ####################################################################
-IF(ENABLE_PYPKMNSIM_LIB)
+IF(ENABLE_PYPKMNSIM)
     ADD_SUBDIRECTORY(python)
-ENDIF(ENABLE_PYPKMNSIM_LIB)
+ENDIF(ENABLE_PYPKMNSIM)
