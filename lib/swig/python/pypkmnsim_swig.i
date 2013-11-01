@@ -39,6 +39,11 @@
     void __setitem__(int i, pkmnsim::team_pokemon::sptr val) {(*self)[i] = val;}
 };
 
+%ignore pkmnsim::analysis::get_damage_range;
+%ignore pkmnsim::analysis::get_stat_range;
+%rename(get_damage_range) pkmnsim::get_damage_range_vec;
+%rename(get_stat_range) pkmnsim::get_stat_range_vec;
+
 %include "pkmnsim.i"
 
 %{
@@ -46,6 +51,7 @@
 %};
 
 %include "pkmnsim_swig_functions.hpp"
+
 
 PKMNSIM_PYTHON_FIX(base_pokemon)
 PKMNSIM_PYTHON_FIX(item)
