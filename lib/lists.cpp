@@ -25,7 +25,7 @@ using namespace std;
 
 namespace pkmnsim
 {
-    void get_game_list(vector<string>& game_vec)
+    void get_game_list(vector<string> &game_vec)
     {
         game_vec.clear();
 
@@ -40,7 +40,7 @@ namespace pkmnsim
         }
     }
 
-    void get_game_group_list(vector<string>& game_group_vec)
+    void get_game_group_list(vector<string> &game_group_vec)
     {
         //Must be done manually, only really used for GamesComboBox
         game_group_vec.clear();
@@ -58,7 +58,7 @@ namespace pkmnsim
         game_group_vec.push_back("Black 2/White 2");
     }
 
-    void get_item_list(vector<string> &item_vec, int game)
+    void get_item_list(vector<string> &item_vec, unsigned int game)
     {
         item_vec.clear();
         vector<string> temp_vec;
@@ -138,7 +138,7 @@ namespace pkmnsim
         }
     }
 
-    void get_pokemon_list(vector<string>& pokemon_vec, int game)
+    void get_pokemon_list(vector<string> &pokemon_vec, unsigned int game)
     {
         pokemon_vec.clear();
 
@@ -321,7 +321,7 @@ namespace pkmnsim
         }
     }
 
-    void get_type_list(vector<string>& type_vec, int gen)
+    void get_type_list(vector<string> &type_vec, unsigned int gen)
     {
         type_vec.clear();
     
@@ -339,7 +339,7 @@ namespace pkmnsim
         }
     }
 
-    void get_ability_list(vector<string>& ability_vec, int gen)
+    void get_ability_list(vector<string> &ability_vec, unsigned int gen)
     {
         ability_vec.clear();
     
@@ -354,7 +354,7 @@ namespace pkmnsim
         }
     }
 
-    void get_nature_list(vector<string>& nature_vec)
+    void get_nature_list(vector<string> &nature_vec)
     {
         nature_vec.clear();
 
@@ -369,7 +369,7 @@ namespace pkmnsim
         }
     }
     
-    void get_pokemon_of_type(b_pkmn_vec_t &pkmn_vector, string type1, string type2, int gen, bool lax)
+    void get_pokemon_of_type(b_pkmn_vec_t &pkmn_vector, string type1, string type2, unsigned int gen, bool lax)
     {
         pkmn_vector.clear();
 
