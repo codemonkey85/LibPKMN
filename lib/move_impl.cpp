@@ -88,7 +88,7 @@ namespace pkmnsim
             base_power = int(moves_query.getColumn(4)); //power
             base_pp = int(moves_query.getColumn(5)); //pp
             base_accuracy = int(moves_query.getColumn(6)); //accuracy
-            base_accuracy /= 10; //Stored as 0 < int < 100
+            base_accuracy /= 100; //Stored as 0 < int < 100
             base_priority = int(moves_query.getColumn(7)); //priority
             target_id = int(moves_query.getColumn(8)); //target_id
             move_damage_class = int(moves_query.getColumn(9)); //damage_class_id
