@@ -19,6 +19,16 @@ namespace pkmnsim
     //some languages don't have user-facing pass-by-reference, pass-by-value
     //equivalents must be made
 
+    //pkmnsim/lists.hpp
+    std::vector<std::string> get_game_vec();
+    std::vector<std::string> get_game_group_vec();
+    std::vector<std::string> get_item_vec(unsigned int game);
+    std::vector<std::string> get_pokemon_vec(unsigned int game);
+    std::vector<std::string> get_type_vec(unsigned int gen);
+    std::vector<std::string> get_ability_vec(unsigned int gen);
+    std::vector<std::string> get_nature_vec();
+    b_pkmn_vec_t get_pokemon_vec_of_type(std::string type1, std::string type2, unsigned int gen, bool lax);
+    
     //pkmnsim/analysis/stats.hpp
     std::vector<unsigned int> get_stat_range_vec(base_pokemon::sptr b_pkmn, unsigned int stat, unsigned int level, unsigned int gen);
 
