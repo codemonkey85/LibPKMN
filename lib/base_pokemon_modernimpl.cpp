@@ -1285,6 +1285,24 @@ namespace pkmnsim
             default:
                 break;
         }
+        
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
+                              " AND stat_id IN (1,2,3,4,5,6)";
+        SQLite::Statement stats_query(db, query_string.c_str());
+
+        stats_query.executeStep();
+        hp = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        attack = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        defense = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        special_attack = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        special_defense = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        speed = int(stats_query.getColumn(0));
     }
 
     void base_pokemon_modernimpl::set_form(string form)
@@ -1588,6 +1606,24 @@ namespace pkmnsim
             default:
                 break;
         }
+        
+        SQLite::Database db(get_database_path().c_str());
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id) +
+                              " AND stat_id IN (1,2,3,4,5,6)";
+        SQLite::Statement stats_query(db, query_string.c_str());
+
+        stats_query.executeStep();
+        hp = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        attack = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        defense = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        special_attack = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        special_defense = int(stats_query.getColumn(0));
+        stats_query.executeStep();
+        speed = int(stats_query.getColumn(0));
     }
 
     void base_pokemon_modernimpl::repair(unsigned int id)
