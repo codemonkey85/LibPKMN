@@ -8,7 +8,7 @@
 
 class Pichu:
     NORMAL = 0
-    SPIKY_EARED = 0
+    SPIKY_EARED = 1
 
 class Unown:
     A = 1

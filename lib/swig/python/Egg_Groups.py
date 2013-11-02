@@ -6,16 +6,19 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-import Egg_Groups
-import Forms
-import Genders
-import Games
-import Move_Classes
-import Natures
-import PokeBalls
-import Ribbons
-import Stats
-import Statuses
-import Types
-
-from pypkmnsim_swig import *
+NONE = 0
+MONSTER = 1
+WATER1 = 2
+BUG = 3
+FLYING = 4
+FIELD = 5
+FAIRY = 6
+GRASS = 7
+HUMAN_LIKE = 8
+WATER3 = 9
+MINERAL = 10
+AMORPHOUS = 11
+WATER2 = 12
+DITTO = 13
+DRAGON = 14
+UNDISCOVERED = 15

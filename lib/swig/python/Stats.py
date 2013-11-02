@@ -6,16 +6,10 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-import Egg_Groups
-import Forms
-import Genders
-import Games
-import Move_Classes
-import Natures
-import PokeBalls
-import Ribbons
-import Stats
-import Statuses
-import Types
-
-from pypkmnsim_swig import *
+HP = 1
+ATTACK = 2
+DEFENSE = 3
+SPECIAL_ATTACK = 4
+SPECIAL_DEFENSE = 5
+SPEED = 6
+SPECIAL = 9

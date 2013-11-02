@@ -6,10 +6,23 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-OK = 0
-BURN = 1
-FREEZE = 2
-PARALYZE = 3
+NONE = 0
+NORMAL = 1
+FIGHTING = 2
+FLYING = 3
 POISON = 4
-BAD_POISON = 5
-SLEEP = 6
+GROUND = 5
+ROCK = 6
+BUG = 7
+GHOST = 8
+STEEL = 9
+FIRE = 10
+WATER = 11
+GRASS = 12
+ELECTRIC = 13
+PSYCHIC = 14
+ICE = 15
+DRAGON = 16
+DARK = 17
+UNKNOWN = 10001
+SHADOW = 10002

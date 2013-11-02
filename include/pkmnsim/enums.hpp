@@ -529,7 +529,8 @@ namespace pkmnsim
     {
         enum games
         {
-            RED = 1,
+            NONE,
+            RED,
             BLUE,
             YELLOW,
             GOLD,
