@@ -137,6 +137,14 @@ namespace pkmnsim
             defense = int(stats_query.getColumn(0));
             stats_query.executeStep();
             speed = int(stats_query.getColumn(0));
+            
+            query_string = "SELECT type_id FROM pokemon_types WHERE slot=1 and pokemon_id=" + to_string(pokemon_id);
+            type1_id = int(db.execAndGet(query_string.c_str()));
+            
+            //If there's only one type, this won't return anything
+            query_string = "SELECT type_id FROM pokemon_types WHERE slot=2 and pokemon_id=" + to_string(pokemon_id);
+            SQLite::Statement query(db, query_string.c_str());
+            type2_id = (query.executeStep()) ? int(query.getColumn(0)) : Types::NONE;
         }
     }
 
