@@ -78,7 +78,6 @@
 
 %include "pkmnsim_swig_functions.hpp"
 
-
 PKMNSIM_PYTHON_FIX(base_pokemon)
 PKMNSIM_PYTHON_FIX(item)
 PKMNSIM_PYTHON_FIX(move)
