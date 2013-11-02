@@ -6,14 +6,18 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+import Abilities
 import Egg_Groups
 import Forms
-import Genders
 import Games
+import Genders
+import Items
 import Move_Classes
+import Moves
 import Natures
 import PokeBalls
 import Ribbons
+import Species
 import Stats
 import Statuses
 import Types
