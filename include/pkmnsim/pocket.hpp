@@ -37,7 +37,13 @@ namespace pkmnsim
             
             virtual item::sptr get_item(unsigned int pos, bool copy = true) = 0;
             virtual void remove_item(unsigned int pos) = 0;
-            virtual void set_item(unsigned int pos, item::sptr new_item) = 0;
+            virtual void set_item(unsigned int pos, item::sptr new_item, unsigned int amount) = 0;
+            virtual void set_item(unsigned int pos, unsigned int item_id, unsigned int amount) = 0;
+            virtual void set_item(item::sptr new_item, unsigned int amount) = 0;
+            virtual void set_item(unsigned int item_id, unsigned int amount) = 0;
+            
+            virtual unsigned int get_amount(unsigned int pos) = 0;
+            virtual void set_amount(unsigned int pos, unsigned int amount) = 0;
             
         protected:
             
@@ -45,6 +51,7 @@ namespace pkmnsim
             std::string pocket_name;
             
             vla<item::sptr> contents;
+            vla<unsigned int> amounts;
     };
 }
 
