@@ -43,6 +43,8 @@ namespace pkmnsim
 
             virtual void set_party(pokemon_team_t &team) = 0;
             virtual void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn) = 0;
+            
+            virtual void remove_pokemon(unsigned int pos) = 0;
 
             virtual std::string get_trainer_name() const = 0;
             virtual void set_trainer_name(std::string new_name) = 0;

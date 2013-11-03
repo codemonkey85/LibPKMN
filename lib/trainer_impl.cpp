@@ -91,10 +91,31 @@ namespace pkmnsim
 
     void trainer_impl::set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn)
     {
-        unsigned int actual_pos = (pos > 6) ? 5 : (actual_pos-1);
+        unsigned int actual_pos = (pos > 6) ? 5 : (pos == 0) ? 0 : (actual_pos-1);
         party[actual_pos] = t_pkmn;
     }
 
+    void trainer_impl::remove_pokemon(unsigned int pos)
+    {
+        unsigned int actual_pos = (pos > 6) ? 5 : (pos == 0) ? 0 : (actual_pos-1);
+    
+        team_pokemon::sptr blank_pokemon = team_pokemon::make(Species::NONE, game_id, 0, Moves::NONE,
+                                           Moves::NONE, Moves::NONE, Moves::NONE);
+
+        set_pokemon(actual_pos, blank_pokemon);
+        
+        //Move over any non-blank Pokemon in later positions
+        for(int i = (actual_pos+1); i < 5; i++)
+        {
+            if(party[i]->get_species_id() == Species::NONE) break;
+            else
+            {
+                party[i-1] = party[i];
+                party[i] = blank_pokemon;
+            }
+        }
+    }
+    
     std::string trainer_impl::get_trainer_name() const {return trainer_name;}
 
     void trainer_impl::set_trainer_name(std::string new_name)
