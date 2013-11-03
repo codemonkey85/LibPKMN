@@ -35,6 +35,9 @@ namespace pkmnsim
             std::string get_trainer_name() const;
             void set_trainer_name(std::string new_name);
 
+            unsigned int get_gender() const;
+            void set_gender(unsigned int new_gender);
+            
             unsigned int get_trainer_id() const;
             unsigned short get_public_trainer_id() const;
             unsigned short get_secret_trainer_id() const;

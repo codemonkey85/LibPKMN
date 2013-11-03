@@ -49,6 +49,9 @@ namespace pkmnsim
             virtual std::string get_trainer_name() const = 0;
             virtual void set_trainer_name(std::string new_name) = 0;
 
+            virtual unsigned int get_gender() const = 0;
+            virtual void set_gender(unsigned int new_gender) = 0;
+            
             virtual unsigned int get_trainer_id() const = 0;
             virtual unsigned short get_public_trainer_id() const = 0;
             virtual unsigned short get_secret_trainer_id() const = 0;
@@ -71,6 +74,8 @@ namespace pkmnsim
 
             pokemon_text trainer_name;
             pokemon_team_t party;
+            
+            std::string sprite_path;
     };
 }
 

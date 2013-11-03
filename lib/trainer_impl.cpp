@@ -123,6 +123,10 @@ namespace pkmnsim
         trainer_name = (new_name.length() > 10) ? trainer_name : pokemon_text(new_name);
     }
 
+    unsigned int trainer_impl::get_gender() const {return gender;}
+    
+    void trainer_impl::set_gender(unsigned int new_gender) {gender = new_gender;}
+    
     unsigned int trainer_impl::get_trainer_id() const {return trainer_id;}
 
     unsigned short trainer_impl::get_public_trainer_id() const {return tid.public_id;}
