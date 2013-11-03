@@ -39,6 +39,7 @@ IF(ENABLE_LIBRARY)
         team_pokemon_gen2impl.cpp
         team_pokemon_modernimpl.cpp
         pocket_impl.cpp
+        bag_impl.cpp
         item_impl.cpp
         item_berryimpl.cpp
         item_machineimpl.cpp
