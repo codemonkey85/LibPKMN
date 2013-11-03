@@ -26,7 +26,6 @@ namespace pkmnsim
 			bool is_fully_evolved() const;
             unsigned int get_generation() const;
 
-            std::string get_game_name() const;
             std::string get_species_name() const;
             
             unsigned int get_game_id() const;

@@ -58,7 +58,6 @@ namespace pkmnsim
 
             virtual std::vector<std::string> get_egg_group_names() const = 0;
             virtual std::string get_form_name() const = 0;
-            virtual std::string get_game_name() const = 0;
             virtual std::string get_species_name() const = 0;
             
             virtual std::vector<unsigned int> get_egg_group_ids() const = 0;
