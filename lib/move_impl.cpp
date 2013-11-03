@@ -92,6 +92,8 @@ namespace pkmnsim
             base_priority = int(moves_query.getColumn(7)); //priority
             target_id = int(moves_query.getColumn(8)); //target_id
             move_damage_class = int(moves_query.getColumn(9)); //damage_class_id
+            base_effect = int(moves_query.getColumn(10)); //effect_id
+            base_effect_chance = int(moves_query.getColumn(11)); //effect_chance
         }
     }
 
