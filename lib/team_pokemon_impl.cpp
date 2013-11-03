@@ -10,11 +10,21 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/move.hpp>
+#include <boost/cast.hpp>
+
 #include <pkmnsim/enums.hpp>
+#include <pkmnsim/move.hpp>
 #include <pkmnsim/team_pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/types/prng.hpp>
+
+#include "base_pokemon_gen1impl.hpp"
+#include "base_pokemon_gen2impl.hpp"
+#include "base_pokemon_modernimpl.hpp"
+
+#include "item_impl.hpp"
+#include "item_berryimpl.hpp"
+#include "item_machineimpl.hpp"
 
 #include "team_pokemon_impl.hpp"
 #include "team_pokemon_gen1impl.hpp"
@@ -73,7 +83,7 @@ namespace pkmnsim
         level = lvl;
         from_game = game;
         from_gen = base_pkmn->get_generation();
-        held_item = 0;
+        held_item = item::make(Items::NONE, from_game);
         ball = PokeBalls::POKE_BALL;
 
 		attributes = dict<string, int>();
@@ -95,7 +105,35 @@ namespace pkmnsim
         move_PPs[3] = moves[3]->get_base_pp();
     }
 
-    base_pokemon::sptr team_pokemon_impl::get_base_pokemon() const {return base_pkmn;}
+    base_pokemon::sptr team_pokemon_impl::get_base_pokemon(bool copy) const
+    {
+        base_pokemon::sptr to_return = base_pkmn;
+        
+        if(copy)
+        {
+            switch(database::get_generation(from_game))
+            {
+                case 1:
+                {
+                    base_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<base_pokemon_gen1impl*>(to_return.get()));
+                    return base_pokemon::sptr(&actual1);
+                }
+                    
+                case 2:
+                {
+                    base_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<base_pokemon_gen2impl*>(to_return.get()));
+                    return base_pokemon::sptr(&actual2);
+                }
+                                    
+                default:
+                {
+                    base_pokemon_modernimpl actual345 = *(boost::polymorphic_downcast<base_pokemon_modernimpl*>(to_return.get()));
+                    return base_pokemon::sptr(&actual345);
+                }
+            }
+        }
+        else return to_return;
+    }
 
     pokemon_text team_pokemon_impl::get_nickname() const {return nickname;}
     
@@ -157,9 +195,39 @@ namespace pkmnsim
 
     unsigned int team_pokemon_impl::get_generation() const {return from_gen;}
 
-    unsigned int team_pokemon_impl::get_held_item() const {return held_item;}
+    item::sptr team_pokemon_impl::get_held_item(bool copy) const
+    {
+        item::sptr to_return = held_item;
+        
+        unsigned int item_id = to_return->get_item_id();
+        
+        if(copy)
+        {
+            if(item_id >= Items::TM01 and item_id <= Items::HM08)
+            {
+                item_machineimpl actual_machine = *(boost::polymorphic_downcast<item_machineimpl*>(to_return.get()));
+                return item::sptr(&actual_machine);
+            }
+            else if((item_id >= Items::CHERI_BERRY and item_id <= Items::ROWAP_BERRY)
+                    or (item_id >= Items::BERRY and item_id <= Items::MYSTERYBERRY))
+            {
+                item_berryimpl actual_berry = *(boost::polymorphic_downcast<item_berryimpl*>(to_return.get()));
+                return item::sptr(&actual_berry);
+            }
+            else
+            {
+                item_impl actual = *(boost::polymorphic_downcast<item_impl*>(to_return.get()));
+                return item::sptr(&actual);
+            }
+        }
+        else return to_return;
+    }
     
-    void team_pokemon_impl::set_held_item(unsigned int item) {held_item = item;}
+    void team_pokemon_impl::set_held_item(item::sptr new_item)
+    {
+        //Don't set item if it doesn't exist in this game
+        if(database::get_item_index(new_item->get_item_id(), from_game)) held_item = new_item;
+    }
 
     unsigned int team_pokemon_impl::get_ball() const {return ball;}
 
@@ -197,8 +265,6 @@ namespace pkmnsim
     
     vector<string> team_pokemon_impl::get_egg_group_names() const {return base_pkmn->get_egg_group_names();}
 
-    string team_pokemon_impl::get_game_name() const {return database::get_game_name(from_game);}
-    
     string team_pokemon_impl::get_species_name() const {return base_pkmn->get_species_name();}
     
     vector<unsigned int> team_pokemon_impl::get_egg_group_ids() const {return base_pkmn->get_egg_group_ids();}

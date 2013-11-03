@@ -19,7 +19,7 @@ namespace pkmnsim
                               unsigned int move1, unsigned int move2,
                               unsigned int move3, unsigned int move4);
 
-            base_pokemon::sptr get_base_pokemon() const;
+            base_pokemon::sptr get_base_pokemon(bool copy = true) const;
             pokemon_text get_nickname() const;
             void set_nickname(pokemon_text name);
             pokemon_text get_trainer_name() const;
@@ -41,8 +41,8 @@ namespace pkmnsim
             virtual void set_personality(unsigned int new_personality);
             
             unsigned int get_generation() const;
-            unsigned int get_held_item() const;
-            void set_held_item(unsigned int item);
+            item::sptr get_held_item(bool copy = true) const;
+            void set_held_item(item::sptr new_item);
             unsigned int get_ball() const;
             void set_ball(unsigned int new_ball);
             std::string get_icon_path() const;
@@ -64,7 +64,6 @@ namespace pkmnsim
             void set_secret_trainer_id(unsigned short id);
 
             std::vector<std::string> get_egg_group_names() const;
-            std::string get_game_name() const;
             std::string get_species_name() const;
             
             std::vector<unsigned int> get_egg_group_ids() const;

@@ -16,6 +16,7 @@
 #include <boost/format.hpp>
 
 #include <pkmnsim/enums.hpp>
+#include <pkmnsim/item.hpp>
 #include <pkmnsim/move.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/team_pokemon.hpp>
@@ -52,7 +53,7 @@ namespace pkmnsim
                                                          
             t_pkmn->set_nickname(pokehack_get_text(b_pkmn_t->name, true));
             t_pkmn->set_trainer_name(pokehack_get_text(b_pkmn_t->otname, false));
-            t_pkmn->set_held_item(pkmn_g_t->held);
+            t_pkmn->set_held_item(item::make(database::get_item_id(pkmn_g_t->held, from_game), from_game));
             t_pkmn->set_personality(b_pkmn_t->personality);
             t_pkmn->set_trainer_id(b_pkmn_t->otid);
             
@@ -157,7 +158,10 @@ namespace pkmnsim
             pkmn_a_t->atk3 = moves[2]->get_move_id();
             pkmn_a_t->atk4 = moves[3]->get_move_id();
 
-            pkmn_g_t->held = t_pkmn->get_held_item();
+            pkmn_m_t->game = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
+            
+            unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
+            pkmn_g_t->held = database::get_item_index(raw_held, t_pkmn->get_game_id());
 
             set_gen3_met_level(((uint16_t*)(&pkmn_m_t->locationcaught)+1), t_pkmn->get_met_level());
             set_gen3_ball(((uint16_t*)(&pkmn_m_t->locationcaught)+1), pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
@@ -186,8 +190,6 @@ namespace pkmnsim
             gen3_4_5_set_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
             gen3_4_5_set_IV(&(pkmn_m_t->IVint), Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
             gen3_4_5_set_IV(&(pkmn_m_t->IVint), Stats::SPEED, IVs[Stats::SPEED]);
-
-            pkmn_m_t->game = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
             
             //Attributes
             if(t_pkmn->has_attribute("friendship"))
@@ -300,7 +302,7 @@ namespace pkmnsim
             if(get_gen4_5_otgender((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
-            t_pkmn->set_held_item(pokelib_pkmn.pkm->pkm.held_item);
+            t_pkmn->set_held_item(item::make(database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, from_game), from_game));
             t_pkmn->set_personality(pokelib_pkmn.pkm->pkm.pid);
             t_pkmn->set_public_trainer_id(pokelib_pkmn.pkm->pkm.ot_id);
             t_pkmn->set_secret_trainer_id(pokelib_pkmn.pkm->pkm.ot_sid);
@@ -443,6 +445,9 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.pid = t_pkmn->get_personality();
             pokelib_pkmn.pkm->pkm.ot_id = t_pkmn->get_public_trainer_id();
             pokelib_pkmn.pkm->pkm.ot_sid = t_pkmn->get_secret_trainer_id();
+            
+            unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
+            pokelib_pkmn.pkm->pkm.held_item = database::get_item_index(raw_held, t_pkmn->get_game_id());
 
             set_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1), t_pkmn->get_met_level());
             pokelib_pkmn.pkm->pkm.pokeball = pkmnsim_ball_to_game_ball(t_pkmn->get_ball());
@@ -722,7 +727,8 @@ namespace pkmnsim
             if(get_gen4_5_otgender(((uint8_t*)&(p_pkm->pkm_data.ball)+1))) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
-            t_pkmn->set_held_item(p_pkm->pkm_data.item);
+            
+            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, from_game), from_game));
             t_pkmn->set_personality(p_pkm->pkm_data.pid);
             t_pkmn->set_public_trainer_id(p_pkm->pkm_data.tid);
             t_pkmn->set_secret_trainer_id(p_pkm->pkm_data.sid);
@@ -871,6 +877,9 @@ namespace pkmnsim
                 ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_nickname().const_wchar_t()), t_pkmn->get_nickname().std_wstring().size());
                 ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_trainer_name().const_wchar_t()), t_pkmn->get_trainer_name().std_wstring().size());
             #endif
+
+            unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
+            p_pkm->pkm_data.item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
 
             set_gen4_5_met_level(((uint8_t*)&(p_pkm->pkm_data.ball)+1), t_pkmn->get_met_level());
             p_pkm->pkm_data.ball = Balls::balls(pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));

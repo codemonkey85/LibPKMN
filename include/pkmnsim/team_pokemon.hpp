@@ -19,6 +19,7 @@
 #include <pkmnsim/move.hpp>
 #include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/config.hpp>
+#include <pkmnsim/item.hpp>
 #include <pkmnsim/types/dict.hpp>
 #include <pkmnsim/types/pokemon_text.hpp>
 #include <pkmnsim/types/vla.hpp>
@@ -40,7 +41,7 @@ namespace pkmnsim
             virtual std::string get_info() const = 0;
             virtual std::string get_info_verbose() const = 0;
             
-            virtual base_pokemon::sptr get_base_pokemon() const = 0;
+            virtual base_pokemon::sptr get_base_pokemon(bool copy = true) const = 0;
             virtual pokemon_text get_nickname() const = 0;
             virtual void set_nickname(pokemon_text name) = 0;
             virtual pokemon_text get_trainer_name() const = 0;
@@ -74,8 +75,8 @@ namespace pkmnsim
             virtual void set_IV(unsigned int IV, unsigned int val) = 0;
             
             virtual unsigned int get_generation() const = 0;
-            virtual unsigned int get_held_item() const = 0;
-            virtual void set_held_item(unsigned int item) = 0;
+            virtual item::sptr get_held_item(bool copy = true) const = 0;
+            virtual void set_held_item(item::sptr item) = 0;
             virtual unsigned int get_ball() const = 0;
             virtual void set_ball(unsigned int new_ball) = 0;
             virtual std::string get_icon_path() const = 0;
@@ -98,7 +99,6 @@ namespace pkmnsim
 
             virtual std::vector<std::string> get_egg_group_names() const = 0;
             virtual std::string get_form_name() const = 0;
-            virtual std::string get_game_name() const = 0;
             virtual std::string get_species_name() const = 0;
             
             virtual std::vector<unsigned int> get_egg_group_ids() const = 0;
@@ -117,7 +117,8 @@ namespace pkmnsim
         protected:
             base_pokemon::sptr base_pkmn;
             pokemon_text nickname, trainer_name;
-            unsigned int held_item, ball;
+            item::sptr held_item;
+            unsigned int ball;
             unsigned int from_game, from_gen;
             unsigned int level, met_level;
             unsigned int personality;
