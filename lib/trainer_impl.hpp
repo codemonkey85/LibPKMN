@@ -32,18 +32,18 @@ namespace pkmnsim
             
             void remove_pokemon(unsigned int pos);
 
-            std::string get_trainer_name() const;
-            void set_trainer_name(std::string new_name);
+            std::string get_name() const;
+            void set_name(std::string new_name);
 
             unsigned int get_gender() const;
             void set_gender(unsigned int new_gender);
             
-            unsigned int get_trainer_id() const;
-            unsigned short get_public_trainer_id() const;
-            unsigned short get_secret_trainer_id() const;
-            void set_trainer_id(unsigned int id);
-            void set_public_trainer_id(unsigned short id);
-            void set_secret_trainer_id(unsigned short id);
+            unsigned int get_id() const;
+            unsigned short get_public_id() const;
+            unsigned short get_secret_id() const;
+            void set_id(unsigned int id);
+            void set_public_id(unsigned short id);
+            void set_secret_id(unsigned short id);
     };
 }
 

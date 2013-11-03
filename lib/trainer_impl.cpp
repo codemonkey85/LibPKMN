@@ -116,9 +116,9 @@ namespace pkmnsim
         }
     }
     
-    std::string trainer_impl::get_trainer_name() const {return trainer_name;}
+    std::string trainer_impl::get_name() const {return trainer_name;}
 
-    void trainer_impl::set_trainer_name(std::string new_name)
+    void trainer_impl::set_name(std::string new_name)
     {
         trainer_name = (new_name.length() > 10) ? trainer_name : pokemon_text(new_name);
     }
@@ -127,15 +127,15 @@ namespace pkmnsim
     
     void trainer_impl::set_gender(unsigned int new_gender) {gender = new_gender;}
     
-    unsigned int trainer_impl::get_trainer_id() const {return trainer_id;}
+    unsigned int trainer_impl::get_id() const {return trainer_id;}
 
-    unsigned short trainer_impl::get_public_trainer_id() const {return tid.public_id;}
+    unsigned short trainer_impl::get_public_id() const {return tid.public_id;}
 
-    unsigned short trainer_impl::get_secret_trainer_id() const {return tid.secret_id;}
+    unsigned short trainer_impl::get_secret_id() const {return tid.secret_id;}
 
-    void trainer_impl::set_trainer_id(unsigned int id) {trainer_id = id;}
+    void trainer_impl::set_id(unsigned int id) {trainer_id = id;}
 
-    void trainer_impl::set_public_trainer_id(unsigned short id) {tid.public_id = id;}
+    void trainer_impl::set_public_id(unsigned short id) {tid.public_id = id;}
 
-    void trainer_impl::set_secret_trainer_id(unsigned short id) {tid.secret_id = id;}
+    void trainer_impl::set_secret_id(unsigned short id) {tid.secret_id = id;}
 }

@@ -46,18 +46,18 @@ namespace pkmnsim
             
             virtual void remove_pokemon(unsigned int pos) = 0;
 
-            virtual std::string get_trainer_name() const = 0;
-            virtual void set_trainer_name(std::string new_name) = 0;
+            virtual std::string get_name() const = 0;
+            virtual void set_name(std::string new_name) = 0;
 
             virtual unsigned int get_gender() const = 0;
             virtual void set_gender(unsigned int new_gender) = 0;
             
-            virtual unsigned int get_trainer_id() const = 0;
-            virtual unsigned short get_public_trainer_id() const = 0;
-            virtual unsigned short get_secret_trainer_id() const = 0;
-            virtual void set_trainer_id(unsigned int id) = 0;
-            virtual void set_public_trainer_id(unsigned short id) = 0;
-            virtual void set_secret_trainer_id(unsigned short id) = 0;
+            virtual unsigned int get_id() const = 0;
+            virtual unsigned short get_public_id() const = 0;
+            virtual unsigned short get_secret_id() const = 0;
+            virtual void set_id(unsigned int id) = 0;
+            virtual void set_public_id(unsigned short id) = 0;
+            virtual void set_secret_id(unsigned short id) = 0;
 
         protected:
             unsigned int money, game_id, gender;
