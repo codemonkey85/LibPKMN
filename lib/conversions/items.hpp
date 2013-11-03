@@ -50,9 +50,9 @@ namespace pkmnsim
     
         bag::sptr import_items_from_pokehack(unsigned char* data);
         
-        /*void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
+        void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
         
-        bag::sptr import_items_from_pokelib(PokeLib::Trainer pokelib_trainer);
+        /*bag::sptr import_items_from_pokelib(PokeLib::Trainer pokelib_trainer);
         
         void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
         
