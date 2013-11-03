@@ -43,10 +43,10 @@ namespace pkmnsim
     {
         item_id = id;
         game_id = game;
-        category_id = database::get_item_category(id);
+        category_id = database::get_item_category(item_id);
         game_index = database::get_item_index(item_id, game_id);
         description = database::get_item_description(item_id, game_id);
-        item_name = database::get_item_name(id);
+        item_name = database::get_item_name(item_id);
     }
     
     unsigned int item_impl::get_game_id() {return item_id;}

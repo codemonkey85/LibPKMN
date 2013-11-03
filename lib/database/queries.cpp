@@ -6,6 +6,7 @@
  */
 
 #include <algorithm>
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -159,8 +160,8 @@ namespace pkmnsim
                                                     
             string entry;
 
-            if(query.executeStep())entry = string((const char*)(query.getColumn(0)));
-            else entry = "None";
+            if(query.executeStep()) entry = string((const char*)(query.getColumn(0)));
+            else return "None";
             
             string s;
             istringstream iss(entry);
@@ -214,7 +215,7 @@ namespace pkmnsim
         unsigned int get_item_category(unsigned int item_id)
         {
             SQLite::Database db(get_database_path().c_str());
-            string query_string = str(boost::format("SELECT category_id FROM items WHERE id=") % item_id);
+            string query_string = str(boost::format("SELECT category_id FROM items WHERE id=%d") % item_id);
             SQLite::Statement query(db, query_string.c_str());
             
             if(query.executeStep()) return int(query.getColumn(0));

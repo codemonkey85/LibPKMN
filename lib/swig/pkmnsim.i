@@ -47,6 +47,7 @@ namespace std
     
     #include "pkmnsim/base_pokemon.hpp"
     #include "pkmnsim/item.hpp"
+    #include "pkmnsim/pocket.hpp"
     #include "pkmnsim/move.hpp"
     #include "pkmnsim/team_pokemon.hpp"
     #include "pkmnsim/trainer.hpp"
@@ -69,6 +70,7 @@ namespace std
 
 %include "pkmnsim/base_pokemon.hpp"
 %include "pkmnsim/item.hpp"
+%include "pkmnsim/pocket.hpp"
 %include "pkmnsim/move.hpp"
 %include "pkmnsim/team_pokemon.hpp"
 %include "pkmnsim/trainer.hpp"
