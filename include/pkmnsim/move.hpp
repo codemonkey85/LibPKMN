@@ -43,7 +43,6 @@ namespace pkmnsim
             virtual unsigned int get_priority() const = 0;
 
             virtual unsigned int get_move_id() const = 0;
-            virtual unsigned int get_type_id() const = 0;
             virtual unsigned int get_target_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
 
