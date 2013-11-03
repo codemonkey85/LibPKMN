@@ -29,8 +29,9 @@ namespace pkmnsim
 
             void set_party(pokemon_team_t &team);
             void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn);
-            
             void remove_pokemon(unsigned int pos);
+            
+            bag::sptr get_bag() const;
 
             std::string get_name() const;
             void set_name(std::string new_name);

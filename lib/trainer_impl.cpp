@@ -44,6 +44,8 @@ namespace pkmnsim
             party[i] = team_pokemon::make(Species::NONE, game, 1, Moves::NONE, Moves::NONE,
                                           Moves::NONE, Moves::NONE);
         }
+        
+        item_bag = bag::make(game_id);
     }
 
     unsigned int trainer_impl::get_game_id() const {return game_id;}
@@ -115,6 +117,8 @@ namespace pkmnsim
             }
         }
     }
+
+    bag::sptr trainer_impl::get_bag() const {return item_bag;}
     
     std::string trainer_impl::get_name() const {return trainer_name;}
 

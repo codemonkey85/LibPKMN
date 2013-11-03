@@ -17,6 +17,7 @@
 
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/item.hpp>
+#include <pkmnsim/pocket.hpp>
 #include <pkmnsim/types/dict.hpp>
 
 namespace pkmnsim
