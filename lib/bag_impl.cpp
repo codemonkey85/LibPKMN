@@ -65,6 +65,8 @@ namespace pkmnsim
                 contents["Items"] = pocket::make(game_id, "Items", 42);
                 contents["Key Items"] = pocket::make(game_id, "Key Items", 30);
                 contents["Poke Balls"] = pocket::make(game_id, "Poke Balls", 13);
+                contents["TM Case"] = pocket::make(game_id, "TM Case", 58);
+                contents["Berry Pouch"] = pocket::make(game_id, "Berry Pouch", 43);
                 break;
             
             case Games::DIAMOND:

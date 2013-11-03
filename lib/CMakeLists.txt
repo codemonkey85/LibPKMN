@@ -47,6 +47,7 @@ IF(ENABLE_LIBRARY)
         move_impl.cpp
         move_mainimpl.cpp
         #game_save_impl.cpp
+        conversions/items.cpp
         conversions/pokemon.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${analysis_sources}
