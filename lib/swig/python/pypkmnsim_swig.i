@@ -5,6 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%feature("autodoc", "1");
+ 
 /*
  * An interface template needs to be created for each std::shared_ptr used.
  *
