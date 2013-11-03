@@ -228,6 +228,11 @@ namespace pkmnsim
         //Don't set item if it doesn't exist in this game
         if(database::get_item_index(new_item->get_item_id(), from_game)) held_item = new_item;
     }
+    
+    void team_pokemon_impl::set_held_item(unsigned int item_id)
+    {
+        set_held_item(item::make(item_id, from_game));
+    }
 
     unsigned int team_pokemon_impl::get_ball() const {return ball;}
 

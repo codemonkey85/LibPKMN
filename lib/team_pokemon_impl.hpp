@@ -43,6 +43,7 @@ namespace pkmnsim
             unsigned int get_generation() const;
             item::sptr get_held_item(bool copy = true) const;
             void set_held_item(item::sptr new_item);
+            void set_held_item(unsigned int item_id);
             unsigned int get_ball() const;
             void set_ball(unsigned int new_ball);
             std::string get_icon_path() const;
