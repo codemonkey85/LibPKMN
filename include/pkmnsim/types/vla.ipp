@@ -8,6 +8,7 @@
 #ifndef INCLUDED_PKMNSIM_TYPES_VLA_IPP
 #define INCLUDED_PKMNSIM_TYPES_VLA_IPP
 
+#include <cstdlib>
 #include <iostream>
 
 #include <pkmnsim/config.hpp>
