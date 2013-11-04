@@ -321,5 +321,138 @@ namespace pkmnsim
             
             return item_bag;
         }
+        
+        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer, unsigned int game_id)
+        {
+            pocket::sptr item_pocket = item_bag->get_pocket("Items");
+            pocket::sptr medicine_pocket = item_bag->get_pocket("Medicine");
+            pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
+            pocket::sptr tm_pocket = item_bag->get_pocket("TMs and HMs");
+            pocket::sptr berry_pocket = item_bag->get_pocket("Berries");
+            pocket::sptr mail_pocket = item_bag->get_pocket("Mail");
+            pocket::sptr battle_item_pocket = item_bag->get_pocket("Battle Items");
+            pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
+            
+            for(size_t i = 0; i < item_pocket->get_size(); i++)
+            {
+                unsigned int item_id = item_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = item_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemGeneral, (i+1), pokelib_bagitem);
+                }
+            }
+            for(size_t i = 0; i < medicine_pocket->get_size(); i++)
+            {
+                unsigned int item_id = medicine_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = medicine_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemMedicine, (i+1), pokelib_bagitem);
+                }
+            }
+            for(size_t i = 0; i < ball_pocket->get_size(); i++)
+            {
+                unsigned int item_id = ball_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = ball_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemBall, (i+1), pokelib_bagitem);
+                }
+            }
+            for(size_t i = 0; i < tm_pocket->get_size(); i++)
+            {
+                unsigned int item_id = tm_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = tm_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemTM, (i+1), pokelib_bagitem);
+                }
+            }
+            for(size_t i = 0; i < berry_pocket->get_size(); i++)
+            {
+                unsigned int item_id = berry_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = berry_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemBerry, (i+1), pokelib_bagitem);
+                }
+            }
+            for(size_t i = 0; i < mail_pocket->get_size(); i++)
+            {
+                unsigned int item_id = mail_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = mail_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemMail, (i+1), pokelib_bagitem);
+                }
+            }
+            for(size_t i = 0; i < battle_item_pocket->get_size(); i++)
+            {
+                unsigned int item_id = battle_item_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = battle_item_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemBattle, (i+1), pokelib_bagitem);
+                }
+            }
+            for(size_t i = 0; i < key_item_pocket->get_size(); i++)
+            {
+                unsigned int item_id = key_item_pocket->get_item(i+1)->get_item_id();
+                unsigned int amount = key_item_pocket->get_amount(i+1);
+            
+                if(item_id == Items::NONE) break;
+                else
+                {
+                    PokeLib::BagItem pokelib_bagitem;
+                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.count = amount;
+                    
+                    pokelib_trainer->setItem(PokeLib::ItemKey, (i+1), pokelib_bagitem);
+                }
+            }
+        }
     }
 }
