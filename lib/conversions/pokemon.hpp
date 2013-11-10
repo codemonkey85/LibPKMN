@@ -25,7 +25,7 @@ namespace pkmnsim
                                                             pokemon_misc_t* pkmn_m_t,
                                                             pokemon_growth_t* pkmn_g_t);
 
-        void team_pokemon_to_pokehack_pokemon(team_pokemon::sptr s_pkmn,
+        void team_pokemon_to_pokehack_pokemon(team_pokemon::sptr t_pkmn,
                                               belt_pokemon_t* b_pkmn_t,
                                               pokemon_attacks_t* pkmn_a_t,
                                               pokemon_effort_t* pkmn_e_t,
@@ -34,11 +34,11 @@ namespace pkmnsim
 
         team_pokemon::sptr pokelib_pokemon_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn);
 
-        PokeLib::Pokemon team_pokemon_to_pokelib_pokemon(team_pokemon::sptr s_pkmn);
+        PokeLib::Pokemon team_pokemon_to_pokelib_pokemon(team_pokemon::sptr t_pkmn);
 
         team_pokemon::sptr pkmds_pokemon_to_team_pokemon(party_pkm* p_pkm);
 
-        void team_pokemon_to_pkmds_pokemon(team_pokemon::sptr s_pkmn, party_pkm* p_pkm);
+        void team_pokemon_to_pkmds_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm);
 
         PokeLib::Pokemon pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,
                                                              pokemon_attacks_t* pkmn_a_t,
