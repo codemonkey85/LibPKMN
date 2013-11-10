@@ -82,7 +82,7 @@ namespace pkmnsim
             
             for(size_t i = item_offset; i < item_pocket->get_size(); i+= 4)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[i]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
                 else
                 {
@@ -92,7 +92,7 @@ namespace pkmnsim
             }
             for(size_t i = key_item_offset; i < key_item_pocket->get_size(); i+= 4)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[i]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
                 else
                 {
@@ -112,7 +112,7 @@ namespace pkmnsim
             }
             for(size_t i = tm_offset; i < tm_pocket->get_size(); i+= 4)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[i]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
                 else
                 {
@@ -122,7 +122,7 @@ namespace pkmnsim
             }
             for(size_t i = berry_offset; i < berry_pocket->get_size(); i+= 4)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[i]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
                 else
                 {
@@ -181,7 +181,7 @@ namespace pkmnsim
             
             for(size_t i = 0; i < item_pocket->get_size(); i++)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[item_offset+(i*4)]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[item_offset+(i*4)]);
                 unsigned int item_id = item_pocket->get_item(i+1)->get_item_id();
                 
                 if(item_id == Items::NONE) break;
@@ -193,7 +193,7 @@ namespace pkmnsim
             }
             for(size_t i = 0; i < key_item_pocket->get_size(); i++)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[key_item_offset+(i*4)]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[key_item_offset+(i*4)]);
                 unsigned int item_id = key_item_pocket->get_item(i+1)->get_item_id();
                 
                 if(item_id == Items::NONE) break;
@@ -205,7 +205,7 @@ namespace pkmnsim
             }
             for(size_t i = 0; i < ball_pocket->get_size(); i++)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[ball_offset+(i*4)]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[ball_offset+(i*4)]);
                 unsigned int item_id = ball_pocket->get_item(i+1)->get_item_id();
                 
                 if(item_id == Items::NONE) break;
@@ -217,7 +217,7 @@ namespace pkmnsim
             }
             for(size_t i = 0; i < tm_pocket->get_size(); i++)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[tm_offset+(i*4)]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[tm_offset+(i*4)]);
                 unsigned int item_id = tm_pocket->get_item(i+1)->get_item_id();
                 
                 if(item_id == Items::NONE) break;
@@ -229,7 +229,7 @@ namespace pkmnsim
             }
             for(size_t i = 0; i < berry_pocket->get_size(); i++)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[berry_offset+(i*4)]);
+                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[berry_offset+(i*4)]);
                 unsigned int item_id = berry_pocket->get_item(i+1)->get_item_id();
                 
                 if(item_id == Items::NONE) break;

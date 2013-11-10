@@ -163,9 +163,9 @@ namespace pkmnsim
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
             pkmn_g_t->held = database::get_item_index(raw_held, t_pkmn->get_game_id());
 
-            set_gen3_met_level(((uint16_t*)(&pkmn_m_t->locationcaught)+1), t_pkmn->get_met_level());
-            set_gen3_ball(((uint16_t*)(&pkmn_m_t->locationcaught)+1), pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
-            set_gen3_otgender(((uint16_t*)(&pkmn_m_t->locationcaught)+1), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
+            set_gen3_met_level((reinterpret_cast<uint16_t*>((&pkmn_m_t->locationcaught)+1)), t_pkmn->get_met_level());
+            set_gen3_ball((reinterpret_cast<uint16_t*>((&pkmn_m_t->locationcaught)+1)), pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
+            set_gen3_otgender((reinterpret_cast<uint16_t*>((&pkmn_m_t->locationcaught)+1)), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
             dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
             b_pkmn_t->maxHP = stats[Stats::HP];
@@ -297,9 +297,9 @@ namespace pkmnsim
             t_pkmn->set_nickname(pokelib_pkmn.getNickname());
             t_pkmn->set_trainer_name(pokelib_pkmn.getTrainerName());
 
-            t_pkmn->set_met_level(get_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1)));
+            t_pkmn->set_met_level(get_gen4_5_met_level((reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1))));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(pokelib_pkmn.pkm->pkm.pokeball));
-            if(get_gen4_5_otgender((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1)) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            if(get_gen4_5_otgender(reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1))) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
             t_pkmn->set_held_item(item::make(database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, from_game), from_game));
@@ -314,12 +314,12 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, pokelib_pkmn.pkm->pkm.ev_sdef);
             t_pkmn->set_EV(Stats::SPEED, pokelib_pkmn.pkm->pkm.ev_spd);
 
-            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::SPEED));
+            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::SPEED));
 
             //TODO: use form data to set Pokemon-sim form, is fateful encounter
 
@@ -340,89 +340,89 @@ namespace pkmnsim
             t_pkmn->set_attribute("tough", pokelib_pkmn.pkm->pkm.contest_tough);
             t_pkmn->set_attribute("sheen", pokelib_pkmn.pkm->pkm.contest_sheen);
 
-            t_pkmn->set_attribute("hoenn_cool_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL));
-            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_SUPER));
-            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_HYPER));
-            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_MASTER));
-            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY));
-            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_SUPER));
-            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_HYPER));
-            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_MASTER));
-            t_pkmn->set_attribute("hoenn_cute_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE));
-            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_SUPER));
-            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_HYPER));
-            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_MASTER));
-            t_pkmn->set_attribute("hoenn_smart_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART));
-            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_SUPER));
-            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_HYPER));
-            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_MASTER));
-            t_pkmn->set_attribute("hoenn_tough_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH));
-            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_SUPER));
-            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_HYPER));
-            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_MASTER));
+            t_pkmn->set_attribute("hoenn_cool_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL));
+            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_SUPER));
+            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_HYPER));
+            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_MASTER));
+            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY));
+            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_SUPER));
+            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_HYPER));
+            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_MASTER));
+            t_pkmn->set_attribute("hoenn_cute_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE));
+            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_SUPER));
+            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_HYPER));
+            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_MASTER));
+            t_pkmn->set_attribute("hoenn_smart_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART));
+            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_SUPER));
+            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_HYPER));
+            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_MASTER));
+            t_pkmn->set_attribute("hoenn_tough_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH));
+            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_SUPER));
+            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_HYPER));
+            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_MASTER));
             
-            t_pkmn->set_attribute("hoenn_champion_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CHAMPION));
-            t_pkmn->set_attribute("hoenn_winning_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WINNING));
-            t_pkmn->set_attribute("hoenn_victory_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::VICTORY));
-            t_pkmn->set_attribute("hoenn_artist_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::ARTIST));
-            t_pkmn->set_attribute("hoenn_effort_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EFFORT));
-            t_pkmn->set_attribute("hoenn_marine_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::MARINE));
-            t_pkmn->set_attribute("hoenn_land_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::LAND));
-            t_pkmn->set_attribute("hoenn_sky_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SKY));
-            t_pkmn->set_attribute("hoenn_country_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COUNTRY));
-            t_pkmn->set_attribute("hoenn_national_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::NATIONAL));
-            t_pkmn->set_attribute("hoenn_earth_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EARTH));
-            t_pkmn->set_attribute("hoenn_world_ribbon", get_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WORLD));
+            t_pkmn->set_attribute("hoenn_champion_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CHAMPION));
+            t_pkmn->set_attribute("hoenn_winning_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WINNING));
+            t_pkmn->set_attribute("hoenn_victory_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::VICTORY));
+            t_pkmn->set_attribute("hoenn_artist_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::ARTIST));
+            t_pkmn->set_attribute("hoenn_effort_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EFFORT));
+            t_pkmn->set_attribute("hoenn_marine_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::MARINE));
+            t_pkmn->set_attribute("hoenn_land_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::LAND));
+            t_pkmn->set_attribute("hoenn_sky_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SKY));
+            t_pkmn->set_attribute("hoenn_country_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COUNTRY));
+            t_pkmn->set_attribute("hoenn_national_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::NATIONAL));
+            t_pkmn->set_attribute("hoenn_earth_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EARTH));
+            t_pkmn->set_attribute("hoenn_world_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WORLD));
 
-            t_pkmn->set_attribute("sinnoh_champion_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CHAMPION));
-            t_pkmn->set_attribute("sinnoh_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ABILITY));
-            t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREAT_ABILITY));
-            t_pkmn->set_attribute("sinnoh_double_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOUBLE_ABILITY));
-            t_pkmn->set_attribute("sinnoh_multi_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::MULTI_ABILITY));
-            t_pkmn->set_attribute("sinnoh_pair_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PAIR_ABILITY));
-            t_pkmn->set_attribute("sinnoh_world_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::WORLD_ABILITY));
-            t_pkmn->set_attribute("sinnoh_alert_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ALERT));
-            t_pkmn->set_attribute("sinnoh_shock_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SHOCK));
-            t_pkmn->set_attribute("sinnoh_downcast_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOWNCAST));
-            t_pkmn->set_attribute("sinnoh_careless_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CARELESS));
-            t_pkmn->set_attribute("sinnoh_relax_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RELAX));
-            t_pkmn->set_attribute("sinnoh_snooze_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SNOOZE));
-            t_pkmn->set_attribute("sinnoh_smile_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SMILE));
-            t_pkmn->set_attribute("sinnoh_gorgeous_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS));
-            t_pkmn->set_attribute("sinnoh_royal_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ROYAL));
-            t_pkmn->set_attribute("sinnoh_gorgeous_royal_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS_ROYAL));
-            t_pkmn->set_attribute("sinnoh_footprint_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FOOTPRINT));
-            t_pkmn->set_attribute("sinnoh_record_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RECORD));
-            t_pkmn->set_attribute("sinnoh_history_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::HISTORY));
-            t_pkmn->set_attribute("sinnoh_legend_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::LEGEND));
-            t_pkmn->set_attribute("sinnoh_red_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RED));
-            t_pkmn->set_attribute("sinnoh_green_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREEN));
-            t_pkmn->set_attribute("sinnoh_blue_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::BLUE));
-            t_pkmn->set_attribute("sinnoh_festival_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL));
-            t_pkmn->set_attribute("sinnoh_carnival_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL));
-            t_pkmn->set_attribute("sinnoh_classic_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CLASSIC));
-            t_pkmn->set_attribute("sinnoh_premier_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PREMIER));
+            t_pkmn->set_attribute("sinnoh_champion_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CHAMPION));
+            t_pkmn->set_attribute("sinnoh_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ABILITY));
+            t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREAT_ABILITY));
+            t_pkmn->set_attribute("sinnoh_double_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOUBLE_ABILITY));
+            t_pkmn->set_attribute("sinnoh_multi_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::MULTI_ABILITY));
+            t_pkmn->set_attribute("sinnoh_pair_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PAIR_ABILITY));
+            t_pkmn->set_attribute("sinnoh_world_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::WORLD_ABILITY));
+            t_pkmn->set_attribute("sinnoh_alert_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ALERT));
+            t_pkmn->set_attribute("sinnoh_shock_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SHOCK));
+            t_pkmn->set_attribute("sinnoh_downcast_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOWNCAST));
+            t_pkmn->set_attribute("sinnoh_careless_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CARELESS));
+            t_pkmn->set_attribute("sinnoh_relax_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RELAX));
+            t_pkmn->set_attribute("sinnoh_snooze_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SNOOZE));
+            t_pkmn->set_attribute("sinnoh_smile_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SMILE));
+            t_pkmn->set_attribute("sinnoh_gorgeous_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS));
+            t_pkmn->set_attribute("sinnoh_royal_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ROYAL));
+            t_pkmn->set_attribute("sinnoh_gorgeous_royal_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS_ROYAL));
+            t_pkmn->set_attribute("sinnoh_footprint_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FOOTPRINT));
+            t_pkmn->set_attribute("sinnoh_record_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RECORD));
+            t_pkmn->set_attribute("sinnoh_history_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::HISTORY));
+            t_pkmn->set_attribute("sinnoh_legend_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::LEGEND));
+            t_pkmn->set_attribute("sinnoh_red_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RED));
+            t_pkmn->set_attribute("sinnoh_green_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREEN));
+            t_pkmn->set_attribute("sinnoh_blue_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::BLUE));
+            t_pkmn->set_attribute("sinnoh_festival_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_carnival_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_classic_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CLASSIC));
+            t_pkmn->set_attribute("sinnoh_premier_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PREMIER));
 
-            t_pkmn->set_attribute("sinnoh_cool_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL-23));
-            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY-23));
-            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_cute_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE-23));
-            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_smart_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART-23));
-            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_tough_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH-23));
-            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_cool_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL-23));
+            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY-23));
+            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_cute_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE-23));
+            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_smart_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART-23));
+            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_tough_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH-23));
+            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_MASTER-23));
 
             t_pkmn->set_attribute("eggmet_year", pokelib_pkmn.pkm->pkm.eggDate[0]);
             t_pkmn->set_attribute("eggmet_month", pokelib_pkmn.pkm->pkm.eggDate[1]);
@@ -449,9 +449,9 @@ namespace pkmnsim
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
             pokelib_pkmn.pkm->pkm.held_item = database::get_item_index(raw_held, t_pkmn->get_game_id());
 
-            set_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1), t_pkmn->get_met_level());
+            set_gen4_5_met_level((reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1)), t_pkmn->get_met_level());
             pokelib_pkmn.pkm->pkm.pokeball = pkmnsim_ball_to_game_ball(t_pkmn->get_ball());
-            set_gen4_5_met_level(((uint8_t*)&(pokelib_pkmn.pkm->pkm.pokeball)+1), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
+            set_gen4_5_met_level((reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1)), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
             pokelib_pkmn.pkm->pkm.move[0] = t_pkmn->get_moves()[0]->get_move_id();
             pokelib_pkmn.pkm->pkm.move[1] = t_pkmn->get_moves()[1]->get_move_id();
@@ -475,12 +475,12 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.ev_spd = EVs[Stats::SPEED];
 
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
-            gen3_4_5_set_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::HP, IVs[Stats::HP]);
-            gen3_4_5_set_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::ATTACK, IVs[Stats::ATTACK]);
-            gen3_4_5_set_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            gen3_4_5_set_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            gen3_4_5_set_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            gen3_4_5_set_IV(((uint32_t*)&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1), Stats::SPEED, IVs[Stats::SPEED]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::HP, IVs[Stats::HP]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::ATTACK, IVs[Stats::ATTACK]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1)), Stats::SPEED, IVs[Stats::SPEED]);
 
             pokelib_pkmn.pkm->pkm.hometown = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
 
@@ -516,166 +516,166 @@ namespace pkmnsim
                 pokelib_pkmn.pkm->pkm.contest_sheen = t_pkmn->get_attribute("sheen");
 
             if(t_pkmn->has_attribute("sinnoh_champion_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CHAMPION, t_pkmn->get_attribute("sinnoh_champion_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CHAMPION, t_pkmn->get_attribute("sinnoh_champion_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_great_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREAT_ABILITY, t_pkmn->get_attribute("sinnoh_great_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREAT_ABILITY, t_pkmn->get_attribute("sinnoh_great_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_double_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOUBLE_ABILITY, t_pkmn->get_attribute("sinnoh_double_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOUBLE_ABILITY, t_pkmn->get_attribute("sinnoh_double_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_multi_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::MULTI_ABILITY, t_pkmn->get_attribute("sinnoh_multi_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::MULTI_ABILITY, t_pkmn->get_attribute("sinnoh_multi_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_pair_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PAIR_ABILITY, t_pkmn->get_attribute("sinnoh_pair_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PAIR_ABILITY, t_pkmn->get_attribute("sinnoh_pair_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_world_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::WORLD_ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::WORLD_ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_alert_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ALERT, t_pkmn->get_attribute("sinnoh_alert_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ALERT, t_pkmn->get_attribute("sinnoh_alert_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_shock_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SHOCK, t_pkmn->get_attribute("sinnoh_shock_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SHOCK, t_pkmn->get_attribute("sinnoh_shock_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_downcast_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOWNCAST, t_pkmn->get_attribute("sinnoh_downcast_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::DOWNCAST, t_pkmn->get_attribute("sinnoh_downcast_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_careless_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CARELESS, t_pkmn->get_attribute("sinnoh_careless_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CARELESS, t_pkmn->get_attribute("sinnoh_careless_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_relax_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RELAX, t_pkmn->get_attribute("sinnoh_relax_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RELAX, t_pkmn->get_attribute("sinnoh_relax_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_snooze_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SNOOZE, t_pkmn->get_attribute("sinnoh_snooze_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SNOOZE, t_pkmn->get_attribute("sinnoh_snooze_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smile_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SMILE, t_pkmn->get_attribute("sinnoh_smile_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::SMILE, t_pkmn->get_attribute("sinnoh_smile_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_gorgeous_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS, t_pkmn->get_attribute("sinnoh_gorgeous_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS, t_pkmn->get_attribute("sinnoh_gorgeous_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_royal_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ROYAL, t_pkmn->get_attribute("sinnoh_royal_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::ROYAL, t_pkmn->get_attribute("sinnoh_royal_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_gorgeous_royal_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS_ROYAL, t_pkmn->get_attribute("sinnoh_gorgeous_royal_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GORGEOUS_ROYAL, t_pkmn->get_attribute("sinnoh_gorgeous_royal_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_record_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RECORD, t_pkmn->get_attribute("sinnoh_record_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RECORD, t_pkmn->get_attribute("sinnoh_record_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_history_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::HISTORY, t_pkmn->get_attribute("sinnoh_history_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::HISTORY, t_pkmn->get_attribute("sinnoh_history_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_legend_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::LEGEND, t_pkmn->get_attribute("sinnoh_legend_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::LEGEND, t_pkmn->get_attribute("sinnoh_legend_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_red_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RED, t_pkmn->get_attribute("sinnoh_red_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::RED, t_pkmn->get_attribute("sinnoh_red_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_green_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREEN, t_pkmn->get_attribute("sinnoh_green_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::GREEN, t_pkmn->get_attribute("sinnoh_green_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_blue_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::BLUE, t_pkmn->get_attribute("sinnoh_blue_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::BLUE, t_pkmn->get_attribute("sinnoh_blue_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_festival_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL, t_pkmn->get_attribute("sinnoh_festival_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::FESTIVAL, t_pkmn->get_attribute("sinnoh_festival_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_carnival_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CARNIVAL, t_pkmn->get_attribute("sinnoh_carnival_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CARNIVAL, t_pkmn->get_attribute("sinnoh_carnival_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_classic_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CLASSIC, t_pkmn->get_attribute("sinnoh_classic_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::CLASSIC, t_pkmn->get_attribute("sinnoh_classic_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_premier_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PREMIER, t_pkmn->get_attribute("sinnoh_premier_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA)), Ribbons::Sinnoh::PREMIER, t_pkmn->get_attribute("sinnoh_premier_ribbon"));
 
             if(t_pkmn->has_attribute("hoenn_cool_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cool_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cool_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cool_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
 
             if(t_pkmn->has_attribute("hoenn_champion_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
             if(t_pkmn->has_attribute("hoenn_winning_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
             if(t_pkmn->has_attribute("hoenn_victory_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
             if(t_pkmn->has_attribute("hoenn_artist_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
             if(t_pkmn->has_attribute("hoenn_effort_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
             if(t_pkmn->has_attribute("hoenn_marine_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
             if(t_pkmn->has_attribute("hoenn_land_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
             if(t_pkmn->has_attribute("hoenn_sky_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
             if(t_pkmn->has_attribute("hoenn_country_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
             if(t_pkmn->has_attribute("hoenn_national_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
             if(t_pkmn->has_attribute("hoenn_earth_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
             if(t_pkmn->has_attribute("hoenn_world_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn)), Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
 
             if(t_pkmn->has_attribute("sinnoh_cool_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL-23, t_pkmn->get_attribute("sinnoh_cool_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL-23, t_pkmn->get_attribute("sinnoh_cool_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cool_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23, t_pkmn->get_attribute("sinnoh_cool_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_GREAT-23, t_pkmn->get_attribute("sinnoh_cool_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cool_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_ULTRA-23, t_pkmn->get_attribute("sinnoh_cool_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_ULTRA-23, t_pkmn->get_attribute("sinnoh_cool_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cool_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_MASTER-23, t_pkmn->get_attribute("sinnoh_cool_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::COOL_MASTER-23, t_pkmn->get_attribute("sinnoh_cool_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY-23, t_pkmn->get_attribute("sinnoh_beauty_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY-23, t_pkmn->get_attribute("sinnoh_beauty_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23, t_pkmn->get_attribute("sinnoh_beauty_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_GREAT-23, t_pkmn->get_attribute("sinnoh_beauty_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_ULTRA-23, t_pkmn->get_attribute("sinnoh_beauty_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_ULTRA-23, t_pkmn->get_attribute("sinnoh_beauty_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_MASTER-23, t_pkmn->get_attribute("sinnoh_beauty_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::BEAUTY_MASTER-23, t_pkmn->get_attribute("sinnoh_beauty_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE-23, t_pkmn->get_attribute("sinnoh_cute_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE-23, t_pkmn->get_attribute("sinnoh_cute_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23, t_pkmn->get_attribute("sinnoh_cute_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_GREAT-23, t_pkmn->get_attribute("sinnoh_cute_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_ULTRA-23, t_pkmn->get_attribute("sinnoh_cute_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_ULTRA-23, t_pkmn->get_attribute("sinnoh_cute_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_MASTER-23, t_pkmn->get_attribute("sinnoh_cute_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::CUTE_MASTER-23, t_pkmn->get_attribute("sinnoh_cute_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART-23, t_pkmn->get_attribute("sinnoh_smart_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART-23, t_pkmn->get_attribute("sinnoh_smart_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23, t_pkmn->get_attribute("sinnoh_smart_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_GREAT-23, t_pkmn->get_attribute("sinnoh_smart_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_ULTRA-23, t_pkmn->get_attribute("sinnoh_smart_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_ULTRA-23, t_pkmn->get_attribute("sinnoh_smart_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_MASTER-23, t_pkmn->get_attribute("sinnoh_smart_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::SMART_MASTER-23, t_pkmn->get_attribute("sinnoh_smart_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH-23, t_pkmn->get_attribute("sinnoh_tough_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH-23, t_pkmn->get_attribute("sinnoh_tough_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23, t_pkmn->get_attribute("sinnoh_tough_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_GREAT-23, t_pkmn->get_attribute("sinnoh_tough_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_ULTRA-23, t_pkmn->get_attribute("sinnoh_tough_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_ULTRA-23, t_pkmn->get_attribute("sinnoh_tough_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_MASTER-23, t_pkmn->get_attribute("sinnoh_tough_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB)), Ribbons::Sinnoh::TOUGH_MASTER-23, t_pkmn->get_attribute("sinnoh_tough_master_ribbon"));
 
             if(t_pkmn->has_attribute("eggmet_year"))
                 pokelib_pkmn.pkm->pkm.eggDate[0] = t_pkmn->get_attribute("eggmet_year");
@@ -690,9 +690,9 @@ namespace pkmnsim
             if(t_pkmn->has_attribute("met_day"))
                 pokelib_pkmn.pkm->pkm.metDate[2] = t_pkmn->get_attribute("met_day");
             if(t_pkmn->has_attribute("met_level"))
-                set_gen4_5_met_level((&(pokelib_pkmn.pkm->pkm.pokeball))+1, t_pkmn->get_attribute("met_level"));
+                set_gen4_5_met_level(reinterpret_cast<uint8_t*>((&(pokelib_pkmn.pkm->pkm.pokeball))+1), t_pkmn->get_attribute("met_level"));
             if(t_pkmn->has_attribute("ot_is_female"))
-                set_gen4_5_otgender((&(pokelib_pkmn.pkm->pkm.pokeball))+1, t_pkmn->get_attribute("ot_is_female"));
+                set_gen4_5_otgender(reinterpret_cast<uint8_t*>((&(pokelib_pkmn.pkm->pkm.pokeball))+1), t_pkmn->get_attribute("ot_is_female"));
 
             return pokelib_pkmn;
         }
@@ -722,9 +722,9 @@ namespace pkmnsim
                 t_pkmn->set_trainer_name(otname);
             #endif
 
-            t_pkmn->set_met_level(get_gen4_5_met_level(((uint8_t*)&(p_pkm->pkm_data.ball)+1)));
+            t_pkmn->set_met_level(get_gen4_5_met_level((reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1))));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(p_pkm->pkm_data.ball));
-            if(get_gen4_5_otgender(((uint8_t*)&(p_pkm->pkm_data.ball)+1))) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            if(get_gen4_5_otgender((reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1)))) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
             
@@ -740,20 +740,20 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, p_pkm->pkm_data.evs.spdef);
             t_pkmn->set_EV(Stats::SPEED, p_pkm->pkm_data.evs.speed);
 
-            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV(((uint32_t*)&(p_pkm->pkm_data.ivs)), Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV(((uint32_t*)&(p_pkm->pkm_data.ivs)), Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV(((uint32_t*)&(p_pkm->pkm_data.ivs)), Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV(((uint32_t*)&(p_pkm->pkm_data.ivs)), Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV(((uint32_t*)&(p_pkm->pkm_data.ivs)), Stats::SPECIAL_DEFENSE));
-            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV(((uint32_t*)&(p_pkm->pkm_data.ivs)), Stats::SPEED));
+            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs))), Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs))), Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs))), Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs))), Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs))), Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs))), Stats::SPEED));
 
             //Attributes
-            t_pkmn->set_attribute("circle", get_marking((uint8_t*)&(p_pkm->pkm_data.markings), Markings::CIRCLE));
-            t_pkmn->set_attribute("triangle", get_marking((uint8_t*)&(p_pkm->pkm_data.markings), Markings::TRIANGLE));
-            t_pkmn->set_attribute("square", get_marking((uint8_t*)&(p_pkm->pkm_data.markings), Markings::SQUARE));
-            t_pkmn->set_attribute("heart", get_marking((uint8_t*)&(p_pkm->pkm_data.markings), Markings::HEART));
-            t_pkmn->set_attribute("star", get_marking((uint8_t*)&(p_pkm->pkm_data.markings), Markings::STAR));
-            t_pkmn->set_attribute("diamond", get_marking((uint8_t*)&(p_pkm->pkm_data.markings), Markings::DIAMOND));
+            t_pkmn->set_attribute("circle", get_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings)), Markings::CIRCLE));
+            t_pkmn->set_attribute("triangle", get_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings)), Markings::TRIANGLE));
+            t_pkmn->set_attribute("square", get_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings)), Markings::SQUARE));
+            t_pkmn->set_attribute("heart", get_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings)), Markings::HEART));
+            t_pkmn->set_attribute("star", get_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings)), Markings::STAR));
+            t_pkmn->set_attribute("diamond", get_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings)), Markings::DIAMOND));
 
             t_pkmn->set_attribute("country", p_pkm->pkm_data.country);
             t_pkmn->set_attribute("cool", p_pkm->pkm_data.contest.cool);
@@ -763,88 +763,88 @@ namespace pkmnsim
             t_pkmn->set_attribute("tough", p_pkm->pkm_data.contest.tough);
             t_pkmn->set_attribute("sheen", p_pkm->pkm_data.contest.sheen);
 
-            t_pkmn->set_attribute("hoenn_cool_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL));
-            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_SUPER));
-            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_HYPER));
-            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_MASTER));
-            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY));
-            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_SUPER));
-            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_HYPER));
-            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_MASTER));
-            t_pkmn->set_attribute("hoenn_cute_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE));
-            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_SUPER));
-            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_HYPER));
-            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_MASTER));
-            t_pkmn->set_attribute("hoenn_smart_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART));
-            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_SUPER));
-            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_HYPER));
-            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_MASTER));
-            t_pkmn->set_attribute("hoenn_tough_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH));
-            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_SUPER));
-            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_HYPER));
-            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_MASTER));
-            t_pkmn->set_attribute("hoenn_champion_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CHAMPION));
-            t_pkmn->set_attribute("hoenn_winning_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::WINNING));
-            t_pkmn->set_attribute("hoenn_victory_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::VICTORY));
-            t_pkmn->set_attribute("hoenn_artist_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::ARTIST));
-            t_pkmn->set_attribute("hoenn_effort_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::EFFORT));
-            t_pkmn->set_attribute("hoenn_marine_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::MARINE));
-            t_pkmn->set_attribute("hoenn_land_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::LAND));
-            t_pkmn->set_attribute("hoenn_sky_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SKY));
-            t_pkmn->set_attribute("hoenn_country_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COUNTRY));
-            t_pkmn->set_attribute("hoenn_national_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::NATIONAL));
-            t_pkmn->set_attribute("hoenn_earth_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::EARTH));
-            t_pkmn->set_attribute("hoenn_world_ribbon", get_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::WORLD));
+            t_pkmn->set_attribute("hoenn_cool_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::COOL));
+            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::COOL_SUPER));
+            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::COOL_HYPER));
+            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::COOL_MASTER));
+            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::BEAUTY));
+            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::BEAUTY_SUPER));
+            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::BEAUTY_HYPER));
+            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::BEAUTY_MASTER));
+            t_pkmn->set_attribute("hoenn_cute_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::CUTE));
+            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::CUTE_SUPER));
+            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::CUTE_HYPER));
+            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::CUTE_MASTER));
+            t_pkmn->set_attribute("hoenn_smart_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::SMART));
+            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::SMART_SUPER));
+            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::SMART_HYPER));
+            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::SMART_MASTER));
+            t_pkmn->set_attribute("hoenn_tough_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::TOUGH));
+            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::TOUGH_SUPER));
+            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::TOUGH_HYPER));
+            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::TOUGH_MASTER));
+            t_pkmn->set_attribute("hoenn_champion_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::CHAMPION));
+            t_pkmn->set_attribute("hoenn_winning_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::WINNING));
+            t_pkmn->set_attribute("hoenn_victory_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::VICTORY));
+            t_pkmn->set_attribute("hoenn_artist_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::ARTIST));
+            t_pkmn->set_attribute("hoenn_effort_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::EFFORT));
+            t_pkmn->set_attribute("hoenn_marine_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::MARINE));
+            t_pkmn->set_attribute("hoenn_land_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::LAND));
+            t_pkmn->set_attribute("hoenn_sky_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::SKY));
+            t_pkmn->set_attribute("hoenn_country_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::COUNTRY));
+            t_pkmn->set_attribute("hoenn_national_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::NATIONAL));
+            t_pkmn->set_attribute("hoenn_earth_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::EARTH));
+            t_pkmn->set_attribute("hoenn_world_ribbon", get_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.markings)), Ribbons::Hoenn::WORLD));
 
-            t_pkmn->set_attribute("sinnoh_champion_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CHAMPION));
-            t_pkmn->set_attribute("sinnoh_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ABILITY));
-            t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREAT_ABILITY));
-            t_pkmn->set_attribute("sinnoh_double_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOUBLE_ABILITY));
-            t_pkmn->set_attribute("sinnoh_multi_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::MULTI_ABILITY));
-            t_pkmn->set_attribute("sinnoh_pair_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PAIR_ABILITY));
-            t_pkmn->set_attribute("sinnoh_world_ability_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::WORLD_ABILITY));
-            t_pkmn->set_attribute("sinnoh_alert_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ALERT));
-            t_pkmn->set_attribute("sinnoh_shock_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SHOCK));
-            t_pkmn->set_attribute("sinnoh_downcast_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOWNCAST));
-            t_pkmn->set_attribute("sinnoh_careless_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CARELESS));
-            t_pkmn->set_attribute("sinnoh_relax_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RELAX));
-            t_pkmn->set_attribute("sinnoh_snooze_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SNOOZE));
-            t_pkmn->set_attribute("sinnoh_smile_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SMILE));
-            t_pkmn->set_attribute("sinnoh_gorgeous_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS));
-            t_pkmn->set_attribute("sinnoh_royal_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ROYAL));
-            t_pkmn->set_attribute("sinnoh_gorgeous_royal_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS_ROYAL));
-            t_pkmn->set_attribute("sinnoh_footprint_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FOOTPRINT));
-            t_pkmn->set_attribute("sinnoh_record_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RECORD));
-            t_pkmn->set_attribute("sinnoh_history_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::HISTORY));
-            t_pkmn->set_attribute("sinnoh_legend_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::LEGEND));
-            t_pkmn->set_attribute("sinnoh_red_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RED));
-            t_pkmn->set_attribute("sinnoh_green_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREEN));
-            t_pkmn->set_attribute("sinnoh_blue_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::BLUE));
-            t_pkmn->set_attribute("sinnoh_festival_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FESTIVAL));
-            t_pkmn->set_attribute("sinnoh_carnival_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FESTIVAL));
-            t_pkmn->set_attribute("sinnoh_classic_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CLASSIC));
-            t_pkmn->set_attribute("sinnoh_premier_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PREMIER));
+            t_pkmn->set_attribute("sinnoh_champion_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CHAMPION));
+            t_pkmn->set_attribute("sinnoh_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ABILITY));
+            t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREAT_ABILITY));
+            t_pkmn->set_attribute("sinnoh_double_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOUBLE_ABILITY));
+            t_pkmn->set_attribute("sinnoh_multi_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::MULTI_ABILITY));
+            t_pkmn->set_attribute("sinnoh_pair_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PAIR_ABILITY));
+            t_pkmn->set_attribute("sinnoh_world_ability_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::WORLD_ABILITY));
+            t_pkmn->set_attribute("sinnoh_alert_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ALERT));
+            t_pkmn->set_attribute("sinnoh_shock_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SHOCK));
+            t_pkmn->set_attribute("sinnoh_downcast_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOWNCAST));
+            t_pkmn->set_attribute("sinnoh_careless_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CARELESS));
+            t_pkmn->set_attribute("sinnoh_relax_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RELAX));
+            t_pkmn->set_attribute("sinnoh_snooze_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SNOOZE));
+            t_pkmn->set_attribute("sinnoh_smile_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SMILE));
+            t_pkmn->set_attribute("sinnoh_gorgeous_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS));
+            t_pkmn->set_attribute("sinnoh_royal_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ROYAL));
+            t_pkmn->set_attribute("sinnoh_gorgeous_royal_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS_ROYAL));
+            t_pkmn->set_attribute("sinnoh_footprint_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FOOTPRINT));
+            t_pkmn->set_attribute("sinnoh_record_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RECORD));
+            t_pkmn->set_attribute("sinnoh_history_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::HISTORY));
+            t_pkmn->set_attribute("sinnoh_legend_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::LEGEND));
+            t_pkmn->set_attribute("sinnoh_red_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RED));
+            t_pkmn->set_attribute("sinnoh_green_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREEN));
+            t_pkmn->set_attribute("sinnoh_blue_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::BLUE));
+            t_pkmn->set_attribute("sinnoh_festival_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_carnival_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_classic_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CLASSIC));
+            t_pkmn->set_attribute("sinnoh_premier_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PREMIER));
 
-            t_pkmn->set_attribute("sinnoh_cool_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL-23));
-            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY-23));
-            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_cute_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE-23));
-            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_smart_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART-23));
-            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_MASTER-23));
-            t_pkmn->set_attribute("sinnoh_tough_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH-23));
-            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_cool_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL-23));
+            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY-23));
+            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_cute_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE-23));
+            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_smart_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART-23));
+            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_tough_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH-23));
+            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_MASTER-23));
 
             t_pkmn->set_attribute("eggmet_year", p_pkm->pkm_data.metdate.year);
             t_pkmn->set_attribute("eggmet_month", p_pkm->pkm_data.metdate.month);
@@ -881,9 +881,9 @@ namespace pkmnsim
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
             p_pkm->pkm_data.item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
 
-            set_gen4_5_met_level(((uint8_t*)&(p_pkm->pkm_data.ball)+1), t_pkmn->get_met_level());
+            set_gen4_5_met_level((reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1)), t_pkmn->get_met_level());
             p_pkm->pkm_data.ball = Balls::balls(pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
-            set_gen4_5_met_level(((uint8_t*)&(p_pkm->pkm_data.ball)+1), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
+            set_gen4_5_met_level((reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1)), (t_pkmn->get_trainer_gender() == Genders::FEMALE));
             p_pkm->pkm_data.pid = t_pkmn->get_personality();
             p_pkm->pkm_data.tid = t_pkmn->get_public_trainer_id();
             p_pkm->pkm_data.sid = t_pkmn->get_secret_trainer_id();
@@ -897,12 +897,12 @@ namespace pkmnsim
             p_pkm->party_data.speed = stats[Stats::SPEED];
 
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
-            gen3_4_5_set_IV(((uint32_t*)&(p_pkm->pkm_data.ppup[3])+1), Stats::HP, IVs[Stats::HP]);
-            gen3_4_5_set_IV(((uint32_t*)&(p_pkm->pkm_data.ppup[3])+1), Stats::ATTACK, IVs[Stats::ATTACK]);
-            gen3_4_5_set_IV(((uint32_t*)&(p_pkm->pkm_data.ppup[3])+1), Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            gen3_4_5_set_IV(((uint32_t*)&(p_pkm->pkm_data.ppup[3])+1), Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            gen3_4_5_set_IV(((uint32_t*)&(p_pkm->pkm_data.ppup[3])+1), Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            gen3_4_5_set_IV(((uint32_t*)&(p_pkm->pkm_data.ppup[3])+1), Stats::SPEED, IVs[Stats::SPEED]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1)), Stats::HP, IVs[Stats::HP]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1)), Stats::ATTACK, IVs[Stats::ATTACK]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1)), Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1)), Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1)), Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            gen3_4_5_set_IV((reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1)), Stats::SPEED, IVs[Stats::SPEED]);
 
             dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
             p_pkm->pkm_data.evs.hp = EVs[Stats::HP];
@@ -918,17 +918,17 @@ namespace pkmnsim
             if(t_pkmn->has_attribute("friendship"))
                 p_pkm->pkm_data.tameness = t_pkmn->get_attribute("friendship");
             if(t_pkmn->has_attribute("circle"))
-                set_marking((uint8_t*)(&(p_pkm->pkm_data.ability)+1), Markings::CIRCLE, t_pkmn->get_attribute("circle"));
+                set_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1), Markings::CIRCLE, t_pkmn->get_attribute("circle"));
             if(t_pkmn->has_attribute("triangle"))
-                set_marking((uint8_t*)(&(p_pkm->pkm_data.ability)+1), Markings::TRIANGLE, t_pkmn->get_attribute("triangle"));
+                set_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1), Markings::TRIANGLE, t_pkmn->get_attribute("triangle"));
             if(t_pkmn->has_attribute("square"))
-                set_marking((uint8_t*)(&(p_pkm->pkm_data.ability)+1), Markings::SQUARE, t_pkmn->get_attribute("square"));
+                set_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1), Markings::SQUARE, t_pkmn->get_attribute("square"));
             if(t_pkmn->has_attribute("heart"))
-                set_marking((uint8_t*)(&(p_pkm->pkm_data.ability)+1), Markings::HEART, t_pkmn->get_attribute("heart"));
+                set_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1), Markings::HEART, t_pkmn->get_attribute("heart"));
             if(t_pkmn->has_attribute("star"))
-                set_marking((uint8_t*)(&(p_pkm->pkm_data.ability)+1), Markings::STAR, t_pkmn->get_attribute("star"));
+                set_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1), Markings::STAR, t_pkmn->get_attribute("star"));
             if(t_pkmn->has_attribute("diamond"))
-                set_marking((uint8_t*)(&(p_pkm->pkm_data.ability)+1), Markings::DIAMOND, t_pkmn->get_attribute("diamond"));
+                set_marking(reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1), Markings::DIAMOND, t_pkmn->get_attribute("diamond"));
 
             if(t_pkmn->has_attribute("country"))
                 p_pkm->pkm_data.country = Countries::countries(t_pkmn->get_attribute("country"));
@@ -946,166 +946,166 @@ namespace pkmnsim
                 p_pkm->pkm_data.contest.sheen = t_pkmn->get_attribute("sheen");
 
             if(t_pkmn->has_attribute("hoenn_cool_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cool_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cool_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cool_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_beauty_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_cute_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_smart_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_super_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_hyper_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
             if(t_pkmn->has_attribute("hoenn_tough_master_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
 
             if(t_pkmn->has_attribute("hoenn_champion_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
             if(t_pkmn->has_attribute("hoenn_winning_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
             if(t_pkmn->has_attribute("hoenn_victory_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
             if(t_pkmn->has_attribute("hoenn_artist_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
             if(t_pkmn->has_attribute("hoenn_effort_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
             if(t_pkmn->has_attribute("hoenn_marine_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
             if(t_pkmn->has_attribute("hoenn_land_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
             if(t_pkmn->has_attribute("hoenn_sky_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
             if(t_pkmn->has_attribute("hoenn_country_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
             if(t_pkmn->has_attribute("hoenn_national_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
             if(t_pkmn->has_attribute("hoenn_earth_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
             if(t_pkmn->has_attribute("hoenn_world_ribbon"))
-                set_hoenn_ribbon((uint32_t*)(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
+                set_hoenn_ribbon(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1)), Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
 
             if(t_pkmn->has_attribute("sinnoh_champion_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CHAMPION, t_pkmn->get_attribute("sinnoh_champion_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CHAMPION, t_pkmn->get_attribute("sinnoh_champion_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_great_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREAT_ABILITY, t_pkmn->get_attribute("sinnoh_great_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREAT_ABILITY, t_pkmn->get_attribute("sinnoh_great_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_double_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOUBLE_ABILITY, t_pkmn->get_attribute("sinnoh_double_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOUBLE_ABILITY, t_pkmn->get_attribute("sinnoh_double_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_multi_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::MULTI_ABILITY, t_pkmn->get_attribute("sinnoh_multi_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::MULTI_ABILITY, t_pkmn->get_attribute("sinnoh_multi_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_pair_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PAIR_ABILITY, t_pkmn->get_attribute("sinnoh_pair_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PAIR_ABILITY, t_pkmn->get_attribute("sinnoh_pair_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_world_ability_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::WORLD_ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::WORLD_ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_alert_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ALERT, t_pkmn->get_attribute("sinnoh_alert_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ALERT, t_pkmn->get_attribute("sinnoh_alert_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_shock_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SHOCK, t_pkmn->get_attribute("sinnoh_shock_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SHOCK, t_pkmn->get_attribute("sinnoh_shock_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_downcast_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOWNCAST, t_pkmn->get_attribute("sinnoh_downcast_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::DOWNCAST, t_pkmn->get_attribute("sinnoh_downcast_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_careless_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CARELESS, t_pkmn->get_attribute("sinnoh_careless_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CARELESS, t_pkmn->get_attribute("sinnoh_careless_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_relax_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RELAX, t_pkmn->get_attribute("sinnoh_relax_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RELAX, t_pkmn->get_attribute("sinnoh_relax_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_snooze_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SNOOZE, t_pkmn->get_attribute("sinnoh_snooze_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SNOOZE, t_pkmn->get_attribute("sinnoh_snooze_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smile_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SMILE, t_pkmn->get_attribute("sinnoh_smile_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::SMILE, t_pkmn->get_attribute("sinnoh_smile_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_gorgeous_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS, t_pkmn->get_attribute("sinnoh_gorgeous_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS, t_pkmn->get_attribute("sinnoh_gorgeous_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_royal_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ROYAL, t_pkmn->get_attribute("sinnoh_royal_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::ROYAL, t_pkmn->get_attribute("sinnoh_royal_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_gorgeous_royal_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS_ROYAL, t_pkmn->get_attribute("sinnoh_gorgeous_royal_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GORGEOUS_ROYAL, t_pkmn->get_attribute("sinnoh_gorgeous_royal_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_record_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RECORD, t_pkmn->get_attribute("sinnoh_record_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RECORD, t_pkmn->get_attribute("sinnoh_record_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_history_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::HISTORY, t_pkmn->get_attribute("sinnoh_history_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::HISTORY, t_pkmn->get_attribute("sinnoh_history_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_legend_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::LEGEND, t_pkmn->get_attribute("sinnoh_legend_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::LEGEND, t_pkmn->get_attribute("sinnoh_legend_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_red_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RED, t_pkmn->get_attribute("sinnoh_red_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::RED, t_pkmn->get_attribute("sinnoh_red_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_green_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREEN, t_pkmn->get_attribute("sinnoh_green_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::GREEN, t_pkmn->get_attribute("sinnoh_green_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_blue_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::BLUE, t_pkmn->get_attribute("sinnoh_blue_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::BLUE, t_pkmn->get_attribute("sinnoh_blue_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_festival_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FESTIVAL, t_pkmn->get_attribute("sinnoh_festival_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::FESTIVAL, t_pkmn->get_attribute("sinnoh_festival_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_carnival_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CARNIVAL, t_pkmn->get_attribute("sinnoh_carnival_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CARNIVAL, t_pkmn->get_attribute("sinnoh_carnival_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_classic_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CLASSIC, t_pkmn->get_attribute("sinnoh_classic_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::CLASSIC, t_pkmn->get_attribute("sinnoh_classic_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_premier_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PREMIER, t_pkmn->get_attribute("sinnoh_premier_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1)), Ribbons::Sinnoh::PREMIER, t_pkmn->get_attribute("sinnoh_premier_ribbon"));
 
             if(t_pkmn->has_attribute("sinnoh_cool_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL-23, t_pkmn->get_attribute("sinnoh_cool_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL-23, t_pkmn->get_attribute("sinnoh_cool_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cool_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_GREAT-23, t_pkmn->get_attribute("sinnoh_cool_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_GREAT-23, t_pkmn->get_attribute("sinnoh_cool_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cool_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_ULTRA-23, t_pkmn->get_attribute("sinnoh_cool_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_ULTRA-23, t_pkmn->get_attribute("sinnoh_cool_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cool_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_MASTER-23, t_pkmn->get_attribute("sinnoh_cool_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::COOL_MASTER-23, t_pkmn->get_attribute("sinnoh_cool_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY-23, t_pkmn->get_attribute("sinnoh_beauty_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY-23, t_pkmn->get_attribute("sinnoh_beauty_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_GREAT-23, t_pkmn->get_attribute("sinnoh_beauty_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_GREAT-23, t_pkmn->get_attribute("sinnoh_beauty_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_ULTRA-23, t_pkmn->get_attribute("sinnoh_beauty_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_ULTRA-23, t_pkmn->get_attribute("sinnoh_beauty_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_beauty_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_MASTER-23, t_pkmn->get_attribute("sinnoh_beauty_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::BEAUTY_MASTER-23, t_pkmn->get_attribute("sinnoh_beauty_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE-23, t_pkmn->get_attribute("sinnoh_cute_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE-23, t_pkmn->get_attribute("sinnoh_cute_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_GREAT-23, t_pkmn->get_attribute("sinnoh_cute_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_GREAT-23, t_pkmn->get_attribute("sinnoh_cute_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_ULTRA-23, t_pkmn->get_attribute("sinnoh_cute_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_ULTRA-23, t_pkmn->get_attribute("sinnoh_cute_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_cute_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_MASTER-23, t_pkmn->get_attribute("sinnoh_cute_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::CUTE_MASTER-23, t_pkmn->get_attribute("sinnoh_cute_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART-23, t_pkmn->get_attribute("sinnoh_smart_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART-23, t_pkmn->get_attribute("sinnoh_smart_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_GREAT-23, t_pkmn->get_attribute("sinnoh_smart_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_GREAT-23, t_pkmn->get_attribute("sinnoh_smart_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_ULTRA-23, t_pkmn->get_attribute("sinnoh_smart_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_ULTRA-23, t_pkmn->get_attribute("sinnoh_smart_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_smart_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_MASTER-23, t_pkmn->get_attribute("sinnoh_smart_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::SMART_MASTER-23, t_pkmn->get_attribute("sinnoh_smart_master_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH-23, t_pkmn->get_attribute("sinnoh_tough_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH-23, t_pkmn->get_attribute("sinnoh_tough_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_great_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_GREAT-23, t_pkmn->get_attribute("sinnoh_tough_great_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_GREAT-23, t_pkmn->get_attribute("sinnoh_tough_great_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_ultra_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_ULTRA-23, t_pkmn->get_attribute("sinnoh_tough_ultra_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_ULTRA-23, t_pkmn->get_attribute("sinnoh_tough_ultra_ribbon"));
             if(t_pkmn->has_attribute("sinnoh_tough_master_ribbon"))
-                set_sinnoh_ribbon32((uint32_t*)(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_MASTER-23, t_pkmn->get_attribute("sinnoh_tough_master_ribbon"));
+                set_sinnoh_ribbon32(reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3)), Ribbons::Sinnoh::TOUGH_MASTER-23, t_pkmn->get_attribute("sinnoh_tough_master_ribbon"));
 
             if(t_pkmn->has_attribute("eggmet_year"))
                 p_pkm->pkm_data.eggdate.year = t_pkmn->get_attribute("eggmet_year");
