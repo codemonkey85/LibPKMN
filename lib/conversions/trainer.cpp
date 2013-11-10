@@ -10,6 +10,8 @@
 #include <pkmnsim/enums.hpp>
 
 #include "../library_bridge.hpp"
+#include "items.hpp"
+#include "pokemon.hpp"
 #include "trainer.hpp"
 
 using namespace std;
@@ -38,7 +40,7 @@ namespace pkmnsim
                     break;
             }
 
-            string trainer_name = parser->get_text((unsigned char*)&(game_data[POKEHACK_PLAYER_NAME]), false);
+            string trainer_name = parser->get_text(reinterpret_cast<unsigned char*>(&(game_data[POKEHACK_PLAYER_NAME])), false);
             bool trainer_is_female = game_data[POKEHACK_PLAYER_GENDER];
             unsigned int pkmnsim_gender;
             
@@ -46,6 +48,26 @@ namespace pkmnsim
             else pkmnsim_gender = Genders::MALE;
 
             trainer::sptr pkmnsim_trainer = trainer::make(pkmnsim_game_id, trainer_name, pkmnsim_gender);
+
+            pkmnsim_trainer->set_id(*(reinterpret_cast<uint32_t*>(&game_data[POKEHACK_TRAINER_ID])));
+            pkmnsim_trainer->set_money(0); //Currently unimplemented in Pokehack
+
+            bag::sptr bag_from_pokehack = import_items_from_pokehack(reinterpret_cast<unsigned char*>(game_data));
+            bag::sptr trainer_bag = pkmnsim_trainer->get_bag();
+            trainer_bag = bag_from_pokehack;
+
+            for(size_t i = 0; i < 6; i++)
+            {
+                if(parser->pokemon_growth[i]->species != 0)
+                {
+                    team_pokemon::sptr t_pkmn = pokehack_pokemon_to_team_pokemon(parser->pokemon[i],
+                                                                                 parser->pokemon_attacks[i],
+                                                                                 parser->pokemon_effort[i],
+                                                                                 parser->pokemon_misc[i],
+                                                                                 parser->pokemon_growth[i]);
+                    pkmnsim_trainer->set_pokemon(i+1, t_pkmn);
+                }
+            }
 
             return pkmnsim_trainer;
         }
