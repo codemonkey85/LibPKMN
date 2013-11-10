@@ -56,9 +56,9 @@ namespace pkmnsim
         
         void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer, unsigned int game_id);
         
-        /*bag::sptr import_items_from_pkmds_g5(::bag_obj* pkmds_bag);
+        bag::sptr import_items_from_pkmds_g5(::bag_obj* pkmds_bag, unsigned int game_id);
         
-        void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);*/
+        void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
     }
 }
 
