@@ -87,21 +87,13 @@ namespace pkmnsim
                 
             case Games::BLACK:
             case Games::WHITE:
-                contents["Items"] = pocket::make(game_id, "Items", 100);
-                contents["Medicine"] = pocket::make(game_id, "Medicine", 100);
-                contents["TMs and HMs"] = pocket::make(game_id, "TMs and HMs", 100);
-                contents["Berries"] = pocket::make(game_id, "Berries", 100);
-                contents["Key Items"] = pocket::make(game_id, "Key Items", 100);
-                break;
-                
             case Games::BLACK2:
             case Games::WHITE2:
-                contents["Items"] = pocket::make(game_id, "Items", 100);
-                contents["Medicine"] = pocket::make(game_id, "Medicine", 100);
-                contents["TMs and HMs"] = pocket::make(game_id, "TMs and HMs", 100);
-                contents["Berries"] = pocket::make(game_id, "Berries", 100);
-                contents["Key Items"] = pocket::make(game_id, "Key Items", 100);
-                contents["Free Space"] = pocket::make(game_id, "Free Space", 100);
+                contents["Items"] = pocket::make(game_id, "Items", 310);
+                contents["Medicine"] = pocket::make(game_id, "Medicine", 48);
+                contents["TMs and HMs"] = pocket::make(game_id, "TMs and HMs", 109);
+                contents["Berries"] = pocket::make(game_id, "Berries", 64);
+                contents["Key Items"] = pocket::make(game_id, "Key Items", 83);
             
             default:
                 break;
