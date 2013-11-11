@@ -27,9 +27,6 @@ namespace pkmnsim
 {
     game_save::sptr game_save::make(string filename)
     {
-        //Detect type of game save
-        bool can_be_gen3, can_be_gen4, can_be_gen5;
-
         //Read save file and get size
         FILE* save_file;
         save_file = fopen(filename.c_str(), "rb");
@@ -40,33 +37,8 @@ namespace pkmnsim
         int result = fread(buffer, 1, size, save_file);
         fclose(save_file);
 
-        //Use size to determine possibilities
-        if(size >= 0x80000)
-        {
-            can_be_gen3 = false;
-            can_be_gen4 = true;
-            can_be_gen5 = true;
-        }
-        else if(size >= 0x40000)
-        {
-            can_be_gen3 = false;
-            can_be_gen4 = true;
-            can_be_gen5 = false;
-        }
-        else if(size >= 0x20000)
-        {
-            can_be_gen3 = true;
-            can_be_gen4 = false;
-            can_be_gen5 = false;
-        }
-        else
-        {
-            cerr << "This file is too small to be a proper save file." << endl;
-            exit(EXIT_FAILURE);
-        }
-
         //Once size is determined, determine whether or not save is valid
-        if(can_be_gen4 and can_be_gen5)
+        if(size > 0x80000)
         {
             //Check to see if PokeLib accepts it as a proper Gen 4 save
             PokeLib::Save save(filename.c_str());
@@ -87,7 +59,7 @@ namespace pkmnsim
                 }
             }
         }
-        else if(can_be_gen4)
+        else if(size > 0x40000)
         {
             PokeLib::Save save(filename.c_str());
             if(save.parseRawSave())
@@ -96,7 +68,7 @@ namespace pkmnsim
                 //return sptr(new game_save_gen4impl(save));
             }
         }
-        else
+        else if(size >= 0x20000)
         {
             //Check for Gen 3 game by searching for game code
             int game_type;
@@ -110,9 +82,10 @@ namespace pkmnsim
                 //return sptr(new game_save_gen3impl(parser));
             }
         }
-
-        //If code has gotten to this point, the file is not a valid save file
-        cerr << "Invalid save file." << endl;
-        exit(EXIT_FAILURE);
+        else
+        {
+            cerr << "This file is too small to be a proper save file." << endl;
+            exit(EXIT_FAILURE);
+        }
     }
 }
