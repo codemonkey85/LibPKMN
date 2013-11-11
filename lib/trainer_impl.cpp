@@ -23,12 +23,12 @@ using namespace std;
 
 namespace pkmnsim
 {
-    trainer::sptr trainer::make(unsigned int game, std::string name, unsigned int gndr)
+    trainer::sptr trainer::make(unsigned int game, pokemon_text name, unsigned int gndr)
     {
         return sptr(new trainer_impl(game, name, gndr));
     }
 
-    trainer_impl::trainer_impl(unsigned int game, std::string name, unsigned int gndr): trainer()
+    trainer_impl::trainer_impl(unsigned int game, pokemon_text name, unsigned int gndr): trainer()
     {
         prng rand_gen;
 
@@ -120,11 +120,11 @@ namespace pkmnsim
 
     bag::sptr trainer_impl::get_bag() const {return item_bag;}
     
-    std::string trainer_impl::get_name() const {return trainer_name;}
+    pokemon_text trainer_impl::get_name() const {return trainer_name;}
 
-    void trainer_impl::set_name(std::string new_name)
+    void trainer_impl::set_name(pokemon_text new_name)
     {
-        trainer_name = (new_name.length() > 10) ? trainer_name : pokemon_text(new_name);
+        trainer_name = (new_name.std_string().length() > 10) ? trainer_name : pokemon_text(new_name);
     }
 
     unsigned int trainer_impl::get_gender() const {return gender;}

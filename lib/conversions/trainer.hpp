@@ -35,13 +35,13 @@ namespace pkmnsim
 
         void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, SaveParser* parser, char* game_data);
 
-        /*trainer::sptr import_trainer_from_pokelib(PokeLib::Trainer pokelib_trainer);
+        trainer::sptr import_trainer_from_pokelib(PokeLib::Save pokelib_save);
 
-        PokeLib::Trainer export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer);
+        void export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, PokeLib::Trainer* pokelib_trainer);
 
         trainer::sptr import_trainer_from_pkmds_g5(bw2savblock_obj* pkmds_save);
 
-        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, bw2savblock_obj* pkmds_save);*/
+        /*void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, bw2savblock_obj* pkmds_save);*/
     }
 }
 #endif /* INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP */

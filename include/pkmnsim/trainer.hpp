@@ -28,9 +28,9 @@ namespace pkmnsim
         public:
 
             typedef std::shared_ptr<trainer> sptr;
-            static sptr make(unsigned int game, std::string name, unsigned int gender);
+            static sptr make(unsigned int game, pokemon_text name, unsigned int gender);
             
-            trainer(unsigned int game, std::string name, unsigned int gender) {};
+            trainer(unsigned int game, pokemon_text name, unsigned int gender) {};
             trainer() {};
             virtual ~trainer() {};
 
@@ -48,8 +48,8 @@ namespace pkmnsim
             
             virtual bag::sptr get_bag() const = 0;
 
-            virtual std::string get_name() const = 0;
-            virtual void set_name(std::string new_name) = 0;
+            virtual pokemon_text get_name() const = 0;
+            virtual void set_name(pokemon_text new_name) = 0;
 
             virtual unsigned int get_gender() const = 0;
             virtual void set_gender(unsigned int new_gender) = 0;

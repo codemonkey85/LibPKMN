@@ -17,7 +17,7 @@ namespace pkmnsim
     class trainer_impl: public trainer
     {
         public:
-            trainer_impl(unsigned int game, std::string name, unsigned int gndr);
+            trainer_impl(unsigned int game, pokemon_text name, unsigned int gndr);
 
             unsigned int get_game_id() const;
 
@@ -33,8 +33,8 @@ namespace pkmnsim
             
             bag::sptr get_bag() const;
 
-            std::string get_name() const;
-            void set_name(std::string new_name);
+            pokemon_text get_name() const;
+            void set_name(pokemon_text new_name);
 
             unsigned int get_gender() const;
             void set_gender(unsigned int new_gender);
