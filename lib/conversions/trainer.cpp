@@ -246,5 +246,25 @@ namespace pkmnsim
 
             return pkmnsim_trainer;
         }
+        
+        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, bw2savblock_obj* pkmds_save)
+        {
+            std::wstring trainer_name = pkmnsim_trainer->get_name();
+        
+            for(size_t i = 0; i < trainer_name.size(); i++)
+            {
+                pkmds_save->trainername[i] = trainer_name[i];
+            }
+            
+            export_items_to_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->bag));
+            
+            for(size_t i = 1; i <= 6; i++)
+            {
+                team_pokemon::sptr t_pkmn = pkmnsim_trainer->get_pokemon(i);
+            
+                if(t_pkmn->get_species_id() == Species::NONE) break;
+                else team_pokemon_to_pkmds_pokemon(t_pkmn, &(pkmds_save->party.pokemon[i-1]));
+            }
+        }
     }
 }

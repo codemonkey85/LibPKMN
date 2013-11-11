@@ -41,7 +41,7 @@ namespace pkmnsim
 
         trainer::sptr import_trainer_from_pkmds_g5(bw2savblock_obj* pkmds_save);
 
-        /*void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, bw2savblock_obj* pkmds_save);*/
+        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, bw2savblock_obj* pkmds_save);
     }
 }
 #endif /* INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP */
