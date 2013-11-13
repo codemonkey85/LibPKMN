@@ -31,11 +31,15 @@ namespace pkmnsim
             //Class constructors (should never be called directly)
             game_save() {};
             virtual ~game_save() {};
+            
+            virtual void load() = 0;
+            virtual void save() = 0;
+            virtual void save_as(std::string filename) = 0;
 
             virtual trainer::sptr get_trainer() const = 0;
             
-            virtual std::vector<unsigned int> get_time_played() = 0;
-            virtual std::vector<unsigned int> get_last_play_time() = 0;
+            //virtual std::vector<unsigned int> get_time_played() = 0;
+            //virtual std::vector<unsigned int> get_last_play_time() = 0;
 
         protected:
             unsigned int game_id;

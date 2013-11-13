@@ -49,7 +49,7 @@ namespace pkmnsim
             }
             else
             {
-                //Check to see if PokeLib accepts it as a proper Gen 4 save
+                //Check to see if PKMDS accepts it as a proper Gen 4 save
                 free(buffer);
                 bw2sav_obj* sav = new bw2sav_obj;
                 read(filename.c_str(), sav);
