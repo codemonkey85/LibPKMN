@@ -25,7 +25,7 @@ namespace pkmnsim
     {
         public:
 
-            typedef std::shared_ptr<trainer> sptr;
+            typedef std::shared_ptr<game_save> sptr;
             static sptr make(std::string filename);
 
             //Class constructors (should never be called directly)

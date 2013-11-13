@@ -9,17 +9,13 @@
 #include <iostream>
 #include <string>
 
-#include <boost/format.hpp>
-
-#include "SQLiteCpp/src/SQLiteC++.h"
-
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/game_save.hpp>
 #include <pkmnsim/paths.hpp>
 
-#include <pokehack/SaveParser.h>
-#include <pokelib/pokelib.h>
-#include <pkmds/pkmds_g5.h>
+#include "game_save_gen3impl.hpp"
+#include "game_save_gen4impl.hpp"
+#include "game_save_gen5impl.hpp"
 
 using namespace std;
 
@@ -41,45 +37,41 @@ namespace pkmnsim
         if(size > 0x80000)
         {
             //Check to see if PokeLib accepts it as a proper Gen 4 save
-            PokeLib::Save save(filename.c_str());
-            if(save.parseRawSave())
+            pokelib_sptr pokelib_save = shared_ptr<PokeLib::Save>(new PokeLib::Save(filename.c_str()));
+            if(pokelib_save->parseRawSave())
             {
                 free(buffer);
-                //return sptr(new game_save_gen4impl(save));
+                return sptr(new game_save_gen4impl(pokelib_save));
             }
             else
             {
                 //Check to see if PKMDS accepts it as a proper Gen 4 save
                 free(buffer);
-                bw2sav_obj* sav = new bw2sav_obj;
-                read(filename.c_str(), sav);
-                if(savisbw2(sav))
-                {
-                    //return sptr(new game_save_gen5impl(sav));
-                }
+                pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
+                read(filename.c_str(), sav.get());
+                if(savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
             }
         }
         else if(size > 0x40000)
         {
-            PokeLib::Save save(filename.c_str());
-            if(save.parseRawSave())
+            //Check to see if PokeLib accepts it as a proper Gen 4 save
+            pokelib_sptr pokelib_save = shared_ptr<PokeLib::Save>(new PokeLib::Save(filename.c_str()));
+            if(pokelib_save->parseRawSave())
             {
                 free(buffer);
-                //return sptr(new game_save_gen4impl(save));
+                return sptr(new game_save_gen4impl(pokelib_save));
             }
         }
         else if(size >= 0x20000)
         {
             //Check for Gen 3 game by searching for game code
-            int game_type;
-            if(buffer[int(0xAC)] != 1) game_type = 0;
-            else game_type = 1;
+            int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
 
-            SaveParser* parser = SaveParser::Instance();
+            pokehack_sptr parser = pokehack_sptr(SaveParser::Instance());
             if(parser->load(filename.c_str(), game_type))
             {
                 free(buffer);
-                //return sptr(new game_save_gen3impl(parser));
+                return sptr(new game_save_gen3impl(parser));
             }
         }
         else

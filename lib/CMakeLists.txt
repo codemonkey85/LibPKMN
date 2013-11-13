@@ -46,7 +46,10 @@ IF(ENABLE_LIBRARY)
         trainer_impl.cpp
         move_impl.cpp
         move_mainimpl.cpp
-        #game_save.cpp
+        game_save.cpp
+        game_save_gen3impl.cpp
+        game_save_gen4impl.cpp
+        game_save_gen5impl.cpp
         conversions/items.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp

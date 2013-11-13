@@ -52,6 +52,7 @@ namespace std
     #include "pkmnsim/move.hpp"
     #include "pkmnsim/team_pokemon.hpp"
     #include "pkmnsim/trainer.hpp"
+    #include "pkmnsim/game_save.hpp"
     
     #include "pkmnsim/analysis/damage.hpp"
     #include "pkmnsim/analysis/stats.hpp"
@@ -76,6 +77,7 @@ namespace std
 %include "pkmnsim/move.hpp"
 %include "pkmnsim/team_pokemon.hpp"
 %include "pkmnsim/trainer.hpp"
+%include "pkmnsim/game_save.hpp"
 
 %include "pkmnsim/analysis/damage.hpp"
 %include "pkmnsim/analysis/stats.hpp"
