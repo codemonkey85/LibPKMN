@@ -17,6 +17,7 @@
 #include "game_save_gen4impl.hpp"
 #include "game_save_gen5impl.hpp"
 #include "library_bridge.hpp"
+#include "conversions/trainer.hpp"
 
 using namespace std;
 

@@ -7,17 +7,9 @@
 #ifndef INCLUDED_GAME_SAVE_GEN4IMPL_HPP
 #define INCLUDED_GAME_SAVE_GEN4IMPL_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
 #include <pkmnsim/game_save.hpp>
 
-#include <pokelib/pokelib.h>
-
-typedef std::shared_ptr<PokeLib::Save> pokelib_sptr;
+#include "conversions/trainer.hpp"
 
 namespace pkmnsim
 {

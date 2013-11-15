@@ -7,17 +7,9 @@
 #ifndef INCLUDED_GAME_SAVE_GEN5IMPL_HPP
 #define INCLUDED_GAME_SAVE_GEN5IMPL_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
 #include <pkmnsim/game_save.hpp>
 
-#include <pkmds/pkmds_g5.h>
-
-typedef std::shared_ptr<bw2sav_obj> pkmds_g5_sptr;
+#include "conversions/trainer.hpp"
 
 namespace pkmnsim
 {

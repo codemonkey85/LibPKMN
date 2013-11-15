@@ -7,6 +7,12 @@
 #ifndef INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP
 #define INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP
 
+#ifdef _MSC_VER
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 #include <pkmnsim/trainer.hpp>
 
 #include <pokehack/SaveParser.h>
@@ -27,21 +33,25 @@
 #define POKEHACK_FRLG_SECURITY_KEY 0x0AF8
 #define POKEHACK_RIVAL_NAME        0x3A4C
 
+typedef std::shared_ptr<SaveParser> pokehack_sptr;
+typedef std::shared_ptr<PokeLib::Save> pokelib_sptr;
+typedef std::shared_ptr<bw2sav_obj> pkmds_g5_sptr;
+
 namespace pkmnsim
 {
     namespace conversions
     {
-        trainer::sptr import_trainer_from_pokehack(SaveParser* parser, char* game_data);
+        trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
 
-        void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, SaveParser* parser, char* game_data);
+        void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data);
 
-        trainer::sptr import_trainer_from_pokelib(PokeLib::Save pokelib_save);
+        trainer::sptr import_trainer_from_pokelib(pokelib_sptr pokelib_save);
 
-        void export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, PokeLib::Trainer* pokelib_trainer);
+        void export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_trainer);
 
-        trainer::sptr import_trainer_from_pkmds_g5(bw2savblock_obj* pkmds_save);
+        trainer::sptr import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save);
 
-        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, bw2savblock_obj* pkmds_save);
+        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save);
     }
 }
 #endif /* INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP */

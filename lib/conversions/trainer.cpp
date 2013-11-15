@@ -56,7 +56,7 @@ namespace pkmnsim
 {
     namespace conversions
     {
-        trainer::sptr import_trainer_from_pokehack(SaveParser* parser, char* game_data)
+        trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data)
         {
             unsigned int game_code = game_data[POKEHACK_GAME_CODE];
             unsigned int pkmnsim_game_id = 0;
@@ -109,7 +109,7 @@ namespace pkmnsim
             return pkmnsim_trainer;
         }
 
-        void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, SaveParser* parser, char* game_data)
+        void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data)
         {
             dict<char, int> pokehack_reverse_char_map = get_pokehack_reverse_char_map();
 
@@ -157,12 +157,12 @@ namespace pkmnsim
             }
         }
 
-        trainer::sptr import_trainer_from_pokelib(PokeLib::Save pokelib_save)
+        trainer::sptr import_trainer_from_pokelib(pokelib_sptr pokelib_save)
         {
-            PokeLib::Trainer* pokelib_trainer = pokelib_save.getTrainer();
+            PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
             unsigned int game_id;
-            unsigned int save_type = pokelib_save.getSaveType();
+            unsigned int save_type = pokelib_save->getSaveType();
 
             /*
              * The save type doesn't distinguish between D/P or HG/SS, but
@@ -171,9 +171,9 @@ namespace pkmnsim
              * the correct game ID from that. If no such Pokemon exists,
              * use the save type.
              */
-            PokeLib::Party* pokelib_party = pokelib_save.getParty();
-            uint16_t pokelib_public_id = pokelib_save.BlockA[tOffset[offsetTID][save_type]];
-            uint16_t pokelib_secret_id = pokelib_save.BlockA[tOffset[offsetSID][save_type]];
+            PokeLib::Party* pokelib_party = pokelib_save->getParty();
+            uint16_t pokelib_public_id = pokelib_save->BlockA[tOffset[offsetTID][save_type]];
+            uint16_t pokelib_secret_id = pokelib_save->BlockA[tOffset[offsetSID][save_type]];
             bool found = false;
 
             for(size_t i = 1; i < (pokelib_party->count()); i++)
@@ -209,9 +209,9 @@ namespace pkmnsim
 
             trainer::sptr pkmnsim_trainer = trainer::make(game_id, trainer_name, gender);
 
-            pkmnsim_trainer->set_public_id(pokelib_save.BlockA[tOffset[offsetTID][save_type]]);
-            pkmnsim_trainer->set_secret_id(pokelib_save.BlockA[tOffset[offsetSID][save_type]]);
-            pkmnsim_trainer->set_money(*(reinterpret_cast<uint32_t*>(&(pokelib_save.BlockA[tOffset[offsetMoney][save_type]]))));
+            pkmnsim_trainer->set_public_id(pokelib_save->BlockA[tOffset[offsetTID][save_type]]);
+            pkmnsim_trainer->set_secret_id(pokelib_save->BlockA[tOffset[offsetSID][save_type]]);
+            pkmnsim_trainer->set_money(*(reinterpret_cast<uint32_t*>(&(pokelib_save->BlockA[tOffset[offsetMoney][save_type]]))));
 
             bag::sptr pkmnsim_bag = pkmnsim_trainer->get_bag();
             pkmnsim_bag = import_items_from_pokelib(*pokelib_trainer, game_id);
@@ -227,7 +227,7 @@ namespace pkmnsim
             return pkmnsim_trainer;
         }
 
-        void export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, PokeLib::Save* pokelib_save)
+        void export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_save)
         {
             PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
@@ -249,21 +249,21 @@ namespace pkmnsim
             }
         }
 
-        trainer::sptr import_trainer_from_pkmds_g5(bw2savblock_obj* pkmds_save)
+        trainer::sptr import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save)
         {
-            pokemon_text pkmds_name = ::getsavtrainername(pkmds_save);
+            pokemon_text pkmds_name = ::getsavtrainername(pkmds_save->cur);
             trainer::sptr pkmnsim_trainer = trainer::make(Games::BLACK2, pkmds_name, Genders::MALE);
             //TODO: distinguish Gen 5 games
             //Gender not reverse-engineered
 
-            pkmnsim_trainer->set_public_id(pkmds_save->tid);
-            pkmnsim_trainer->set_secret_id(pkmds_save->sid);
+            pkmnsim_trainer->set_public_id(pkmds_save->cur.tid);
+            pkmnsim_trainer->set_secret_id(pkmds_save->cur.sid);
             pkmnsim_trainer->set_money(0);
             
             bag::sptr pkmnsim_bag = pkmnsim_trainer->get_bag();
-            pkmnsim_bag = import_items_from_pkmds_g5(&(pkmds_save->bag), Games::BLACK2);
+            pkmnsim_bag = import_items_from_pkmds_g5(&(pkmds_save->cur.bag), Games::BLACK2);
 
-            party_obj* pkmds_party = &(pkmds_save->party);
+            party_obj* pkmds_party = &(pkmds_save->cur.party);
             for(size_t i = 0; i < pkmds_party->size; i++)
             {
                 pkmnsim_trainer->set_pokemon(i+1, pkmds_pokemon_to_team_pokemon(&(pkmds_party->pokemon[i])));
@@ -272,23 +272,23 @@ namespace pkmnsim
             return pkmnsim_trainer;
         }
         
-        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, bw2savblock_obj* pkmds_save)
+        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save)
         {
             std::wstring trainer_name = pkmnsim_trainer->get_name();
         
             for(size_t i = 0; i < trainer_name.size(); i++)
             {
-                pkmds_save->trainername[i] = trainer_name[i];
+                pkmds_save->cur.trainername[i] = trainer_name[i];
             }
             
-            export_items_to_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->bag));
+            export_items_to_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
             
             for(size_t i = 1; i <= 6; i++)
             {
                 team_pokemon::sptr t_pkmn = pkmnsim_trainer->get_pokemon(i);
             
                 if(t_pkmn->get_species_id() == Species::NONE) break;
-                else team_pokemon_to_pkmds_pokemon(t_pkmn, &(pkmds_save->party.pokemon[i-1]));
+                else team_pokemon_to_pkmds_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));
             }
         }
     }
