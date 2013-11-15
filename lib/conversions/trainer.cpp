@@ -163,19 +163,46 @@ namespace pkmnsim
 
             unsigned int game_id;
             unsigned int save_type = pokelib_save.getSaveType();
-            switch(save_type)
+
+            /*
+             * The save type doesn't distinguish between D/P or HG/SS, but
+             * Pokemon have a field that does. Parse the party to try and
+             * find a Pokemon with the same ID as the trainer and get
+             * the correct game ID from that. If no such Pokemon exists,
+             * use the save type.
+             */
+            PokeLib::Party* pokelib_party = pokelib_save.getParty();
+            uint16_t pokelib_public_id = pokelib_save.BlockA[tOffset[offsetTID][save_type]];
+            uint16_t pokelib_secret_id = pokelib_save.BlockA[tOffset[offsetSID][save_type]];
+            bool found = false;
+
+            for(size_t i = 1; i < (pokelib_party->count()); i++)
             {
-                case PokeLib::DP:
-                    game_id = Games::DIAMOND; //TODO: Distinguish between D/P
-                    break;
+                PokeLib::Pokemon pokelib_pokemon = pokelib_party->getPokemon(i);
 
-                case PokeLib::PLAT:
-                    game_id = Games::PLATINUM;
+                if((pokelib_pokemon.pkm->pkm.ot_id == pokelib_public_id)
+                    and (pokelib_pokemon.pkm->pkm.ot_sid == pokelib_secret_id))
+                {
+                    game_id = hometown_to_pkmnsim_game(pokelib_pokemon.pkm->pkm.hometown);
                     break;
+                }
+            }
+            if(not found)
+            {
+                switch(save_type)
+                {
+                    case PokeLib::DP:
+                        game_id = Games::DIAMOND; //TODO: Distinguish between D/P
+                        break;
 
-                default: //HG/SS
-                    game_id = Games::HEART_GOLD; //TODO: Distinguish between HG/SS
-                    break;
+                    case PokeLib::PLAT:
+                        game_id = Games::PLATINUM;
+                        break;
+
+                    default:
+                        game_id = Games::HEART_GOLD; //TODO: Distinguish between HG/SS
+                        break;
+                }
             }
             pokemon_text trainer_name = pokelib_trainer->getName();
             unsigned int gender = (pokelib_trainer->getFemale()) ? Genders::FEMALE : Genders::MALE;
@@ -188,8 +215,6 @@ namespace pkmnsim
 
             bag::sptr pkmnsim_bag = pkmnsim_trainer->get_bag();
             pkmnsim_bag = import_items_from_pokelib(*pokelib_trainer, game_id);
-
-            PokeLib::Party* pokelib_party = pokelib_save.getParty();
 
             for(size_t i = 1; i < (pokelib_party->count()); i++)
             {
