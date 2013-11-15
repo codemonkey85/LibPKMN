@@ -7,14 +7,24 @@
 #ifndef INCLUDED_LIBRARY_BRIDGE_HPP
 #define INCLUDED_LIBRARY_BRIDGE_HPP
 
+#ifdef _MSC_VER
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 #include <stdint.h>
 
 #include <pkmnsim/types/dict.hpp>
+
+#include <pokehack/SaveParser.h>
 
 namespace pkmnsim
 {
     dict<char, int> get_pokehack_reverse_char_map();
     
+    std::shared_ptr<SaveParser> get_pokehack_sptr();
+
     char* pokehack_get_text(unsigned char* raw, bool is_nickname);
     
     uint8_t gen3_4_5_get_IV(uint32_t* IVint, uint8_t IV);

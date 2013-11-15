@@ -105,6 +105,14 @@ namespace pkmnsim
         return pokehack_reverse_char_map;
     }
 
+    std::shared_ptr<SaveParser> get_pokehack_sptr()
+    {
+        SaveParser* parser1 = SaveParser::Instance();
+        SaveParser parser2 = *parser1;
+
+        return std::shared_ptr<SaveParser>(&parser2);
+    }
+
     //To avoid C/C++ include messiness while avoiding bringing in pokehack/SaveParser.h
     char* pokehack_get_text(unsigned char* raw, bool is_nickname)
     {

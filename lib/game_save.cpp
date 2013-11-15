@@ -16,6 +16,7 @@
 #include "game_save_gen3impl.hpp"
 #include "game_save_gen4impl.hpp"
 #include "game_save_gen5impl.hpp"
+#include "library_bridge.hpp"
 
 using namespace std;
 
@@ -67,7 +68,7 @@ namespace pkmnsim
             //Check for Gen 3 game by searching for game code
             int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
 
-            pokehack_sptr parser = pokehack_sptr(SaveParser::Instance());
+            pokehack_sptr parser = get_pokehack_sptr();
             if(parser->load(filename.c_str(), game_type))
             {
                 free(buffer);
