@@ -88,9 +88,7 @@ namespace pkmnsim
             pkmnsim_trainer->set_id(*(reinterpret_cast<uint32_t*>(&game_data[POKEHACK_TRAINER_ID])));
             pkmnsim_trainer->set_money(0); //Currently unimplemented in Pokehack
 
-            bag::sptr bag_from_pokehack = import_items_from_pokehack(reinterpret_cast<unsigned char*>(game_data));
-            bag::sptr trainer_bag = pkmnsim_trainer->get_bag();
-            trainer_bag = bag_from_pokehack;
+            import_items_from_pokehack(pkmnsim_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
             for(size_t i = 0; i < 6; i++)
             {
@@ -214,8 +212,7 @@ namespace pkmnsim
             pkmnsim_trainer->set_secret_id(pokelib_secret_id);
             pkmnsim_trainer->set_money(*(reinterpret_cast<uint32_t*>(&(pokelib_save->BlockA[tOffset[offsetMoney][save_type]]))));
 
-            bag::sptr pkmnsim_bag = pkmnsim_trainer->get_bag();
-            pkmnsim_bag = import_items_from_pokelib(*pokelib_trainer, game_id);
+            import_items_from_pokelib(pkmnsim_trainer->get_bag(), *pokelib_trainer);
 
             for(size_t i = 1; i < (pokelib_party->count()); i++)
             {
@@ -235,7 +232,7 @@ namespace pkmnsim
             pokelib_trainer->setName(pkmnsim_trainer->get_name());
             pokelib_trainer->setFemale(pkmnsim_trainer->get_gender() == Genders::FEMALE);
 
-            export_items_to_pokelib(pkmnsim_trainer->get_bag(), pokelib_trainer, pkmnsim_trainer->get_game_id());
+            export_items_to_pokelib(pkmnsim_trainer->get_bag(), pokelib_trainer);
 
             //PokeLib::Save::getTrainer returns new trainer
             pokelib_save->setTrainer(pokelib_trainer);
@@ -291,8 +288,7 @@ namespace pkmnsim
             pkmnsim_trainer->set_secret_id(pkmds_secret_id);
             pkmnsim_trainer->set_money(0);
             
-            bag::sptr pkmnsim_bag = pkmnsim_trainer->get_bag();
-            pkmnsim_bag = import_items_from_pkmds_g5(&(pkmds_save->cur.bag), Games::BLACK2);
+            import_items_from_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
 
             for(size_t i = 0; i < pkmds_party->size; i++)
             {

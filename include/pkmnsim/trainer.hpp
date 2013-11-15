@@ -46,7 +46,7 @@ namespace pkmnsim
             virtual void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn) = 0;
             virtual void remove_pokemon(unsigned int pos) = 0;
             
-            virtual bag::sptr get_bag() const = 0;
+            virtual const bag::sptr get_bag() const = 0;
 
             virtual pokemon_text get_name() const = 0;
             virtual void set_name(pokemon_text new_name) = 0;

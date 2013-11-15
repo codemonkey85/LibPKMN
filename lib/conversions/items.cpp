@@ -29,18 +29,19 @@ namespace pkmnsim
 {
     namespace conversions
     {
-        bag::sptr import_items_from_pokehack(unsigned char* data)
+        void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data)
         {
             /*
              * Find out which game this is
              * NOTE: This only narrows it down to RS, FRLG, or E
              */
-            unsigned int game, item_offset, key_item_offset, ball_offset, tm_offset, berry_offset;
+            unsigned int game = item_bag->get_game_id();
+            unsigned int item_offset, key_item_offset, ball_offset, tm_offset, berry_offset;
             
-            switch(int(data[0xAC]))
+            switch(game)
             {
-                case 0:
-                    game = Games::RUBY;
+                case Games::RUBY:
+                case Games::SAPPHIRE:
                     item_offset = RS_ITEM_POCKET_OFFSET;
                     key_item_offset = RS_KEY_ITEM_POCKET_OFFSET;
                     ball_offset = RS_BALL_POCKET_OFFSET;
@@ -48,8 +49,8 @@ namespace pkmnsim
                     berry_offset = RS_BERRY_POCKET_OFFSET;
                     break;
                     
-                case 1:
-                    game = Games::FIRE_RED;
+                case Games::FIRE_RED:
+                case Games::LEAF_GREEN:
                     item_offset = FRLG_ITEM_POCKET_OFFSET;
                     key_item_offset = FRLG_KEY_ITEM_POCKET_OFFSET;
                     ball_offset = FRLG_BALL_POCKET_OFFSET;
@@ -58,7 +59,6 @@ namespace pkmnsim
                     break;
                     
                 default:
-                    game = Games::EMERALD;
                     item_offset = E_ITEM_POCKET_OFFSET;
                     key_item_offset = E_KEY_ITEM_POCKET_OFFSET;
                     ball_offset = E_BALL_POCKET_OFFSET;
@@ -66,18 +66,16 @@ namespace pkmnsim
                     berry_offset = E_BERRY_POCKET_OFFSET;
             }
             
-            bag::sptr item_bag = bag::make(game);
-            
             pocket::sptr item_pocket = item_bag->get_pocket("Items");
             pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
             pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
             
             pocket::sptr tm_pocket;
-            if(game == Games::FIRE_RED) tm_pocket = item_bag->get_pocket("TM Case");
+            if(game == Games::FIRE_RED or game == Games::LEAF_GREEN) tm_pocket = item_bag->get_pocket("TM Case");
             else tm_pocket = item_bag->get_pocket("TMs and HMs");
             
             pocket::sptr berry_pocket;
-            if(game == Games::FIRE_RED) berry_pocket = item_bag->get_pocket("Berry Pouch");
+            if(game == Games::FIRE_RED or game == Games::LEAF_GREEN) berry_pocket = item_bag->get_pocket("Berry Pouch");
             else berry_pocket = item_bag->get_pocket("Berries");
             
             for(size_t i = item_offset; i < item_pocket->get_size(); i+= 4)
@@ -130,8 +128,6 @@ namespace pkmnsim
                     berry_pocket->set_item(item::make(pkmnsim_item_id, game), raw_item->quantity);
                 }
             }
-            
-            return item_bag;
         }
         
         void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data)
@@ -241,10 +237,10 @@ namespace pkmnsim
             }
         }
         
-        bag::sptr import_items_from_pokelib(PokeLib::Trainer pokelib_trainer, unsigned int game_id)
+        void import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer)
         {
-            bag::sptr item_bag = bag::make(game_id);
-            
+            unsigned int game_id = item_bag->get_game_id();
+
             pocket::sptr item_pocket = item_bag->get_pocket("Items");
             pocket::sptr medicine_pocket = item_bag->get_pocket("Medicine");
             pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
@@ -318,12 +314,12 @@ namespace pkmnsim
                 else key_item_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                                pokelib_bagitem.count);
             }
-            
-            return item_bag;
         }
         
-        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer, unsigned int game_id)
+        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer)
         {
+            unsigned int game_id = item_bag->get_game_id();
+
             pocket::sptr item_pocket = item_bag->get_pocket("Items");
             pocket::sptr medicine_pocket = item_bag->get_pocket("Medicine");
             pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
@@ -455,9 +451,9 @@ namespace pkmnsim
             }
         }
         
-        bag::sptr import_items_from_pkmds_g5(::bag_obj* pkmds_bag, unsigned int game_id)
+        void import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag)
         {
-            bag::sptr item_bag = bag::make(game_id);
+            unsigned int game_id = item_bag->get_game_id();
             
             pocket::sptr item_pocket = item_bag->get_pocket("Items");
             pocket::sptr medicine_pocket = item_bag->get_pocket("Medicine");
@@ -505,12 +501,12 @@ namespace pkmnsim
                 else key_item_pocket->set_item(database::get_item_id(pkmds_item.id, game_id),
                                                1);
             }
-            
-            return item_bag;
         }
         
         void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag)
         {
+            unsigned int game_id = item_bag->get_game_id();
+
             pocket::sptr item_pocket = item_bag->get_pocket("Items");
             pocket::sptr medicine_pocket = item_bag->get_pocket("Medicine");
             pocket::sptr tm_pocket = item_bag->get_pocket("TMs and HMs");

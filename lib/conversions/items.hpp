@@ -48,15 +48,15 @@ namespace pkmnsim
             uint16_t quantity;
         };
     
-        bag::sptr import_items_from_pokehack(unsigned char* data);
+        void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
         
         void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
         
-        bag::sptr import_items_from_pokelib(PokeLib::Trainer pokelib_trainer, unsigned int game_id);
+        void import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
         
-        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer, unsigned int game_id);
+        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
         
-        bag::sptr import_items_from_pkmds_g5(::bag_obj* pkmds_bag, unsigned int game_id);
+        void import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
         
         void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
     }
