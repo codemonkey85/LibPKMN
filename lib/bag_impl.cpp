@@ -102,7 +102,7 @@ namespace pkmnsim
     
     unsigned int bag_impl::get_game_id() {return game_id;}
     
-    pocket::sptr bag_impl::get_pocket(string name) {return contents[name];}
+    const pocket::sptr bag_impl::get_pocket(string name) {return contents[name];}
     
     void bag_impl::get_pocket_list(vector<string> &pocket_vec) {pocket_vec = contents.keys();}
 }

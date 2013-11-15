@@ -21,7 +21,7 @@ namespace pkmnsim
             bag_impl(unsigned int game);
 
             unsigned int get_game_id();
-            pocket::sptr get_pocket(std::string name);
+            const pocket::sptr get_pocket(std::string name);
             void get_pocket_list(std::vector<std::string> &pocket_vec);
     };
 }
