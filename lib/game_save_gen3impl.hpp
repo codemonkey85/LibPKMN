@@ -22,7 +22,6 @@ namespace pkmnsim
             
             void load();
             void save();
-            void save_as(std::string filename);
             
             trainer::sptr get_trainer() const;
             

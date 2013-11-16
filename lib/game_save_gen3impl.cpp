@@ -18,7 +18,6 @@ namespace pkmnsim
     
     void game_save_gen3impl::load() {};
     void game_save_gen3impl::save() {};
-    void game_save_gen3impl::save_as(string filename) {};
     
     trainer::sptr game_save_gen3impl::get_trainer() const {return game_trainer;}
 }

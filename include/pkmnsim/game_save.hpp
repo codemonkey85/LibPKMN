@@ -34,7 +34,6 @@ namespace pkmnsim
             
             virtual void load() = 0;
             virtual void save() = 0;
-            virtual void save_as(std::string filename) = 0;
 
             virtual trainer::sptr get_trainer() const = 0;
             
@@ -43,7 +42,6 @@ namespace pkmnsim
 
         protected:
             unsigned int game_id;
-            unsigned char* raw_data;
             trainer::sptr game_trainer;
             
             unsigned int hours_played, minutes_played, seconds_played;

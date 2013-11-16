@@ -7,6 +7,8 @@
 
 #include "game_save_gen4impl.hpp"
  
+#include "conversions/trainer.hpp"
+
 using namespace std;
 
 namespace pkmnsim
@@ -16,9 +18,16 @@ namespace pkmnsim
         pokelib_save = ptr;
     }
     
-    void game_save_gen4impl::load() {};
-    void game_save_gen4impl::save() {};
-    void game_save_gen4impl::save_as(string filename) {};
+    void game_save_gen4impl::load()
+    {
+        game_trainer = conversions::import_trainer_from_pokelib(pokelib_save);
+        game_id = game_trainer->get_game_id();
+    }
+    
+    void game_save_gen4impl::save()
+    {
+        conversions::export_trainer_to_pokelib(game_trainer, pokelib_save);
+    }
     
     trainer::sptr game_save_gen4impl::get_trainer() const {return game_trainer;}
 }
