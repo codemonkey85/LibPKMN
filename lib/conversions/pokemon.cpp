@@ -900,8 +900,8 @@ namespace pkmnsim
                 ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(trainer_name_wide.c_str()), trainer_name_wide.size());
             #else
                 //TODO: clean up when using Windows
-                ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_nickname().const_wchar_t()), t_pkmn->get_nickname().std_wstring().size());
-                ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(t_pkmn->get_trainer_name().const_wchar_t()), t_pkmn->get_trainer_name().std_wstring().size());
+                ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(nickname_wide.c_str()), nickname_wide.size());
+                ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(trainer_name_wide.c_str()), trainer_name_wide.size());
             #endif
 
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
