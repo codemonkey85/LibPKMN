@@ -88,7 +88,7 @@ namespace pkmnsim
             pkmnsim_trainer->set_id(*(reinterpret_cast<uint32_t*>(&game_data[POKEHACK_TRAINER_ID])));
             pkmnsim_trainer->set_money(0); //Currently unimplemented in Pokehack
 
-            import_items_from_pokehack(pkmnsim_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
+            //import_items_from_pokehack(pkmnsim_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
             for(size_t i = 0; i < 6; i++)
             {
@@ -137,7 +137,7 @@ namespace pkmnsim
             uint32_t* pokehack_id = reinterpret_cast<uint32_t*>(game_data[POKEHACK_TRAINER_ID]);
             *pokehack_id = pkmnsim_trainer->get_id();
 
-            export_items_to_pokehack(pkmnsim_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
+            //export_items_to_pokehack(pkmnsim_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
             pokemon_team_t party = pkmnsim_trainer->get_party();
             for(int i = 0; i < 6; i++)
@@ -157,6 +157,7 @@ namespace pkmnsim
 
         trainer::sptr import_trainer_from_pokelib(pokelib_sptr pokelib_save)
         {
+            cout << "Beginning of import_trainer_from_pokelib" << endl;
             PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
             unsigned int game_id;
@@ -191,7 +192,7 @@ namespace pkmnsim
                 switch(save_type)
                 {
                     case PokeLib::DP:
-                        game_id = Games::DIAMOND; //TODO: Distinguish between D/P
+                        game_id = Games::DIAMOND;
                         break;
 
                     case PokeLib::PLAT:
@@ -199,10 +200,11 @@ namespace pkmnsim
                         break;
 
                     default:
-                        game_id = Games::HEART_GOLD; //TODO: Distinguish between HG/SS
+                        game_id = Games::HEART_GOLD;
                         break;
                 }
             }
+            cout << "import_trainer_from_pokelib, game_id: " << game_id << endl;
             pokemon_text trainer_name = pokelib_trainer->getName();
             unsigned int gender = (pokelib_trainer->getFemale()) ? Genders::FEMALE : Genders::MALE;
 
@@ -212,15 +214,17 @@ namespace pkmnsim
             pkmnsim_trainer->set_secret_id(pokelib_secret_id);
             pkmnsim_trainer->set_money(*(reinterpret_cast<uint32_t*>(&(pokelib_save->BlockA[tOffset[offsetMoney][save_type]]))));
 
-            import_items_from_pokelib(pkmnsim_trainer->get_bag(), *pokelib_trainer);
+            //import_items_from_pokelib(pkmnsim_trainer->get_bag(), *pokelib_trainer);
 
             for(size_t i = 1; i < (pokelib_party->count()); i++)
             {
+                cout << i << endl;
                 PokeLib::Pokemon pokelib_pokemon = pokelib_party->getPokemon(i);
 
                 if(pokelib_pokemon.pkm->pkm.species == 0) break;
                 else pkmnsim_trainer->set_pokemon(i, pokelib_pokemon_to_team_pokemon(pokelib_party->getPokemon(i)));
             }
+            cout << "End of import_trainer_from_pokelib" << endl;
 
             return pkmnsim_trainer;
         }
@@ -232,7 +236,7 @@ namespace pkmnsim
             pokelib_trainer->setName(pkmnsim_trainer->get_name());
             pokelib_trainer->setFemale(pkmnsim_trainer->get_gender() == Genders::FEMALE);
 
-            export_items_to_pokelib(pkmnsim_trainer->get_bag(), pokelib_trainer);
+            //export_items_to_pokelib(pkmnsim_trainer->get_bag(), pokelib_trainer);
 
             //PokeLib::Save::getTrainer returns new trainer
             pokelib_save->setTrainer(pokelib_trainer);
@@ -288,7 +292,7 @@ namespace pkmnsim
             pkmnsim_trainer->set_secret_id(pkmds_secret_id);
             pkmnsim_trainer->set_money(0);
             
-            import_items_from_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
+            //import_items_from_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
 
             for(size_t i = 0; i < pkmds_party->size; i++)
             {
@@ -307,7 +311,7 @@ namespace pkmnsim
                 pkmds_save->cur.trainername[i] = trainer_name[i];
             }
             
-            export_items_to_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
+            //export_items_to_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
             
             for(size_t i = 1; i <= 6; i++)
             {

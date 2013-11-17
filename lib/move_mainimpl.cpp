@@ -27,6 +27,7 @@ namespace pkmnsim
                 base_effect = "None";
                 base_effect_chance = 0;
                 move_damage_class = 0;
+                break;
 
             default:
                 SQLite::Database db(get_database_path().c_str());
@@ -43,6 +44,7 @@ namespace pkmnsim
 
                 query_string = "SELECT damage_class_id FROM moves WHERE id=" + to_string(move_id);
                 move_damage_class = int(db.execAndGet(query_string.c_str()));
+                break;
         }
     }
 }

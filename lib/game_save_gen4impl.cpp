@@ -16,6 +16,7 @@ namespace pkmnsim
     game_save_gen4impl::game_save_gen4impl(pokelib_sptr ptr): game_save()
     {
         pokelib_save = ptr;
+        load();
     }
     
     void game_save_gen4impl::load()

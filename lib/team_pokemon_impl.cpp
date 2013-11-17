@@ -41,6 +41,7 @@ namespace pkmnsim
     {
         try
         {
+            cout << "team_pokemon::make, game = " << game << endl;
             base_pokemon::sptr base = base_pokemon::make(id, game);
             
             if(base->get_generation() < 1 or base->get_generation() > 5) throw runtime_error("Gen must be 1-5.");
@@ -77,7 +78,7 @@ namespace pkmnsim
         personality = rand_gen.lcrng_next(gen);
         trainer_id = rand_gen.lcrng_next(gen);
     
-        base_pkmn = base_pkmn;
+        base_pkmn = base;
         nickname = base_pkmn->get_species_name();
         trainer_name = "Ash";
         level = lvl;

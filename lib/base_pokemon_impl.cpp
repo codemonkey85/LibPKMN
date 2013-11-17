@@ -57,10 +57,13 @@ namespace pkmnsim
 
     base_pokemon_impl::base_pokemon_impl(unsigned int id, unsigned int game): base_pokemon()
     {
+        cout << "Beginning of base_pokemon_impl ctor" << endl;
+        from_game = game;
+        from_gen = database::get_generation(from_game);
+
         switch(id)
         {
             case Species::NONE: //None
-                from_game = game;
                 pokemon_id = Species::NONE;
                 species_id = Species::NONE;
                 form_id = 0;
@@ -78,7 +81,6 @@ namespace pkmnsim
                 break;
 
             case Species::INVALID: //Invalid
-                from_game = game;
                 pokemon_id = Species::INVALID;
                 species_id = Species::INVALID;
                 form_id = 0;
@@ -103,24 +105,22 @@ namespace pkmnsim
                 string query_string;
                 
                 //Get generation and name from specified game enum
-                query_string = "SELECT version_group_id FROM versions WHERE id=" + to_string(game);
-                int version_group_id = db.execAndGet(query_string.c_str());
-                query_string = "SELECT generation_id FROM version_groups WHERE id=" + to_string(version_group_id);
-                from_gen = int(db.execAndGet(query_string.c_str()));
                 query_string = "SELECT name FROM version_names WHERE version_id=" + to_string(game);
                 game_string = string((const char*)db.execAndGet(query_string.c_str()));
                 
                 //Fail if Pokemon's generation_id > specified gen
-                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(id);
+                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
+                cout << query_string << endl;
                 unsigned int gen_id = int(db.execAndGet(query_string.c_str()));
                 if(gen_id > from_gen)
                 {
-                    string error_message = database::get_species_name(from_gen) + ".";
+                    string error_message = to_string(gen_id) + " > " + to_string(from_gen);
                     throw runtime_error(error_message.c_str());
                 }
 
                 //Get Pokemon ID from database
                 query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(species_id);
+                cout << query_string << endl;
                 pokemon_id = int(db.execAndGet(query_string.c_str()));
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
@@ -143,9 +143,11 @@ namespace pkmnsim
                 
                 //If there's only one type, this won't return anything
                 query_string = "SELECT type_id FROM pokemon_types WHERE slot=2 and pokemon_id=" + to_string(pokemon_id);
+                cout << query_string << endl;
                 SQLite::Statement query(db, query_string.c_str());
                 type2_id = (query.executeStep()) ? int(query.getColumn(0)) : Types::NONE;
         }
+        cout << "End of base_pokemon_impl ctor" << endl;
     }
 
     unsigned int base_pokemon_impl::get_pokedex_num() const {return species_id;}
