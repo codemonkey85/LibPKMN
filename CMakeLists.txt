@@ -118,6 +118,7 @@ SET(RUNTIME_DIR bin)
 SET(LIBRARY_DIR lib${LIB_SUFFIX})
 SET(INCLUDE_DIR include)
 SET(PKG_DATA_DIR share/libpkmn)
+SET(DOCS_DIR share/doc)
 
 ########################################################################
 # Register LibLibPKMN components
