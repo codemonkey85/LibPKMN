@@ -204,7 +204,6 @@ namespace pkmnsim
                         break;
                 }
             }
-            cout << "import_trainer_from_pokelib, game_id: " << game_id << endl;
             pokemon_text trainer_name = pokelib_trainer->getName();
             unsigned int gender = (pokelib_trainer->getFemale()) ? Genders::FEMALE : Genders::MALE;
 
@@ -216,13 +215,12 @@ namespace pkmnsim
 
             //import_items_from_pokelib(pkmnsim_trainer->get_bag(), *pokelib_trainer);
 
-            for(size_t i = 1; i < (pokelib_party->count()); i++)
+            for(size_t i = 1; i < (unsigned int)(pokelib_party->count()); i++)
             {
-                cout << i << endl;
                 PokeLib::Pokemon pokelib_pokemon = pokelib_party->getPokemon(i);
 
                 if(pokelib_pokemon.pkm->pkm.species == 0) break;
-                else pkmnsim_trainer->set_pokemon(i, pokelib_pokemon_to_team_pokemon(pokelib_party->getPokemon(i)));
+                else pkmnsim_trainer->set_pokemon(i, pokelib_pokemon_to_team_pokemon(pokelib_pokemon));
             }
             cout << "End of import_trainer_from_pokelib" << endl;
 

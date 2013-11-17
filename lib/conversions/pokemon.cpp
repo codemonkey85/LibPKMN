@@ -299,7 +299,6 @@ namespace pkmnsim
 
             level = pokelib_pkmn.getLevel();
             from_game = hometown_to_pkmnsim_game(pokelib_pkmn.pkm->pkm.hometown);
-            cout << pokelib_pkmn.pkm->pkm.hometown << " " << from_game << endl;
 
             cout << pokelib_pkmn.pkm->pkm.species << endl;
             team_pokemon::sptr t_pkmn = team_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,

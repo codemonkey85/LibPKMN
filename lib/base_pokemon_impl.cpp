@@ -57,7 +57,6 @@ namespace pkmnsim
 
     base_pokemon_impl::base_pokemon_impl(unsigned int id, unsigned int game): base_pokemon()
     {
-        cout << "Beginning of base_pokemon_impl ctor" << endl;
         from_game = game;
         from_gen = database::get_generation(from_game);
 
@@ -139,6 +138,7 @@ namespace pkmnsim
                 speed = int(stats_query.getColumn(0));
                 
                 query_string = "SELECT type_id FROM pokemon_types WHERE slot=1 and pokemon_id=" + to_string(pokemon_id);
+                cout << query_string << endl;
                 type1_id = int(db.execAndGet(query_string.c_str()));
                 
                 //If there's only one type, this won't return anything
@@ -147,7 +147,6 @@ namespace pkmnsim
                 SQLite::Statement query(db, query_string.c_str());
                 type2_id = (query.executeStep()) ? int(query.getColumn(0)) : Types::NONE;
         }
-        cout << "End of base_pokemon_impl ctor" << endl;
     }
 
     unsigned int base_pokemon_impl::get_pokedex_num() const {return species_id;}

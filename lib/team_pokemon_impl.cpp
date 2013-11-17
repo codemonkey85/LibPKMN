@@ -43,6 +43,7 @@ namespace pkmnsim
         {
             cout << "team_pokemon::make, game = " << game << endl;
             base_pokemon::sptr base = base_pokemon::make(id, game);
+            cout << "After creating base" << endl;
             
             if(base->get_generation() < 1 or base->get_generation() > 5) throw runtime_error("Gen must be 1-5.");
 
