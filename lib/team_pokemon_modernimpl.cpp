@@ -26,15 +26,15 @@ namespace pkmnsim
                                                                                               move1,move2,move3,move4)
     {
         prng rand_gen;
-        unsigned int gen = database::get_generation(game);
+        from_gen = database::get_generation(game);
 
         //Random individual values
-        ivHP = rand_gen.lcrng_next(gen) % 32;
-        ivATK = rand_gen.lcrng_next(gen) % 32;
-        ivDEF = rand_gen.lcrng_next(gen) % 32;
-        ivSPD = rand_gen.lcrng_next(gen) % 32;
-        ivSATK = rand_gen.lcrng_next(gen) % 32;
-        ivSDEF = rand_gen.lcrng_next(gen) % 32;
+        ivHP = rand_gen.lcrng_next(from_gen) % 32;
+        ivATK = rand_gen.lcrng_next(from_gen) % 32;
+        ivDEF = rand_gen.lcrng_next(from_gen) % 32;
+        ivSPD = rand_gen.lcrng_next(from_gen) % 32;
+        ivSATK = rand_gen.lcrng_next(from_gen) % 32;
+        ivSDEF = rand_gen.lcrng_next(from_gen) % 32;
 
         /*
          * Random effort values within following rules:
@@ -49,18 +49,18 @@ namespace pkmnsim
         evSDEF = 256;
         while((evHP+evATK+evDEF+evSPD+evSATK+evSDEF)>510 || evHP>255 || evATK>255 || evDEF>255 || evSPD>255 || evSATK>255 || evSDEF>255)
         {
-            evHP = rand_gen.lcrng_next(gen) % 256;
-            evATK = rand_gen.lcrng_next(gen) % 256;
-            evDEF = rand_gen.lcrng_next(gen) % 256;
-            evSPD = rand_gen.lcrng_next(gen) % 256;
-            evSATK = rand_gen.lcrng_next(gen) % 256;
-            evSDEF = rand_gen.lcrng_next(gen) % 256;
+            evHP = rand_gen.lcrng_next(from_gen) % 256;
+            evATK = rand_gen.lcrng_next(from_gen) % 256;
+            evDEF = rand_gen.lcrng_next(from_gen) % 256;
+            evSPD = rand_gen.lcrng_next(from_gen) % 256;
+            evSATK = rand_gen.lcrng_next(from_gen) % 256;
+            evSDEF = rand_gen.lcrng_next(from_gen) % 256;
         }
 
         gender = determine_gender();
         nature = determine_nature();
         ability = determine_ability();
-        held_item = 0; //Placeholder
+        held_item = item::make(Items::NONE, from_game); //Placeholder
 
         if(base_pkmn->get_species_id() == Species::SHEDINJA) HP = 1;
         else HP = get_hp();
@@ -424,19 +424,19 @@ namespace pkmnsim
         if(base_pkmn->get_species_id() == Species::NONE or base_pkmn->get_species_id() == Species::INVALID) return Abilities::NONE;
         else if(has_hidden_ability and from_gen >= 5)
         {
-            query_string = "SELECT ability_id FROM pokemon_abilities WHERE is_hidden=1 AND pokemon_id=" + base_pkmn->get_pokemon_id();
+            query_string = "SELECT ability_id FROM pokemon_abilities WHERE is_hidden=1 AND pokemon_id=" + to_string(base_pkmn->get_pokemon_id());
             return int(db.execAndGet(query_string.c_str()));
         }
         else
         {
             unsigned int ability_num = personality % 2;
-            query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=1 AND pokemon_id=" + base_pkmn->get_pokemon_id();
+            query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=2 AND pokemon_id=" + to_string(base_pkmn->get_pokemon_id());
             SQLite::Statement query(db, query_string.c_str());
             
             if(query.executeStep() and ability_num == 1) return int(query.getColumn(0));
             else
             {
-                query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=0 AND pokemon_id" + base_pkmn->get_pokemon_id();
+                query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=1 AND pokemon_id=" + to_string(base_pkmn->get_pokemon_id());
                 return int(db.execAndGet(query_string.c_str()));
             }
         }

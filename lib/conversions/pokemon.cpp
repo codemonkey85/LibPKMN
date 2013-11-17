@@ -294,17 +294,14 @@ namespace pkmnsim
 
         team_pokemon::sptr pokelib_pokemon_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
         {
-            cout << "Beginning of pokelib_pokemon_to_team_pokemon" << endl;
             unsigned int level, from_game;
 
             level = pokelib_pkmn.getLevel();
             from_game = hometown_to_pkmnsim_game(pokelib_pkmn.pkm->pkm.hometown);
 
-            cout << pokelib_pkmn.pkm->pkm.species << endl;
             team_pokemon::sptr t_pkmn = team_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,
                                         pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
                                         pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
-            cout << "After t_pkmn" << endl;
 
             t_pkmn->set_nickname(pokelib_pkmn.getNickname());
             t_pkmn->set_trainer_name(pokelib_pkmn.getTrainerName());
@@ -447,7 +444,6 @@ namespace pkmnsim
             t_pkmn->set_attribute("met_year", pokelib_pkmn.pkm->pkm.metDate[0]);
             t_pkmn->set_attribute("met_month", pokelib_pkmn.pkm->pkm.metDate[1]);
             t_pkmn->set_attribute("met_day", pokelib_pkmn.pkm->pkm.metDate[2]);
-            cout << "End of pokelib_pokemon_to_team_pokemon" << endl;
 
             return t_pkmn;
         }

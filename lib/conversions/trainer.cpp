@@ -157,7 +157,6 @@ namespace pkmnsim
 
         trainer::sptr import_trainer_from_pokelib(pokelib_sptr pokelib_save)
         {
-            cout << "Beginning of import_trainer_from_pokelib" << endl;
             PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
             unsigned int game_id;
@@ -222,7 +221,6 @@ namespace pkmnsim
                 if(pokelib_pokemon.pkm->pkm.species == 0) break;
                 else pkmnsim_trainer->set_pokemon(i, pokelib_pokemon_to_team_pokemon(pokelib_pokemon));
             }
-            cout << "End of import_trainer_from_pokelib" << endl;
 
             return pkmnsim_trainer;
         }

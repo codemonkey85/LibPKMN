@@ -109,7 +109,6 @@ namespace pkmnsim
                 
                 //Fail if Pokemon's generation_id > specified gen
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
-                cout << query_string << endl;
                 unsigned int gen_id = int(db.execAndGet(query_string.c_str()));
                 if(gen_id > from_gen)
                 {
@@ -119,7 +118,6 @@ namespace pkmnsim
 
                 //Get Pokemon ID from database
                 query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(species_id);
-                cout << query_string << endl;
                 pokemon_id = int(db.execAndGet(query_string.c_str()));
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
@@ -138,12 +136,10 @@ namespace pkmnsim
                 speed = int(stats_query.getColumn(0));
                 
                 query_string = "SELECT type_id FROM pokemon_types WHERE slot=1 and pokemon_id=" + to_string(pokemon_id);
-                cout << query_string << endl;
                 type1_id = int(db.execAndGet(query_string.c_str()));
                 
                 //If there's only one type, this won't return anything
                 query_string = "SELECT type_id FROM pokemon_types WHERE slot=2 and pokemon_id=" + to_string(pokemon_id);
-                cout << query_string << endl;
                 SQLite::Statement query(db, query_string.c_str());
                 type2_id = (query.executeStep()) ? int(query.getColumn(0)) : Types::NONE;
         }

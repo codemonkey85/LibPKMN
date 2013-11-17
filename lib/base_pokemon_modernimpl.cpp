@@ -56,7 +56,6 @@ namespace pkmnsim
                 images_game_string = "black-white";
                 break;
         }
-        cout << images_game_string << endl;
         
         boost::format png_format("%d.png");
         boost::format gen_format("generation-%d");
@@ -107,7 +106,6 @@ namespace pkmnsim
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
                                     + " AND stat_id IN (3,5)";
                 SQLite::Statement query(db, query_string.c_str());
-                cout << query_string << endl;
                 query.executeStep();
                 special_attack = int(query.getColumn(0));
                 query.executeStep();

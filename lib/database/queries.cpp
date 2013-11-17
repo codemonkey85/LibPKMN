@@ -193,7 +193,7 @@ namespace pkmnsim
         unsigned int get_item_id(unsigned int item_index, unsigned int game)
         {
             SQLite::Database db(get_database_path().c_str());
-            string query_string = str(boost::format("SELECT item_id FROM item_game_indices WHERE generation=%d AND game_index=%d")
+            string query_string = str(boost::format("SELECT item_id FROM item_game_indices WHERE generation_id=%d AND game_index=%d")
                                       % get_generation(game) % item_index);
             SQLite::Statement query(db, query_string.c_str());
             

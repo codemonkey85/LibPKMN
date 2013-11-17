@@ -38,7 +38,7 @@ namespace pkmnsim
         money = gender;
         trainer_id = rand_gen.lcrng_next(database::get_generation(game));
 
-        pokemon_team_t party = pokemon_team_t(6);
+        party = pokemon_team_t(6);
         for(int i = 0; i < 6; i++)
         {
             party[i] = team_pokemon::make(Species::NONE, game_id, 1, Moves::NONE, Moves::NONE,
