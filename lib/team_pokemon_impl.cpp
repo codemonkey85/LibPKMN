@@ -147,8 +147,8 @@ namespace pkmnsim
     
     void team_pokemon_impl::set_trainer_name(pokemon_text name)
     {
-        if(name.std_string().length() == 0) nickname = "Ash"; //Reset to default
-        else if(name.std_string().length() <= 7) nickname = name;
+        if(name.std_string().length() == 0) trainer_name = "Ash"; //Reset to default
+        else if(name.std_string().length() <= 7) trainer_name = name;
     }
 
     unsigned int team_pokemon_impl::get_level() const {return level;}
