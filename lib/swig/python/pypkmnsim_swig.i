@@ -74,6 +74,16 @@
 
 %include "pkmnsim.i"
 
+//Python str -> pkmnsim::pokemon_text
+%typemap(in) pkmnsim::pokemon_text {
+    $1 = pkmnsim::pokemon_text(PyString_AsString($input));
+}
+
+//pkmnsim::pokemon_text -> Python str
+%typemap(out) PyString {
+    $result = PyString_FromString($1);
+}
+
 %{
     #include "pkmnsim_swig_functions.hpp"
 %};
