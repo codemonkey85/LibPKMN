@@ -18,7 +18,7 @@ namespace pkmnsim
     class game_save_gen3impl: public game_save
     {
         public:
-            game_save_gen3impl(pokehack_sptr ptr);
+            game_save_gen3impl(pokehack_sptr ptr, char* buffer);
             
             void load();
             void save();
@@ -27,6 +27,7 @@ namespace pkmnsim
             
         private:
             pokehack_sptr parser;
+            char* data;
     };
 }
 

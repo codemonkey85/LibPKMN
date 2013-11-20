@@ -72,8 +72,7 @@ namespace pkmnsim
             pokehack_sptr parser = get_pokehack_sptr();
             if(parser->load(filename.c_str(), game_type))
             {
-                free(buffer);
-                return sptr(new game_save_gen3impl(parser));
+                return sptr(new game_save_gen3impl(parser, buffer));
             }
         }
         else
