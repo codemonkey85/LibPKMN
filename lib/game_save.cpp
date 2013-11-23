@@ -69,7 +69,7 @@ namespace pkmnsim
             //Check for Gen 3 game by searching for game code
             int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
 
-            pokehack_sptr parser = get_pokehack_sptr();
+            pokehack_sptr parser = pokehack_sptr(new SaveParser);
             if(parser->load(filename.c_str(), game_type))
             {
                 return sptr(new game_save_gen3impl(parser, buffer));

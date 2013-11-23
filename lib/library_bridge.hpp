@@ -23,8 +23,6 @@ namespace pkmnsim
 {
     dict<char, int> get_pokehack_reverse_char_map();
     
-    std::shared_ptr<SaveParser> get_pokehack_sptr();
-
     char* pokehack_get_text(unsigned char* raw, bool is_nickname);
     
     uint8_t gen3_4_5_get_IV(uint32_t* IVint, uint8_t IV);
