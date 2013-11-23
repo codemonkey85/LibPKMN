@@ -39,7 +39,7 @@ namespace pkmnsim
         if(size > 0x80000)
         {
             //Check to see if PokeLib accepts it as a proper Gen 4 save
-            pokelib_sptr pokelib_save = shared_ptr<PokeLib::Save>(new PokeLib::Save(filename.c_str()));
+            pokelib_sptr pokelib_save = pokelib_sptr(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
                 free(buffer);
@@ -57,7 +57,7 @@ namespace pkmnsim
         else if(size > 0x40000)
         {
             //Check to see if PokeLib accepts it as a proper Gen 4 save
-            pokelib_sptr pokelib_save = shared_ptr<PokeLib::Save>(new PokeLib::Save(filename.c_str()));
+            pokelib_sptr pokelib_save = pokelib_sptr(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
                 free(buffer);
