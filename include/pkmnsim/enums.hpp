@@ -1928,7 +1928,6 @@ namespace pkmnsim
         {
             enum ribbons
             {
-                NONE,
                 WORLD,
                 EARTH,
                 NATIONAL,
@@ -1968,7 +1967,6 @@ namespace pkmnsim
         {
             enum ribbons
             {
-                NONE,
                 TOUGH_MASTER = 4,
                 TOUGH_ULTRA,
                 TOUGH_GREAT,
@@ -2024,7 +2022,6 @@ namespace pkmnsim
         {
             enum ribbons
             {
-                NONE,
                 CHAMPION,
                 TRAINING,
                 SKILLFUL_BATTLER,

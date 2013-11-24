@@ -89,3 +89,19 @@ class Sinnoh:
     GREAT_ABILITY = 53
     ABILITY = 54
     CHAMPION = 55
+
+class Kalos:
+    CHAMPION = 0
+    TRAINING = 1
+    SKILLFUL_BATTLER = 2
+    EXPERT_BATTLER = 3
+    BEST_FRIENDS = 4
+    EFFORT = 5
+    FOOTPRINT = 6
+    ALERT = 7
+    SHOCK = 8
+    DOWNCAST = 9
+    CARELESS = 10
+    RELAX = 11
+    SNOOZE = 12
+    SMILE = 13
