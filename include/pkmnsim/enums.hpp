@@ -2742,6 +2742,9 @@ namespace pkmnsim
             XEMEAS,
             YVELTAL,
             ZYGARDE,
+            DIANCIE,
+            VOLCANION,
+            HOOPA,
             INVALID = 1000
         };
     }
@@ -2796,6 +2799,7 @@ namespace pkmnsim
             ICE,
             DRAGON,
             DARK,
+            FAIRY,
             UNKNOWN=10001,
             SHADOW
         };
