@@ -47,7 +47,7 @@ namespace pkmnsim
             }
             else
             {
-                //Check to see if PKMDS accepts it as a proper Gen 4 save
+                //Check to see if PKMDS accepts it as a proper Gen 5 save
                 free(buffer);
                 pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
                 read(filename.c_str(), sav.get());
