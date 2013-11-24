@@ -1,15 +1,15 @@
 [submodule "pokehack"]
 	path = pokehack
 	url = https://github.com/ncorgan/pokehack.git
-[submodule "PokeLib"]
-	path = PokeLib
-	url = https://github.com/ncorgan/PokeLib-NC.git
-[submodule "PKMDS-G5"]
-	path = PKMDS-G5
-	url = https://github.com/ncorgan/PKMDS-G5.git
 [submodule "share/pkmnsim/images"]
 	path = share/pkmnsim/images
 	url = https://github.com/ncorgan/Pokemon-sim-images.git
 [submodule "lib/SQLiteCpp"]
 	path = lib/SQLiteCpp
 	url = https://github.com/ncorgan/SQLiteCpp.git
+[submodule "PokeLib-NC"]
+	path = PokeLib-NC
+	url = https://github.com/ncorgan/PokeLib-NC.git
+[submodule "PKMDS"]
+	path = PKMDS
+	url = https://github.com/ncorgan/PKMDS.git
