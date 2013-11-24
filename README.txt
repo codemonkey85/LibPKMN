@@ -4,11 +4,6 @@ A library that allows for the recreation and full analysis of most aspects of th
 
 This library can also interact with the games themselves, allowing for teams and trainers to be imported, tweaked, and exported back into any Generation 1-5 ROM. Aspects that can be tweaked include Pokemon moves and abilities, trainer and Pokemon ID's, and more.
 
-Currently included applications:
- * Damage Calculator (command line) - determine the damage range, given two Pokemon and a move
- * Type Analysis (command line) - expose common type weaknesses in a given team
- * Get Type Stats (command line, graphical) - find the best and worst Pokemon of each type for all stats
-
 ---
 
 Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
@@ -41,4 +36,4 @@ Dependencies:
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
-README last updated: 2013-10-27
+README last updated: 2013-11-24
