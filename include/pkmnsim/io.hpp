@@ -1,0 +1,21 @@
+/*
+ * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ *
+ * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+ * or copy at http://opensource.org/licenses/MIT)
+ */
+#ifndef INCLUDED_PKMNSIM_IO_HPP
+#define INCLUDED_PKMNSIM_IO_HPP
+
+#include <pkmnsim/config.hpp>
+#include <pkmnsim/team_pokemon.hpp>
+
+namespace pkmnsim
+{
+    namespace io
+    {
+        void export_to_pkm(team_pokemon::sptr t_pkmn, std::string filename);
+    }
+}
+
+#endif /* INCLUDED_PKMNSIM_IO_HPP */
