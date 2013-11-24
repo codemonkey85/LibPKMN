@@ -15,9 +15,9 @@ ELSE()
     PROJECT(Pokemon-sim)
     SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
     
-    SET(PKMNsim_VERSION_MAJOR 0)
-    SET(PKMNsim_VERSION_MINOR 0)
-    SET(PKMNsim_VERSION_PATCH 1)
+    SET(Pokemon-sim_VERSION_MAJOR 0)
+    SET(Pokemon-sim_VERSION_MINOR 0)
+    SET(Pokemon-sim_VERSION_PATCH 1)
     
     ########################################################################
     # Create uninstall target
@@ -129,14 +129,9 @@ PKMNSIM_REGISTER_COMPONENT("Applications" ENABLE_APPS ON "ENABLE_LIBRARY" OFF)
 
 INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/include)
 
-########################################################################
-# Don't rebuild save parsing libraries if built as part of PkmnLibEx
-########################################################################
-IF(NOT DEFINED PKMNLIBEX_SOURCE_DIR)
 ADD_SUBDIRECTORY(pokehack)
-ADD_SUBDIRECTORY(PokeLib)
-ADD_SUBDIRECTORY(PKMDS-G5)
-ENDIF(NOT DEFINED PKMNLIBEX_SOURCE_DIR)
+ADD_SUBDIRECTORY(PokeLib-NC)
+ADD_SUBDIRECTORY(PKMDS)
 
 ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(include)

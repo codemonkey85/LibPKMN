@@ -24,7 +24,7 @@ IF(NOT USED_AS_SUBMODULE) #Let parent project decide these settings
     ########################################################################
     # Setup CPack General
     ########################################################################
-    SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "PKMNsim - Pokémon Simulator")
+    SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Pokémon Simulator")
     SET(CPACK_PACKAGE_VENDOR              "Nicholas Corgan")
     SET(CPACK_PACKAGE_CONTACT             "Nicholas Corgan <n.corgan@gmail.com>")
     SET(CPACK_PACKAGE_VERSION "0.0.1")
