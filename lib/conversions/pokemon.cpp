@@ -1153,6 +1153,72 @@ namespace pkmnsim
                 p_pkm->pkm_data.metdate.day = t_pkmn->get_attribute("met_day");
         }
 
+        team_pokemon::sptr pkmds_g6_pokemon_to_team_pokemon(party_pkx* p_pkx)
+        {
+            unsigned int level, from_game;
+            level = p_pkx->partyx_data.level;
+            from_game = hometown_to_pkmnsim_game(p_pkx->pkx_data.hometown);
+
+            team_pokemon::sptr t_pkmn = team_pokemon::make(p_pkx->pkx_data.species, from_game, level,
+                                        p_pkx->pkx_data.moves[0], p_pkx->pkx_data.moves[1],
+                                        p_pkx->pkx_data.moves[2], p_pkx->pkx_data.moves[3]);
+
+            return t_pkmn;
+            
+           /*
+            ::opendb(get_database_path().c_str());
+
+            unsigned int level, from_game;
+            level = ::getpkmlevel(p_pkm->pkm_data);
+            from_game = hometown_to_pkmnsim_game(p_pkm->pkm_data.hometown);
+
+            team_pokemon::sptr t_pkmn = team_pokemon::make(p_pkm->pkm_data.species, from_game, level,
+                                        p_pkm->pkm_data.moves[0], p_pkm->pkm_data.moves[1],
+                                        p_pkm->pkm_data.moves[2], p_pkm->pkm_data.moves[3]);
+
+            #ifdef _MSC_VER
+                t_pkmn->set_nickname(getpkmnickname(p_pkm->pkm_data));
+                t_pkmn->set_trainer_name(getpkmotname(p_pkm->pkm_data));
+            #else
+                //Testing new pokemon_text class, need to get around PKMDS's use of chars for Linux
+                wchar_t nickname[11];
+                wchar_t otname[8];
+                memcpy(nickname, p_pkm->pkm_data.nickname, 22);
+                memcpy(otname, p_pkm->pkm_data.otname, 16);
+                t_pkmn->set_nickname(nickname);
+                t_pkmn->set_trainer_name(otname);
+            #endif
+
+            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
+            t_pkmn->set_met_level(get_gen4_5_met_level(metlevel_int));
+            t_pkmn->set_ball(game_ball_to_pkmnsim_ball(p_pkm->pkm_data.ball));
+            if(get_gen4_5_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            else t_pkmn->set_trainer_gender(Genders::MALE);
+            
+            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, from_game), from_game));
+            t_pkmn->set_personality(p_pkm->pkm_data.pid);
+            t_pkmn->set_public_trainer_id(p_pkm->pkm_data.tid);
+            t_pkmn->set_secret_trainer_id(p_pkm->pkm_data.sid);
+
+            t_pkmn->set_EV(Stats::HP, p_pkm->pkm_data.evs.hp);
+            t_pkmn->set_EV(Stats::ATTACK, p_pkm->pkm_data.evs.attack);
+            t_pkmn->set_EV(Stats::DEFENSE, p_pkm->pkm_data.evs.defense);
+            t_pkmn->set_EV(Stats::SPECIAL_ATTACK, p_pkm->pkm_data.evs.spatk);
+            t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, p_pkm->pkm_data.evs.spdef);
+            t_pkmn->set_EV(Stats::SPEED, p_pkm->pkm_data.evs.speed);
+
+            uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs));
+            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV(ivs, Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV(ivs, Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV(ivs, Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV(ivs, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV(ivs, Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV(ivs, Stats::SPEED));
+
+            //Attributes
+            */ 
+        }
+
         PokeLib::Pokemon pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,
                                                              pokemon_attacks_t* pkmn_a_t,
                                                              pokemon_effort_t* pkmn_e_t,

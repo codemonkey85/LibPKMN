@@ -14,6 +14,7 @@
 #include <pokehack/pokestructs.h>
 #include <pokelib/pokelib.h>
 #include <pkmds/pkmds_g5.h>
+#include <pkmds/pkmds_g6.h>
 
 namespace pkmnsim
 {
@@ -39,6 +40,8 @@ namespace pkmnsim
         team_pokemon::sptr pkmds_g5_pokemon_to_team_pokemon(party_pkm* p_pkm);
 
         void team_pokemon_to_pkmds_g5_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm);
+
+        team_pokemon::sptr pkmds_g6_pokemon_to_team_pokemon(party_pkx* p_pkx);
 
         PokeLib::Pokemon pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,
                                                              pokemon_attacks_t* pkmn_a_t,
