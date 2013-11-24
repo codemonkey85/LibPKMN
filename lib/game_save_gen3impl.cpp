@@ -15,6 +15,7 @@ namespace pkmnsim
     {
         parser = ptr;
         data = buffer;
+        load();
     }
     
     void game_save_gen3impl::load()

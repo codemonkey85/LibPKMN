@@ -16,6 +16,7 @@ namespace pkmnsim
     game_save_gen5impl::game_save_gen5impl(pkmds_g5_sptr ptr): game_save()
     {
         sav = ptr;
+        load();
     }
     
     void game_save_gen5impl::load()

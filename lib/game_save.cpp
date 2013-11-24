@@ -70,7 +70,7 @@ namespace pkmnsim
             int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
 
             pokehack_sptr parser(new SaveParser);
-            if(parser->load(filename.c_str(), game_type))
+            if(!parser->load(filename.c_str(), game_type))
             {
                 return sptr(new game_save_gen3impl(parser, buffer));
             }
