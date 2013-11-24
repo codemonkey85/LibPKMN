@@ -1928,6 +1928,7 @@ namespace pkmnsim
         {
             enum ribbons
             {
+                NONE,
                 WORLD,
                 EARTH,
                 NATIONAL,
@@ -1967,6 +1968,7 @@ namespace pkmnsim
         {
             enum ribbons
             {
+                NONE,
                 TOUGH_MASTER = 4,
                 TOUGH_ULTRA,
                 TOUGH_GREAT,
@@ -2015,6 +2017,28 @@ namespace pkmnsim
                 GREAT_ABILITY,
                 ABILITY,
                 CHAMPION
+            };
+        }
+        
+        namespace Kalos
+        {
+            enum ribbons
+            {
+                NONE,
+                CHAMPION,
+                TRAINING,
+                SKILLFUL_BATTLER,
+                EXPERT_BATTLER,
+                BEST_FRIENDS,
+                EFFORT,
+                FOOTPRINT,
+                ALERT,
+                SHOCK,
+                DOWNCAST,
+                CARELESS,
+                RELAX,
+                SNOOZE,
+                SMILE
             };
         }
     }
