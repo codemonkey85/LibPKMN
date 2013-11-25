@@ -34,10 +34,14 @@ IF(SWIG_FOUND)
         INCLUDE(PKMNsimPython)
         PYTHON_CHECK_MODULE("PyQt4" PyQt4 True PYQT4_FOUND)
     ENDIF(PYTHONINTERP_FOUND)
+
+    FIND_PACKAGE(CSharp)
 ENDIF(SWIG_FOUND)
 
 PKMNSIM_REGISTER_COMPONENT("PyPKMNsim - Python Bindings" ENABLE_PYPKMNSIM ON
                            "ENABLE_LIBRARY;SWIG_FOUND;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND;PYQT4_FOUND" OFF)
+PKMNSIM_REGISTER_COMPONENT("PKMNsim# - C# Bindings" ENABLE_PKMNSIMSHARP ON
+                           "ENABLE_LIBRARY;CSHARP_FOUND" OFF)
 
 ####################################################################
 # Add subdirectories as appropriate based on enabled SWIG wrappers
