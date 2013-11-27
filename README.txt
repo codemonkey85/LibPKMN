@@ -29,11 +29,11 @@ Git submodules:
  * SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) - SQLite3 C++ wrapper
  * Pokehack (https://github.com/Grazfather/pokehack) - Gen 3 save editing library
  * PokeLib-NC (https://github.com/ncorgan/PokeLib-NC) - Gen 4 save editing library
- * PKMDS-G5 (https://github.com/codemonkey85/PKMDS-G5) - Gen 5 save editing library
+ * PKMDS (https://github.com/codemonkey85/PKMDS) - Gen 5-6 save editing library
 
 Dependencies:
  * Boost 1.48 or above (http://www.boost.org)
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
-README last updated: 2013-11-24
+README last updated: 2013-11-26
