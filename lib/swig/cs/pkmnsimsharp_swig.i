@@ -12,6 +12,13 @@
 %ignore pkmnsim::dict::operator[];
 %ignore pkmnsim::vla::operator[];
 
+%ignore pkmnsim::pokemon_text::pokemon_text(const wchar_t*);
+%ignore pkmnsim::pokemon_text::pokemon_text(std::string);
+%ignore pkmnsim::pokemon_text::pokemon_text(std::wstring);
+%ignore pkmnsim::pokemon_text::set(const wchar_t*);
+%ignore pkmnsim::pokemon_text::set(std::string);
+%ignore pkmnsim::pokemon_text::set(std::wstring);
+
 %include "pkmnsim.i"
 
 PKMNSIM_CS_FIX(base_pokemon)
