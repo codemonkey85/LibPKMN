@@ -9,9 +9,6 @@
     %template(CLASS_NAME ## _sptr) std::shared_ptr<pkmnsim :: ## CLASS_NAME>;
 %enddef
 
-%ignore pkmnsim::dict::operator[];
-%ignore pkmnsim::vla::operator[];
-
 %ignore pkmnsim::pokemon_text::pokemon_text(const wchar_t*);
 %ignore pkmnsim::pokemon_text::pokemon_text(std::string);
 %ignore pkmnsim::pokemon_text::pokemon_text(std::wstring);
@@ -29,3 +26,4 @@ PKMNSIM_CS_FIX(move)
 PKMNSIM_CS_FIX(team_pokemon)
 PKMNSIM_CS_FIX(trainer)
 PKMNSIM_CS_FIX(game_save)
+
