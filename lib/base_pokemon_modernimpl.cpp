@@ -62,7 +62,7 @@ namespace pkmnsim
         
         switch(id)
         {
-            case Species::NONE: //None
+            case Species::NONE: //None, should only be used for empty slots at end of party
                 male_icon_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
                 female_icon_path = male_icon_path;
                 male_sprite_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
@@ -71,10 +71,12 @@ namespace pkmnsim
                 female_shiny_sprite_path = female_sprite_path;
                 break;
 
-            case Species::INVALID: //Invalid
-                male_icon_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+            case Species::INVALID: //Invalid, aka Bad Egg
+                male_icon_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str()
+                               / (png_format % "substitute.png").str()).string();
                 female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str()
+                               / (png_format % "substitute.png").str()).string();
                 female_sprite_path = female_icon_path;
                 male_shiny_sprite_path = male_sprite_path;
                 female_shiny_sprite_path = female_sprite_path;
@@ -84,15 +86,20 @@ namespace pkmnsim
                 //Unfezant, Frillish and Jellicent have different icons for each gender
                 male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
                 if(species_id == Species::UNFEZANT or species_id == Species::FRILLISH or species_id == Species::JELLICENT)
-                    female_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / "female" / (png_format % species_id).str()).string();
+                    female_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons"
+                                     / "female" / (png_format % species_id).str()).string();
                 else female_icon_path = male_icon_path;
                 
-                male_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / (png_format % species_id).str()).string();
-                male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
+                male_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str()
+                                 / images_game_string.c_str() / (png_format % species_id).str()).string();
+                male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str()
+                                       / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
                 if(from_gen > 3 and has_gender_differences())
                 {
-                    female_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "female" / (png_format % species_id).str()).string();
-                    female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str() / images_game_string.c_str() / "shiny" / "female" / (png_format % species_id).str()).string();
+                    female_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str()
+                                       / images_game_string.c_str() / "female" / (png_format % species_id).str()).string();
+                    female_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / (gen_format % from_gen).str()
+                                             / images_game_string.c_str() / "shiny" / "female" / (png_format % species_id).str()).string();
                 }
                 else
                 {
