@@ -46,23 +46,27 @@ namespace pkmnsim
         boost::format png_format("%d.png");
         std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
         std::string sprite_directory = fs::path(fs::path(get_images_dir()) / "generation-2"
-                                     / images_game_string.c_str()).string();
+                                     / images_game_string).string();
+        std::string shiny_sprite_directory = fs::path(fs::path(sprite_directory) / "shiny").string();
+                                     
         switch(id)
         {
             case Species::NONE: //None, should only be used for empty slots at end of party
-                male_icon_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                male_icon_path = fs::path(fs::path(get_images_dir())
+                               / "misc" / "pokeball.png").string();
                 female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                male_sprite_path = fs::path(fs::path(get_images_dir())
+                                 / "misc" / "pokeball.png").string();
                 female_sprite_path = female_icon_path;
                 male_shiny_sprite_path = male_sprite_path;
                 female_shiny_sprite_path = female_sprite_path;
                 break;
 
             case Species::INVALID: //Invalid, aka Missingno. equivalents
-                male_icon_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str()
+                male_icon_path = fs::path(fs::path(sprite_directory)
                                / (png_format % "substitute.png").str()).string();
                 female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str()
+                male_sprite_path = fs::path(fs::path(sprite_directory)
                                  / (png_format % "substitute.png").str()).string();
                 female_sprite_path = female_icon_path;
                 male_shiny_sprite_path = male_sprite_path;
@@ -71,18 +75,18 @@ namespace pkmnsim
 
             default:
                 //No gender differences in Generation 2
-                male_icon_path = fs::path(fs::path(icon_directory.c_str())
+                male_icon_path = fs::path(fs::path(icon_directory)
                                / (png_format % species_id).str()).string();
                 female_icon_path = male_icon_path;
 
                 //No gender differences in Generation 2
-                male_sprite_path = fs::path(fs::path(sprite_directory.c_str())
+                male_sprite_path = fs::path(fs::path(sprite_directory)
                                  / (png_format % species_id).str()).string();
-                female_sprite_path = male_sprite_path; //No gender differences in Generation 2
+                female_sprite_path = male_sprite_path;
 
                 //No gender differences in Generation 2
-                male_shiny_sprite_path = fs::path(fs::path(sprite_directory.c_str())
-                                       / "shiny" / (png_format % species_id).str()).string();
+                male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
+                                       / (png_format % species_id).str()).string();
                 female_shiny_sprite_path = male_shiny_sprite_path;
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
