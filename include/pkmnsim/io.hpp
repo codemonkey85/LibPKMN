@@ -17,6 +17,10 @@ namespace pkmnsim
         void PKMNSIM_API export_to_pkm(team_pokemon::sptr t_pkmn, std::string filename);
 
         team_pokemon::sptr PKMNSIM_API import_from_pkm(std::string filename);
+        
+        void PKMNSIM_API export_to_pkx(team_pokemon::sptr t_pkmn, std::string filename);
+        
+        team_pokemon::sptr PKMNSIM_API import_from_pkx(std::string filename);
     }
 }
 
