@@ -56,7 +56,7 @@ namespace pkmnsim
         void export_to_pkx(team_pokemon::sptr t_pkmn, std::string filename)
         {
             party_pkx* p_pkx = new party_pkx;
-            conversions::team_pokemon_to_pkmds_g6_pokemon(t_pkmn, p_pkm);
+            conversions::team_pokemon_to_pkmds_g6_pokemon(t_pkmn, p_pkx);
 
             uint8_t pkx_contents[sizeof(pokemonx_obj)];
             memcpy(&pkx_contents, &(p_pkx->pkx_data), sizeof(pokemonx_obj));
@@ -81,8 +81,8 @@ namespace pkmnsim
             ifile.close();
             memcpy(&(pkmn_obj), pkx_contents, sizeof(pokemonx_obj));
             
-            pkmnsim_pctoparty(p_pkm, pkmn_obj);
-            return conversions::pkmds_pokemon_to_team_pokemon(p_pkm);
+            pkmnsim_pctopartyx(p_pkm, pkmn_obj);
+            return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
         }
     }
 }

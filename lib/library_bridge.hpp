@@ -20,6 +20,7 @@
 #include <pokehack/SaveParser.h>
 
 #include <pkmds/pkmds_g5.h>
+#include <pkmds/pkmds_g6.h>
 
 namespace pkmnsim
 {
@@ -66,6 +67,14 @@ namespace pkmnsim
     uint8_t pkmnsim_getpkmstat(pokemon_obj* pkm);
     
     void pkmnsim_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm);
+    
+    std::string pkmnsim_getpkxformnamesql(pokemonx_obj *pkx);
+    
+    uint16_t getpkxstat(pokemonx_obj *pkx, unsigned int stat_id);
+    
+    uint8_t pkmnsim_pkxstat(pokemonx_obj* pkx);
+    
+    void pkmnsim_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx);
 
     uint8_t pkmnsim_game_to_hometown(uint8_t game);
 
