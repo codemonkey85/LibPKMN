@@ -201,25 +201,7 @@ namespace pkmnsim
         
         unsigned int item_id = to_return->get_item_id();
         
-        if(copy)
-        {
-            if(item_id >= Items::TM01 and item_id <= Items::HM08)
-            {
-                item_machineimpl actual_machine = *(boost::polymorphic_downcast<item_machineimpl*>(to_return.get()));
-                return item::sptr(&actual_machine);
-            }
-            else if((item_id >= Items::CHERI_BERRY and item_id <= Items::ROWAP_BERRY)
-                    or (item_id >= Items::BERRY and item_id <= Items::MYSTERYBERRY))
-            {
-                item_berryimpl actual_berry = *(boost::polymorphic_downcast<item_berryimpl*>(to_return.get()));
-                return item::sptr(&actual_berry);
-            }
-            else
-            {
-                item_impl actual = *(boost::polymorphic_downcast<item_impl*>(to_return.get()));
-                return item::sptr(&actual);
-            }
-        }
+        if(copy) return item::make(item_id, from_game);
         else return to_return;
     }
     
