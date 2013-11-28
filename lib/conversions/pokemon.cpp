@@ -65,12 +65,12 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::SPEED, pkmn_e_t->speed);
 
             uint32_t* IVint = &(pkmn_m_t->IVint);            
-            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV(IVint, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV(IVint, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV(IVint, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV(IVint, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV(IVint, Stats::SPECIAL_DEFENSE));
-            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV(IVint, Stats::SPEED));
+            t_pkmn->set_IV(Stats::HP, modern_get_IV(IVint, Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(IVint, Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(IVint, Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(IVint, Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(IVint, Stats::SPEED));
           
             uint16_t* metlevel_int = reinterpret_cast<uint16_t*>(&(pkmn_m_t->locationcaught)+1); 
             t_pkmn->set_met_level(get_gen3_met_level(metlevel_int));
@@ -190,12 +190,12 @@ namespace pkmnsim
 
             uint32_t* IVint = &(pkmn_m_t->IVint);
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
-            gen3_4_5_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            gen3_4_5_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
             
             //Attributes
 
@@ -307,9 +307,9 @@ namespace pkmnsim
             t_pkmn->set_trainer_name(pokelib_pkmn.getTrainerName());
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1);
-            t_pkmn->set_met_level(get_gen4_5_met_level(metlevel_int));
+            t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(pokelib_pkmn.pkm->pkm.pokeball));
-            if(get_gen4_5_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
             t_pkmn->set_held_item(item::make(database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, from_game), from_game));
@@ -325,12 +325,12 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::SPEED, pokelib_pkmn.pkm->pkm.ev_spd);
 
             uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1);
-            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV(IVint, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV(IVint, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV(IVint, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV(IVint, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV(IVint, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV(IVint, Stats::SPEED));
+            t_pkmn->set_IV(Stats::HP, modern_get_IV(IVint, Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(IVint, Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(IVint, Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(IVint, Stats::SPEED));
 
             //TODO: use form data to set Pokemon-sim form, is fateful encounter
 
@@ -464,9 +464,9 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.held_item = database::get_item_index(raw_held, t_pkmn->get_game_id());
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1);
-            set_gen4_5_met_level(metlevel_int, t_pkmn->get_met_level());
+            set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
             pokelib_pkmn.pkm->pkm.pokeball = pkmnsim_ball_to_game_ball(t_pkmn->get_ball());
-            set_gen4_5_met_level(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
+            set_gen_456_met_level(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
             pokelib_pkmn.pkm->pkm.move[0] = t_pkmn->get_moves()[0]->get_move_id();
             pokelib_pkmn.pkm->pkm.move[1] = t_pkmn->get_moves()[1]->get_move_id();
@@ -491,12 +491,12 @@ namespace pkmnsim
 
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
             uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1);
-            gen3_4_5_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            gen3_4_5_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
 
             pokelib_pkmn.pkm->pkm.hometown = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
 
@@ -710,7 +710,7 @@ namespace pkmnsim
             if(t_pkmn->has_attribute("met_day"))
                 pokelib_pkmn.pkm->pkm.metDate[2] = t_pkmn->get_attribute("met_day");
             if(t_pkmn->has_attribute("ot_is_female"))
-                set_gen4_5_otgender(metlevel_int, t_pkmn->get_attribute("ot_is_female"));
+                set_gen_456_otgender(metlevel_int, t_pkmn->get_attribute("ot_is_female"));
 
             return pokelib_pkmn;
         }
@@ -741,9 +741,9 @@ namespace pkmnsim
             #endif
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
-            t_pkmn->set_met_level(get_gen4_5_met_level(metlevel_int));
+            t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(p_pkm->pkm_data.ball));
-            if(get_gen4_5_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
             
             t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, from_game), from_game));
@@ -759,12 +759,12 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::SPEED, p_pkm->pkm_data.evs.speed);
 
             uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs));
-            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV(ivs, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV(ivs, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV(ivs, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV(ivs, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV(ivs, Stats::SPECIAL_DEFENSE));
-            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV(ivs, Stats::SPEED));
+            t_pkmn->set_IV(Stats::HP, modern_get_IV(ivs, Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(ivs, Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(ivs, Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(ivs, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(ivs, Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(ivs, Stats::SPEED));
 
             //Attributes
             uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings));
@@ -908,9 +908,9 @@ namespace pkmnsim
             p_pkm->pkm_data.item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
-            set_gen4_5_met_level(metlevel_int, t_pkmn->get_met_level());
+            set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
             p_pkm->pkm_data.ball = Balls::balls(pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
-            set_gen4_5_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
+            set_gen_456_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
             p_pkm->pkm_data.pid = t_pkmn->get_personality();
             p_pkm->pkm_data.tid = t_pkmn->get_public_trainer_id();
             p_pkm->pkm_data.sid = t_pkmn->get_secret_trainer_id();
@@ -925,12 +925,12 @@ namespace pkmnsim
 
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
             uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1);
-            gen3_4_5_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            gen3_4_5_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
 
             dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
             p_pkm->pkm_data.evs.hp = EVs[Stats::HP];
@@ -1167,9 +1167,9 @@ namespace pkmnsim
             t_pkmn->set_trainer_name(p_pkx->pkx_data.otname);
             
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
-            t_pkmn->set_met_level(get_gen4_5_met_level(metlevel_int));
+            t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(p_pkx->pkx_data.ball));
-            if(get_gen4_5_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
             
             t_pkmn->set_held_item(item::make(database::get_item_id(p_pkx->pkx_data.item, from_game), from_game));
@@ -1185,12 +1185,12 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::SPEED, p_pkx->pkx_data.evs.speed);
             
             uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkx->pkx_data.ivs));
-            t_pkmn->set_IV(Stats::HP, gen3_4_5_get_IV(ivs, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, gen3_4_5_get_IV(ivs, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, gen3_4_5_get_IV(ivs, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, gen3_4_5_get_IV(ivs, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, gen3_4_5_get_IV(ivs, Stats::SPECIAL_DEFENSE));
-            t_pkmn->set_IV(Stats::SPEED, gen3_4_5_get_IV(ivs, Stats::SPEED));
+            t_pkmn->set_IV(Stats::HP, modern_get_IV(ivs, Stats::HP));
+            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(ivs, Stats::ATTACK));
+            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(ivs, Stats::DEFENSE));
+            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(ivs, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(ivs, Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(ivs, Stats::SPEED));
             
             return t_pkmn; 
         }
@@ -1213,9 +1213,9 @@ namespace pkmnsim
             p_pkx->pkx_data.item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
             
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
-            set_gen4_5_met_level(metlevel_int, t_pkmn->get_met_level());
+            set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
             p_pkx->pkx_data.ball = Balls::balls(pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
-            set_gen4_5_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
+            set_gen_456_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
             p_pkx->pkx_data.pid = t_pkmn->get_personality();
             p_pkx->pkx_data.tid = t_pkmn->get_public_trainer_id();
             p_pkx->pkx_data.sid = t_pkmn->get_secret_trainer_id();
@@ -1230,12 +1230,12 @@ namespace pkmnsim
 
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
             uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkx->pkx_data.ppups[3])+1);
-            gen3_4_5_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            gen3_4_5_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            gen3_4_5_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            gen3_4_5_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
 
             dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
             p_pkx->pkx_data.evs.hp = EVs[Stats::HP];

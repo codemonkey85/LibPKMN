@@ -269,7 +269,7 @@ namespace pkmnsim
                 if((pkmds_pokemon->tid == pkmds_public_id) and (pkmds_pokemon->sid == pkmds_secret_id))
                 {
                     game_id = hometown_to_pkmnsim_game(int(pkmds_pokemon->hometown));
-                    gender = (get_gen4_5_otgender((reinterpret_cast<uint8_t*>(&(pkmds_pokemon->ball)+1)))) ?
+                    gender = (get_gen_456_otgender((reinterpret_cast<uint8_t*>(&(pkmds_pokemon->ball)+1)))) ?
                              Genders::FEMALE : Genders::MALE;
                     found = true;
                     break;

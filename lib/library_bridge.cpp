@@ -131,7 +131,7 @@ namespace pkmnsim
         return actual_text;
     }
 
-    uint8_t gen3_4_5_get_IV(uint32_t* IVint, uint8_t IV)
+    uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV)
     {
         bitset<32> IVs_bitset = int(*IVint);
         bitset<5> end_bitset = 0;
@@ -192,7 +192,7 @@ namespace pkmnsim
         return end_bitset.to_ulong();
     }
     
-    void gen3_4_5_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
+    void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
     {
         bitset<32> IVs_bitset = int(*IVint);
         bitset<5> val_bitset = int(val);
@@ -325,12 +325,12 @@ namespace pkmnsim
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
-    uint8_t get_gen4_5_met_level(uint8_t* metlevelint)
+    uint8_t get_gen_456_met_level(uint8_t* metlevelint)
     {
         return (*metlevelint >> 1);
     }
 
-    void set_gen4_5_met_level(uint8_t* metlevelint, uint8_t level)
+    void set_gen_456_met_level(uint8_t* metlevelint, uint8_t level)
     {
         bitset<8> metlevel_bitset = int(*metlevelint);
         bitset<8> level_bitset = level;
@@ -353,13 +353,13 @@ namespace pkmnsim
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
-    bool get_gen4_5_otgender(uint8_t* metlevelint)
+    bool get_gen_456_otgender(uint8_t* metlevelint)
     {
         bitset<8> metlevel_bitset = int(*metlevelint);
         return metlevel_bitset[0];
     }
 
-    void set_gen4_5_otgender(uint8_t* metlevelint, bool is_female)
+    void set_gen_456_otgender(uint8_t* metlevelint, bool is_female)
     {
         bitset<8> metlevel_bitset = int(*metlevelint);
         metlevel_bitset[0] = is_female;
