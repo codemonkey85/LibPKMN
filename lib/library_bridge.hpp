@@ -19,6 +19,8 @@
 
 #include <pokehack/SaveParser.h>
 
+#include <pkmds/pkmds_g5.h>
+
 namespace pkmnsim
 {
     dict<char, int> get_pokehack_reverse_char_map();
@@ -60,6 +62,10 @@ namespace pkmnsim
     bool get_gen4_5_otgender(uint8_t* metlevelint);
 
     void set_gen4_5_otgender(uint8_t* metlevelint, bool is_female);
+    
+    uint8_t pkmnsim_getpkmstat(pokemon_obj* pkm);
+    
+    void pkmnsim_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm);
 
     uint8_t pkmnsim_game_to_hometown(uint8_t game);
 
