@@ -1194,7 +1194,60 @@ namespace pkmnsim
             
             return t_pkmn; 
         }
+        
+        void team_pokemon_to_pkmds_g6_pokemon(team_pokemon::sptr t_pkmn, party_pkx* p_pkx)
+        {
+            p_pkx->pkx_data.species = ::Species_g6::pkxspecies(t_pkmn->get_species_id());
+            
+            moveset_t moves = t_pkmn->get_moves();
+            p_pkx->pkx_data.moves[0] = ::Moves::moves(t_pkmn->get_moves()[0]->get_move_id());
+            p_pkx->pkx_data.moves[1] = ::Moves::moves(t_pkmn->get_moves()[1]->get_move_id());
+            p_pkx->pkx_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
+            p_pkx->pkx_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
+            
+            p_pkx->partyx_data.level = t_pkmn->get_level();
+            
+            //TODO: setting nicknames and trainer names
+            
+            unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
+            p_pkx->pkx_data.item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
+            
+            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
+            set_gen4_5_met_level(metlevel_int, t_pkmn->get_met_level());
+            p_pkx->pkx_data.ball = Balls::balls(pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
+            set_gen4_5_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
+            p_pkx->pkx_data.pid = t_pkmn->get_personality();
+            p_pkx->pkx_data.tid = t_pkmn->get_public_trainer_id();
+            p_pkx->pkx_data.sid = t_pkmn->get_secret_trainer_id();
 
+            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
+            p_pkx->partyx_data.maxhp = stats[Stats::HP];
+            p_pkx->partyx_data.attack = stats[Stats::ATTACK];
+            p_pkx->partyx_data.defense = stats[Stats::DEFENSE];
+            p_pkx->partyx_data.spatk = stats[Stats::SPECIAL_ATTACK];
+            p_pkx->partyx_data.spdef = stats[Stats::SPECIAL_DEFENSE];
+            p_pkx->partyx_data.speed = stats[Stats::SPEED];
+
+            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkx->pkx_data.ppups[3])+1);
+            gen3_4_5_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
+            gen3_4_5_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
+            gen3_4_5_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
+            gen3_4_5_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
+            gen3_4_5_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
+            gen3_4_5_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+
+            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
+            p_pkx->pkx_data.evs.hp = EVs[Stats::HP];
+            p_pkx->pkx_data.evs.attack = EVs[Stats::ATTACK];
+            p_pkx->pkx_data.evs.defense = EVs[Stats::DEFENSE];
+            p_pkx->pkx_data.evs.spatk = EVs[Stats::SPECIAL_ATTACK];
+            p_pkx->pkx_data.evs.spdef = EVs[Stats::SPECIAL_DEFENSE];
+            p_pkx->pkx_data.evs.speed = EVs[Stats::SPEED];
+
+            p_pkx->pkx_data.hometown = ::Hometowns::hometowns(pkmnsim_game_to_hometown(t_pkmn->get_game_id()));
+        }
+        
         PokeLib::Pokemon pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,
                                                              pokemon_attacks_t* pkmn_a_t,
                                                              pokemon_effort_t* pkmn_e_t,
