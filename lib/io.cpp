@@ -49,7 +49,7 @@ namespace pkmnsim
             ifile.close();
             memcpy(&(pkmn_obj), pkm_contents, sizeof(pokemon_obj));
             
-            pctoparty(p_pkm, pkmn_obj);
+            pkmnsim_pctoparty(p_pkm, pkmn_obj);
             return conversions::pkmds_g5_pokemon_to_team_pokemon(p_pkm);
         }
         
@@ -81,8 +81,8 @@ namespace pkmnsim
             ifile.close();
             memcpy(&(pkmn_obj), pkx_contents, sizeof(pokemonx_obj));
             
-            pctoparty(p_pkm, pkmn_obj);
-            return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
+            pkmnsim_pctoparty(p_pkm, pkmn_obj);
+            return conversions::pkmds_pokemon_to_team_pokemon(p_pkm);
         }
     }
 }

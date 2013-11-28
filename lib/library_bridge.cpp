@@ -14,11 +14,14 @@
 #include <boost/assign.hpp>
 
 #include <pkmnsim/enums.hpp>
+#include <pkmnsim/paths.hpp>
+#include <pkmnsim/database/queries.hpp>
 
 #include <pokehack/pokestructs.h>
-#include <pkmds/pkmds_g5.h>
+#include <pkmds/pkmds_sql.h>
 
 #include "library_bridge.hpp"
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 #define MAX_NICKNAME_LEN 10
 #define MAX_TRAINER_NAME_LEN 7
@@ -366,6 +369,71 @@ namespace pkmnsim
         *metlevelint = metlevel_bitset.to_ulong();
     }
 
+    uint8_t pkmnsim_getpkmstat(pokemon_obj* pkm, unsigned int stat_id)
+    {
+        SQLite::Database db(get_database_path().c_str());
+        std::string pkmstatsql = getpkmstatsql(pkm, ::Stat_IDs::stat_ids(stat_id));
+        unsigned int basestat = int(db.execAndGet(pkmstatsql.c_str()));
+                                     
+        std::string pkmlevelsql = getpkmlevelsql(int(pkm->species),
+                                                 int(pkm->exp));
+        unsigned int level = int(db.execAndGet(pkmlevelsql.c_str()));
+        unsigned int ev = 0;
+        unsigned int iv = 0;
+        
+        uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pkm->ppup[3])+1);
+        switch(stat_id)
+        {
+            case Stats::HP:
+                ev = pkm->evs.hp;
+                iv = gen3_4_5_get_IV(IVint, Stats::HP);
+                return (int)((floor((double)(floor((double)(((iv +
+                       (2 * basestat) + floor((double)(ev/4))+100)
+                       * level) / 100)) + 10))));
+                       
+            case Stats::ATTACK:
+                ev = pkm->evs.attack;
+                break;
+                
+            case Stats::DEFENSE:
+                ev = pkm->evs.defense;
+                break;
+                
+            case Stats::SPECIAL_ATTACK:
+                ev = pkm->evs.spatk;
+                break;
+                
+            case Stats::SPECIAL_DEFENSE:
+                ev = pkm->evs.spdef;
+                break;
+                
+            default:
+                ev = pkm->evs.speed;
+        }
+        iv = gen3_4_5_get_IV(IVint, stat_id);
+        double naturemod = database::get_nature_stat_effect(
+                           (unsigned int)(pkm->nature), stat_id);
+        return (int)((floor((double)(floor((double)(((iv + (2 * basestat)
+               + floor((double)(ev/4))) * level) / 100)) + 5)) * naturemod));
+    }
+    
+    void pkmnsim_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm)
+    {
+        p_pkm->pkm_data = *pkm;
+        p_pkm->party_data.maxhp = pkmnsim_getpkmstat(pkm, Stats::HP);
+        p_pkm->party_data.hp = p_pkm->party_data.maxhp;
+        p_pkm->party_data.attack = pkmnsim_getpkmstat(pkm, Stats::ATTACK);
+        p_pkm->party_data.defense = pkmnsim_getpkmstat(pkm, Stats::DEFENSE);
+        p_pkm->party_data.spatk = pkmnsim_getpkmstat(pkm, Stats::SPECIAL_ATTACK);
+        p_pkm->party_data.spdef = pkmnsim_getpkmstat(pkm, Stats::SPECIAL_DEFENSE);
+        p_pkm->party_data.speed = pkmnsim_getpkmstat(pkm, Stats::SPEED);
+        
+        SQLite::Database db(get_database_path().c_str());
+        std::string pkmlevelsql = getpkmlevelsql(int(pkm->species),
+                                                 int(pkm->exp));
+        unsigned int level = int(db.execAndGet(pkmlevelsql.c_str()));
+    }
+    
     uint8_t pkmnsim_game_to_hometown(uint8_t game)
     {
         switch(game)
