@@ -31,7 +31,7 @@ namespace pkmnsim
             void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn);
             void remove_pokemon(unsigned int pos);
             
-            //const bag::sptr get_bag() const;
+            const bag::sptr get_bag() const;
 
             pokemon_text get_name() const;
             void set_name(pokemon_text new_name);
