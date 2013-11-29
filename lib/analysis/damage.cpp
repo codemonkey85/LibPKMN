@@ -28,7 +28,8 @@ namespace pkmnsim
     {
         double get_type_damage_mod(unsigned int type1, unsigned int type2, bool gen1)
         {
-            if(gen1 and (type1 == Types::DARK or type1 == Types::STEEL or type2 == Types::DARK or type2 == Types::STEEL)) return 1;
+            if(gen1 and (type1 == Types::DARK or type1 == Types::STEEL
+                         or type2 == Types::DARK or type2 == Types::STEEL)) return 1;
 
             double damage_mod;
             string query_string;
@@ -49,7 +50,8 @@ namespace pkmnsim
             else return 1.0;
         }
 
-        unsigned int get_base_damage(team_pokemon::sptr attacker, team_pokemon::sptr defender, move::sptr attack)
+        unsigned int get_base_damage(team_pokemon::sptr attacker, team_pokemon::sptr defender,
+                                     move::sptr attack)
         {
             unsigned int level = attacker->get_level();
             unsigned int base_power = attack->get_base_power();
@@ -84,14 +86,17 @@ namespace pkmnsim
                    (double(attacker_ATK) / double(defender_DEF)) * double(base_power) * 2.0)));
         }
 
-        unsigned int get_base_damage(unsigned int level, unsigned int attack, unsigned int defense, unsigned int base_power)
+        unsigned int get_base_damage(unsigned int level, unsigned int attack,
+                                     unsigned int defense, unsigned int base_power)
         {
             return (unsigned int)(floor((((2.0 * double(level) + 10.0) / 250.0) *
                    (double(attack) / double(defense)) * double(base_power) * 2.0)));
         }
 
-        void get_damage_range(team_pokemon::sptr attacker, team_pokemon::sptr defender, move::sptr attack,
-                              vector<unsigned int> &damage_range_vec)
+        //TODO: get rid of duplicate get_damage_range code
+        
+        void get_damage_range(team_pokemon::sptr attacker, team_pokemon::sptr defender,
+                              move::sptr attack, vector<unsigned int> &damage_range_vec)
         {
             damage_range_vec.clear();
             unsigned int attacker_ATK, defender_DEF;
@@ -127,16 +132,24 @@ namespace pkmnsim
             min_damage = (unsigned int)(floor(get_base_damage(attacker, defender, attack) * 0.85));
             max_damage = get_base_damage(attacker, defender, attack);
 
-            double type_mod = double(get_type_damage_mod(attack->get_type(), defender->get_types()[0], (gen == 1))) *
-                              double(get_type_damage_mod(attack->get_type(), defender->get_types()[1], (gen == 1)));
+            double type_mod = double(get_type_damage_mod(attack->get_type(),
+                                                         defender->get_types()[0], (gen == 1)))
+                            * double(get_type_damage_mod(attack->get_type(),
+                                                         defender->get_types()[1], (gen == 1)));
 
             min_damage = (unsigned int)(floor(double(min_damage) * type_mod));
             max_damage = (unsigned int)(floor(double(max_damage) * type_mod));
 
+            
             if(type_mod != 0)
             {
                 if(defender->get_species_id() == Species::SHEDINJA)
                 {
+                    /*
+                     * Shedinja's ability, Wonder Guard, blocks any attacks except for
+                     * super-effective moves. However, super-effective moves will
+                     * automatically make it faint.
+                     */
                     if(type_mod > 1.0)
                     {
                         damage_range_vec.push_back(1);
@@ -150,26 +163,38 @@ namespace pkmnsim
                         return;
                     }
                 }
-                else if(attack->get_move_id() == Moves::SEISMIC_TOSS or attack->get_move_id() == Moves::NIGHT_SHADE)
+                else if(attack->get_move_id() == Moves::SEISMIC_TOSS
+                        or attack->get_move_id() == Moves::NIGHT_SHADE)
                 {
+                    /*
+                     * Seismic Toss and Night Shade's damage automatically
+                     * matches the attacker's level.
+                     */
                     damage_range_vec.push_back(attacker->get_level());
                     damage_range_vec.push_back(attacker->get_level());
                     return;
                 }
                 else if(attack->get_move_id() == Moves::DRAGON_RAGE)
                 {
+                    //Dragon Rage always deals 40 damage
                     damage_range_vec.push_back(40);
                     damage_range_vec.push_back(40);
                     return;
                 }
                 else if(attack->get_move_id() == Moves::SONICBOOM)
                 {
+                    //Sonicboom always deals 20 damage
                     damage_range_vec.push_back(20);
                     damage_range_vec.push_back(20);
                     return;
                 }
                 else
                 {
+                    /*
+                     * STAB: Same-type attack bonus
+                     * If an attack's type matches the attacker's type,
+                     * it's damage will be increased by 150%.
+                     */
                     if(attack->get_type() == attacker->get_types()[0] or
                        attack->get_type() == attacker->get_types()[1])
                     {
@@ -177,6 +202,10 @@ namespace pkmnsim
                         max_damage = (unsigned int)(floor(double(max_damage) * 1.5));
                     }
                 }
+                /*
+                 * As long as the attack does any damage, it will do a minimum
+                 * of 1, no matter the strength discrepancy.
+                 */
                 if(min_damage == 0) min_damage = 1;
                 if(max_damage == 0) max_damage = 1;
 
@@ -247,6 +276,11 @@ namespace pkmnsim
                 {
                     if(type_mod > 1.0)
                     {
+                        /*
+                         * Shedinja's ability, Wonder Guard, blocks any attacks except for
+                         * super-effective moves. However, super-effective moves will
+                         * automatically make it faint.
+                         */
                         damage_range_vec.push_back(1);
                         damage_range_vec.push_back(1);
                         return;
@@ -258,26 +292,38 @@ namespace pkmnsim
                         return;
                     }
                 }
-                else if(attack->get_move_id() == Moves::SEISMIC_TOSS or attack->get_move_id() == Moves::NIGHT_SHADE)
+                else if(attack->get_move_id() == Moves::SEISMIC_TOSS
+                        or attack->get_move_id() == Moves::NIGHT_SHADE)
                 {
+                    /*
+                     * Seismic Toss and Night Shade's damage automatically
+                     * matches the attacker's level.
+                     */
                     damage_range_vec.push_back(attacker_level);
                     damage_range_vec.push_back(attacker_level);
                     return;
                 }
                 else if(attack->get_move_id() == Moves::DRAGON_RAGE)
                 {
+                    //Dragon Rage always deal 40 damage
                     damage_range_vec.push_back(40);
                     damage_range_vec.push_back(40);
                     return;
                 }
                 else if(attack->get_move_id() == Moves::SONICBOOM)
                 {
+                    //Sonicboom always deals 20 damage
                     damage_range_vec.push_back(20);
                     damage_range_vec.push_back(20);
                     return;
                 }
                 else
                 {
+                    /*
+                     * STAB: Same-type attack bonus
+                     * If an attack's type matches the attacker's type,
+                     * it's damage will be increased by 150%.
+                     */
                     if(attack->get_type() == attacker->get_types()[0] or
                        attack->get_type() == attacker->get_types()[1])
                     {
@@ -285,6 +331,10 @@ namespace pkmnsim
                         max_damage = (unsigned int)(floor(double(max_damage) * 1.5));
                     }
                 }
+                /*
+                 * As long as the attack does any damage, it will do a minimum
+                 * of 1, no matter the strength discrepancy.
+                 */
                 if(min_damage == 0) min_damage = 1;
                 if(max_damage == 0) max_damage = 1;
 
@@ -297,5 +347,5 @@ namespace pkmnsim
                 damage_range_vec.push_back(0);
             }
         }
-    }
-}
+    } /* namespace analysis */
+} /* namespace pkmnsim */

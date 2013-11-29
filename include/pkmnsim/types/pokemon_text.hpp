@@ -16,6 +16,7 @@ namespace pkmnsim
     class PKMNSIM_API pokemon_text
     {
         public:
+        
             pokemon_text() {};
             pokemon_text(const char* input);
             pokemon_text(const wchar_t* input);

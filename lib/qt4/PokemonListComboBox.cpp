@@ -27,5 +27,5 @@ namespace pkmnsim
                 addItem(tr(pokemon_vec[i].c_str()), QVariant(i));
             }
         }
-    }
-}
+    } /* namespace qt4 */
+} /* namespace pkmnsim */

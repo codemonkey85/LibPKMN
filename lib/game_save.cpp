@@ -81,4 +81,4 @@ namespace pkmnsim
             exit(EXIT_FAILURE);
         }
     }
-}
+} /* namespace pkmnsim */

@@ -19,9 +19,6 @@ namespace pkmnsim
                                     unsigned int move1, unsigned int move2,
                                     unsigned int move3, unsigned int move4);
 
-            std::string get_info() const;
-            std::string get_info_verbose() const;
-            
             void set_personality(unsigned int new_personality);
             
             unsigned int get_ability() const;

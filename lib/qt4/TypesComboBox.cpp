@@ -27,5 +27,5 @@ namespace pkmnsim
                 addItem(tr(types_vec[i].c_str()), QVariant(i));
             }
         }
-    }
-}
+    } /* namespace qt4 */
+} /* namespace pkmnsim */

@@ -74,7 +74,7 @@ namespace pkmnsim
             case Games::PLATINUM:
             case Games::HEART_GOLD:
             case Games::SOUL_SILVER:
-                //Infinite space in each pocket, but 100 should do
+                //"Infinite" space in each pocket, but 100 should do
                 contents["Items"] = pocket::make(game_id, "Items", 100);
                 contents["Medicine"] = pocket::make(game_id, "Medicine", 100);
                 contents["Poke Balls"] = pocket::make(game_id, "Poke Balls", 100);
@@ -105,4 +105,4 @@ namespace pkmnsim
     const pocket::sptr bag_impl::get_pocket(string name) {return contents[name];}
     
     void bag_impl::get_pocket_list(vector<string> &pocket_vec) {pocket_vec = contents.keys();}
-}
+} /* namespace pkmnsim */

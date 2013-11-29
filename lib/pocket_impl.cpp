@@ -38,11 +38,11 @@ namespace pkmnsim
         pocket_name = name;
         pocket_size = size;
         
-        contents = vla<item::sptr>(pocket_size);
+        contents = vla<unsigned int>(pocket_size);
         amounts = vla<unsigned int>(pocket_size);
-        for(int i = 0; i < pocket_size; i++)
+        for(size_t i = 0; i < pocket_size; i++)
         {
-            contents[i] = item::make(Items::NONE, game_id);
+            contents[i] = Items::NONE;
             amounts[i] = 0;
         }
     }
@@ -53,74 +53,51 @@ namespace pkmnsim
     
     unsigned int pocket_impl::get_size() {return pocket_size;}
     
-    item::sptr pocket_impl::get_item(unsigned int pos, bool copy)
+    item::sptr pocket_impl::get_item(unsigned int pos)
     {
         unsigned int actual_pos = (pos > pocket_size) ? (pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        item::sptr to_return = contents[pos];
-        
-        unsigned int item_id = to_return->get_item_id();
-        
-        if(copy)
-        {
-            if(item_id >= Items::TM01 and item_id <= Items::HM08)
-            {
-                item_machineimpl actual_machine = *(boost::polymorphic_downcast<item_machineimpl*>(to_return.get()));
-                return item::sptr(&actual_machine);
-            }
-            else if((item_id >= Items::CHERI_BERRY and item_id <= Items::ROWAP_BERRY)
-                    or (item_id >= Items::BERRY and item_id <= Items::MYSTERYBERRY))
-            {
-                item_berryimpl actual_berry = *(boost::polymorphic_downcast<item_berryimpl*>(to_return.get()));
-                return item::sptr(&actual_berry);
-            }
-            else
-            {
-                item_impl actual = *(boost::polymorphic_downcast<item_impl*>(to_return.get()));
-                return item::sptr(&actual);
-            }
-        }
-        else return to_return;
+        return item::make(contents[actual_pos], game_id);
     }
     
     void pocket_impl::remove_item(unsigned int pos)
     {
         unsigned int actual_pos = (pos > pocket_size) ? (pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-    
-        item::sptr blank_item = item::make(Items::NONE, game_id);
-
-        set_item(actual_pos, blank_item, 0);
+        set_item(actual_pos, Items::NONE, 0);
         
         //Move over any non-blank item in later positions
-        for(int i = (actual_pos+1); i < pocket_size; i++)
+        for(size_t i = (actual_pos+1); i < pocket_size; i++)
         {
-            if(contents[i]->get_item_id() == Items::NONE) break;
+            if(contents[i] == Items::NONE) break;
             else
             {
                 contents[i-1] = contents[i];
-                contents[i] = blank_item;
+                contents[i] = Items::NONE;
+                
+                amounts[i-1] = amounts[i];
+                amounts[i] = 0;
             }
         }
     }
     
     void pocket_impl::set_item(unsigned int pos, item::sptr new_item, unsigned int amount)
     {
-        unsigned int actual_pos = (pos > pocket_size) ? (pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        contents[actual_pos] = new_item;
-        amounts[actual_pos] = amount;
+        set_item(pos, new_item->get_item_id(), amount);
     }
     
     void pocket_impl::set_item(unsigned int pos, unsigned int item_id, unsigned int amount)
     {
-        set_item(pos, item::make(item_id, game_id), amount);
+        unsigned int actual_pos = (pos > pocket_size) ? (pocket_size-1) : (pos == 0) ? 0 : (pos-1);
+        set_item(actual_pos, item_id, amount);
+        amounts[actual_pos] = amount;
     }
     
     void pocket_impl::set_item(item::sptr new_item, unsigned int amount)
     {
         //Find first non-blank item
         unsigned int actual_pos = -1;
-        for(int i = 0; i < pocket_size; i++)
+        for(size_t i = 0; i < pocket_size; i++)
         {
-            if(contents[i]->get_item_id() == Items::NONE)
+            if(contents[i] == Items::NONE)
             {
                 actual_pos = i;
                 break;
@@ -130,7 +107,7 @@ namespace pkmnsim
         //No space left in pocket
         if(actual_pos != -1)
         {
-            contents[actual_pos] = new_item;
+            contents[actual_pos] = new_item->get_item_id();
             amounts[actual_pos] = amount;
         }
     }
@@ -151,4 +128,4 @@ namespace pkmnsim
         unsigned int actual_pos = (pos > pocket_size) ? (pocket_size-1) : (pos == 0) ? 0 : (pos-1);
         amounts[actual_pos] = amount;
     }
-}
+} /* namespace pkmnsim */

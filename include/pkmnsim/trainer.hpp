@@ -15,7 +15,7 @@
 
 #include <string>
 
-//#include <pkmnsim/bag.hpp>
+#include <pkmnsim/bag.hpp>
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/team_pokemon.hpp>
 #include <pkmnsim/types/pokemon_text.hpp>
@@ -46,7 +46,7 @@ namespace pkmnsim
             virtual void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn) = 0;
             virtual void remove_pokemon(unsigned int pos) = 0;
             
-            //virtual const bag::sptr get_bag() const = 0;
+            virtual const bag::sptr get_bag() const = 0;
 
             virtual pokemon_text get_name() const = 0;
             virtual void set_name(pokemon_text new_name) = 0;
@@ -62,6 +62,7 @@ namespace pkmnsim
             virtual void set_secret_id(unsigned short id) = 0;
 
         protected:
+        
             unsigned int money, game_id, gender;
 
             union
@@ -74,7 +75,7 @@ namespace pkmnsim
                 unsigned int trainer_id;
             };
 
-            //bag::sptr item_bag;
+            bag::sptr item_bag;
             pokemon_text trainer_name;
             pokemon_team_t party;
             

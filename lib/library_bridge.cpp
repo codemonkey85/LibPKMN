@@ -651,4 +651,4 @@ namespace pkmnsim
                 return PokeBalls::POKE_BALL;
         }
     }
-}
+} /* namespace pkmnsim */

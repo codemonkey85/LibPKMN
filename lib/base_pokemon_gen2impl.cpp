@@ -44,33 +44,50 @@ namespace pkmnsim
         }
         
         boost::format png_format("%d.png");
+        std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
+        std::string sprite_directory = fs::path(fs::path(get_images_dir()) / "generation-2"
+                                     / images_game_string).string();
+        std::string shiny_sprite_directory = fs::path(fs::path(sprite_directory) / "shiny").string();
+                                     
         switch(id)
         {
-            case Species::NONE: //None
-                male_icon_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+            case Species::NONE: //None, should only be used for empty slots at end of party
+                male_icon_path = fs::path(fs::path(get_images_dir())
+                               / "misc" / "pokeball.png").string();
                 female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(get_images_dir()) / "misc" / "pokeball.png").string();
+                male_sprite_path = fs::path(fs::path(get_images_dir())
+                                 / "misc" / "pokeball.png").string();
                 female_sprite_path = female_icon_path;
                 male_shiny_sprite_path = male_sprite_path;
                 female_shiny_sprite_path = female_sprite_path;
                 break;
 
-            case Species::INVALID: //Invalid
-                male_icon_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+            case Species::INVALID: //Invalid, aka Missingno. equivalents
+                male_icon_path = fs::path(fs::path(sprite_directory)
+                               / (png_format % "substitute.png").str()).string();
                 female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(get_images_dir()) / images_game_string.c_str() / (png_format % "substitute.png").str()).string();
+                male_sprite_path = fs::path(fs::path(sprite_directory)
+                                 / (png_format % "substitute.png").str()).string();
                 female_sprite_path = female_icon_path;
                 male_shiny_sprite_path = male_sprite_path;
                 female_shiny_sprite_path = female_sprite_path;
                 break;
 
             default:
-                male_icon_path = fs::path(fs::path(get_images_dir()) / "pokemon-icons" / (png_format % species_id).str()).string();
-                female_icon_path = male_icon_path; //No gender differences in Generation 2
-                male_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / (png_format % species_id).str()).string();
-                female_sprite_path = male_sprite_path; //No gender differences in Generation 2
-                male_shiny_sprite_path = fs::path(fs::path(get_images_dir()) / "generation-2" / images_game_string.c_str() / "shiny" / (png_format % species_id).str()).string();
-                female_shiny_sprite_path = male_shiny_sprite_path; //No gender differences in Generation 2
+                //No gender differences in Generation 2
+                male_icon_path = fs::path(fs::path(icon_directory)
+                               / (png_format % species_id).str()).string();
+                female_icon_path = male_icon_path;
+
+                //No gender differences in Generation 2
+                male_sprite_path = fs::path(fs::path(sprite_directory)
+                                 / (png_format % species_id).str()).string();
+                female_sprite_path = male_sprite_path;
+
+                //No gender differences in Generation 2
+                male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
+                                       / (png_format % species_id).str()).string();
+                female_shiny_sprite_path = male_shiny_sprite_path;
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
@@ -85,67 +102,6 @@ namespace pkmnsim
                 
                 repair(pokemon_id);
                 break;
-        }
-    }
-
-    string base_pokemon_gen2impl::get_info() const
-    {
-        switch(species_id)
-        {
-            case Species::NONE:
-            case Species::INVALID:
-                return "No info";
-
-            default:
-                string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
-                else types_str = database::get_type_name(type1_id) + "/"
-                               + database::get_type_name(type2_id);
-
-                dict<unsigned int, unsigned int> stats = get_base_stats();
-
-                string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
-                                 + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPECIAL_ATTACK]) + ", "
-                                 + to_string(stats[Stats::SPECIAL_DEFENSE]) + ", " + to_string(stats[Stats::SPEED]);
-
-                string output_string;
-                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                              + "Type: " + types_str + "\n"
-                              + "Stats: " + stats_str;
-
-                return output_string;
-        }
-    }
-
-    string base_pokemon_gen2impl::get_info_verbose() const
-    {
-        switch(species_id)
-        {
-            case Species::NONE:
-            case Species::INVALID:
-                return "No info";
-
-            default:
-                string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
-                else types_str = database::get_type_name(type1_id) + "/"
-                               + database::get_type_name(type2_id);
-
-                dict<unsigned int, unsigned int> stats = get_base_stats();
-
-                string output_string;
-                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                              + "Type: " + types_str + "\n"
-                              + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
-                              + "Base Stats:\n"
-                              + " - HP: " + to_string(stats[Stats::HP]) + "\n"
-                              + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
-                              + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
-                              + " - Special Attack: " + to_string(stats[Stats::SPECIAL_ATTACK]) + "\n"
-                              + " - Special Defense: " + to_string(stats[Stats::SPECIAL_DEFENSE]) + "\n"
-                              + " - Speed: " + to_string(stats[Stats::SPEED]);
-            
-                return output_string;
         }
     }
 
@@ -170,7 +126,14 @@ namespace pkmnsim
         ev_yields[Stats::ATTACK] = stats[Stats::ATTACK];
         ev_yields[Stats::DEFENSE] = stats[Stats::DEFENSE];
         ev_yields[Stats::SPEED] = stats[Stats::SPEED];
-        ev_yields[Stats::SPECIAL] = stats[Stats::SPECIAL_ATTACK]; //For Gen 1 compatibility
+
+        /*
+         * Special was a single stat in Generation 1, but it was separated into
+         * Special Attack and Special Defense in Generation 2. For backwards
+         * compatibility, Pokemon still have a Special EV, which just matches
+         * Pokemon's Special Attack stat.
+         */
+        ev_yields[Stats::SPECIAL] = stats[Stats::SPECIAL_ATTACK];
         
         return ev_yields;
     }
@@ -186,7 +149,11 @@ namespace pkmnsim
             default:
                 SQLite::Database db(get_database_path().c_str());
 
-                //Gender rates
+                /*
+                 * gender_val_map's keys correspond to how the different
+                 * gender rates are represented in the database. The values
+                 * are the actual decimal representations of the percentages.
+                 */
                 map<unsigned int, double> gender_val_map; //Double is percentage male
                 gender_val_map[0] = 1.0;
                 gender_val_map[1] = 0.875;
@@ -214,7 +181,11 @@ namespace pkmnsim
             default:
                 SQLite::Database db(get_database_path().c_str());
 
-                //Gender rates
+                /*
+                 * gender_val_map's keys correspond to how the different
+                 * gender rates are represented in the database. The values
+                 * are the actual decimal representations of the percentages.
+                 */
                 map<int, double> gender_val_map; //Double is percentage male
                 gender_val_map[0] = 1.0;
                 gender_val_map[1] = 0.875;
@@ -231,46 +202,39 @@ namespace pkmnsim
         }
     }
 
+    //No gender differences in Generation 2
     bool base_pokemon_gen2impl::has_gender_differences() const {return false;}
 
+    //No abilities in Generation 2
     dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_abilities() const
     {
         dict<unsigned int, unsigned int> abilities;
         return abilities;
     }
     
+    //Gender doesn't matter for icons in Generation 2
     string base_pokemon_gen2impl::get_icon_path(bool is_male) const
     {
-        //Gender doesn't matter in Gen 2
         return male_icon_path;
     }
     
+    //Gender doesn't matter for sprites in Generation 2
     string base_pokemon_gen2impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
-        //No separate male/female sprites
         if(is_shiny) return male_shiny_sprite_path;
         else return male_sprite_path;
     }
-    
+   
+    //No forms in Generation 2 
     void base_pokemon_gen2impl::set_form(unsigned int form) {};
-
     void base_pokemon_gen2impl::set_form(std::string form) {};
-
     void base_pokemon_gen2impl::repair(unsigned int id) {};
-    
-    vector<string> base_pokemon_gen2impl::get_egg_group_names() const
-    {
-        vector<string> egg_group_vec;
-        return egg_group_vec;
-    }
-    
     string base_pokemon_gen2impl::get_form_name() const {return get_species_name();}
-
-    vector<unsigned int> base_pokemon_gen2impl::get_egg_group_ids() const
-    {
-        vector<unsigned int> egg_group_vec;
-        return egg_group_vec;
-    }
-
     unsigned int base_pokemon_gen2impl::get_form_id() const {return species_id;}
-}
+
+    //TODO
+    void base_pokemon_gen2impl::get_egg_group_names(std::vector<std::string>
+                                                    &egg_group_name_vec) const {};
+    void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>
+                                                  &egg_group_id_vec) const {};
+} /* namespace pkmnsim */

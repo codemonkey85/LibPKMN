@@ -47,4 +47,4 @@ namespace pkmnsim
                 break;
         }
     }
-}
+} /* namespace pkmnsim */

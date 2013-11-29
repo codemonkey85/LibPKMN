@@ -99,4 +99,4 @@ namespace pkmnsim
         if(not fs::exists(fs::path(tmp_dir))) return "/tmp"; //Fallback
         else return tmp_dir_path.string();
     }
-}
+} /* namespace pkmnsim */

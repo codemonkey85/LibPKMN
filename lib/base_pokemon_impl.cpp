@@ -252,4 +252,4 @@ namespace pkmnsim
     unsigned int base_pokemon_impl::get_pokemon_id() const {return pokemon_id;}
 
     unsigned int base_pokemon_impl::get_species_id() const {return species_id;}
-}
+} /* namespace pkmnsim */

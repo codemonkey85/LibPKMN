@@ -578,5 +578,5 @@ namespace pkmnsim
                 }
             }
         }
-    }
-}
+    } /* namespace conversions */
+} /* namespace pkmnsim */

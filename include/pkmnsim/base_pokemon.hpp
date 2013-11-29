@@ -32,9 +32,6 @@ namespace pkmnsim
 			base_pokemon() {};
             virtual ~base_pokemon() {};
 
-            virtual std::string get_info() const = 0;
-            virtual std::string get_info_verbose() const = 0;
-
             virtual unsigned int get_pokedex_num() const = 0;
             virtual std::string get_pokedex_entry() const = 0;
             virtual dict<unsigned int, unsigned int> get_types() const = 0;
@@ -56,11 +53,13 @@ namespace pkmnsim
             virtual void set_form(std::string form) = 0;
             virtual void repair(unsigned int id) = 0;
 
-            virtual std::vector<std::string> get_egg_group_names() const = 0;
+            virtual void get_egg_group_names(std::vector<std::string>
+                                             &egg_group_name_vec) const = 0;
             virtual std::string get_form_name() const = 0;
             virtual std::string get_species_name() const = 0;
             
-            virtual std::vector<unsigned int> get_egg_group_ids() const = 0;
+            virtual void get_egg_group_ids(std::vector<unsigned int>
+                                           &egg_group_id_vec) const = 0;
             virtual unsigned int get_form_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_pokemon_id() const = 0;
