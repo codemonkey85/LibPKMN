@@ -21,7 +21,7 @@ namespace pkmnsim
             std::string get_name();
             unsigned int get_size();
             
-            item::sptr get_item(unsigned int pos, bool copy = true);
+            item::sptr get_item(unsigned int pos);
             void remove_item(unsigned int pos);
             void set_item(unsigned int pos, item::sptr new_item, unsigned int amount);
             void set_item(unsigned int pos, unsigned int item_id, unsigned int amount);
