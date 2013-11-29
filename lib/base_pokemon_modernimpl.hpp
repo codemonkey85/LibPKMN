@@ -17,9 +17,6 @@ namespace pkmnsim
         
             base_pokemon_modernimpl(unsigned int id, unsigned int game);
             
-            std::string get_info() const;
-            std::string get_info_verbose() const;
-            
             dict<unsigned int, unsigned int> get_base_stats() const;
             dict<unsigned int, unsigned int> get_ev_yields() const;
             double get_chance_male() const;

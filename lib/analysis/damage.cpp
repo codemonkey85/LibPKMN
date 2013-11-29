@@ -297,5 +297,5 @@ namespace pkmnsim
                 damage_range_vec.push_back(0);
             }
         }
-    } /* namespace analysis
+    } /* namespace analysis */
 } /* namespace pkmnsim */

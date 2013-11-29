@@ -105,67 +105,6 @@ namespace pkmnsim
         }
     }
 
-    string base_pokemon_gen2impl::get_info() const
-    {
-        switch(species_id)
-        {
-            case Species::NONE:
-            case Species::INVALID:
-                return "No info";
-
-            default:
-                string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
-                else types_str = database::get_type_name(type1_id) + "/"
-                               + database::get_type_name(type2_id);
-
-                dict<unsigned int, unsigned int> stats = get_base_stats();
-
-                string stats_str = to_string(stats[Stats::HP]) + ", " + to_string(stats[Stats::ATTACK]) + ", "
-                                 + to_string(stats[Stats::DEFENSE]) + ", " + to_string(stats[Stats::SPECIAL_ATTACK]) + ", "
-                                 + to_string(stats[Stats::SPECIAL_DEFENSE]) + ", " + to_string(stats[Stats::SPEED]);
-
-                string output_string;
-                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                              + "Type: " + types_str + "\n"
-                              + "Stats: " + stats_str;
-
-                return output_string;
-        }
-    }
-
-    string base_pokemon_gen2impl::get_info_verbose() const
-    {
-        switch(species_id)
-        {
-            case Species::NONE:
-            case Species::INVALID:
-                return "No info";
-
-            default:
-                string types_str;
-                if(type2_id == Types::NONE) types_str = database::get_type_name(type1_id);
-                else types_str = database::get_type_name(type1_id) + "/"
-                               + database::get_type_name(type2_id);
-
-                dict<unsigned int, unsigned int> stats = get_base_stats();
-
-                string output_string;
-                output_string = get_species_name() + " (#" + to_string(species_id) + ")\n"
-                              + "Type: " + types_str + "\n"
-                              + to_string(get_height()) + " m, " + to_string(get_weight()) + " kg\n"
-                              + "Base Stats:\n"
-                              + " - HP: " + to_string(stats[Stats::HP]) + "\n"
-                              + " - Attack: " + to_string(stats[Stats::ATTACK]) + "\n"
-                              + " - Defense: " + to_string(stats[Stats::DEFENSE]) + "\n"
-                              + " - Special Attack: " + to_string(stats[Stats::SPECIAL_ATTACK]) + "\n"
-                              + " - Special Defense: " + to_string(stats[Stats::SPECIAL_DEFENSE]) + "\n"
-                              + " - Speed: " + to_string(stats[Stats::SPEED]);
-            
-                return output_string;
-        }
-    }
-
     dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_base_stats() const
     {
         dict<unsigned int, unsigned int> stats;

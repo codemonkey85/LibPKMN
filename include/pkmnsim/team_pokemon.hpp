@@ -37,9 +37,6 @@ namespace pkmnsim
 
             team_pokemon() {};
             virtual ~team_pokemon() {};
-
-            virtual std::string get_info() const = 0;
-            virtual std::string get_info_verbose() const = 0;
             
             virtual base_pokemon::sptr get_base_pokemon(bool copy = true) const = 0;
             virtual pokemon_text get_nickname() const = 0;

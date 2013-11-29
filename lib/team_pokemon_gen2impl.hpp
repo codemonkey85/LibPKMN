@@ -19,9 +19,6 @@ namespace pkmnsim
                                   unsigned int move1, unsigned int move2,
                                   unsigned int move3, unsigned int move4);
 
-            std::string get_info() const;
-            std::string get_info_verbose() const;
-            
             unsigned int get_ability() const;
             unsigned int get_gender() const;
             unsigned int get_nature() const;
