@@ -45,7 +45,7 @@ namespace pkmnsim
                                           Moves::NONE, Moves::NONE);
         }
         
-        //item_bag = bag::make(game_id);
+        item_bag = bag::make(game_id);
     }
 
     unsigned int trainer_impl::get_game_id() const {return game_id;}
@@ -118,7 +118,7 @@ namespace pkmnsim
         }
     }
 
-    //const bag::sptr trainer_impl::get_bag() const {return item_bag;}
+    const bag::sptr trainer_impl::get_bag() const {return item_bag;}
     
     pokemon_text trainer_impl::get_name() const {return trainer_name;}
 
