@@ -76,4 +76,4 @@ namespace pkmnsim
         
         stdstring = intermediary.toStdString();
     }
-}
+} /* namespace pkmnsim */

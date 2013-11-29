@@ -142,4 +142,4 @@ namespace pkmnsim
     void trainer_impl::set_public_id(unsigned short id) {tid.public_id = id;}
 
     void trainer_impl::set_secret_id(unsigned short id) {tid.secret_id = id;}
-}
+} /* namespace pkmnsim */

@@ -417,5 +417,5 @@ namespace pkmnsim
             if(query.executeStep()) return int(query.getColumn(0));
             else return 0;
         }
-    }
-}
+    } /* namespace database */
+} /* namespace pkmnsim */

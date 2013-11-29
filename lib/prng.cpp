@@ -69,4 +69,4 @@ namespace pkmnsim
 
         return result;
     }
-}
+} /* namespace pkmnsim */

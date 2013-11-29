@@ -128,4 +128,4 @@ namespace pkmnsim
         unsigned int actual_pos = (pos > pocket_size) ? (pocket_size-1) : (pos == 0) ? 0 : (pos-1);
         amounts[actual_pos] = amount;
     }
-}
+} /* namespace pkmnsim */

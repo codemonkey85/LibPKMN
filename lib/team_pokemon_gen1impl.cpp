@@ -291,4 +291,4 @@ namespace pkmnsim
                               * double(level))/50.0) + 5.0));
         return stat_val;
     }
-}
+} /* namespace pkmnsim */

@@ -39,4 +39,4 @@ namespace pkmnsim
         description = str(boost::format("%s - %s") % database::get_item_name(item_id)
                                                    % database::get_move_description(move_id, game_id));
     }
-}
+} /* namespace pkmnsim */

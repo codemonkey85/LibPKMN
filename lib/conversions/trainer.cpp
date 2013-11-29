@@ -317,5 +317,5 @@ namespace pkmnsim
                 else team_pokemon_to_pkmds_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));
             }
         }
-    }
-}
+    } /* namespace conversions */
+} /* namespace pkmnsim */

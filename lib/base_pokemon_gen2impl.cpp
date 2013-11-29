@@ -298,4 +298,4 @@ namespace pkmnsim
                                                     &egg_group_name_vec) const {};
     void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>
                                                   &egg_group_id_vec) const {};
-}
+} /* namespace pkmnsim */

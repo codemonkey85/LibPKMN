@@ -161,4 +161,4 @@ namespace pkmnsim
     unsigned int move_impl::get_target_id() const {return target_id;}
 
     unsigned int move_impl::get_game_id() const {return from_game;}
-}
+} /* namespace pkmnsim */

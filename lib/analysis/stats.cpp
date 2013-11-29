@@ -86,5 +86,5 @@ namespace pkmnsim
             stat_vec.push_back(get_min_possible_stat(b_pkmn, stat, level, gen));
             stat_vec.push_back(get_max_possible_stat(b_pkmn, stat, level, gen));
         }
-    }
-}
+    } /* namespace analysis */
+} /* namespace pkmnsim */

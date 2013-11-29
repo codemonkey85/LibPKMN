@@ -1604,4 +1604,4 @@ namespace pkmnsim
     
     //TODO: Give Pokemon-sim its own internal way of distinguishing forms
     unsigned int base_pokemon_modernimpl::get_form_id() const {return pokemon_id;}
-}
+} /* namespace pkmnsim */

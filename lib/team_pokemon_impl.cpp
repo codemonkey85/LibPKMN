@@ -279,4 +279,4 @@ namespace pkmnsim
     dict<unsigned , unsigned int> team_pokemon_impl::get_ev_yields() const {return base_pkmn->get_ev_yields();}
 
     bool team_pokemon_impl::is_fully_evolved() const {return base_pkmn->is_fully_evolved();}
-}
+} /* namespace pkmnsim */

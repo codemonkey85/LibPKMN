@@ -70,4 +70,4 @@ namespace pkmnsim
     string item_impl::get_description() {return description;}
     
     string item_impl::get_name() {return item_name;}
-}
+} /* namespace pkmnsim */

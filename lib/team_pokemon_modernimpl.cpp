@@ -460,4 +460,4 @@ namespace pkmnsim
     }
     
     unsigned int team_pokemon_modernimpl::determine_nature() const {return (personality % 25);}
-}
+} /* namespace pkmnsim */
