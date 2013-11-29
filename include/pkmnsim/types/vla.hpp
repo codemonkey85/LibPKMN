@@ -17,6 +17,7 @@ namespace pkmnsim
     class vla
     {
         public:
+        
             //Create empty VLA
             vla(void);
 
@@ -33,6 +34,7 @@ namespace pkmnsim
             void set(int pos, item_type val);
 
         private:
+        
             std::vector<item_type> _vec;
             std::string invalid_pos_err_msg;
             int max_items;

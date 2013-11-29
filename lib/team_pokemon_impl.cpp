@@ -249,13 +249,23 @@ namespace pkmnsim
     void team_pokemon_impl::set_public_trainer_id(unsigned short id) {tid.public_id = id;}
 
     void team_pokemon_impl::set_secret_trainer_id(unsigned short id) {tid.secret_id = id;}
-    
-    vector<string> team_pokemon_impl::get_egg_group_names() const {return base_pkmn->get_egg_group_names();}
 
     string team_pokemon_impl::get_species_name() const {return base_pkmn->get_species_name();}
     
-    vector<unsigned int> team_pokemon_impl::get_egg_group_ids() const {return base_pkmn->get_egg_group_ids();}
-
+    void team_pokemon_impl::get_egg_group_names(std::vector<std::string>
+                                                &egg_group_name_vec) const
+    {
+        egg_group_name_vec.clear();
+        base_pkmn->get_egg_group_names(egg_group_name_vec);
+    }
+    
+    void team_pokemon_impl::get_egg_group_ids(std::vector<unsigned int>
+                                              &egg_group_id_vec) const
+    {
+        egg_group_id_vec.clear();
+        base_pkmn->get_egg_group_ids(egg_group_id_vec);
+    }
+                                                
     unsigned int team_pokemon_impl::get_game_id() const {return from_game;}
     
     unsigned int team_pokemon_impl::get_pokemon_id() const {return base_pkmn->get_pokemon_id();}
@@ -269,4 +279,4 @@ namespace pkmnsim
     dict<unsigned , unsigned int> team_pokemon_impl::get_ev_yields() const {return base_pkmn->get_ev_yields();}
 
     bool team_pokemon_impl::is_fully_evolved() const {return base_pkmn->is_fully_evolved();}
-}
+} /* namespace pkmnsim */

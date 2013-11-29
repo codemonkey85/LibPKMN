@@ -37,6 +37,9 @@ namespace std
     %template(uint_vec) vector<unsigned int>;
 };
 
+%ignore pkmnsim::pokemon_text::operator std::string;
+%ignore pkmnsim::pokemon_text::operator std::wstring;
+
 %{
     #include "pkmnsim/config.hpp"
     #include "pkmnsim/paths.hpp"

@@ -16,6 +16,7 @@ namespace pkmnsim
     class game_save_gen4impl: public game_save
     {
         public:
+        
             game_save_gen4impl(pokelib_sptr ptr);
             
             void load();
@@ -24,6 +25,7 @@ namespace pkmnsim
             trainer::sptr get_trainer() const;
             
         private:
+        
             pokelib_sptr pokelib_save;
     };
 }

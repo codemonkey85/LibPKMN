@@ -47,6 +47,7 @@ namespace pkmnsim
             virtual unsigned int get_game_id() const = 0;
 
         protected:
+        
             //Database values
             int move_id, type_id, target_id;
 

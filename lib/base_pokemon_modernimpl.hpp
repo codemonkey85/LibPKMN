@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASE_POKEMON_GEN345IMPL_HPP
-#define INCLUDED_BASE_POKEMON_GEN345IMPL_HPP
+#ifndef INCLUDED_BASE_POKEMON_MODERNIMPL_HPP
+#define INCLUDED_BASE_POKEMON_MODERNIMPL_HPP
 
 #include "base_pokemon_impl.hpp"
 
@@ -14,10 +14,8 @@ namespace pkmnsim
     class base_pokemon_modernimpl: public base_pokemon_impl
     {
         public:
+        
             base_pokemon_modernimpl(unsigned int id, unsigned int game);
-            
-            std::string get_info() const;
-            std::string get_info_verbose() const;
             
             dict<unsigned int, unsigned int> get_base_stats() const;
             dict<unsigned int, unsigned int> get_ev_yields() const;
@@ -32,12 +30,14 @@ namespace pkmnsim
             void set_form(std::string form);
             void repair(unsigned int id);
             
-            std::vector<std::string> get_egg_group_names() const;
+            void get_egg_group_names(std::vector<std::string>
+                                     &egg_group_name_vec) const;
             std::string get_form_name() const;
             
-            std::vector<unsigned int> get_egg_group_ids() const;
+            void get_egg_group_ids(std::vector<unsigned int>
+                                   &egg_group_id_vec) const;
             unsigned int get_form_id() const;
     };
 }
 
-#endif /* INCLUDED_BASE_POKEMON_GEN345IMPL_HPP */
+#endif /* INCLUDED_BASE_POKEMON_MODERNIMPL_HPP */

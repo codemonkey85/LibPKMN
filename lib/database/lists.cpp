@@ -50,5 +50,5 @@ namespace pkmnsim
                 vec.push_back(column_name);
             }
         }
-    }
-}
+    } /* namespace database */
+} /* namespace pkmnsim */

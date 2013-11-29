@@ -31,4 +31,4 @@ namespace pkmnsim
     }
     
     trainer::sptr game_save_gen4impl::get_trainer() const {return game_trainer;}
-}
+} /* namespace pkmnsim */

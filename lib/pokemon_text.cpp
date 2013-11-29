@@ -5,8 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <ctime>
-
 #include <QString>
 
 #include <pkmnsim/types/pokemon_text.hpp>
@@ -78,4 +76,4 @@ namespace pkmnsim
         
         stdstring = intermediary.toStdString();
     }
-}
+} /* namespace pkmnsim */

@@ -1336,5 +1336,5 @@ namespace pkmnsim
 
             return pokelib_pkmn;
         }
-    }
-}
+    } /* namespace conversions */
+} /* namespace pkmnsim */

@@ -484,4 +484,4 @@ namespace pkmnsim
             }
         }
     }
-}
+} /* namespace pkmnsim */

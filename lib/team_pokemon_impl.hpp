@@ -64,13 +64,15 @@ namespace pkmnsim
             void set_public_trainer_id(unsigned short id);
             void set_secret_trainer_id(unsigned short id);
 
-            std::vector<std::string> get_egg_group_names() const;
-            std::string get_species_name() const;
+            void get_egg_group_names(std::vector<std::string>
+                                     &egg_group_name_vec) const;
+            void get_egg_group_ids(std::vector<unsigned int>
+                                   &egg_group_id_vec) const;
             
-            std::vector<unsigned int> get_egg_group_ids() const;
             unsigned int get_game_id() const;
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
+            std::string get_species_name() const;
             
             dict<unsigned int, unsigned int> get_types() const;
             dict<unsigned int, unsigned int> get_base_stats() const;

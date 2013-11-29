@@ -837,4 +837,4 @@ void pkmnsim_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx)
                 return PokeBalls::POKE_BALL;
         }
     }
-}
+} /* namespace pkmnsim */

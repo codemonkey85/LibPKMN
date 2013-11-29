@@ -14,9 +14,11 @@ namespace pkmnsim
     class item_berryimpl: public item_impl
     {
         public:
+        
             item_berryimpl(unsigned int id, unsigned int game);
             
         private:
+        
             void gen2_to_gen345();
             void gen345_to_gen2();
     };
