@@ -62,6 +62,7 @@ namespace pkmnsim
             virtual void set_secret_id(unsigned short id) = 0;
 
         protected:
+        
             unsigned int money, game_id, gender;
 
             union

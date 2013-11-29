@@ -18,6 +18,7 @@ namespace pkmnsim
     class game_save_gen3impl: public game_save
     {
         public:
+        
             game_save_gen3impl(pokehack_sptr ptr, char* buffer);
             
             void load();
@@ -26,6 +27,7 @@ namespace pkmnsim
             trainer::sptr get_trainer() const;
             
         private:
+        
             pokehack_sptr parser;
             char* data;
     };

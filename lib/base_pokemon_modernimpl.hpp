@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_BASE_POKEMON_GEN345IMPL_HPP
-#define INCLUDED_BASE_POKEMON_GEN345IMPL_HPP
+#ifndef INCLUDED_BASE_POKEMON_MODERNIMPL_HPP
+#define INCLUDED_BASE_POKEMON_MODERNIMPL_HPP
 
 #include "base_pokemon_impl.hpp"
 
@@ -14,6 +14,7 @@ namespace pkmnsim
     class base_pokemon_modernimpl: public base_pokemon_impl
     {
         public:
+        
             base_pokemon_modernimpl(unsigned int id, unsigned int game);
             
             std::string get_info() const;
@@ -40,4 +41,4 @@ namespace pkmnsim
     };
 }
 
-#endif /* INCLUDED_BASE_POKEMON_GEN345IMPL_HPP */
+#endif /* INCLUDED_BASE_POKEMON_MODERNIMPL_HPP */

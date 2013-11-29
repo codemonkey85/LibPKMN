@@ -16,6 +16,7 @@ namespace pkmnsim
     class game_save_gen5impl: public game_save
     {
         public:
+        
             game_save_gen5impl(pkmds_g5_sptr ptr);
             
             void load();
@@ -24,6 +25,7 @@ namespace pkmnsim
             trainer::sptr get_trainer() const;
             
         private:
+        
             pkmds_g5_sptr sav;
     };
 }

@@ -41,6 +41,7 @@ namespace pkmnsim
             //virtual std::vector<unsigned int> get_last_play_time() = 0;
 
         protected:
+        
             unsigned int game_id;
             trainer::sptr game_trainer;
             

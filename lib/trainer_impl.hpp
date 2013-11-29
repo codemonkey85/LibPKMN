@@ -17,6 +17,7 @@ namespace pkmnsim
     class trainer_impl: public trainer
     {
         public:
+        
             trainer_impl(unsigned int game, pokemon_text name, unsigned int gndr);
 
             unsigned int get_game_id() const;

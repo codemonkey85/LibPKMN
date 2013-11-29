@@ -16,6 +16,7 @@ namespace pkmnsim
     class PKMNSIM_API prng
     {
         public:
+        
             prng();
 
             uint64_t lcrng_next(uint32_t gen);
@@ -25,6 +26,7 @@ namespace pkmnsim
             uint32_t mtrng_next();
 
         private:
+        
             static uint32_t lcrng_seed;
             static uint64_t gen5_lcrng_seed;
 

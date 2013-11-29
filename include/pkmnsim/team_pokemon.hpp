@@ -16,10 +16,10 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/move.hpp>
 #include <pkmnsim/base_pokemon.hpp>
 #include <pkmnsim/config.hpp>
 #include <pkmnsim/item.hpp>
+#include <pkmnsim/move.hpp>
 #include <pkmnsim/types/dict.hpp>
 #include <pkmnsim/types/pokemon_text.hpp>
 #include <pkmnsim/types/vla.hpp>
@@ -116,6 +116,7 @@ namespace pkmnsim
             virtual void set_form(std::string form) = 0;
 
         protected:
+        
             base_pokemon::sptr base_pkmn;
             pokemon_text nickname, trainer_name;
             item::sptr held_item;

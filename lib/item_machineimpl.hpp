@@ -14,9 +14,11 @@ namespace pkmnsim
     class item_machineimpl: public item_impl
     {
         public:
+        
             item_machineimpl(unsigned int id, unsigned int game);
             
         private:
+        
             unsigned int machine_id, move_id;
     };
 }

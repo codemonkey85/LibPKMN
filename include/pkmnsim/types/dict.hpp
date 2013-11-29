@@ -17,6 +17,7 @@ namespace pkmnsim
     template <typename Key, typename Val> class dict
     {
         public:
+        
             dict(void);
 
             template <typename InputIterator>
@@ -43,6 +44,7 @@ namespace pkmnsim
             Val pop(const Key &key);
 
         private:
+        
             typedef std::pair<Key, Val> dict_pair;
             std::list<dict_pair> _map;
         };
