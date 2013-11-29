@@ -292,18 +292,10 @@ namespace pkmnsim
     void base_pokemon_gen2impl::repair(unsigned int id) {};
     string base_pokemon_gen2impl::get_form_name() const {return get_species_name();}
     unsigned int base_pokemon_gen2impl::get_form_id() const {return species_id;}
-    
+
     //TODO
-    vector<string> base_pokemon_gen2impl::get_egg_group_names() const
-    {
-        vector<string> egg_group_vec;
-        return egg_group_vec;
-    }
-    
-    //TODO
-    vector<unsigned int> base_pokemon_gen2impl::get_egg_group_ids() const
-    {
-        vector<unsigned int> egg_group_vec;
-        return egg_group_vec;
-    }
+    void base_pokemon_gen2impl::get_egg_group_names(std::vector<std::string>
+                                                    &egg_group_name_vec) const {};
+    void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>
+                                                  &egg_group_id_vec) const {};
 }

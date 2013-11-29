@@ -1562,43 +1562,43 @@ namespace pkmnsim
         }
     }
     
-    vector<string> base_pokemon_modernimpl::get_egg_group_names() const
+    void base_pokemon_modernimpl::get_egg_group_names(std::vector<std::string>
+                                                      &egg_group_name_vec) const
     {
-        vector<unsigned int> egg_group_id_vec = get_egg_group_ids();
-        vector<string> egg_group_vec;
+        egg_group_name_vec.clear();
+    
+        vector<unsigned int> egg_group_id_vec;
+        get_egg_group_ids(egg_group_id_vec);
         switch(species_id)
         {
             case Species::NONE:
             case Species::INVALID:
-                return egg_group_vec;
+                return;
 
             default:
                 for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
-                    egg_group_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
-                
-                return egg_group_vec;
+                    egg_group_name_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
         }
     }
     
     string base_pokemon_modernimpl::get_form_name() const {return get_species_name();}
     
-    vector<unsigned int> base_pokemon_modernimpl::get_egg_group_ids() const
+    void base_pokemon_modernimpl::get_egg_group_ids(std::vector<unsigned int>
+                                                    &egg_group_id_vec) const
     {
-        vector<unsigned int> egg_group_vec;
         switch(species_id)
         {
             case Species::NONE:
             case Species::INVALID:
-                return egg_group_vec;
+                return;
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id=" + to_string(species_id);
+                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
+                                    + to_string(species_id);
                 SQLite::Statement query(db, query_string.c_str());
                 
-                while(query.executeStep()) egg_group_vec.push_back(int(query.getColumn(0)));
-                
-                return egg_group_vec;
+                while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));
         }
     }
     

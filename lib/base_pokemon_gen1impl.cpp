@@ -206,17 +206,9 @@ namespace pkmnsim
     unsigned int base_pokemon_gen1impl::get_form_id() const {return species_id;}
 
     //No eggs in Generation 1
-    vector<string> base_pokemon_gen1impl::get_egg_group_names() const
-    {
-        vector<string> egg_group_vec;
-        return egg_group_vec;
-    }
-
-    //No eggs in Generation 1
-    vector<unsigned int> base_pokemon_gen1impl::get_egg_group_ids() const
-    {
-        vector<unsigned int> egg_group_vec;
-        return egg_group_vec;
-    }
+    void base_pokemon_gen1impl::get_egg_group_names(std::vector<std::string>
+                                                    &egg_group_name_vec) const {};
+    void base_pokemon_gen1impl::get_egg_group_ids(std::vector<unsigned int>
+                                                  &egg_group_id_vec) const {};
 
 } /* namespace pkmnsim */
