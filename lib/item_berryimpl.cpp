@@ -138,7 +138,7 @@ namespace pkmnsim
             case Items::LEPPA_BERRY:
                 item_id = Items::MYSTERYBERRY;
             
-            default:
+            default: //This should never happen
                 item_id = Items::INVALID;
                 break;
         }

@@ -11,13 +11,14 @@
 
 #include <boost/format.hpp>
 
-#include "item_impl.hpp"
-#include "item_berryimpl.hpp"
-#include "item_machineimpl.hpp"
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/item.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
+
+#include "item_impl.hpp"
+#include "item_berryimpl.hpp"
+#include "item_machineimpl.hpp"
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
@@ -56,7 +57,9 @@ namespace pkmnsim
     string item_impl::get_category_name()
     {
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT name FROM item_category_prose WHERE local_language_id=9 AND item_category_id=" + to_string(category_id);
+        string query_string = "SELECT name FROM item_category_prose "
+                               "WHERE local_language_id=9 AND item_category_id="
+                               + to_string(category_id);
         return string((const char*)db.execAndGet(query_string.c_str()));
     }
     
