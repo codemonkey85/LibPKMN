@@ -5,6 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%include "stdint.i"
 %include "std_string.i"
 %include "std_vector.i"
 %include "std_wstring.i"
@@ -36,7 +37,6 @@ namespace std
     %template(string_vec) vector<string>;
     %template(uint_vec) vector<unsigned int>;
 };
-
 
 %ignore pkmnsim::dict::operator[];
 %ignore pkmnsim::vla::operator[];
@@ -101,10 +101,9 @@ namespace std
 %template(dict_uint_uint) pkmnsim::dict<unsigned int, unsigned int>;
 %template(dict_string_int) pkmnsim::dict<std::string, int>;
 %template(vla_uint) pkmnsim::vla<unsigned int>;
-
-%template(b_pkmn_vec_t) std::vector<pkmnsim::base_pokemon::sptr>;
 %template(b_pkmn_vla_t) pkmnsim::vla<pkmnsim::base_pokemon::sptr>;
-%template(move_vec_t) std::vector<pkmnsim::move::sptr>;
 %template(moveset_t) pkmnsim::vla<pkmnsim::move::sptr>;
-%template(team_pkmn_vec_t) std::vector<pkmnsim::team_pokemon::sptr>;
 %template(pokemon_team_t) pkmnsim::vla<pkmnsim::team_pokemon::sptr>;
+%template(b_pkmn_vec_t) std::vector<pkmnsim::base_pokemon::sptr>;
+%template(move_vec_t) std::vector<pkmnsim::move::sptr>;
+%template(team_pkmn_vec_t) std::vector<pkmnsim::team_pokemon::sptr>;

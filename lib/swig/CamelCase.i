@@ -88,15 +88,19 @@
 /*
  * pkmnsim/types/*.hpp
  */
-%rename(PRNG)              pkmnsim::prng;
-%rename(StringIntDict)     pkmnsim::dict<std::string, int>;
-%rename(StringUintDict)    pkmnsim::dict<std::string, unsigned int>;
-%rename(UIntUIntDict)      pkmnsim::dict<unsigned int, unsigned int>;
-%rename(PokemonText)       pkmnsim::pokemon_text;
-%rename(UIntVLA)           pkmnsim::vla<unsigned int>;
+%rename(PRNG)           pkmnsim::prng;
+%rename(StringIntDict)  pkmnsim::dict<std::string, int>;
+%rename(StringUintDict) pkmnsim::dict<std::string, unsigned int>;
+%rename(UIntUIntDict)   pkmnsim::dict<unsigned int, unsigned int>;
+%rename(PokemonText)    pkmnsim::pokemon_text;
+%rename(UIntVLA)        pkmnsim::vla<unsigned int>;
+%rename(BasePokemonVLA) pkmnsim::vla<pkmnsim::base_pokemon::sptr>;
+%rename(Moveset)        pkmnsim::vla<pkmnsim::move::sptr>;
+%rename(PokemonTeam)    pkmnsim::vla<pkmnsim::team_pokemon::sptr>;
+
+/*
+ * Vectors
+ */
 %rename(BasePokemonVector) std::vector<pkmnsim::base_pokemon::sptr>;
-%rename(BasePokemonVLA)    pkmnsim::vla<base::pokemon::sptr>;
 %rename(MoveVector)        std::vector<pkmnsim::move::sptr>;
-%rename(Moveset)           pkmnsim::vla<pkmnsim::move::sptr>;
 %rename(TeamPokemonVector) std::vector<pkmnsim::team_pokemon::sptr>;
-%rename(PokemonTeam)       pkmnsim::vla<pkmnsim::team_pokemon::sptr>;
