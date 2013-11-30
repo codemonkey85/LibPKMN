@@ -16,6 +16,7 @@
 %ignore pkmnsim::pokemon_text::set(std::string);
 %ignore pkmnsim::pokemon_text::set(std::wstring);
 
+%include "CamelCase.i"
 %include "pkmnsim.i"
 
 PKMNSIM_CS_FIX(base_pokemon)
