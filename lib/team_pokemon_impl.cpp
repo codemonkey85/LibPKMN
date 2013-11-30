@@ -139,8 +139,8 @@ namespace pkmnsim
     
     void team_pokemon_impl::set_nickname(pokemon_text name)
     {
-        if(name.std_string().length() == 0) nickname = base_pkmn->get_species_name();
-        else if(name.std_string().length() <= 10) nickname = name;
+        size_t max_len = (from_game >= Games::X) ? 12 : 10;
+        if(name.std_string().length() <= max_len) nickname = name;
     }
     
     pokemon_text team_pokemon_impl::get_trainer_name() const {return trainer_name;}

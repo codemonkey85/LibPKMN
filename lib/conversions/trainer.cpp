@@ -269,7 +269,7 @@ namespace pkmnsim
                 if((pkmds_pokemon->tid == pkmds_public_id) and (pkmds_pokemon->sid == pkmds_secret_id))
                 {
                     game_id = hometown_to_pkmnsim_game(int(pkmds_pokemon->hometown));
-                    gender = (get_gen4_5_otgender((reinterpret_cast<uint8_t*>(&(pkmds_pokemon->ball)+1)))) ?
+                    gender = (get_gen_456_otgender((reinterpret_cast<uint8_t*>(&(pkmds_pokemon->ball)+1)))) ?
                              Genders::FEMALE : Genders::MALE;
                     found = true;
                     break;
@@ -292,7 +292,7 @@ namespace pkmnsim
 
             for(size_t i = 0; i < pkmds_party->size; i++)
             {
-                pkmnsim_trainer->set_pokemon(i+1, pkmds_pokemon_to_team_pokemon(&(pkmds_party->pokemon[i])));
+                pkmnsim_trainer->set_pokemon(i+1, pkmds_g5_pokemon_to_team_pokemon(&(pkmds_party->pokemon[i])));
             }
 
             return pkmnsim_trainer;
@@ -314,7 +314,7 @@ namespace pkmnsim
                 team_pokemon::sptr t_pkmn = pkmnsim_trainer->get_pokemon(i);
             
                 if(t_pkmn->get_species_id() == Species::NONE) break;
-                else team_pokemon_to_pkmds_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));
+                else team_pokemon_to_pkmds_g5_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));
             }
         }
     } /* namespace conversions */

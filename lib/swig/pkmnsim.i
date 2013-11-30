@@ -63,6 +63,7 @@ namespace std
     #include "pkmnsim/database/lists.hpp"
     #include "pkmnsim/database/queries.hpp"
     
+    #include "pkmnsim/io.hpp"
     #include "pkmnsim/lists.hpp"
 %}
 
@@ -88,6 +89,7 @@ namespace std
 %include "pkmnsim/database/lists.hpp"
 %include "pkmnsim/database/queries.hpp"
 
+%include "pkmnsim/io.hpp"
 %include "pkmnsim/lists.hpp"
 
 //Templates for common uses of dict and vla
