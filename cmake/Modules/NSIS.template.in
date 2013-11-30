@@ -692,7 +692,7 @@ Section "-Core installation"
 @CPACK_NSIS_CREATE_ICONS@
 @CPACK_NSIS_CREATE_ICONS_EXTRA@
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-  CreateShortcut "$SMPROGRAMS\$STARTMENU_FOLDER\Get Type Stats.lnk" "$INSTDIR\bin\get_type_stats_gui.exe"
+  CreateShortcut "$SMPROGRAMS\$STARTMENU_FOLDER\Get Type Stats.lnk" "$INSTDIR\bin\get_type_stats.exe"
 
   ;Read a value from an InstallOptions INI file
   !insertmacro MUI_INSTALLOPTIONS_READ $DO_NOT_ADD_TO_PATH "NSIS.InstallOptions.ini" "Field 2" "State"
