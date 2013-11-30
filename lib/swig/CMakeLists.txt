@@ -10,17 +10,6 @@
 
 FIND_PACKAGE(SWIG)
 IF(SWIG_FOUND)
-    # Compiler-specific flags
-    IF(CMAKE_COMPILER_IS_GNUCXX)
-        IF(UNIX)
-            SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
-        ELSE() #Cygwin
-            SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++0x")
-        ENDIF(UNIX)
-    ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        SET_TARGET_PROPERTIES(pkmnsim-swig PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
-    ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-
     FIND_PACKAGE(PythonInterp)
     FIND_PACKAGE(PythonLibs 2)
     IF(PYTHONINTERP_FOUND)

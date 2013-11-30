@@ -19,15 +19,18 @@
 
 #include <pokehack/SaveParser.h>
 
+#include <pkmds/pkmds_g5.h>
+#include <pkmds/pkmds_g6.h>
+
 namespace pkmnsim
 {
     dict<char, int> get_pokehack_reverse_char_map();
     
     char* pokehack_get_text(unsigned char* raw, bool is_nickname);
     
-    uint8_t gen3_4_5_get_IV(uint32_t* IVint, uint8_t IV);
+    uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV);
     
-    void gen3_4_5_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val);
+    void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val);
     
     bool get_marking(uint8_t* markint, uint8_t mark);
     
@@ -49,17 +52,29 @@ namespace pkmnsim
 
     void set_gen3_met_level(uint16_t* metlevelint, uint8_t level);
 
-    uint8_t get_gen4_5_met_level(uint8_t* metlevelint);
+    uint8_t get_gen_456_met_level(uint8_t* metlevelint);
 
-    void set_gen4_5_met_level(uint8_t* metlevelint, uint8_t level);
+    void set_gen_456_met_level(uint8_t* metlevelint, uint8_t level);
 
     bool get_gen3_otgender(uint16_t* metlevelint);
 
     void set_gen3_otgender(uint16_t* metlevelint, bool is_female);
 
-    bool get_gen4_5_otgender(uint8_t* metlevelint);
+    bool get_gen_456_otgender(uint8_t* metlevelint);
 
-    void set_gen4_5_otgender(uint8_t* metlevelint, bool is_female);
+    void set_gen_456_otgender(uint8_t* metlevelint, bool is_female);
+    
+    uint8_t pkmnsim_getpkmstat(pokemon_obj* pkm);
+    
+    void pkmnsim_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm);
+    
+    std::string pkmnsim_getpkxformnamesql(pokemonx_obj *pkx);
+    
+    uint16_t getpkxstat(pokemonx_obj *pkx, unsigned int stat_id);
+    
+    uint8_t pkmnsim_pkxstat(pokemonx_obj* pkx);
+    
+    void pkmnsim_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx);
 
     uint8_t pkmnsim_game_to_hometown(uint8_t game);
 

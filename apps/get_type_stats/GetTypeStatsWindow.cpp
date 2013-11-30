@@ -25,39 +25,39 @@ GetTypeStatsWindow::GetTypeStatsWindow(QWidget* parent): QWidget(parent)
     genTabs->addTab(new CalculationOutput(this,5), QString("Gen 5"));
 
     //This is ugly...can this be done better?
-    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st2> >,
-                                    std::vector<std::vector<stat_st2> >, std::vector<int>,
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >, std::vector<int>,
                                     std::string, std::string)),
-            genTabs->widget(0), SLOT(getAndShowResults(std::vector<std::vector<stat_st2> >,
-                                     std::vector<std::vector<stat_st2> >, std::vector<int>,
+            genTabs->widget(0), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >, std::vector<int>,
                                      std::string, std::string)));
 
-    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st2> >,
-                                    std::vector<std::vector<stat_st2> >, std::vector<int>,
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >, std::vector<int>,
                                     std::string, std::string)),
-            genTabs->widget(1), SLOT(getAndShowResults(std::vector<std::vector<stat_st2> >,
-                                     std::vector<std::vector<stat_st2> >, std::vector<int>,
+            genTabs->widget(1), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >, std::vector<int>,
                                      std::string, std::string)));
 
-    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st2> >,
-                                    std::vector<std::vector<stat_st2> >, std::vector<int>,
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >, std::vector<int>,
                                     std::string, std::string)),
-            genTabs->widget(2), SLOT(getAndShowResults(std::vector<std::vector<stat_st2> >,
-                                     std::vector<std::vector<stat_st2> >, std::vector<int>,
+            genTabs->widget(2), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >, std::vector<int>,
                                      std::string, std::string)));
 
-    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st2> >,
-                                    std::vector<std::vector<stat_st2> >, std::vector<int>,
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >, std::vector<int>,
                                     std::string, std::string)),
-            genTabs->widget(3), SLOT(getAndShowResults(std::vector<std::vector<stat_st2> >,
-                                     std::vector<std::vector<stat_st2> >, std::vector<int>,
+            genTabs->widget(3), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >, std::vector<int>,
                                      std::string, std::string)));
 
-    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st2> >,
-                                    std::vector<std::vector<stat_st2> >, std::vector<int>,
+    connect(optionsGroupBox, SIGNAL(resultsCalculated(std::vector<std::vector<stat_st> >,
+                                    std::vector<std::vector<stat_st> >, std::vector<int>,
                                     std::string, std::string)),
-            genTabs->widget(4), SLOT(getAndShowResults(std::vector<std::vector<stat_st2> >,
-                                     std::vector<std::vector<stat_st2> >, std::vector<int>,
+            genTabs->widget(4), SLOT(getAndShowResults(std::vector<std::vector<stat_st> >,
+                                     std::vector<std::vector<stat_st> >, std::vector<int>,
                                      std::string, std::string)));
 
     mainLayout->addWidget(optionsGroupBox);
