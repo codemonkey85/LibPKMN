@@ -47,31 +47,6 @@
     char* __str__() {return (char*)((*self).const_char());}
 };
 
-%ignore pkmnsim::get_game_list;
-%ignore pkmnsim::get_game_group_list;
-%ignore pkmnsim::get_item_list;
-%ignore pkmnsim::get_pokemon_list;
-%ignore pkmnsim::get_type_list;
-%ignore pkmnsim::get_ability_list;
-%ignore pkmnsim::get_nature_list;
-%ignore pkmnsim::get_pokemon_of_type;
-%ignore pkmnsim::analysis::get_damage_range;
-%ignore pkmnsim::analysis::get_stat_range;
-%ignore pkmnsim::database::get_table_list;
-%ignore pkmnsim::database::get_column_list;
-%rename(get_game_list) pkmnsim::get_game_vec;
-%rename(get_game_group_list) pkmnsim::get_game_group_vec;
-%rename(get_item_list) pkmnsim::get_item_vec;
-%rename(get_pokemon_list) pkmnsim::get_pokemon_vec;
-%rename(get_type_list) pkmnsim::get_type_vec;
-%rename(get_ability_list) pkmnsim::get_ability_vec;
-%rename(get_nature_list) pkmnsim::get_nature_vec;
-%rename(get_pokemon_of_type) pkmnsim::get_pokemon_vec_of_type;
-%rename(get_damage_range) pkmnsim::get_damage_range_vec;
-%rename(get_stat_range) pkmnsim::get_stat_range_vec;
-%rename(get_table_list) pkmnsim::get_table_vec;
-%rename(get_column_list) pkmnsim::get_column_vec;
-
 %include "pkmnsim.i"
 
 //Python str -> pkmnsim::pokemon_text
