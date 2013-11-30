@@ -16,7 +16,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <pkmnsim/qt4/BasePkmnDisplayWidget.hpp>
+#include <pkmnsim/qt4/BasePokemonDisplayWidget.hpp>
 
 #include "type_stats_common.hpp"
 
@@ -28,8 +28,8 @@ class CalculationOutput: public QWidget
         CalculationOutput(QWidget* parent, int gen);
 
     public slots:
-        void getAndShowResults(std::vector<std::vector<stat_st2> > highest_stats_vecs,
-                               std::vector<std::vector<stat_st2> > lowest_stats_vecs,
+        void getAndShowResults(std::vector<std::vector<stat_st> > highest_stats_vecs,
+                               std::vector<std::vector<stat_st> > lowest_stats_vecs,
                                std::vector<int> errcodes,
                                std::string type1, std::string type2);
 

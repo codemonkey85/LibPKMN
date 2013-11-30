@@ -10,7 +10,7 @@
 #include <boost/assign.hpp>
 #include <string>
 #include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/dict.hpp>
+#include <pkmnsim/types/dict.hpp>
 #include <vector>
 
 //Functions to be used for both command-line and GUI versions of Get Type Stats
@@ -26,31 +26,14 @@ class stat_st
         }
 
     std::string stat_name;
-    std::string pkmn_name;
-    int stat_value;
-};
-
-class stat_st2
-{
-    public:
-        stat_st2(std::string sn)
-        {
-            stat_name = sn;
-            pkmn_name = "Missingno.";
-            stat_value = -1;
-        }
-
-    std::string stat_name;
     std::string pkmn_name; //To check if initialized
     pkmnsim::base_pokemon::sptr b_pkmn;
     int stat_value;
 };
 
 //Prototypes
-pkmnsim::dict<std::string, std::string> get_stat_map(void);
-void remove_unevolved_pokemon(std::vector<pkmnsim::base_pokemon::sptr>& pkmn_vector);
-int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st>& highest_stats,
-                           std::vector<stat_st>& lowest_stats, int gen, bool lax, bool evolved);
-int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st2>& highest_stats,
-                           std::vector<stat_st2>& lowest_stats, int gen, bool lax, bool evolved);
+pkmnsim::dict<std::string, unsigned int> get_stat_map();
+void remove_unevolved_pokemon(std::vector<pkmnsim::base_pokemon::sptr> &pkmn_vector);
+int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st> &highest_stats,
+                           std::vector<stat_st> &lowest_stats, int gen, bool lax, bool evolved);
 #endif /* INCLUDED_TYPE_STATS_COMMON_HPP */

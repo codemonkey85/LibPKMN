@@ -93,12 +93,12 @@ CalculationOutput::CalculationOutput(QWidget* parent, int gen): QWidget(parent)
 }
 
 //Slot to call when results are calculated by OptionsGroupBox
-void CalculationOutput::getAndShowResults(vector<vector<stat_st2> > highest_stats_vecs,
-                                          vector<vector<stat_st2> > lowest_stats_vecs,
+void CalculationOutput::getAndShowResults(vector<vector<stat_st> > highest_stats_vecs,
+                                          vector<vector<stat_st> > lowest_stats_vecs,
                                           vector<int> errcodes, string type1, string type2)
 {
-    vector<stat_st2> high_vec = highest_stats_vecs[generation-1];
-    vector<stat_st2> low_vec = lowest_stats_vecs[generation-1];
+    vector<stat_st> high_vec = highest_stats_vecs[generation-1];
+    vector<stat_st> low_vec = lowest_stats_vecs[generation-1];
 
     QList<QGroupBox*> groupBoxQList = this->findChildren<QGroupBox*>();
     for(int i = 0; i < groupBoxQList.count(); i++)
@@ -106,7 +106,7 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st2> > highest_stat
         //Delete all widgets in QGroupBox
         QList<QLabel*> labelQList = groupBoxQList.at(i)->findChildren<QLabel*>();
         for(int j = 0; j < labelQList.count(); j++) delete labelQList.at(j);
-        QList<BasePkmnDisplayWidget*> basePkmnQList = groupBoxQList.at(i)->findChildren<BasePkmnDisplayWidget*>();
+        QList<BasePokemonDisplayWidget*> basePkmnQList = groupBoxQList.at(i)->findChildren<BasePokemonDisplayWidget*>();
         for(int j = 0; j < basePkmnQList.count(); j++) delete basePkmnQList.at(j);
         QFrame* delVertLine = groupBoxQList.at(i)->findChild<QFrame*>(QString("vertLine"));
         if(delVertLine) delete delVertLine;
@@ -124,11 +124,11 @@ void CalculationOutput::getAndShowResults(vector<vector<stat_st2> > highest_stat
             base_pokemon::sptr highPkmn = high_vec[i].b_pkmn;
             base_pokemon::sptr lowPkmn = low_vec[i].b_pkmn;
 
-            //Create BasePkmnDisplayWidgets
-            BasePkmnDisplayWidget* highWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),highPkmn);
-            BasePkmnDisplayWidget* lowWidget = new BasePkmnDisplayWidget(groupBoxQList.at(i),lowPkmn);
+            //Create BasePokemonDisplayWidgets
+            BasePokemonDisplayWidget* highWidget = new BasePokemonDisplayWidget(groupBoxQList.at(i),highPkmn);
+            BasePokemonDisplayWidget* lowWidget = new BasePokemonDisplayWidget(groupBoxQList.at(i),lowPkmn);
 
-            //Create QLabels with BasePkmnDisplayWidgets
+            //Create QLabels with BasePokemonDisplayWidgets
             QLabel* highLabel = new QLabel(tr("High:"));
             QLabel* lowLabel = new QLabel(tr("Low:"));
 
