@@ -13,9 +13,9 @@
 /*
  * pkmnsim/io.hpp
  */
-%rename(exportToPKM) pkmnsim::export_to_pkm;
+%rename(exportToPKM)   pkmnsim::export_to_pkm;
 %rename(importFromPKM) pkmnsim::import_from_pkm;
-%rename(exportToPKX) pkmnsim::export_to_pkx;
+%rename(exportToPKX)   pkmnsim::export_to_pkx;
 %rename(importFromPKX) pkmnsim::import_from_pkx;
 
 /*
