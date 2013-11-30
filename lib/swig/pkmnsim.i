@@ -49,6 +49,7 @@ namespace std
 
     #include "pkmnsim/types/dict.hpp"
     #include "pkmnsim/types/pokemon_text.hpp"
+    #include "pkmnsim/types/prng.hpp"
     #include "pkmnsim/types/vla.hpp"
     
     #include "pkmnsim/base_pokemon.hpp"
@@ -75,6 +76,7 @@ namespace std
 
 %include "pkmnsim/types/dict.hpp"
 %include "pkmnsim/types/pokemon_text.hpp"
+%include "pkmnsim/types/prng.hpp"
 %include "pkmnsim/types/vla.hpp"
 
 %include "pkmnsim/base_pokemon.hpp"
