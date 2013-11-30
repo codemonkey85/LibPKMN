@@ -1969,8 +1969,8 @@ namespace pkmnsim
             POWER_UP_PUNCH,
             OBLIVION_WING,
             LANDS_WRATH = 616,
-            CELEBRATE,
-            HAPPY_HOUR,
+            /*CELEBRATE,
+            HAPPY_HOUR,*/
             INVALID = 1000
         };
     }
@@ -2883,9 +2883,9 @@ namespace pkmnsim
             XEMEAS,
             YVELTAL,
             ZYGARDE,
-            DIANCIE,
+            /*DIANCIE,
             VOLCANION,
-            HOOPA,
+            HOOPA,*/
             INVALID = 1000
         };
     }
