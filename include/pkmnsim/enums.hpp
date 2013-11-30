@@ -1252,7 +1252,7 @@ namespace pkmnsim
             COLRESS_MCHN,
             DROPPED_ITEM,
             REVEAL_GLASS,
-            BERRY,
+            BERRY = 1000,
             GOLD_BERRY,
             PRZCUREBERRY,
             PSNCUREBERRY,
@@ -1262,7 +1262,7 @@ namespace pkmnsim
             MINT_BERRY,
             MIRACLEBERRY,
             MYSTERYBERRY,
-            INVALID = 1000
+            INVALID = 1100
         };
     }
     
