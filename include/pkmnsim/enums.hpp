@@ -552,10 +552,10 @@ namespace pkmnsim
             XD,
             BLACK2,
             WHITE2,
+            X,
+            Y,
             STADIUM,
             STADIUM2,
-            X,
-            Y
         };
     }
     
