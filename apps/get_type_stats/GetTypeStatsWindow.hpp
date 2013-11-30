@@ -19,7 +19,7 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-#include <pkmnsim/qt4/BasePkmnDisplayWidget.hpp>
+#include <pkmnsim/qt4/BasePokemonDisplayWidget.hpp>
 #include <pkmnsim/qt4/TypesComboBox.hpp>
 
 #include "CalculationOutput.hpp"

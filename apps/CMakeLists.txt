@@ -6,6 +6,6 @@
 #
 
 IF(ENABLE_APPS)
-    #ADD_SUBDIRECTORY(get_type_stats)
+    ADD_SUBDIRECTORY(get_type_stats)
     ADD_SUBDIRECTORY(damage_calculator)
 ENDIF(ENABLE_APPS)
