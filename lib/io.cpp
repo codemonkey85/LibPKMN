@@ -47,7 +47,7 @@ namespace pkmnsim
             ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
             ifile.read((char*)pkm_contents, sizeof(pokemon_obj));
             ifile.close();
-            memcpy(&(pkmn_obj), pkm_contents, sizeof(pokemon_obj));
+            memcpy(pkmn_obj, pkm_contents, sizeof(pokemon_obj));
             
             pkmnsim_pctoparty(p_pkm, pkmn_obj);
             return conversions::pkmds_g5_pokemon_to_team_pokemon(p_pkm);
@@ -79,7 +79,7 @@ namespace pkmnsim
             ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
             ifile.read((char*)pkx_contents, sizeof(pokemonx_obj));
             ifile.close();
-            memcpy(&(pkmn_obj), pkx_contents, sizeof(pokemonx_obj));
+            memcpy(pkmn_obj, pkx_contents, sizeof(pokemonx_obj));
             
             pkmnsim_pctopartyx(p_pkm, pkmn_obj);
             return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
