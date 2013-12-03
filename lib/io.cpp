@@ -114,13 +114,6 @@ namespace pkmnsim
                                        "    nature INTEGER NOT NULL,\n"
                                        "    personality INTEGER NOT NULL,\n"
                                        "    trainer_id INTEGER NOT NULL,\n"
-                                       "    hp INTEGER NOT NULL,\n"
-                                       "    attack INTEGER NOT NULL,\n"
-                                       "    defense INTEGER NOT NULL,\n"
-                                       "    speed INTEGER NOT NULL,\n"
-                                       "    special INTEGER NOT NULL,\n"
-                                       "    spatk INTEGER NOT NULL,\n"
-                                       "    spdef INTEGER NOT NULL,\n"
                                        "    ev_hp INTEGER NOT NULL,\n"
                                        "    ev_attack INTEGER NOT NULL,\n"
                                        "    ev_defense INTEGER NOT NULL,\n"
@@ -144,7 +137,7 @@ namespace pkmnsim
                                        ");\n"
                                        "COMMIT;";
             std::string pokemon_export =
-                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
+                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
                         % t_pkmn->get_species_id()
                         % t_pkmn->get_game_id()
                         % t_pkmn->get_nickname().const_char()
@@ -157,13 +150,6 @@ namespace pkmnsim
                         % t_pkmn->get_nature()
                         % t_pkmn->get_personality()
                         % t_pkmn->get_trainer_id()
-                        % stats[Stats::HP]
-                        % stats[Stats::ATTACK]
-                        % stats[Stats::DEFENSE]
-                        % stats[Stats::SPEED]
-                        % stats.get(Stats::SPECIAL, 0)
-                        % stats.get(Stats::SPECIAL_ATTACK, 0)
-                        % stats.get(Stats::SPECIAL_DEFENSE, 0)
                         % EVs[Stats::HP]
                         % EVs[Stats::ATTACK]
                         % EVs[Stats::DEFENSE]
@@ -190,13 +176,57 @@ namespace pkmnsim
             pksql_db.exec(pokemon_export.c_str());
         }
 
-        /*team_pokemon::sptr import_from_pksql(std::string filename)
+        team_pokemon::sptr import_from_pksql(std::string filename)
         {
             SQLite::Database pksql_db(filename.c_str());
 
             //TODO: check for valid database before attempting to read
             SQLite::Statement query(pksql_db, "SELECT * FROM pokemon");
             query.executeStep();
-        }*/
+
+            team_pokemon::sptr t_pkmn = team_pokemon::make(int(query.getColumn(1)),   //species_id
+                                                           int(query.getColumn(2)),   //game_id
+                                                           int(query.getColumn(7)),   //level
+                                                           int(query.getColumn(27)),  //move1
+                                                           int(query.getColumn(28)),  //move2
+                                                           int(query.getColumn(29)),  //move3
+                                                           int(query.getColumn(30))); //move4
+
+            t_pkmn->set_nickname((const char*)(query.getColumn(3)));
+            t_pkmn->set_trainer_name((const char*)(query.getColumn(4)));
+            t_pkmn->set_held_item(int(query.getColumn(5)));
+            t_pkmn->set_ball(int(query.getColumn(6)));
+            t_pkmn->set_met_level(int(query.getColumn(7)));
+            //TODO: implement these
+            //t_pkmn->set_ability(int(query.getColumn(8)));
+            //t_pkmn->set_nature(int(query.getColumn(9)));
+            t_pkmn->set_personality(int(query.getColumn(10)));
+            t_pkmn->set_trainer_id(int(query.getColumn(11)));
+            t_pkmn->set_EV(Stats::HP, int(query.getColumn(13)));
+            t_pkmn->set_EV(Stats::ATTACK, int(query.getColumn(14)));
+            t_pkmn->set_EV(Stats::DEFENSE, int(query.getColumn(15)));
+            t_pkmn->set_EV(Stats::SPEED, int(query.getColumn(16)));
+            if(t_pkmn->get_generation() == 1) t_pkmn->set_EV(Stats::HP, int(query.getColumn(17)));
+            else
+            {
+                t_pkmn->set_EV(Stats::HP, int(query.getColumn(18)));
+                t_pkmn->set_EV(Stats::HP, int(query.getColumn(19)));
+            }
+            t_pkmn->set_IV(Stats::HP, int(query.getColumn(20)));
+            t_pkmn->set_IV(Stats::ATTACK, int(query.getColumn(21)));
+            t_pkmn->set_IV(Stats::DEFENSE, int(query.getColumn(22)));
+            t_pkmn->set_IV(Stats::SPEED, int(query.getColumn(23)));
+            if(t_pkmn->get_generation() == 1) t_pkmn->set_IV(Stats::HP, int(query.getColumn(24)));
+            else
+            {
+                t_pkmn->set_IV(Stats::HP, int(query.getColumn(25)));
+                t_pkmn->set_IV(Stats::HP, int(query.getColumn(26)));
+            }
+            //TODO: implement
+            //t_pkmn->set_gender((int(query.getColumn(31)) ? Genders::FEMALE : Genders::MALE));
+            t_pkmn->set_trainer_gender((int(query.getColumn(32)) ? Genders::FEMALE : Genders::MALE));
+
+            return t_pkmn;
+        }
     }
 }
