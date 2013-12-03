@@ -95,6 +95,7 @@ namespace pkmnsim
             dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
             dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            moveset_t moves = t_pkmn->get_moves();
 
             SQLite::Database pksql_db(filename.c_str(), (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
             //TODO: attributes
@@ -134,12 +135,16 @@ namespace pkmnsim
                                        "    iv_special INTEGER NOT NULL,\n"
                                        "    iv_spatk INTEGER NOT NULL,\n"
                                        "    iv_spdef INTEGER NOT NULL,\n"
+                                       "    move1 INTEGER NOT NULL,\n"
+                                       "    move2 INTEGER NOT NULL,\n"
+                                       "    move3 INTEGER NOT NULL,\n"
+                                       "    move4 INTEGER NOT NULL,\n"
                                        "    is_female INTEGER NOT NULL,\n"
                                        "    ot_is_female INTEGER NOT NULL\n"
                                        ");\n"
                                        "COMMIT;";
             std::string pokemon_export =
-                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
+                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
                         % t_pkmn->get_species_id()
                         % t_pkmn->get_game_id()
                         % t_pkmn->get_nickname().const_char()
@@ -173,6 +178,10 @@ namespace pkmnsim
                         % IVs.get(Stats::SPECIAL, 0)
                         % IVs.get(Stats::SPECIAL_ATTACK, 0)
                         % IVs.get(Stats::SPECIAL_DEFENSE, 0)
+                        % moves[0]->get_move_id()
+                        % moves[1]->get_move_id()
+                        % moves[2]->get_move_id()
+                        % moves[3]->get_move_id()
                         % ((t_pkmn->get_gender() == Genders::FEMALE) ? 1 : 0)
                         % ((t_pkmn->get_trainer_gender() == Genders::FEMALE) ? 1 : 0)
                     );
@@ -180,5 +189,14 @@ namespace pkmnsim
             pksql_db.exec(create_table.c_str());
             pksql_db.exec(pokemon_export.c_str());
         }
+
+        /*team_pokemon::sptr import_from_pksql(std::string filename)
+        {
+            SQLite::Database pksql_db(filename.c_str());
+
+            //TODO: check for valid database before attempting to read
+            SQLite::Statement query(pksql_db, "SELECT * FROM pokemon");
+            query.executeStep();
+        }*/
     }
 }
