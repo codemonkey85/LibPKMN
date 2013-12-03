@@ -247,7 +247,8 @@ namespace pkmnsim
         else
         {
             SQLite::Database db(get_database_path().c_str());
-            string query_string = "SELECT id FROM pokemon_forms WHERE pokemon_id=%d" + base_pkmn->get_pokemon_id();
+            string query_string = str(boost::format("SELECT id FROM pokemon_forms WHERE pokemon_id=%d")
+                                                    % base_pkmn->get_pokemon_id());
             int id = db.execAndGet(query_string.c_str());
             
             query_string = str(boost::format("SELECT pokemon_name FROM pokemon_form_names WHERE pokemon_form_id=%d AND local_language_id=9")
