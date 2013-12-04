@@ -14,6 +14,7 @@
 
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/move.hpp>
+#include <pkmnsim/paths.hpp>
 #include <pkmnsim/team_pokemon.hpp>
 #include <pkmnsim/database/queries.hpp>
 #include <pkmnsim/types/prng.hpp>
@@ -30,6 +31,8 @@
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
 #include "team_pokemon_modernimpl.hpp"
+
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
@@ -192,6 +195,26 @@ namespace pkmnsim
     unsigned int team_pokemon_impl::get_personality() const {return personality;}
     
     void team_pokemon_impl::set_personality(unsigned int new_personality) {personality = new_personality;}
+
+    void team_pokemon_impl::set_ability(unsigned int new_ability)
+    {
+        SQLite::Database db(get_database_path().c_str());
+        std::string query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(new_ability);
+        SQLite::Statement query(db, query_string.c_str());
+        if(query.executeStep()) ability = new_ability;
+    }
+
+    void team_pokemon_impl::set_gender(unsigned int new_gender)
+    {
+        //Don't change gender if genderless
+        if(gender != Genders::GENDERLESS) gender = (new_gender == Genders::FEMALE) ?
+                                                   Genders::FEMALE : Genders::MALE;
+    }
+
+    void team_pokemon_impl::set_nature(unsigned int new_nature)
+    {
+        nature = (new_nature <= Natures::SERIOUS) ? new_nature : Natures::SERIOUS;
+    }
 
     unsigned int team_pokemon_impl::get_generation() const {return from_gen;}
 

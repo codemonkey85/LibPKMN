@@ -62,6 +62,10 @@ namespace pkmnsim
             virtual unsigned int get_nature() const = 0;
             virtual bool is_shiny() const = 0;
             
+            virtual void set_ability(unsigned int new_ability) = 0;
+            virtual void set_nature(unsigned int new_nature) = 0;
+            virtual void set_gender(unsigned int new_gender) = 0;
+
             virtual dict<unsigned int, unsigned int> get_stats() const = 0;
             virtual dict<unsigned int, unsigned int> get_IVs() const = 0;
             virtual dict<unsigned int, unsigned int> get_EVs() const = 0;

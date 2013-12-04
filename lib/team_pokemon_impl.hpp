@@ -39,6 +39,10 @@ namespace pkmnsim
             
             unsigned int get_personality() const;
             virtual void set_personality(unsigned int new_personality);
+
+            void set_ability(unsigned int new_ability);
+            void set_nature(unsigned int new_nature);
+            void set_gender(unsigned int new_gender);
             
             unsigned int get_generation() const;
             item::sptr get_held_item(bool copy = true) const;
