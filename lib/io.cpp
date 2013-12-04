@@ -197,9 +197,8 @@ namespace pkmnsim
             t_pkmn->set_held_item(int(query.getColumn(5)));
             t_pkmn->set_ball(int(query.getColumn(6)));
             t_pkmn->set_met_level(int(query.getColumn(7)));
-            //TODO: implement these
-            //t_pkmn->set_ability(int(query.getColumn(8)));
-            //t_pkmn->set_nature(int(query.getColumn(9)));
+            t_pkmn->set_ability(int(query.getColumn(8)));
+            t_pkmn->set_nature(int(query.getColumn(9)));
             t_pkmn->set_personality(int(query.getColumn(10)));
             t_pkmn->set_trainer_id(int(query.getColumn(11)));
             t_pkmn->set_EV(Stats::HP, int(query.getColumn(13)));
@@ -222,8 +221,7 @@ namespace pkmnsim
                 t_pkmn->set_IV(Stats::HP, int(query.getColumn(25)));
                 t_pkmn->set_IV(Stats::HP, int(query.getColumn(26)));
             }
-            //TODO: implement
-            //t_pkmn->set_gender((int(query.getColumn(31)) ? Genders::FEMALE : Genders::MALE));
+            t_pkmn->set_gender((int(query.getColumn(31)) ? Genders::FEMALE : Genders::MALE));
             t_pkmn->set_trainer_gender((int(query.getColumn(32)) ? Genders::FEMALE : Genders::MALE));
 
             return t_pkmn;
