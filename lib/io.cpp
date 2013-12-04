@@ -90,7 +90,7 @@ namespace pkmnsim
             return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
         }
 
-        void export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename)
+        void export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename, std::string title)
         {
             dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
             dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
@@ -102,6 +102,7 @@ namespace pkmnsim
             std::string create_table = "BEGIN TRANSACTION;\n"
                                        "CREATE TABLE pokemon (\n"
                                        "    id INTEGER NOT NULL,\n"
+                                       "    title VARCHAR(50) NOT NULL,\n"
                                        "    species_id INTEGER NOT NULL,\n"
                                        "    game_id INTEGER NOT NULL,\n"
                                        "    nickname VARCHAR(20) NOT NULL,\n"
@@ -137,7 +138,8 @@ namespace pkmnsim
                                        ");\n"
                                        "COMMIT;";
             std::string pokemon_export =
-                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
+                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,%s,%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
+                        % title
                         % t_pkmn->get_species_id()
                         % t_pkmn->get_game_id()
                         % t_pkmn->get_nickname().const_char()

@@ -22,7 +22,8 @@ namespace pkmnsim
         
         team_pokemon::sptr PKMNSIM_API import_from_pkx(std::string filename);
 
-        void PKMNSIM_API export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename);
+        void PKMNSIM_API export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename,
+                                         std::string title = "");
 
         team_pokemon::sptr PKMNSIM_API import_from_pksql(std::string filename);
     }
