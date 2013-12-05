@@ -42,7 +42,7 @@ namespace std
 
 %{
     #include "pkmnsim/config.hpp"
-    #include "pkmnsim/paths.hpp"
+    /*#include "pkmnsim/paths.hpp"
 
     #include "pkmnsim/types/dict.hpp"
     #include "pkmnsim/types/pokemon_text.hpp"
@@ -65,11 +65,11 @@ namespace std
     #include "pkmnsim/database/queries.hpp"
     
     #include "pkmnsim/io.hpp"
-    #include "pkmnsim/lists.hpp"
+    #include "pkmnsim/lists.hpp"*/
 %}
 
 %include "pkmnsim/config.hpp"
-%include "pkmnsim/paths.hpp"
+/*%include "pkmnsim/paths.hpp"
 
 %include "pkmnsim/types/dict.hpp"
 %include "pkmnsim/types/pokemon_text.hpp"
@@ -92,10 +92,10 @@ namespace std
 %include "pkmnsim/database/queries.hpp"
 
 %include "pkmnsim/io.hpp"
-%include "pkmnsim/lists.hpp"
+%include "pkmnsim/lists.hpp"*/
 
 //Templates for common uses of dict and vla
-%template(dict_uint_uint) pkmnsim::dict<unsigned int, unsigned int>;
+/*%template(dict_uint_uint) pkmnsim::dict<unsigned int, unsigned int>;
 %template(dict_string_int) pkmnsim::dict<std::string, int>;
 %template(vla_uint) pkmnsim::vla<unsigned int>;
 
@@ -104,4 +104,4 @@ namespace std
 %template(move_vec_t) std::vector<pkmnsim::move::sptr>;
 %template(moveset_t) pkmnsim::vla<pkmnsim::move::sptr>;
 %template(team_pkmn_vec_t) std::vector<pkmnsim::team_pokemon::sptr>;
-%template(pokemon_team_t) pkmnsim::vla<pkmnsim::team_pokemon::sptr>;
+%template(pokemon_team_t) pkmnsim::vla<pkmnsim::team_pokemon::sptr>;*/

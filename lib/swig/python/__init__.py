@@ -23,3 +23,4 @@ import Statuses
 import Types
 
 from pypkmnsim_swig import *
+import database

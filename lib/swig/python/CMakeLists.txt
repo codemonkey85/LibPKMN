@@ -22,6 +22,10 @@ SET(PKMNSIM_PYTHON_DIR ${PKMNSIM_PYTHON_DIR} CACHE FILEPATH "Python install dire
 
 INCLUDE(${SWIG_USE_FILE})
 
+####################################################################
+# Global SWIG+Python settings
+####################################################################
+
 SET(PKMNSIM_PYTHON_INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}
     ${PKMNSIM_SWIG_SOURCE_DIR}
@@ -30,22 +34,21 @@ SET(PKMNSIM_PYTHON_INCLUDE_DIRS
 )
 INCLUDE_DIRECTORIES(${PKMNSIM_PYTHON_INCLUDE_DIRS})
 
-SET(CMAKE_SWIG_FLAGS -module pypkmnsim_swig)
-FOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
-    LIST(APPEND CMAKE_SWIG_FLAGS "-I${dir}")
-ENDFOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
-
 SET(PKMNSIM_PYTHON_LIBRARIES
     pkmnsim
     ${PYTHON_LIBRARIES}
 )
 
-SET_SOURCE_FILES_PROPERTIES(pypkmnsim_swig.i PROPERTIES CPLUSPLUS ON)
-
 ####################################################################
 # Create SWIG Python wrapper of LibPKMNsim
 ####################################################################
 INCLUDE(UseSWIG)
+SET(CMAKE_SWIG_FLAGS -module pypkmnsim_swig)
+FOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
+    LIST(APPEND CMAKE_SWIG_FLAGS "-I${dir}")
+ENDFOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
+SET_SOURCE_FILES_PROPERTIES(pypkmnsim_swig.i PROPERTIES CPLUSPLUS ON)
+
 SWIG_ADD_MODULE(pypkmnsim_swig python pypkmnsim_swig.i)
 IF(CMAKE_COMPILER_IS_GNUCXX)
     IF(UNIX)
@@ -57,8 +60,6 @@ ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     SET_TARGET_PROPERTIES(${SWIG_MODULE_pypkmnsim_swig_REAL_NAME} PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 SWIG_LINK_LIBRARIES(pypkmnsim_swig ${PKMNSIM_PYTHON_LIBRARIES})
-
-SET(PYPKMNSIM_REAL_SWIG_NAME ${SWIG_MODULE_pypkmnsim_swig_REAL_NAME} CACHE STRING "Real SWIG module name")
 
 FILE(GLOB py_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.py")
 LIST(APPEND py_files ${CMAKE_CURRENT_BINARY_DIR}/pypkmnsim_swig.py)
@@ -73,3 +74,5 @@ INSTALL(
     DESTINATION ${PKMNSIM_PYTHON_DIR}/PyPKMNsim
     COMPONENT "PyPKMNsim"
 )
+
+ADD_SUBDIRECTORY(database)
