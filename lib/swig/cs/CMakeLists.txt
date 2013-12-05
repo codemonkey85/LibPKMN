@@ -44,7 +44,6 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
     ELSEIF(WIN32)
         SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespae \"PKMNsimSharp\" -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
     ENDIF(UNIX)
-    MESSAGE(STATUS "${CMAKE_SWIG_FLAGS}")
 
     SWIG_ADD_MODULE(${swig_module_name} csharp ${swig_module_name}.i)
     IF(UNIX)
@@ -56,6 +55,20 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES SUFFIX ".dll")
     ENDIF(UNIX)
     SWIG_LINK_LIBRARIES(${swig_module_name} ${PKMNSIM_CSHARP_LIBRARIES})
+
+    IF(WIN32)
+        INSTALL(
+            TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
+            DESTINATION ${RUNTIME_DIR}
+            COMPONENT "PKMNsim#"
+        )
+    ELSE(WIN32)
+        INSTALL(
+            TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
+            DESTINATION ${LIBRARY_DIR}
+            COMPONENT "PKMNsim#"
+        )
+    ENDIF(WIN32)
 endmacro(CSHARP_BUILD_MODULE)
 
 ####################################################################
@@ -64,6 +77,7 @@ endmacro(CSHARP_BUILD_MODULE)
 CSHARP_BUILD_MODULE(pkmnsimsharp_swig pkmnsimsharp_swig PKMNsim)
 CSHARP_BUILD_MODULE(database_cs_swig database_cs_swig Database)
 CSHARP_BUILD_MODULE(io_cs_swig io_cs_swig IO)
+CSHARP_BUILD_MODULE(analysis_cs_swig analysis_cs_swig Analysis)
 
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/AssemblyInfo.cs.in
@@ -83,33 +97,6 @@ ADD_CUSTOM_TARGET(
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-sharp.dll
 )
 
-IF(WIN32)
-    INSTALL(
-        TARGETS ${SWIG_MODULE_pkmnsimsharp_swig_REAL_NAME}
-        DESTINATION ${RUNTIME_DIR}
-        COMPONENT "PKMNsim#"
-    )
-ELSE(WIN32)
-    INSTALL(
-        TARGETS ${SWIG_MODULE_pkmnsimsharp_swig_REAL_NAME}
-        DESTINATION ${LIBRARY_DIR}
-        COMPONENT "PKMNsim#"
-    )
-ENDIF(WIN32)
-
-IF(WIN32)
-    INSTALL(
-        TARGETS ${SWIG_MODULE_database_cs_swig_REAL_NAME}
-        DESTINATION ${RUNTIME_DIR}
-        COMPONENT "PKMNsim#"
-    )
-ELSE(WIN32)
-    INSTALL(
-        TARGETS ${SWIG_MODULE_database_cs_swig_REAL_NAME}
-        DESTINATION ${LIBRARY_DIR}
-        COMPONENT "PKMNsim#"
-    )
-ENDIF(WIN32)
 
 INSTALL(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-sharp.dll
