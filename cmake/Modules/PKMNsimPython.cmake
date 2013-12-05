@@ -33,3 +33,67 @@ except: pass
         set(${have} FALSE)
     endif(${have} EQUAL 0)
 endmacro(PYTHON_CHECK_MODULE)
+
+########################################################################
+# Build and install Python SWIG modules
+# Assumes PKMNSIM_SWIG_SOURCE_DIR is set
+########################################################################
+macro(PYTHON_BUILD_MODULE module_name install_dir)
+    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
+from distutils import sysconfig
+print sysconfig.get_python_lib(plat_specific=True, prefix='')
+    " OUTPUT_VARIABLE PKMNSIM_PYTHON_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    file(TO_CMAKE_PATH ${PKMNSIM_PYTHON_DIR} PKMNSIM_PYTHON_DIR)
+    SET(PKMNSIM_PYTHON_DIR ${PKMNSIM_PYTHON_DIR} CACHE FILEPATH "Python install directory")
+
+    INCLUDE(${SWIG_USE_FILE})
+
+    SET(PKMNSIM_PYTHON_INCLUDE_DIRS
+        ${CMAKE_SOURCE_DIR}
+        ${PKMNSIM_SWIG_SOURCE_DIR}
+        ${PKMNSIM_SWIG_SOURCE_DIR}/python
+        ${Boost_INCLUDE_DIRS}
+        ${PYTHON_INCLUDE_DIRS}
+    )
+    INCLUDE_DIRECTORIES(${PKMNSIM_PYTHON_INCLUDE_DIRS})
+
+    SET(PKMNSIM_PYTHON_LIBRARIES
+        pkmnsim
+        ${PYTHON_LIBRARIES}
+    )
+
+    INCLUDE(UseSWIG)
+    SET(CMAKE_SWIG_FLAGS -module ${module_name})
+    FOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
+        LIST(APPEND CMAKE_SWIG_FLAGS "-I${dir}")
+    ENDFOREACH(dir ${PKMNSIM_PYTHON_INCLUDE_DIRS})
+    SET_SOURCE_FILES_PROPERTIES(${module_name}.i PROPERTIES CPLUSPLUS ON)
+
+    SWIG_ADD_MODULE(${module_name} python ${module_name}.i)
+    IF(CMAKE_COMPILER_IS_GNUCXX)
+        IF(UNIX)
+            SET_TARGET_PROPERTIES(${SWIG_MODULE_${module_name}_REAL_NAME} PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
+        ELSE() #Cygwin
+            SET_TARGET_PROPERTIES(${SWIG_MODULE_${module_name}_REAL_NAME} PROPERTIES COMPILE_FLAGS "-std=c++0x")
+        ENDIF(UNIX)
+    ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET_TARGET_PROPERTIES(${SWIG_MODULE_${module_name}_REAL_NAME} PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
+    ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+    SWIG_LINK_LIBRARIES(${module_name} ${PKMNSIM_PYTHON_LIBRARIES})
+
+    FILE(GLOB py_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.py")
+    LIST(APPEND py_files ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.py)
+
+    INSTALL(
+        FILES ${py_files}
+        DESTINATION ${PKMNSIM_PYTHON_DIR}/${install_dir}
+        COMPONENT "PyPKMNsim"
+    )
+    INSTALL(
+        TARGETS ${SWIG_MODULE_${module_name}_REAL_NAME}
+        DESTINATION ${PKMNSIM_PYTHON_DIR}/${install_dir}
+        COMPONENT "PyPKMNsim"
+    )
+
+endmacro(PYTHON_BUILD_MODULE)
