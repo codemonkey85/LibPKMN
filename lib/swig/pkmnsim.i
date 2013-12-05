@@ -37,6 +37,8 @@ namespace std
     %template(uint_vec) vector<unsigned int>;
 };
 
+%ignore pkmnsim::dict::operator[];
+%ignore pkmnsim::vla::operator[];
 %ignore pkmnsim::pokemon_text::operator std::string;
 %ignore pkmnsim::pokemon_text::operator std::wstring;
 
