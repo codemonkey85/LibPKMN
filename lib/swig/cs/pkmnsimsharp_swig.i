@@ -63,3 +63,14 @@
 %template(PocketSPtr)      std::shared_ptr<pkmnsim::pocket>;
 %template(TeamPokemonSPtr) std::shared_ptr<pkmnsim::team_pokemon>;
 %template(TrainerSPtr)     std::shared_ptr<pkmnsim::trainer>;
+
+%template(UIntUIntDict) pkmnsim::dict<unsigned int, unsigned int>;
+%template(StringIntDict) pkmnsim::dict<std::string, int>;
+%template(UIntVLA) pkmnsim::vla<unsigned int>;
+
+%template(BasePokemonVector) std::vector<pkmnsim::base_pokemon::sptr>;
+%template(BasePokemonVLA) pkmnsim::vla<pkmnsim::base_pokemon::sptr>;
+%template(MoveVector) std::vector<pkmnsim::move::sptr>;
+%template(Moveset) pkmnsim::vla<pkmnsim::move::sptr>;
+%template(TeamPokemonVector) std::vector<pkmnsim::team_pokemon::sptr>;
+%template(PokemonTeam) pkmnsim::vla<pkmnsim::team_pokemon::sptr>;
