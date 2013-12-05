@@ -40,10 +40,11 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
 
     SET_SOURCE_FILES_PROPERTIES(${swig_module_name}.i PROPERTIES CPLUSPLUS ON)
     IF(UNIX)
-        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -dllimport \"lib${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
+        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"PKMNsimSharp\" -dllimport \"lib${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
     ELSEIF(WIN32)
-        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
+        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespae \"PKMNsimSharp\" -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
     ENDIF(UNIX)
+    MESSAGE(STATUS "${CMAKE_SWIG_FLAGS}")
 
     SWIG_ADD_MODULE(${swig_module_name} csharp ${swig_module_name}.i)
     IF(UNIX)
@@ -57,8 +58,12 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
     SWIG_LINK_LIBRARIES(${swig_module_name} ${PKMNSIM_CSHARP_LIBRARIES})
 endmacro(CSHARP_BUILD_MODULE)
 
-CSHARP_BUILD_MODULE(pkmnsimsharp_swig pkmnsimsharp_swig PKMNsimSharp)
+####################################################################
+# Build SWIG modules for different parts of LibPKMNsim
+####################################################################
+CSHARP_BUILD_MODULE(pkmnsimsharp_swig pkmnsimsharp_swig PKMNsim)
 CSHARP_BUILD_MODULE(database_cs_swig database_cs_swig Database)
+CSHARP_BUILD_MODULE(io_cs_swig io_cs_swig IO)
 
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/AssemblyInfo.cs.in
