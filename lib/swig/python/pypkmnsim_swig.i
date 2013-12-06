@@ -20,9 +20,6 @@
     %}
 %enddef
 
-%ignore pkmnsim::dict::operator[];
-%ignore pkmnsim::vla::operator[];
-
 //Extend dict and VLA to allow use of [] operator
 %extend pkmnsim::dict<unsigned int, unsigned int>{
     unsigned int __getitem__(unsigned int i) {return (*self)[i];}

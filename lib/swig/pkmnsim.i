@@ -5,6 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%include "stdint.i"
 %include "std_string.i"
 %include "std_vector.i"
 %include "std_wstring.i"
