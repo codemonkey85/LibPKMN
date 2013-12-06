@@ -279,13 +279,13 @@ namespace pkmnsim
         *ribbonint = ribbon_bitset.to_ulong();
     }
     
-    bool get_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon)
+    bool get_sinnoh_ribbon(uint32_t* ribbonint, uint8_t ribbon)
     {
         bitset<32> ribbon_bitset = int(*ribbonint);
         return ribbon_bitset[ribbon];
     }
     
-    void set_sinnoh_ribbon32(uint32_t* ribbonint, uint8_t ribbon, bool val)
+    void set_sinnoh_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
     {
         bitset<32> ribbon_bitset = int(*ribbonint);
         ribbon_bitset[ribbon] = val;
