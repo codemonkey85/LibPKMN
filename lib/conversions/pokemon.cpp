@@ -198,98 +198,55 @@ namespace pkmnsim
             modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
             
             //Attributes
+            dict<std::string, int> attributes = t_pkmn->get_attributes();
 
             uint8_t* markint = &(b_pkmn_t->markint);
-            if(t_pkmn->has_attribute("friendship"))
-                pkmn_g_t->happiness = t_pkmn->get_attribute("friendship");
-            if(t_pkmn->has_attribute("circle"))
-                set_marking(markint, Markings::CIRCLE, t_pkmn->get_attribute("circle"));
-            if(t_pkmn->has_attribute("triangle"))
-                set_marking(markint, Markings::TRIANGLE, t_pkmn->get_attribute("triangle"));
-            if(t_pkmn->has_attribute("square"))
-                set_marking(markint, Markings::SQUARE, t_pkmn->get_attribute("square"));
-            if(t_pkmn->has_attribute("heart"))
-                set_marking(markint, Markings::HEART, t_pkmn->get_attribute("heart"));
-            if(t_pkmn->has_attribute("country"))
-                b_pkmn_t->language = t_pkmn->get_attribute("country");
+            pkmn_g_t->happiness = attributes.get("friendship",0);
+            set_marking(markint, Markings::CIRCLE, attributes.get("circle",false));
+            set_marking(markint, Markings::TRIANGLE, attributes.get("triangle",false));
+            set_marking(markint, Markings::SQUARE, attributes.get("square",false));
+            set_marking(markint, Markings::HEART, attributes.get("heart",false));
+            b_pkmn_t->language = attributes.get("country",2); //Default to English
 
-            if(t_pkmn->has_attribute("cool"))
-                pkmn_e_t->coolness = t_pkmn->get_attribute("cool");
-            if(t_pkmn->has_attribute("beauty"))
-                pkmn_e_t->beauty = t_pkmn->get_attribute("beauty");
-            if(t_pkmn->has_attribute("cute"))
-                pkmn_e_t->cuteness = t_pkmn->get_attribute("cute");
-            if(t_pkmn->has_attribute("smart"))
-                pkmn_e_t->smartness = t_pkmn->get_attribute("smart");
-            if(t_pkmn->has_attribute("tough"))
-                pkmn_e_t->toughness = t_pkmn->get_attribute("tough");
+            pkmn_e_t->coolness = attributes.get("cool",0);
+            pkmn_e_t->beauty = attributes.get("beauty",0);
+            pkmn_e_t->cuteness = attributes.get("cute",0);
+            pkmn_e_t->smartness = attributes.get("smart",0);
+            pkmn_e_t->toughness = attributes.get("tough",0);
 
             uint32_t* ribbonint = &(pkmn_m_t->ribbonint);
-            if(t_pkmn->has_attribute("hoenn_cool_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_super_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_master_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_super_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_master_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_super_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_master_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_super_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_master_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_super_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_master_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
-
-            if(t_pkmn->has_attribute("hoenn_champion_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_winning_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_victory_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_artist_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_effort_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_marine_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_land_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_sky_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_country_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_national_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_earth_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_world_ribbon"))
-                set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL, attributes.get("hoenn_cool_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL_SUPER, attributes.get("hoenn_cool_super_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL_HYPER, attributes.get("hoenn_cool_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COOL_MASTER, attributes.get("hoenn_cool_master_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY, attributes.get("hoenn_beauty_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY_SUPER, attributes.get("hoenn_beauty_super_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY_HYPER, attributes.get("hoenn_beauty_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::BEAUTY_MASTER, attributes.get("hoenn_beauty_master_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE, attributes.get("hoenn_cute_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE_SUPER, attributes.get("hoenn_cute_super_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE_HYPER, attributes.get("hoenn_cute_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CUTE_MASTER, attributes.get("hoenn_cute_master_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART, attributes.get("hoenn_smart_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART_SUPER, attributes.get("hoenn_smart_super_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART_HYPER, attributes.get("hoenn_smart_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SMART_MASTER, attributes.get("hoenn_smart_master_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH, attributes.get("hoenn_tough_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH_SUPER, attributes.get("hoenn_tough_super_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH_HYPER, attributes.get("hoenn_tough_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::TOUGH_MASTER, attributes.get("hoenn_tough_master_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::CHAMPION, attributes.get("hoenn_champion_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::WINNING, attributes.get("hoenn_winning_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::VICTORY, attributes.get("hoenn_victory_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::ARTIST, attributes.get("hoenn_artist_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::EFFORT, attributes.get("hoenn_effort_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::MARINE, attributes.get("hoenn_marine_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::LAND, attributes.get("hoenn_land_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::SKY, attributes.get("hoenn_sky_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::COUNTRY, attributes.get("hoenn_country_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::NATIONAL, attributes.get("hoenn_national_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::EARTH, attributes.get("hoenn_earth_ribbon",false));
+            set_hoenn_ribbon(ribbonint, Ribbons::Hoenn::WORLD, attributes.get("hoenn_world_ribbon",false));
         }
 
         team_pokemon::sptr pokelib_pokemon_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
@@ -501,216 +458,120 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.hometown = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
 
             //Attributes
-            uint8_t* markings = &(pokelib_pkmn.pkm->pkm.markings);
-            if(t_pkmn->has_attribute("friendship"))
-                pokelib_pkmn.pkm->pkm.friendship = t_pkmn->get_attribute("friendship");
-            if(t_pkmn->has_attribute("circle"))
-                set_marking(markings, Markings::CIRCLE, t_pkmn->get_attribute("circle"));
-            if(t_pkmn->has_attribute("triangle"))
-                set_marking(markings, Markings::TRIANGLE, t_pkmn->get_attribute("triangle"));
-            if(t_pkmn->has_attribute("square"))
-                set_marking(markings, Markings::SQUARE, t_pkmn->get_attribute("square"));
-            if(t_pkmn->has_attribute("heart"))
-                set_marking(markings, Markings::HEART, t_pkmn->get_attribute("heart"));
-            if(t_pkmn->has_attribute("star"))
-                set_marking(markings, Markings::STAR, t_pkmn->get_attribute("star"));
-            if(t_pkmn->has_attribute("diamond"))
-                set_marking(markings, Markings::DIAMOND, t_pkmn->get_attribute("diamond"));
+            dict<std::string, int> attributes = t_pkmn->get_attributes();
 
-            if(t_pkmn->has_attribute("country"))
-                pokelib_pkmn.pkm->pkm.country = t_pkmn->get_attribute("country");
-            if(t_pkmn->has_attribute("cool"))
-                pokelib_pkmn.pkm->pkm.contest_cool = t_pkmn->get_attribute("cool");
-            if(t_pkmn->has_attribute("beauty"))
-                pokelib_pkmn.pkm->pkm.contest_beauty = t_pkmn->get_attribute("beauty");
-            if(t_pkmn->has_attribute("cute"))
-                pokelib_pkmn.pkm->pkm.contest_cute = t_pkmn->get_attribute("cute");
-            if(t_pkmn->has_attribute("smart"))
-                pokelib_pkmn.pkm->pkm.contest_smart = t_pkmn->get_attribute("smart");
-            if(t_pkmn->has_attribute("tough"))
-                pokelib_pkmn.pkm->pkm.contest_tough = t_pkmn->get_attribute("tough");
-            if(t_pkmn->has_attribute("sheen"))
-                pokelib_pkmn.pkm->pkm.contest_sheen = t_pkmn->get_attribute("sheen");
+            uint8_t* markings = &(pokelib_pkmn.pkm->pkm.markings);
+            pokelib_pkmn.pkm->pkm.friendship = attributes.get("friendship",0);
+            set_marking(markings, Markings::CIRCLE, attributes.get("circle",false));
+            set_marking(markings, Markings::TRIANGLE, attributes.get("triangle",false));
+            set_marking(markings, Markings::SQUARE, attributes.get("square",false));
+            set_marking(markings, Markings::HEART, attributes.get("heart",false));
+            set_marking(markings, Markings::STAR, attributes.get("star",false));
+            set_marking(markings, Markings::DIAMOND, attributes.get("diamond",false));
+
+            pokelib_pkmn.pkm->pkm.country = attributes.get("country",2); //Default to English
+            pokelib_pkmn.pkm->pkm.contest_cool = attributes.get("cool",false);
+            pokelib_pkmn.pkm->pkm.contest_beauty = attributes.get("beauty",false);
+            pokelib_pkmn.pkm->pkm.contest_smart = attributes.get("smart",false);
+            pokelib_pkmn.pkm->pkm.contest_tough = attributes.get("tough",false);
+            pokelib_pkmn.pkm->pkm.contest_sheen = attributes.get("sheen",false);
 
             uint32_t* ribbonSinnohA = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA));
-            if(t_pkmn->has_attribute("sinnoh_champion_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CHAMPION, t_pkmn->get_attribute("sinnoh_champion_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_ability_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_great_ability_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GREAT_ABILITY, t_pkmn->get_attribute("sinnoh_great_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_double_ability_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::DOUBLE_ABILITY, t_pkmn->get_attribute("sinnoh_double_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_multi_ability_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::MULTI_ABILITY, t_pkmn->get_attribute("sinnoh_multi_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_pair_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::PAIR_ABILITY, t_pkmn->get_attribute("sinnoh_pair_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_world_ability_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::WORLD_ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_alert_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::ALERT, t_pkmn->get_attribute("sinnoh_alert_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_shock_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::SHOCK, t_pkmn->get_attribute("sinnoh_shock_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_downcast_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::DOWNCAST, t_pkmn->get_attribute("sinnoh_downcast_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_careless_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CARELESS, t_pkmn->get_attribute("sinnoh_careless_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_relax_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::RELAX, t_pkmn->get_attribute("sinnoh_relax_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_snooze_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::SNOOZE, t_pkmn->get_attribute("sinnoh_snooze_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smile_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::SMILE, t_pkmn->get_attribute("sinnoh_smile_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_gorgeous_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GORGEOUS, t_pkmn->get_attribute("sinnoh_gorgeous_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_royal_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::ROYAL, t_pkmn->get_attribute("sinnoh_royal_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_gorgeous_royal_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GORGEOUS_ROYAL, t_pkmn->get_attribute("sinnoh_gorgeous_royal_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_record_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::RECORD, t_pkmn->get_attribute("sinnoh_record_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_history_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::HISTORY, t_pkmn->get_attribute("sinnoh_history_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_legend_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::LEGEND, t_pkmn->get_attribute("sinnoh_legend_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_red_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::RED, t_pkmn->get_attribute("sinnoh_red_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_green_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GREEN, t_pkmn->get_attribute("sinnoh_green_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_blue_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::BLUE, t_pkmn->get_attribute("sinnoh_blue_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_festival_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::FESTIVAL, t_pkmn->get_attribute("sinnoh_festival_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_carnival_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CARNIVAL, t_pkmn->get_attribute("sinnoh_carnival_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_classic_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CLASSIC, t_pkmn->get_attribute("sinnoh_classic_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_premier_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::PREMIER, t_pkmn->get_attribute("sinnoh_premier_ribbon"));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CHAMPION, attributes.get("sinnoh_champion_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::ABILITY, attributes.get("sinnoh_ability_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GREAT_ABILITY, attributes.get("sinnoh_great_ability_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::DOUBLE_ABILITY, attributes.get("sinnoh_double_ability_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::MULTI_ABILITY, attributes.get("sinnoh_multi_ability_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::PAIR_ABILITY, attributes.get("sinnoh_pair_ability_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::WORLD_ABILITY, attributes.get("sinnoh_world_ability_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::ALERT, attributes.get("sinnoh_alert_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::SHOCK, attributes.get("sinnoh_shock_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::DOWNCAST, attributes.get("sinnoh_downcast_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CARELESS, attributes.get("sinnoh_careless_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::RELAX, attributes.get("sinnoh_relax_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::ALERT, attributes.get("sinnoh_alert_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::SHOCK, attributes.get("sinnoh_shock_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::DOWNCAST, attributes.get("sinnoh_downcast_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CARELESS, attributes.get("sinnoh_careless_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::RELAX, attributes.get("sinnoh_relax_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::SNOOZE, attributes.get("sinnoh_snooze_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::SMILE, attributes.get("sinnoh_smile_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GORGEOUS, attributes.get("sinnoh_gorgeous_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::ROYAL, attributes.get("sinnoh_royal_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GORGEOUS_ROYAL, attributes.get("sinnoh_gorgeous_royal_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::RECORD, attributes.get("sinnoh_record_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::HISTORY, attributes.get("sinnoh_history_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::LEGEND, attributes.get("sinnoh_legend_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::RED, attributes.get("sinnoh_red_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::GREEN, attributes.get("sinnoh_green_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::BLUE, attributes.get("sinnoh_blue_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::FESTIVAL, attributes.get("sinnoh_festival_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CARNIVAL, attributes.get("sinnoh_carnival_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::CLASSIC, attributes.get("sinnoh_classic_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohA, Ribbons::Sinnoh::PREMIER, attributes.get("sinnoh_premier_ribbon",false));
 
             uint32_t* ribbonHoenn = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn));
-            if(t_pkmn->has_attribute("hoenn_cool_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_super_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_master_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_super_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_master_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_super_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_master_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_super_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_master_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_super_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_hyper_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_master_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
-
-            if(t_pkmn->has_attribute("hoenn_champion_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_winning_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_victory_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_artist_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_effort_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_marine_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_land_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_sky_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_country_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_national_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_earth_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_world_ribbon"))
-                set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL, attributes.get("hoenn_cool_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_SUPER, attributes.get("hoenn_cool_super_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_HYPER, attributes.get("hoenn_cool_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_MASTER, attributes.get("hoenn_cool_master_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY, attributes.get("hoenn_beauty_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY_SUPER, attributes.get("hoenn_beauty_super_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY_HYPER, attributes.get("hoenn_beauty_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::BEAUTY_MASTER, attributes.get("hoenn_beauty_master_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE, attributes.get("hoenn_cute_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE_SUPER, attributes.get("hoenn_cute_super_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE_HYPER, attributes.get("hoenn_cute_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CUTE_MASTER, attributes.get("hoenn_cute_master_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART, attributes.get("hoenn_smart_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART_SUPER, attributes.get("hoenn_smart_super_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART_HYPER, attributes.get("hoenn_smart_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SMART_MASTER, attributes.get("hoenn_smart_master_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH, attributes.get("hoenn_tough_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH_SUPER, attributes.get("hoenn_tough_super_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH_HYPER, attributes.get("hoenn_tough_hyper_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::TOUGH_MASTER, attributes.get("hoenn_tough_master_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::CHAMPION, attributes.get("hoenn_champion_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::WINNING, attributes.get("hoenn_winning_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::VICTORY, attributes.get("hoenn_victory_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::ARTIST, attributes.get("hoenn_artist_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::EFFORT, attributes.get("hoenn_effort_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::MARINE, attributes.get("hoenn_marine_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::LAND, attributes.get("hoenn_land_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::SKY, attributes.get("hoenn_sky_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::COUNTRY, attributes.get("hoenn_country_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::NATIONAL, attributes.get("hoenn_national_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::EARTH, attributes.get("hoenn_earth_ribbon",false));
+            set_hoenn_ribbon(ribbonHoenn, Ribbons::Hoenn::WORLD, attributes.get("hoenn_world_ribbon",false));
 
             uint32_t* ribbonSinnohB = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB));
-            if(t_pkmn->has_attribute("sinnoh_cool_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL-23, t_pkmn->get_attribute("sinnoh_cool_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cool_great_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23, t_pkmn->get_attribute("sinnoh_cool_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cool_ultra_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL_ULTRA-23, t_pkmn->get_attribute("sinnoh_cool_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cool_master_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL_MASTER-23, t_pkmn->get_attribute("sinnoh_cool_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY-23, t_pkmn->get_attribute("sinnoh_beauty_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_great_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_GREAT-23, t_pkmn->get_attribute("sinnoh_beauty_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_ultra_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_ULTRA-23, t_pkmn->get_attribute("sinnoh_beauty_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_master_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_MASTER-23, t_pkmn->get_attribute("sinnoh_beauty_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE-23, t_pkmn->get_attribute("sinnoh_cute_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_great_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE_GREAT-23, t_pkmn->get_attribute("sinnoh_cute_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_ultra_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE_ULTRA-23, t_pkmn->get_attribute("sinnoh_cute_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_master_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE_MASTER-23, t_pkmn->get_attribute("sinnoh_cute_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART-23, t_pkmn->get_attribute("sinnoh_smart_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_great_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART_GREAT-23, t_pkmn->get_attribute("sinnoh_smart_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_ultra_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART_ULTRA-23, t_pkmn->get_attribute("sinnoh_smart_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_master_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART_MASTER-23, t_pkmn->get_attribute("sinnoh_smart_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH-23, t_pkmn->get_attribute("sinnoh_tough_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_great_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_GREAT-23, t_pkmn->get_attribute("sinnoh_tough_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_ultra_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_ULTRA-23, t_pkmn->get_attribute("sinnoh_tough_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_master_ribbon"))
-                set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_MASTER-23, t_pkmn->get_attribute("sinnoh_tough_master_ribbon"));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL-23, attributes.get("sinnoh_cool_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23, attributes.get("sinnoh_cool_great_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL_ULTRA-23, attributes.get("sinnoh_cool_ultra_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::COOL_MASTER-23, attributes.get("sinnoh_cool_master_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY-23, attributes.get("sinnoh_beauty_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_GREAT-23, attributes.get("sinnoh_beauty_great_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_ULTRA-23, attributes.get("sinnoh_beauty_ultra_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_MASTER-23, attributes.get("sinnoh_beauty_master_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE-23, attributes.get("sinnoh_cute_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE_GREAT-23, attributes.get("sinnoh_cute_great_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE_ULTRA-23, attributes.get("sinnoh_cute_ultra_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::CUTE_MASTER-23, attributes.get("sinnoh_cute_master_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART-23, attributes.get("sinnoh_smart_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART_GREAT-23, attributes.get("sinnoh_smart_great_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART_ULTRA-23, attributes.get("sinnoh_smart_ultra_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::SMART_MASTER-23, attributes.get("sinnoh_smart_master_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH-23, attributes.get("sinnoh_tough_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_GREAT-23, attributes.get("sinnoh_tough_great_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_ULTRA-23, attributes.get("sinnoh_tough_ultra_ribbon",false));
+            set_sinnoh_ribbon32(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_MASTER-23, attributes.get("sinnoh_tough_master_ribbon",false));
 
-            if(t_pkmn->has_attribute("eggmet_year"))
-                pokelib_pkmn.pkm->pkm.eggDate[0] = t_pkmn->get_attribute("eggmet_year");
-            if(t_pkmn->has_attribute("eggmet_month"))
-                pokelib_pkmn.pkm->pkm.eggDate[1] = t_pkmn->get_attribute("eggmet_month");
-            if(t_pkmn->has_attribute("eggmet_day"))
-                pokelib_pkmn.pkm->pkm.eggDate[2] = t_pkmn->get_attribute("eggmet_day");
-            if(t_pkmn->has_attribute("met_year"))
-                pokelib_pkmn.pkm->pkm.metDate[0] = t_pkmn->get_attribute("met_year");
-            if(t_pkmn->has_attribute("met_month"))
-                pokelib_pkmn.pkm->pkm.metDate[1] = t_pkmn->get_attribute("met_month");
-            if(t_pkmn->has_attribute("met_day"))
-                pokelib_pkmn.pkm->pkm.metDate[2] = t_pkmn->get_attribute("met_day");
-            if(t_pkmn->has_attribute("ot_is_female"))
-                set_gen_456_otgender(metlevel_int, t_pkmn->get_attribute("ot_is_female"));
+            pokelib_pkmn.pkm->pkm.eggDate[0] = attributes.get("eggmet_year",0);
+            pokelib_pkmn.pkm->pkm.eggDate[1] = attributes.get("eggmet_month",0);
+            pokelib_pkmn.pkm->pkm.eggDate[2] = attributes.get("eggmet_day",0);
+            pokelib_pkmn.pkm->pkm.metDate[0] = attributes.get("met_year",0);
+            pokelib_pkmn.pkm->pkm.metDate[1] = attributes.get("met_month",0);
+            pokelib_pkmn.pkm->pkm.metDate[2] = attributes.get("met_day",0);
 
             return pokelib_pkmn;
         }
@@ -943,214 +804,116 @@ namespace pkmnsim
             p_pkm->pkm_data.hometown = ::Hometowns::hometowns(pkmnsim_game_to_hometown(t_pkmn->get_game_id()));
 
             //Attributes
-            uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1);
-            if(t_pkmn->has_attribute("friendship"))
-                p_pkm->pkm_data.tameness = t_pkmn->get_attribute("friendship");
-            if(t_pkmn->has_attribute("circle"))
-                set_marking(markings, Markings::CIRCLE, t_pkmn->get_attribute("circle"));
-            if(t_pkmn->has_attribute("triangle"))
-                set_marking(markings, Markings::TRIANGLE, t_pkmn->get_attribute("triangle"));
-            if(t_pkmn->has_attribute("square"))
-                set_marking(markings, Markings::SQUARE, t_pkmn->get_attribute("square"));
-            if(t_pkmn->has_attribute("heart"))
-                set_marking(markings, Markings::HEART, t_pkmn->get_attribute("heart"));
-            if(t_pkmn->has_attribute("star"))
-                set_marking(markings, Markings::STAR, t_pkmn->get_attribute("star"));
-            if(t_pkmn->has_attribute("diamond"))
-                set_marking(markings, Markings::DIAMOND, t_pkmn->get_attribute("diamond"));
+            dict<std::string, int> attributes = t_pkmn->get_attributes();
 
-            if(t_pkmn->has_attribute("country"))
-                p_pkm->pkm_data.country = Countries::countries(t_pkmn->get_attribute("country"));
-            if(t_pkmn->has_attribute("cool"))
-                p_pkm->pkm_data.contest.cool = t_pkmn->get_attribute("cool");
-            if(t_pkmn->has_attribute("beauty"))
-                p_pkm->pkm_data.contest.beauty = t_pkmn->get_attribute("beauty");
-            if(t_pkmn->has_attribute("cute"))
-                p_pkm->pkm_data.contest.cute = t_pkmn->get_attribute("cute");
-            if(t_pkmn->has_attribute("smart"))
-                p_pkm->pkm_data.contest.smart = t_pkmn->get_attribute("smart");
-            if(t_pkmn->has_attribute("tough"))
-                p_pkm->pkm_data.contest.tough = t_pkmn->get_attribute("tough");
-            if(t_pkmn->has_attribute("sheen"))
-                p_pkm->pkm_data.contest.sheen = t_pkmn->get_attribute("sheen");
+            uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1);
+            p_pkm->pkm_data.tameness = attributes.get("friendship",0);
+            set_marking(markings, Markings::CIRCLE, attributes.get("circle",false));
+            set_marking(markings, Markings::TRIANGLE, attributes.get("triangle",false));
+            set_marking(markings, Markings::SQUARE, attributes.get("square",false));
+            set_marking(markings, Markings::HEART, attributes.get("heart",false));
+            set_marking(markings, Markings::STAR, attributes.get("star",false));
+            set_marking(markings, Markings::DIAMOND, attributes.get("diamond",false));
+
+            p_pkm->pkm_data.country = Countries::countries(attributes.get("country",2)); //Default to English
+            p_pkm->pkm_data.contest.cool = attributes.get("cool",false);
+            p_pkm->pkm_data.contest.beauty = attributes.get("beauty",false);
+            p_pkm->pkm_data.contest.cute = attributes.get("cute",false);
+            p_pkm->pkm_data.contest.smart = attributes.get("smart",false);
+            p_pkm->pkm_data.contest.tough = attributes.get("tough",false);
+            p_pkm->pkm_data.contest.sheen = attributes.get("sheen",false);
 
             uint32_t* hribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1));
-            if(t_pkmn->has_attribute("hoenn_cool_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL, t_pkmn->get_attribute("hoenn_cool_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_super_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL_SUPER, t_pkmn->get_attribute("hoenn_cool_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_hyper_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL_HYPER, t_pkmn->get_attribute("hoenn_cool_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cool_master_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL_MASTER, t_pkmn->get_attribute("hoenn_cool_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY, t_pkmn->get_attribute("hoenn_beauty_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_super_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY_SUPER, t_pkmn->get_attribute("hoenn_beauty_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_hyper_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY_HYPER, t_pkmn->get_attribute("hoenn_beauty_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_beauty_master_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY_MASTER, t_pkmn->get_attribute("hoenn_beauty_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE, t_pkmn->get_attribute("hoenn_cute_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_super_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE_SUPER, t_pkmn->get_attribute("hoenn_cute_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_hyper_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE_HYPER, t_pkmn->get_attribute("hoenn_cute_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_cute_master_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE_MASTER, t_pkmn->get_attribute("hoenn_cute_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART, t_pkmn->get_attribute("hoenn_smart_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_super_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART_SUPER, t_pkmn->get_attribute("hoenn_smart_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_hyper_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART_HYPER, t_pkmn->get_attribute("hoenn_smart_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_smart_master_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART_MASTER, t_pkmn->get_attribute("hoenn_smart_master_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH, t_pkmn->get_attribute("hoenn_tough_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_super_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH_SUPER, t_pkmn->get_attribute("hoenn_tough_super_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_hyper_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH_HYPER, t_pkmn->get_attribute("hoenn_tough_hyper_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_tough_master_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH_MASTER, t_pkmn->get_attribute("hoenn_tough_master_ribbon"));
-
-            if(t_pkmn->has_attribute("hoenn_champion_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CHAMPION, t_pkmn->get_attribute("hoenn_champion_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_winning_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::WINNING, t_pkmn->get_attribute("hoenn_winning_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_victory_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::VICTORY, t_pkmn->get_attribute("hoenn_victory_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_artist_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::ARTIST, t_pkmn->get_attribute("hoenn_artist_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_effort_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::EFFORT, t_pkmn->get_attribute("hoenn_effort_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_marine_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::MARINE, t_pkmn->get_attribute("hoenn_marine_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_land_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::LAND, t_pkmn->get_attribute("hoenn_land_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_sky_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SKY, t_pkmn->get_attribute("hoenn_sky_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_country_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COUNTRY, t_pkmn->get_attribute("hoenn_country_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_national_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::NATIONAL, t_pkmn->get_attribute("hoenn_national_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_earth_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::EARTH, t_pkmn->get_attribute("hoenn_earth_ribbon"));
-            if(t_pkmn->has_attribute("hoenn_world_ribbon"))
-                set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::WORLD, t_pkmn->get_attribute("hoenn_world_ribbon"));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL, attributes.get("hoenn_cool_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL_SUPER, attributes.get("hoenn_cool_super_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL_HYPER, attributes.get("hoenn_cool_hyper_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COOL_MASTER, attributes.get("hoenn_cool_master_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY, attributes.get("hoenn_beauty_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY_SUPER, attributes.get("hoenn_beauty_super_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY_HYPER, attributes.get("hoenn_beauty_hyper_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::BEAUTY_MASTER, attributes.get("hoenn_beauty_master_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE, attributes.get("hoenn_cute_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE_SUPER, attributes.get("hoenn_cute_super_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE_HYPER, attributes.get("hoenn_cute_hyper_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CUTE_MASTER, attributes.get("hoenn_cute_master_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART, attributes.get("hoenn_smart_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART_SUPER, attributes.get("hoenn_smart_super_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART_HYPER, attributes.get("hoenn_smart_hyper_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SMART_MASTER, attributes.get("hoenn_smart_master_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH, attributes.get("hoenn_tough_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH_SUPER, attributes.get("hoenn_tough_super_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH_HYPER, attributes.get("hoenn_tough_hyper_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::TOUGH_MASTER, attributes.get("hoenn_tough_master_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::CHAMPION, attributes.get("hoenn_champion_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::WINNING, attributes.get("hoenn_winning_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::VICTORY, attributes.get("hoenn_victory_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::ARTIST, attributes.get("hoenn_artist_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::EFFORT, attributes.get("hoenn_effort_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::MARINE, attributes.get("hoenn_marine_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::LAND, attributes.get("hoenn_land_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::SKY, attributes.get("hoenn_sky_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::COUNTRY, attributes.get("hoenn_country_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::NATIONAL, attributes.get("hoenn_national_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::EARTH, attributes.get("hoenn_earth_ribbon",false));
+            set_hoenn_ribbon(hribbon1, Ribbons::Hoenn::WORLD, attributes.get("hoenn_world_ribbon",false));
 
             uint32_t* sribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1));
-            if(t_pkmn->has_attribute("sinnoh_champion_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CHAMPION, t_pkmn->get_attribute("sinnoh_champion_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_ability_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_great_ability_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GREAT_ABILITY, t_pkmn->get_attribute("sinnoh_great_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_double_ability_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::DOUBLE_ABILITY, t_pkmn->get_attribute("sinnoh_double_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_multi_ability_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::MULTI_ABILITY, t_pkmn->get_attribute("sinnoh_multi_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_pair_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::PAIR_ABILITY, t_pkmn->get_attribute("sinnoh_pair_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_world_ability_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::WORLD_ABILITY, t_pkmn->get_attribute("sinnoh_ability_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_alert_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::ALERT, t_pkmn->get_attribute("sinnoh_alert_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_shock_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::SHOCK, t_pkmn->get_attribute("sinnoh_shock_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_downcast_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::DOWNCAST, t_pkmn->get_attribute("sinnoh_downcast_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_careless_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CARELESS, t_pkmn->get_attribute("sinnoh_careless_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_relax_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::RELAX, t_pkmn->get_attribute("sinnoh_relax_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_snooze_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::SNOOZE, t_pkmn->get_attribute("sinnoh_snooze_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smile_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::SMILE, t_pkmn->get_attribute("sinnoh_smile_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_gorgeous_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GORGEOUS, t_pkmn->get_attribute("sinnoh_gorgeous_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_royal_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::ROYAL, t_pkmn->get_attribute("sinnoh_royal_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_gorgeous_royal_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GORGEOUS_ROYAL, t_pkmn->get_attribute("sinnoh_gorgeous_royal_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_record_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::RECORD, t_pkmn->get_attribute("sinnoh_record_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_history_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::HISTORY, t_pkmn->get_attribute("sinnoh_history_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_legend_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::LEGEND, t_pkmn->get_attribute("sinnoh_legend_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_red_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::RED, t_pkmn->get_attribute("sinnoh_red_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_green_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GREEN, t_pkmn->get_attribute("sinnoh_green_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_blue_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::BLUE, t_pkmn->get_attribute("sinnoh_blue_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_festival_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::FESTIVAL, t_pkmn->get_attribute("sinnoh_festival_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_carnival_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CARNIVAL, t_pkmn->get_attribute("sinnoh_carnival_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_classic_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CLASSIC, t_pkmn->get_attribute("sinnoh_classic_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_premier_ribbon"))
-                set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::PREMIER, t_pkmn->get_attribute("sinnoh_premier_ribbon"));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CHAMPION, attributes.get("sinnoh_champion_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::ABILITY, attributes.get("sinnoh_ability_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GREAT_ABILITY, attributes.get("sinnoh_great_ability_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::DOUBLE_ABILITY, attributes.get("sinnoh_double_ability_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::MULTI_ABILITY, attributes.get("sinnoh_multi_ability_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::PAIR_ABILITY, attributes.get("sinnoh_pair_ability_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::WORLD_ABILITY, attributes.get("sinnoh_ability_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::ALERT, attributes.get("sinnoh_alert_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::SHOCK, attributes.get("sinnoh_shock_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::DOWNCAST, attributes.get("sinnoh_downcast_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CARELESS, attributes.get("sinnoh_careless_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::RELAX, attributes.get("sinnoh_relax_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::SNOOZE, attributes.get("sinnoh_snooze_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::SMILE, attributes.get("sinnoh_smile_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GORGEOUS, attributes.get("sinnoh_gorgeous_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::ROYAL, attributes.get("sinnoh_royal_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GORGEOUS_ROYAL, attributes.get("sinnoh_gorgeous_royal_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::RECORD, attributes.get("sinnoh_record_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::HISTORY, attributes.get("sinnoh_history_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::LEGEND, attributes.get("sinnoh_legend_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::RED, attributes.get("sinnoh_red_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::GREEN, attributes.get("sinnoh_green_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::BLUE, attributes.get("sinnoh_blue_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::FESTIVAL, attributes.get("sinnoh_festival_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CARNIVAL, attributes.get("sinnoh_carnival_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::CLASSIC, attributes.get("sinnoh_classic_ribbon",false));
+            set_sinnoh_ribbon32(sribbon1, Ribbons::Sinnoh::PREMIER, attributes.get("sinnoh_premier_ribbon",false));
 
             uint32_t* sribbon3 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3));
-            if(t_pkmn->has_attribute("sinnoh_cool_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL-23, t_pkmn->get_attribute("sinnoh_cool_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cool_great_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23, t_pkmn->get_attribute("sinnoh_cool_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cool_ultra_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL_ULTRA-23, t_pkmn->get_attribute("sinnoh_cool_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cool_master_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL_MASTER-23, t_pkmn->get_attribute("sinnoh_cool_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY-23, t_pkmn->get_attribute("sinnoh_beauty_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_great_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY_GREAT-23, t_pkmn->get_attribute("sinnoh_beauty_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_ultra_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY_ULTRA-23, t_pkmn->get_attribute("sinnoh_beauty_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_beauty_master_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY_MASTER-23, t_pkmn->get_attribute("sinnoh_beauty_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE-23, t_pkmn->get_attribute("sinnoh_cute_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_great_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE_GREAT-23, t_pkmn->get_attribute("sinnoh_cute_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_ultra_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE_ULTRA-23, t_pkmn->get_attribute("sinnoh_cute_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_cute_master_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE_MASTER-23, t_pkmn->get_attribute("sinnoh_cute_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART-23, t_pkmn->get_attribute("sinnoh_smart_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_great_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART_GREAT-23, t_pkmn->get_attribute("sinnoh_smart_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_ultra_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART_ULTRA-23, t_pkmn->get_attribute("sinnoh_smart_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_smart_master_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART_MASTER-23, t_pkmn->get_attribute("sinnoh_smart_master_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH-23, t_pkmn->get_attribute("sinnoh_tough_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_great_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH_GREAT-23, t_pkmn->get_attribute("sinnoh_tough_great_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_ultra_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH_ULTRA-23, t_pkmn->get_attribute("sinnoh_tough_ultra_ribbon"));
-            if(t_pkmn->has_attribute("sinnoh_tough_master_ribbon"))
-                set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH_MASTER-23, t_pkmn->get_attribute("sinnoh_tough_master_ribbon"));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL-23, attributes.get("sinnoh_cool_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23, attributes.get("sinnoh_cool_great_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL_ULTRA-23, attributes.get("sinnoh_cool_ultra_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::COOL_MASTER-23, attributes.get("sinnoh_cool_master_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY-23, attributes.get("sinnoh_beauty_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY_GREAT-23, attributes.get("sinnoh_beauty_great_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY_ULTRA-23, attributes.get("sinnoh_beauty_ultra_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::BEAUTY_MASTER-23, attributes.get("sinnoh_beauty_master_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE-23, attributes.get("sinnoh_cute_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE_GREAT-23, attributes.get("sinnoh_cute_great_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE_ULTRA-23, attributes.get("sinnoh_cute_ultra_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::CUTE_MASTER-23, attributes.get("sinnoh_cute_master_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART-23, attributes.get("sinnoh_smart_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART_GREAT-23, attributes.get("sinnoh_smart_great_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART_ULTRA-23, attributes.get("sinnoh_smart_ultra_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::SMART_MASTER-23, attributes.get("sinnoh_smart_master_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH-23, attributes.get("sinnoh_tough_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH_GREAT-23, attributes.get("sinnoh_tough_great_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH_ULTRA-23, attributes.get("sinnoh_tough_ultra_ribbon",false));
+            set_sinnoh_ribbon32(sribbon3, Ribbons::Sinnoh::TOUGH_MASTER-23, attributes.get("sinnoh_tough_master_ribbon",false));
 
-            if(t_pkmn->has_attribute("eggmet_year"))
-                p_pkm->pkm_data.eggdate.year = t_pkmn->get_attribute("eggmet_year");
-            if(t_pkmn->has_attribute("eggmet_month"))
-                p_pkm->pkm_data.eggdate.month = t_pkmn->get_attribute("eggmet_month");
-            if(t_pkmn->has_attribute("eggmet_day"))
-                p_pkm->pkm_data.eggdate.day = t_pkmn->get_attribute("eggmet_day");
-            if(t_pkmn->has_attribute("met_year"))
-                p_pkm->pkm_data.metdate.year = t_pkmn->get_attribute("met_year");
-            if(t_pkmn->has_attribute("met_month"))
-                p_pkm->pkm_data.metdate.month = t_pkmn->get_attribute("met_month");
-            if(t_pkmn->has_attribute("met_day"))
-                p_pkm->pkm_data.metdate.day = t_pkmn->get_attribute("met_day");
+            p_pkm->pkm_data.eggdate.year = attributes.get("eggmet_year",0);
+            p_pkm->pkm_data.eggdate.month = attributes.get("eggmet_month",0);
+            p_pkm->pkm_data.eggdate.day = attributes.get("eggmet_day",0);
+            p_pkm->pkm_data.metdate.year = attributes.get("met_year",0);
+            p_pkm->pkm_data.metdate.month = attributes.get("met_month",0);
+            p_pkm->pkm_data.metdate.day = attributes.get("met_day",0);
         }
 
         team_pokemon::sptr pkmds_g6_pokemon_to_team_pokemon(party_pkx* p_pkx)
