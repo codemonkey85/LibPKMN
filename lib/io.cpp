@@ -7,7 +7,7 @@
 
 #include <cstdint>
 #include <fstream>
-#include <string.h>
+#include <cstring>
 
 #include <boost/format.hpp>
 

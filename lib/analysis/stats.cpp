@@ -5,9 +5,9 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
-#include <time.h>
+#include <ctime>
 
 #include <boost/format.hpp>
 

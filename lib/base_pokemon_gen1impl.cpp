@@ -5,7 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>

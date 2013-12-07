@@ -13,7 +13,7 @@
 #include <tr1/memory>
 #endif
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <pkmnsim/types/dict.hpp>
 

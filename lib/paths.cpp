@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <stdexcept>
-#include <stdlib.h>
+#include <cstdlib>
 #include <string>
 
 #include <boost/filesystem.hpp>

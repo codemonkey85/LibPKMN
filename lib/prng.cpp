@@ -7,7 +7,7 @@
 
 #include <cmath>
 #include <ctime>
-#include <stdlib.h>
+#include <cstdlib>
 
 #include <pkmnsim/types/prng.hpp>
 

@@ -5,8 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <math.h>
-#include <time.h>
+#include <cmath>
+#include <ctime>
 
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/database/queries.hpp>
