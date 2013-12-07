@@ -36,7 +36,7 @@ namespace pkmnsim
     
     void set_marking(uint8_t* markint, uint8_t mark, bool val);
     
-    bool get_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon);
+    bool get_ribbon(uint32_t* ribbonint, uint8_t ribbon);
     
     void set_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val);
     

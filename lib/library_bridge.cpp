@@ -266,7 +266,7 @@ namespace pkmnsim
         *markint = marking_bitset.to_ulong();
     }
     
-    bool get_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon)
+    bool get_ribbon(uint32_t* ribbonint, uint8_t ribbon)
     {
         bitset<32> ribbon_bitset = int(*ribbonint);
         return ribbon_bitset[ribbon];
@@ -278,13 +278,7 @@ namespace pkmnsim
         ribbon_bitset[ribbon] = val;
         *ribbonint = ribbon_bitset.to_ulong();
     }
-    
-    bool get_sinnoh_ribbon(uint32_t* ribbonint, uint8_t ribbon)
-    {
-        bitset<32> ribbon_bitset = int(*ribbonint);
-        return ribbon_bitset[ribbon];
-    }
-    
+
     void set_sinnoh_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
     {
         bitset<32> ribbon_bitset = int(*ribbonint);
