@@ -9,7 +9,8 @@
 #pragma warning(disable:4244)
 #endif
  
-#include <bitset> 
+#include <bitset>
+#include <cstdbool>
 
 #include <boost/assign.hpp>
 
@@ -163,6 +164,9 @@ namespace pkmnsim
     
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
     {
+        //Limit val to 32
+        val &= 32;
+
         bitset<32> IVs_bitset = int(*IVint);
         bitset<5> val_bitset = int(val);
     
