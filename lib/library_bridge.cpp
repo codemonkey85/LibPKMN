@@ -136,63 +136,29 @@ namespace pkmnsim
 
     uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV)
     {
-        bitset<32> IVs_bitset = int(*IVint);
-        bitset<5> end_bitset = 0;
-    
         switch(IV)
         {
             case Stats::HP:
-                end_bitset[0] = IVs_bitset[27];
-                end_bitset[1] = IVs_bitset[28];
-                end_bitset[2] = IVs_bitset[29];
-                end_bitset[3] = IVs_bitset[30];
-                end_bitset[4] = IVs_bitset[31];
-                break;
+                return (*IVint & 0xF8000000) >> 27;
                 
             case Stats::ATTACK:
-                end_bitset[0] = IVs_bitset[22];
-                end_bitset[1] = IVs_bitset[23];
-                end_bitset[2] = IVs_bitset[24];
-                end_bitset[3] = IVs_bitset[25];
-                end_bitset[4] = IVs_bitset[26];
-                break;
+                return (*IVint & 0x7C00000) >> 22;
             
             case Stats::DEFENSE:
-                end_bitset[0] = IVs_bitset[17];
-                end_bitset[1] = IVs_bitset[18];
-                end_bitset[2] = IVs_bitset[19];
-                end_bitset[3] = IVs_bitset[20];
-                end_bitset[4] = IVs_bitset[21];
-                break;
+                return (*IVint & 0x3E0000) >> 17;
                 
             case Stats::SPEED:
-                end_bitset[0] = IVs_bitset[12];
-                end_bitset[1] = IVs_bitset[13];
-                end_bitset[2] = IVs_bitset[14];
-                end_bitset[3] = IVs_bitset[15];
-                end_bitset[4] = IVs_bitset[16];
-                break;
+                return (*IVint & 0x1F000) >> 12;
                 
             case Stats::SPECIAL_ATTACK:
-                end_bitset[0] = IVs_bitset[7];
-                end_bitset[1] = IVs_bitset[8];
-                end_bitset[2] = IVs_bitset[9];
-                end_bitset[3] = IVs_bitset[10];
-                end_bitset[4] = IVs_bitset[11];
-                break;
+                return (*IVint & 0xF80) >> 7;
                 
             case Stats::SPECIAL_DEFENSE:
-                end_bitset[0] = IVs_bitset[2];
-                end_bitset[1] = IVs_bitset[3];
-                end_bitset[2] = IVs_bitset[4];
-                end_bitset[3] = IVs_bitset[5];
-                end_bitset[4] = IVs_bitset[6];
-                break;
+                return (*IVint & 0x7C) >> 2;
                 
             default:
                 return 0;
         }
-        return end_bitset.to_ulong();
     }
     
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
