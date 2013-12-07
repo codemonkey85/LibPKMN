@@ -272,18 +272,10 @@ namespace pkmnsim
         return ribbon_bitset[ribbon];
     }
     
-    void set_hoenn_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
+    void set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
     {
-        bitset<32> ribbon_bitset = int(*ribbonint);
-        ribbon_bitset[ribbon] = val;
-        *ribbonint = ribbon_bitset.to_ulong();
-    }
-
-    void set_sinnoh_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
-    {
-        bitset<32> ribbon_bitset = int(*ribbonint);
-        ribbon_bitset[ribbon] = val;
-        *ribbonint = ribbon_bitset.to_ulong();
+        if(val) *ribbonint |= (1 << ribbon);
+        else *ribbonint &= ~(1 << ribbon);
     }
 
     uint8_t get_gen3_ball(uint16_t* metlevelint)
