@@ -42,7 +42,7 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
     IF(UNIX)
         SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"PKMNsimSharp\" -dllimport \"lib${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
     ELSEIF(WIN32)
-        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespae \"PKMNsimSharp\" -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
+        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"PKMNsimSharp\" -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
     ENDIF(UNIX)
 
     SWIG_ADD_MODULE(${swig_module_name} csharp ${swig_module_name}.i)
