@@ -99,7 +99,9 @@ namespace pkmnsim
             WHITE = 20,
             BLACK,
             WHITE2,
-            BLACK2
+            BLACK2,
+            X,
+            Y
         };
     }
 }
