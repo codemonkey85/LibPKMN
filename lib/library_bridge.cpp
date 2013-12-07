@@ -10,7 +10,10 @@
 #endif
  
 #include <bitset>
-#include <cstdbool>
+
+#ifndef _MSC_VER
+    #include <cstdbool>
+#endif
 
 #include <boost/assign.hpp>
 
