@@ -11,10 +11,6 @@
  
 #include <bitset>
 
-#ifndef _MSC_VER
-    #include <cstdbool>
-#endif
-
 #include <boost/assign.hpp>
 
 #include <pkmnsim/enums.hpp>
