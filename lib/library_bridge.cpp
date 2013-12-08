@@ -224,8 +224,7 @@ namespace pkmnsim
     
     bool get_marking(uint8_t* markint, uint8_t mark)
     {
-        bitset<8> marking_bitset = int(*markint);
-        return marking_bitset[mark];
+        return ((*markint >> mark) & 0x1);
     }
     
     void set_marking(uint8_t* markint, uint8_t mark, bool val)
@@ -237,8 +236,7 @@ namespace pkmnsim
     
     bool get_ribbon(uint32_t* ribbonint, uint8_t ribbon)
     {
-        bitset<32> ribbon_bitset = int(*ribbonint);
-        return ribbon_bitset[ribbon];
+        return ((*ribbonint >> ribbon) & 0x1);
     }
     
     void set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
@@ -249,11 +247,7 @@ namespace pkmnsim
 
     uint8_t get_gen3_ball(uint16_t* metlevelint)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> ball_bitset = 0;
-        for(int i = 0; i < 4; i++) ball_bitset[i] = metlevel_bitset[i+1];
-
-        return ball_bitset.to_ulong();
+        return ((*metlevelint >> 1) & 0x8);
     }
 
     void set_gen3_ball(uint16_t* metlevelint, uint8_t ball)
@@ -267,11 +261,7 @@ namespace pkmnsim
 
     uint8_t get_gen3_met_level(uint16_t* metlevelint)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> metlevel_int = 0;
-        for(int i = 15; i > 8; i--) metlevel_int[i-8] = metlevel_bitset[i];
-
-        return metlevel_int.to_ulong();
+        return (*metlevelint >> 9);
     }
 
     void set_gen3_met_level(uint16_t* metlevelint, uint8_t level)
@@ -299,8 +289,7 @@ namespace pkmnsim
 
     bool get_gen3_otgender(uint16_t* metlevelint)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        return metlevel_bitset[0];
+        return (*metlevelint & 0x1);
     }
 
     void set_gen3_otgender(uint16_t* metlevelint, bool is_female)
@@ -313,8 +302,7 @@ namespace pkmnsim
 
     bool get_gen_456_otgender(uint8_t* metlevelint)
     {
-        bitset<8> metlevel_bitset = int(*metlevelint);
-        return metlevel_bitset[0];
+        return (*metlevelint & 0x1);
     }
 
     void set_gen_456_otgender(uint8_t* metlevelint, bool is_female)
