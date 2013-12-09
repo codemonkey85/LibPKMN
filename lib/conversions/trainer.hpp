@@ -15,6 +15,7 @@
 
 #include <pkmnsim/trainer.hpp>
 
+#include <rpokesav/gen1_save.hpp>
 #include <pokehack/SaveParser.h>
 #include <pokelib/pokelib.h>
 #include <pkmds/pkmds_g5.h>
@@ -33,6 +34,7 @@
 #define POKEHACK_FRLG_SECURITY_KEY 0x0AF8
 #define POKEHACK_RIVAL_NAME        0x3A4C
 
+typedef std::shared_ptr<rpokesav::gen1_save> rpokesav_gen1_sptr;
 typedef std::shared_ptr<SaveParser> pokehack_sptr;
 typedef std::shared_ptr<PokeLib::Save> pokelib_sptr;
 typedef std::shared_ptr<bw2sav_obj> pkmds_g5_sptr;
@@ -41,6 +43,8 @@ namespace pkmnsim
 {
     namespace conversions
     {
+        trainer::sptr import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
+    
         trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
 
         void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data);
