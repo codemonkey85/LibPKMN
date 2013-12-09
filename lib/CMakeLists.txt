@@ -23,7 +23,7 @@ IF(ENABLE_LIBRARY)
 
     INCLUDE(${QT_USE_FILE})
     LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib-nc pkmds SQLiteCpp)
+    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} rpokesav pokehack pokelib-nc pkmds SQLiteCpp)
 
     LIST(APPEND libpkmnsim_sources
         library_bridge.cpp
