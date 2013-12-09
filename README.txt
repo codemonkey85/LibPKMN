@@ -27,6 +27,7 @@ Tested with:
 Git submodules:
  * Pokemon-sim Images (https://github.com/ncorgan/Pokemon-sim-images) - Pokemon sprites and icons
  * SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) - SQLite3 C++ wrapper
+ * Retro Pokesav (https://github.com/ncorgan/rpokesav) - Gen 1 save editing library
  * Pokehack (https://github.com/Grazfather/pokehack) - Gen 3 save editing library
  * PokeLib-NC (https://github.com/ncorgan/PokeLib-NC) - Gen 4 save editing library
  * PKMDS (https://github.com/codemonkey85/PKMDS) - Gen 5-6 save editing library
@@ -36,4 +37,4 @@ Dependencies:
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
-README last updated: 2013-11-26
+README last updated: 2013-12-08
