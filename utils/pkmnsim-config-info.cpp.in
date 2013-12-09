@@ -20,6 +20,7 @@ int main()
     cout << "Git commits:" << endl;
     cout << " - Pokemon-sim:        @PKMNSIM_GIT_DESCRIBE@" << endl;
     cout << " - Pokemon-sim Images: @PKMNSIM_IMAGES_GIT_DESCRIBE@" << endl;
+    cout << " - Retro Pokesav:      @RPOKESAV_GIT_DESCRIBE@" << endl;
     cout << " - Pokehack:           @POKEHACK_GIT_DESCRIBE@" << endl;
     cout << " - PokeLib-NC:         @POKELIB_GIT_DESCRIBE@" << endl;
     cout << " - PKMDS:              @PKMDS_GIT_DESCRIBE@" << endl;
