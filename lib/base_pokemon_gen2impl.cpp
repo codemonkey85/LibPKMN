@@ -27,80 +27,80 @@ namespace pkmnsim
                                            base_pokemon_impl(id, game)
     {
         //Get final part of images path
-        switch(from_game)
+        switch(_game_id)
         {
             case Games::GOLD:
-                images_game_string = "gold";
+                _images_game_string = "gold";
                 break;
             case Games::SILVER:
-                images_game_string = "silver";
+                _images_game_string = "silver";
                 break;
             case Games::CRYSTAL:
-                images_game_string = "crystal";
+                _images_game_string = "crystal";
                 break;
             default: //It should never get here
-                images_game_string = "crystal";
+                _images_game_string = "crystal";
                 break;
         }
         
         boost::format png_format("%d.png");
         std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
         std::string sprite_directory = fs::path(fs::path(get_images_dir()) / "generation-2"
-                                     / images_game_string).string();
+                                     / _images_game_string).string();
         std::string shiny_sprite_directory = fs::path(fs::path(sprite_directory) / "shiny").string();
                                      
         switch(id)
         {
             case Species::NONE: //None, should only be used for empty slots at end of party
-                male_icon_path = fs::path(fs::path(get_images_dir())
-                               / "misc" / "pokeball.png").string();
-                female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(get_images_dir())
-                                 / "misc" / "pokeball.png").string();
-                female_sprite_path = female_icon_path;
-                male_shiny_sprite_path = male_sprite_path;
-                female_shiny_sprite_path = female_sprite_path;
+                _male_icon_path = fs::path(fs::path(get_images_dir())
+                                / "misc" / "pokeball.png").string();
+                _female_icon_path = _male_icon_path;
+                _male_sprite_path = fs::path(fs::path(get_images_dir())
+                                  / "misc" / "pokeball.png").string();
+                _female_sprite_path = _female_icon_path;
+                _male_shiny_sprite_path = _male_sprite_path;
+                _female_shiny_sprite_path = _female_sprite_path;
                 break;
 
             case Species::INVALID: //Invalid, aka Missingno. equivalents
-                male_icon_path = fs::path(fs::path(sprite_directory)
-                               / (png_format % "substitute.png").str()).string();
-                female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(sprite_directory)
-                                 / (png_format % "substitute.png").str()).string();
-                female_sprite_path = female_icon_path;
-                male_shiny_sprite_path = male_sprite_path;
-                female_shiny_sprite_path = female_sprite_path;
+                _male_icon_path = fs::path(fs::path(sprite_directory)
+                                / (png_format % "substitute.png").str()).string();
+                _female_icon_path = _male_icon_path;
+                _male_sprite_path = fs::path(fs::path(sprite_directory)
+                                  / (png_format % "substitute.png").str()).string();
+                _female_sprite_path = _female_icon_path;
+                _male_shiny_sprite_path = _male_sprite_path;
+                _female_shiny_sprite_path = _female_sprite_path;
                 break;
 
             default:
                 //No gender differences in Generation 2
-                male_icon_path = fs::path(fs::path(icon_directory)
-                               / (png_format % species_id).str()).string();
-                female_icon_path = male_icon_path;
+                _male_icon_path = fs::path(fs::path(icon_directory)
+                                / (png_format % _species_id).str()).string();
+                _female_icon_path = _male_icon_path;
 
                 //No gender differences in Generation 2
-                male_sprite_path = fs::path(fs::path(sprite_directory)
-                                 / (png_format % species_id).str()).string();
-                female_sprite_path = male_sprite_path;
+                _male_sprite_path = fs::path(fs::path(sprite_directory)
+                                  / (png_format % _species_id).str()).string();
+                _female_sprite_path = _male_sprite_path;
 
                 //No gender differences in Generation 2
-                male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
-                                       / (png_format % species_id).str()).string();
-                female_shiny_sprite_path = male_shiny_sprite_path;
+                _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
+                                        / (png_format % _species_id).str()).string();
+                _female_shiny_sprite_path = _male_shiny_sprite_path;
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(pokemon_id)
+                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
                                     + " AND stat_id IN (3,5)";
                 SQLite::Statement query(db, query_string.c_str());
                 query.executeStep();
-                special_attack = int(query.getColumn(0));
+                _special_attack = int(query.getColumn(0));
                 query.executeStep();
-                special_defense = int(query.getColumn(0));
+                _special_defense = int(query.getColumn(0));
                 
-                repair(pokemon_id);
+                repair(_pokemon_id);
                 break;
         }
     }
@@ -108,12 +108,12 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_base_stats() const
     {
         dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = hp;
-        stats[Stats::ATTACK] = attack;
-        stats[Stats::DEFENSE] = defense;
-        stats[Stats::SPECIAL_ATTACK] = special_attack;
-        stats[Stats::SPECIAL_DEFENSE] = special_defense;
-        stats[Stats::SPEED] = speed;
+        stats[Stats::HP] = _hp;
+        stats[Stats::ATTACK] = _attack;
+        stats[Stats::DEFENSE] = _defense;
+        stats[Stats::SPECIAL_ATTACK] = _special_attack;
+        stats[Stats::SPECIAL_DEFENSE] = _special_defense;
+        stats[Stats::SPEED] = _speed;
         
         return stats;
     }
@@ -140,7 +140,7 @@ namespace pkmnsim
 
     double base_pokemon_gen2impl::get_chance_male() const
     {
-        switch(species_id)
+        switch(_species_id)
         {
             case Species::NONE:
             case Species::INVALID:
@@ -162,7 +162,7 @@ namespace pkmnsim
                 gender_val_map[6] = 0.25;
                 gender_val_map[8] = 0.0;
 
-                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(_species_id);
                 int gender_val = db.execAndGet(query_string.c_str());
 
                 if(gender_val == -1) return 0.0;
@@ -172,7 +172,7 @@ namespace pkmnsim
 
     double base_pokemon_gen2impl::get_chance_female() const
     {
-        switch(species_id)
+        switch(_species_id)
         {
             case Species::NONE:
             case Species::INVALID:
@@ -194,7 +194,7 @@ namespace pkmnsim
                 gender_val_map[6] = 0.25;
                 gender_val_map[8] = 0.0;
 
-                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(species_id);
+                string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(_species_id);
                 int gender_val = db.execAndGet(query_string.c_str());
 
                 if(gender_val == -1) return 0.0;
@@ -215,14 +215,14 @@ namespace pkmnsim
     //Gender doesn't matter for icons in Generation 2
     string base_pokemon_gen2impl::get_icon_path(bool is_male) const
     {
-        return male_icon_path;
+        return _male_icon_path;
     }
     
     //Gender doesn't matter for sprites in Generation 2
     string base_pokemon_gen2impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
-        if(is_shiny) return male_shiny_sprite_path;
-        else return male_sprite_path;
+        if(is_shiny) return _male_shiny_sprite_path;
+        else return _male_sprite_path;
     }
    
     //No forms in Generation 2 
@@ -230,7 +230,7 @@ namespace pkmnsim
     void base_pokemon_gen2impl::set_form(std::string form) {};
     void base_pokemon_gen2impl::repair(unsigned int id) {};
     string base_pokemon_gen2impl::get_form_name() const {return get_species_name();}
-    unsigned int base_pokemon_gen2impl::get_form_id() const {return species_id;}
+    unsigned int base_pokemon_gen2impl::get_form_id() const {return _species_id;}
 
     void base_pokemon_gen2impl::get_egg_group_names(std::vector<std::string>
                                                     &egg_group_name_vec) const
@@ -239,7 +239,7 @@ namespace pkmnsim
 
         vector<unsigned int> egg_group_id_vec;
         get_egg_group_ids(egg_group_id_vec);
-        switch(species_id)
+        switch(_species_id)
         {
             case Species::NONE:
             case Species::INVALID:
@@ -254,7 +254,7 @@ namespace pkmnsim
     void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>
                                                   &egg_group_id_vec) const
     {
-        switch(species_id)
+        switch(_species_id)
         {
             case Species::NONE:
             case Species::INVALID:
@@ -262,8 +262,8 @@ namespace pkmnsim
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
-                                    + to_string(species_id);
+                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE _species_id="
+                                    + to_string(_species_id);
                 SQLite::Statement query(db, query_string.c_str());
 
                 while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));

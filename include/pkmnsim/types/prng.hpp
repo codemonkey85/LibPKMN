@@ -27,13 +27,13 @@ namespace pkmnsim
 
         private:
         
-            static uint32_t lcrng_seed;
-            static uint64_t gen5_lcrng_seed;
+            static uint32_t _lcrng_seed;
+            static uint64_t _gen5_lcrng_seed;
 
-            static uint32_t arng_seed;
+            static uint32_t _arng_seed;
 
-            static unsigned int mtrng_pos;
-            static uint32_t mtrng_seeds[624];
+            static unsigned int _mtrng_pos;
+            static uint32_t _mtrng_seeds[624];
     };
 }
 

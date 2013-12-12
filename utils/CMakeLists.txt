@@ -6,6 +6,11 @@
 #
 
 IF(ENABLE_UTILITIES)
+    ADD_EXECUTABLE(pkmnsim-about pkmnsim-about.cpp)
+    INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
+    TARGET_LINK_LIBRARIES(pkmnsim-about pkmnsim)
+    INSTALL(TARGETS pkmnsim-about RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
+
     CONFIGURE_FILE(
         ${CMAKE_CURRENT_SOURCE_DIR}/pkmnsim-config-info.cpp.in
         ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-config-info.cpp

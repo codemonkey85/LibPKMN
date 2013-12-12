@@ -54,7 +54,7 @@
 
 %include "pkmnsim/lists.hpp"
 
-//TODO: make C++ -> C% class name conversion function
+//TODO: make C++ -> C# class name conversion function
 %template(BagSPtr)         std::shared_ptr<pkmnsim::bag>;
 %template(BasePokemonSPtr) std::shared_ptr<pkmnsim::base_pokemon>;
 %template(GameSaveSPtr)    std::shared_ptr<pkmnsim::game_save>;

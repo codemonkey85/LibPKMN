@@ -40,38 +40,38 @@ namespace pkmnsim
 
     move_impl::move_impl(unsigned int id, unsigned int game): move()
     {
-        from_game = game;
+        _game_id = game;
         if(id == Moves::NONE)
         {
-            move_id = Moves::NONE;
-            type_id = 0;
-            base_power = 0;
-            base_pp = 0;
-            base_accuracy = 0.0;
-            base_priority = 0;
-            target_id = 0;
+            _move_id = Moves::NONE;
+            _type_id = 0;
+            _base_power = 0;
+            _base_pp = 0;
+            _base_accuracy = 0.0;
+            _base_priority = 0;
+            _target_id = 0;
         }
         else if(id == Moves::INVALID)
         {
-            move_id = Moves::INVALID;
-            type_id = 0;
-            base_power = 0;
-            base_pp = 0;
-            base_accuracy = 0.0;
-            base_priority = 0;
-            target_id = 0;
+            _move_id = Moves::INVALID;
+            _type_id = 0;
+            _base_power = 0;
+            _base_pp = 0;
+            _base_accuracy = 0.0;
+            _base_priority = 0;
+            _target_id = 0;
         }
         else
         {
             string query_string;
-            move_id = id;
+            _move_id = id;
 
             SQLite::Database db(get_database_path().c_str());
 
             //Fail if move's generation_id > specified generation
             query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(id);
             int gen_id = db.execAndGet(query_string.c_str());
-            int game_gen = database::get_generation(from_game);
+            int game_gen = database::get_generation(_game_id);
 
             if(gen_id > game_gen)
             {
@@ -79,27 +79,27 @@ namespace pkmnsim
                 throw runtime_error(error_message.c_str());
             }
 
-            query_string = "SELECT * FROM moves WHERE id=" + to_string(move_id);
+            query_string = "SELECT * FROM moves WHERE id=" + to_string(_move_id);
             SQLite::Statement moves_query(db, query_string.c_str());
             moves_query.executeStep();
 
             //Get available values from queries
-            type_id = int(moves_query.getColumn(3)); //type_id
-            base_power = int(moves_query.getColumn(4)); //power
-            base_pp = int(moves_query.getColumn(5)); //pp
-            base_accuracy = int(moves_query.getColumn(6)); //accuracy
-            base_accuracy /= 100; //Stored as 0 < int < 100
-            base_priority = int(moves_query.getColumn(7)); //priority
-            target_id = int(moves_query.getColumn(8)); //target_id
-            move_damage_class = int(moves_query.getColumn(9)); //damage_class_id
-            base_effect = int(moves_query.getColumn(10)); //effect_id
-            base_effect_chance = int(moves_query.getColumn(11)); //effect_chance
+            _type_id = int(moves_query.getColumn(3)); //type_id
+            _base_power = int(moves_query.getColumn(4)); //power
+            _base_pp = int(moves_query.getColumn(5)); //pp
+            _base_accuracy = int(moves_query.getColumn(6)); //accuracy
+            _base_accuracy /= 100; //Stored as 0 < int < 100
+            _base_priority = int(moves_query.getColumn(7)); //priority
+            _target_id = int(moves_query.getColumn(8)); //target_id
+            _move_damage_class = int(moves_query.getColumn(9)); //damage_class_id
+            _base_effect = int(moves_query.getColumn(10)); //effect_id
+            _base_effect_chance = int(moves_query.getColumn(11)); //effect_chance
         }
     }
 
     string move_impl::get_name() const
     {
-        switch(move_id)
+        switch(_move_id)
         {
             case Moves::NONE:
                 return "None";
@@ -108,34 +108,34 @@ namespace pkmnsim
                 return "Invalid Move";
 
             default:
-               return database::get_move_name(move_id);
+               return database::get_move_name(_move_id);
         }
     }
 
     string move_impl::get_description() const
     {
-        switch(move_id)
+        switch(_move_id)
         {
             case Moves::NONE:
             case Moves::INVALID:
                 return "No info";
 
             default:
-                return database::get_move_description(move_id, from_game);
+                return database::get_move_description(_move_id, _game_id);
         }
     }
 
-    unsigned int move_impl::get_type() const {return type_id;}
+    unsigned int move_impl::get_type() const {return _type_id;}
 
-    unsigned int move_impl::get_base_power() const {return base_power;}
+    unsigned int move_impl::get_base_power() const {return _base_power;}
 
-    unsigned int move_impl::get_base_pp() const {return base_pp;}
+    unsigned int move_impl::get_base_pp() const {return _base_pp;}
 
-    double move_impl::get_base_accuracy() const {return base_accuracy;}
+    double move_impl::get_base_accuracy() const {return _base_accuracy;}
     
     unsigned int move_impl::get_move_damage_class() const
     {
-        switch(move_id)
+        switch(_move_id)
         {
             case Moves::NONE:
             case Moves::INVALID:
@@ -144,21 +144,21 @@ namespace pkmnsim
             default:
                 //In Gens 1-3, damage class depended on move type
                 //In Gens 4-5, damage class is specific to each move
-                unsigned int from_gen = database::get_generation(from_game);
-                if(from_gen >= 4) return move_damage_class;
-                else return database::get_damage_class(type_id);
+                unsigned int from_gen = database::get_generation(_game_id);
+                if(from_gen >= 4) return _move_damage_class;
+                else return database::get_damage_class(_type_id);
         }
     }
 
-    string move_impl::get_base_effect() const {return base_effect;}
+    string move_impl::get_base_effect() const {return _base_effect;}
 
-    double move_impl::get_base_effect_chance() const {return base_effect_chance;}
+    double move_impl::get_base_effect_chance() const {return _base_effect_chance;}
 
-    unsigned int move_impl::get_priority() const {return base_priority;}
+    unsigned int move_impl::get_priority() const {return _base_priority;}
 
-    unsigned int move_impl::get_move_id() const {return move_id;}
+    unsigned int move_impl::get_move_id() const {return _move_id;}
 
-    unsigned int move_impl::get_target_id() const {return target_id;}
+    unsigned int move_impl::get_target_id() const {return _target_id;}
 
-    unsigned int move_impl::get_game_id() const {return from_game;}
+    unsigned int move_impl::get_game_id() const {return _game_id;}
 } /* namespace pkmnsim */

@@ -42,11 +42,11 @@ namespace pkmnsim
 
         protected:
         
-            unsigned int game_id;
-            trainer::sptr game_trainer;
+            unsigned int _game_id;
+            trainer::sptr _game_trainer;
             
-            unsigned int hours_played, minutes_played, seconds_played;
-            unsigned int year, month, day, hour, minute, second;
+            //unsigned int hours_played, minutes_played, seconds_played;
+            //unsigned int year, month, day, hour, minute, second;
     };
 }
 #endif /* INCLUDED_PKMNSIM_GAME_SAVE_HPP */

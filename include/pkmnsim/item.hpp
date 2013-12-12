@@ -40,8 +40,8 @@ namespace pkmnsim
             
         protected:
             
-            unsigned int item_id, game_id, category_id, game_index;
-            std::string category_name, description, item_name;
+            unsigned int _item_id, _game_id, _category_id, _game_index;
+            std::string _category_name, _description, _item_name;
     };
 }
 

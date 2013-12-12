@@ -19,8 +19,8 @@ namespace pkmnsim
             
         private:
         
-            void gen2_to_gen345();
-            void gen345_to_gen2();
+            void _gen2_to_gen345();
+            void _gen345_to_gen2();
     };
 }
 

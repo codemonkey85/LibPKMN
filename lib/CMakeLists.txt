@@ -67,9 +67,15 @@ IF(ENABLE_LIBRARY)
     IF(NOT PKMNSIM_USED_AS_SUBMODULE)
         ADD_SUBDIRECTORY(qt4)
         INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
+
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/qt4/AboutMessageBox.cpp.in
+            ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
+        )
         
-        FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
         FILE(GLOB libpkmnsim_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.hpp")
+        FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
+        LIST(APPEND libpkmnsim_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
     
         QT4_WRAP_CPP(MOCSrcs ${libpkmnsim_qt4_headers})
     
