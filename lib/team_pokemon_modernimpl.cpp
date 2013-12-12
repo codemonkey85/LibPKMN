@@ -20,101 +20,98 @@ using namespace std;
 
 namespace pkmnsim
 {
-    team_pokemon_modernimpl::team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
+    team_pokemon_modernimpl::team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                                      unsigned int move1, unsigned int move2,
-                                                     unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,lvl,
+                                                     unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,level,
                                                                                               move1,move2,move3,move4)
     {
         prng rand_gen;
-        from_gen = database::get_generation(game);
+        _generation = database::get_generation(game);
 
         //Random individual values
-        ivHP = rand_gen.lcrng_next(from_gen) % 32;
-        ivATK = rand_gen.lcrng_next(from_gen) % 32;
-        ivDEF = rand_gen.lcrng_next(from_gen) % 32;
-        ivSPD = rand_gen.lcrng_next(from_gen) % 32;
-        ivSATK = rand_gen.lcrng_next(from_gen) % 32;
-        ivSDEF = rand_gen.lcrng_next(from_gen) % 32;
+        _ivHP = rand_gen.lcrng_next(_generation) % 32;
+        _ivATK = rand_gen.lcrng_next(_generation) % 32;
+        _ivDEF = rand_gen.lcrng_next(_generation) % 32;
+        _ivSPD = rand_gen.lcrng_next(_generation) % 32;
+        _ivSATK = rand_gen.lcrng_next(_generation) % 32;
+        _ivSDEF = rand_gen.lcrng_next(_generation) % 32;
 
         /*
          * Random effort values within following rules:
          *  - Sum <= 510
          *  - EV <= 255
          */
-        evHP = 256;
-        evATK = 256;
-        evDEF = 256;
-        evSPD = 256;
-        evSATK = 256;
-        evSDEF = 256;
-        while((evHP+evATK+evDEF+evSPD+evSATK+evSDEF)>510 || evHP>255 || evATK>255 || evDEF>255 || evSPD>255 || evSATK>255 || evSDEF>255)
+        _evHP = 256;
+        _evATK = 256;
+        _evDEF = 256;
+        _evSPD = 256;
+        _evSATK = 256;
+        _evSDEF = 256;
+        while((_evHP+_evATK+_evDEF+_evSPD+_evSATK+_evSDEF)>510 || _evHP>255 || _evATK>255 || _evDEF>255 || _evSPD>255 || _evSATK>255 || _evSDEF>255)
         {
-            evHP = rand_gen.lcrng_next(from_gen) % 256;
-            evATK = rand_gen.lcrng_next(from_gen) % 256;
-            evDEF = rand_gen.lcrng_next(from_gen) % 256;
-            evSPD = rand_gen.lcrng_next(from_gen) % 256;
-            evSATK = rand_gen.lcrng_next(from_gen) % 256;
-            evSDEF = rand_gen.lcrng_next(from_gen) % 256;
+            _evHP = rand_gen.lcrng_next(_generation) % 256;
+            _evATK = rand_gen.lcrng_next(_generation) % 256;
+            _evDEF = rand_gen.lcrng_next(_generation) % 256;
+            _evSPD = rand_gen.lcrng_next(_generation) % 256;
+            _evSATK = rand_gen.lcrng_next(_generation) % 256;
+            _evSDEF = rand_gen.lcrng_next(_generation) % 256;
         }
 
-        gender = determine_gender();
-        nature = determine_nature();
-        ability = determine_ability();
-        held_item = item::make(Items::NONE, from_game); //Placeholder
+        _gender = _determine_gender();
+        _nature = _determine_nature();
+        _ability = _determine_ability();
 
-        if(base_pkmn->get_species_id() == Species::SHEDINJA) HP = 1;
-        else HP = get_hp();
-        ATK = get_stat(Stats::ATTACK,evATK,ivATK);
-        DEF = get_stat(Stats::DEFENSE,evDEF,ivDEF);
-        SPD = get_stat(Stats::SPEED,evSPD,ivSPD);
-        SATK = get_stat(Stats::SPECIAL_ATTACK,evSATK,ivSATK);
-        SDEF = get_stat(Stats::SPECIAL_ATTACK,evSDEF,ivSDEF);
+        if(_base_pkmn->get_species_id() == Species::SHEDINJA) _HP = 1;
+        else _HP = _get_hp();
+        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
+        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
+        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
+        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSATK, _ivSATK);
+        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSDEF, _ivSDEF);
 
-        icon_path = base_pkmn->get_icon_path((gender != Genders::FEMALE));
-        sprite_path = base_pkmn->get_sprite_path((gender != Genders::FEMALE), is_shiny());
-
-        nonvolatile_status = Statuses::OK;
+        _icon_path = _base_pkmn->get_icon_path((_gender != Genders::FEMALE));
+        _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
     }
 
-    void team_pokemon_modernimpl::set_personality(unsigned int new_personality)
+    void team_pokemon_modernimpl::set_personality(unsigned int personality)
     {
-        personality = new_personality;
-        ability = determine_ability();
-        gender = determine_gender();
-        nature = determine_nature();
+        _personality = personality;
+        _ability = _determine_ability();
+        _gender = _determine_gender();
+        _nature = _determine_nature();
     }
     
-    unsigned int team_pokemon_modernimpl::get_ability() const {return ability;}
+    unsigned int team_pokemon_modernimpl::get_ability() const {return _ability;}
     
-    unsigned int team_pokemon_modernimpl::get_gender() const {return gender;}
+    unsigned int team_pokemon_modernimpl::get_gender() const {return _gender;}
 
-    unsigned int team_pokemon_modernimpl::get_nature() const {return nature;}
+    unsigned int team_pokemon_modernimpl::get_nature() const {return _nature;}
     
     bool team_pokemon_modernimpl::is_shiny() const
     {
         int p1, p2, E, F;
-        p1 = (personality & 0xFFFF0000) >> 16;
-        p2 = personality & 0xFFFF;
-        E = tid.public_id ^ tid.secret_id;
+        p1 = (_personality & 0xFFFF0000) >> 16;
+        p2 = _personality & 0xFFFF;
+        E = _tid.public_id ^ _tid.secret_id;
         F = p1 ^ p2;
         return (E ^ F) < 8;
     }
     
     void team_pokemon_modernimpl::set_hidden_ability(bool val)
     {
-        has_hidden_ability = val;
-        ability = determine_ability();
+        _has_hidden_ability = val;
+        _ability = _determine_ability();
     }
     
     dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_stats() const
     {
         dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = HP;
-        stats[Stats::ATTACK] = ATK;
-        stats[Stats::DEFENSE] = DEF;
-        stats[Stats::SPECIAL_ATTACK] = SATK;
-        stats[Stats::SPECIAL_DEFENSE] = SDEF;
-        stats[Stats::SPEED] = SPD;
+        stats[Stats::HP] = _HP;
+        stats[Stats::ATTACK] = _ATK;
+        stats[Stats::DEFENSE] = _DEF;
+        stats[Stats::SPECIAL_ATTACK] = _SATK;
+        stats[Stats::SPECIAL_DEFENSE] = _SDEF;
+        stats[Stats::SPEED] = _SPD;
 
         return stats;
     }
@@ -122,12 +119,12 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_EVs() const
     {
         dict<unsigned int, unsigned int> EVs;
-        EVs[Stats::HP] = evHP;
-        EVs[Stats::ATTACK] = evATK;
-        EVs[Stats::DEFENSE] = evDEF;
-        EVs[Stats::SPECIAL_ATTACK] = evSATK;
-        EVs[Stats::SPECIAL_DEFENSE] = evSDEF;
-        EVs[Stats::SPEED] = evSPD;
+        EVs[Stats::HP] = _evHP;
+        EVs[Stats::ATTACK] = _evATK;
+        EVs[Stats::DEFENSE] = _evDEF;
+        EVs[Stats::SPECIAL_ATTACK] = _evSATK;
+        EVs[Stats::SPECIAL_DEFENSE] = _evSDEF;
+        EVs[Stats::SPEED] = _evSPD;
         
         return EVs;
     }
@@ -135,12 +132,12 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_IVs() const
     {
         dict<unsigned int, unsigned int> IVs;
-        IVs[Stats::HP] = ivHP;
-        IVs[Stats::ATTACK] = ivATK;
-        IVs[Stats::DEFENSE] = ivDEF;
-        IVs[Stats::SPECIAL_ATTACK] = ivSATK;
-        IVs[Stats::SPECIAL_DEFENSE] = ivSDEF;
-        IVs[Stats::SPEED] = ivSPD;
+        IVs[Stats::HP] = _ivHP;
+        IVs[Stats::ATTACK] = _ivATK;
+        IVs[Stats::DEFENSE] = _ivDEF;
+        IVs[Stats::SPECIAL_ATTACK] = _ivSATK;
+        IVs[Stats::SPECIAL_DEFENSE] = _ivSDEF;
+        IVs[Stats::SPEED] = _ivSPD;
 
         return IVs;
     }
@@ -156,33 +153,33 @@ namespace pkmnsim
         switch(EV)
         {
             case Stats::HP:
-                evHP = val;
-                HP = get_hp();
+                _evHP = val;
+                _HP = _get_hp();
                 break;
                 
             case Stats::ATTACK:
-                evATK = val;
-                ATK = get_stat(Stats::ATTACK, evATK, ivATK);
+                _evATK = val;
+                _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
                 break;
                 
             case Stats::DEFENSE:
-                evDEF = val;
-                DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
+                _evDEF = val;
+                _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
                 break;
             
             case Stats::SPECIAL_ATTACK:
-                evSATK = val;
-                SATK = get_stat(Stats::SPECIAL_ATTACK, evSPCL, ivSPCL);
+                _evSATK = val;
+                _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSPCL, _ivSPCL);
                 break;
                 
             case Stats::SPECIAL_DEFENSE:
-                evSDEF = val;
-                SDEF = get_stat(Stats::SPECIAL_DEFENSE, evSPCL, ivSPCL);
+                _evSDEF = val;
+                _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSPCL, _ivSPCL);
                 break;
                 
             case Stats::SPEED:
-                evSPD = val;
-                SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
+                _evSPD = val;
+                _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
                 break;
             
             default:
@@ -201,33 +198,33 @@ namespace pkmnsim
         switch(IV)
         {
             case Stats::HP:
-                ivHP = val;
-                HP = get_hp();
+                _ivHP = val;
+                _HP = _get_hp();
                 break;
                 
             case Stats::ATTACK:
-                ivATK = val;
-                ATK = get_stat(Stats::ATTACK, ivATK, ivATK);
+                _ivATK = val;
+                _ATK = _get_stat(Stats::ATTACK, _ivATK, _ivATK);
                 break;
                 
             case Stats::DEFENSE:
-                ivDEF = val;
-                DEF = get_stat(Stats::DEFENSE, ivDEF, ivDEF);
+                _ivDEF = val;
+                _DEF = _get_stat(Stats::DEFENSE, _ivDEF, _ivDEF);
                 break;
             
             case Stats::SPECIAL_ATTACK:
-                ivSATK = val;
-                SATK = get_stat(Stats::SPECIAL_ATTACK, ivSPCL, ivSPCL);
+                _ivSATK = val;
+                _SATK = _get_stat(Stats::SPECIAL_ATTACK, _ivSPCL, _ivSPCL);
                 break;
                 
             case Stats::SPECIAL_DEFENSE:
-                ivSDEF = val;
-                SDEF = get_stat(Stats::SPECIAL_DEFENSE, ivSPCL, ivSPCL);
+                _ivSDEF = val;
+                _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _ivSPCL, _ivSPCL);
                 break;
                 
             case Stats::SPEED:
-                ivSPD = val;
-                SPD = get_stat(Stats::SPEED, ivSPD, ivSPD);
+                _ivSPD = val;
+                _SPD = _get_stat(Stats::SPEED, _ivSPD, _ivSPD);
                 break;
             
             default:
@@ -241,14 +238,14 @@ namespace pkmnsim
     {
         //Still doesn't account for things like West Sea vs. East Sea Shellos
         //Will need to be done with ugly manual work
-        if(base_pkmn->get_species_id() == base_pkmn->get_pokemon_id()
-        or base_pkmn->get_species_id() == Species::NONE
-        or base_pkmn->get_species_id() == Species::INVALID) return base_pkmn->get_species_name();
+        if(_base_pkmn->get_species_id() == _base_pkmn->get_pokemon_id()
+        or _base_pkmn->get_species_id() == Species::NONE
+        or _base_pkmn->get_species_id() == Species::INVALID) return _base_pkmn->get_species_name();
         else
         {
             SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT id FROM pokemon_forms WHERE pokemon_id=%d")
-                                                    % base_pkmn->get_pokemon_id());
+                                                    % _base_pkmn->get_pokemon_id());
             int id = db.execAndGet(query_string.c_str());
             
             query_string = str(boost::format("SELECT pokemon_name FROM pokemon_form_names WHERE pokemon_form_id=%d AND local_language_id=9")
@@ -257,91 +254,91 @@ namespace pkmnsim
         }
     }
     
-    unsigned int team_pokemon_modernimpl::get_form_id() const {return base_pkmn->get_pokemon_id();}
+    unsigned int team_pokemon_modernimpl::get_form_id() const {return _base_pkmn->get_pokemon_id();}
     
     void team_pokemon_modernimpl::set_form(unsigned int form)
     {
-        base_pkmn->set_form(form);
-        HP = get_hp();
-        ATK = get_stat(Stats::ATTACK, evATK, ivATK);
-        DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
-        SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
-        SATK = get_stat(Stats::SPECIAL_ATTACK, evSATK, ivSATK);
-        SDEF = get_stat(Stats::SPECIAL_DEFENSE, evSDEF, ivSDEF);
-        icon_path = base_pkmn->get_icon_path((gender != Genders::FEMALE));
-        sprite_path = base_pkmn->get_sprite_path((gender != Genders::FEMALE), is_shiny());
-        ability = determine_ability();
+        _base_pkmn->set_form(form);
+        _HP = _get_hp();
+        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
+        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
+        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
+        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSATK, _ivSATK);
+        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSDEF, _ivSDEF);
+        _icon_path = _base_pkmn->get_icon_path((_gender != Genders::FEMALE));
+        _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
+        _ability = _determine_ability();
     }
 
     void team_pokemon_modernimpl::set_form(std::string form)
     {
-        base_pkmn->set_form(form);
-        HP = get_hp();
-        ATK = get_stat(Stats::ATTACK, evATK, ivATK);
-        DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
-        SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
-        SATK = get_stat(Stats::SPECIAL_ATTACK, evSATK, ivSATK);
-        SDEF = get_stat(Stats::SPECIAL_DEFENSE, evSDEF, ivSDEF);
-        icon_path = base_pkmn->get_icon_path((gender != Genders::FEMALE));
-        sprite_path = base_pkmn->get_sprite_path((gender != Genders::FEMALE), is_shiny());
-        ability = determine_ability();
+        _base_pkmn->set_form(form);
+        _HP = _get_hp();
+        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
+        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
+        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
+        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSATK, _ivSATK);
+        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSDEF, _ivSDEF);
+        _icon_path = _base_pkmn->get_icon_path((_gender != Genders::FEMALE));
+        _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
+        _ability = _determine_ability();
     }
 
-    unsigned int team_pokemon_modernimpl::get_hp() const
+    unsigned int team_pokemon_modernimpl::_get_hp() const
     {
-        dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
+        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
 
-        unsigned int hp_val = int(floor(((double(ivHP) + (2.0*double(stats[Stats::HP])) + (0.25*double(evHP)) + 100.0)
-                            * double(level))/100.0 + 10.0));
+        unsigned int hp_val = int(floor(((double(_ivHP) + (2.0*double(stats[Stats::HP])) + (0.25*double(_evHP)) + 100.0)
+                            * double(_level))/100.0 + 10.0));
         return hp_val;
     }
 
-    unsigned int team_pokemon_modernimpl::get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
+    unsigned int team_pokemon_modernimpl::_get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
     {
-        dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
-        double nature_mod = database::get_nature_stat_effect(nature, stat);
+        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
+        double _nature_mod = database::get_nature_stat_effect(_nature, stat);
 
         unsigned int stat_val = int(ceil(((((double(IV) + 2.0*double(stats[stat]) + 0.25*double(EV))
-                              * double(level))/100.0) + 5.0) * nature_mod));
+                              * double(_level))/100.0) + 5.0) * _nature_mod));
         return stat_val;
     }
 
-    unsigned int team_pokemon_modernimpl::determine_ability() const
+    unsigned int team_pokemon_modernimpl::_determine_ability() const
     {
         SQLite::Database db(get_database_path().c_str());
         string query_string;
     
-        if(base_pkmn->get_species_id() == Species::NONE or base_pkmn->get_species_id() == Species::INVALID) return Abilities::NONE;
-        else if(has_hidden_ability and from_gen >= 5)
+        if(_base_pkmn->get_species_id() == Species::NONE or _base_pkmn->get_species_id() == Species::INVALID) return Abilities::NONE;
+        else if(_has_hidden_ability and _generation >= 5)
         {
-            query_string = "SELECT ability_id FROM pokemon_abilities WHERE is_hidden=1 AND pokemon_id=" + to_string(base_pkmn->get_pokemon_id());
+            query_string = "SELECT _ability_id FROM pokemon_abilities WHERE is_hidden=1 AND pokemon_id=" + to_string(_base_pkmn->get_pokemon_id());
             return int(db.execAndGet(query_string.c_str()));
         }
         else
         {
-            unsigned int ability_num = personality % 2;
-            query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=2 AND pokemon_id=" + to_string(base_pkmn->get_pokemon_id());
+            unsigned int ability_num = _personality % 2;
+            query_string = "SELECT _ability_id FROM pokemon_abilities WHERE slot=2 AND pokemon_id=" + to_string(_base_pkmn->get_pokemon_id());
             SQLite::Statement query(db, query_string.c_str());
             
             if(query.executeStep() and ability_num == 1) return int(query.getColumn(0));
             else
             {
-                query_string = "SELECT ability_id FROM pokemon_abilities WHERE slot=1 AND pokemon_id=" + to_string(base_pkmn->get_pokemon_id());
+                query_string = "SELECT _ability_id FROM pokemon_abilities WHERE slot=1 AND pokemon_id=" + to_string(_base_pkmn->get_pokemon_id());
                 return int(db.execAndGet(query_string.c_str()));
             }
         }
     }
     
-    unsigned int team_pokemon_modernimpl::determine_gender() const
+    unsigned int team_pokemon_modernimpl::_determine_gender() const
     {
-        if(base_pkmn->get_chance_male() + base_pkmn->get_chance_female() == 0
-        or base_pkmn->get_species_id() == Species::NONE
-        or base_pkmn->get_species_id() == Species::INVALID) return Genders::GENDERLESS;
-        else if(base_pkmn->get_chance_male() == 1.0) return Genders::MALE;
-        else if(base_pkmn->get_chance_female() == 1.0) return Genders::FEMALE;
+        if(_base_pkmn->get_chance_male() + _base_pkmn->get_chance_female() == 0
+        or _base_pkmn->get_species_id() == Species::NONE
+        or _base_pkmn->get_species_id() == Species::INVALID) return Genders::GENDERLESS;
+        else if(_base_pkmn->get_chance_male() == 1.0) return Genders::MALE;
+        else if(_base_pkmn->get_chance_female() == 1.0) return Genders::FEMALE;
         else
         {
-            if((personality % 256) > int(floor(255*(1-base_pkmn->get_chance_male())))) return Genders::MALE;
+            if((_personality % 256) > int(floor(255*(1-_base_pkmn->get_chance_male())))) return Genders::MALE;
             else return Genders::FEMALE;
         }
 
@@ -349,5 +346,5 @@ namespace pkmnsim
         return Genders::MALE;
     }
     
-    unsigned int team_pokemon_modernimpl::determine_nature() const {return (personality % 25);}
+    unsigned int team_pokemon_modernimpl::_determine_nature() const {return (_personality % 25);}
 } /* namespace pkmnsim */

@@ -49,16 +49,16 @@ namespace pkmnsim
         protected:
         
             //Database values
-            int move_id, type_id, target_id;
+            int _move_id, _type_id, _target_id;
 
-            unsigned int from_game;
-            unsigned int base_power;
-            unsigned int base_pp;
-            double base_accuracy;
-            unsigned int move_damage_class;
-            unsigned int base_priority;
-            std::string base_effect;
-            double base_effect_chance;
+            unsigned int _game_id;
+            unsigned int _base_power;
+            unsigned int _base_pp;
+            double _base_accuracy;
+            unsigned int _move_damage_class;
+            unsigned int _base_priority;
+            std::string _base_effect;
+            double _base_effect_chance;
     };
 
     //Related typedefs

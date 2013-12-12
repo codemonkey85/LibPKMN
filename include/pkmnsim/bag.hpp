@@ -38,9 +38,9 @@ namespace pkmnsim
             
         protected:
             
-            unsigned int game_id;
+            unsigned int _game_id;
             
-            dict<std::string, pocket::sptr> contents;
+            dict<std::string, pocket::sptr> _contents;
             
     };
 }

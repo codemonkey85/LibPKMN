@@ -28,8 +28,8 @@ namespace pkmnsim
             
         private:
         
-            pokehack_sptr parser;
-            char* data;
+            pokehack_sptr _parser;
+            char* _data;
     };
 }
 

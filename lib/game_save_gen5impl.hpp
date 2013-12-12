@@ -26,7 +26,7 @@ namespace pkmnsim
             
         private:
         
-            pkmds_g5_sptr sav;
+            pkmds_g5_sptr _sav;
     };
 }
 

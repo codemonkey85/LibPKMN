@@ -15,20 +15,20 @@ namespace pkmnsim
 {
     game_save_gen4impl::game_save_gen4impl(pokelib_sptr ptr): game_save()
     {
-        pokelib_save = ptr;
+        _pokelib_save = ptr;
         load();
     }
     
     void game_save_gen4impl::load()
     {
-        game_trainer = conversions::import_trainer_from_pokelib(pokelib_save);
-        game_id = game_trainer->get_game_id();
+        _game_trainer = conversions::import_trainer_from_pokelib(_pokelib_save);
+        _game_id = _game_trainer->get_game_id();
     }
     
     void game_save_gen4impl::save()
     {
-        conversions::export_trainer_to_pokelib(game_trainer, pokelib_save);
+        conversions::export_trainer_to_pokelib(_game_trainer, _pokelib_save);
     }
     
-    trainer::sptr game_save_gen4impl::get_trainer() const {return game_trainer;}
+    trainer::sptr game_save_gen4impl::get_trainer() const {return _game_trainer;}
 } /* namespace pkmnsim */

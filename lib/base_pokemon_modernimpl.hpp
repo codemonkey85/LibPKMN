@@ -15,7 +15,7 @@ namespace pkmnsim
     {
         public:
         
-            base_pokemon_modernimpl(unsigned int id, unsigned int game);
+            base_pokemon_modernimpl(unsigned int id, unsigned int game_id);
             
             dict<unsigned int, unsigned int> get_base_stats() const;
             dict<unsigned int, unsigned int> get_ev_yields() const;

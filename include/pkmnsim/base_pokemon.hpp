@@ -27,7 +27,7 @@ namespace pkmnsim
         public:
 
             typedef std::shared_ptr<base_pokemon> sptr;
-            static sptr make(unsigned int species_id, unsigned int game);
+            static sptr make(unsigned int species_id, unsigned int game_id);
 
 			base_pokemon() {};
             virtual ~base_pokemon() {};
@@ -67,14 +67,14 @@ namespace pkmnsim
             
         protected:
             
-            unsigned int from_gen, form_id, pokemon_id, species_id, type1_id, type2_id;
-            unsigned int hp, attack, defense, speed, special, special_attack, special_defense;
+            unsigned int _generation, _form_id, _pokemon_id, _species_id, _type1_id, _type2_id;
+            unsigned int _hp, _attack, _defense, _speed, _special, _special_attack, _special_defense;
             
-            unsigned int from_game;
-            std::string game_string, images_game_string;
-            std::string male_icon_path, female_icon_path;
-            std::string male_sprite_path, female_sprite_path;
-            std::string male_shiny_sprite_path, female_shiny_sprite_path;
+            unsigned int _game_id;
+            std::string _game_string, _images_game_string;
+            std::string _male_icon_path, _female_icon_path;
+            std::string _male_sprite_path, _female_sprite_path;
+            std::string _male_shiny_sprite_path, _female_shiny_sprite_path;
 
     };
 

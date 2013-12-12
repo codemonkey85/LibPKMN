@@ -26,7 +26,7 @@ namespace pkmnsim
             
         private:
         
-            pokelib_sptr pokelib_save;
+            pokelib_sptr _pokelib_save;
     };
 }
 

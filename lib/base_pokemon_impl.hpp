@@ -15,7 +15,7 @@ namespace pkmnsim
     {
         public:
 
-            base_pokemon_impl(unsigned int species_id, unsigned int game);
+            base_pokemon_impl(unsigned int species_id, unsigned int game_id);
 
             unsigned int get_pokedex_num() const;
             std::string get_pokedex_entry() const;

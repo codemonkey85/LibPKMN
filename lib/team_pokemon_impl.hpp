@@ -15,7 +15,7 @@ namespace pkmnsim
     {
         public:
 
-            team_pokemon_impl(base_pokemon::sptr base_pkmn, unsigned int g, unsigned int lvl,
+            team_pokemon_impl(base_pokemon::sptr base_pkmn, unsigned int g, unsigned int level,
                               unsigned int move1, unsigned int move2,
                               unsigned int move3, unsigned int move4);
 
@@ -25,31 +25,31 @@ namespace pkmnsim
             pokemon_text get_trainer_name() const;
             void set_trainer_name(pokemon_text name);
             unsigned int get_level() const;
-            void set_level(unsigned int lvl);
+            void set_level(unsigned int level);
             unsigned int get_met_level() const;
-            void set_met_level(unsigned int lvl);
+            void set_met_level(unsigned int level);
             
             moveset_t get_moves() const;
             vla<unsigned int> get_move_PPs() const;
             void set_move(unsigned int move_id, unsigned int pos);
-            void set_move_PP(unsigned int new_PP, unsigned int pos);
+            void set_move_PP(unsigned int PP, unsigned int pos);
             
             unsigned int get_status() const;
             void set_status(unsigned int status);
             
             unsigned int get_personality() const;
-            virtual void set_personality(unsigned int new_personality);
+            virtual void set_personality(unsigned int personality);
 
-            void set_ability(unsigned int new_ability);
-            void set_nature(unsigned int new_nature);
-            void set_gender(unsigned int new_gender);
+            void set_ability(unsigned int ability);
+            void set_nature(unsigned int nature);
+            void set_gender(unsigned int gender);
             
             unsigned int get_generation() const;
             item::sptr get_held_item(bool copy = true) const;
-            void set_held_item(item::sptr new_item);
+            void set_held_item(item::sptr item);
             void set_held_item(unsigned int item_id);
             unsigned int get_ball() const;
-            void set_ball(unsigned int new_ball);
+            void set_ball(unsigned int ball);
             std::string get_icon_path() const;
             std::string get_sprite_path() const;
             
@@ -60,7 +60,7 @@ namespace pkmnsim
             void set_hidden_ability(bool val);
 
             unsigned int get_trainer_gender() const;
-            void set_trainer_gender(unsigned int new_gender);
+            void set_trainer_gender(unsigned int gender);
             unsigned int get_trainer_id() const;
             unsigned short get_public_trainer_id() const;
             unsigned short get_secret_trainer_id() const;
