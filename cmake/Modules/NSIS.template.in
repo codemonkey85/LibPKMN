@@ -693,6 +693,7 @@ Section "-Core installation"
 @CPACK_NSIS_CREATE_ICONS_EXTRA@
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
   CreateShortcut "$SMPROGRAMS\$STARTMENU_FOLDER\Get Type Stats.lnk" "$INSTDIR\bin\get_type_stats.exe"
+  CreateShortcut "$SMPROGRAMS\$STARTMENU_FOLDER\About.lnk" "$INSTDIR\bin\pkmnsim-about.exe"
 
   ;Read a value from an InstallOptions INI file
   !insertmacro MUI_INSTALLOPTIONS_READ $DO_NOT_ADD_TO_PATH "NSIS.InstallOptions.ini" "Field 2" "State"
@@ -867,6 +868,7 @@ Section "Uninstall"
   StrCpy $MUI_TEMP "$START_MENU"
   Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$MUI_TEMP\Get Type Stats.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\About.lnk"
 @CPACK_NSIS_DELETE_ICONS_EXTRA@
   
   ;Delete empty start menu parent diretories
