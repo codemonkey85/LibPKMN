@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ *
+ * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+ * or copy at http://opensource.org/licenses/MIT)
+ */
+
+#include <string>
+#include <vector>
+
+#include <pkmnsim/qt4/AboutMessageBox.hpp>
+
+namespace pkmnsim
+{
+    namespace qt4
+    {
+        AboutMessageBox::AboutMessageBox(QWidget* parent): QMessageBox(parent)
+        {
+            setText("Pokemon Simulator");
+            setInformativeText("LibPKMNsim @PKMNSIM_GIT_DESCRIBE@\n"
+                               "Pokemon-sim Images @PKMNSIM_IMAGES_GIT_DESCRIBE@\n"
+                               "Pokehack @POKEHACK_GIT_DESCRIBE@\n"
+                               "PokeLib-NC @POKELIB_GIT_DESCRIBE@\n"
+                               "PKMDS @PKMDS_GIT_DESCRIBE@\n"
+                               "SQLiteC++ @SQLITECPP_GIT_DESCRIBE@\n"
+                               "Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@\n"
+                               "Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@");
+            setStandardButtons(QMessageBox::Close);
+            setDefaultButton(QMessageBox::Close);
+        }
+    }
+} /* namespace pkmnsim */
