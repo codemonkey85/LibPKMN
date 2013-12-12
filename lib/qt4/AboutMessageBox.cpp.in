@@ -19,7 +19,6 @@ namespace pkmnsim
             setText("Pokemon Simulator");
             setInformativeText("LibPKMNsim @PKMNSIM_GIT_DESCRIBE@\n"
                                "Pokemon-sim Images @PKMNSIM_IMAGES_GIT_DESCRIBE@\n"
-                               "Pokemon-sim Images @PKMNSIM_IMAGES_GIT_DESCRIBE@\n"
                                "Pokehack @POKEHACK_GIT_DESCRIBE@\n"
                                "PokeLib-NC @POKELIB_GIT_DESCRIBE@\n"
                                "PKMDS @PKMDS_GIT_DESCRIBE@\n"
