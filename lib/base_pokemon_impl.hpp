@@ -7,6 +7,21 @@
 #ifndef INCLUDED_BASE_POKEMON_IMPL_HPP
 #define INCLUDED_BASE_POKEMON_IMPL_HPP
 
+//For code cleanliness in source file
+#define ICON_PATH(name) fs::path(fs::path(icons) / name).string()
+#define FEMALE_ICON_PATH(name) fs::path(fs::path(icons) / "female" / name).string()
+#define SPRITE_PATH(name) fs::path(fs::path(sprites) / name).string()
+#define SHINY_SPRITE_PATH(name) fs::path(fs::path(s_sprites) / name).string()
+#define FEMALE_SPRITE_PATH(name) fs::path(fs::path(sprites) / "female" / name).string()
+#define FEMALE_SHINY_SPRITE_PATH(name) fs::path(fs::path(s_sprites) / "female" / name).string()
+
+#define SET_IMAGES_PATHS(filename) _male_icon_path = ICON_PATH(filename); \
+                                   _female_icon_path = _male_icon_path; \
+                                   _male_sprite_path = SPRITE_PATH(filename); \
+                                   _female_sprite_path = _male_sprite_path; \
+                                   _male_shiny_sprite_path = SHINY_SPRITE_PATH(filename); \
+                                   _female_shiny_sprite_path = _male_sprite_path;
+
 #include <pkmnsim/base_pokemon.hpp>
 
 namespace pkmnsim

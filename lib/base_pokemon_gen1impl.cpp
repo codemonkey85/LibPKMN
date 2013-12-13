@@ -41,10 +41,12 @@ namespace pkmnsim
                 break;
         }
 
-        boost::format png_format("%d.png");
-        std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprite_directory = fs::path(fs::path(get_images_dir()) / "generation-1"
+        std::string basename = to_string(_species_id) + ".png";
+        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
+        std::string sprites = fs::path(fs::path(get_images_dir()) / "generation-1"
                                      / _images_game_string).string();
+        std::string s_sprites = sprites;
+
         switch(id)
         {   
             case Species::NONE: //None, should only be used for empty slots at end of party
@@ -59,29 +61,16 @@ namespace pkmnsim
                 break;
             
             case Species::INVALID: //Invalid, aka Missingno.
-                _male_icon_path = fs::path(fs::path(sprite_directory)
-                                / (png_format % "substitute.png").str()).string();
+                _male_icon_path = SPRITE_PATH("substitute.png");
                 _female_icon_path = _male_icon_path;
-                _male_sprite_path = fs::path(fs::path(sprite_directory)
-                                  / (png_format % "substitute.png").str()).string();
+                _male_sprite_path = SPRITE_PATH("substitute.png");
                 _female_sprite_path = _female_icon_path;
                 _male_shiny_sprite_path = _male_sprite_path;
                 _female_shiny_sprite_path = _female_sprite_path;
                 break;
             
             default:
-                //No genders in Generation 1
-                _male_icon_path = fs::path(fs::path(icon_directory)
-                                / (png_format % _species_id).str()).string();
-                _female_icon_path = _male_icon_path;
-
-                _male_sprite_path = fs::path(fs::path(sprite_directory)
-                                  / (png_format % _species_id).str()).string();
-                _female_sprite_path = _male_sprite_path;
-
-                //No shininess in Generation 1
-                _male_shiny_sprite_path = _male_sprite_path;
-                _female_shiny_sprite_path = _male_sprite_path;
+                SET_IMAGES_PATHS(basename);
 
                 /*
                  * Special is exclusive to Generation 1, so query it separately

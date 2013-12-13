@@ -7,6 +7,11 @@
 #ifndef INCLUDED_BASE_POKEMON_MODERNIMPL_HPP
 #define INCLUDED_BASE_POKEMON_MODERNIMPL_HPP
 
+//For code cleanliness in source file
+#define HAS_DIFFERENT_FEMALE_ICON _species_id == Species::UNFEZANT \
+                                  or _species_id == Species::FRILLISH \
+                                  or _species_id == Species::JELLICENT
+
 #include "base_pokemon_impl.hpp"
 
 namespace pkmnsim
