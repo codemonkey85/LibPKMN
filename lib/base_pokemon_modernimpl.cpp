@@ -119,7 +119,7 @@ namespace pkmnsim
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT base_stat FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id)
+                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
                                     + " AND stat_id IN (3,5)";
                 SQLite::Statement query(db, query_string.c_str());
                 query.executeStep();
@@ -161,7 +161,7 @@ namespace pkmnsim
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT effort FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id) +
+                string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                                " AND stat_id IN (1,2,3,4,5,6)";
                 SQLite::Statement stats_query(db, query_string.c_str());
 
@@ -270,12 +270,12 @@ namespace pkmnsim
                 SQLite::Database db(get_database_path().c_str());
 
                 //Ability 1 (guaranteed)
-                string query_string = "SELECT ability_id FROM pokemon_abilities WHERE _pokemon_id=" + to_string(_pokemon_id)
+                string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                              + " AND slot=1";
                 abilities[0] = int(db.execAndGet(query_string.c_str()));
 
                 //Ability 2 (not guaranteed, and if exists, might not exist in specified generation)
-                query_string = "SELECT ability_id FROM pokemon_abilities WHERE _pokemon_id=" + to_string(_pokemon_id)
+                query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                              + " AND slot=2";
                 SQLite::Statement ability2_query(db, query_string.c_str());
                 if(ability2_query.executeStep()) //Will be false if no entry exists
@@ -292,7 +292,7 @@ namespace pkmnsim
                 //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
                 if(_generation == 5)
                 {
-                    query_string = "SELECT ability_id FROM pokemon_abilities WHERE _pokemon_id=" + to_string(_pokemon_id)
+                    query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                                  + " AND slot=3";
                     SQLite::Statement ability3_query(db, query_string.c_str());
                     if(ability3_query.executeStep()) //Will be false if no entry exists
@@ -1165,7 +1165,7 @@ namespace pkmnsim
         }
         
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id) +
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement stats_query(db, query_string.c_str());
 
@@ -1368,7 +1368,7 @@ namespace pkmnsim
         }
         
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id) +
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement stats_query(db, query_string.c_str());
 
@@ -1523,7 +1523,7 @@ namespace pkmnsim
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE _species_id="
+                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
                                     + to_string(_species_id);
                 SQLite::Statement query(db, query_string.c_str());
                 

@@ -262,7 +262,7 @@ namespace pkmnsim
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE _species_id="
+                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
                                     + to_string(_species_id);
                 SQLite::Statement query(db, query_string.c_str());
 
