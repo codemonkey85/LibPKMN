@@ -52,7 +52,6 @@ IF(ENABLE_LIBPKMNSIM)
         game_save_gen5impl.cpp
         io.cpp
         conversions/items.cpp
-        conversions/pksql.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
