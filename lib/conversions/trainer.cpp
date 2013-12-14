@@ -109,8 +109,6 @@ namespace pkmnsim
 
         void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data)
         {
-            dict<char, int> pokehack_reverse_char_map = get_pokehack_reverse_char_map();
-
             string trainer_name = pkmnsim_trainer->get_name();
             for(int i = 0; i < 7; i++)
             {

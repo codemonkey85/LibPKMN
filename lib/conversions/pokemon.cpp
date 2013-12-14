@@ -142,7 +142,6 @@ namespace pkmnsim
             b_pkmn_t->otid = t_pkmn->get_trainer_id();
             b_pkmn_t->level = t_pkmn->get_level();
 
-            dict<char, int> pokehack_reverse_char_map = get_pokehack_reverse_char_map();
             string nickname = t_pkmn->get_nickname();
             for(int i = 0; i < 10; i++)
             {
