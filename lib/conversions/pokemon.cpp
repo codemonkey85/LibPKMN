@@ -39,13 +39,33 @@ namespace pkmnsim
         team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
                                                                  pokemon_text trainer_name)
         {
-            unsigned int species = rpokesav_gen1_index_map[pkmn.get_species_index()];
+            unsigned int species_id, move1, move2, move3, move4;
+        
+            uint8_t rpokesav_species = pkmn.get_species_index();
+            if(rpokesav_species == 0 or rpokesav_species > 190)
+            {
+                species_id = Species::INVALID;
+                move1 = Moves::NONE;
+                move2 = Moves::NONE;
+                move3 = Moves::NONE;
+                move4 = Moves::NONE;
+            }
+            else
+            {
+                species_id = rpokesav_gen1_index_map[rpokesav_species];
+                
+                rpokesav::vla<uint8_t> moves = pkmn.get_moves();
+                move1 = moves[0];
+                move2 = moves[1];
+                move3 = moves[2];
+                move4 = moves[3];
+            }
+        
             unsigned int level = pkmn.get_level();
-            rpokesav::vla<uint8_t> moves = pkmn.get_moves();
             
             //No way to determine specific game in Generation 1 games
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species, Games::YELLOW, level,
-                                                           moves[0], moves[1], moves[2], moves[3]);
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::YELLOW, level,
+                                                           move1, move2, move3, move4);
             
             t_pkmn->set_nickname(pkmn.get_nickname());
             
