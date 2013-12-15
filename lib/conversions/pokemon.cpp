@@ -39,7 +39,7 @@ namespace pkmnsim
         team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
                                                                  pokemon_text trainer_name)
         {
-            unsigned int species = pkmn.get_species_index();
+            unsigned int species = rpokesav_gen1_index_map[pkmn.get_species_index()];
             unsigned int level = pkmn.get_level();
             rpokesav::vla<uint8_t> moves = pkmn.get_moves();
             

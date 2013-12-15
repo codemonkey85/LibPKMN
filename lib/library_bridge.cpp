@@ -355,7 +355,7 @@ namespace pkmnsim
                + floor((double)(ev/4))) * level) / 100)) + 5)) * naturemod));
     }
 
-void pkmnsim_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx)
+    void pkmnsim_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx)
     {
     
         p_pkx->pkx_data = *pkx;
