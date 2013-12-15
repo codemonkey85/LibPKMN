@@ -42,12 +42,12 @@ namespace pkmnsim
                 _images_game_string = "crystal";
                 break;
         }
-        
-        boost::format png_format("%d.png");
-        std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprite_directory = fs::path(fs::path(get_images_dir()) / "generation-2"
+       
+        std::string basename = to_string(_species_id) + ".png"; 
+        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
+        std::string sprites = fs::path(fs::path(get_images_dir()) / "generation-2"
                                      / _images_game_string).string();
-        std::string shiny_sprite_directory = fs::path(fs::path(sprite_directory) / "shiny").string();
+        std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
                                      
         switch(id)
         {
@@ -63,31 +63,16 @@ namespace pkmnsim
                 break;
 
             case Species::INVALID: //Invalid, aka Missingno. equivalents
-                _male_icon_path = fs::path(fs::path(sprite_directory)
-                                / (png_format % "substitute.png").str()).string();
+                _male_icon_path = SPRITE_PATH("substitute.png");
                 _female_icon_path = _male_icon_path;
-                _male_sprite_path = fs::path(fs::path(sprite_directory)
-                                  / (png_format % "substitute.png").str()).string();
+                _male_sprite_path = SPRITE_PATH("substitute.png");
                 _female_sprite_path = _female_icon_path;
                 _male_shiny_sprite_path = _male_sprite_path;
                 _female_shiny_sprite_path = _female_sprite_path;
                 break;
 
             default:
-                //No gender differences in Generation 2
-                _male_icon_path = fs::path(fs::path(icon_directory)
-                                / (png_format % _species_id).str()).string();
-                _female_icon_path = _male_icon_path;
-
-                //No gender differences in Generation 2
-                _male_sprite_path = fs::path(fs::path(sprite_directory)
-                                  / (png_format % _species_id).str()).string();
-                _female_sprite_path = _male_sprite_path;
-
-                //No gender differences in Generation 2
-                _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
-                                        / (png_format % _species_id).str()).string();
-                _female_shiny_sprite_path = _male_shiny_sprite_path;
+                SET_IMAGES_PATHS(basename);
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
@@ -262,7 +247,7 @@ namespace pkmnsim
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE _species_id="
+                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
                                     + to_string(_species_id);
                 SQLite::Statement query(db, query_string.c_str());
 

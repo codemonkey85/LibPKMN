@@ -8,7 +8,7 @@
 #Place database location into relevant source files
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 
-IF(ENABLE_LIBRARY)
+IF(ENABLE_LIBPKMNSIM)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/lib/SQLiteCpp/sqlite3)
     ADD_SUBDIRECTORY(SQLiteCpp/src)
 
@@ -53,7 +53,6 @@ IF(ENABLE_LIBRARY)
         game_save_gen5impl.cpp
         io.cpp
         conversions/items.cpp
-        conversions/pksql.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
@@ -113,4 +112,4 @@ IF(ENABLE_LIBRARY)
         RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime #.dll
     )
     ADD_SUBDIRECTORY(swig)
-ENDIF(ENABLE_LIBRARY)
+ENDIF(ENABLE_LIBPKMNSIM)

@@ -21,9 +21,9 @@ IF(SWIG_FOUND)
 ENDIF(SWIG_FOUND)
 
 PKMNSIM_REGISTER_COMPONENT("PyPKMNsim - Python Bindings" ENABLE_PYPKMNSIM ON
-                           "ENABLE_LIBRARY;SWIG_FOUND;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND;PYQT4_FOUND" OFF)
+                           "ENABLE_LIBPKMNSIM;SWIG_FOUND;PYTHONINTERP_FOUND;PYTHONLIBS_FOUND;PYQT4_FOUND" OFF)
 PKMNSIM_REGISTER_COMPONENT("PKMNsim# - C# Bindings" ENABLE_PKMNSIMSHARP ON
-                           "ENABLE_LIBRARY;CSHARP_FOUND" OFF)
+                           "ENABLE_LIBPKMNSIM;CSHARP_FOUND" OFF)
 
 ####################################################################
 # Add subdirectories as appropriate based on enabled SWIG wrappers

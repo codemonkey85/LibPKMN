@@ -57,16 +57,15 @@ namespace pkmnsim
                 break;
         }
         
-        boost::format png_format("%d.png");
+        std::string basename = to_string(_species_id) + ".png";
         std::string gen_string = "generation-" + to_string(_generation);
-        boost::format gen_format("generation-%d");
-        std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprite_directory = fs::path(fs::path(get_images_dir()) / gen_string
+        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
+
+        std::string sprites = fs::path(fs::path(get_images_dir()) / gen_string
                                      / _images_game_string.c_str()).string();
-        std::string shiny_sprite_directory = fs::path(fs::path(sprite_directory) / "shiny").string();
+        std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
         
-        
-        switch(id)
+        switch(_species_id)
         {
             case Species::NONE: //None, should only be used for empty slots at end of party
                 _male_icon_path = fs::path(fs::path(get_images_dir())
@@ -80,35 +79,28 @@ namespace pkmnsim
                 break;
 
             case Species::INVALID: //Invalid, aka Bad Egg
-                _male_icon_path = fs::path(fs::path(sprite_directory)
-                                / (png_format % "substitute.png").str()).string();
+                _male_icon_path = SPRITE_PATH("substitute.png");
                 _female_icon_path = _male_icon_path;
-                _male_sprite_path = fs::path(fs::path(sprite_directory)
-                                / (png_format % "substitute.png").str()).string();
+                _male_sprite_path = SPRITE_PATH("substitute.png");
                 _female_sprite_path = _female_icon_path;
                 _male_shiny_sprite_path = _male_sprite_path;
                 _female_shiny_sprite_path = _female_sprite_path;
                 break;
 
             default:
+                //_male_icon_path = fs::path(fs::path(icons) / basename).string();
+                _male_icon_path = ICON_PATH(basename);
+
                 //Unfezant, Frillish and Jellicent have different icons for each gender
-                _male_icon_path = fs::path(fs::path(icon_directory)
-                                / (png_format % _species_id).str()).string();
-                if(_species_id == Species::UNFEZANT or _species_id == Species::FRILLISH or _species_id == Species::JELLICENT)
-                    _female_icon_path = fs::path(fs::path(icon_directory)
-                                      / "female" / (png_format % _species_id).str()).string();
+                if(HAS_DIFFERENT_FEMALE_ICON) _female_icon_path = FEMALE_ICON_PATH(basename);
                 else _female_icon_path = _male_icon_path;
                 
-                _male_sprite_path = fs::path(fs::path(sprite_directory)
-                                  / (png_format % _species_id).str()).string();
-                _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
-                                        / (png_format % _species_id).str()).string();
+                _male_sprite_path = SPRITE_PATH(basename);
+                _male_shiny_sprite_path = SHINY_SPRITE_PATH(basename);
                 if(_generation > 3 and has_gender_differences())
                 {
-                    _female_sprite_path = fs::path(fs::path(sprite_directory)
-                                        / "female" / (png_format % _species_id).str()).string();
-                    _female_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
-                                              / "female" / (png_format % _species_id).str()).string();
+                    _female_sprite_path = FEMALE_SPRITE_PATH(basename);
+                    _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH(basename);
                 }
                 else
                 {
@@ -119,7 +111,7 @@ namespace pkmnsim
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT base_stat FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id)
+                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
                                     + " AND stat_id IN (3,5)";
                 SQLite::Statement query(db, query_string.c_str());
                 query.executeStep();
@@ -161,7 +153,7 @@ namespace pkmnsim
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT effort FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id) +
+                string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                                " AND stat_id IN (1,2,3,4,5,6)";
                 SQLite::Statement stats_query(db, query_string.c_str());
 
@@ -270,12 +262,12 @@ namespace pkmnsim
                 SQLite::Database db(get_database_path().c_str());
 
                 //Ability 1 (guaranteed)
-                string query_string = "SELECT ability_id FROM pokemon_abilities WHERE _pokemon_id=" + to_string(_pokemon_id)
+                string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                              + " AND slot=1";
                 abilities[0] = int(db.execAndGet(query_string.c_str()));
 
                 //Ability 2 (not guaranteed, and if exists, might not exist in specified generation)
-                query_string = "SELECT ability_id FROM pokemon_abilities WHERE _pokemon_id=" + to_string(_pokemon_id)
+                query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                              + " AND slot=2";
                 SQLite::Statement ability2_query(db, query_string.c_str());
                 if(ability2_query.executeStep()) //Will be false if no entry exists
@@ -292,7 +284,7 @@ namespace pkmnsim
                 //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
                 if(_generation == 5)
                 {
-                    query_string = "SELECT ability_id FROM pokemon_abilities WHERE _pokemon_id=" + to_string(_pokemon_id)
+                    query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                                  + " AND slot=3";
                     SQLite::Statement ability3_query(db, query_string.c_str());
                     if(ability3_query.executeStep()) //Will be false if no entry exists
@@ -331,46 +323,25 @@ namespace pkmnsim
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + to_string(_generation);
-        std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprite_directory = fs::path(fs::path(get_images_dir()) / gen_string
+        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
+        std::string sprites = fs::path(fs::path(get_images_dir()) / gen_string
                                      / _images_game_string.c_str()).string();
-        std::string shiny_sprite_directory = fs::path(fs::path(sprite_directory) / "shiny").string();
+        std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
         
         switch(_species_id)
         {
-            case 201:
-                if(form >= 1 and form <= 26)
-                {
-                    char letter = form + 96;
-                    string basename = str(boost::format("201-%c.png") % letter);
-                    _male_icon_path = fs::path(fs::path(icon_directory) / basename).string();
-                    _female_icon_path = _male_icon_path;
-                    _male_sprite_path = fs::path(fs::path(sprite_directory) / basename).string();
-                    _female_sprite_path = _male_sprite_path;
-                    _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / basename).string();
-                    _female_shiny_sprite_path = _male_sprite_path;
-                }
-                else if(form == Forms::Unown::QUESTION)
-                {
-                    _male_icon_path = fs::path(fs::path(icon_directory) / "201-question.png").string();
-                    _female_icon_path = _male_icon_path;
-                    _male_sprite_path = fs::path(fs::path(sprite_directory) / "201-question.png").string();
-                    _female_sprite_path = _male_sprite_path;
-                    _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "201-question.png").string();
-                    _female_shiny_sprite_path = _male_sprite_path;
-                }
-                else if(form == Forms::Unown::EXCLAMATION)
-                {
-                    _male_icon_path = fs::path(fs::path(icon_directory) / "201-exclamation.png").string();
-                    _female_icon_path = _male_icon_path;
-                    _male_sprite_path = fs::path(fs::path(sprite_directory) / "201-exclamation.png").string();
-                    _female_sprite_path = _male_sprite_path;
-                    _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "201-exclamation.png").string();
-                    _female_shiny_sprite_path = _male_sprite_path;
-                }
-                break;
+            case Species::UNOWN:
+            {
+                string basename;
+                if(form >= 1 and form <= 26) basename = str(boost::format("201-%c.png") % (form + 96));
+                else if(form == Forms::Unown::QUESTION) basename = "201-question.png";
+                else if(form == Forms::Unown::EXCLAMATION) basename = "201-exclamation.png";
 
-            case 351:
+                SET_IMAGES_PATHS(basename);
+                break;
+            }
+
+            case Species::CASTFORM:
                 switch(form)
                 {
                     case Forms::Castform::NORMAL:
@@ -378,137 +349,82 @@ namespace pkmnsim
                         _type2_id = Types::NONE;
                         _pokemon_id = 351;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "351.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "351.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "351.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("351.png");
                         break;
 
                     case Forms::Castform::SUNNY:
                         _type1_id = Types::FIRE;
                         _type2_id = Types::NONE;
-                        _pokemon_id = 662;
+                        _pokemon_id = 10013;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "351-sunny.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "351-sunny.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "351-sunny.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("351-sunny.png");
                         break;
 
                     case Forms::Castform::RAINY:
                         _type1_id = Types::WATER;
                         _type2_id = Types::NONE;
-                        _pokemon_id = 663;
+                        _pokemon_id = 10014;
 
-                        _male_icon_path = fs::path(fs::path(get_images_dir().c_str()) / "pokemon-icons" / "351-rainy.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(get_images_dir()) / gen_string.c_str() / _images_game_string.c_str() / "351-rainy.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_sprite_path = fs::path(fs::path(get_images_dir()) / gen_string.c_str() / _images_game_string.c_str() / "shiny" / "351-rainy.png").string();
-                        _female_shiny_sprite_path = _female_shiny_sprite_path;
+                        SET_IMAGES_PATHS("351-rainy.png");
                         break;
 
                     case Forms::Castform::SNOWY:
                         _type1_id = Types::ICE;
                         _type2_id = Types::NONE;
-                        _pokemon_id = 664;
+                        _pokemon_id = 10015;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "351-snowy.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "351-snowy.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "351-snowy.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("351-snowy.png");
                         break;
                 }
                 break;
 
-            case 386:
+            case Species::DEOXYS:
                 switch(form)
                 {
                     case Forms::Deoxys::NORMAL:
                         _pokemon_id = 386;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "386.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "386.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "386.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("386.png");
                         break;
 
                     case Forms::Deoxys::ATTACK:
-                        _pokemon_id = 650;
+                        _pokemon_id = 10001;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "386-attack.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "386-attack.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "386-attack.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("386-attack.png");
                         break;
 
                     case Forms::Deoxys::DEFENSE:
-                        _pokemon_id = 651;
+                        _pokemon_id = 10002;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "386-defense.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "386-defense.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "386-defense.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("386-defense.png");
                         break;
 
                     case Forms::Deoxys::SPEED:
-                        _pokemon_id = 652;
+                        _pokemon_id = 10003;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "386-speed.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "386-speed.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "386-speed.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("386-speed.png");
                         break;
                 }
                 break;
 
-            case 412:
+            case Species::BURMY:
                 switch(form)
                 {
                     case Forms::Burmy::PLANT_CLOAK:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "412-plant.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "412-plant.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "412-plant.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("412-plant.png");
                         break;
 
                     case Forms::Burmy::SANDY_CLOAK:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "412-sandy.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "412-sandy.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "412-sandy.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("412-sandy.png");
                         break;
 
                     case Forms::Burmy::TRASH_CLOAK:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "412-trash.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "412-trash.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "412-trash.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("412-trash.png");
                         break;
                 }
                 break;
 
-            case 413:
+            case Species::WORMADAM:
                 switch(form)
                 {
                     case Forms::Wormadam::PLANT_CLOAK:
@@ -516,115 +432,82 @@ namespace pkmnsim
                         _type2_id = Types::GRASS;
                         _pokemon_id = 413;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "413-plant.png").string();
-                        _female_sprite_path = fs::path(fs::path(sprite_directory)
-                                           / "female" / "413-plant.png").string();
+                        _male_icon_path = ICON_PATH("413-plant.png");
+                        _female_icon_path = _male_icon_path;
+                        _female_sprite_path = FEMALE_SPRITE_PATH("413-plant.png");
                         _male_sprite_path = _female_sprite_path; //Will never be used
-                        _female_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
-                                                 / "female" / "413-plant.png").string();
+                        _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH("413-plant.png");
                         _male_shiny_sprite_path = _female_shiny_sprite_path; //Will never be used
                         break;
 
                     case Forms::Wormadam::SANDY_CLOAK:
                         _type1_id = Types::BUG;
                         _type2_id = Types::GROUND;
-                        _pokemon_id = 653;
+                        _pokemon_id = 10004;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "413-sandy.png").string();
-                        _female_sprite_path = fs::path(fs::path(sprite_directory)
-                                           / "female" / "413-sandy.png").string();
+                        _male_icon_path = ICON_PATH("413-sandy.png");
+                        _female_icon_path = _male_icon_path;
+                        _female_sprite_path = FEMALE_SPRITE_PATH("413-sandy.png");
                         _male_sprite_path = _female_sprite_path; //Will never be used
-                        _female_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory)
-                                                 / "female" / "413-sandy.png").string();
+                        _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH("413-sandy.png");
                         _male_shiny_sprite_path = _female_shiny_sprite_path; //Will never be used
                         break;
 
                     case Forms::Wormadam::TRASH_CLOAK:
                         _type1_id = Types::BUG;
                         _type2_id = Types::STEEL;
-                        _pokemon_id = 654;
+                        _pokemon_id = 10005;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "413-trash.png").string();
-                        _male_sprite_path = fs::path(fs::path(sprite_directory)
-                                         / "female" / "413-trash.png").string();
+                        _male_icon_path = ICON_PATH("413-trash.png");
+                        _female_icon_path = _male_icon_path;
+                        _female_sprite_path = FEMALE_SPRITE_PATH("413-trash.png");
                         _male_sprite_path = _female_sprite_path; //Will never be used
-                        _male_sprite_path = fs::path(fs::path(shiny_sprite_directory)
-                                         / "female" / "413-trash.png").string();
+                        _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH("413-trash.png");
                         _male_shiny_sprite_path = _female_shiny_sprite_path; //Will never be used
                         break;
                 }
                 break;
 
-            case 421:
+            case Species::CHERRIM:
                 switch(form)
                 {
                     case Forms::Cherrim::OVERCAST:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "421-overcast.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "421-overcast.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "421-overcast.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("421-overcast.png");
                         break;
 
                     case Forms::Cherrim::SUNSHINE:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "421-sunshine.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "421-sunshine.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "421-sunshine.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("421-sunshine.png");
                         break;
                 }
                 break;
 
-            case 422:
+            case Species::SHELLOS:
                 switch(form)
                 {
                     case Forms::Shellos::WEST_SEA:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "422-west.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "422-west.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "422-west.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("422-west.png");
                         break;
 
                     case Forms::Shellos::EAST_SEA:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "422-east.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "422-east.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "422-east.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("422-east.png");
                         break;
                 }
                 break;
 
-            case 423:
+            case Species::GASTRODON:
                 switch(form)
                 {
                     case Forms::Gastrodon::WEST_SEA:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "423-west.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "423-west.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "423-west.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("423-west.png");
                         break;
 
                     case Forms::Gastrodon::EAST_SEA:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "423-east.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "423-east.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "423-east.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("423-east.png");
                         break;
                 }
                 break;
 
-            case 479:
+            case Species::ROTOM:
                 switch(form)
                 {
                     case Forms::Rotom::NORMAL:
@@ -632,109 +515,69 @@ namespace pkmnsim
                         _type2_id = Types::GHOST;
                         _pokemon_id = 479;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "479.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "479.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "479.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("479.png");
                         break;
 
                     case Forms::Rotom::HEAT:
                         _type1_id = Types::ELECTRIC;
                         _type2_id = Types::FIRE;
-                        _pokemon_id = 657;
+                        _pokemon_id = 10008;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "479-heat.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "479-heat.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "479-heat.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("479-heat.png");
                         break;
 
                     case Forms::Rotom::WASH:
                         _type1_id = Types::ELECTRIC;
                         _type2_id = Types::WATER;
-                        _pokemon_id = 658;
+                        _pokemon_id = 10009;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "479-wash.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "479-wash.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "479-wash.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("479-wash.png");
                         break;
 
                     case Forms::Rotom::FROST:
                         _type1_id = Types::ELECTRIC;
                         _type2_id = Types::ICE;
-                        _pokemon_id = 659;
+                        _pokemon_id = 10010;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "479-frost.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "479-frost.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "479-frost.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("479-frost.png");
                         break;
 
                     case Forms::Rotom::FAN:
                         _type1_id = Types::ELECTRIC;
                         _type2_id = Types::FLYING;
-                        _pokemon_id = 660;
+                        _pokemon_id = 10011;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "479-fan.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "479-fan.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "479-fan.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("479-fan.png");
                         break;
 
                     case Forms::Rotom::MOW:
                         _type1_id = Types::ELECTRIC;
                         _type2_id = Types::GRASS;
-                        _pokemon_id = 661;
+                        _pokemon_id = 10012;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "479-mow.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "479-mow.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "479-mow.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("479-mow.png");
                         break;
                 }
                 break;
 
-            case 487:
+            case Species::GIRATINA:
                 switch(form)
                 {
                     case Forms::Giratina::ALTERED:
                         _pokemon_id = 487;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "487-altered.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "487-altered.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "487-altered.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("487-altered.png");
                         break;
 
                     case Forms::Giratina::ORIGIN:
-                        _pokemon_id = 656;
+                        _pokemon_id = 10007;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "487-origin.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "487-origin.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "487-origin.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("487-origin.png");
                         break;
                 }
                 break;
 
-            case 492:
+            case Species::SHAYMIN:
                 switch(form)
                 {
                     case Forms::Shaymin::LAND:
@@ -742,30 +585,20 @@ namespace pkmnsim
                         _type2_id = Types::NONE;
                         _pokemon_id = 492;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "492-land.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "492-land.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "492-;amd.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("492-land.png");
                         break;
 
                     case Forms::Shaymin::SKY:
                         _type1_id = Types::GRASS;
                         _type2_id = Types::FLYING;
-                        _pokemon_id = 655;
+                        _pokemon_id = 10006;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "492-sky.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "492-sky.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "492-sky.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("492-sky.png");
                         break;
                 }
                 break;
 
-            case 493:
+            case Species::ARCEUS:
                 switch(form)
                 {
                     case Forms::Arceus::NORMAL:
@@ -838,34 +671,24 @@ namespace pkmnsim
                 }
                 break;
 
-            case 550:
+            case Species::BASCULIN:
                 switch(form)
                 {
                     case Forms::Basculin::RED_STRIPED:
                         _pokemon_id = 550;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "550-red-striped.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "550-red-striped.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "550-red-striped.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("500-red-striped.png");
                         break;
 
                     case Forms::Basculin::BLUE_STRIPED:
-                        _pokemon_id = 665;
+                        _pokemon_id = 10016;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "550-blue-striped.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "550-blue-striped.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "550-blue-striped.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("550-blue-striped.png");
                         break;
             }
             break;
 
-            case 555:
+            case Species::DARMANITAN:
                 switch(form)
                 {
                     case Forms::Darmanitan::STANDARD:
@@ -873,30 +696,20 @@ namespace pkmnsim
                         _type2_id = Types::NONE;
                         _pokemon_id = 555;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "555-standard.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "555-standard.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "555-standard.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("555-standard.png");
                         break;
 
                     case Forms::Darmanitan::ZEN:
                         _type1_id = Types::FIRE;
                         _type2_id = Types::PSYCHIC;
-                        _pokemon_id = 666;
+                        _pokemon_id = 10017;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "555-zen.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "555-zen.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "555-zen.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("555-zen.png");
                         break;
                 }
                 break;
 
-            case 585:
+            case Species::DEERLING:
                 switch(form)
                 {
                     case Forms::Deerling::SPRING:
@@ -917,7 +730,7 @@ namespace pkmnsim
                 }
                 break;
 
-            case 586:
+            case Species::SAWSBUCK:
                 switch(form)
                 {
                     case Forms::Sawsbuck::SPRING:
@@ -937,149 +750,98 @@ namespace pkmnsim
                         break;
                 }
 
-            case 641:
+            case Species::TORNADUS:
                 switch(form)
                 {
                     case Forms::Tornadus::INCARNATE:
                         _pokemon_id = 641;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "641-incarnate.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "641-incarnate.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "641-incarnate.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("641-incarnate.png");
                         break;
 
                     case Forms::Tornadus::THERIAN:
-                        _pokemon_id = 668;
+                        _pokemon_id = 10019;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "641-therian.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "641-therian.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "641-therian.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("641-therian.png");
                         break;
                 }
                 break;
 
-            case 642:
+            case Species::THUNDURUS:
                 switch(form)
                 {
                     case Forms::Thundurus::INCARNATE:
                         _pokemon_id = 642;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "642-incarnate.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "642-incarnate.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "642-incarnate.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("642-incarnate.png");
                         break;
 
                     case Forms::Thundurus::THERIAN:
-                        _pokemon_id = 669;
+                        _pokemon_id = 10020;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "642-therian.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "642-therian.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "642-therian.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("642-therian.png");
                         break;
                 }
                 break;
 
-            case 645:
+            case Species::LANDORUS:
                 switch(form)
                 {
                     case Forms::Landorus::INCARNATE:
                         _pokemon_id = 645;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "645-incarnate.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "645-incarnate.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "645-incarnate.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("645-incarnate.png");
                         break;
 
                     case Forms::Landorus::THERIAN:
-                        _pokemon_id = 670;
+                        _pokemon_id = 10021;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "645-therian.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "645-therian.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "645-therian.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("645-therian.png");
                         break;
                 }
                 break;
 
-            case 646:
+            case Species::KYUREM:
                 switch(form)
                 {
                     case Forms::Kyurem::NORMAL:
                         _pokemon_id = 646;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "646.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "646.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "646.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("646.png");
                         break;
 
                     case Forms::Kyurem::BLACK:
-                        _pokemon_id = 671;
+                        _pokemon_id = 10022;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "646-black.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "646-black.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "646-black.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("646-black.png");
                         break;
 
                     case Forms::Kyurem::WHITE:
-                        _pokemon_id = 672;
+                        _pokemon_id = 10023;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "646-white.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "646-white.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "646-white.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("646-white.png");
                     break;
                 }
                 break;
 
-            case 647:
+            case Species::KELDEO:
                 switch(form)
                 {
                     case Forms::Keldeo::ORDINARY:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "647-ordinary.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "647-ordinary.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "647-ordinary.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        _pokemon_id = 647;
+
+                        SET_IMAGES_PATHS("647-ordinary.png");
                         break;
 
                     case Forms::Keldeo::RESOLUTE:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "647-resolute.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "647-resolute.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "647-resolute.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        _pokemon_id = 10024;
+
+                        SET_IMAGES_PATHS("647-resolute.png");
                         break;
                 }
                 break;
 
-            case 648:
+            case Species::MELOETTA:
                 switch(form)
                 {
                     case Forms::Meloetta::ARIA:
@@ -1087,75 +849,40 @@ namespace pkmnsim
                         _type2_id = Types::PSYCHIC;
                         _pokemon_id = 648;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "648-aria.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "648-aria.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "648-aria.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("648-aria.png");
                         break;
 
                     case Forms::Meloetta::PIROUETTE:
                         _type1_id = Types::NORMAL;
                         _type2_id = Types::FIGHTING;
-                        _pokemon_id = 673;
+                        _pokemon_id = 10018;
 
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "648-pirouette.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "648-pirouette.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "648-pirouette.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("648-pirouette.png");
                         break;
                 }
                 break;
 
-            case 649:
+            case Species::GENESECT:
                 switch(form)
                 {
                     case Forms::Genesect::NORMAL:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "649.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "649.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "649.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("649.png");
                         break;
 
                     case Forms::Genesect::SHOCK_DRIVE:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "649-shock.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "649-shock.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "649-shock.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("649-shock.png");
                         break;
 
                     case Forms::Genesect::BURN_DRIVE:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "649-burn.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "649-burn.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "649-burn.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("649-burn.png");
                         break;
 
                     case Forms::Genesect::CHILL_DRIVE:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "649-chill.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "649-chill.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "649-chill.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("649-chill.png");
                         break;
 
                     case Forms::Genesect::DOUSE_DRIVE:
-                        _male_icon_path = fs::path(fs::path(icon_directory) / "649-douse.png").string();
-                        _female_icon_path = _male_icon_path;
-                        _male_sprite_path = fs::path(fs::path(sprite_directory) / "649-douse.png").string();
-                        _female_sprite_path = _male_sprite_path;
-                        _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / "649-douse.png").string();
-                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                        SET_IMAGES_PATHS("649-douse.png");
                         break;
                 }
                 break;
@@ -1165,7 +892,7 @@ namespace pkmnsim
         }
         
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id) +
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement stats_query(db, query_string.c_str());
 
@@ -1187,14 +914,14 @@ namespace pkmnsim
     {
         boost::format png_format("%d.png");
         string gen_string = "generation-" + to_string(_generation);
-        std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprite_directory = fs::path(fs::path(get_images_dir()) / gen_string
+        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
+        std::string sprites = fs::path(fs::path(get_images_dir()) / gen_string
                                      / _images_game_string.c_str()).string();
-        std::string shiny_sprite_directory = fs::path(fs::path(sprite_directory) / "shiny").string();
+        std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
         
         switch(_species_id)
         {
-            case 201:
+            case Species::UNOWN:
                 if(form.size() != 1) break;
                 else
                 {
@@ -1205,48 +932,48 @@ namespace pkmnsim
                 }
                 break;
 
-            case 351:
+            case Species::CASTFORM:
                 if(form == "Normal") set_form(Forms::Castform::NORMAL);
                 else if(form == "Sunny") set_form(Forms::Castform::SUNNY);
                 else if(form == "Rainy") set_form(Forms::Castform::RAINY);
                 else if(form == "Snowy") set_form(Forms::Castform::SNOWY);
                 break;
 
-            case 386:
+            case Species::DEOXYS:
                 if(form == "Normal") set_form(Forms::Deoxys::NORMAL);
                 else if(form == "Attack") set_form(Forms::Deoxys::ATTACK);
                 else if(form == "Defense") set_form(Forms::Deoxys::DEFENSE);
                 else if(form == "Speed") set_form(Forms::Deoxys::SPEED);
                 break;
 
-            case 412:
+            case Species::BURMY:
                 if(form == "Plant Cloak") set_form(Forms::Burmy::PLANT_CLOAK);
                 else if(form == "Sandy Cloak") set_form(Forms::Burmy::SANDY_CLOAK);
                 else if(form == "Trash Cloak") set_form(Forms::Burmy::TRASH_CLOAK);
                 break;
 
-            case 413:
+            case Species::WORMADAM:
                 if(form == "Plant Cloak") set_form(Forms::Wormadam::PLANT_CLOAK);
                 else if(form == "Sandy Cloak") set_form(Forms::Wormadam::SANDY_CLOAK);
                 else if(form == "Trash Cloak") set_form(Forms::Wormadam::TRASH_CLOAK);
                 break;
 
-            case 421:
+            case Species::CHERRIM:
                 if(form == "Overcast") set_form(Forms::Cherrim::OVERCAST);
                 else if(form == "Sunshine") set_form(Forms::Cherrim::SUNSHINE);
                 break;
 
-            case 422:
+            case Species::SHELLOS:
                 if(form == "West Sea") set_form(Forms::Shellos::WEST_SEA);
                 else if(form == "East Sea") set_form(Forms::Shellos::EAST_SEA);
                 break;
 
-            case 423:
+            case Species::GASTRODON:
                 if(form == "West Sea") set_form(Forms::Gastrodon::WEST_SEA);
                 else if(form == "East Sea") set_form(Forms::Gastrodon::EAST_SEA);
                 break;
 
-            case 479:
+            case Species::ROTOM:
                 if(form == "Normal") set_form(Forms::Rotom::NORMAL);
                 else if(form == "Heat") set_form(Forms::Rotom::HEAT);
                 else if(form == "Frost") set_form(Forms::Rotom::FROST);
@@ -1255,17 +982,17 @@ namespace pkmnsim
                 else if(form == "Mow") set_form(Forms::Rotom::MOW);
                 break;
 
-            case 487:
+            case Species::GIRATINA:
                 if(form == "Altered") set_form(Forms::Giratina::ALTERED);
                 else if(form == "Origin") set_form(Forms::Giratina::ORIGIN);
                 break;
 
-            case 492:
+            case Species::SHAYMIN:
                 if(form == "Land") set_form(Forms::Shaymin::LAND);
                 else if(form == "Sky") set_form(Forms::Shaymin::SKY);
                 break;
 
-            case 493:
+            case Species::ARCEUS:
             {
                 vector<string> type_vec;
                 get_type_list(type_vec, 4);
@@ -1277,88 +1004,64 @@ namespace pkmnsim
                     transform(form.begin(), form.end(), form.begin(), ::tolower);
                     string basename = (boost::format("493-%s.png") % form).str();
 
-                    _male_icon_path = fs::path(fs::path(icon_directory) / basename.c_str()).string();
-                    _female_icon_path = _male_icon_path;
-                    _male_sprite_path = fs::path(fs::path(sprite_directory) / basename.c_str()).string();
-                    _female_sprite_path = _male_sprite_path;
-                    _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / basename.c_str()).string();
-                    _female_shiny_sprite_path = _male_shiny_sprite_path;
+                    SET_IMAGES_PATHS(basename);
                 }
                 break;
             }
 
-            case 550:
+            case Species::BASCULIN:
                 if(form == "Red-Striped") set_form(Forms::Basculin::RED_STRIPED);
                 if(form == "Blue-Striped") set_form(Forms::Basculin::BLUE_STRIPED);
                 break;
 
-            case 555:
+            case Species::DARMANITAN:
                 if(form == "Standard") set_form(Forms::Darmanitan::STANDARD);
                 if(form == "Zen") set_form(Forms::Darmanitan::ZEN);
                 break;            
 
-            case 585:
+            case Species::DEERLING:
+            case Species::SAWSBUCK:
                 if(form == "Spring" or form == "Summer" or form == "Autumn" or form == "Winter")
                 {
                     transform(form.begin(), form.end(), form.begin(), ::tolower);
-                    string basename = (boost::format("585-%s.png") % form).str();
+                    string basename = (boost::format("%d-%s.png") % _species_id % form).str();
                     
-                    _male_icon_path = fs::path(fs::path(icon_directory) / basename.c_str()).string();
-                    _female_icon_path = _male_icon_path;
-                    _male_sprite_path = fs::path(fs::path(sprite_directory) / basename.c_str()).string();
-                    _female_sprite_path = _male_sprite_path;
-                    _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / basename.c_str()).string();
-                    _female_shiny_sprite_path = _male_shiny_sprite_path;
+                    SET_IMAGES_PATHS(basename);
                 }
                 break;
 
-            case 586:
-                if(form != "Spring" and form != "Summer" and form != "Autumn" and form != "Winter")
-                {
-                    transform(form.begin(), form.end(), form.begin(), ::tolower);
-                    string basename = (boost::format("586-%s.png") % form).str();
-                    
-                    _male_icon_path = fs::path(fs::path(icon_directory) / basename.c_str()).string();
-                    _female_icon_path = _male_icon_path;
-                    _male_sprite_path = fs::path(fs::path(sprite_directory) / basename.c_str()).string();
-                    _female_sprite_path = _male_sprite_path;
-                    _male_shiny_sprite_path = fs::path(fs::path(shiny_sprite_directory) / basename.c_str()).string();
-                    _female_shiny_sprite_path = _male_shiny_sprite_path;
-                }
-                break;
-
-            case 641:
+            case Species::TORNADUS:
                 if(form == "Incarnate") set_form(Forms::Tornadus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Tornadus::THERIAN);
                 break;
 
-            case 642:
+            case Species::THUNDURUS:
                 if(form == "Incarnate") set_form(Forms::Thundurus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Thundurus::THERIAN);
                 break;
 
-            case 645:
+            case Species::LANDORUS:
                 if(form == "Incarnate") set_form(Forms::Landorus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Landorus::THERIAN);
                 break;
 
-            case 646:
+            case Species::KYUREM:
                 if(form == "Normal") set_form(Forms::Kyurem::NORMAL);
                 else if(form == "Black") set_form(Forms::Kyurem::BLACK);
                 else if(form == "White") set_form(Forms::Kyurem::WHITE);
                 break;
 
-            case 647:
+            case Species::KELDEO:
                 if(form == "Ordinary") set_form(Forms::Keldeo::ORDINARY);
                 else if(form == "Resolute") set_form(Forms::Keldeo::RESOLUTE);
                 break;
 
-            case 648:
+            case Species::MELOETTA:
                 if(form == "Aria") set_form(Forms::Meloetta::ARIA);
                 else if(form == "Pirouette") set_form(Forms::Meloetta::PIROUETTE);
                 break;
 
-            case 649:
+            case Species::GENESECT:
                 if(form == "Normal") set_form(Forms::Genesect::NORMAL);
                 if(form == "Shock Drive") set_form(Forms::Genesect::SHOCK_DRIVE);
                 if(form == "Burn Drive") set_form(Forms::Genesect::BURN_DRIVE);
@@ -1368,7 +1071,7 @@ namespace pkmnsim
         }
         
         SQLite::Database db(get_database_path().c_str());
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE _pokemon_id=" + to_string(_pokemon_id) +
+        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement stats_query(db, query_string.c_str());
 
@@ -1388,101 +1091,102 @@ namespace pkmnsim
 
     void base_pokemon_modernimpl::repair(unsigned int id)
     {
+        //TODO: standard forms
         switch(id)
         {
-            case 650: //Deoxys - Attack Forme
+            case 10001: //Deoxys - Attack Forme
                 set_form(Forms::Deoxys::ATTACK);
                 break;
 
-            case 651: //Deoxys - Defense Forme
+            case 10002: //Deoxys - Defense Forme
                 set_form(Forms::Deoxys::DEFENSE);
                 break;
 
-            case 652: //Deoxys - Speed Forme
+            case 10003: //Deoxys - Speed Forme
                 set_form(Forms::Deoxys::SPEED);
                 break;
 
-            case 653: //Wormadam - Sandy Cloak
+            case 10004: //Wormadam - Sandy Cloak
                 set_form(Forms::Wormadam::SANDY_CLOAK);
                 break;
 
-            case 654: //Wormadam - Trash Cloak
+            case 10005: //Wormadam - Trash Cloak
                 set_form(Forms::Wormadam::TRASH_CLOAK);
                 break;
 
-            case 655: //Shaymin - Sky Forme
+            case 10006: //Shaymin - Sky Forme
                 set_form(Forms::Shaymin::SKY);
                 break;
 
-            case 656: //Giratina - Origin Forme
+            case 10007: //Giratina - Origin Forme
                 set_form(Forms::Giratina::ORIGIN);
                 break;
 
-            case 657: //Rotom - Heat
+            case 10008: //Rotom - Heat
                 set_form(Forms::Rotom::HEAT);
                 break;
 
-            case 658: //Rotom - Wash
+            case 10009: //Rotom - Wash
                 set_form(Forms::Rotom::WASH);
                 break;
 
-            case 659: //Rotom - Frost
+            case 10010: //Rotom - Frost
                 set_form(Forms::Rotom::FROST);
                 break;
 
-            case 660: //Rotom - Fan
+            case 10011: //Rotom - Fan
                 set_form(Forms::Rotom::FAN);
                 break;
 
-            case 661: //Rotom - Mow
+            case 10012: //Rotom - Mow
                 set_form(Forms::Rotom::MOW);
                 break;
 
-            case 662: //Castform - Sunny
+            case 10013: //Castform - Sunny
                 set_form(Forms::Castform::SUNNY);
                 break;
 
-            case 663: //Castform - Rainy
+            case 10014: //Castform - Rainy
                 set_form(Forms::Castform::RAINY);
                 break;
 
-            case 664: //Castform - Snowy
+            case 10015: //Castform - Snowy
                 set_form(Forms::Castform::SNOWY);
                 break;
 
-            case 665: //Basculin - Blue-Striped
+            case 10016: //Basculin - Blue-Striped
                 set_form(Forms::Basculin::BLUE_STRIPED);
                 break;
 
-            case 666: //Darmanitan - Zen
+            case 10017: //Darmanitan - Zen
                 set_form(Forms::Darmanitan::ZEN);
                 break;
 
-            case 667: //Meloetta - Pirouette
+            case 10018: //Meloetta - Pirouette
                 set_form(Forms::Meloetta::PIROUETTE);
                 break;
 
-            case 668: //Tornadus - Therian
+            case 10019: //Tornadus - Therian
                 set_form(Forms::Tornadus::THERIAN);
                 break;
 
-            case 669: //Thundurus - Therian
+            case 10020: //Thundurus - Therian
                 set_form(Forms::Thundurus::THERIAN);
                 break;
 
-            case 670: //Landorus - Therian
+            case 10021: //Landorus - Therian
                 set_form(Forms::Landorus::THERIAN);
                 break;
 
-            case 671: //Kyurem - Black
+            case 10022: //Kyurem - Black
                 set_form(Forms::Kyurem::BLACK);
                 break;
 
-            case 672: //Kyurem - White
+            case 10023: //Kyurem - White
                 set_form(Forms::Kyurem::WHITE);
                 break;
 
-            case 673: //Keldeo - Resolute
+            case 10024: //Keldeo - Resolute
                 set_form(Forms::Keldeo::RESOLUTE);
                 break;
 
@@ -1523,7 +1227,7 @@ namespace pkmnsim
 
             default:
                 SQLite::Database db(get_database_path().c_str());
-                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE _species_id="
+                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
                                     + to_string(_species_id);
                 SQLite::Statement query(db, query_string.c_str());
                 
