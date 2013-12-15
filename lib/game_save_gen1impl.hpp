@@ -17,7 +17,7 @@ namespace pkmnsim
     {
         public:
         
-            game_save_gen1impl(rpokesav_gen1_sptr sav, char* buffer);
+            game_save_gen1impl(rpokesav_gen1_sptr sav);
             
             void load();
             void save();
@@ -26,8 +26,7 @@ namespace pkmnsim
             
         private:
         
-            rpokesav_gen1_sptr ptr;
-            char* data;
+            rpokesav_gen1_sptr _sav;
     };
 }
 #endif /* INCLUDED_GAME_SAVE_GEN1IMPL_HPP */

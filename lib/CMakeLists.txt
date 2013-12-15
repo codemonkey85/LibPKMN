@@ -47,6 +47,7 @@ IF(ENABLE_LIBRARY)
         move_impl.cpp
         move_mainimpl.cpp
         game_save.cpp
+        game_save_gen1impl.cpp
         game_save_gen3impl.cpp
         game_save_gen4impl.cpp
         game_save_gen5impl.cpp
