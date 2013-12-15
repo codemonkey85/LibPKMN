@@ -82,6 +82,46 @@ namespace pkmnsim
             dict<unsigned int, unsigned int> get_base_stats() const;
             dict<unsigned int, unsigned int> get_ev_yields() const;
             bool is_fully_evolved() const;
+
+        protected:
+        
+            base_pokemon::sptr _base_pkmn;
+            pokemon_text _nickname, _trainer_name;
+            item::sptr _held_item;
+            unsigned int _ball;
+            unsigned int _game_id, _generation;
+            unsigned int _level, _met_level;
+            unsigned int _personality;
+            
+            union
+            {
+                struct
+                {
+                    unsigned short public_id;
+                    unsigned short secret_id;
+                } _tid;
+                unsigned int _trainer_id;
+            };
+
+            unsigned int _HP, _ATK, _DEF, _SPD;
+            unsigned int _evHP, _evATK, _evDEF, _evSPD;
+            unsigned int _ivHP, _ivATK, _ivDEF, _ivSPD;
+            unsigned int _nonvolatile_status;
+            moveset_t _moves;
+            vla<unsigned int> _move_PPs;
+            unsigned int _num_moves;
+            std::string _icon_path, _sprite_path;
+			dict<std::string, int> _attributes;
+
+            virtual unsigned int _get_hp() const = 0;
+            virtual unsigned int _get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const = 0;
+
+            unsigned int _SPCL, _SATK, _SDEF;
+            unsigned int _ivSPCL, _ivSATK, _ivSDEF;
+            unsigned int _evSPCL, _evSATK, _evSDEF;
+            unsigned int _gender, _otgender;
+            unsigned int _ability, _nature;
+            bool _has_hidden_ability;
     };
 }
 

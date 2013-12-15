@@ -37,11 +37,6 @@ namespace pkmnsim
             virtual unsigned int get_item_id() = 0;
             virtual std::string get_description() = 0;
             virtual std::string get_name() = 0;
-            
-        protected:
-            
-            unsigned int _item_id, _game_id, _category_id, _game_index;
-            std::string _category_name, _description, _item_name;
     };
 }
 

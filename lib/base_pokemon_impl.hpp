@@ -46,6 +46,17 @@ namespace pkmnsim
             unsigned int get_game_id() const;
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
+            
+        protected:
+            
+            unsigned int _generation, _form_id, _pokemon_id, _species_id, _type1_id, _type2_id;
+            unsigned int _hp, _attack, _defense, _speed, _special, _special_attack, _special_defense;
+            
+            unsigned int _game_id;
+            std::string _game_string, _images_game_string;
+            std::string _male_icon_path, _female_icon_path;
+            std::string _male_sprite_path, _female_sprite_path;
+            std::string _male_shiny_sprite_path, _female_shiny_sprite_path;
     };
 }
 
