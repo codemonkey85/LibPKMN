@@ -60,26 +60,6 @@ namespace pkmnsim
             virtual void set_id(unsigned int id) = 0;
             virtual void set_public_id(unsigned short id) = 0;
             virtual void set_secret_id(unsigned short id) = 0;
-
-        protected:
-        
-            unsigned int _money, _game_id, _gender;
-
-            union
-            {
-                struct
-                {
-                    unsigned short public_id;
-                    unsigned short secret_id;
-                } _tid;
-                unsigned int _trainer_id;
-            };
-
-            bag::sptr _item_bag;
-            pokemon_text _trainer_name;
-            pokemon_team_t _party;
-            
-            std::string _sprite_path;
     };
 }
 

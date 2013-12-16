@@ -60,13 +60,13 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
         INSTALL(
             TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
             DESTINATION ${RUNTIME_DIR}
-            COMPONENT "PKMNsim#"
+            COMPONENT "PKMNsimSharp"
         )
     ELSE(WIN32)
         INSTALL(
             TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
             DESTINATION ${LIBRARY_DIR}
-            COMPONENT "PKMNsim#"
+            COMPONENT "PKMNsimSharp"
         )
     ENDIF(WIN32)
 endmacro(CSHARP_BUILD_MODULE)
@@ -105,5 +105,5 @@ ADD_CUSTOM_TARGET(
 INSTALL(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-sharp.dll
     DESTINATION ${RUNTIME_DIR}
-    COMPONENT "PKMNsim#"
+    COMPONENT "PKMNsimSharp"
 )

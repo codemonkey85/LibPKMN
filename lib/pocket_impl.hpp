@@ -30,6 +30,14 @@ namespace pkmnsim
             
             unsigned int get_amount(unsigned int pos);
             void set_amount(unsigned int pos, unsigned int amount);
+            
+        protected:
+            
+            unsigned int _game_id, _pocket_size;
+            std::string _pocket_name;
+            
+            vla<unsigned int> _contents;
+            vla<unsigned int> _amounts;
     };
 }
 

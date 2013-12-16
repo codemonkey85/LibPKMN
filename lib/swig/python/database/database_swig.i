@@ -7,7 +7,8 @@
 
 %feature("autodoc", "1");
 
-%import "pkmnsim.i"
+%include "std_vector.i"
+%import "pypkmnsim_swig.i"
 
 %{
     #include "pkmnsim/database/lists.hpp"

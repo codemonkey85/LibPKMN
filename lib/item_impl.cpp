@@ -28,7 +28,9 @@ namespace pkmnsim
 {
     item::sptr item::make(unsigned int id, unsigned int game)
     {
-        if(id >= Items::TM01 and id <= Items::HM08)
+        if((id >= Items::TM01 and id <= Items::HM08)
+           or (id >= Items::TM93 and id <= Items::TM95)
+           or (id >= Items::TM96 and id <= Items::TM100))
         {
             return sptr(new item_machineimpl(id, game));
         }
