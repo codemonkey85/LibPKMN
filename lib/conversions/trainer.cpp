@@ -65,6 +65,8 @@ namespace pkmnsim
             
             pkmnsim_trainer->set_money(sav->get_money());
             
+            import_items_from_rpokesav_gen1(pkmnsim_trainer->get_bag(), sav);
+
             rpokesav::vla<rpokesav::gen1_pokemon> rpokesav_gen1_team = sav->get_team();
             for(size_t i = 0; i < sav->get_team_size(); i++)
             {
