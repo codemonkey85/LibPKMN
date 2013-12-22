@@ -117,8 +117,15 @@ endmacro(PYTHON_BUILD_MODULE)
 # Generates Python classes to correspond to C++ enums
 ########################################################################
 macro(GENERATE_PYTHON_ENUM name)
+    SET(ENUM_LOCATION ${PKMNSIM_BINARY_DIR}/lib/swig/python/${name}.py)
+    FILE(TO_CMAKE_PATH ENUM_LOCATION ${ENUM_LOCATION})
+
     SET(LINE_NUMBER "")
     SET(ENUMS_FILE "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp")
+    #FILE(TO_NATIVE_PATH) doesn't replace / with \
     STRING(REPLACE "/" "\\\\" ENUMS_FILE ${ENUMS_FILE})
     GET_LINE_NUMBER(${name} ${ENUMS_FILE} 0)
+    
+    FILE(REMOVE ${ENUM_LOCATION})
+    WRITE_PYTHON_LICENSE(${ENUM_LOCATION})
 endmacro(GENERATE_PYTHON_ENUM)

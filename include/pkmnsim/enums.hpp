@@ -2006,7 +2006,7 @@ namespace pkmnsim
         };
     }
 
-    namespace Ribbons //Listed in opposite order for ease of use with bitset
+    namespace Ribbons
     {
         namespace Hoenn
         {
