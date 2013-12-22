@@ -207,21 +207,21 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::ATTACK, int(query.getColumn(15)));
             t_pkmn->set_EV(Stats::DEFENSE, int(query.getColumn(16)));
             t_pkmn->set_EV(Stats::SPEED, int(query.getColumn(17)));
-            if(t_pkmn->get_generation() == 1) t_pkmn->set_EV(Stats::HP, int(query.getColumn(18)));
+            if(t_pkmn->get_generation() == 1) t_pkmn->set_EV(Stats::SPECIAL, int(query.getColumn(18)));
             else
             {
-                t_pkmn->set_EV(Stats::HP, int(query.getColumn(19)));
-                t_pkmn->set_EV(Stats::HP, int(query.getColumn(20)));
+                t_pkmn->set_EV(Stats::SPECIAL_ATTACK, int(query.getColumn(19)));
+                t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, int(query.getColumn(20)));
             }
             t_pkmn->set_IV(Stats::HP, int(query.getColumn(21)));
             t_pkmn->set_IV(Stats::ATTACK, int(query.getColumn(22)));
             t_pkmn->set_IV(Stats::DEFENSE, int(query.getColumn(23)));
             t_pkmn->set_IV(Stats::SPEED, int(query.getColumn(24)));
-            if(t_pkmn->get_generation() == 1) t_pkmn->set_IV(Stats::HP, int(query.getColumn(25)));
+            if(t_pkmn->get_generation() < 3) t_pkmn->set_IV(Stats::SPECIAL, int(query.getColumn(25)));
             else
             {
-                t_pkmn->set_IV(Stats::HP, int(query.getColumn(26)));
-                t_pkmn->set_IV(Stats::HP, int(query.getColumn(27)));
+                t_pkmn->set_IV(Stats::SPECIAL_ATTACK, int(query.getColumn(26)));
+                t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, int(query.getColumn(27)));
             }
             t_pkmn->set_gender((int(query.getColumn(32)) ? Genders::FEMALE : Genders::MALE));
             t_pkmn->set_trainer_gender((int(query.getColumn(33)) ? Genders::FEMALE : Genders::MALE));
