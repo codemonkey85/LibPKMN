@@ -142,18 +142,12 @@ namespace pkmnsim
             b_pkmn_t->otid = t_pkmn->get_trainer_id();
             b_pkmn_t->level = t_pkmn->get_level();
 
+            memset(b_pkmn_t->name, 0xFF, 10);
+            memset(b_pkmn_t->otname, 0xFF, 7);
             string nickname = t_pkmn->get_nickname();
-            for(int i = 0; i < 10; i++)
-            {
-                if(i < nickname.size()) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
-                else b_pkmn_t->name[i] = 0xFF;
-            }
             string trainer_name = t_pkmn->get_trainer_name();
-            for(int i = 0; i < 7; i++)
-            {
-                if(i < trainer_name.size()) b_pkmn_t->otname[i] = pokehack_reverse_char_map[trainer_name[i]];
-                else b_pkmn_t->otname[i] = 0xFF;
-            }
+            for(int i = 0; i < nickname.size(); i++) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
+            for(int i = 0; i < trainer_name.size(); i++) b_pkmn_t->otname[i] = pokehack_reverse_char_map[trainer_name[i]];
 
             moveset_t moves = t_pkmn->get_moves();
             pkmn_a_t->atk1 = moves[0]->get_move_id();
