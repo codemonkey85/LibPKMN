@@ -5,6 +5,21 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+INCLUDE(PKMNsimMisc)
+
+########################################################################
+# Writes MIT License to beginning of generated file
+########################################################################
+macro(WRITE_PYTHON_LICENSE filename)
+SET(PYTHON_LICENSE_TEXT "#
+\# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+\#
+\# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+\# or copy at http://opensource.org/licenses/MIT)
+\#")
+FILE(WRITE "${filename}" "${PYTHON_LICENSE_TEXT}")
+endmacro(WRITE_PYTHON_LICENSE)
+
 ########################################################################
 # Check for the existence of a python module:
 # - desc a string description of the check
@@ -97,3 +112,13 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
     )
 
 endmacro(PYTHON_BUILD_MODULE)
+
+########################################################################
+# Generates Python classes to correspond to C++ enums
+########################################################################
+macro(GENERATE_PYTHON_ENUM name)
+    SET(LINE_NUMBER "")
+    SET(ENUMS_FILE "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp")
+    STRING(REPLACE "/" "\\\\" ENUMS_FILE ${ENUMS_FILE})
+    GET_LINE_NUMBER(${name} ${ENUMS_FILE} 0)
+endmacro(GENERATE_PYTHON_ENUM)
