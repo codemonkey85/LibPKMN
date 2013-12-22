@@ -223,6 +223,10 @@ namespace pkmnsim
                 t_pkmn->set_IV(Stats::SPECIAL_ATTACK, int(query.getColumn(26)));
                 t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, int(query.getColumn(27)));
             }
+            t_pkmn->set_move(int(query.getColumn(28)), 1);
+            t_pkmn->set_move(int(query.getColumn(29)), 2);
+            t_pkmn->set_move(int(query.getColumn(30)), 3);
+            t_pkmn->set_move(int(query.getColumn(31)), 4);
             t_pkmn->set_gender((int(query.getColumn(32)) ? Genders::FEMALE : Genders::MALE));
             t_pkmn->set_trainer_gender((int(query.getColumn(33)) ? Genders::FEMALE : Genders::MALE));
 
