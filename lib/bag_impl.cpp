@@ -89,6 +89,8 @@ namespace pkmnsim
             case Games::WHITE:
             case Games::BLACK2:
             case Games::WHITE2:
+            case Games::X:
+            case Games::Y:
                 _contents["Items"] = pocket::make(_game_id, "Items", 310);
                 _contents["Medicine"] = pocket::make(_game_id, "Medicine", 48);
                 _contents["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 109);
