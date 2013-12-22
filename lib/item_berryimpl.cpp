@@ -16,8 +16,6 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
-
 using namespace std;
 
 namespace pkmnsim

@@ -70,6 +70,8 @@ namespace pkmnsim
         }
     }
 
+    SQLite::Database team_pokemon_impl::_db(get_database_path().c_str());
+    
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,
                                          unsigned int move3, unsigned int move4): team_pokemon()
@@ -200,9 +202,8 @@ namespace pkmnsim
 
     void team_pokemon_impl::set_ability(unsigned int ability)
     {
-        SQLite::Database db(get_database_path().c_str());
         std::string query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability);
-        SQLite::Statement query(db, query_string.c_str());
+        SQLite::Statement query(_db, query_string.c_str());
         if(query.executeStep()) _ability = ability;
     }
 

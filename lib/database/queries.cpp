@@ -27,6 +27,8 @@ namespace pkmnsim
 {
     namespace database
     {
+        static SQLite::Database db(get_database_path().c_str());
+    
         //Transform identifier strings into proper format for database
         string to_database_format(string identifier)
         {
@@ -44,7 +46,6 @@ namespace pkmnsim
 
         unsigned int get_ability_id(string ability_name)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT ability_id FROM ability_names WHERE name='%s'") % ability_name);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -54,7 +55,6 @@ namespace pkmnsim
 
         string get_ability_name(unsigned int ability_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM ability_names WHERE ability_id=%d AND local_language_id=9")
                                                     % ability_id);
             SQLite::Statement query(db, query_string.c_str());
@@ -65,7 +65,6 @@ namespace pkmnsim
 
         unsigned int get_damage_class(unsigned int type_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT damage_class_id FROM types WHERE id=%d") % type_id);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -75,7 +74,6 @@ namespace pkmnsim
         
         unsigned int get_egg_group_id(string egg_group_name)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT egg_group_id FROM egg_group_prose WHERE name='%s'")
                                                     % egg_group_name);
             SQLite::Statement query(db, query_string.c_str());
@@ -86,7 +84,6 @@ namespace pkmnsim
         
         string get_egg_group_name(unsigned int egg_group_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM egg_group_prose WHERE egg_group_id=%d AND local_language_id=9")
                                                     % egg_group_id);
             SQLite::Statement query(db, query_string.c_str());
@@ -97,7 +94,6 @@ namespace pkmnsim
         
         unsigned int get_game_id(string game_name)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT version_id FROM version_names WHERE name='%s'")
                                                     % game_name);
             SQLite::Statement query(db, query_string.c_str());
@@ -108,7 +104,6 @@ namespace pkmnsim
         
         string get_game_name(unsigned int game_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM version_names WHERE version_id=%d AND local_language_id=9")
                                                     % game_id);
             SQLite::Statement query(db, query_string.c_str());
@@ -119,7 +114,6 @@ namespace pkmnsim
         
         unsigned int get_generation(unsigned int game_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = "SELECT version_group_id FROM versions WHERE id=" + to_string(game_id);
             int version_group_id = db.execAndGet(query_string.c_str());
             query_string = "SELECT generation_id FROM version_groups WHERE id=" + to_string(version_group_id);
@@ -133,7 +127,6 @@ namespace pkmnsim
         {
             int gen = get_generation(version);
             
-            SQLite::Database db(get_database_path().c_str());
             string query_string = "SELECT game_index FROM item_game_indices WHERE item_id=" + to_string(item_id);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -153,7 +146,6 @@ namespace pkmnsim
             if(version < Games::GOLD) version = Games::STADIUM2;
             unsigned int version_group_id = get_version_group(version);
             
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT flavor_text FROM item_flavor_text WHERE item_id=%d AND version_group_id=%d AND language_id=9")
                                                     % item_id % version_group_id);
             SQLite::Statement query(db, query_string.c_str());
@@ -182,7 +174,6 @@ namespace pkmnsim
         
         unsigned int get_item_id(string item_name)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT item_id FROM item_names WHERE name='%s'") % item_name);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -192,7 +183,6 @@ namespace pkmnsim
 
         unsigned int get_item_id(unsigned int item_index, unsigned int game)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT item_id FROM item_game_indices WHERE generation_id=%d AND game_index=%d")
                                       % get_generation(game) % item_index);
             SQLite::Statement query(db, query_string.c_str());
@@ -203,7 +193,6 @@ namespace pkmnsim
         
         string get_item_name(unsigned int item_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM item_names WHERE item_id=%d AND local_language_id=9")
                                                     % item_id);
             SQLite::Statement query(db, query_string.c_str());
@@ -214,7 +203,6 @@ namespace pkmnsim
         
         unsigned int get_item_category(unsigned int item_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT category_id FROM items WHERE id=%d") % item_id);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -263,7 +251,6 @@ namespace pkmnsim
         
         unsigned int get_move_id(string move_name)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT move_id FROM move_names WHERE name='%s'") % move_name);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -311,7 +298,6 @@ namespace pkmnsim
 
         string get_nature_name(unsigned int nature_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM nature_names WHERE nature_id=%d AND local_language_id=9")
                                                     % nature_id);
             SQLite::Statement query(db, query_string.c_str());
@@ -325,7 +311,6 @@ namespace pkmnsim
             //Some enum values need to be translated over to database ID's
             int to_database_id[] = {1,2,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22};
 
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT flavor_text FROM pokemon_species_flavor_text WHERE species_id=%d AND version_id=%d AND language_id=9")
                                                     % species_id % to_database_id[version]);
 
@@ -350,7 +335,6 @@ namespace pkmnsim
 
         string get_pokedex_entry(string species_name, unsigned int version)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_names WHERE name='%s'")
                                                     % species_name);
             int species_id = db.execAndGet(query_string.c_str());
@@ -359,7 +343,6 @@ namespace pkmnsim
         
         unsigned int get_species_id(unsigned int pkmn_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT species_id FROM pokemon WHERE id=%d") % pkmn_id);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -369,7 +352,6 @@ namespace pkmnsim
 
         unsigned int get_species_id(string species_name)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_names WHERE name='%s'") % species_name);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -379,7 +361,6 @@ namespace pkmnsim
 
         string get_species_name(unsigned int species_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9")
                                                     % species_id);
             SQLite::Statement query(db, query_string.c_str());
@@ -390,7 +371,6 @@ namespace pkmnsim
 
         unsigned int get_type_id(string type_name)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT type_id FROM type_names WHERE name='%s'") % type_name);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -400,7 +380,6 @@ namespace pkmnsim
 
         string get_type_name(unsigned int type_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT name FROM type_names WHERE type_id=%d AND local_language_id=9") % type_id);
             SQLite::Statement query(db, query_string.c_str());
             
@@ -410,7 +389,6 @@ namespace pkmnsim
         
         unsigned int get_version_group(unsigned int version_id)
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT version_group_id FROM versions WHERE id=%d") % version_id);
             SQLite::Statement query(db, query_string.c_str());
             

@@ -17,22 +17,18 @@
 
 #include "item_machineimpl.hpp"
 
-#include "SQLiteCpp/src/SQLiteC++.h"
-
 using namespace std;
 
 namespace pkmnsim
 {
     item_machineimpl::item_machineimpl(unsigned int id, unsigned int game): item_impl(id, game)
     {
-        SQLite::Database db(get_database_path().c_str());
-        
         if(_item_id >= Items::TM01 and _item_id <= Items::TM92) _machine_id = _item_id - 304;
         else _machine_id = 100 + (_item_id - Items::HM01);
         
         string query_string = "SELECT move_id FROM machines WHERE machine_number="
                             + to_string(_machine_id);
-        _move_id = int(db.execAndGet(query_string.c_str()));
+        _move_id = int(_db.execAndGet(query_string.c_str()));
         
         _item_name = str(boost::format("%s (%s)") % database::get_item_name(_item_id)
                                                   % database::get_move_name(_move_id));

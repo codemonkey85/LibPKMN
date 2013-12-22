@@ -243,14 +243,13 @@ namespace pkmnsim
         or _base_pkmn->get_species_id() == Species::INVALID) return _base_pkmn->get_species_name();
         else
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = str(boost::format("SELECT id FROM pokemon_forms WHERE pokemon_id=%d")
                                                     % _base_pkmn->get_pokemon_id());
-            int id = db.execAndGet(query_string.c_str());
+            int id = _db.execAndGet(query_string.c_str());
             
             query_string = str(boost::format("SELECT pokemon_name FROM pokemon_form_names WHERE pokemon_form_id=%d AND local_language_id=9")
                                              % id);
-            return string((const char*)db.execAndGet(query_string.c_str()));
+            return string((const char*)(_db.execAndGet(query_string.c_str())));
         }
     }
     
@@ -305,26 +304,25 @@ namespace pkmnsim
 
     unsigned int team_pokemon_modernimpl::_determine_ability() const
     {
-        SQLite::Database db(get_database_path().c_str());
         string query_string;
     
         if(_base_pkmn->get_species_id() == Species::NONE or _base_pkmn->get_species_id() == Species::INVALID) return Abilities::NONE;
         else if(_has_hidden_ability and _generation >= 5)
         {
             query_string = "SELECT _ability_id FROM pokemon_abilities WHERE is_hidden=1 AND pokemon_id=" + to_string(_base_pkmn->get_pokemon_id());
-            return int(db.execAndGet(query_string.c_str()));
+            return int(_db.execAndGet(query_string.c_str()));
         }
         else
         {
             unsigned int ability_num = _personality % 2;
             query_string = "SELECT _ability_id FROM pokemon_abilities WHERE slot=2 AND pokemon_id=" + to_string(_base_pkmn->get_pokemon_id());
-            SQLite::Statement query(db, query_string.c_str());
+            SQLite::Statement query(_db, query_string.c_str());
             
             if(query.executeStep() and ability_num == 1) return int(query.getColumn(0));
             else
             {
                 query_string = "SELECT _ability_id FROM pokemon_abilities WHERE slot=1 AND pokemon_id=" + to_string(_base_pkmn->get_pokemon_id());
-                return int(db.execAndGet(query_string.c_str()));
+                return int(_db.execAndGet(query_string.c_str()));
             }
         }
     }

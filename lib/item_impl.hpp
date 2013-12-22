@@ -9,6 +9,8 @@
 
 #include <pkmnsim/item.hpp>
 
+#include "SQLiteCpp/src/SQLiteC++.h"
+
 namespace pkmnsim
 {
     class item_impl: public item
@@ -29,6 +31,8 @@ namespace pkmnsim
             
             unsigned int _item_id, _game_id, _category_id, _game_index;
             std::string _category_name, _description, _item_name;
+            
+            static SQLite::Database _db;
     };
 }
 

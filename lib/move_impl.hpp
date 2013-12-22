@@ -9,6 +9,8 @@
 
 #include <pkmnsim/move.hpp>
 
+#include "SQLiteCpp/src/SQLiteC++.h"
+
 namespace pkmnsim
 {
     class move_impl: public move
@@ -45,6 +47,8 @@ namespace pkmnsim
             unsigned int _base_priority;
             std::string _base_effect;
             double _base_effect_chance;
+            
+            static SQLite::Database _db;
     };
 }
 

@@ -21,8 +21,6 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/pocket.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
-
 using namespace std;
 
 namespace pkmnsim

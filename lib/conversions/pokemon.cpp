@@ -25,8 +25,6 @@
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
-#include "../SQLiteCpp/src/SQLiteC++.h"
-
 #include "pokemon.hpp"
 #include "../library_bridge.hpp"
 

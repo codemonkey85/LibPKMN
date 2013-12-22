@@ -24,6 +24,8 @@
 
 #include <pkmnsim/base_pokemon.hpp>
 
+#include "SQLiteCpp/src/SQLiteC++.h"
+
 namespace pkmnsim
 {
     class base_pokemon_impl: public base_pokemon
@@ -57,6 +59,8 @@ namespace pkmnsim
             std::string _male_icon_path, _female_icon_path;
             std::string _male_sprite_path, _female_sprite_path;
             std::string _male_shiny_sprite_path, _female_shiny_sprite_path;
+            
+            static SQLite::Database _db;
     };
 }
 

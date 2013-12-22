@@ -20,8 +20,6 @@
 #include "item_berryimpl.hpp"
 #include "item_machineimpl.hpp"
 
-#include "SQLiteCpp/src/SQLiteC++.h"
-
 using namespace std;
 
 namespace pkmnsim
@@ -41,6 +39,8 @@ namespace pkmnsim
         }
         else return sptr(new item_impl(id, game));
     }
+
+    SQLite::Database item_impl::_db(get_database_path().c_str());
     
     item_impl::item_impl(unsigned int id, unsigned int game): item()
     {
@@ -58,11 +58,10 @@ namespace pkmnsim
     
     string item_impl::get_category_name()
     {
-        SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT name FROM item_category_prose "
                                "WHERE local_language_id=9 AND item_category_id="
                                + to_string(_category_id);
-        return string((const char*)db.execAndGet(query_string.c_str()));
+        return string((const char*)_db.execAndGet(query_string.c_str()));
     }
     
     unsigned int item_impl::get_index() {return database::get_item_index(_item_id, _game_id);}

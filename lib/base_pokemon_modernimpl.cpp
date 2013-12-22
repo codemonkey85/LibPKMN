@@ -110,10 +110,9 @@ namespace pkmnsim
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
-                SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
                                     + " AND stat_id IN (3,5)";
-                SQLite::Statement query(db, query_string.c_str());
+                SQLite::Statement query(_db, query_string.c_str());
                 query.executeStep();
                 _special_attack = int(query.getColumn(0));
                 query.executeStep();
@@ -152,10 +151,9 @@ namespace pkmnsim
                 ev_yields[Stats::SPEED] = 0;
 
             default:
-                SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                                " AND stat_id IN (1,2,3,4,5,6)";
-                SQLite::Statement stats_query(db, query_string.c_str());
+                SQLite::Statement stats_query(_db, query_string.c_str());
 
                 stats_query.executeStep();
                 ev_yields[Stats::HP] = int(stats_query.getColumn(0));
@@ -183,8 +181,6 @@ namespace pkmnsim
                 return 0.0;
 
             default:
-                SQLite::Database db(get_database_path().c_str());
-                
                 /*
                  * gender_val_map's keys correspond to how the different
                  * gender rates are represented in the database. The values
@@ -199,7 +195,7 @@ namespace pkmnsim
                 gender_val_map[8] = 0.0;
 
                 string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(_species_id);
-                int gender_val = db.execAndGet(query_string.c_str());
+                int gender_val = _db.execAndGet(query_string.c_str());
 
                 if(gender_val == -1) return 0.0;
                 else return gender_val_map[gender_val];
@@ -215,8 +211,6 @@ namespace pkmnsim
                 return 0.0;
 
             default:
-                SQLite::Database db(get_database_path().c_str());
-
                 /*
                  * gender_val_map's keys correspond to how the different
                  * gender rates are represented in the database. The values
@@ -231,7 +225,7 @@ namespace pkmnsim
                 gender_val_map[8] = 0.0;
 
                 string query_string = "SELECT gender_rate FROM pokemon_species WHERE id=" + to_string(_species_id);
-                int gender_val = db.execAndGet(query_string.c_str());
+                int gender_val = _db.execAndGet(query_string.c_str());
 
                 if(gender_val == -1) return 0.0;
                 else return (1.0 - gender_val_map[gender_val]);
@@ -243,9 +237,8 @@ namespace pkmnsim
         if(_generation == 3 or _species_id == Species::NONE or _species_id == Species::INVALID) return false;
         else
         {
-            SQLite::Database db(get_database_path().c_str());
             string query_string = "SELECT has_gender_differences FROM pokemon_species WHERE id=" + to_string(_pokemon_id);
-            return bool(int(db.execAndGet(query_string.c_str())));
+            return bool(int(_db.execAndGet(query_string.c_str())));
         }
     }
     
@@ -259,22 +252,20 @@ namespace pkmnsim
                 return abilities;
 
             default:
-                SQLite::Database db(get_database_path().c_str());
-
                 //Ability 1 (guaranteed)
                 string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                              + " AND slot=1";
-                abilities[0] = int(db.execAndGet(query_string.c_str()));
+                abilities[0] = int(_db.execAndGet(query_string.c_str()));
 
                 //Ability 2 (not guaranteed, and if exists, might not exist in specified generation)
                 query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                              + " AND slot=2";
-                SQLite::Statement ability2_query(db, query_string.c_str());
+                SQLite::Statement ability2_query(_db, query_string.c_str());
                 if(ability2_query.executeStep()) //Will be false if no entry exists
                 {
                     unsigned int ability2_id = int(ability2_query.getColumn(0)); //ability_id
                     query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
-                    unsigned int generation_id = int(db.execAndGet(query_string.c_str()));
+                    unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
                     
                     if(generation_id > _generation) abilities[1] = Abilities::NONE;
                     else abilities[1] = ability2_id;
@@ -286,10 +277,10 @@ namespace pkmnsim
                 {
                     query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                                  + " AND slot=3";
-                    SQLite::Statement ability3_query(db, query_string.c_str());
+                    SQLite::Statement ability3_query(_db, query_string.c_str());
                     if(ability3_query.executeStep()) //Will be false if no entry exists
                     {
-                        abilities[2] = int(db.execAndGet(query_string.c_str()));
+                        abilities[2] = int(_db.execAndGet(query_string.c_str()));
                     }
                     else abilities[2] = Abilities::NONE;
                 }
@@ -891,10 +882,9 @@ namespace pkmnsim
                 break;
         }
         
-        SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
-        SQLite::Statement stats_query(db, query_string.c_str());
+        SQLite::Statement stats_query(_db, query_string.c_str());
 
         stats_query.executeStep();
         _hp = int(stats_query.getColumn(0));
@@ -1070,10 +1060,9 @@ namespace pkmnsim
                 break;
         }
         
-        SQLite::Database db(get_database_path().c_str());
         string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
-        SQLite::Statement stats_query(db, query_string.c_str());
+        SQLite::Statement stats_query(_db, query_string.c_str());
 
         stats_query.executeStep();
         _hp = int(stats_query.getColumn(0));
@@ -1226,10 +1215,9 @@ namespace pkmnsim
                 return;
 
             default:
-                SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
                                     + to_string(_species_id);
-                SQLite::Statement query(db, query_string.c_str());
+                SQLite::Statement query(_db, query_string.c_str());
                 
                 while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));
         }

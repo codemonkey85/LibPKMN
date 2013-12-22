@@ -76,10 +76,9 @@ namespace pkmnsim
                  * Special is exclusive to Generation 1, so query it separately
                  * from the rest.
                  */
-                SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id="
                                     + to_string(_pokemon_id) + " AND stat_id=9";
-                _special = int(db.execAndGet(query_string.c_str()));
+                _special = int(_db.execAndGet(query_string.c_str()));
                 break;
         }
     }

@@ -26,6 +26,8 @@ namespace pkmnsim
 {
     namespace analysis
     {
+        static SQLite::Database db(get_database_path().c_str());
+    
         double get_type_damage_mod(unsigned int type1, unsigned int type2, bool gen1)
         {
             if(gen1 and (type1 == Types::DARK or type1 == Types::STEEL
@@ -37,7 +39,6 @@ namespace pkmnsim
             if(type1 != Types::NONE and type1 != Types::UNKNOWN and type1 != Types::SHADOW
             and type2 != Types::NONE and type2 != Types::UNKNOWN and type2 != Types::SHADOW)
             {
-                SQLite::Database db(get_database_path().c_str());
                 //Get damage mod from database
                 query_string = str(boost::format("SELECT damage_factor FROM type_efficacy WHERE damage_type_id=%d AND target_type_id=%d")
                                                  % type1 % type2);

@@ -9,6 +9,8 @@
 
 #include <pkmnsim/team_pokemon.hpp>
 
+#include "SQLiteCpp/src/SQLiteC++.h"
+
 namespace pkmnsim
 {
     class team_pokemon_impl: public team_pokemon
@@ -122,6 +124,8 @@ namespace pkmnsim
             unsigned int _gender, _otgender;
             unsigned int _ability, _nature;
             bool _has_hidden_ability;
+            
+            static SQLite::Database _db;
     };
 }
 

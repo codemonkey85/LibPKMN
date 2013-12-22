@@ -38,6 +38,8 @@ namespace pkmnsim
         }
     }
 
+    SQLite::Database move_impl::_db(get_database_path().c_str());
+    
     move_impl::move_impl(unsigned int id, unsigned int game): move()
     {
         _game_id = game;
@@ -66,11 +68,9 @@ namespace pkmnsim
             string query_string;
             _move_id = id;
 
-            SQLite::Database db(get_database_path().c_str());
-
             //Fail if move's generation_id > specified generation
             query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(id);
-            int gen_id = db.execAndGet(query_string.c_str());
+            int gen_id = _db.execAndGet(query_string.c_str());
             int game_gen = database::get_generation(_game_id);
 
             if(gen_id > game_gen)
@@ -80,7 +80,7 @@ namespace pkmnsim
             }
 
             query_string = "SELECT * FROM moves WHERE id=" + to_string(_move_id);
-            SQLite::Statement moves_query(db, query_string.c_str());
+            SQLite::Statement moves_query(_db, query_string.c_str());
             moves_query.executeStep();
 
             //Get available values from queries
