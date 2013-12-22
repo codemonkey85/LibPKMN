@@ -341,6 +341,15 @@ namespace pkmnsim
             return get_pokedex_entry(species_id, version);
         }
         
+        unsigned int get_move_pp(unsigned int move_id)
+        {
+            string query_string = str(boost::format("SELECT pp FROM moves WHERE id=%d")
+                                                    % move_id);
+            SQLite::Statement query(db, query_string.c_str());
+            
+            return (query.executeStep()) ? int(query.getColumn(0)) : 0;
+        }
+        
         unsigned int get_species_id(unsigned int pkmn_id)
         {
             string query_string = str(boost::format("SELECT species_id FROM pokemon WHERE id=%d") % pkmn_id);
