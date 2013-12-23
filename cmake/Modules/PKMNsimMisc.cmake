@@ -16,8 +16,14 @@ macro(GET_LINE_NUMBER value filename)
             COMMAND ${FINDSTR_EXECUTABLE} /N "${value}" "${filename}"
             OUTPUT_VARIABLE line_num_list
         )
-        # RESULT_VARIABLE gets line, which has line number and line
-        STRING(REPLACE ":" ";" line_num_list ${line_num_list})
-        LIST(GET line_num_list 0 LINE_NUMBER)
+    ELSE()
+        FIND_PROGRAM(GREP_EXECUTABLE grep ENV PATH)
+        EXECUTE_PROCESS(
+            COMMAND ${GREP_EXECUTABLE} -n "${value}" "${filename}"
+            OUTPUT_VARIABLE line_num_list
+        )
     ENDIF(WIN32)
+    # OUTPUT_VARIABLE gets line, which has line number and line
+    STRING(REPLACE ":" ";" line_num_list ${line_num_list})
+    LIST(GET line_num_list 0 LINE_NUMBER)
 endmacro(GET_LINE_NUMBER)
