@@ -24,6 +24,20 @@ PKMNSIM_REGISTER_COMPONENT("PKMNsim# - C# Bindings" ENABLE_PKMNSIMSHARP ON
 ####################################################################
 # Add subdirectories as appropriate based on enabled SWIG wrappers
 ####################################################################
+
+#Read enum contents
+FILE(STRINGS "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp" ENUMS_HPP_CONTENTS)
+SET(ENUMS_HPP_CONTENTS "${ENUMS_HPP_CONTENTS}" CACHE STRING "enums.hpp contents")
+FOREACH(line ${ENUMS_HPP_CONTENTS})
+    STRING(REGEX MATCH "^    namespace [^FR]+" line ${line})
+    IF(line)
+        STRING(REGEX REPLACE "^    namespace " "" line ${line})
+        STRING(REGEX REPLACE "//.*$" "" line "${line}")
+        LIST(APPEND NAMESPACES ${line})
+    ENDIF(line)
+ENDFOREACH(line ${ENUMS_HPP_CONTENTS})
+SET(NAMESPACES "${NAMESPACES}" CACHE STRING "enums.hpp namespaces")
+
 IF(ENABLE_PYPKMNSIM)
     ADD_SUBDIRECTORY(python)
 ENDIF(ENABLE_PYPKMNSIM)

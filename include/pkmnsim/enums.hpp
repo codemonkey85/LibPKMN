@@ -2006,7 +2006,7 @@ namespace pkmnsim
         };
     }
 
-    namespace Ribbons //Listed in opposite order for ease of use with bitset
+    namespace Ribbons
     {
         namespace Hoenn
         {
@@ -2905,7 +2905,7 @@ namespace pkmnsim
             DRAGON,
             DARK,
             FAIRY,
-            UNKNOWN=10001,
+            UNKNOWN = 10001,
             SHADOW
         };
     }
