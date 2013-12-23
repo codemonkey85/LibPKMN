@@ -490,6 +490,124 @@ namespace pkmnsim
                 CHILL_DRIVE
             };
         }
+
+        namespace Vivillon
+        {
+            enum forms
+            {
+                MEADOW = 666,
+                ICY_SNOW = 10086,
+                POLAR,
+                TUNDRA,
+                CONTINENTAL,
+                GARDEN,
+                ELEGANT,
+                MODERN,
+                MARINE,
+                ARCHIPELAGO,
+                HIGH_PLAINS,
+                SANDSTORM,
+                RIVER,
+                MONSOON,
+                SAVANNAH,
+                SUN,
+                OCEAN,
+                JUNGLE
+            };
+        }
+
+        namespace Flabebe
+        {
+            enum forms
+            {
+                RED = 669,
+                YELLOW = 10103,
+                ORANGE,
+                BLUE,
+                WHITE
+            };
+        }
+
+        namespace Floette
+        {
+            enum forms
+            {
+                RED = 670,
+                YELLOW = 10107,
+                ORANGE,
+                BLUE,
+                WHITE
+            };
+        }
+
+        namespace Florges
+        {
+            enum forms
+            {
+                RED = 671,
+                YELLOW = 10111,
+                ORANGE,
+                BLUE,
+                WHITE
+            };
+        }
+
+        namespace Furfrou
+        {
+            enum forms
+            {
+                UNTRIMMED = 676,
+                HEART = 10015,
+                STAR,
+                DIAMOND,
+                DEBUTANTE,
+                MATRON,
+                DANDY,
+                LA_REINE,
+                KABUKI,
+                PHARAOH
+            };
+        }
+
+        namespace Aegislash
+        {
+            enum forms
+            {
+                SHIELD = 681,
+                BLADE = 10125
+            };
+        }
+
+        namespace Pumpkaboo
+        {
+            enum forms
+            {
+                AVERAGE = 710,
+                SMALL = 10126,
+                LARGE,
+                SUPER
+            };
+        }
+
+        namespace Gourgeist
+        {
+            enum forms
+            {
+                AVERAGE = 711,
+                SMALL = 10129,
+                LARGE,
+                SUPER
+            };
+        }
+
+        namespace Xerneas
+        {
+            enum forms
+            {
+                ACTIVE = 716,
+                NEUTRAL = 10132
+            }
+        }
     }
     
     namespace Games
