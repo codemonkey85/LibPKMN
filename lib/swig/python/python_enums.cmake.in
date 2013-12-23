@@ -1,0 +1,106 @@
+#
+# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+#
+# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# or copy at http://opensource.org/licenses/MIT)
+#
+
+CMAKE_POLICY(SET CMP0007 NEW)
+
+########################################################################
+# Find first instance of "value"
+########################################################################
+macro(GET_LINE_NUMBER value filename)
+    IF(WIN32)
+        FIND_PROGRAM(FINDSTR_EXECUTABLE findstr ENV PATH)
+        EXECUTE_PROCESS(
+            COMMAND ${FINDSTR_EXECUTABLE} /N "${value}" "${filename}"
+            OUTPUT_VARIABLE line_num_list
+        )
+    ELSE()
+        FIND_PROGRAM(GREP_EXECUTABLE grep ENV PATH)
+        EXECUTE_PROCESS(
+            COMMAND ${GREP_EXECUTABLE} -n "${value}" "${filename}"
+            OUTPUT_VARIABLE line_num_list
+        )
+    ENDIF(WIN32)
+    # OUTPUT_VARIABLE gets line, which has line number and line
+    STRING(REPLACE ":" ";" line_num_list ${line_num_list})
+    LIST(GET line_num_list 0 LINE_NUMBER)
+endmacro(GET_LINE_NUMBER)
+
+########################################################################
+# Writes MIT License to beginning of generated file
+########################################################################
+macro(WRITE_PYTHON_LICENSE filename)
+SET(PYTHON_LICENSE_TEXT "#
+\# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+\#
+\# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+\# or copy at http://opensource.org/licenses/MIT)
+\#
+")
+FILE(WRITE "${filename}" "${PYTHON_LICENSE_TEXT}")
+endmacro(WRITE_PYTHON_LICENSE)
+
+########################################################################
+# Generates Python classes to correspond to C++ enums
+########################################################################
+macro(GENERATE_PYTHON_ENUM name)
+    SET(ENUM_LOCATION ${PKMNSIM_BINARY_DIR}/lib/swig/python/${name}.py)
+    FILE(TO_CMAKE_PATH ENUM_LOCATION ${ENUM_LOCATION})
+
+    SET(LINE_NUMBER "")
+    SET(ENUMS_FILE "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp")
+    IF(WIN32)
+        #FILE(TO_NATIVE_PATH) doesn't replace / with \
+        STRING(REPLACE "/" "\\\\" ENUMS_FILE ${ENUMS_FILE})
+    ENDIF(WIN32)
+    GET_LINE_NUMBER(${name} ${ENUMS_FILE})
+
+    FILE(REMOVE ${ENUM_LOCATION})
+    WRITE_PYTHON_LICENSE(${ENUM_LOCATION})
+
+    MATH(EXPR current_line "${LINE_NUMBER} + 3")
+    LIST(GET ENUMS_HPP_CONTENTS ${current_line} line_contents)
+    SET(current_num "0")
+
+    WHILE(NOT "${line_contents}" MATCHES ".+}.*")
+        STRING(REPLACE "," "" python_line "${line_contents}")
+        STRING(REGEX REPLACE "^ +" "" python_line ${python_line})
+        STRING(REGEX REPLACE "/\\*" "" python_line ${python_line})
+        STRING(REGEX REPLACE "\\*/" "" python_line ${python_line})
+        STRING(REGEX REPLACE " //.*$" "" python_line ${python_line})
+
+        #If this entry manually sets value, switch to this value
+        IF("${python_line}" MATCHES ".*= [0-9]+$")
+            FILE(APPEND "${ENUM_LOCATION}" "${python_line}\n")
+            STRING(REGEX REPLACE "^[^0-9]" "" current_num ${python_line})
+        ELSE()
+            FILE(APPEND "${ENUM_LOCATION}" "${python_line} = ${current_num}\n")
+        ENDIF("${python_line}" MATCHES ".*= [0-9]+$")
+
+        MATH(EXPR current_line "${current_line} + 1")
+        MATH(EXPR current_num "${current_num} + 1")
+        LIST(GET ENUMS_HPP_CONTENTS ${current_line} line_contents)
+    ENDWHILE(NOT "${line_contents}" MATCHES ".+}.*")
+endmacro(GENERATE_PYTHON_ENUM)
+
+########################################################################
+# Read enum constants
+########################################################################
+FILE(STRINGS "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp" ENUMS_HPP_CONTENTS)
+SET(ENUMS_HPP_CONTENTS "${ENUMS_HPP_CONTENTS}" CACHE STRING "enums.hpp contents")
+FOREACH(line ${ENUMS_HPP_CONTENTS})
+    STRING(REGEX MATCH "^    namespace [^FR]+" line ${line})
+    IF(line)
+        STRING(REGEX REPLACE "^    namespace " "" line ${line})
+        STRING(REGEX REPLACE "//.*$" "" line "${line}")
+        LIST(APPEND NAMESPACES ${line})
+    ENDIF(line)
+ENDFOREACH(line ${ENUMS_HPP_CONTENTS})
+SET(NAMESPACES "${NAMESPACES}" CACHE STRING "enums.hpp namespaces")
+
+FOREACH(namespace ${NAMESPACES})
+    GENERATE_PYTHON_ENUM(${namespace})
+ENDFOREACH(namespace ${NAMESPACES})

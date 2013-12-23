@@ -5,22 +5,6 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-INCLUDE(PKMNsimMisc)
-
-########################################################################
-# Writes MIT License to beginning of generated file
-########################################################################
-macro(WRITE_PYTHON_LICENSE filename)
-SET(PYTHON_LICENSE_TEXT "#
-\# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
-\#
-\# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
-\# or copy at http://opensource.org/licenses/MIT)
-\#
-")
-FILE(WRITE "${filename}" "${PYTHON_LICENSE_TEXT}")
-endmacro(WRITE_PYTHON_LICENSE)
-
 ########################################################################
 # Check for the existence of a python module:
 # - desc a string description of the check
@@ -113,46 +97,3 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
     )
 
 endmacro(PYTHON_BUILD_MODULE)
-
-########################################################################
-# Generates Python classes to correspond to C++ enums
-########################################################################
-macro(GENERATE_PYTHON_ENUM name)
-    SET(ENUM_LOCATION ${PKMNSIM_BINARY_DIR}/lib/swig/python/${name}.py)
-    FILE(TO_CMAKE_PATH ENUM_LOCATION ${ENUM_LOCATION})
-
-    SET(LINE_NUMBER "")
-    SET(ENUMS_FILE "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp")
-    IF(WIN32)
-        #FILE(TO_NATIVE_PATH) doesn't replace / with \
-        STRING(REPLACE "/" "\\\\" ENUMS_FILE ${ENUMS_FILE})
-    ENDIF(WIN32)
-    GET_LINE_NUMBER(${name} ${ENUMS_FILE})
-    
-    FILE(REMOVE ${ENUM_LOCATION})
-    WRITE_PYTHON_LICENSE(${ENUM_LOCATION})
-    
-    MATH(EXPR current_line "${LINE_NUMBER} + 3")
-    LIST(GET ENUMS_HPP_CONTENTS ${current_line} line_contents)
-    SET(current_num "0")
-    
-    WHILE(NOT "${line_contents}" MATCHES ".+}.*")
-        STRING(REPLACE "," "" python_line "${line_contents}")
-        STRING(REGEX REPLACE "^ +" "" python_line ${python_line})
-        STRING(REGEX REPLACE "/\\*" "" python_line ${python_line})
-        STRING(REGEX REPLACE "\\*/" "" python_line ${python_line})
-        STRING(REGEX REPLACE " //.*$" "" python_line ${python_line})
-        
-        #If this entry manually sets value, switch to this value
-        IF("${python_line}" MATCHES ".*= [0-9]+$")
-            FILE(APPEND "${ENUM_LOCATION}" "${python_line}\n")
-            STRING(REGEX REPLACE "^[^0-9]" "" current_num ${python_line})
-        ELSE()
-            FILE(APPEND "${ENUM_LOCATION}" "${python_line} = ${current_num}\n")
-        ENDIF("${python_line}" MATCHES ".*= [0-9]+$")
-    
-        MATH(EXPR current_line "${current_line} + 1")
-        MATH(EXPR current_num "${current_num} + 1")
-        LIST(GET ENUMS_HPP_CONTENTS ${current_line} line_contents)
-    ENDWHILE(NOT "${line_contents}" MATCHES ".+}.*")
-endmacro(GENERATE_PYTHON_ENUM)
