@@ -9,7 +9,7 @@
 # Find first instance of "value" after line number "first_after"
 # Assumes ${LINE_NUMBER} is initialized
 ########################################################################
-macro(GET_LINE_NUMBER value filename first_after)
+macro(GET_LINE_NUMBER value filename)
     IF(WIN32)
         FIND_PROGRAM(FINDSTR_EXECUTABLE findstr ENV PATH)
         EXECUTE_PROCESS(

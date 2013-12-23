@@ -15,4 +15,14 @@ ADD_SUBDIRECTORY(analysis)
 ADD_SUBDIRECTORY(database)
 ADD_SUBDIRECTORY(io)
 
-GENERATE_PYTHON_ENUM(Abilities)
+FOREACH(namespace ${NAMESPACES})
+    GENERATE_PYTHON_ENUM(${namespace})
+ENDFOREACH(namespace ${NAMESPACES})
+
+#Install generated Python files
+FILE(GLOB py_files "${CMAKE_CURRENT_BINARY_DIR}/*.py")
+INSTALL(
+    FILES ${py_files}
+    DESTINATION ${PKMNSIM_PYTHON_DIR}/PyPKMNsim
+    COMPONENT "PyPKMNsim"
+)

@@ -2905,7 +2905,7 @@ namespace pkmnsim
             DRAGON,
             DARK,
             FAIRY,
-            UNKNOWN=10001,
+            UNKNOWN = 10001,
             SHADOW
         };
     }
