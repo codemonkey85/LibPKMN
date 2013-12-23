@@ -239,12 +239,113 @@ namespace pkmnsim
     
     namespace Forms
     {
+        namespace Venusaur
+        {
+            enum forms
+            {
+                NORMAL = 3,
+                MEGA = 10133
+            };
+        }
+
+        namespace Charizard
+        {
+            enum forms
+            {
+                NORMAL = 6,
+                MEGA_X = 10134,
+                MEGA_Y
+            };
+        }
+
+        namespace Blastoise
+        {
+            enum forms
+            {
+                NORMAL = 9,
+                MEGA = 10136
+            };
+        }
+
+        namespace Alakazam
+        {
+            enum forms
+            {
+                NORMAL = 65,
+                MEGA = 10137
+            };
+        }
+
+        namespace Gengar
+        {
+            enum forms
+            {
+                NORMAL = 94,
+                MEGA = 10138
+            };
+        }
+
+        namespace Kangaskhan
+        {
+            enum forms
+            {
+                NORMAL = 115,
+                MEGA = 10139
+            };
+        }
+
+        namespace Pinsir
+        {
+            enum forms
+            {
+                NORMAL = 127,
+                MEGA = 10140
+            };
+        }
+
+        namespace Gyarados
+        {
+            enum forms
+            {
+                NORMAL = 130,
+                MEGA = 10141
+            };
+        }
+
+        namespace Aerodactyl
+        {
+            enum forms
+            {
+                NORMAL = 142,
+                MEGA = 10142
+            };
+        }
+
+        namespace Mewtwo
+        {
+            enum forms
+            {
+                NORMAL = 150,
+                MEGA_X = 10143,
+                MEGA_Y
+            };
+        }
+
         namespace Pichu
         {
             enum forms
             {
                 NORMAL = 172,
                 SPIKY_EARED = 10065
+            };
+        }
+
+        namespace Ampharos
+        {
+            enum forms
+            {
+                NORMAL = 181,
+                MEGA = 10145
             };
         }
 
@@ -258,6 +359,96 @@ namespace pkmnsim
             };
         }
 
+        namespace Scizor
+        {
+            enum forms
+            {
+                NORMAL = 212,
+                MEGA = 10146
+            };
+        }
+
+        namespace Heracross
+        {
+            enum forms
+            {
+                NORMAL = 214,
+                MEGA = 10147
+            };
+        }
+
+        namespace Houndoom
+        {
+            enum forms
+            {
+                NORMAL = 229,
+                MEGA = 10148
+            };
+        }
+
+        namespace Tyranitar
+        {
+            enum forms
+            {
+                NORMAL = 248,
+                MEGA = 10149
+            };
+        }
+
+        namespace Blaziken
+        {
+            enum forms
+            {
+                NORMAL = 257,
+                MEGA = 10150
+            };
+        }
+
+        namespace Gardevoir
+        {
+            enum forms
+            {
+                NORMAL = 282,
+                MEGA = 10151
+            };
+        }
+
+        namespace Mawile
+        {
+            enum forms
+            {
+                NORMAL = 303,
+                MEGA = 10152
+            };
+        }
+
+        namespace Aggron
+        {
+            enum forms
+            {
+                NORMAL = 306,
+                MEGA = 10153
+            };
+        }
+
+        namespace Medicham
+        {
+            enum forms
+            {
+                NORMAL = 308,
+                MEGA = 10154
+            };
+        }
+
+        namespace Manectric
+        {
+            enum forms
+            {
+                NORMAL = 310,
+                MEGA = 10155
+            };
+        }
+
         namespace Castform
         {
             enum forms
@@ -266,6 +457,24 @@ namespace pkmnsim
                 SUNNY = 10028,
                 RAINY,
                 SNOWY
+            };
+        }
+
+        namespace Banette
+        {
+            enum forms
+            {
+                NORMAL = 354,
+                MEGA = 10156
+            };
+        }
+
+        namespace Absol
+        {
+            enum forms
+            {
+                NORMAL = 359,
+                MEGA = 10157
             };
         }
 
@@ -324,6 +533,33 @@ namespace pkmnsim
             {
                 WEST_SEA = 423,
                 EAST_SEA = 10040
+            };
+        }
+
+        namespace Garchomp
+        {
+            enum forms
+            {
+                NORMAL = 445,
+                MEGA = 10145
+            };
+        }
+
+        namespace Lucario
+        {
+            enum forms
+            {
+                NORMAL = 448,
+                MEGA = 10159,
+            };
+        }
+
+        namespace Abomasnow
+        {
+            enum forms
+            {
+                NORMAL = 460,
+                MEGA = 10160
             };
         }
 
@@ -606,7 +842,7 @@ namespace pkmnsim
             {
                 ACTIVE = 716,
                 NEUTRAL = 10132
-            }
+            };
         }
     }
     
