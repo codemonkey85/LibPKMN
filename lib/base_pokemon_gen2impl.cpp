@@ -48,27 +48,17 @@ namespace pkmnsim
         std::string sprites = fs::path(fs::path(get_images_dir()) / "generation-2"
                                      / _images_game_string).string();
         std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
+
+        fs::path images_path = fs::path(get_images_dir());
                                      
         switch(id)
         {
             case Species::NONE: //None, should only be used for empty slots at end of party
-                _male_icon_path = fs::path(fs::path(get_images_dir())
-                                / "misc" / "pokeball.png").string();
-                _female_icon_path = _male_icon_path;
-                _male_sprite_path = fs::path(fs::path(get_images_dir())
-                                  / "misc" / "pokeball.png").string();
-                _female_sprite_path = _female_icon_path;
-                _male_shiny_sprite_path = _male_sprite_path;
-                _female_shiny_sprite_path = _female_sprite_path;
+                SET_POKEBALL_IMAGE();
                 break;
 
             case Species::INVALID: //Invalid, aka Missingno. equivalents
-                _male_icon_path = SPRITE_PATH("substitute.png");
-                _female_icon_path = _male_icon_path;
-                _male_sprite_path = SPRITE_PATH("substitute.png");
-                _female_sprite_path = _female_icon_path;
-                _male_shiny_sprite_path = _male_sprite_path;
-                _female_shiny_sprite_path = _female_sprite_path;
+                SET_SUBSTITUTE_IMAGE();
                 break;
 
             default:

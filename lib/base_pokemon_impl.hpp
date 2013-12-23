@@ -22,6 +22,20 @@
                                    _male_shiny_sprite_path = SHINY_SPRITE_PATH(filename); \
                                    _female_shiny_sprite_path = _male_sprite_path;
 
+#define SET_POKEBALL_IMAGE() _male_icon_path = _male_icon_path = fs::path(images_path / "misc" / "pokeball.png").string(); \
+                                               _female_icon_path = _male_icon_path; \
+                                               _male_sprite_path = fs::path(images_path / "misc" / "pokeball.png").string(); \
+                                               _female_sprite_path = _female_icon_path; \
+                                               _male_shiny_sprite_path = _male_sprite_path; \
+                                               _female_shiny_sprite_path = _female_sprite_path;
+
+#define SET_SUBSTITUTE_IMAGE() _male_icon_path = _male_icon_path = SPRITE_PATH("substitute.png"); \
+                                                 _female_icon_path = _male_icon_path; \
+                                                 _male_sprite_path = SPRITE_PATH("substitute.png"); \
+                                                 _female_sprite_path = _female_icon_path; \
+                                                 _male_shiny_sprite_path = _male_sprite_path; \
+                                                 _female_shiny_sprite_path = _female_sprite_path;
+
 #include <pkmnsim/base_pokemon.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
