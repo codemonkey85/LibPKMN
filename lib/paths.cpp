@@ -15,13 +15,14 @@
 
 #include <pkmnsim/paths.hpp>
 
+#include "SQLiteCpp/src/SQLiteC++.h"
+
 namespace fs = boost::filesystem;
-using namespace std;
 
 namespace pkmnsim
 {
     //Get location of APPDATA
-    string get_appdata_path()
+    std::string get_appdata_path()
     {
         //Windows
         #ifdef _MSC_VER
@@ -31,7 +32,7 @@ namespace pkmnsim
         #else
         const char* appdata_dir = getenv("APPDATA");
         #endif
-        if(appdata_dir and fs::exists(fs::path(appdata_dir))) return string(appdata_dir);
+        if(appdata_dir and fs::exists(fs::path(appdata_dir))) return std::string(appdata_dir);
         
         //Linux
         #ifdef _MSC_VER
@@ -39,14 +40,14 @@ namespace pkmnsim
         #else
         appdata_dir = getenv("HOME");
         #endif
-        if(appdata_dir and fs::exists(fs::path(appdata_dir))) return string(appdata_dir);
+        if(appdata_dir and fs::exists(fs::path(appdata_dir))) return std::string(appdata_dir);
         
         //If it's gotten to this point, fall back to the temp directory
         return get_tmp_dir();
     }
 
     //Get location of database
-    string get_database_path()
+    std::string get_database_path()
     {
         #ifdef _MSC_VER
         char* database_dir;
@@ -58,16 +59,23 @@ namespace pkmnsim
         if(database_dir == NULL) database_dir = "@PKMNSIM_DATABASE_DIR@"; //CMake variable
 
         fs::path database_path = fs::path(database_dir) / "pkmnsim.db";
-
-        ifstream ifile(database_path.string().c_str());
-        if(not fs::exists(database_path)) throw runtime_error("Could not find database!");
-        else ifile.close();
+        if(not fs::exists(database_path)) throw std::runtime_error("Could not find database!");
+        else
+        {
+            /*
+             * Use SQLiteCpp to check to see if database is valid.
+             * The SQLite::Database constructor will throw an exception if
+             * the given filename is not a valid SQLite database.
+             */
+            try {SQLite::Database db(database_path.string().c_str());}
+            catch(std::exception &e) {return ":memory:";}
+        }
 
         return database_path.string();
     }
     
     //Get images directory
-    string get_images_dir()
+    std::string get_images_dir()
     {
         #ifdef _MSC_VER
         char* images_dir;
@@ -78,13 +86,13 @@ namespace pkmnsim
         #endif
         if(images_dir == NULL) images_dir = "@PKMNSIM_IMAGES_DIR@"; //CMake variable
         
-        if(not fs::exists(fs::path(images_dir))) throw runtime_error("Could not find images directory!");
+        if(not fs::exists(fs::path(images_dir))) throw std::runtime_error("Could not find images directory!");
         
-        return string(images_dir);
+        return std::string(images_dir);
     }
 
     //Get path for system's temporary directory
-    string get_tmp_dir()
+    std::string get_tmp_dir()
     {
         #ifdef _MSC_VER
         char* tmp_dir;
@@ -94,7 +102,7 @@ namespace pkmnsim
         const char* tmp_dir = getenv("TMP");
         #endif
 
-        if(tmp_dir and fs::exists(fs::path(tmp_dir))) return string(tmp_dir);
+        if(tmp_dir and fs::exists(fs::path(tmp_dir))) return std::string(tmp_dir);
         else return "/tmp";
     }
 } /* namespace pkmnsim */
