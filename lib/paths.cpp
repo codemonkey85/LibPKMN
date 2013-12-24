@@ -94,9 +94,7 @@ namespace pkmnsim
         const char* tmp_dir = getenv("TMP");
         #endif
 
-        fs::path tmp_dir_path = fs::path(tmp_dir);
-
-        if(not fs::exists(fs::path(tmp_dir))) return "/tmp"; //Fallback
-        else return tmp_dir_path.string();
+        if(tmp_dir and fs::exists(fs::path(tmp_dir))) return string(tmp_dir);
+        else return "/tmp";
     }
 } /* namespace pkmnsim */
