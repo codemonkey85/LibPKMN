@@ -13,7 +13,6 @@
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include <pokehack/pokestructs.h>
 #include <pkmds/pkmds_sql.h>
 
 #include "library_bridge.hpp"
@@ -50,6 +49,20 @@ namespace pkmnsim
         }
 
         return actual_text;
+    }
+
+    unsigned short int pokehack_get_block_checksum(block* b)
+    {
+        int checksum = 0;
+        int i;
+        for (i = 0; i < BLOCK_DATA_LEN; i+=4)
+        {
+            checksum += *((int*)b+i/4);
+        }
+        checksum += checksum >> 16;
+        checksum &= 0xFFFF;
+
+        return (unsigned short int)checksum;
     }
 
     uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV)
