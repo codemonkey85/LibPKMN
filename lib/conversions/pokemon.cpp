@@ -54,6 +54,11 @@ namespace pkmnsim
             t_pkmn->set_held_item(item::make(database::get_item_id(pkmn_g_t->held, from_game), from_game));
             t_pkmn->set_personality(b_pkmn_t->personality);
             t_pkmn->set_trainer_id(b_pkmn_t->otid);
+
+            t_pkmn->set_move_PP(pkmn_a_t->pp1, 1);
+            t_pkmn->set_move_PP(pkmn_a_t->pp2, 1);
+            t_pkmn->set_move_PP(pkmn_a_t->pp3, 1);
+            t_pkmn->set_move_PP(pkmn_a_t->pp4, 1);
             
             t_pkmn->set_EV(Stats::HP, pkmn_e_t->hp);
             t_pkmn->set_EV(Stats::ATTACK, pkmn_e_t->attack);
@@ -152,6 +157,12 @@ namespace pkmnsim
             pkmn_a_t->atk2 = moves[1]->get_move_id();
             pkmn_a_t->atk3 = moves[2]->get_move_id();
             pkmn_a_t->atk4 = moves[3]->get_move_id();
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            pkmn_a_t->pp1 = move_PPs[0];
+            pkmn_a_t->pp2 = move_PPs[1];
+            pkmn_a_t->pp3 = move_PPs[2];
+            pkmn_a_t->pp4 = move_PPs[3];
 
             pkmn_m_t->game = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
             
@@ -253,6 +264,11 @@ namespace pkmnsim
 
             t_pkmn->set_nickname(pokelib_pkmn.getNickname());
             t_pkmn->set_trainer_name(pokelib_pkmn.getTrainerName());
+
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[0], 1);
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[1], 2);
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[2], 3);
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[3], 4);
 
             uint8_t* metLevelInt = &(pokelib_pkmn.pkm->pkm.metLevelInt);
             t_pkmn->set_met_level(get_gen_456_met_level(metLevelInt));
@@ -416,10 +432,17 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.pokeball = pkmnsim_ball_to_game_ball(t_pkmn->get_ball());
             set_gen_456_met_level(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
-            pokelib_pkmn.pkm->pkm.move[0] = t_pkmn->get_moves()[0]->get_move_id();
-            pokelib_pkmn.pkm->pkm.move[1] = t_pkmn->get_moves()[1]->get_move_id();
-            pokelib_pkmn.pkm->pkm.move[2] = t_pkmn->get_moves()[2]->get_move_id();
-            pokelib_pkmn.pkm->pkm.move[3] = t_pkmn->get_moves()[3]->get_move_id();
+            moveset_t moves = t_pkmn->get_moves();
+            pokelib_pkmn.pkm->pkm.move[0] = moves[0]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[1] = moves[1]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[2] = moves[2]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[3] = moves[3]->get_move_id();
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            pokelib_pkmn.pkm->pkm.move[0] = move_PPs[0];
+            pokelib_pkmn.pkm->pkm.move[1] = move_PPs[1];
+            pokelib_pkmn.pkm->pkm.move[2] = move_PPs[2];
+            pokelib_pkmn.pkm->pkm.move[3] = move_PPs[3];
 
             dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
             pokelib_pkmn.pkm->pkm.battle_max_hp = stats[Stats::HP];
@@ -592,6 +615,11 @@ namespace pkmnsim
                 t_pkmn->set_trainer_name(otname);
             #endif
 
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[0], 1);
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[1], 2);
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[2], 3);
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[3], 4);
+
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(p_pkm->pkm_data.ball));
@@ -742,6 +770,12 @@ namespace pkmnsim
             p_pkm->pkm_data.moves[1] = ::Moves::moves(t_pkmn->get_moves()[1]->get_move_id());
             p_pkm->pkm_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
             p_pkm->pkm_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            p_pkm->pkm_data.pp[0] = move_PPs[0];
+            p_pkm->pkm_data.pp[1] = move_PPs[1];
+            p_pkm->pkm_data.pp[2] = move_PPs[2];
+            p_pkm->pkm_data.pp[3] = move_PPs[3];
 
             ::setlevel(p_pkm->pkm_data, t_pkmn->get_level());
 
@@ -919,6 +953,11 @@ namespace pkmnsim
 
             t_pkmn->set_nickname(p_pkx->pkx_data.nickname);
             t_pkmn->set_trainer_name(p_pkx->pkx_data.otname);
+
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[0], 1);
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[1], 2);
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[2], 3);
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[3], 4);
             
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
@@ -958,6 +997,12 @@ namespace pkmnsim
             p_pkx->pkx_data.moves[1] = ::Moves::moves(t_pkmn->get_moves()[1]->get_move_id());
             p_pkx->pkx_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
             p_pkx->pkx_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            p_pkx->pkx_data.pp[0] = move_PPs[0];
+            p_pkx->pkx_data.pp[1] = move_PPs[1];
+            p_pkx->pkx_data.pp[2] = move_PPs[2];
+            p_pkx->pkx_data.pp[3] = move_PPs[3];
             
             p_pkx->partyx_data.level = t_pkmn->get_level();
             
