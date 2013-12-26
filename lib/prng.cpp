@@ -13,23 +13,22 @@
 
 namespace pkmnsim
 {
-    uint32_t prng::_lcrng_seed;
-    uint64_t prng::_gen5_lcrng_seed;
-    uint32_t prng::_arng_seed;
-    unsigned int prng::_mtrng_pos;
+    uint32_t prng::_lcrng_seed = rand();
+    uint64_t prng::_gen5_lcrng_seed = rand();
+    uint32_t prng::_arng_seed = rand();
+    unsigned int prng::_mtrng_pos = 0;
     uint32_t prng::_mtrng_seeds[];
 
     prng::prng()
     {
         srand( time(NULL) );
 
-        _lcrng_seed = rand();
-        _gen5_lcrng_seed = rand();
-        
-        _arng_seed = rand();
-
-        for(int i = 0; i < 624; i++) _mtrng_seeds[i] = rand();
-        _mtrng_pos = 0;
+        /*
+         * If first index of MTRNG seed array is zero, assume it hasn't been
+         * initialized.
+         */
+        if(_mtrng_seeds[0] == 0)
+            for(int i = 0; i < 624; i++) _mtrng_seeds[i] = rand();
     }
 
     uint64_t prng::lcrng_next(uint32_t gen)
