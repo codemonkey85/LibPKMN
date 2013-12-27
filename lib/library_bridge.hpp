@@ -19,6 +19,7 @@
 
 #include <pkmnsim/types/dict.hpp>
 
+#include <pokehack/pokestructs.h>
 #include <pokehack/SaveParser.h>
 
 #include <pkmds/pkmds_g5.h>
@@ -100,6 +101,8 @@ namespace pkmnsim
         ('\0', int(0xFF));
 
     char* pokehack_get_text(unsigned char* raw, bool is_nickname);
+
+    unsigned short pokehack_get_block_checksum(block* b);
 
     uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV);
 
