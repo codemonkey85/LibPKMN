@@ -19,7 +19,7 @@ namespace pkmnsim
             
         private:
         
-            unsigned int machine_id, move_id;
+            unsigned int _machine_id, _move_id;
     };
 }
 

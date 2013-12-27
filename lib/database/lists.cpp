@@ -21,11 +21,12 @@ namespace pkmnsim
 {
     namespace database
     {
+        static SQLite::Database db(get_database_path().c_str());
+    
         void get_table_list(vector<string> &vec)
         {
             vec.clear();
 
-            SQLite::Database db(get_database_path().c_str());
             string query_str = "SELECT name FROM sqlite_master WHERE type='table'";
             SQLite::Statement query(db, query_str.c_str());
 
@@ -40,7 +41,6 @@ namespace pkmnsim
         {
             vec.clear();
 
-            SQLite::Database db(get_database_path().c_str());
             string query_str = str(boost::format("PRAGMA table_info(%s)") % table_name);
             SQLite::Statement query(db, query_str.c_str());
             

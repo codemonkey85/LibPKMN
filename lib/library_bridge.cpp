@@ -9,19 +9,10 @@
 #pragma warning(disable:4244)
 #endif
  
-#include <bitset>
-
-#ifndef _MSC_VER
-    #include <cstdbool>
-#endif
-
-#include <boost/assign.hpp>
-
 #include <pkmnsim/enums.hpp>
 #include <pkmnsim/paths.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include <pokehack/pokestructs.h>
 #include <pkmds/pkmds_sql.h>
 
 #include "library_bridge.hpp"
@@ -34,84 +25,6 @@ using namespace std;
 
 namespace pkmnsim
 {
-    dict<char, int> get_pokehack_reverse_char_map()
-    {
-        dict<char, int> pokehack_reverse_char_map = boost::assign::map_list_of
-            ('0', int(0xA1))
-            ('1', int(0xA2))
-            ('2', int(0xA3))
-            ('3', int(0xA4))
-            ('4', int(0xA5))
-            ('5', int(0xA6))
-            ('6', int(0xA7))
-            ('7', int(0xA8))
-            ('8', int(0xA9))
-            ('9', int(0xAA))
-            ('!', int(0xAB))
-            ('?', int(0xAC))
-            ('.', int(0xAD))
-            ('-', int(0xAE))
-            ('"', int(0xB1))
-            ('\'', int(0xB2))
-            ('/', int(0xBA))
-            ('A', int(0xBB))
-            ('B', int(0xBC))
-            ('C', int(0xBD))
-            ('D', int(0xBE))
-            ('E', int(0xBF))
-            ('F', int(0xC0))
-            ('G', int(0xC1))
-            ('H', int(0xC2))
-            ('I', int(0xC3))
-            ('J', int(0xC4))
-            ('K', int(0xC5))
-            ('L', int(0xC6))
-            ('M', int(0xC7))
-            ('N', int(0xC8))
-            ('O', int(0xC9))
-            ('P', int(0xCA))
-            ('Q', int(0xCB))
-            ('R', int(0xCC))
-            ('S', int(0xCD))
-            ('T', int(0xCE))
-            ('U', int(0xCF))
-            ('V', int(0xD0))
-            ('W', int(0xD1))
-            ('X', int(0xD2))
-            ('Y', int(0xD3))
-            ('Z', int(0xD4))
-            ('a', int(0xD5))
-            ('b', int(0xD6))
-            ('c', int(0xD7))
-            ('d', int(0xD8))
-            ('e', int(0xD9))
-            ('f', int(0xDA))
-            ('g', int(0xDB))
-            ('h', int(0xDC))
-            ('i', int(0xDD))
-            ('j', int(0xDE))
-            ('k', int(0xDF))
-            ('l', int(0xE0))
-            ('m', int(0xE1))
-            ('n', int(0xE2))
-            ('o', int(0xE3))
-            ('p', int(0xE4))
-            ('q', int(0xE5))
-            ('r', int(0xE6))
-            ('s', int(0xE7))
-            ('t', int(0xE8))
-            ('u', int(0xE9))
-            ('v', int(0xEA))
-            ('w', int(0xEB))
-            ('x', int(0xEC))
-            ('y', int(0xED))
-            ('z', int(0xEE))
-            (' ', int(0xEF))
-            ('\0', int(0xFF));
-            
-        return pokehack_reverse_char_map;
-    }
-
     //To avoid C/C++ include messiness while avoiding bringing in pokehack/SaveParser.h
     char* pokehack_get_text(unsigned char* raw, bool is_nickname)
     {
@@ -136,6 +49,20 @@ namespace pkmnsim
         }
 
         return actual_text;
+    }
+
+    unsigned short int pokehack_get_block_checksum(block* b)
+    {
+        int checksum = 0;
+        int i;
+        for (i = 0; i < BLOCK_DATA_LEN; i+=4)
+        {
+            checksum += *((int*)b+i/4);
+        }
+        checksum += checksum >> 16;
+        checksum &= 0xFFFF;
+
+        return (unsigned short int)checksum;
     }
 
     uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV)
@@ -167,82 +94,51 @@ namespace pkmnsim
     
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
     {
-        //Limit val to 32
+        //Limit val to 32, shifting done in case statement
         val &= 32;
-
-        bitset<32> IVs_bitset = int(*IVint);
-        bitset<5> val_bitset = int(val);
     
         switch(IV)
         {
             case Stats::HP:
-                IVs_bitset[27] = val_bitset[0];
-                IVs_bitset[28] = val_bitset[1];
-                IVs_bitset[29] = val_bitset[2];
-                IVs_bitset[30] = val_bitset[3];
-                IVs_bitset[31] = val_bitset[4];
+                *IVint = (val << 27) | (*IVint & 0x1B);
                 break;
                 
             case Stats::ATTACK:
-                IVs_bitset[22] = val_bitset[0];
-                IVs_bitset[23] = val_bitset[1];
-                IVs_bitset[24] = val_bitset[2];
-                IVs_bitset[25] = val_bitset[3];
-                IVs_bitset[26] = val_bitset[4];
+                *IVint = (*IVint & 0xF8000000) | (val << 22) | (*IVint & 0x16);
                 break;
             
             case Stats::DEFENSE:
-                IVs_bitset[17] = val_bitset[0];
-                IVs_bitset[18] = val_bitset[1];
-                IVs_bitset[19] = val_bitset[2];
-                IVs_bitset[20] = val_bitset[3];
-                IVs_bitset[21] = val_bitset[4];
+                *IVint = (*IVint & 0xFFC00000) | (val << 17) | (*IVint & 0x11);
                 break;
                 
             case Stats::SPEED:
-                IVs_bitset[12] = val_bitset[0];
-                IVs_bitset[13] = val_bitset[1];
-                IVs_bitset[14] = val_bitset[2];
-                IVs_bitset[15] = val_bitset[3];
-                IVs_bitset[16] = val_bitset[4];
+                *IVint = (*IVint & 0XFFFE0000) | (val << 12) | (*IVint & 0xC);
                 break;
                 
             case Stats::SPECIAL_ATTACK:
-                IVs_bitset[7] = val_bitset[0];
-                IVs_bitset[8] = val_bitset[1];
-                IVs_bitset[9] = val_bitset[2];
-                IVs_bitset[10] = val_bitset[3];
-                IVs_bitset[11] = val_bitset[4];
+                *IVint = (*IVint & 0xFFFFF000) | (val << 7) | (*IVint & 0x7);
                 break;
                 
             case Stats::SPECIAL_DEFENSE:
-                IVs_bitset[2] = val_bitset[0];
-                IVs_bitset[3] = val_bitset[1];
-                IVs_bitset[4] = val_bitset[2];
-                IVs_bitset[5] = val_bitset[3];
-                IVs_bitset[6] = val_bitset[4];
+                *IVint = (*IVint & 0xFFFFFF80) | (val << 2) | (*IVint & 0x2);
                 break;
         }
-        *IVint = IVs_bitset.to_ulong();
     }
     
     bool get_marking(uint8_t* markint, uint8_t mark)
     {
-        bitset<8> marking_bitset = int(*markint);
-        return marking_bitset[mark];
+        return ((*markint >> mark) & 0x1);
     }
     
     void set_marking(uint8_t* markint, uint8_t mark, bool val)
     {
-        bitset<8> marking_bitset = int(*markint);
-        marking_bitset[mark] = val;
-        *markint = marking_bitset.to_ulong();
+        if(val) *markint |= (1 << mark);
+        else *markint &= ~(1 << mark);
     }
     
     bool get_ribbon(uint32_t* ribbonint, uint8_t ribbon)
     {
-        bitset<32> ribbon_bitset = int(*ribbonint);
-        return ribbon_bitset[ribbon];
+        return ((*ribbonint >> ribbon) & 0x1);
     }
     
     void set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
@@ -253,38 +149,26 @@ namespace pkmnsim
 
     uint8_t get_gen3_ball(uint16_t* metlevelint)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> ball_bitset = 0;
-        for(int i = 0; i < 4; i++) ball_bitset[i] = metlevel_bitset[i+1];
-
-        return ball_bitset.to_ulong();
+        return ((*metlevelint >> 1) & 0x8);
     }
 
     void set_gen3_ball(uint16_t* metlevelint, uint8_t ball)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> ball_bitset = ball;
-        for(int i = 0; i < 4; i++) metlevel_bitset[i+1] = ball_bitset[i];
-
-        *metlevelint = metlevel_bitset.to_ulong();
+        //Ball can only be 4 bits long and must be shifted by one
+        ball = (ball & 0xF) << 1;
+        *metlevelint = (*metlevelint & 0xFFE0) | ball | (*metlevelint & 0x1);
     }
 
     uint8_t get_gen3_met_level(uint16_t* metlevelint)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> metlevel_int = 0;
-        for(int i = 15; i > 8; i--) metlevel_int[i-8] = metlevel_bitset[i];
-
-        return metlevel_int.to_ulong();
+        return (*metlevelint >> 9);
     }
 
     void set_gen3_met_level(uint16_t* metlevelint, uint8_t level)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        bitset<8> metlevel_int = level;
-        for(int i = 0; i < 7; i++) metlevel_bitset[i+8] = metlevel_int[i];
-
-        *metlevelint = metlevel_bitset.to_ulong();
+        //Level can only be 7 bits long and must be shifted by nine
+        uint16_t intermediate_level = (level & 0x7F) << 9;
+        *metlevelint = intermediate_level | (*metlevelint & 0x1FF);
     }
 
     uint8_t get_gen_456_met_level(uint8_t* metlevelint)
@@ -294,38 +178,29 @@ namespace pkmnsim
 
     void set_gen_456_met_level(uint8_t* metlevelint, uint8_t level)
     {
-        bitset<8> metlevel_bitset = int(*metlevelint);
-        bitset<8> level_bitset = level;
-        for(int i = 0; i < 7; i++) metlevel_bitset[i+1] = level_bitset[i];
-
-        *metlevelint = metlevel_bitset.to_ulong();
+        //Level can only be 7 bits long and must be shifted by one
+        level = (level & 0x7F) << 1;
+        *metlevelint = (*metlevelint & 0x1) | level;
     }
 
     bool get_gen3_otgender(uint16_t* metlevelint)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        return metlevel_bitset[0];
+        return (*metlevelint & 0x1);
     }
 
     void set_gen3_otgender(uint16_t* metlevelint, bool is_female)
     {
-        bitset<16> metlevel_bitset = int(*metlevelint);
-        metlevel_bitset[0] = is_female;
-        
-        *metlevelint = metlevel_bitset.to_ulong();
+        *metlevelint = (*metlevelint & 0xFFFE) | ((is_female) ? 1 : 0);
     }
 
     bool get_gen_456_otgender(uint8_t* metlevelint)
     {
-        bitset<8> metlevel_bitset = int(*metlevelint);
-        return metlevel_bitset[0];
+        return (*metlevelint & 0x1);
     }
 
     void set_gen_456_otgender(uint8_t* metlevelint, bool is_female)
     {
-        bitset<8> metlevel_bitset = int(*metlevelint);
-        metlevel_bitset[0] = is_female;
-        *metlevelint = metlevel_bitset.to_ulong();
+        *metlevelint = (*metlevelint & 0xFE) | ((is_female) ? 1 : 0);
     }
 
     uint8_t pkmnsim_getpkmstat(pokemon_obj* pkm, unsigned int stat_id)

@@ -23,74 +23,47 @@ using namespace std;
 
 namespace pkmnsim
 {
-    base_pokemon_gen1impl::base_pokemon_gen1impl(unsigned int id, unsigned int game):
-                                           base_pokemon_impl(id, game)
+    base_pokemon_gen1impl::base_pokemon_gen1impl(unsigned int id, unsigned int game_id):
+                                           base_pokemon_impl(id, game_id)
     {
         //Get final part of images path
-        switch(from_game)
+        switch(_game_id)
         {
             case Games::RED:
             case Games::BLUE:
-                images_game_string = "red-blue";
+                _images_game_string = "red-blue";
                 break;
             case Games::YELLOW:
-                images_game_string = "yellow";
+                _images_game_string = "yellow";
                 break;
             default: //It should never get here
-                images_game_string = "yellow";
+                _images_game_string = "yellow";
                 break;
         }
 
-        boost::format png_format("%d.png");
-        std::string icon_directory = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprite_directory = fs::path(fs::path(get_images_dir()) / "generation-1"
-                                     / images_game_string).string();
+        _sprite_dir = fs::path(_images_dir / "generation-1" / _images_game_string);
+        _shiny_sprite_dir = _sprite_dir;
+
         switch(id)
         {   
             case Species::NONE: //None, should only be used for empty slots at end of party
-                male_icon_path = fs::path(fs::path(get_images_dir())
-                               / "misc" / "pokeball.png").string();
-                female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(get_images_dir())
-                                 / "misc" / "pokeball.png").string();
-                female_sprite_path = female_icon_path;
-                male_shiny_sprite_path = male_sprite_path;
-                female_shiny_sprite_path = female_sprite_path;
+                SET_POKEBALL_IMAGE();
                 break;
             
             case Species::INVALID: //Invalid, aka Missingno.
-                male_icon_path = fs::path(fs::path(sprite_directory)
-                               / (png_format % "substitute.png").str()).string();
-                female_icon_path = male_icon_path;
-                male_sprite_path = fs::path(fs::path(sprite_directory)
-                                 / (png_format % "substitute.png").str()).string();
-                female_sprite_path = female_icon_path;
-                male_shiny_sprite_path = male_sprite_path;
-                female_shiny_sprite_path = female_sprite_path;
+                SET_SUBSTITUTE_IMAGE();
                 break;
             
             default:
-                //No genders in Generation 1
-                male_icon_path = fs::path(fs::path(icon_directory)
-                               / (png_format % species_id).str()).string();
-                female_icon_path = male_icon_path;
-
-                male_sprite_path = fs::path(fs::path(sprite_directory)
-                                 / (png_format % species_id).str()).string();
-                female_sprite_path = male_sprite_path;
-
-                //No shininess in Generation 1
-                male_shiny_sprite_path = male_sprite_path;
-                female_shiny_sprite_path = male_sprite_path;
+                SET_IMAGES_PATHS(_images_default_basename);
 
                 /*
                  * Special is exclusive to Generation 1, so query it separately
                  * from the rest.
                  */
-                SQLite::Database db(get_database_path().c_str());
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id="
-                                    + to_string(pokemon_id) + " AND stat_id=9";
-                special = int(db.execAndGet(query_string.c_str()));
+                                    + to_string(_pokemon_id) + " AND stat_id=9";
+                _special = int(_db.execAndGet(query_string.c_str()));
                 break;
         }
     }
@@ -98,11 +71,11 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_base_stats() const
     {
         dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = hp;
-        stats[Stats::ATTACK] = attack;
-        stats[Stats::DEFENSE] = defense;
-        stats[Stats::SPEED] = speed;
-        stats[Stats::SPECIAL] = special;
+        stats[Stats::HP] = _hp;
+        stats[Stats::ATTACK] = _attack;
+        stats[Stats::DEFENSE] = _defense;
+        stats[Stats::SPEED] = _speed;
+        stats[Stats::SPECIAL] = _special;
         
         return stats;
     }
@@ -128,13 +101,13 @@ namespace pkmnsim
     //No genders in Generation 1
     string base_pokemon_gen1impl::get_icon_path(bool is_male) const
     {
-        return male_icon_path;
+        return _male_icon_path.string();
     }
     
     //No genders or shininess in Generation 1
     string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
-        return male_sprite_path;
+        return _male_sprite_path.string();
     }
 
     //No forms in Generation 1    
@@ -142,7 +115,7 @@ namespace pkmnsim
     void base_pokemon_gen1impl::set_form(std::string form) {};
     void base_pokemon_gen1impl::repair(unsigned int id) {};
     string base_pokemon_gen1impl::get_form_name() const {return get_species_name();}
-    unsigned int base_pokemon_gen1impl::get_form_id() const {return species_id;}
+    unsigned int base_pokemon_gen1impl::get_form_id() const {return _species_id;}
 
     //No eggs in Generation 1
     void base_pokemon_gen1impl::get_egg_group_names(std::vector<std::string>

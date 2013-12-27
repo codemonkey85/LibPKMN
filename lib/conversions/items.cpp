@@ -18,8 +18,6 @@
 #include <pkmnsim/pocket.hpp>
 #include <pkmnsim/database/queries.hpp>
 
-#include "../SQLiteCpp/src/SQLiteC++.h"
-
 #include "items.hpp"
 #include "../library_bridge.hpp"
 

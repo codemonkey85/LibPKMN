@@ -25,8 +25,6 @@
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
-#include "../SQLiteCpp/src/SQLiteC++.h"
-
 #include "pokemon.hpp"
 #include "../library_bridge.hpp"
 
@@ -56,6 +54,11 @@ namespace pkmnsim
             t_pkmn->set_held_item(item::make(database::get_item_id(pkmn_g_t->held, from_game), from_game));
             t_pkmn->set_personality(b_pkmn_t->personality);
             t_pkmn->set_trainer_id(b_pkmn_t->otid);
+
+            t_pkmn->set_move_PP(pkmn_a_t->pp1, 1);
+            t_pkmn->set_move_PP(pkmn_a_t->pp2, 1);
+            t_pkmn->set_move_PP(pkmn_a_t->pp3, 1);
+            t_pkmn->set_move_PP(pkmn_a_t->pp4, 1);
             
             t_pkmn->set_EV(Stats::HP, pkmn_e_t->hp);
             t_pkmn->set_EV(Stats::ATTACK, pkmn_e_t->attack);
@@ -142,25 +145,24 @@ namespace pkmnsim
             b_pkmn_t->otid = t_pkmn->get_trainer_id();
             b_pkmn_t->level = t_pkmn->get_level();
 
-            dict<char, int> pokehack_reverse_char_map = get_pokehack_reverse_char_map();
+            memset(b_pkmn_t->name, 0xFF, 10);
+            memset(b_pkmn_t->otname, 0xFF, 7);
             string nickname = t_pkmn->get_nickname();
-            for(int i = 0; i < 10; i++)
-            {
-                if(i < nickname.size()) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
-                else b_pkmn_t->name[i] = 0xFF;
-            }
             string trainer_name = t_pkmn->get_trainer_name();
-            for(int i = 0; i < 7; i++)
-            {
-                if(i < trainer_name.size()) b_pkmn_t->otname[i] = pokehack_reverse_char_map[trainer_name[i]];
-                else b_pkmn_t->otname[i] = 0xFF;
-            }
+            for(int i = 0; i < nickname.size(); i++) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
+            for(int i = 0; i < trainer_name.size(); i++) b_pkmn_t->otname[i] = pokehack_reverse_char_map[trainer_name[i]];
 
             moveset_t moves = t_pkmn->get_moves();
             pkmn_a_t->atk1 = moves[0]->get_move_id();
             pkmn_a_t->atk2 = moves[1]->get_move_id();
             pkmn_a_t->atk3 = moves[2]->get_move_id();
             pkmn_a_t->atk4 = moves[3]->get_move_id();
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            pkmn_a_t->pp1 = move_PPs[0];
+            pkmn_a_t->pp2 = move_PPs[1];
+            pkmn_a_t->pp3 = move_PPs[2];
+            pkmn_a_t->pp4 = move_PPs[3];
 
             pkmn_m_t->game = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
             
@@ -263,10 +265,15 @@ namespace pkmnsim
             t_pkmn->set_nickname(pokelib_pkmn.getNickname());
             t_pkmn->set_trainer_name(pokelib_pkmn.getTrainerName());
 
-            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1);
-            t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[0], 1);
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[1], 2);
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[2], 3);
+            t_pkmn->set_move_PP(pokelib_pkmn.pkm->pkm.movePP[3], 4);
+
+            uint8_t* metLevelInt = &(pokelib_pkmn.pkm->pkm.metLevelInt);
+            t_pkmn->set_met_level(get_gen_456_met_level(metLevelInt));
             t_pkmn->set_ball(game_ball_to_pkmnsim_ball(pokelib_pkmn.pkm->pkm.pokeball));
-            if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
+            if(get_gen_456_otgender(metLevelInt)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
             t_pkmn->set_held_item(item::make(database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, from_game), from_game));
@@ -281,7 +288,7 @@ namespace pkmnsim
             t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, pokelib_pkmn.pkm->pkm.ev_sdef);
             t_pkmn->set_EV(Stats::SPEED, pokelib_pkmn.pkm->pkm.ev_spd);
 
-            uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1);
+            uint32_t* IVint = &(pokelib_pkmn.pkm->pkm.IVint);
             t_pkmn->set_IV(Stats::HP, modern_get_IV(IVint, Stats::HP));
             t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(IVint, Stats::ATTACK));
             t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(IVint, Stats::DEFENSE));
@@ -309,7 +316,7 @@ namespace pkmnsim
             t_pkmn->set_attribute("tough", pokelib_pkmn.pkm->pkm.contest_tough);
             t_pkmn->set_attribute("sheen", pokelib_pkmn.pkm->pkm.contest_sheen);
 
-            uint32_t* ribbonHoenn = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn));
+            uint32_t* ribbonHoenn = &(pokelib_pkmn.pkm->pkm.intRibbonHoenn);
             t_pkmn->set_attribute("hoenn_cool_ribbon", get_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL));
             t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_SUPER));
             t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_HYPER));
@@ -343,7 +350,7 @@ namespace pkmnsim
             t_pkmn->set_attribute("hoenn_earth_ribbon", get_ribbon(ribbonHoenn, Ribbons::Hoenn::EARTH));
             t_pkmn->set_attribute("hoenn_world_ribbon", get_ribbon(ribbonHoenn, Ribbons::Hoenn::WORLD));
 
-            uint32_t* ribbonSinnohA = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA));
+            uint32_t* ribbonSinnohA = &(pokelib_pkmn.pkm->pkm.intRibbonSinnohA);
             t_pkmn->set_attribute("sinnoh_champion_ribbon", get_ribbon(ribbonSinnohA, Ribbons::Sinnoh::CHAMPION));
             t_pkmn->set_attribute("sinnoh_ability_ribbon", get_ribbon(ribbonSinnohA, Ribbons::Sinnoh::ABILITY));
             t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_ribbon(ribbonSinnohA, Ribbons::Sinnoh::GREAT_ABILITY));
@@ -373,7 +380,7 @@ namespace pkmnsim
             t_pkmn->set_attribute("sinnoh_classic_ribbon", get_ribbon(ribbonSinnohA, Ribbons::Sinnoh::CLASSIC));
             t_pkmn->set_attribute("sinnoh_premier_ribbon", get_ribbon(ribbonSinnohA, Ribbons::Sinnoh::PREMIER));
 
-            uint32_t* ribbonSinnohB = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB));
+            uint32_t* ribbonSinnohB = &(pokelib_pkmn.pkm->pkm.intRibbonSinnohB);
             t_pkmn->set_attribute("sinnoh_cool_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL-23));
             t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23));
             t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23));
@@ -425,10 +432,17 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.pokeball = pkmnsim_ball_to_game_ball(t_pkmn->get_ball());
             set_gen_456_met_level(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
-            pokelib_pkmn.pkm->pkm.move[0] = t_pkmn->get_moves()[0]->get_move_id();
-            pokelib_pkmn.pkm->pkm.move[1] = t_pkmn->get_moves()[1]->get_move_id();
-            pokelib_pkmn.pkm->pkm.move[2] = t_pkmn->get_moves()[2]->get_move_id();
-            pokelib_pkmn.pkm->pkm.move[3] = t_pkmn->get_moves()[3]->get_move_id();
+            moveset_t moves = t_pkmn->get_moves();
+            pokelib_pkmn.pkm->pkm.move[0] = moves[0]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[1] = moves[1]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[2] = moves[2]->get_move_id();
+            pokelib_pkmn.pkm->pkm.move[3] = moves[3]->get_move_id();
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            pokelib_pkmn.pkm->pkm.move[0] = move_PPs[0];
+            pokelib_pkmn.pkm->pkm.move[1] = move_PPs[1];
+            pokelib_pkmn.pkm->pkm.move[2] = move_PPs[2];
+            pokelib_pkmn.pkm->pkm.move[3] = move_PPs[3];
 
             dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
             pokelib_pkmn.pkm->pkm.battle_max_hp = stats[Stats::HP];
@@ -447,7 +461,7 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.ev_spd = EVs[Stats::SPEED];
 
             dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
-            uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.movePPUP[3])+1);
+            uint32_t* IVint = &(pokelib_pkmn.pkm->pkm.IVint);
             modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
             modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
             modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
@@ -476,7 +490,7 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.contest_tough = attributes.get("tough",false);
             pokelib_pkmn.pkm->pkm.contest_sheen = attributes.get("sheen",false);
 
-            uint32_t* ribbonSinnohA = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohA));
+            uint32_t* ribbonSinnohA = &(pokelib_pkmn.pkm->pkm.intRibbonSinnohA);
             set_ribbon(ribbonSinnohA, Ribbons::Sinnoh::CHAMPION, attributes.get("sinnoh_champion_ribbon",false));
             set_ribbon(ribbonSinnohA, Ribbons::Sinnoh::ABILITY, attributes.get("sinnoh_ability_ribbon",false));
             set_ribbon(ribbonSinnohA, Ribbons::Sinnoh::GREAT_ABILITY, attributes.get("sinnoh_great_ability_ribbon",false));
@@ -510,7 +524,7 @@ namespace pkmnsim
             set_ribbon(ribbonSinnohA, Ribbons::Sinnoh::CLASSIC, attributes.get("sinnoh_classic_ribbon",false));
             set_ribbon(ribbonSinnohA, Ribbons::Sinnoh::PREMIER, attributes.get("sinnoh_premier_ribbon",false));
 
-            uint32_t* ribbonHoenn = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonHoenn));
+            uint32_t* ribbonHoenn = &(pokelib_pkmn.pkm->pkm.intRibbonHoenn);
             set_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL, attributes.get("hoenn_cool_ribbon",false));
             set_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_SUPER, attributes.get("hoenn_cool_super_ribbon",false));
             set_ribbon(ribbonHoenn, Ribbons::Hoenn::COOL_HYPER, attributes.get("hoenn_cool_hyper_ribbon",false));
@@ -544,7 +558,7 @@ namespace pkmnsim
             set_ribbon(ribbonHoenn, Ribbons::Hoenn::EARTH, attributes.get("hoenn_earth_ribbon",false));
             set_ribbon(ribbonHoenn, Ribbons::Hoenn::WORLD, attributes.get("hoenn_world_ribbon",false));
 
-            uint32_t* ribbonSinnohB = reinterpret_cast<uint32_t*>(&(pokelib_pkmn.pkm->pkm.ribbonSinnohB));
+            uint32_t* ribbonSinnohB = &(pokelib_pkmn.pkm->pkm.intRibbonSinnohB);
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL-23, attributes.get("sinnoh_cool_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23, attributes.get("sinnoh_cool_great_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_ULTRA-23, attributes.get("sinnoh_cool_ultra_ribbon",false));
@@ -600,6 +614,11 @@ namespace pkmnsim
                 t_pkmn->set_nickname(nickname);
                 t_pkmn->set_trainer_name(otname);
             #endif
+
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[0], 1);
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[1], 2);
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[2], 3);
+            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[3], 4);
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
@@ -751,6 +770,12 @@ namespace pkmnsim
             p_pkm->pkm_data.moves[1] = ::Moves::moves(t_pkmn->get_moves()[1]->get_move_id());
             p_pkm->pkm_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
             p_pkm->pkm_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            p_pkm->pkm_data.pp[0] = move_PPs[0];
+            p_pkm->pkm_data.pp[1] = move_PPs[1];
+            p_pkm->pkm_data.pp[2] = move_PPs[2];
+            p_pkm->pkm_data.pp[3] = move_PPs[3];
 
             ::setlevel(p_pkm->pkm_data, t_pkmn->get_level());
 
@@ -928,6 +953,11 @@ namespace pkmnsim
 
             t_pkmn->set_nickname(p_pkx->pkx_data.nickname);
             t_pkmn->set_trainer_name(p_pkx->pkx_data.otname);
+
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[0], 1);
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[1], 2);
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[2], 3);
+            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[3], 4);
             
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
@@ -967,6 +997,12 @@ namespace pkmnsim
             p_pkx->pkx_data.moves[1] = ::Moves::moves(t_pkmn->get_moves()[1]->get_move_id());
             p_pkx->pkx_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
             p_pkx->pkx_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
+
+            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            p_pkx->pkx_data.pp[0] = move_PPs[0];
+            p_pkx->pkx_data.pp[1] = move_PPs[1];
+            p_pkx->pkx_data.pp[2] = move_PPs[2];
+            p_pkx->pkx_data.pp[3] = move_PPs[3];
             
             p_pkx->partyx_data.level = t_pkmn->get_level();
             

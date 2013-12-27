@@ -25,6 +25,7 @@ ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     SET_TARGET_PROPERTIES(get_type_stats PROPERTIES COMPILE_FLAGS "-std=c++11")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 TARGET_LINK_LIBRARIES(get_type_stats pkmnsim ${QT_QTMAIN_LIBRARY})
+INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
 IF(MSVC)
     ####################################################################
     # This setting is necessary so opening the application from the
@@ -46,5 +47,3 @@ IF(MSVC)
         COMPONENT Runtime)
     ENDIF(WIN7_PKG)
 ENDIF(MSVC)
-
-INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)

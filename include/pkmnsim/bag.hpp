@@ -35,13 +35,6 @@ namespace pkmnsim
             virtual unsigned int get_game_id() = 0;
             virtual const pocket::sptr get_pocket(std::string name) = 0;
             virtual void get_pocket_list(std::vector<std::string> &pocket_vec) = 0;
-            
-        protected:
-            
-            unsigned int game_id;
-            
-            dict<std::string, pocket::sptr> contents;
-            
     };
 }
 

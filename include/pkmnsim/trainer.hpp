@@ -37,7 +37,7 @@ namespace pkmnsim
             virtual unsigned int get_game_id() const = 0;
 
             virtual unsigned int get_money() const = 0;
-            virtual void set_money(unsigned int new_money) = 0;
+            virtual void set_money(unsigned int money) = 0;
 
             virtual pokemon_team_t get_party() = 0;
             virtual team_pokemon::sptr get_pokemon(unsigned int pos, bool copy = true) = 0;
@@ -49,10 +49,10 @@ namespace pkmnsim
             virtual const bag::sptr get_bag() const = 0;
 
             virtual pokemon_text get_name() const = 0;
-            virtual void set_name(pokemon_text new_name) = 0;
+            virtual void set_name(pokemon_text name) = 0;
 
             virtual unsigned int get_gender() const = 0;
-            virtual void set_gender(unsigned int new_gender) = 0;
+            virtual void set_gender(unsigned int gender) = 0;
             
             virtual unsigned int get_id() const = 0;
             virtual unsigned short get_public_id() const = 0;
@@ -60,26 +60,6 @@ namespace pkmnsim
             virtual void set_id(unsigned int id) = 0;
             virtual void set_public_id(unsigned short id) = 0;
             virtual void set_secret_id(unsigned short id) = 0;
-
-        protected:
-        
-            unsigned int money, game_id, gender;
-
-            union
-            {
-                struct
-                {
-                    unsigned short public_id;
-                    unsigned short secret_id;
-                } tid;
-                unsigned int trainer_id;
-            };
-
-            bag::sptr item_bag;
-            pokemon_text trainer_name;
-            pokemon_team_t party;
-            
-            std::string sprite_path;
     };
 }
 

@@ -239,12 +239,113 @@ namespace pkmnsim
     
     namespace Forms
     {
+        namespace Venusaur
+        {
+            enum forms
+            {
+                NORMAL = 3,
+                MEGA = 10133
+            };
+        }
+
+        namespace Charizard
+        {
+            enum forms
+            {
+                NORMAL = 6,
+                MEGA_X = 10134,
+                MEGA_Y
+            };
+        }
+
+        namespace Blastoise
+        {
+            enum forms
+            {
+                NORMAL = 9,
+                MEGA = 10136
+            };
+        }
+
+        namespace Alakazam
+        {
+            enum forms
+            {
+                NORMAL = 65,
+                MEGA = 10137
+            };
+        }
+
+        namespace Gengar
+        {
+            enum forms
+            {
+                NORMAL = 94,
+                MEGA = 10138
+            };
+        }
+
+        namespace Kangaskhan
+        {
+            enum forms
+            {
+                NORMAL = 115,
+                MEGA = 10139
+            };
+        }
+
+        namespace Pinsir
+        {
+            enum forms
+            {
+                NORMAL = 127,
+                MEGA = 10140
+            };
+        }
+
+        namespace Gyarados
+        {
+            enum forms
+            {
+                NORMAL = 130,
+                MEGA = 10141
+            };
+        }
+
+        namespace Aerodactyl
+        {
+            enum forms
+            {
+                NORMAL = 142,
+                MEGA = 10142
+            };
+        }
+
+        namespace Mewtwo
+        {
+            enum forms
+            {
+                NORMAL = 150,
+                MEGA_X = 10143,
+                MEGA_Y
+            };
+        }
+
         namespace Pichu
         {
             enum forms
             {
-                NORMAL = 0,
-                SPIKY_EARED = 1
+                NORMAL = 172,
+                SPIKY_EARED = 10065
+            };
+        }
+
+        namespace Ampharos
+        {
+            enum forms
+            {
+                NORMAL = 181,
+                MEGA = 10145
             };
         }
 
@@ -252,8 +353,99 @@ namespace pkmnsim
         {
             enum forms
             {
-                A = 1,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,
+                A = 201,
+                B = 10001,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,
                 EXCLAMATION,QUESTION
+            };
+        }
+
+        namespace Scizor
+        {
+            enum forms
+            {
+                NORMAL = 212,
+                MEGA = 10146
+            };
+        }
+
+        namespace Heracross
+        {
+            enum forms
+            {
+                NORMAL = 214,
+                MEGA = 10147
+            };
+        }
+
+        namespace Houndoom
+        {
+            enum forms
+            {
+                NORMAL = 229,
+                MEGA = 10148
+            };
+        }
+
+        namespace Tyranitar
+        {
+            enum forms
+            {
+                NORMAL = 248,
+                MEGA = 10149
+            };
+        }
+
+        namespace Blaziken
+        {
+            enum forms
+            {
+                NORMAL = 257,
+                MEGA = 10150
+            };
+        }
+
+        namespace Gardevoir
+        {
+            enum forms
+            {
+                NORMAL = 282,
+                MEGA = 10151
+            };
+        }
+
+        namespace Mawile
+        {
+            enum forms
+            {
+                NORMAL = 303,
+                MEGA = 10152
+            };
+        }
+
+        namespace Aggron
+        {
+            enum forms
+            {
+                NORMAL = 306,
+                MEGA = 10153
+            };
+        }
+
+        namespace Medicham
+        {
+            enum forms
+            {
+                NORMAL = 308,
+                MEGA = 10154
+            };
+        }
+
+        namespace Manectric
+        {
+            enum forms
+            {
+                NORMAL = 310,
+                MEGA = 10155
             };
         }
 
@@ -261,10 +453,28 @@ namespace pkmnsim
         {
             enum forms
             {
-                NORMAL = 0,
-                SUNNY = 1,
-                RAINY = 2,
-                SNOWY = 3
+                NORMAL = 351,
+                SUNNY = 10028,
+                RAINY,
+                SNOWY
+            };
+        }
+
+        namespace Banette
+        {
+            enum forms
+            {
+                NORMAL = 354,
+                MEGA = 10156
+            };
+        }
+
+        namespace Absol
+        {
+            enum forms
+            {
+                NORMAL = 359,
+                MEGA = 10157
             };
         }
 
@@ -272,10 +482,10 @@ namespace pkmnsim
         {
             enum forms
             {
-                NORMAL = 0,
-                ATTACK = 1,
-                DEFENSE = 2,
-                SPEED = 3
+                NORMAL = 386,
+                ATTACK = 10031,
+                DEFENSE,
+                SPEED
             };
         }
 
@@ -283,9 +493,9 @@ namespace pkmnsim
         {
             enum forms
             {
-                PLANT_CLOAK = 0,
-                SANDY_CLOAK = 1,
-                TRASH_CLOAK = 2
+                PLANT_CLOAK = 412,
+                SANDY_CLOAK = 10034,
+                TRASH_CLOAK
             };
         }
 
@@ -293,9 +503,9 @@ namespace pkmnsim
         {
             enum forms
             {
-                PLANT_CLOAK = 0,
-                SANDY_CLOAK = 1,
-                TRASH_CLOAK = 2
+                PLANT_CLOAK = 413,
+                SANDY_CLOAK = 10036,
+                TRASH_CLOAK
             };
         }
 
@@ -303,8 +513,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                OVERCAST = 0,
-                SUNSHINE = 1
+                OVERCAST = 421,
+                SUNSHINE = 10038
             };
         }
 
@@ -312,8 +522,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                WEST_SEA = 0,
-                EAST_SEA = 1
+                WEST_SEA = 422,
+                EAST_SEA = 10039
             };
         }
 
@@ -321,8 +531,35 @@ namespace pkmnsim
         {
             enum forms
             {
-                WEST_SEA = 0,
-                EAST_SEA = 1
+                WEST_SEA = 423,
+                EAST_SEA = 10040
+            };
+        }
+
+        namespace Garchomp
+        {
+            enum forms
+            {
+                NORMAL = 445,
+                MEGA = 10145
+            };
+        }
+
+        namespace Lucario
+        {
+            enum forms
+            {
+                NORMAL = 448,
+                MEGA = 10159,
+            };
+        }
+
+        namespace Abomasnow
+        {
+            enum forms
+            {
+                NORMAL = 460,
+                MEGA = 10160
             };
         }
 
@@ -330,12 +567,12 @@ namespace pkmnsim
         {
             enum forms
             {
-                NORMAL = 0,
-                HEAT = 1,
-                WASH = 2,
-                FROST = 3,
-                FAN = 4,
-                MOW = 5
+                NORMAL = 479,
+                HEAT = 10058,
+                WASH,
+                FROST,
+                FAN,
+                MOW
             };
         }
 
@@ -343,8 +580,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                ALTERED = 0,
-                ORIGIN = 1
+                ALTERED = 487,
+                ORIGIN = 10063
             };
         }
 
@@ -352,8 +589,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                LAND = 0,
-                SKY = 1
+                LAND = 492,
+                SKY = 10064
             };
         }
 
@@ -361,23 +598,25 @@ namespace pkmnsim
         {
             enum forms
             {
-                NORMAL = 0,
-                FIRE = 1,
-                WATER = 2,
-                ELECTRIC = 3,
-                GRASS = 4,
-                ICE = 5,
-                FIGHTING = 6,
-                POISON = 7,
-                GROUND = 8,
-                FLYING = 9,
-                PSYCHIC = 10,
-                BUG = 11,
-                ROCK = 12,
-                GHOST = 13,
-                DRAGON = 14,
-                DARK = 15,
-                STEEL = 16
+                NORMAL = 493,
+                BUG = 10041,
+                DARK,
+                DRAGON,
+                ELECTRIC,
+                FIGHTING,
+                FIRE,
+                FLYING,
+                GHOST,
+                GRASS,
+                GROUND,
+                ICE,
+                POISON,
+                PSYCHIC,
+                ROCK,
+                STEEL,
+                WATER,
+                UNKNOWN,
+                FAIRY = 10085
             };
         }
 
@@ -385,8 +624,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                RED_STRIPED = 0,
-                BLUE_STRIPED = 1
+                RED_STRIPED = 550,
+                BLUE_STRIPED = 10066
             };
         }
 
@@ -394,8 +633,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                STANDARD = 0,
-                ZEN = 1
+                STANDARD = 555,
+                ZEN = 10017
             };
         }
 
@@ -403,10 +642,10 @@ namespace pkmnsim
         {
             enum forms
             {
-                SPRING = 0,
-                SUMMER = 1,
-                AUTUMN = 2,
-                WINTER = 3
+                SPRING = 585,
+                SUMMER = 10068,
+                AUTUMN,
+                WINTER
             };
         }
 
@@ -414,10 +653,10 @@ namespace pkmnsim
         {
             enum forms
             {
-                SPRING = 0,
-                SUMMER = 1,
-                AUTUMN = 2,
-                WINTER = 3
+                SPRING = 586,
+                SUMMER = 10071,
+                AUTUMN,
+                WINTER
             };
         }
 
@@ -425,8 +664,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                INCARNATE = 0,
-                THERIAN = 1
+                INCARNATE = 641,
+                THERIAN = 10079
             };
         }
 
@@ -434,8 +673,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                INCARNATE = 0,
-                THERIAN = 1
+                INCARNATE = 642,
+                THERIAN = 10080
             };
         }
 
@@ -443,8 +682,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                INCARNATE = 0,
-                THERIAN = 1
+                INCARNATE = 645,
+                THERIAN = 10081
             };
         }
 
@@ -452,9 +691,9 @@ namespace pkmnsim
         {
             enum forms
             {
-                NORMAL = 0,
-                BLACK = 1,
-                WHITE = 2
+                NORMAL = 646,
+                BLACK = 10082,
+                WHITE
             };
         }
 
@@ -462,8 +701,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                ORDINARY = 0,
-                RESOLUTE = 1
+                ORDINARY = 647,
+                RESOLUTE = 10084
             };
         }
 
@@ -471,8 +710,8 @@ namespace pkmnsim
         {
             enum forms
             {
-                ARIA = 0,
-                PIROUETTE = 1
+                ARIA = 648,
+                PIROUETTE = 10074
             };
         }
 
@@ -480,11 +719,129 @@ namespace pkmnsim
         {
             enum forms
             {
-                NORMAL = 0,
-                SHOCK_DRIVE = 1,
-                BURN_DRIVE = 2,
-                CHILL_DRIVE = 3,
-                DOUSE_DRIVE = 4
+                NORMAL = 649,
+                DOUSE_DRIVE = 10075,
+                SHOCK_DRIVE,
+                BURN_DRIVE,
+                CHILL_DRIVE
+            };
+        }
+
+        namespace Vivillon
+        {
+            enum forms
+            {
+                MEADOW = 666,
+                ICY_SNOW = 10086,
+                POLAR,
+                TUNDRA,
+                CONTINENTAL,
+                GARDEN,
+                ELEGANT,
+                MODERN,
+                MARINE,
+                ARCHIPELAGO,
+                HIGH_PLAINS,
+                SANDSTORM,
+                RIVER,
+                MONSOON,
+                SAVANNAH,
+                SUN,
+                OCEAN,
+                JUNGLE
+            };
+        }
+
+        namespace Flabebe
+        {
+            enum forms
+            {
+                RED = 669,
+                YELLOW = 10103,
+                ORANGE,
+                BLUE,
+                WHITE
+            };
+        }
+
+        namespace Floette
+        {
+            enum forms
+            {
+                RED = 670,
+                YELLOW = 10107,
+                ORANGE,
+                BLUE,
+                WHITE
+            };
+        }
+
+        namespace Florges
+        {
+            enum forms
+            {
+                RED = 671,
+                YELLOW = 10111,
+                ORANGE,
+                BLUE,
+                WHITE
+            };
+        }
+
+        namespace Furfrou
+        {
+            enum forms
+            {
+                UNTRIMMED = 676,
+                HEART = 10015,
+                STAR,
+                DIAMOND,
+                DEBUTANTE,
+                MATRON,
+                DANDY,
+                LA_REINE,
+                KABUKI,
+                PHARAOH
+            };
+        }
+
+        namespace Aegislash
+        {
+            enum forms
+            {
+                SHIELD = 681,
+                BLADE = 10125
+            };
+        }
+
+        namespace Pumpkaboo
+        {
+            enum forms
+            {
+                AVERAGE = 710,
+                SMALL = 10126,
+                LARGE,
+                SUPER
+            };
+        }
+
+        namespace Gourgeist
+        {
+            enum forms
+            {
+                AVERAGE = 711,
+                SMALL = 10129,
+                LARGE,
+                SUPER
+            };
+        }
+
+        namespace Xerneas
+        {
+            enum forms
+            {
+                ACTIVE = 716,
+                NEUTRAL = 10132
             };
         }
     }
@@ -2006,7 +2363,7 @@ namespace pkmnsim
         };
     }
 
-    namespace Ribbons //Listed in opposite order for ease of use with bitset
+    namespace Ribbons
     {
         namespace Hoenn
         {
@@ -2905,7 +3262,7 @@ namespace pkmnsim
             DRAGON,
             DARK,
             FAIRY,
-            UNKNOWN=10001,
+            UNKNOWN = 10001,
             SHADOW
         };
     }

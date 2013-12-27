@@ -9,6 +9,8 @@
 
 #include <pkmnsim/move.hpp>
 
+#include "SQLiteCpp/src/SQLiteC++.h"
+
 namespace pkmnsim
 {
     class move_impl: public move
@@ -31,6 +33,22 @@ namespace pkmnsim
             virtual unsigned int get_move_id() const;
             virtual unsigned int get_target_id() const;
             virtual unsigned int get_game_id() const;
+
+        protected:
+        
+            //Database values
+            int _move_id, _type_id, _target_id;
+
+            unsigned int _game_id;
+            unsigned int _base_power;
+            unsigned int _base_pp;
+            double _base_accuracy;
+            unsigned int _move_damage_class;
+            unsigned int _base_priority;
+            std::string _base_effect;
+            double _base_effect_chance;
+            
+            static SQLite::Database _db;
     };
 }
 

@@ -75,6 +75,7 @@
 %rename(getMoveDescription)  pkmnsim::database::get_move_description;
 %rename(getMoveID)           pkmnsim::database::get_move_id;
 %rename(getMoveName)         pkmnsim::database::get_move_name;
+%rename(getMovePP)           pkmnsim::database::get_move_pp;
 %rename(getNatureStatEffect) pkmnsim::database::get_nature_stat_effect;
 %rename(getNatureID)         pkmnsim::database::get_nature_id;
 %rename(getNatureName)       pkmnsim::database::get_nature_name;

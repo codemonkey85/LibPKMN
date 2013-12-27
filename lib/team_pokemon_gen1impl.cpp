@@ -17,39 +17,35 @@ using namespace std;
 
 namespace pkmnsim
 {
-    team_pokemon_gen1impl::team_pokemon_gen1impl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
+    team_pokemon_gen1impl::team_pokemon_gen1impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                                  unsigned int move1, unsigned int move2,
-                                                 unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,lvl,
+                                                 unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,level,
                                                                                           move1,move2,move3,move4)
     {
         srand ( time(NULL) );
 
-        //Random individual values
-        ivHP = rand() % 16;
-        ivATK = rand() % 16;
-        ivDEF = rand() % 16;
-        ivSPD = rand() % 16;
-        ivSPCL = rand() % 16;
+        //Random ind_ividual values
+        _ivHP = rand() % 16;
+        _ivATK = rand() % 16;
+        _ivDEF = rand() % 16;
+        _ivSPD = rand() % 16;
+        _ivSPCL = rand() % 16;
 
         //Random effort values
-        evHP = rand() % 65536;
-        evATK = rand() % 65536;
-        evDEF = rand() % 65536;
-        evSPD = rand() % 65536;
-        evSPCL = rand() % 65536;
+        _evHP = rand() % 65536;
+        _evATK = rand() % 65536;
+        _evDEF = rand() % 65536;
+        _evSPD = rand() % 65536;
+        _evSPCL = rand() % 65536;
 
-        HP = get_hp();
-        ATK = get_stat(Stats::ATTACK,evATK,ivATK);
-        DEF = get_stat(Stats::DEFENSE,evDEF,ivDEF);
-        SPD = get_stat(Stats::SPEED,evSPD,ivSPD);
-        SPCL = get_stat(Stats::SPECIAL,evSPCL,ivSPCL);
+        _HP = _get_hp();
+        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
+        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
+        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
+        _SPCL = _get_stat(Stats::SPECIAL, _evSPCL, _ivSPCL);
         
-        held_item = 0; //Placeholder
-        
-        icon_path = base_pkmn->get_icon_path(true);
-        sprite_path = base_pkmn->get_sprite_path(true, false);
-
-        nonvolatile_status = Statuses::OK;
+        _icon_path = _base_pkmn->get_icon_path(true);
+        _sprite_path = _base_pkmn->get_sprite_path(true, false);
     }
 
     //No abilities in Gen 1, but don't throw error
@@ -67,11 +63,11 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> team_pokemon_gen1impl::get_stats() const
     {
         dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = HP;
-        stats[Stats::ATTACK] = ATK;
-        stats[Stats::DEFENSE] = DEF;
-        stats[Stats::SPEED] = SPD;
-        stats[Stats::SPECIAL] = SPCL;
+        stats[Stats::HP] = _HP;
+        stats[Stats::ATTACK] = _ATK;
+        stats[Stats::DEFENSE] = _DEF;
+        stats[Stats::SPEED] = _SPD;
+        stats[Stats::SPECIAL] = _SPCL;
 
         return stats;
     }
@@ -79,11 +75,11 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> team_pokemon_gen1impl::get_EVs() const
     {
         dict<unsigned int, unsigned int> EVs;
-        EVs[Stats::HP] = evHP;
-        EVs[Stats::ATTACK] = evATK;
-        EVs[Stats::DEFENSE] = evDEF;
-        EVs[Stats::SPEED] = evSPD;
-        EVs[Stats::SPECIAL] = evSPCL;
+        EVs[Stats::HP] = _evHP;
+        EVs[Stats::ATTACK] = _evATK;
+        EVs[Stats::DEFENSE] = _evDEF;
+        EVs[Stats::SPEED] = _evSPD;
+        EVs[Stats::SPECIAL] = _evSPCL;
 
         return EVs;
     }
@@ -91,11 +87,11 @@ namespace pkmnsim
     dict<unsigned int, unsigned int> team_pokemon_gen1impl::get_IVs() const
     {
         dict<unsigned int, unsigned int> IVs;
-        IVs[Stats::HP] = ivHP;
-        IVs[Stats::ATTACK] = ivATK;
-        IVs[Stats::DEFENSE] = ivDEF;
-        IVs[Stats::SPEED] = ivSPD;
-        IVs[Stats::SPECIAL] = ivSPCL;
+        IVs[Stats::HP] = _ivHP;
+        IVs[Stats::ATTACK] = _ivATK;
+        IVs[Stats::DEFENSE] = _ivDEF;
+        IVs[Stats::SPEED] = _ivSPD;
+        IVs[Stats::SPECIAL] = _ivSPCL;
 
         return IVs;
     }
@@ -111,28 +107,28 @@ namespace pkmnsim
         switch(EV)
         {
             case Stats::HP:
-                evHP = val;
-                HP = get_hp();
+                _evHP = val;
+                _HP = _get_hp();
                 break;
                 
             case Stats::ATTACK:
-                evATK = val;
-                ATK = get_stat(Stats::ATTACK, evATK, ivATK);
+                _evATK = val;
+                _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
                 break;
                 
             case Stats::DEFENSE:
-                evDEF = val;
-                DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
+                _evDEF = val;
+                _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
                 break;
                 
             case Stats::SPEED:
-                evSPD = val;
-                SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
+                _evSPD = val;
+                _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
                 break;
             
             case Stats::SPECIAL:
-                evSPCL = val;
-                SPCL = get_stat(Stats::SPECIAL, evSPCL, ivSPCL);
+                _evSPCL = val;
+                _SPCL = _get_stat(Stats::SPECIAL, _evSPCL, _ivSPCL);
                 break;
             
             default:
@@ -151,28 +147,28 @@ namespace pkmnsim
         switch(IV)
         {
             case Stats::HP:
-                ivHP = val;
-                HP = get_hp();
+                _ivHP = val;
+                _HP = _get_hp();
                 break;
                 
             case Stats::ATTACK:
-                ivATK = val;
-                ATK = get_stat(Stats::ATTACK, evATK, ivATK);
+                _ivATK = val;
+                _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
                 break;
                 
             case Stats::DEFENSE:
-                ivDEF = val;
-                DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
+                _ivDEF = val;
+                _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
                 break;
                 
             case Stats::SPEED:
-                ivSPD = val;
-                SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
+                _ivSPD = val;
+                _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
                 break;
             
             case Stats::SPECIAL:
-                ivSPCL = val;
-                SPCL = get_stat(Stats::SPECIAL, evSPCL, ivSPCL);
+                _ivSPCL = val;
+                _SPCL = _get_stat(Stats::SPECIAL, _evSPCL, _ivSPCL);
                 break;
             
             default:
@@ -180,45 +176,45 @@ namespace pkmnsim
         }
     }
 
-    std::string team_pokemon_gen1impl::get_form_name() const {return base_pkmn->get_species_name();}
+    std::string team_pokemon_gen1impl::get_form_name() const {return _base_pkmn->get_species_name();}
     
-    unsigned int team_pokemon_gen1impl::get_form_id() const {return base_pkmn->get_pokemon_id();}
+    unsigned int team_pokemon_gen1impl::get_form_id() const {return _base_pkmn->get_pokemon_id();}
     
     void team_pokemon_gen1impl::set_form(unsigned int form)
     {
-        base_pkmn->set_form(form);
-        HP = get_hp();
-        ATK = get_stat(Stats::ATTACK, evATK, ivATK);
-        DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
-        SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
-        SPCL = get_stat(Stats::SPECIAL, evSPCL, ivSPCL);
+        _base_pkmn->set_form(form);
+        _HP = _get_hp();
+        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
+        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
+        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
+        _SPCL = _get_stat(Stats::SPECIAL, _evSPCL, _ivSPCL);
     }
 
     void team_pokemon_gen1impl::set_form(std::string form)
     {
-        base_pkmn->set_form(form);
-        HP = get_hp();
-        ATK = get_stat(Stats::ATTACK, evATK, ivATK);
-        DEF = get_stat(Stats::DEFENSE, evDEF, ivDEF);
-        SPD = get_stat(Stats::SPEED, evSPD, ivSPD);
-        SPCL = get_stat(Stats::SPECIAL, evATK, ivATK);
+        _base_pkmn->set_form(form);
+        _HP = _get_hp();
+        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
+        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
+        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
+        _SPCL = _get_stat(Stats::SPECIAL, _evATK, _ivATK);
     }
 
-    unsigned int team_pokemon_gen1impl::get_hp() const
+    unsigned int team_pokemon_gen1impl::_get_hp() const
     {
-        dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
+        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
 
-        unsigned int hp_val = int(floor((((double(ivHP) + double(stats[Stats::HP]) + (pow(double(evHP),0.5)/8.0)
-                            + 50.0) * double(level))/50.0) + 10.0));
+        unsigned int hp_val = int(floor((((double(_ivHP) + double(stats[Stats::HP]) + (pow(double(_evHP),0.5)/8.0)
+                            + 50.0) * double(_level))/50.0) + 10.0));
         return hp_val;
     }
 
-    unsigned int team_pokemon_gen1impl::get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
+    unsigned int team_pokemon_gen1impl::_get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
     {
-        dict<unsigned int, unsigned int> stats = base_pkmn->get_base_stats();
+        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
 
         unsigned int stat_val = int(ceil((((double(IV) + double(stats[stat]) + (pow(double(EV),0.5)/8.0))
-                              * double(level))/50.0) + 5.0));
+                              * double(_level))/50.0) + 5.0));
         return stat_val;
     }
 } /* namespace pkmnsim */

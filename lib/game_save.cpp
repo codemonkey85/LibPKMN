@@ -66,13 +66,22 @@ namespace pkmnsim
         }
         else if(size >= 0x20000)
         {
-            //Check for Gen 3 game by searching for game code
-            int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
+            //Check validity by manually using Pokehack checksum function on binary
+            block binary_block;
+            memcpy(&binary_block, buffer, 4096);
+            unsigned short checksum_from_pokehack = pokehack_get_block_checksum(&binary_block);
+            unsigned short checksum_from_binary = binary_block.footer.checksum;
 
-            pokehack_sptr parser(new SaveParser);
-            if(!parser->load(filename.c_str(), game_type))
+            if(checksum_from_pokehack == checksum_from_binary)
             {
-                return sptr(new game_save_gen3impl(parser, buffer));
+                //Check for Gen 3 game by searching for game code
+                int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
+
+                pokehack_sptr parser(new SaveParser);
+                if(!parser->load(filename.c_str(), game_type))
+                {
+                    return sptr(new game_save_gen3impl(parser, buffer));
+                }
             }
         }
         else

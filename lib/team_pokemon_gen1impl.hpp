@@ -15,7 +15,7 @@ namespace pkmnsim
     {
         public:
 
-            team_pokemon_gen1impl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
+            team_pokemon_gen1impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                   unsigned int move1, unsigned int move2,
                                   unsigned int move3, unsigned int move4);
 
@@ -39,8 +39,8 @@ namespace pkmnsim
 
         private:
         
-            unsigned int get_hp() const;
-            unsigned int get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const;
+            unsigned int _get_hp() const;
+            unsigned int _get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const;
     };
 }
 

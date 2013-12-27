@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_TEAM_POKEMON_GEN345IMPL_HPP
-#define INCLUDED_TEAM_POKEMON_GEN345IMPL_HPP
+#ifndef INCLUDED_TEAM_POKEMON_MODERNIMPL_HPP
+#define INCLUDED_TEAM_POKEMON_MODERNIMPL_HPP
 
 #include "team_pokemon_impl.hpp"
 
@@ -42,13 +42,13 @@ namespace pkmnsim
 
         private:
         
-            unsigned int get_hp() const;
-            unsigned int get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const;
+            unsigned int _get_hp() const;
+            unsigned int _get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const;
             
-            unsigned int determine_ability() const;
-            unsigned int determine_gender() const;
-            unsigned int determine_nature() const;
+            unsigned int _determine_ability() const;
+            unsigned int _determine_gender() const;
+            unsigned int _determine_nature() const;
     };
 }
 
-#endif /* INCLUDED_TEAM_POKEMON_GEN345IMPL_HPP */
+#endif /* INCLUDED_TEAM_POKEMON_MODERNIMPL_HPP */

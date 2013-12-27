@@ -7,9 +7,7 @@
 
 %feature("autodoc", "1");
 
-/*
- * Needs access to wrapped PKMNsim classes
- */
+%include "std_vector.i"
 %import "pypkmnsim_swig.i"
 
 %{

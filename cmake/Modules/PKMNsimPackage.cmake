@@ -5,7 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-IF(NOT USED_AS_SUBMODULE) #Let parent project decide these settings
+IF(NOT PKMNSIM_USED_AS_SUBMODULE) #Let parent project decide these settings
     #Set CPack Generator
     IF(CPACK_GENERATOR)
         #already set
@@ -48,7 +48,7 @@ IF(NOT USED_AS_SUBMODULE) #Let parent project decide these settings
 
         SET(CPACK_PACKAGE_INSTALL_DIRECTORY "PKMNsim")
     ENDIF()
-ENDIF(NOT USED_AS_SUBMODULE)
+ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
 SET(CPACK_NSIS_MODIFY_PATH ON)
 

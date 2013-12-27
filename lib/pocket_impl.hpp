@@ -23,13 +23,21 @@ namespace pkmnsim
             
             item::sptr get_item(unsigned int pos);
             void remove_item(unsigned int pos);
-            void set_item(unsigned int pos, item::sptr new_item, unsigned int amount);
+            void set_item(unsigned int pos, item::sptr item, unsigned int amount);
             void set_item(unsigned int pos, unsigned int item_id, unsigned int amount);
-            void set_item(item::sptr new_item, unsigned int amount);
+            void set_item(item::sptr item, unsigned int amount);
             void set_item(unsigned int item_id, unsigned int amount);
             
             unsigned int get_amount(unsigned int pos);
             void set_amount(unsigned int pos, unsigned int amount);
+            
+        protected:
+            
+            unsigned int _game_id, _pocket_size;
+            std::string _pocket_name;
+            
+            vla<unsigned int> _contents;
+            vla<unsigned int> _amounts;
     };
 }
 

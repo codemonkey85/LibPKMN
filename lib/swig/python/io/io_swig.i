@@ -7,9 +7,7 @@
 
 %feature("autodoc", "1");
 
-/*
- * Needs access to team_pokemon::sptr
- */
+%include "std_vector.i"
 %import "pypkmnsim_swig.i"
 
 %{

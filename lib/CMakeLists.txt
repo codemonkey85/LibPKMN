@@ -8,7 +8,7 @@
 #Place database location into relevant source files
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} PKMNSIM_PKG_DATA_PATH)
 
-IF(ENABLE_LIBRARY)
+IF(ENABLE_LIBPKMNSIM)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/lib/SQLiteCpp/sqlite3)
     ADD_SUBDIRECTORY(SQLiteCpp/src)
 
@@ -52,7 +52,6 @@ IF(ENABLE_LIBRARY)
         game_save_gen5impl.cpp
         io.cpp
         conversions/items.cpp
-        conversions/pksql.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
@@ -67,15 +66,22 @@ IF(ENABLE_LIBRARY)
     IF(NOT PKMNSIM_USED_AS_SUBMODULE)
         ADD_SUBDIRECTORY(qt4)
         INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
+
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/qt4/AboutMessageBox.cpp.in
+            ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
+        )
         
-        FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
         FILE(GLOB libpkmnsim_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.hpp")
+        FILE(GLOB libpkmnsim_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
+        LIST(APPEND libpkmnsim_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
     
         QT4_WRAP_CPP(MOCSrcs ${libpkmnsim_qt4_headers})
     
         LIST(APPEND libpkmnsim_sources ${libpkmnsim_qt4_sources} ${MOCSrcs})
     ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
+    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/pokehack/include)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PokeLib-NC/include)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PKMDS/include)
@@ -105,4 +111,4 @@ IF(ENABLE_LIBRARY)
         RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime #.dll
     )
     ADD_SUBDIRECTORY(swig)
-ENDIF(ENABLE_LIBRARY)
+ENDIF(ENABLE_LIBPKMNSIM)

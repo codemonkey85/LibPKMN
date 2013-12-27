@@ -45,20 +45,6 @@ namespace pkmnsim
             virtual unsigned int get_move_id() const = 0;
             virtual unsigned int get_target_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
-
-        protected:
-        
-            //Database values
-            int move_id, type_id, target_id;
-
-            unsigned int from_game;
-            unsigned int base_power;
-            unsigned int base_pp;
-            double base_accuracy;
-            unsigned int move_damage_class;
-            unsigned int base_priority;
-            std::string base_effect;
-            double base_effect_chance;
     };
 
     //Related typedefs
