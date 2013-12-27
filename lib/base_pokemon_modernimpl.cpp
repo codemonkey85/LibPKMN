@@ -57,15 +57,8 @@ namespace pkmnsim
                 break;
         }
         
-        std::string basename = to_string(_species_id) + ".png";
-        std::string gen_string = "generation-" + to_string(_generation);
-        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-
-        std::string sprites = fs::path(fs::path(get_images_dir()) / gen_string
-                                     / _images_game_string.c_str()).string();
-        std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
-
-        fs::path images_path = fs::path(get_images_dir());
+        _sprite_dir = fs::path(_images_dir / _images_gen_string / _images_game_string);
+        _shiny_sprite_dir = fs::path(_sprite_dir / "shiny");
         
         switch(_species_id)
         {
@@ -78,19 +71,18 @@ namespace pkmnsim
                 break;
 
             default:
-                //_male_icon_path = fs::path(fs::path(icons) / basename).string();
-                _male_icon_path = ICON_PATH(basename);
+                _male_icon_path = ICON_PATH(_images_default_basename);
 
                 //Unfezant, Frillish and Jellicent have different icons for each gender
-                if(HAS_DIFFERENT_FEMALE_ICON) _female_icon_path = FEMALE_ICON_PATH(basename);
+                if(HAS_DIFFERENT_FEMALE_ICON) _female_icon_path = FEMALE_ICON_PATH(_images_default_basename);
                 else _female_icon_path = _male_icon_path;
                 
-                _male_sprite_path = SPRITE_PATH(basename);
-                _male_shiny_sprite_path = SHINY_SPRITE_PATH(basename);
+                _male_sprite_path = SPRITE_PATH(_images_default_basename);
+                _male_shiny_sprite_path = SHINY_SPRITE_PATH(_images_default_basename);
                 if(_generation > 3 and has_gender_differences())
                 {
-                    _female_sprite_path = FEMALE_SPRITE_PATH(basename);
-                    _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH(basename);
+                    _female_sprite_path = FEMALE_SPRITE_PATH(_images_default_basename);
+                    _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH(_images_default_basename);
                 }
                 else
                 {
@@ -281,34 +273,27 @@ namespace pkmnsim
 
     string base_pokemon_modernimpl::get_icon_path(bool is_male) const
     {
-        if(_generation > 3 and not is_male) return _female_icon_path;
-        else return _male_icon_path;
+        if(_generation > 3 and not is_male) return _female_icon_path.string();
+        else return _male_icon_path.string();
     }
     
     string base_pokemon_modernimpl::get_sprite_path(bool is_male, bool is_shiny) const
     {
         if(is_male)
         {
-            if(is_shiny) return _male_shiny_sprite_path;
-            else return _male_sprite_path;
+            if(is_shiny) return _male_shiny_sprite_path.string();
+            else return _male_sprite_path.string();
         }
         else
         {
-            if(is_shiny) return _female_shiny_sprite_path;
-            else return _female_sprite_path;
+            if(is_shiny) return _female_shiny_sprite_path.string();
+            else return _female_sprite_path.string();
         }
     }
 	
     //Manually set Pokemon form
     void base_pokemon_modernimpl::set_form(unsigned int form)
     {
-        boost::format png_format("%d.png");
-        string gen_string = "generation-" + to_string(_generation);
-        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprites = fs::path(fs::path(get_images_dir()) / gen_string
-                                     / _images_game_string.c_str()).string();
-        std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
-        
         switch(_species_id)
         {
             case Species::UNOWN:

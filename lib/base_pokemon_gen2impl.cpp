@@ -43,14 +43,9 @@ namespace pkmnsim
                 break;
         }
        
-        std::string basename = to_string(_species_id) + ".png"; 
-        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprites = fs::path(fs::path(get_images_dir()) / "generation-2"
-                                     / _images_game_string).string();
-        std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
+        _sprite_dir = fs::path(_images_dir / "generation-2" / _images_game_string);
+        _shiny_sprite_dir = _sprite_dir;
 
-        fs::path images_path = fs::path(get_images_dir());
-                                     
         switch(id)
         {
             case Species::NONE: //None, should only be used for empty slots at end of party
@@ -62,7 +57,7 @@ namespace pkmnsim
                 break;
 
             default:
-                SET_IMAGES_PATHS(basename);
+                SET_IMAGES_PATHS(_images_default_basename);
                 
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
@@ -185,14 +180,14 @@ namespace pkmnsim
     //Gender doesn't matter for icons in Generation 2
     string base_pokemon_gen2impl::get_icon_path(bool is_male) const
     {
-        return _male_icon_path;
+        return _male_icon_path.string();
     }
     
     //Gender doesn't matter for sprites in Generation 2
     string base_pokemon_gen2impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
-        if(is_shiny) return _male_shiny_sprite_path;
-        else return _male_sprite_path;
+        if(is_shiny) return _male_shiny_sprite_path.string();
+        else return _male_sprite_path.string();
     }
    
     //No forms in Generation 2 

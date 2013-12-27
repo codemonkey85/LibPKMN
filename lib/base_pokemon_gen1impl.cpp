@@ -41,13 +41,8 @@ namespace pkmnsim
                 break;
         }
 
-        std::string basename = to_string(_species_id) + ".png";
-        std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
-        std::string sprites = fs::path(fs::path(get_images_dir()) / "generation-1"
-                                     / _images_game_string).string();
-        std::string s_sprites = sprites;
-
-        fs::path images_path = fs::path(get_images_dir());
+        _sprite_dir = fs::path(_images_dir / "generation-1" / _images_game_string);
+        _shiny_sprite_dir = _sprite_dir;
 
         switch(id)
         {   
@@ -60,7 +55,7 @@ namespace pkmnsim
                 break;
             
             default:
-                SET_IMAGES_PATHS(basename);
+                SET_IMAGES_PATHS(_images_default_basename);
 
                 /*
                  * Special is exclusive to Generation 1, so query it separately
@@ -106,13 +101,13 @@ namespace pkmnsim
     //No genders in Generation 1
     string base_pokemon_gen1impl::get_icon_path(bool is_male) const
     {
-        return _male_icon_path;
+        return _male_icon_path.string();
     }
     
     //No genders or shininess in Generation 1
     string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
-        return _male_sprite_path;
+        return _male_sprite_path.string();
     }
 
     //No forms in Generation 1    

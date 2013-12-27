@@ -23,6 +23,8 @@
 #include "base_pokemon_gen2impl.hpp"
 #include "base_pokemon_modernimpl.hpp"
 
+namespace fs = boost::filesystem;
+
 using namespace std;
 
 namespace pkmnsim
@@ -56,6 +58,8 @@ namespace pkmnsim
     }
 
     SQLite::Database base_pokemon_impl::_db(get_database_path().c_str());
+    fs::path base_pokemon_impl::_images_dir(get_images_dir());
+    fs::path base_pokemon_impl::_icon_dir(_images_dir / "pokemon-icons");
 
     base_pokemon_impl::base_pokemon_impl(unsigned int id, unsigned int game_id): base_pokemon()
     {
@@ -105,7 +109,6 @@ namespace pkmnsim
                 
                 //Get generation and name from specified game enum
                 query_string = "SELECT name FROM version_names WHERE version_id=" + to_string(_game_id);
-                _game_string = string((const char*)(_db.execAndGet(query_string.c_str())));
                 
                 //Fail if Pokemon's generation_id > specified gen
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(_species_id);
@@ -142,7 +145,11 @@ namespace pkmnsim
                 query_string = "SELECT type_id FROM pokemon_types WHERE slot=2 and pokemon_id=" + to_string(_pokemon_id);
                 SQLite::Statement query(_db, query_string.c_str());
                 _type2_id = (query.executeStep()) ? int(query.getColumn(0)) : Types::NONE;
+                break;
         }
+
+        _images_default_basename = to_string(_species_id) + ".png";
+        _images_gen_string = "generation-" + to_string(_generation);
     }
 
     unsigned int base_pokemon_impl::get_pokedex_num() const {return _species_id;}
