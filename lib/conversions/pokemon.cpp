@@ -278,7 +278,7 @@ namespace pkmnsim
             if(get_gen_456_otgender(metLevelInt)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
-            t_pkmn->set_held_item(item::make(database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, from_game), from_game));
+            t_pkmn->set_held_item(database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, from_game));
             t_pkmn->set_personality(pokelib_pkmn.pkm->pkm.pid);
             t_pkmn->set_public_trainer_id(pokelib_pkmn.pkm->pkm.ot_id);
             t_pkmn->set_secret_trainer_id(pokelib_pkmn.pkm->pkm.ot_sid);

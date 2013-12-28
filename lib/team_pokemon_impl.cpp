@@ -179,13 +179,16 @@ namespace pkmnsim
     void team_pokemon_impl::set_move(unsigned int move_id, unsigned int pos)
     {
         //Will fail if move is incompatible with this generation
-        _moves[pos] = move::make(move_id, _game_id);
+        unsigned int actual_pos = (pos > 4) ? 3 : (pos == 0) ? 0 : (pos-1);
+        _moves[actual_pos] = move::make(move_id, _game_id);
+        _move_PPs[actual_pos] = database::get_move_pp(move_id);
     }
     
     void team_pokemon_impl::set_move_PP(unsigned int PP, unsigned int pos)
     {
         //TODO: implement PP Up stats
-        if(PP <= _moves[pos]->get_base_pp()) _move_PPs[pos] = PP;
+        unsigned int actual_pos = (pos > 4) ? 3 : (pos == 0) ? 0 : (pos-1);
+        if(PP <= _moves[actual_pos]->get_base_pp()) _move_PPs[actual_pos] = PP;
     }
     
     unsigned int team_pokemon_impl::get_status() const {return _nonvolatile_status;}

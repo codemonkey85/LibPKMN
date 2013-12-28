@@ -344,5 +344,5 @@ namespace pkmnsim
         return Genders::MALE;
     }
     
-    unsigned int team_pokemon_modernimpl::_determine_nature() const {return (_personality % 25);}
+    unsigned int team_pokemon_modernimpl::_determine_nature() const {return (_personality % 24);}
 } /* namespace pkmnsim */
