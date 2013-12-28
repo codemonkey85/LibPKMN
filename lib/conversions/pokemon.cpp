@@ -40,14 +40,15 @@ namespace pkmnsim
                                                             pokemon_misc_t* pkmn_m_t,
                                                             pokemon_growth_t* pkmn_g_t)
         {
-            unsigned int level, from_game;
+            unsigned int level, from_game, species_id;
             
             level = b_pkmn_t->level;
             from_game = hometown_to_pkmnsim_game(pkmn_m_t->game);
+            species_id = database::get_species_id(pkmn_g_t->species, from_game);
             
-            team_pokemon::sptr t_pkmn = team_pokemon::make(pkmn_g_t->species, from_game, level,
-                                                         pkmn_a_t->atk1, pkmn_a_t->atk2,
-                                                         pkmn_a_t->atk3, pkmn_a_t->atk4);
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
+                                                           pkmn_a_t->atk1, pkmn_a_t->atk2,
+                                                           pkmn_a_t->atk3, pkmn_a_t->atk4);
                                                          
             t_pkmn->set_nickname(pokehack_get_text(b_pkmn_t->name, true));
             t_pkmn->set_trainer_name(pokehack_get_text(b_pkmn_t->otname, false));
@@ -140,7 +141,7 @@ namespace pkmnsim
                                               pokemon_misc_t* pkmn_m_t,
                                               pokemon_growth_t* pkmn_g_t)
         {
-            pkmn_g_t->species = t_pkmn->get_species_id(); //TODO: account for different forms
+            pkmn_g_t->species = database::get_species_index(t_pkmn->get_pokemon_id(), t_pkmn->get_game_id());
             b_pkmn_t->personality = t_pkmn->get_personality();
             b_pkmn_t->otid = t_pkmn->get_trainer_id();
             b_pkmn_t->level = t_pkmn->get_level();
@@ -253,12 +254,13 @@ namespace pkmnsim
 
         team_pokemon::sptr pokelib_pokemon_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
         {
-            unsigned int level, from_game;
+            unsigned int level, from_game, species_id;
 
             level = pokelib_pkmn.getLevel();
             from_game = hometown_to_pkmnsim_game(pokelib_pkmn.pkm->pkm.hometown);
+            species_id = database::get_species_id(pokelib_pkmn.pkm->pkm.species, from_game);
 
-            team_pokemon::sptr t_pkmn = team_pokemon::make(pokelib_pkmn.pkm->pkm.species, from_game, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
                                         pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
                                         pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
@@ -416,7 +418,7 @@ namespace pkmnsim
         {
             PokeLib::Pokemon pokelib_pkmn;
 
-            pokelib_pkmn.pkm->pkm.species = t_pkmn->get_species_id();
+            pokelib_pkmn.pkm->pkm.species = database::get_species_index(t_pkmn->get_pokemon_id(), t_pkmn->get_game_id());
             pokelib_pkmn.setLevel(uint8_t(t_pkmn->get_level()));
             pokelib_pkmn.setNickname(t_pkmn->get_nickname());
             pokelib_pkmn.setTrainerName(t_pkmn->get_trainer_name());
@@ -594,11 +596,13 @@ namespace pkmnsim
         {
             ::opendb(get_database_path().c_str());
 
-            unsigned int level, from_game;
+            unsigned int level, from_game, species_id;
+
             level = ::getpkmlevel(p_pkm->pkm_data);
             from_game = hometown_to_pkmnsim_game(p_pkm->pkm_data.hometown);
+            species_id = database::get_species_id(p_pkm->pkm_data.species, from_game);
 
-            team_pokemon::sptr t_pkmn = team_pokemon::make(p_pkm->pkm_data.species, from_game, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
                                         p_pkm->pkm_data.moves[0], p_pkm->pkm_data.moves[1],
                                         p_pkm->pkm_data.moves[2], p_pkm->pkm_data.moves[3]);
 
@@ -763,7 +767,9 @@ namespace pkmnsim
 
         void team_pokemon_to_pkmds_g5_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm)
         {
-            p_pkm->pkm_data.species = ::Species::pkmspecies(t_pkmn->get_species_id());
+            p_pkm->pkm_data.species = ::Species::pkmspecies(
+                                        database::get_species_index(t_pkmn->get_pokemon_id(),
+                                        t_pkmn->get_game_id()));
             
             moveset_t moves = t_pkmn->get_moves();
             p_pkm->pkm_data.moves[0] = ::Moves::moves(t_pkmn->get_moves()[0]->get_move_id());
@@ -943,11 +949,13 @@ namespace pkmnsim
 
         team_pokemon::sptr pkmds_g6_pokemon_to_team_pokemon(party_pkx* p_pkx)
         {
-            unsigned int level, from_game;
+            unsigned int level, from_game, species_id;
+
             level = p_pkx->partyx_data.level;
             from_game = hometown_to_pkmnsim_game(p_pkx->pkx_data.hometown);
+            species_id = database::get_species_id(p_pkx->pkx_data.species, from_game);
 
-            team_pokemon::sptr t_pkmn = team_pokemon::make(p_pkx->pkx_data.species, from_game, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
                                         p_pkx->pkx_data.moves[0], p_pkx->pkx_data.moves[1],
                                         p_pkx->pkx_data.moves[2], p_pkx->pkx_data.moves[3]);
 
@@ -990,7 +998,9 @@ namespace pkmnsim
         
         void team_pokemon_to_pkmds_g6_pokemon(team_pokemon::sptr t_pkmn, party_pkx* p_pkx)
         {
-            p_pkx->pkx_data.species = ::Species_g6::pkxspecies(t_pkmn->get_species_id());
+            p_pkx->pkx_data.species = ::Species_g6::pkxspecies(
+                                        database::get_species_index(t_pkmn->get_pokemon_id(),
+                                        t_pkmn->get_game_id()));
             
             moveset_t moves = t_pkmn->get_moves();
             p_pkx->pkx_data.moves[0] = ::Moves::moves(t_pkmn->get_moves()[0]->get_move_id());
