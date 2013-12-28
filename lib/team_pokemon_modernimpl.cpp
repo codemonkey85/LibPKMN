@@ -25,16 +25,15 @@ namespace pkmnsim
                                                      unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,level,
                                                                                               move1,move2,move3,move4)
     {
-        prng rand_gen;
         _generation = database::get_generation(game);
 
         //Random individual values
-        _ivHP = rand_gen.lcrng_next(_generation) % 32;
-        _ivATK = rand_gen.lcrng_next(_generation) % 32;
-        _ivDEF = rand_gen.lcrng_next(_generation) % 32;
-        _ivSPD = rand_gen.lcrng_next(_generation) % 32;
-        _ivSATK = rand_gen.lcrng_next(_generation) % 32;
-        _ivSDEF = rand_gen.lcrng_next(_generation) % 32;
+        _ivHP = _rand_gen.lcrng_next(_generation) % 32;
+        _ivATK = _rand_gen.lcrng_next(_generation) % 32;
+        _ivDEF = _rand_gen.lcrng_next(_generation) % 32;
+        _ivSPD = _rand_gen.lcrng_next(_generation) % 32;
+        _ivSATK = _rand_gen.lcrng_next(_generation) % 32;
+        _ivSDEF = _rand_gen.lcrng_next(_generation) % 32;
 
         /*
          * Random effort values within following rules:
@@ -49,12 +48,12 @@ namespace pkmnsim
         _evSDEF = 256;
         while((_evHP+_evATK+_evDEF+_evSPD+_evSATK+_evSDEF)>510 || _evHP>255 || _evATK>255 || _evDEF>255 || _evSPD>255 || _evSATK>255 || _evSDEF>255)
         {
-            _evHP = rand_gen.lcrng_next(_generation) % 256;
-            _evATK = rand_gen.lcrng_next(_generation) % 256;
-            _evDEF = rand_gen.lcrng_next(_generation) % 256;
-            _evSPD = rand_gen.lcrng_next(_generation) % 256;
-            _evSATK = rand_gen.lcrng_next(_generation) % 256;
-            _evSDEF = rand_gen.lcrng_next(_generation) % 256;
+            _evHP = _rand_gen.lcrng_next(_generation) % 256;
+            _evATK = _rand_gen.lcrng_next(_generation) % 256;
+            _evDEF = _rand_gen.lcrng_next(_generation) % 256;
+            _evSPD = _rand_gen.lcrng_next(_generation) % 256;
+            _evSATK = _rand_gen.lcrng_next(_generation) % 256;
+            _evSDEF = _rand_gen.lcrng_next(_generation) % 256;
         }
 
         _gender = _determine_gender();

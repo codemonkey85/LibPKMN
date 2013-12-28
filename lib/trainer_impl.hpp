@@ -12,6 +12,8 @@
 
 #include <pkmnsim/trainer.hpp>
 
+#include <pkmnsim/types/prng.hpp>
+
 namespace pkmnsim
 {
     class trainer_impl: public trainer
@@ -66,6 +68,8 @@ namespace pkmnsim
             pokemon_team_t _party;
             
             std::string _sprite_path;
+
+            static prng _rand_gen;
     };
 }
 

@@ -71,16 +71,16 @@ namespace pkmnsim
     }
 
     SQLite::Database team_pokemon_impl::_db(get_database_path().c_str());
+    prng team_pokemon_impl::_rand_gen;
     
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,
                                          unsigned int move3, unsigned int move4): team_pokemon()
     {
-        prng rand_gen;
         unsigned int gen = database::get_generation(game);
         
-        _personality = rand_gen.lcrng_next(gen);
-        _trainer_id = rand_gen.lcrng_next(gen);
+        _personality = _rand_gen.lcrng_next(gen);
+        _trainer_id = _rand_gen.lcrng_next(gen);
     
         _base_pkmn = base;
         _nickname = _base_pkmn->get_species_name();

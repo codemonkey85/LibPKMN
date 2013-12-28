@@ -9,6 +9,8 @@
 
 #include <pkmnsim/team_pokemon.hpp>
 
+#include <pkmnsim/types/prng.hpp>
+
 #include "SQLiteCpp/src/SQLiteC++.h"
 
 namespace pkmnsim
@@ -126,6 +128,7 @@ namespace pkmnsim
             bool _has_hidden_ability;
             
             static SQLite::Database _db;
+            static prng _rand_gen;
     };
 }
 

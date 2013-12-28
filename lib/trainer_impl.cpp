@@ -28,15 +28,15 @@ namespace pkmnsim
         return sptr(new trainer_impl(game, name, gender));
     }
 
+    prng trainer_impl::_rand_gen;
+
     trainer_impl::trainer_impl(unsigned int game, pokemon_text name, unsigned int gender): trainer()
     {
-        prng rand_gen;
-
         _game_id = game;
         _trainer_name = name;
         _gender = gender;
         _money = gender;
-        _trainer_id = rand_gen.lcrng_next(database::get_generation(game));
+        _trainer_id = _rand_gen.lcrng_next(database::get_generation(game));
 
         _party = pokemon_team_t(6);
         for(int i = 0; i < 6; i++)
