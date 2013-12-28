@@ -52,7 +52,8 @@ namespace pkmnsim
             }
             else
             {
-                species_id = rpokesav_gen1_index_map[rpokesav_species];
+                //In Gen 1, species_id always matches pokemon_id
+                species_id = database::get_pokemon_id(rpokesav_species, Games::YELLOW);
                 
                 rpokesav::vla<uint8_t> moves = pkmn.get_moves();
                 move1 = moves[0];
