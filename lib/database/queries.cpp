@@ -19,8 +19,6 @@
 
 #include "../SQLiteCpp/src/SQLiteC++.h"
 
-//TODO: idiot-proofing
-
 using namespace std;
 
 namespace pkmnsim
@@ -317,6 +315,15 @@ namespace pkmnsim
             SQLite::Statement query(db, query_string.c_str());
             return (query.executeStep()) ? get_pokedex_entry(int(query.getColumn(0)), version) : "None";
         }
+
+        unsigned int get_pokemon_id(unsigned int species_index, unsigned int version)
+        {
+            string query_string = str(boost::format("SELECT pokemon_id FROM pokemon_game_indices WHERE version_id=%d AND game_index=%d")
+                                                    % version
+                                                    % species_index);
+            SQLite::Statement query(db, query_string.c_str());
+            return (query.executeStep()) ? int(query.getColumn(0)) : Species::INVALID;
+        }
         
         unsigned int get_move_pp(unsigned int move_id)
         {
@@ -341,6 +348,11 @@ namespace pkmnsim
             SQLite::Statement query(db, query_string.c_str());
             
             return (query.executeStep()) ? int(query.getColumn(0)) : 0;
+        }
+
+        unsigned int get_species_id(unsigned int species_index, unsigned int version)
+        {
+            return get_species_id(get_pokemon_id(species_index, version));
         }
 
         string get_species_name(unsigned int species_id)
