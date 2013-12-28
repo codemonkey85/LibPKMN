@@ -322,6 +322,7 @@ namespace pkmnsim
                                                     % version
                                                     % species_index);
             SQLite::Statement query(db, query_string.c_str());
+            
             return (query.executeStep()) ? int(query.getColumn(0)) : Species::INVALID;
         }
         
@@ -355,12 +356,22 @@ namespace pkmnsim
             return get_species_id(get_pokemon_id(species_index, version));
         }
 
+        unsigned int get_species_index(unsigned int pokemon_id, unsigned int version)
+        {
+            string query_string = str(boost::format("SELECT game_index FROM pokemon_game_indices WHERE pokemon_id=%d AND version_id=%d")
+                                                    % pokemon_id
+                                                    % version);
+            SQLite::Statement query(db, query_string.c_str());
+            
+            return (query.executeStep()) ? int(query.getColumn(0)) : 0;
+        }
+
         string get_species_name(unsigned int species_id)
         {
             string query_string = str(boost::format("SELECT name FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9")
                                                     % species_id);
             SQLite::Statement query(db, query_string.c_str());
-            
+
             return (query.executeStep()) ? ((const char*)(query.getColumn(0))) : "None";
         }
 

@@ -65,6 +65,7 @@ namespace pkmnsim
         unsigned int PKMNSIM_API get_species_id(unsigned int pkmn_id);
         unsigned int PKMNSIM_API get_species_id(std::string species_name);
         unsigned int PKMNSIM_API get_species_id(unsigned int species_index, unsigned int version);
+        unsigned int PKMNSIM_API get_species_index(unsigned int pokemon_id, unsigned int version);
         std::string PKMNSIM_API get_species_name(unsigned int species_id);
 
         unsigned int PKMNSIM_API get_type_id(std::string type_name);
