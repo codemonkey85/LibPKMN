@@ -7,10 +7,25 @@
 
 ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
+#Get images dir
+SET(IMAGES_PATH ${PKMNSIM_BINARY_DIR}/share/pkmnsim/images)
+FILE(TO_NATIVE_PATH ${IMAGES_PATH} IMAGES_PATH)
+
+#Get SQLite database dir
+SET(DATABASE_PATH ${PKMNSIM_BINARY_DIR}/share/pkmnsim)
+FILE(TO_NATIVE_PATH ${DATABASE_PATH} DATABASE_PATH)
+
 SET(cpp_test_sources
     boostless_dict_test.cpp
     vla_test.cpp
+    pokelib-nc_test.cpp
 )
+
+INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/lib/conversions)
+INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/rpokesav/include)
+INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/pokehack/include)
+INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PokeLib-NC/include)
+INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PKMDS/include)
 
 FOREACH(cpp_test ${cpp_test_sources})
     GET_FILENAME_COMPONENT(cpp_test_name ${cpp_test} NAME_WE)
@@ -19,14 +34,15 @@ FOREACH(cpp_test ${cpp_test_sources})
 
     IF(CMAKE_COMPILER_IS_GNUCXX)
         IF(LINUX)
-            SET_TARGET_PROPERTIES(boostless_dict_test PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
+            SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
         ELSE() #Cygwin
-            SET_TARGET_PROPERTIES(boostless_dict_test PROPERTIES COMPILE_FLAGS "-std=c++0x")
+            SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++0x")
         ENDIF(LINUX)
     ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
     ADD_TEST(${cpp_test_name} ${cpp_test_name})
+    SET_TESTS_PROPERTIES(${cpp_test_name} PROPERTIES ENVIRONMENT "PKMNSIM_DATABASE_DIR=${DATABASE_PATH};PKMNSIM_IMAGES_DIR=${IMAGES_PATH}")
 ENDFOREACH(cpp_test ${cpp_test_sources})
 
