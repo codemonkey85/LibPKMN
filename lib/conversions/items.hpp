@@ -10,6 +10,7 @@
 #include <cstdint>
 
 #include <pkmnsim/bag.hpp>
+#include <pkmnsim/config.hpp>
 
 #include <rpokesav/gen1_save.hpp>
 #include <pokehack/pokestructs.h>
@@ -51,19 +52,19 @@ namespace pkmnsim
             uint16_t quantity;
         };
 
-        void import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav);
+        void PKMNSIM_API import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav);
     
-        void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
+        void PKMNSIM_API import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
         
-        void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
+        void PKMNSIM_API export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
         
-        void import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
+        void PKMNSIM_API import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
         
-        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
+        void PKMNSIM_API export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
         
-        void import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void PKMNSIM_API import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
         
-        void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void PKMNSIM_API export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
     }
 }
 

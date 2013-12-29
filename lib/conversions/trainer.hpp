@@ -13,6 +13,7 @@
 #include <tr1/memory>
 #endif
 
+#include <pkmnsim/config.hpp>
 #include <pkmnsim/trainer.hpp>
 
 #include <rpokesav/gen1_save.hpp>
@@ -43,19 +44,19 @@ namespace pkmnsim
 {
     namespace conversions
     {
-        trainer::sptr import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
+        trainer::sptr PKMNSIM_API import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
     
-        trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
+        trainer::sptr PKMNSIM_API import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
 
-        void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data);
+        void PKMNSIM_API export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data);
 
-        trainer::sptr import_trainer_from_pokelib(pokelib_sptr pokelib_save);
+        trainer::sptr PKMNSIM_API import_trainer_from_pokelib(pokelib_sptr pokelib_save);
 
-        void export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_trainer);
+        void PKMNSIM_API export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_trainer);
 
-        trainer::sptr import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save);
+        trainer::sptr PKMNSIM_API import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save);
 
-        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save);
+        void PKMNSIM_API export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save);
     }
 }
 #endif /* INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP */
