@@ -85,6 +85,7 @@ namespace pkmnsim
     void pocket_impl::set_item(unsigned int pos, unsigned int item_id, unsigned int amount)
     {
         unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
+        _contents[actual_pos] = item_id;
         _amounts[actual_pos] = amount;
     }
     
