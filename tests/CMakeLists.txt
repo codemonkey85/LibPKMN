@@ -9,6 +9,7 @@ ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
 SET(cpp_test_sources
     boostless_dict_test.cpp
+    vla_test.cpp
 )
 
 FOREACH(cpp_test ${cpp_test_sources})
