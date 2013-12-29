@@ -265,7 +265,7 @@ namespace pkmnsim
         SQLite::Database db(get_database_path().c_str());
         std::string pkxlevelsql = getpkmlevelsql(int(pkm->species),
                                                  int(pkm->exp));
-        unsigned int level = int(db.execAndGet(pkxlevelsql.c_str()));
+        p_pkm->party_data.level = int(db.execAndGet(pkxlevelsql.c_str()));
     }
     
     string pkmnsim_getpkxformnamesql(pokemonx_obj *pkx)
@@ -383,7 +383,7 @@ namespace pkmnsim
         SQLite::Database db(get_database_path().c_str());
         std::string pkxlevelsql = getpkmlevelsql(int(pkx->species),
                                                  int(pkx->exp));
-        unsigned int level = int(db.execAndGet(pkxlevelsql.c_str()));
+        p_pkx->partyx_data.level = int(db.execAndGet(pkxlevelsql.c_str()));
     }
     
     uint8_t pkmnsim_game_to_hometown(uint8_t game)
