@@ -36,7 +36,6 @@ namespace pkmnsim
             for(int i = 1; i <= sav->get_num_items(); i++)
             {
                 rpokesav::item_t rpokesav_item = sav->get_item(i);
-                std::cout << "pkmnsim: " << int(rpokesav_item.index) << " " << int(rpokesav_item.amount) << std::endl;
 
                 pkmnsim_pocket->set_item(i, database::get_item_id(rpokesav_item.index, Games::YELLOW),
                                             rpokesav_item.amount);
