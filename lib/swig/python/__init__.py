@@ -24,5 +24,6 @@ import Types
 
 from pypkmnsim_swig import *
 import analysis
+import calculations
 import database
 import io

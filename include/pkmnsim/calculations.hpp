@@ -27,8 +27,8 @@ namespace pkmnsim
 
         uint8_t PKMNSIM_API get_nature(uint32_t personality);
 
-        bool PKMNSIM_API get_gen2_shiny(uint8_t ivATK, uint8_t ivDEF, uint8_t ivSATK,
-                                        uint8_t ivSDEF, uint8_t ivSPD);
+        bool PKMNSIM_API get_gen2_shiny(uint8_t ivATK, uint8_t ivDEF,
+                                        uint8_t ivSPD, uint8_t ivSPCL);
 
         bool PKMNSIM_API get_modern_shiny(uint32_t personality, uint16_t secret_tid, uint16_t public_tid);
 

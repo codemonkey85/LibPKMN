@@ -134,7 +134,7 @@ namespace pkmnsim
             return ((secret_tid xor public_tid xor p1 xor p2) < 8);
         }
 
-        uint32_t PKMNSIM_API get_gen2_unown_form(uint8_t ivATK, uint8_t ivDEF,
+        uint32_t get_gen2_unown_form(uint8_t ivATK, uint8_t ivDEF,
                                                  uint8_t ivSPD, uint8_t ivSPCL)
         {
             uint8_t form = (((ivATK & 6) << 6)
@@ -146,7 +146,7 @@ namespace pkmnsim
             return (form == 0) ? 201 : (Forms::Unown::B + form - 1);
         }
 
-        uint32_t PKMNSIM_API get_gen3_unown_form(uint32_t personality)
+        uint32_t get_gen3_unown_form(uint32_t personality)
         {
             uint32_t form = ((personality & 0x3000000)
                           +  (personality & 0x30000)
@@ -157,7 +157,7 @@ namespace pkmnsim
             return (form = 0) ? 201 : (Forms::Unown::B + form - 1);
         }
 
-        uint16_t PKMNSIM_API get_wurmple_evolution(uint32_t personality)
+        uint16_t get_wurmple_evolution(uint32_t personality)
         {
             return (((personality % 65536) % 10) < 5) ? Species::SILCOON : Species::CASCOON;
         }
