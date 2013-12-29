@@ -17,6 +17,7 @@
 
 #include <boost/assign.hpp>
 
+#include <pkmnsim/enums.hpp>
 #include <pkmnsim/types/dict.hpp>
 
 #include <pokehack/pokestructs.h>

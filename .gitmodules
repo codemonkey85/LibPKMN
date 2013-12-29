@@ -13,3 +13,6 @@
 [submodule "PKMDS"]
 	path = PKMDS
 	url = https://github.com/ncorgan/PKMDS.git
+[submodule "rpokesav"]
+	path = rpokesav
+	url = https://github.com/ncorgan/rpokesav.git

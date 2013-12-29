@@ -27,6 +27,19 @@ namespace pkmnsim
 {
     namespace conversions
     {
+        void import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav)
+        {
+            pocket::sptr pkmnsim_pocket = item_bag->get_pocket("Items");
+
+            for(int i = 1; i <= sav->get_num_items(); i++)
+            {
+                rpokesav::item_t rpokesav_item = sav->get_item(i);
+
+                pkmnsim_pocket->set_item(i, database::get_item_id(rpokesav_item.index, Games::YELLOW),
+                                            rpokesav_item.amount);
+            }
+        }
+
         void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data)
         {
             /*

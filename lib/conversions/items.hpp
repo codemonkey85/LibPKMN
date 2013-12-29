@@ -11,9 +11,12 @@
 
 #include <pkmnsim/bag.hpp>
 
+#include <rpokesav/gen1_save.hpp>
 #include <pokehack/pokestructs.h>
 #include <pokelib/pokelib.h>
 #include <pkmds/pkmds_g5.h>
+
+#include "trainer.hpp"
 
 /*
  * Items aren't currently implemented in Pokehack, so
@@ -47,6 +50,8 @@ namespace pkmnsim
             uint16_t index;
             uint16_t quantity;
         };
+
+        void import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav);
     
         void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
         

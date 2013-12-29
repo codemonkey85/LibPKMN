@@ -23,7 +23,7 @@ IF(ENABLE_LIBPKMNSIM)
 
     INCLUDE(${QT_USE_FILE})
     LIST(APPEND libpkmnsim_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} pokehack pokelib-nc pkmds SQLiteCpp)
+    LIST(APPEND libpkmnsim_libs ${Boost_LIBRARIES} rpokesav pokehack pokelib-nc pkmds SQLiteCpp)
 
     LIST(APPEND libpkmnsim_sources
         library_bridge.cpp
@@ -47,6 +47,7 @@ IF(ENABLE_LIBPKMNSIM)
         move_impl.cpp
         move_mainimpl.cpp
         game_save.cpp
+        game_save_gen1impl.cpp
         game_save_gen3impl.cpp
         game_save_gen4impl.cpp
         game_save_gen5impl.cpp
@@ -82,6 +83,7 @@ IF(ENABLE_LIBPKMNSIM)
     ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
 
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+    INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/rpokesav/include)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/pokehack/include)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PokeLib-NC/include)
     INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/PKMDS/include)

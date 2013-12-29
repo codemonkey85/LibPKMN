@@ -56,6 +56,28 @@ namespace pkmnsim
 {
     namespace conversions
     {
+        trainer::sptr import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav)
+        {
+            pokemon_text trainer_name = sav->get_trainer_name();
+            
+            //No way to tell which specific game
+            trainer::sptr pkmnsim_trainer = trainer::make(Games::YELLOW, trainer_name, Genders::MALE);
+            
+            pkmnsim_trainer->set_money(sav->get_money());
+            
+            import_items_from_rpokesav_gen1(pkmnsim_trainer->get_bag(), sav);
+
+            rpokesav::vla<rpokesav::gen1_pokemon> rpokesav_gen1_team = sav->get_team();
+            for(size_t i = 0; i < sav->get_team_size(); i++)
+            {
+                team_pokemon::sptr t_pkmn = rpokesav_gen1_pokemon_to_team_pokemon(rpokesav_gen1_team[i],
+                                                                                  trainer_name);
+                pkmnsim_trainer->set_pokemon(i+1, t_pkmn);
+            }
+            
+            return pkmnsim_trainer;
+        }
+    
         trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data)
         {
             unsigned int game_code = game_data[POKEHACK_GAME_CODE];

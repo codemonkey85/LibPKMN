@@ -13,6 +13,7 @@
 #include <pkmnsim/game_save.hpp>
 #include <pkmnsim/paths.hpp>
 
+#include "game_save_gen1impl.hpp"
 #include "game_save_gen3impl.hpp"
 #include "game_save_gen4impl.hpp"
 #include "game_save_gen5impl.hpp"
@@ -34,7 +35,7 @@ namespace pkmnsim
         char* buffer = (char*)malloc(size);
         int result = fread(buffer, 1, size, save_file);
         fclose(save_file);
-
+        
         //Once size is determined, determine whether or not save is valid
         if(size > 0x80000)
         {
@@ -83,6 +84,11 @@ namespace pkmnsim
                     return sptr(new game_save_gen3impl(parser, buffer));
                 }
             }
+        }
+        else if(size >= (2 << 14))
+        {
+            rpokesav_gen1_sptr g1_sav(new rpokesav::gen1_save(filename));
+            if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav));
         }
         else
         {

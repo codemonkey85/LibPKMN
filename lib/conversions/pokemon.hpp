@@ -11,6 +11,7 @@
 #include <pkmnsim/team_pokemon.hpp>
 #include <pkmnsim/types/dict.hpp>
 
+#include <rpokesav/gen1_pokemon.hpp>
 #include <pokehack/pokestructs.h>
 #include <pokelib/pokelib.h>
 #include <pkmds/pkmds_g5.h>
@@ -20,6 +21,9 @@ namespace pkmnsim
 {
     namespace conversions
     {
+        team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
+                                                                 pokemon_text trainer_name);
+    
         team_pokemon::sptr pokehack_pokemon_to_team_pokemon(belt_pokemon_t* b_pkmn_t,
                                                             pokemon_attacks_t* pkmn_a_t,
                                                             pokemon_effort_t* pkmn_e_t,
