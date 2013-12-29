@@ -12,12 +12,15 @@
 %ignore pkmnsim::pokemon_text::set(std::string);
 %ignore pkmnsim::pokemon_text::set(std::wstring);
 
+%include "stdint.i"
+%include "std_pair.i"
 %include "CamelCase.i"
 %include "pkmnsim.i"
 
 %{
     #include "pkmnsim/config.hpp"
 
+    #include "pkmnsim/calculations.hpp"
     #include "pkmnsim/paths.hpp"
 
     #include "pkmnsim/types/dict.hpp"
@@ -38,6 +41,7 @@
 
 %}
 
+%include "pkmnsim/calculations.hpp"
 %include "pkmnsim/paths.hpp"
 
 %include "pkmnsim/types/dict.hpp"

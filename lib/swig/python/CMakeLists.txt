@@ -12,6 +12,7 @@ INCLUDE(PKMNsimPython)
 PYTHON_BUILD_MODULE(pypkmnsim_swig PyPKMNsim)
 
 ADD_SUBDIRECTORY(analysis)
+ADD_SUBDIRECTORY(calculations)
 ADD_SUBDIRECTORY(database)
 ADD_SUBDIRECTORY(io)
 

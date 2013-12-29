@@ -29,6 +29,7 @@ IF(ENABLE_LIBPKMNSIM)
         library_bridge.cpp
         prng.cpp
         pokemon_text.cpp
+        calculations.cpp
         base_pokemon_impl.cpp
         base_pokemon_gen1impl.cpp
         base_pokemon_gen2impl.cpp

@@ -75,9 +75,10 @@ endmacro(CSHARP_BUILD_MODULE)
 # Build SWIG modules for different parts of LibPKMNsim
 ####################################################################
 CSHARP_BUILD_MODULE(pkmnsimsharp_swig pkmnsimsharp_swig PKMNsim)
+CSHARP_BUILD_MODULE(analysis_cs_swig analysis_cs_swig Analysis)
+CSHARP_BUILD_MODULE(calculations_cs_swig calculations_cs_swig Calculations)
 CSHARP_BUILD_MODULE(database_cs_swig database_cs_swig Database)
 CSHARP_BUILD_MODULE(io_cs_swig io_cs_swig IO)
-CSHARP_BUILD_MODULE(analysis_cs_swig analysis_cs_swig Analysis)
 
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/AssemblyInfo.cs.in
