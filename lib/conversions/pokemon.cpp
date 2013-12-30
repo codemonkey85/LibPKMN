@@ -517,7 +517,7 @@ namespace pkmnsim
             modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
             modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
             modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
-
+            
             pokelib_pkmn.updateBattleStats();
 
             pokelib_pkmn.pkm->pkm.hometown = pkmnsim_game_to_hometown(t_pkmn->get_game_id());

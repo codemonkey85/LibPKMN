@@ -70,22 +70,22 @@ namespace pkmnsim
         switch(IV)
         {
             case Stats::HP:
-                return (*IVint & 0xF8000000) >> 27;
+                return ((*IVint >> 2) & 31);
                 
             case Stats::ATTACK:
-                return (*IVint & 0x7C00000) >> 22;
+                return ((*IVint >> 7) & 31);
             
             case Stats::DEFENSE:
-                return (*IVint & 0x3E0000) >> 17;
+                return ((*IVint >> 12) & 31);
                 
             case Stats::SPEED:
-                return (*IVint & 0x1F000) >> 12;
+                return ((*IVint >> 17) & 31);
                 
             case Stats::SPECIAL_ATTACK:
-                return (*IVint & 0xF80) >> 7;
+                return ((*IVint >> 22) & 31);
                 
             case Stats::SPECIAL_DEFENSE:
-                return (*IVint & 0x7C) >> 2;
+                return ((*IVint >> 27) & 31);
                 
             default:
                 return 0;
@@ -94,33 +94,30 @@ namespace pkmnsim
     
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
     {
-        //Limit val to 32, shifting done in case statement
-        val &= 32;
-    
         switch(IV)
         {
             case Stats::HP:
-                *IVint = (val << 27) | (*IVint & 0x1B);
+                *IVint = ((*IVint & 0xFFFFFF83) | (val << 2));
                 break;
-                
+
             case Stats::ATTACK:
-                *IVint = (*IVint & 0xF8000000) | (val << 22) | (*IVint & 0x16);
+                *IVint = ((*IVint & 0xFFFFF07F) | (val << 7));
                 break;
-            
+
             case Stats::DEFENSE:
-                *IVint = (*IVint & 0xFFC00000) | (val << 17) | (*IVint & 0x11);
+                *IVint = ((*IVint & 0xFFFE0FFF) | (val << 12));
                 break;
-                
+
             case Stats::SPEED:
-                *IVint = (*IVint & 0XFFFE0000) | (val << 12) | (*IVint & 0xC);
+                *IVint = ((*IVint & 0xFFC1FFFF) | (val << 17));
                 break;
-                
+
             case Stats::SPECIAL_ATTACK:
-                *IVint = (*IVint & 0xFFFFF000) | (val << 7) | (*IVint & 0x7);
+                *IVint = ((*IVint & 0xF83FFFFF) | (val << 22));
                 break;
-                
+
             case Stats::SPECIAL_DEFENSE:
-                *IVint = (*IVint & 0xFFFFFF80) | (val << 2) | (*IVint & 0x2);
+                *IVint = ((*IVint & 0x7FFFFFF) | (val << 27));
                 break;
         }
     }
