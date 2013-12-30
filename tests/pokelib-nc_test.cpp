@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(pkmnsim_to_pokelib)
 {
     pkmnsim::team_pokemon::sptr pkmnsim_pkmn = pkmnsim::team_pokemon::make(pkmnsim::Species::PIKACHU,
                                                                            pkmnsim::Games::DIAMOND,
-                                                                           20,
+                                                                           50,
                                                                            pkmnsim::Moves::THUNDER,
                                                                            pkmnsim::Moves::AGILITY,
                                                                            pkmnsim::Moves::VOLT_TACKLE,
