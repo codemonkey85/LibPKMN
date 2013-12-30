@@ -39,7 +39,7 @@ FOREACH(cpp_test ${cpp_test_sources})
             SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++0x")
         ENDIF(LINUX)
     ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        SET_TARGET_PROPERTIES(pkmnsim PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
+        SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
     ADD_TEST(${cpp_test_name} ${cpp_test_name})
