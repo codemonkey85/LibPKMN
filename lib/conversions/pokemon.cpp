@@ -501,14 +501,6 @@ namespace pkmnsim
             pokelib_pkmn.pkm->pkm.move[2] = move_PPs[2];
             pokelib_pkmn.pkm->pkm.move[3] = move_PPs[3];
 
-            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
-            pokelib_pkmn.pkm->pkm.battle_max_hp = stats[Stats::HP];
-            pokelib_pkmn.pkm->pkm.battle_atk = stats[Stats::ATTACK];
-            pokelib_pkmn.pkm->pkm.battle_def = stats[Stats::DEFENSE];
-            pokelib_pkmn.pkm->pkm.battle_satk = stats[Stats::SPECIAL_ATTACK];
-            pokelib_pkmn.pkm->pkm.battle_sdef = stats[Stats::SPECIAL_DEFENSE];
-            pokelib_pkmn.pkm->pkm.battle_spd = stats[Stats::SPEED];
-
             dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
             pokelib_pkmn.pkm->pkm.ev_hp = EVs[Stats::HP];
             pokelib_pkmn.pkm->pkm.ev_atk = EVs[Stats::ATTACK];
@@ -525,6 +517,8 @@ namespace pkmnsim
             modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
             modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
             modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+
+            pokelib_pkmn.updateBattleStats();
 
             pokelib_pkmn.pkm->pkm.hometown = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
 
