@@ -16,7 +16,7 @@ SET(DATABASE_PATH ${PKMNSIM_BINARY_DIR}/share/pkmnsim)
 FILE(TO_NATIVE_PATH ${DATABASE_PATH} DATABASE_PATH)
 
 SET(cpp_test_sources
-    boostless_dict_test.cpp
+    dict_test.cpp
     vla_test.cpp
     pokelib-nc_test.cpp
 )
