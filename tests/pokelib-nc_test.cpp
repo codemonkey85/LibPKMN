@@ -21,13 +21,13 @@
 
 BOOST_AUTO_TEST_CASE(pkmnsim_to_pokelib)
 {
-    pkmnsim::team_pokemon::sptr pkmnsim_pkmn = pkmnsim::team_pokemon::make(pkmnsim::Species::PIKACHU,
+    pkmnsim::team_pokemon::sptr pkmnsim_pkmn = pkmnsim::team_pokemon::make(pkmnsim::Species::ODDISH,
                                                                            pkmnsim::Games::DIAMOND,
                                                                            50,
-                                                                           pkmnsim::Moves::THUNDER,
-                                                                           pkmnsim::Moves::AGILITY,
-                                                                           pkmnsim::Moves::VOLT_TACKLE,
-                                                                           pkmnsim::Moves::SHOCK_WAVE);
+                                                                           pkmnsim::Moves::VINE_WHIP,
+                                                                           pkmnsim::Moves::POISONPOWDER,
+                                                                           pkmnsim::Moves::RAZOR_LEAF,
+                                                                           pkmnsim::Moves::SOLARBEAM);
 
     PokeLib::Pokemon pokelib_pkmn = pkmnsim::conversions::team_pokemon_to_pokelib_pokemon(pkmnsim_pkmn);
 
