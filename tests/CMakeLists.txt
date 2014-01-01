@@ -18,7 +18,7 @@ FILE(TO_NATIVE_PATH ${DATABASE_PATH} DATABASE_PATH)
 SET(cpp_test_sources
     dict_test.cpp
     vla_test.cpp
-    pokelib-nc_test.cpp
+    to_pokelib-nc_test.cpp
 )
 
 INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/lib/conversions)

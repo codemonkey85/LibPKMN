@@ -28,6 +28,18 @@ BOOST_AUTO_TEST_CASE(pkmnsim_to_pokelib)
                                                                            pkmnsim::Moves::POISONPOWDER,
                                                                            pkmnsim::Moves::RAZOR_LEAF,
                                                                            pkmnsim::Moves::SOLARBEAM);
+    pkmnsim_pkmn->set_EV(pkmnsim::Stats::HP, 100);
+    pkmnsim_pkmn->set_EV(pkmnsim::Stats::ATTACK, 100);
+    pkmnsim_pkmn->set_EV(pkmnsim::Stats::DEFENSE, 100);
+    pkmnsim_pkmn->set_EV(pkmnsim::Stats::SPEED, 100);
+    pkmnsim_pkmn->set_EV(pkmnsim::Stats::SPECIAL_ATTACK, 100);
+    pkmnsim_pkmn->set_EV(pkmnsim::Stats::SPECIAL_DEFENSE, 100);
+    pkmnsim_pkmn->set_IV(pkmnsim::Stats::HP, 20);
+    pkmnsim_pkmn->set_IV(pkmnsim::Stats::ATTACK, 20);
+    pkmnsim_pkmn->set_IV(pkmnsim::Stats::DEFENSE, 20);
+    pkmnsim_pkmn->set_IV(pkmnsim::Stats::SPEED, 20);
+    pkmnsim_pkmn->set_IV(pkmnsim::Stats::SPECIAL_ATTACK, 20);
+    pkmnsim_pkmn->set_IV(pkmnsim::Stats::SPECIAL_DEFENSE, 20);
 
     PokeLib::Pokemon pokelib_pkmn = pkmnsim::conversions::team_pokemon_to_pokelib_pokemon(pkmnsim_pkmn);
 
