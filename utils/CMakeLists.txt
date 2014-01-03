@@ -6,22 +6,22 @@
 #
 
 IF(ENABLE_UTILITIES)
-    ADD_EXECUTABLE(pkmnsim-about pkmnsim-about.cpp)
-    INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
-    TARGET_LINK_LIBRARIES(pkmnsim-about pkmnsim)
+    ADD_EXECUTABLE(libpkmn-about libpkmn-about.cpp)
+    INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
+    TARGET_LINK_LIBRARIES(libpkmn-about pkmn)
     IF(MSVC)
         ####################################################################
         # This setting is necessary so opening the application from the
         # Start Menu won't bring up a command line
         ####################################################################
-        SET_TARGET_PROPERTIES(pkmnsim-about PROPERTIES LINK_FLAGS_RELEASE "/subsystem:windows")
+        SET_TARGET_PROPERTIES(libpkmn-about PROPERTIES LINK_FLAGS_RELEASE "/subsystem:windows")
     ENDIF(MSVC)
-    INSTALL(TARGETS pkmnsim-about RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
+    INSTALL(TARGETS libpkmn-about RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
 
     CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/pkmnsim-config-info.cpp.in
-        ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-config-info.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/libpkmn-config-info.cpp.in
+        ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-config-info.cpp
     @ONLY)
-    ADD_EXECUTABLE(pkmnsim-config-info ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-config-info.cpp)
-    INSTALL(TARGETS pkmnsim-config-info RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
+    ADD_EXECUTABLE(libpkmn-config-info ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-config-info.cpp)
+    INSTALL(TARGETS libpkmn-config-info RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
 ENDIF(ENABLE_UTILITIES)
