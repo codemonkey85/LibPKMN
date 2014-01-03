@@ -19,7 +19,7 @@
 #include <QString>
 #include <QWidget>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

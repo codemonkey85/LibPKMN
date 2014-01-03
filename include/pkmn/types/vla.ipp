@@ -13,7 +13,7 @@
 
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     template<typename item_type>
     vla<item_type>::vla () {}

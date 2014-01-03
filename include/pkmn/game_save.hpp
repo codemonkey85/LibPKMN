@@ -19,7 +19,7 @@
 #include <pkmn/config.hpp>
 #include <pkmn/trainer.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class PKMNSIM_API game_save
     {

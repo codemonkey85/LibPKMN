@@ -12,7 +12,7 @@
 #include <QMessageBox>
 #include <QLabel>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

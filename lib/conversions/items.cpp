@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace conversions
     {
@@ -590,4 +590,4 @@ namespace pkmnsim
             }
         }
     } /* namespace conversions */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

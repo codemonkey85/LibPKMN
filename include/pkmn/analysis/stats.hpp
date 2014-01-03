@@ -13,7 +13,7 @@
 #include <pkmn/base_pokemon.hpp>
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace analysis
     {

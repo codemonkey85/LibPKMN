@@ -10,7 +10,7 @@
 
 #include <pkmn/qt4/AboutMessageBox.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {
@@ -30,4 +30,4 @@ namespace pkmnsim
             setDefaultButton(QMessageBox::Close);
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

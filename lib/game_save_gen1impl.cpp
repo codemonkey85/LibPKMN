@@ -11,7 +11,7 @@
  
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     game_save_gen1impl::game_save_gen1impl(rpokesav_gen1_sptr sav)
     {
@@ -28,4 +28,4 @@ namespace pkmnsim
     void game_save_gen1impl::save() {};
     
     trainer::sptr game_save_gen1impl::get_trainer() const {return _game_trainer;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

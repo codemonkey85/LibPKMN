@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     item::sptr item::make(unsigned int id, unsigned int game)
     {
@@ -71,4 +71,4 @@ namespace pkmnsim
     string item_impl::get_description() {return _description;}
     
     string item_impl::get_name() {return _item_name;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

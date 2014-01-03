@@ -36,7 +36,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     team_pokemon::sptr team_pokemon::make(unsigned int id, unsigned int game, unsigned int level,
                                           unsigned int move1, unsigned int move2,
@@ -308,4 +308,4 @@ namespace pkmnsim
     dict<unsigned , unsigned int> team_pokemon_impl::get_ev_yields() const {return _base_pkmn->get_ev_yields();}
 
     bool team_pokemon_impl::is_fully_evolved() const {return _base_pkmn->is_fully_evolved();}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

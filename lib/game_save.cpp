@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     game_save::sptr game_save::make(string filename)
     {
@@ -96,4 +96,4 @@ namespace pkmnsim
             exit(EXIT_FAILURE);
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

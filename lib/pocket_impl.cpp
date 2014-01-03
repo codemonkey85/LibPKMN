@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     pocket::sptr pocket::make(unsigned int game, string name, unsigned int size)
     {
@@ -126,4 +126,4 @@ namespace pkmnsim
         unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
         _amounts[actual_pos] = amount;
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

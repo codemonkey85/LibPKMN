@@ -13,7 +13,7 @@
 
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace database
     {

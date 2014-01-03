@@ -14,7 +14,7 @@
 #include <pkmn/config.hpp>
 #include <pkmn/team_pokemon.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace analysis
     {

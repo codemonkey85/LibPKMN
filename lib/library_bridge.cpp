@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     //To avoid C/C++ include messiness while avoiding bringing in pokehack/SaveParser.h
     char* pokehack_get_text(unsigned char* raw, bool is_nickname)
@@ -668,4 +668,4 @@ namespace pkmnsim
                 return PokeBalls::POKE_BALL;
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

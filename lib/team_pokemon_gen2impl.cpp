@@ -15,7 +15,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     team_pokemon_gen2impl::team_pokemon_gen2impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                                  unsigned int move1, unsigned int move2,
@@ -266,4 +266,4 @@ namespace pkmnsim
             }
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

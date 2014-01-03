@@ -21,7 +21,7 @@
 namespace fs = boost::filesystem;
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     base_pokemon_gen2impl::base_pokemon_gen2impl(unsigned int id, unsigned int game):
                                            base_pokemon_impl(id, game)
@@ -233,4 +233,4 @@ namespace pkmnsim
                 while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

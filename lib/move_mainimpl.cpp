@@ -14,7 +14,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     move_mainimpl::move_mainimpl(unsigned int id, unsigned int game): move_impl(id, game)
     {
@@ -45,4 +45,4 @@ namespace pkmnsim
                 break;
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

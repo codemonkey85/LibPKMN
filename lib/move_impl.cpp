@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     move::sptr move::make(unsigned int id, unsigned int game)
     {
@@ -161,4 +161,4 @@ namespace pkmnsim
     unsigned int move_impl::get_target_id() const {return _target_id;}
 
     unsigned int move_impl::get_game_id() const {return _game_id;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

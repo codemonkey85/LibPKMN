@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     QApplication::setColorSpec(QApplication::CustomColor);
     QApplication app(argc,argv);
 
-    pkmnsim::qt4::AboutMessageBox box;
+    pkmn::qt4::AboutMessageBox box;
     box.setWindowTitle("Pokemon-sim - About");
     box.show();
 

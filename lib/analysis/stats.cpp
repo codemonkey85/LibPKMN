@@ -18,7 +18,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace analysis
     {
@@ -98,4 +98,4 @@ namespace pkmnsim
             stat_vec.push_back(get_max_possible_stat(b_pkmn, stat, level, gen));
         }
     } /* namespace analysis */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

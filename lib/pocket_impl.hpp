@@ -9,7 +9,7 @@
 
 #include <pkmn/pocket.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class pocket_impl: public pocket
     {

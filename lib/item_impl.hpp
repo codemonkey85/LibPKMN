@@ -11,7 +11,7 @@
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-namespace pkmnsim
+namespace pkmn
 {
     class item_impl: public item
     {

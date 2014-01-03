@@ -17,7 +17,7 @@
 namespace fs = boost::filesystem;
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {
@@ -51,4 +51,4 @@ namespace pkmnsim
             setLayout(mainLayout);
         }
     } /* namespace qt4 */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

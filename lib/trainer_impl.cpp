@@ -21,7 +21,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     trainer::sptr trainer::make(unsigned int game, pokemon_text name, unsigned int gender)
     {
@@ -143,4 +143,4 @@ namespace pkmnsim
     void trainer_impl::set_public_id(unsigned short id) {_tid.public_id = id;}
 
     void trainer_impl::set_secret_id(unsigned short id) {_tid.secret_id = id;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

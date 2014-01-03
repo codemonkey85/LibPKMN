@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-namespace pkmnsim
+namespace pkmn
 {
     template <typename item_type>
     class vla

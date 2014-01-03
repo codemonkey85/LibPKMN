@@ -9,7 +9,7 @@
 
 #include "item_impl.hpp"
 
-namespace pkmnsim
+namespace pkmn
 {
     class item_machineimpl: public item_impl
     {

@@ -17,7 +17,7 @@
 #include <pkmds/pkmds_g5.h>
 #include <pkmds/pkmds_g6.h>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace conversions
     {

@@ -42,7 +42,7 @@
 #define FRLG_TM_POCKET_OFFSET 0x464+3968
 #define FRLG_BERRY_POCKET_OFFSET 0x54C+3968
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace conversions
     {

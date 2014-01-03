@@ -24,7 +24,7 @@
 #include <pkmn/types/pokemon_text.hpp>
 #include <pkmn/types/vla.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class PKMNSIM_API team_pokemon
     {

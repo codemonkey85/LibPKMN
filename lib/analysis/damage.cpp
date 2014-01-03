@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace analysis
     {
@@ -349,4 +349,4 @@ namespace pkmnsim
             }
         }
     } /* namespace analysis */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

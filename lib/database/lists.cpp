@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace database
     {
@@ -51,4 +51,4 @@ namespace pkmnsim
             }
         }
     } /* namespace database */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

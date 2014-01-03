@@ -11,7 +11,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     class move_mainimpl: public move_impl
     {

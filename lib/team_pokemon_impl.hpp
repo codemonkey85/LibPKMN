@@ -13,7 +13,7 @@
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-namespace pkmnsim
+namespace pkmn
 {
     class team_pokemon_impl: public team_pokemon
     {

@@ -22,8 +22,8 @@
 #include <pkmn/database/queries.hpp>
 
 namespace po = boost::program_options;
-using namespace pkmnsim;
-using namespace pkmnsim::analysis;
+using namespace pkmn;
+using namespace pkmn::analysis;
 using namespace std;
 
 int main(int argc, char *argv[])

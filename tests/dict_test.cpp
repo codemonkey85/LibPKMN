@@ -14,12 +14,12 @@
  * Part of LibPKMNsim's constraints is that Boost cannot be publicly exposed,
  * so an alternative to BOOST_FOREACH is required. MSVC has a foreach method,
  * but it is not portable, so a custom #define is necessary. If this doesn't
- * work, then the Boostless pkmnsim::dict class will not work.
+ * work, then the Boostless pkmn::dict class will not work.
  */
 
 BOOST_AUTO_TEST_CASE(dict_has_key)
 {
-    const pkmnsim::dict<int, int> b_dict = boost::assign::map_list_of
+    const pkmn::dict<int, int> b_dict = boost::assign::map_list_of
         (0,-1)
         (2,5)
         (4,57)
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(dict_has_key)
 
 BOOST_AUTO_TEST_CASE(dict_keys_vals)
 {
-    const pkmnsim::dict<int, int> b_dict = boost::assign::map_list_of
+    const pkmn::dict<int, int> b_dict = boost::assign::map_list_of
         (0,-1)
         (2,5)
         (4,57)
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(dict_keys_vals)
 
 BOOST_AUTO_TEST_CASE(dict_get)
 {
-    const pkmnsim::dict<int, int> b_dict = boost::assign::map_list_of
+    const pkmn::dict<int, int> b_dict = boost::assign::map_list_of
         (0,-1)
         (2,5)
         (4,57)

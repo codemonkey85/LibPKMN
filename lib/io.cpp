@@ -22,7 +22,7 @@
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace io
     {

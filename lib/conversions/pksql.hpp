@@ -19,7 +19,7 @@
  * these functions skip the step completely.
  */
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace conversions
     {

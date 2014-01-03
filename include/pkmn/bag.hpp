@@ -20,7 +20,7 @@
 #include <pkmn/pocket.hpp>
 #include <pkmn/types/dict.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class PKMNSIM_API bag
     {

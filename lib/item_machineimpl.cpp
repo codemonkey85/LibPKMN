@@ -19,7 +19,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     item_machineimpl::item_machineimpl(unsigned int id, unsigned int game): item_impl(id, game)
     {
@@ -35,4 +35,4 @@ namespace pkmnsim
         _description = str(boost::format("%s - %s") % database::get_item_name(_item_id)
                                                     % database::get_move_description(_move_id, _game_id));
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

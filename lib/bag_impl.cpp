@@ -14,7 +14,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     bag::sptr bag::make(unsigned int game)
     {
@@ -107,4 +107,4 @@ namespace pkmnsim
     const pocket::sptr bag_impl::get_pocket(string name) {return _contents[name];}
     
     void bag_impl::get_pocket_list(vector<string> &pocket_vec) {pocket_vec = _contents.keys();}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

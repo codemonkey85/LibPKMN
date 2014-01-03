@@ -9,8 +9,8 @@
 
 #include <pkmn/base_pokemon.hpp>
 
-using namespace pkmnsim;
-using namespace pkmnsim::qt4;
+using namespace pkmn;
+using namespace pkmn::qt4;
 using namespace std;
 
 GetTypeStatsWindow::GetTypeStatsWindow(QWidget* parent): QWidget(parent)

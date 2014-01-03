@@ -42,7 +42,7 @@
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-namespace pkmnsim
+namespace pkmn
 {
     class base_pokemon_impl: public base_pokemon
     {

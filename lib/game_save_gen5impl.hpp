@@ -11,7 +11,7 @@
 
 #include "conversions/trainer.hpp"
 
-namespace pkmnsim
+namespace pkmn
 {
     class game_save_gen5impl: public game_save
     {

@@ -18,7 +18,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

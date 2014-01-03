@@ -12,7 +12,7 @@
 
 #include <pkmn/bag.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class bag_impl: public bag
     {

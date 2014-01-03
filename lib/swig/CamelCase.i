@@ -13,95 +13,95 @@
 /*
  * pkmnsim/io.hpp
  */
-%rename(exportToPKM)   pkmnsim::export_to_pkm;
-%rename(importFromPKM) pkmnsim::import_from_pkm;
-%rename(exportToPKX)   pkmnsim::export_to_pkx;
-%rename(importFromPKX) pkmnsim::import_from_pkx;
+%rename(exportToPKM)   pkmn::export_to_pkm;
+%rename(importFromPKM) pkmn::import_from_pkm;
+%rename(exportToPKX)   pkmn::export_to_pkx;
+%rename(importFromPKX) pkmn::import_from_pkx;
 
 /*
  * pkmnsim/lists.hpp
  */
-%rename(getGameList)      pkmnsim::get_game_list;
-%rename(getGameGroupList) pkmnsim::get_game_group_list;
-%rename(getItemList)      pkmnsim::get_item_list;
-%rename(getPokemonList)   pkmnsim::get_pokemon_list;
-%rename(getTypeList)      pkmnsim::get_type_list;
-%rename(getAbilityList)   pkmnsim::get_ability_list;
-%rename(getNatureList)    pkmnsim::get_nature_list;
-%rename(getPokemonOfType) pkmnsim::get_pokemon_of_type;
+%rename(getGameList)      pkmn::get_game_list;
+%rename(getGameGroupList) pkmn::get_game_group_list;
+%rename(getItemList)      pkmn::get_item_list;
+%rename(getPokemonList)   pkmn::get_pokemon_list;
+%rename(getTypeList)      pkmn::get_type_list;
+%rename(getAbilityList)   pkmn::get_ability_list;
+%rename(getNatureList)    pkmn::get_nature_list;
+%rename(getPokemonOfType) pkmn::get_pokemon_of_type;
 
 /*
  * pkmnsim/paths.hpp
  */
-%rename(getAppdataPath)  pkmnsim::get_appdata_path;
-%rename(getDatabasePath) pkmnsim::get_database_path;
-%rename(getImagesDir)    pkmnsim::get_images_dir;
-%rename(getTmpDir)       pkmnsim::get_tmp_dir;
+%rename(getAppdataPath)  pkmn::get_appdata_path;
+%rename(getDatabasePath) pkmn::get_database_path;
+%rename(getImagesDir)    pkmn::get_images_dir;
+%rename(getTmpDir)       pkmn::get_tmp_dir;
 
 /*
  * pkmnsim/analysis/damage.hpp
  */
-%rename(getTypeDamageMod)   pkmnsim::analysis::get_type_damage_mod;
-%rename(getBaseDamage)      pkmnsim::analysis::get_base_damage;
-%rename(getDamageRange)     pkmnsim::analysis::get_damage_range;
-%rename(getMinPossibleStat) pkmnsim::analysis::get_min_possible_stat;
-%rename(getMaxPossibleStat) pkmnsim::analysis::get_max_possible_stat;
-%rename(isStatPossible)     pkmnsim::analysis::is_stat_possible;
-%rename(getStatRange)       pkmnsim::analysis::get_stat_range;
+%rename(getTypeDamageMod)   pkmn::analysis::get_type_damage_mod;
+%rename(getBaseDamage)      pkmn::analysis::get_base_damage;
+%rename(getDamageRange)     pkmn::analysis::get_damage_range;
+%rename(getMinPossibleStat) pkmn::analysis::get_min_possible_stat;
+%rename(getMaxPossibleStat) pkmn::analysis::get_max_possible_stat;
+%rename(isStatPossible)     pkmn::analysis::is_stat_possible;
+%rename(getStatRange)       pkmn::analysis::get_stat_range;
 
 /*
  * pkmnsim/database/lists.hpp
  */
-%rename(getTableList)  pkmnsim::get_table_list;
-%rename(getColumnList) pkmnsim::get_column_list;
+%rename(getTableList)  pkmn::get_table_list;
+%rename(getColumnList) pkmn::get_column_list;
 
 /*
  * pkmnsim/database/queries.hpp
  */
-%rename(toDatabaseFormat)    pkmnsim::database::to_database_format;
-%rename(getAbilityID)        pkmnsim::database::get_ability_id;
-%rename(getAbilityName)      pkmnsim::database::get_ability_name;
-%rename(getDamageClass)      pkmnsim::database::get_damage_class;
-%rename(getEggGroupID)       pkmnsim::database::get_egg_group_id;
-%rename(getEggGroupName)     pkmnsim::database::get_egg_group_name;
-%rename(getGameID)           pkmnsim::database::get_game_id;
-%rename(getGameName)         pkmnsim::database::get_game_name;
-%rename(getGeneration)       pkmnsim::database::get_generation;
-%rename(getItemIndex)        pkmnsim::database::get_item_index;
-%rename(getItemDescription)  pkmnsim::database::get_item_description;
-%rename(getItemID)           pkmnsim::database::get_item_id;
-%rename(getItemName)         pkmnsim::database::get_item_name;
-%rename(getItemCategory)     pkmnsim::database::get_item_category;
-%rename(getMoveDescription)  pkmnsim::database::get_move_description;
-%rename(getMoveID)           pkmnsim::database::get_move_id;
-%rename(getMoveName)         pkmnsim::database::get_move_name;
-%rename(getMovePP)           pkmnsim::database::get_move_pp;
-%rename(getNatureStatEffect) pkmnsim::database::get_nature_stat_effect;
-%rename(getNatureID)         pkmnsim::database::get_nature_id;
-%rename(getNatureName)       pkmnsim::database::get_nature_name;
-%rename(getPokedexEntry)     pkmnsim::database::get_pokedex_entry;
-%rename(getSpeciesID)        pkmnsim::database::get_species_id;
-%rename(getSpeciesName)      pkmnsim::database::get_species_name;
-%rename(getTypeID)           pkmnsim::database::get_type_id;
-%rename(getTypeName)         pkmnsim::database::get_type_name;
-%rename(getVersionGroup)     pkmnsim::database::get_version_group;
+%rename(toDatabaseFormat)    pkmn::database::to_database_format;
+%rename(getAbilityID)        pkmn::database::get_ability_id;
+%rename(getAbilityName)      pkmn::database::get_ability_name;
+%rename(getDamageClass)      pkmn::database::get_damage_class;
+%rename(getEggGroupID)       pkmn::database::get_egg_group_id;
+%rename(getEggGroupName)     pkmn::database::get_egg_group_name;
+%rename(getGameID)           pkmn::database::get_game_id;
+%rename(getGameName)         pkmn::database::get_game_name;
+%rename(getGeneration)       pkmn::database::get_generation;
+%rename(getItemIndex)        pkmn::database::get_item_index;
+%rename(getItemDescription)  pkmn::database::get_item_description;
+%rename(getItemID)           pkmn::database::get_item_id;
+%rename(getItemName)         pkmn::database::get_item_name;
+%rename(getItemCategory)     pkmn::database::get_item_category;
+%rename(getMoveDescription)  pkmn::database::get_move_description;
+%rename(getMoveID)           pkmn::database::get_move_id;
+%rename(getMoveName)         pkmn::database::get_move_name;
+%rename(getMovePP)           pkmn::database::get_move_pp;
+%rename(getNatureStatEffect) pkmn::database::get_nature_stat_effect;
+%rename(getNatureID)         pkmn::database::get_nature_id;
+%rename(getNatureName)       pkmn::database::get_nature_name;
+%rename(getPokedexEntry)     pkmn::database::get_pokedex_entry;
+%rename(getSpeciesID)        pkmn::database::get_species_id;
+%rename(getSpeciesName)      pkmn::database::get_species_name;
+%rename(getTypeID)           pkmn::database::get_type_id;
+%rename(getTypeName)         pkmn::database::get_type_name;
+%rename(getVersionGroup)     pkmn::database::get_version_group;
 
 /*
  * pkmnsim/types/*.hpp
  */
-%rename(PRNG)           pkmnsim::prng;
-%rename(StringIntDict)  pkmnsim::dict<std::string, int>;
-%rename(StringUintDict) pkmnsim::dict<std::string, unsigned int>;
-%rename(UIntUIntDict)   pkmnsim::dict<unsigned int, unsigned int>;
-%rename(PokemonText)    pkmnsim::pokemon_text;
-%rename(UIntVLA)        pkmnsim::vla<unsigned int>;
-%rename(BasePokemonVLA) pkmnsim::vla<pkmnsim::base_pokemon::sptr>;
-%rename(Moveset)        pkmnsim::vla<pkmnsim::move::sptr>;
-%rename(PokemonTeam)    pkmnsim::vla<pkmnsim::team_pokemon::sptr>;
+%rename(PRNG)           pkmn::prng;
+%rename(StringIntDict)  pkmn::dict<std::string, int>;
+%rename(StringUintDict) pkmn::dict<std::string, unsigned int>;
+%rename(UIntUIntDict)   pkmn::dict<unsigned int, unsigned int>;
+%rename(PokemonText)    pkmn::pokemon_text;
+%rename(UIntVLA)        pkmn::vla<unsigned int>;
+%rename(BasePokemonVLA) pkmn::vla<pkmn::base_pokemon::sptr>;
+%rename(Moveset)        pkmn::vla<pkmn::move::sptr>;
+%rename(PokemonTeam)    pkmn::vla<pkmn::team_pokemon::sptr>;
 
 /*
  * Vectors
  */
-%rename(BasePokemonVector) std::vector<pkmnsim::base_pokemon::sptr>;
-%rename(MoveVector)        std::vector<pkmnsim::move::sptr>;
-%rename(TeamPokemonVector) std::vector<pkmnsim::team_pokemon::sptr>;
+%rename(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
+%rename(MoveVector)        std::vector<pkmn::move::sptr>;
+%rename(TeamPokemonVector) std::vector<pkmn::team_pokemon::sptr>;

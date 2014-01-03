@@ -40,7 +40,7 @@ typedef std::shared_ptr<SaveParser> pokehack_sptr;
 typedef std::shared_ptr<PokeLib::Save> pokelib_sptr;
 typedef std::shared_ptr<bw2sav_obj> pkmds_g5_sptr;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace conversions
     {

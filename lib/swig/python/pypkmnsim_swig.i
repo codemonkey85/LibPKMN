@@ -21,25 +21,25 @@
 %enddef
 
 //Extend dict and VLA to allow use of [] operator
-%extend pkmnsim::dict<unsigned int, unsigned int>{
+%extend pkmn::dict<unsigned int, unsigned int>{
     unsigned int __getitem__(unsigned int i) {return (*self)[i];}
     void __setitem__(unsigned int i, unsigned int val) {(*self)[i] = val;}
 };
-%extend pkmnsim::dict<std::string, int>{
+%extend pkmn::dict<std::string, int>{
     int __getitem__(std::string i) {return (*self)[i];}
     void __setitem__(std::string i, int val) {(*self)[i] = val;}
 };
-%extend pkmnsim::vla<pkmnsim::move::sptr>{
-    pkmnsim::move::sptr __getitem__(int i) {return (*self)[i];}
-    void __setitem__(int i, pkmnsim::move::sptr val) {(*self)[i] = val;}
+%extend pkmn::vla<pkmn::move::sptr>{
+    pkmn::move::sptr __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, pkmn::move::sptr val) {(*self)[i] = val;}
 };
-%extend pkmnsim::vla<pkmnsim::team_pokemon::sptr>{
-    pkmnsim::team_pokemon::sptr __getitem__(int i) {return (*self)[i];}
-    void __setitem__(int i, pkmnsim::team_pokemon::sptr val) {(*self)[i] = val;}
+%extend pkmn::vla<pkmn::team_pokemon::sptr>{
+    pkmn::team_pokemon::sptr __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, pkmn::team_pokemon::sptr val) {(*self)[i] = val;}
 };
 
 //Make pokemon_text act more like a string when printed
-%extend pkmnsim::pokemon_text{
+%extend pkmn::pokemon_text{
     char* __repr__() {return (char*)((*self).const_char());}
     char* __str__() {return (char*)((*self).const_char());}
 };
@@ -83,23 +83,23 @@
 %include "pkmnsim/paths.hpp"
 
 //Templates for common uses of dict and vla
-%template(dict_uint_uint) pkmnsim::dict<unsigned int, unsigned int>;
-%template(dict_string_int) pkmnsim::dict<std::string, int>;
-%template(vla_uint) pkmnsim::vla<unsigned int>;
+%template(dict_uint_uint) pkmn::dict<unsigned int, unsigned int>;
+%template(dict_string_int) pkmn::dict<std::string, int>;
+%template(vla_uint) pkmn::vla<unsigned int>;
 
-%template(b_pkmn_vec_t) std::vector<pkmnsim::base_pokemon::sptr>;
-%template(b_pkmn_vla_t) pkmnsim::vla<pkmnsim::base_pokemon::sptr>;
-%template(move_vec_t) std::vector<pkmnsim::move::sptr>;
-%template(moveset_t) pkmnsim::vla<pkmnsim::move::sptr>;
-%template(team_pkmn_vec_t) std::vector<pkmnsim::team_pokemon::sptr>;
-%template(pokemon_team_t) pkmnsim::vla<pkmnsim::team_pokemon::sptr>;
+%template(b_pkmn_vec_t) std::vector<pkmn::base_pokemon::sptr>;
+%template(b_pkmn_vla_t) pkmn::vla<pkmn::base_pokemon::sptr>;
+%template(move_vec_t) std::vector<pkmn::move::sptr>;
+%template(moveset_t) pkmn::vla<pkmn::move::sptr>;
+%template(team_pkmn_vec_t) std::vector<pkmn::team_pokemon::sptr>;
+%template(pokemon_team_t) pkmn::vla<pkmn::team_pokemon::sptr>;
 
-//Python str -> pkmnsim::pokemon_text
-%typemap(in) pkmnsim::pokemon_text {
-    $1 = pkmnsim::pokemon_text(PyString_AsString($input));
+//Python str -> pkmn::pokemon_text
+%typemap(in) pkmn::pokemon_text {
+    $1 = pkmn::pokemon_text(PyString_AsString($input));
 }
 
-//pkmnsim::pokemon_text -> Python str
+//pkmn::pokemon_text -> Python str
 %typemap(out) PyString {
     $result = PyString_FromString($1);
 }

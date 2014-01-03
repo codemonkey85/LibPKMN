@@ -14,7 +14,7 @@
 #include <pkmn/base_pokemon.hpp>
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     void PKMNSIM_API get_game_list(std::vector<std::string> &game_vec);
 

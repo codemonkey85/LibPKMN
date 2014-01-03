@@ -23,7 +23,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     void get_game_list(vector<string> &game_vec)
     {
@@ -484,4 +484,4 @@ namespace pkmnsim
             }
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

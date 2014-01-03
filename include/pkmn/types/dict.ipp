@@ -12,7 +12,7 @@
 
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     template <typename Key, typename Val>
     dict<Key, Val>::dict(void) {}

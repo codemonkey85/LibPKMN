@@ -27,7 +27,7 @@
 #include <pkmds/pkmds_g5.h>
 #include <pkmds/pkmds_g6.h>
 
-namespace pkmnsim
+namespace pkmn
 {
     static const dict<char, int> pokehack_reverse_char_map = boost::assign::map_list_of
         ('0', int(0xA1))

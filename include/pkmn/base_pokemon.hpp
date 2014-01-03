@@ -20,7 +20,7 @@
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/vla.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class PKMNSIM_API base_pokemon
     {

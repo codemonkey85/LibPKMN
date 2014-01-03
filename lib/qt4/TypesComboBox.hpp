@@ -11,7 +11,7 @@
 
 #include <QComboBox>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

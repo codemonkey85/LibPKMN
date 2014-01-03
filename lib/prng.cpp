@@ -11,7 +11,7 @@
 
 #include <pkmn/types/prng.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     uint32_t prng::_lcrng_seed = rand();
     uint64_t prng::_gen5_lcrng_seed = rand();
@@ -66,4 +66,4 @@ namespace pkmnsim
         else _mtrng_pos++;
         return result;
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

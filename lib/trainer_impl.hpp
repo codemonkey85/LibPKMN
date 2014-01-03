@@ -14,7 +14,7 @@
 
 #include <pkmn/types/prng.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class trainer_impl: public trainer
     {

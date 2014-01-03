@@ -25,16 +25,16 @@
  * the accuracy of pkmnsim/enums.hpp.
  */
 
-SQLite::Database db(pkmnsim::get_database_path().c_str());
+SQLite::Database db(pkmn::get_database_path().c_str());
 std::string query_string;
 
 BOOST_AUTO_TEST_CASE(test_database_lists_hpp)
 {
     /*
-     * pkmnsim::database::get_table_list
+     * pkmn::database::get_table_list
      */
     std::vector<std::string> function_vec;
-    pkmnsim::database::get_table_list(function_vec);
+    pkmn::database::get_table_list(function_vec);
 
     std::vector<std::string> manual_vec;
     SQLite::Statement query(db, "SELECT name FROM sqlite_master WHERE type='table'");
@@ -46,10 +46,10 @@ BOOST_AUTO_TEST_CASE(test_database_lists_hpp)
     for(int i = 0; i < manual_vec.size(); i++) BOOST_CHECK_EQUAL(function_vec[i], manual_vec[i]);
 
     /*
-     * pkmnsim::database::get_column_list
+     * pkmn::database::get_column_list
      */
     function_vec.clear();
-    pkmnsim::database::get_column_list(function_vec, "item_game_indices");
+    pkmn::database::get_column_list(function_vec, "item_game_indices");
 
     manual_vec.clear();
     SQLite::Statement query2(db, "PRAGMA table_info(item_game_indices)");
@@ -66,9 +66,9 @@ BOOST_AUTO_TEST_CASE(ability_queries)
     /*
      * Getting ID's from names
      */
-    unsigned int ability1_id = pkmnsim::database::get_ability_id("Torrent");
-    unsigned int ability2_id = pkmnsim::database::get_ability_id("Fairy Aura");
-    unsigned int ability3_id = pkmnsim::database::get_ability_id("Rough Skin");
+    unsigned int ability1_id = pkmn::database::get_ability_id("Torrent");
+    unsigned int ability2_id = pkmn::database::get_ability_id("Fairy Aura");
+    unsigned int ability3_id = pkmn::database::get_ability_id("Rough Skin");
     BOOST_CHECK_EQUAL(ability1_id, int(db.execAndGet("SELECT ability_id FROM ability_names WHERE name='Torrent'")));
     BOOST_CHECK_EQUAL(ability2_id, int(db.execAndGet("SELECT ability_id FROM ability_names WHERE name='Fairy Aura'")));
     BOOST_CHECK_EQUAL(ability3_id, int(db.execAndGet("SELECT ability_id FROM ability_names WHERE name='Rough Skin'")));
@@ -76,9 +76,9 @@ BOOST_AUTO_TEST_CASE(ability_queries)
     /*
      * Getting names from ID's
      */
-    std::string ability1_name = pkmnsim::database::get_ability_name(pkmnsim::Abilities::TORRENT);
-    std::string ability2_name = pkmnsim::database::get_ability_name(pkmnsim::Abilities::FAIRY_AURA);
-    std::string ability3_name = pkmnsim::database::get_ability_name(pkmnsim::Abilities::ROUGH_SKIN);
+    std::string ability1_name = pkmn::database::get_ability_name(pkmn::Abilities::TORRENT);
+    std::string ability2_name = pkmn::database::get_ability_name(pkmn::Abilities::FAIRY_AURA);
+    std::string ability3_name = pkmn::database::get_ability_name(pkmn::Abilities::ROUGH_SKIN);
     BOOST_CHECK_EQUAL(ability1_name, (const char*)(db.execAndGet("SELECT name FROM ability_names WHERE local_language_id=9 AND ability_id=67")));
     BOOST_CHECK_EQUAL(ability2_name, (const char*)(db.execAndGet("SELECT name FROM ability_names WHERE local_language_id=9 AND ability_id=187")));
     BOOST_CHECK_EQUAL(ability3_name, (const char*)(db.execAndGet("SELECT name FROM ability_names WHERE local_language_id=9 AND ability_id=24")));
@@ -89,9 +89,9 @@ BOOST_AUTO_TEST_CASE(egg_group_queries)
     /*
      * Getting ID's from names
      */
-    unsigned int egg_group1_id = pkmnsim::database::get_egg_group_id("Water 1");
-    unsigned int egg_group2_id = pkmnsim::database::get_egg_group_id("Monster");
-    unsigned int egg_group3_id = pkmnsim::database::get_egg_group_id("Bug");
+    unsigned int egg_group1_id = pkmn::database::get_egg_group_id("Water 1");
+    unsigned int egg_group2_id = pkmn::database::get_egg_group_id("Monster");
+    unsigned int egg_group3_id = pkmn::database::get_egg_group_id("Bug");
     BOOST_CHECK_EQUAL(egg_group1_id, int(db.execAndGet("SELECT egg_group_id FROM egg_group_prose WHERE name='Water 1'")));
     BOOST_CHECK_EQUAL(egg_group2_id, int(db.execAndGet("SELECT egg_group_id FROM egg_group_prose WHERE name='Monster'")));
     BOOST_CHECK_EQUAL(egg_group3_id, int(db.execAndGet("SELECT egg_group_id FROM egg_group_prose WHERE name='Bug'")));
@@ -99,9 +99,9 @@ BOOST_AUTO_TEST_CASE(egg_group_queries)
     /*
      * Getting names from ID's
      */
-    std::string egg_group1_name = pkmnsim::database::get_egg_group_name(pkmnsim::Egg_Groups::WATER1);
-    std::string egg_group2_name = pkmnsim::database::get_egg_group_name(pkmnsim::Egg_Groups::MONSTER);
-    std::string egg_group3_name = pkmnsim::database::get_egg_group_name(pkmnsim::Egg_Groups::BUG);
+    std::string egg_group1_name = pkmn::database::get_egg_group_name(pkmn::Egg_Groups::WATER1);
+    std::string egg_group2_name = pkmn::database::get_egg_group_name(pkmn::Egg_Groups::MONSTER);
+    std::string egg_group3_name = pkmn::database::get_egg_group_name(pkmn::Egg_Groups::BUG);
     BOOST_CHECK_EQUAL(egg_group1_name, (const char*)(db.execAndGet("SELECT name FROM egg_group_prose WHERE local_language_id=9 AND egg_group_id=2")));
     BOOST_CHECK_EQUAL(egg_group2_name, (const char*)(db.execAndGet("SELECT name FROM egg_group_prose WHERE local_language_id=9 AND egg_group_id=1")));
     BOOST_CHECK_EQUAL(egg_group3_name, (const char*)(db.execAndGet("SELECT name FROM egg_group_prose WHERE local_language_id=9 AND egg_group_id=3")));
@@ -112,9 +112,9 @@ BOOST_AUTO_TEST_CASE(game_queries)
     /*
      * Getting ID's from names
      */
-    unsigned int version1_id = pkmnsim::database::get_game_id("Red");
-    unsigned int version2_id = pkmnsim::database::get_game_id("Ruby");
-    unsigned int version3_id = pkmnsim::database::get_game_id("Black");
+    unsigned int version1_id = pkmn::database::get_game_id("Red");
+    unsigned int version2_id = pkmn::database::get_game_id("Ruby");
+    unsigned int version3_id = pkmn::database::get_game_id("Black");
     BOOST_CHECK_EQUAL(version1_id, int(db.execAndGet("SELECT version_id FROM version_names WHERE name='Red'")));
     BOOST_CHECK_EQUAL(version2_id, int(db.execAndGet("SELECT version_id FROM version_names WHERE name='Ruby'")));
     BOOST_CHECK_EQUAL(version3_id, int(db.execAndGet("SELECT version_id FROM version_names WHERE name='Black'")));
@@ -122,9 +122,9 @@ BOOST_AUTO_TEST_CASE(game_queries)
     /*
      * Getting names from ID's
      */
-    std::string version1_name = pkmnsim::database::get_game_name(pkmnsim::Games::RED);
-    std::string version2_name = pkmnsim::database::get_game_name(pkmnsim::Games::RUBY);
-    std::string version3_name = pkmnsim::database::get_game_name(pkmnsim::Games::BLACK);
+    std::string version1_name = pkmn::database::get_game_name(pkmn::Games::RED);
+    std::string version2_name = pkmn::database::get_game_name(pkmn::Games::RUBY);
+    std::string version3_name = pkmn::database::get_game_name(pkmn::Games::BLACK);
     BOOST_CHECK_EQUAL(version1_name, (const char*)(db.execAndGet("SELECT name FROM version_names WHERE local_language_id=9 AND version_id=1")));
     BOOST_CHECK_EQUAL(version2_name, (const char*)(db.execAndGet("SELECT name FROM version_names WHERE local_language_id=9 AND version_id=7")));
     BOOST_CHECK_EQUAL(version3_name, (const char*)(db.execAndGet("SELECT name FROM version_names WHERE local_language_id=9 AND version_id=17")));
@@ -135,17 +135,17 @@ BOOST_AUTO_TEST_CASE(item_queries)
     /*
      * Getting ID's from game indices
      */
-    unsigned int item1_id = pkmnsim::database::get_item_id(pkmnsim::Items::LURE_BALL, pkmnsim::Games::SOUL_SILVER);
-    unsigned int item2_id = pkmnsim::database::get_item_id(pkmnsim::Items::HYPER_POTION, pkmnsim::Games::RED);
-    unsigned int item3_id = pkmnsim::database::get_item_id(pkmnsim::Items::MYSTERYBERRY, pkmnsim::Games::CRYSTAL);
+    unsigned int item1_id = pkmn::database::get_item_id(pkmn::Items::LURE_BALL, pkmn::Games::SOUL_SILVER);
+    unsigned int item2_id = pkmn::database::get_item_id(pkmn::Items::HYPER_POTION, pkmn::Games::RED);
+    unsigned int item3_id = pkmn::database::get_item_id(pkmn::Items::MYSTERYBERRY, pkmn::Games::CRYSTAL);
     BOOST_CHECK_EQUAL(item1_id, int(db.execAndGet("SELECT item_id FROM item_game_indices WHERE game_index=494 AND generation_id=4")));
 
     /*
      * Getting ID's from names
      */
-    item1_id = pkmnsim::database::get_item_id("Master Ball");
-    item2_id = pkmnsim::database::get_item_id("Silph Scope");
-    item3_id = pkmnsim::database::get_item_id("Pecha Berry");
+    item1_id = pkmn::database::get_item_id("Master Ball");
+    item2_id = pkmn::database::get_item_id("Silph Scope");
+    item3_id = pkmn::database::get_item_id("Pecha Berry");
     BOOST_CHECK_EQUAL(item1_id, int(db.execAndGet("SELECT item_id FROM item_names WHERE name='Master Ball'")));
     BOOST_CHECK_EQUAL(item2_id, int(db.execAndGet("SELECT item_id FROM item_names WHERE name='Silph Scope'")));
     BOOST_CHECK_EQUAL(item3_id, int(db.execAndGet("SELECT item_id FROM item_names WHERE name='Pecha Berry'")));
@@ -153,9 +153,9 @@ BOOST_AUTO_TEST_CASE(item_queries)
     /*
      * Getting names from ID's
      */
-    std::string item1_name = pkmnsim::database::get_item_name(pkmnsim::Items::MASTER_BALL);
-    std::string item2_name = pkmnsim::database::get_item_name(pkmnsim::Items::SILPH_SCOPE);
-    std::string item3_name = pkmnsim::database::get_item_name(pkmnsim::Items::PECHA_BERRY);
+    std::string item1_name = pkmn::database::get_item_name(pkmn::Items::MASTER_BALL);
+    std::string item2_name = pkmn::database::get_item_name(pkmn::Items::SILPH_SCOPE);
+    std::string item3_name = pkmn::database::get_item_name(pkmn::Items::PECHA_BERRY);
     BOOST_CHECK_EQUAL(item1_name, (const char*)(db.execAndGet("SELECT name FROM item_names WHERE local_language_id=9 AND item_id=1")));
     BOOST_CHECK_EQUAL(item2_name, (const char*)(db.execAndGet("SELECT name FROM item_names WHERE local_language_id=9 AND item_id=548")));
     BOOST_CHECK_EQUAL(item3_name, (const char*)(db.execAndGet("SELECT name FROM item_names WHERE local_language_id=9 AND item_id=128")));

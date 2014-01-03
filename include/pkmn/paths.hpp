@@ -12,7 +12,7 @@
 
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     std::string PKMNSIM_API get_appdata_path();
     std::string PKMNSIM_API get_database_path();

@@ -11,7 +11,7 @@
 
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class PKMNSIM_API prng
     {

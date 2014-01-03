@@ -12,7 +12,7 @@
 
 #include <pkmn/config.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     /*,
      * Globally used enums

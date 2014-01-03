@@ -19,7 +19,7 @@
 
 namespace fs = boost::filesystem;
 
-namespace pkmnsim
+namespace pkmn
 {
     //Get location of APPDATA
     std::string get_appdata_path()
@@ -105,4 +105,4 @@ namespace pkmnsim
         if(tmp_dir and fs::exists(fs::path(tmp_dir))) return std::string(tmp_dir);
         else return "/tmp";
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

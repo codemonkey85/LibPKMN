@@ -21,7 +21,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace database
     {
@@ -399,4 +399,4 @@ namespace pkmnsim
             return (query.executeStep()) ? int(query.getColumn(0)) : 0;
         }
     } /* namespace database */
-} /* namespace pkmnsim */
+} /* namespace pkmn */
