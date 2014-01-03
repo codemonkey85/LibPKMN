@@ -6,12 +6,12 @@
  */
 
 %include "CamelCase.i"
-%import "pkmnsim.i"
+%import "libpkmn.i"
 
 %{
-    #include "pkmnsim/database/lists.hpp"
-    #include "pkmnsim/database/queries.hpp"
+    #include "pkmn/database/lists.hpp"
+    #include "pkmn/database/queries.hpp"
 %}
 
-%include "pkmnsim/database/lists.hpp"
-%include "pkmnsim/database/queries.hpp"
+%include "pkmn/database/lists.hpp"
+%include "pkmn/database/queries.hpp"

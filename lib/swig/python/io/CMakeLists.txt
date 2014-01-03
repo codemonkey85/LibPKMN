@@ -5,5 +5,5 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-INCLUDE(PKMNsimPython)
-PYTHON_BUILD_MODULE(io_swig PyPKMNsim/io)
+INCLUDE(LibPKMNPython)
+PYTHON_BUILD_MODULE(io_swig LibPKMN/io)

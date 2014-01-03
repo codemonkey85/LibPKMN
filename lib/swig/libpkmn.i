@@ -44,7 +44,7 @@ namespace std
 %ignore pkmn::pokemon_text::operator std::wstring;
 
 %{
-    #include "pkmnsim/config.hpp"
+    #include "pkmn/config.hpp"
 %}
 
-%include "pkmnsim/config.hpp"
+%include "pkmn/config.hpp"

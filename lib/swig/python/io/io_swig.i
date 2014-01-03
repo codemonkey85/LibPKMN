@@ -8,10 +8,10 @@
 %feature("autodoc", "1");
 
 %include "std_vector.i"
-%import "pypkmnsim_swig.i"
+%import "libpkmn_python_swig.i"
 
 %{
-    #include "pkmnsim/io.hpp"
+    #include "pkmn/io.hpp"
 %} 
 
-%include "pkmnsim/io.hpp"
+%include "pkmn/io.hpp"

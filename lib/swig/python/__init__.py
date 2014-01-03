@@ -22,7 +22,7 @@ import Stats
 import Statuses
 import Types
 
-from pypkmnsim_swig import *
+from libpkmn_python_swig import *
 import analysis
 import calculations
 import database

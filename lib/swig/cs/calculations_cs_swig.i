@@ -9,10 +9,10 @@
 %include "std_pair.i"
 
 %include "CamelCase.i"
-%import "pkmnsim.i"
+%import "libpkmn.i"
 
 %{
-    #include "pkmnsim/calculations.hpp"
+    #include "pkmn/calculations.hpp"
 %}
 
-%include "pkmnsim/calculations.hpp"
+%include "pkmn/calculations.hpp"

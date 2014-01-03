@@ -13,46 +13,46 @@
 %ignore pkmn::pokemon_text::set(std::wstring);
 
 %include "CamelCase.i"
-%include "pkmnsim.i"
+%include "libpkmn.i"
 
 %{
-    #include "pkmnsim/paths.hpp"
+    #include "pkmn/paths.hpp"
 
-    #include "pkmnsim/types/dict.hpp"
-    #include "pkmnsim/types/pokemon_text.hpp"
-    #include "pkmnsim/types/prng.hpp"
-    #include "pkmnsim/types/vla.hpp"
+    #include "pkmn/types/dict.hpp"
+    #include "pkmn/types/pokemon_text.hpp"
+    #include "pkmn/types/prng.hpp"
+    #include "pkmn/types/vla.hpp"
 
-    #include "pkmnsim/base_pokemon.hpp"
-    #include "pkmnsim/item.hpp"
-    #include "pkmnsim/pocket.hpp"
-    #include "pkmnsim/bag.hpp"
-    #include "pkmnsim/move.hpp"
-    #include "pkmnsim/team_pokemon.hpp"
-    #include "pkmnsim/trainer.hpp"
-    #include "pkmnsim/game_save.hpp"
+    #include "pkmn/base_pokemon.hpp"
+    #include "pkmn/item.hpp"
+    #include "pkmn/pocket.hpp"
+    #include "pkmn/bag.hpp"
+    #include "pkmn/move.hpp"
+    #include "pkmn/team_pokemon.hpp"
+    #include "pkmn/trainer.hpp"
+    #include "pkmn/game_save.hpp"
 
-    #include "pkmnsim/lists.hpp"
+    #include "pkmn/lists.hpp"
 
 %}
 
-%include "pkmnsim/paths.hpp"
+%include "pkmn/paths.hpp"
 
-%include "pkmnsim/types/dict.hpp"
-%include "pkmnsim/types/pokemon_text.hpp"
-%include "pkmnsim/types/prng.hpp"
-%include "pkmnsim/types/vla.hpp"
+%include "pkmn/types/dict.hpp"
+%include "pkmn/types/pokemon_text.hpp"
+%include "pkmn/types/prng.hpp"
+%include "pkmn/types/vla.hpp"
 
-%include "pkmnsim/base_pokemon.hpp"
-%include "pkmnsim/item.hpp"
-%include "pkmnsim/pocket.hpp"
-%include "pkmnsim/bag.hpp"
-%include "pkmnsim/move.hpp"
-%include "pkmnsim/team_pokemon.hpp"
-%include "pkmnsim/trainer.hpp"
-%include "pkmnsim/game_save.hpp"
+%include "pkmn/base_pokemon.hpp"
+%include "pkmn/item.hpp"
+%include "pkmn/pocket.hpp"
+%include "pkmn/bag.hpp"
+%include "pkmn/move.hpp"
+%include "pkmn/team_pokemon.hpp"
+%include "pkmn/trainer.hpp"
+%include "pkmn/game_save.hpp"
 
-%include "pkmnsim/lists.hpp"
+%include "pkmn/lists.hpp"
 
 //TODO: make C++ -> C# class name conversion function
 %template(BagSPtr)         std::shared_ptr<pkmn::bag>;

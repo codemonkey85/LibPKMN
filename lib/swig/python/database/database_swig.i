@@ -8,12 +8,12 @@
 %feature("autodoc", "1");
 
 %include "std_vector.i"
-%import "pypkmnsim_swig.i"
+%import "libpkmn_python_swig.i"
 
 %{
-    #include "pkmnsim/database/lists.hpp"
-    #include "pkmnsim/database/queries.hpp"
+    #include "pkmn/database/lists.hpp"
+    #include "pkmn/database/queries.hpp"
 %} 
 
-%include "pkmnsim/database/lists.hpp"
-%include "pkmnsim/database/queries.hpp"
+%include "pkmn/database/lists.hpp"
+%include "pkmn/database/queries.hpp"

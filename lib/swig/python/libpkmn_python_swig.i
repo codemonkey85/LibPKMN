@@ -13,8 +13,8 @@
  * To make Python development easier, the make function is rendered unnecessary.
  */
 
-%define PKMNSIM_PYTHON_FIX(CLASS_NAME)
-    %template(CLASS_NAME ## _sptr) std::shared_ptr<pkmnsim :: ## CLASS_NAME>;
+%define LIBPKMN_PYTHON_FIX(CLASS_NAME)
+    %template(CLASS_NAME ## _sptr) std::shared_ptr<pkmn :: ## CLASS_NAME>;
     %pythoncode %{
         CLASS_NAME = CLASS_NAME.make;
     %}
@@ -44,43 +44,43 @@
     char* __str__() {return (char*)((*self).const_char());}
 };
 
-%include "pkmnsim.i"
+%include "libpkmn.i"
 
 %{
-    #include "pkmnsim/types/dict.hpp"
-    #include "pkmnsim/types/pokemon_text.hpp"
-    #include "pkmnsim/types/prng.hpp"
-    #include "pkmnsim/types/vla.hpp"
+    #include "pkmn/types/dict.hpp"
+    #include "pkmn/types/pokemon_text.hpp"
+    #include "pkmn/types/prng.hpp"
+    #include "pkmn/types/vla.hpp"
 
-    #include "pkmnsim/base_pokemon.hpp"
-    #include "pkmnsim/item.hpp"
-    #include "pkmnsim/pocket.hpp"
-    #include "pkmnsim/bag.hpp"
-    #include "pkmnsim/move.hpp"
-    #include "pkmnsim/team_pokemon.hpp"
-    #include "pkmnsim/trainer.hpp"
-    #include "pkmnsim/game_save.hpp"
+    #include "pkmn/base_pokemon.hpp"
+    #include "pkmn/item.hpp"
+    #include "pkmn/pocket.hpp"
+    #include "pkmn/bag.hpp"
+    #include "pkmn/move.hpp"
+    #include "pkmn/team_pokemon.hpp"
+    #include "pkmn/trainer.hpp"
+    #include "pkmn/game_save.hpp"
 
-    #include "pkmnsim/lists.hpp"
-    #include "pkmnsim/paths.hpp"
+    #include "pkmn/lists.hpp"
+    #include "pkmn/paths.hpp"
 %}
 
-%include "pkmnsim/types/dict.hpp"
-%include "pkmnsim/types/pokemon_text.hpp"
-%include "pkmnsim/types/prng.hpp"
-%include "pkmnsim/types/vla.hpp"
+%include "pkmn/types/dict.hpp"
+%include "pkmn/types/pokemon_text.hpp"
+%include "pkmn/types/prng.hpp"
+%include "pkmn/types/vla.hpp"
 
-%include "pkmnsim/base_pokemon.hpp"
-%include "pkmnsim/item.hpp"
-%include "pkmnsim/pocket.hpp"
-%include "pkmnsim/bag.hpp"
-%include "pkmnsim/move.hpp"
-%include "pkmnsim/team_pokemon.hpp"
-%include "pkmnsim/trainer.hpp"
-%include "pkmnsim/game_save.hpp"
+%include "pkmn/base_pokemon.hpp"
+%include "pkmn/item.hpp"
+%include "pkmn/pocket.hpp"
+%include "pkmn/bag.hpp"
+%include "pkmn/move.hpp"
+%include "pkmn/team_pokemon.hpp"
+%include "pkmn/trainer.hpp"
+%include "pkmn/game_save.hpp"
 
-%include "pkmnsim/lists.hpp"
-%include "pkmnsim/paths.hpp"
+%include "pkmn/lists.hpp"
+%include "pkmn/paths.hpp"
 
 //Templates for common uses of dict and vla
 %template(dict_uint_uint) pkmn::dict<unsigned int, unsigned int>;
@@ -104,11 +104,11 @@
     $result = PyString_FromString($1);
 }
 
-PKMNSIM_PYTHON_FIX(base_pokemon)
-PKMNSIM_PYTHON_FIX(item)
-PKMNSIM_PYTHON_FIX(pocket)
-PKMNSIM_PYTHON_FIX(bag)
-PKMNSIM_PYTHON_FIX(move)
-PKMNSIM_PYTHON_FIX(team_pokemon)
-PKMNSIM_PYTHON_FIX(trainer)
-PKMNSIM_PYTHON_FIX(game_save)
+LIBPKMN_PYTHON_FIX(base_pokemon)
+LIBPKMN_PYTHON_FIX(item)
+LIBPKMN_PYTHON_FIX(pocket)
+LIBPKMN_PYTHON_FIX(bag)
+LIBPKMN_PYTHON_FIX(move)
+LIBPKMN_PYTHON_FIX(team_pokemon)
+LIBPKMN_PYTHON_FIX(trainer)
+LIBPKMN_PYTHON_FIX(game_save)

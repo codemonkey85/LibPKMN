@@ -5,11 +5,11 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-FILE(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/lib/swig" PKMNSIM_SWIG_SOURCE_DIR)
-SET(PKMNSIM_SWIG_SOURCE_DIR ${PKMNSIM_SWIG_SOURCE_DIR} CACHE FILEPATH "PKMNsim SWIG source directory")
+FILE(TO_NATIVE_PATH "${CMAKE_SOURCE_DIR}/lib/swig" LIBPKMN_SWIG_SOURCE_DIR)
+SET(LIBPKMN_SWIG_SOURCE_DIR ${LIBPKMN_SWIG_SOURCE_DIR} CACHE FILEPATH "LibPKMN SWIG source directory")
 
-INCLUDE(PKMNsimPython)
-PYTHON_BUILD_MODULE(pypkmnsim_swig PyPKMNsim)
+INCLUDE(LibPKMNPython)
+PYTHON_BUILD_MODULE(libpkmn_python_swig LibPKMN)
 
 ADD_SUBDIRECTORY(analysis)
 ADD_SUBDIRECTORY(calculations)
@@ -26,21 +26,21 @@ CONFIGURE_FILE(
 @ONLY)
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Species.py
-    COMMAND ${CMAKE_COMMAND} -DPKMNSIM_SOURCE_DIR=${PKMNSIM_SOURCE_DIR}
-                             -DPKMNSIM_BINARY_DIR=${PKMNSIM_BINARY_DIR}
+    COMMAND ${CMAKE_COMMAND} -DLIBPKMN_SOURCE_DIR=${LIBPKMN_SOURCE_DIR}
+                             -DLIBPKMN_BINARY_DIR=${LIBPKMN_BINARY_DIR}
                              -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-                             -DPKMNSIM_PYTHON_DIR=${PKMNSIM_PYTHON_DIR}
+                             -DLIBPKMN_PYTHON_DIR=${LIBPKMN_PYTHON_DIR}
                              -P ${CMAKE_CURRENT_BINARY_DIR}/python_enums.cmake
-    COMMENT "Generating PyPKMNsim enum classes"
+    COMMENT "Generating Python enum classes"
 )
 ADD_CUSTOM_TARGET(
-    PyPKMNsim_enums ALL
+    Python_enums ALL
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Species.py
 )
 #Install generated Python files
 INSTALL(CODE
-    "FILE(GLOB generated_files \"${PKMNSIM_BINARY_DIR}/lib/swig/python/*.py\")
+    "FILE(GLOB generated_files \"${LIBPKMN_BINARY_DIR}/lib/swig/python/*.py\")
     FOREACH(file \${generated_files})
-        FILE(INSTALL DESTINATION \"${CMAKE_INSTALL_PREFIX}/${PKMNSIM_PYTHON_DIR}/PyPKMNsim\" TYPE FILE FILES \"\${file}\")
+        FILE(INSTALL DESTINATION \"${CMAKE_INSTALL_PREFIX}/${LIBPKMN_PYTHON_DIR}/LibPKMN\" TYPE FILE FILES \"\${file}\")
     ENDFOREACH(file \${generated_files})"
-COMPONENT "PyPKMNsim")
+COMPONENT "LibPKMN_Python")
