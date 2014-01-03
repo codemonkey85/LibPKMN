@@ -10,7 +10,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <pkmnsim/types/vla.hpp>
+#include <pkmn/types/vla.hpp>
 
 /*
  * LibPKMNsim includes a variable-length array class. This test will

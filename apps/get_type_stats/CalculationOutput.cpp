@@ -5,7 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <pkmnsim/enums.hpp>
+#include <pkmn/enums.hpp>
 
 #include "CalculationOutput.hpp"
 

@@ -16,13 +16,13 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/item.hpp>
-#include <pkmnsim/move.hpp>
-#include <pkmnsim/types/dict.hpp>
-#include <pkmnsim/types/pokemon_text.hpp>
-#include <pkmnsim/types/vla.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/item.hpp>
+#include <pkmn/move.hpp>
+#include <pkmn/types/dict.hpp>
+#include <pkmn/types/pokemon_text.hpp>
+#include <pkmn/types/vla.hpp>
 
 namespace pkmnsim
 {

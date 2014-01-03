@@ -10,7 +10,7 @@
 #include <list>
 #include <vector>
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 namespace pkmnsim
 {
@@ -51,6 +51,6 @@ namespace pkmnsim
 
 }
 
-#include <pkmnsim/types/dict.ipp>
+#include <pkmn/types/dict.ipp>
 
 #endif /* INCLUDED_PKMNSIM_TYPES_DICT_HPP */

@@ -12,9 +12,9 @@
 #include <boost/format.hpp>
 
 #include "item_berryimpl.hpp"
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
 
 using namespace std;
 

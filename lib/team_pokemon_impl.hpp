@@ -7,9 +7,9 @@
 #ifndef INCLUDED_TEAM_POKEMON_IMPL_HPP
 #define INCLUDED_TEAM_POKEMON_IMPL_HPP
 
-#include <pkmnsim/team_pokemon.hpp>
+#include <pkmn/team_pokemon.hpp>
 
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/types/prng.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 

@@ -11,10 +11,10 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/analysis/stats.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/analysis/stats.hpp>
 
 using namespace std;
 

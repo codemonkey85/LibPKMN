@@ -7,7 +7,7 @@
 #ifndef INCLUDED_MOVE_IMPL_HPP
 #define INCLUDED_MOVE_IMPL_HPP
 
-#include <pkmnsim/move.hpp>
+#include <pkmn/move.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 

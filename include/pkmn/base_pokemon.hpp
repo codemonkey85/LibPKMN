@@ -16,9 +16,9 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/types/dict.hpp>
-#include <pkmnsim/types/vla.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/types/dict.hpp>
+#include <pkmn/types/vla.hpp>
 
 namespace pkmnsim
 {

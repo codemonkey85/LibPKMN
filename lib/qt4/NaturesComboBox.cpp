@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/qt4/NaturesComboBox.hpp>
+#include <pkmn/lists.hpp>
+#include <pkmn/qt4/NaturesComboBox.hpp>
 
 using namespace std;
 

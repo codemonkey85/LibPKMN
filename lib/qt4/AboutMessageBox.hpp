@@ -7,7 +7,7 @@
 #ifndef INCLUDED_ABOUTMESSAGEBOX_HPP
 #define INCLUDED_ABOUTMESSAGEBOX_HPP
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 #include <QMessageBox>
 #include <QLabel>

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 namespace pkmnsim
 {

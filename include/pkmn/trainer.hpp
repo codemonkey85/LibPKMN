@@ -15,11 +15,11 @@
 
 #include <string>
 
-#include <pkmnsim/bag.hpp>
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/team_pokemon.hpp>
-#include <pkmnsim/types/pokemon_text.hpp>
-#include <pkmnsim/types/vla.hpp>
+#include <pkmn/bag.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/team_pokemon.hpp>
+#include <pkmn/types/pokemon_text.hpp>
+#include <pkmn/types/vla.hpp>
 
 namespace pkmnsim
 {

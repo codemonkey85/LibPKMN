@@ -8,8 +8,8 @@
 #include <cmath>
 #include <ctime>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include "team_pokemon_gen1impl.hpp"
 

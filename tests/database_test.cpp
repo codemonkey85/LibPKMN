@@ -10,11 +10,11 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/lists.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/lists.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include "../lib/SQLiteCpp/src/SQLiteC++.h"
 

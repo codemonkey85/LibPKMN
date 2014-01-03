@@ -11,7 +11,7 @@
 #include <cstdlib>
 #include <iostream>
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 namespace pkmnsim
 {

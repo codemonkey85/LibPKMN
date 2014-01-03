@@ -7,9 +7,9 @@
 
 #include <string>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/pokemon_text.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/pokemon_text.hpp>
 
 #include "../library_bridge.hpp"
 #include "items.hpp"

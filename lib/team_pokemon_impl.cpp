@@ -12,12 +12,12 @@
 
 #include <boost/cast.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/move.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/team_pokemon.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/move.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/team_pokemon.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/prng.hpp>
 
 #include "base_pokemon_gen1impl.hpp"
 #include "base_pokemon_gen2impl.hpp"

@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/qt4/AboutMessageBox.hpp>
+#include <pkmn/qt4/AboutMessageBox.hpp>
 
 namespace pkmnsim
 {

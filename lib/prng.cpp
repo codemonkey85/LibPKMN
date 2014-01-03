@@ -9,7 +9,7 @@
 #include <ctime>
 #include <cstdlib>
 
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/types/prng.hpp>
 
 namespace pkmnsim
 {

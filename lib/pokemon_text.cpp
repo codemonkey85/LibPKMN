@@ -7,7 +7,7 @@
 
 #include <QString>
 
-#include <pkmnsim/types/pokemon_text.hpp>
+#include <pkmn/types/pokemon_text.hpp>
 
 namespace pkmnsim
 {

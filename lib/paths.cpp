@@ -13,7 +13,7 @@
 
 #include <boost/filesystem.hpp>
 
-#include <pkmnsim/paths.hpp>
+#include <pkmn/paths.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 

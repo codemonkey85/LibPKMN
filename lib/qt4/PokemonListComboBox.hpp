@@ -7,7 +7,7 @@
 #ifndef INCLUDED_POKEMONLISTCOMBOBOX_HPP
 #define INCLUDED_POKEMONLISTCOMBOBOX_HPP
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 #include <QComboBox>
 

@@ -10,8 +10,8 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/config.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/config.hpp>
 
 namespace pkmnsim
 {

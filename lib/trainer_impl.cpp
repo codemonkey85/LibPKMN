@@ -7,11 +7,11 @@
 
 #include <boost/cast.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/trainer.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/trainer.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/prng.hpp>
 
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"

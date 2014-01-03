@@ -9,10 +9,10 @@
 
 #include <boost/assign.hpp>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/types/dict.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/lists.hpp>
+#include <pkmn/types/dict.hpp>
 
 #include "type_stats_common.hpp"
 

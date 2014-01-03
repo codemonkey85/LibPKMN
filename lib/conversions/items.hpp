@@ -9,8 +9,8 @@
 
 #include <cstdint>
 
-#include <pkmnsim/bag.hpp>
-#include <pkmnsim/config.hpp>
+#include <pkmn/bag.hpp>
+#include <pkmn/config.hpp>
 
 #include <rpokesav/gen1_save.hpp>
 #include <pokehack/pokestructs.h>

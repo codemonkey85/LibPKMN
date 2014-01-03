@@ -10,9 +10,9 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/team_pokemon.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/team_pokemon.hpp>
 
 namespace pkmnsim
 {

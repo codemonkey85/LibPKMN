@@ -38,7 +38,7 @@
 
 #include <boost/filesystem/path.hpp>
 
-#include <pkmnsim/base_pokemon.hpp>
+#include <pkmn/base_pokemon.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 

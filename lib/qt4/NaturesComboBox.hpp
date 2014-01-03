@@ -7,7 +7,7 @@
 #ifndef INCLUDED_TYPESCOMBOBOX_HPP
 #define INCLUDED_TYPESCOMBOBOX_HPP
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 #include <QComboBox>
 

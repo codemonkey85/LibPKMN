@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/bag.hpp>
+#include <pkmn/bag.hpp>
 
 namespace pkmnsim
 {

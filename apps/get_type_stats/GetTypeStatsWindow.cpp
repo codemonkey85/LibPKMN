@@ -7,7 +7,7 @@
 
 #include "GetTypeStatsWindow.hpp"
 
-#include <pkmnsim/base_pokemon.hpp>
+#include <pkmn/base_pokemon.hpp>
 
 using namespace pkmnsim;
 using namespace pkmnsim::qt4;

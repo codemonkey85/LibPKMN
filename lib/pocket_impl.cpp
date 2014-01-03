@@ -17,9 +17,9 @@
 
 #include "pocket_impl.hpp"
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/pocket.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/pocket.hpp>
 
 using namespace std;
 

@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 namespace pkmnsim
 {

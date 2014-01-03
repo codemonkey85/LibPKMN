@@ -13,8 +13,8 @@
 #include <tr1/memory>
 #endif
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/trainer.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/trainer.hpp>
 
 #include <rpokesav/gen1_save.hpp>
 #include <pokehack/SaveParser.h>

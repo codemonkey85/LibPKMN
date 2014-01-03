@@ -7,8 +7,8 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/team_pokemon.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/team_pokemon.hpp>
 
 #include <pokelib/pokelib.h>
 

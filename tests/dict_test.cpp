@@ -8,7 +8,7 @@
 #include <boost/assign/list_of.hpp>
 #include <boost/test/unit_test.hpp>
 
-#include <pkmnsim/types/dict.hpp>
+#include <pkmn/types/dict.hpp>
 
 /*
  * Part of LibPKMNsim's constraints is that Boost cannot be publicly exposed,

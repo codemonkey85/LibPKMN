@@ -7,8 +7,8 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
 
 #include "move_mainimpl.hpp"
 

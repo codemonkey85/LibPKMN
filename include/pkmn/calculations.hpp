@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <utility>
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 namespace pkmnsim
 {

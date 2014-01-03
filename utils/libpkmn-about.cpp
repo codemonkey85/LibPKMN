@@ -7,7 +7,7 @@
 
 #include <qapplication.h>
 
-#include <pkmnsim/qt4/AboutMessageBox.hpp>
+#include <pkmn/qt4/AboutMessageBox.hpp>
 
 int main(int argc, char **argv)
 {

@@ -7,8 +7,8 @@
 
 #include <iostream>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/pocket.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/pocket.hpp>
 
 #include "bag_impl.hpp"
 

@@ -15,9 +15,9 @@
 
 #include <string>
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/item.hpp>
-#include <pkmnsim/types/vla.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/item.hpp>
+#include <pkmn/types/vla.hpp>
 
 namespace pkmnsim
 {

@@ -9,9 +9,9 @@
 #pragma warning(disable:4244)
 #endif
  
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include <pkmds/pkmds_sql.h>
 

@@ -16,7 +16,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <pkmnsim/qt4/BasePokemonDisplayWidget.hpp>
+#include <pkmn/qt4/BasePokemonDisplayWidget.hpp>
 
 #include "type_stats_common.hpp"
 

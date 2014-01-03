@@ -10,8 +10,8 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/database/lists.hpp>
-#include <pkmnsim/paths.hpp>
+#include <pkmn/database/lists.hpp>
+#include <pkmn/paths.hpp>
 
 #include "../SQLiteCpp/src/SQLiteC++.h"
 

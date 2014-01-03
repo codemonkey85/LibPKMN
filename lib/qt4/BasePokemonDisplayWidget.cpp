@@ -5,7 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <pkmnsim/qt4/BasePokemonDisplayWidget.hpp>
+#include <pkmn/qt4/BasePokemonDisplayWidget.hpp>
 
 #include <boost/filesystem.hpp>
 

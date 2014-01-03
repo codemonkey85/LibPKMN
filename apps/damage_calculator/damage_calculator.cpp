@@ -14,12 +14,12 @@
 #include <boost/format.hpp>
 #include <boost/program_options.hpp>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/analysis/damage.hpp>
-#include <pkmnsim/analysis/stats.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/lists.hpp>
+#include <pkmn/analysis/damage.hpp>
+#include <pkmn/analysis/stats.hpp>
+#include <pkmn/database/queries.hpp>
 
 namespace po = boost::program_options;
 using namespace pkmnsim;

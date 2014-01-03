@@ -9,8 +9,8 @@
 
 #include <boost/assign.hpp>
 #include <string>
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/types/dict.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/types/dict.hpp>
 #include <vector>
 
 //Functions to be used for both command-line and GUI versions of Get Type Stats

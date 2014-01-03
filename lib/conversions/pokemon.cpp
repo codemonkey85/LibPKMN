@@ -15,13 +15,13 @@
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/item.hpp>
-#include <pkmnsim/move.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/team_pokemon.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/pokemon_text.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/item.hpp>
+#include <pkmn/move.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/team_pokemon.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/pokemon_text.hpp>
 
 #include <pkmds/pkmds_g5_sqlite.h>
 

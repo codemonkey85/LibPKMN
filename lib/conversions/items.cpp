@@ -12,11 +12,11 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/bag.hpp>
-#include <pkmnsim/item.hpp>
-#include <pkmnsim/pocket.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/bag.hpp>
+#include <pkmn/item.hpp>
+#include <pkmn/pocket.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include "items.hpp"
 #include "../library_bridge.hpp"

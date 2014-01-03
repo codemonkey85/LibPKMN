@@ -17,9 +17,9 @@
 
 #include <boost/assign.hpp>
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/types/dict.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/types/dict.hpp>
 
 #include <pokehack/pokestructs.h>
 #include <pokehack/SaveParser.h>

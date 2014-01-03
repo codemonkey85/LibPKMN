@@ -7,9 +7,9 @@
 #ifndef INCLUDED_PKMNSIM_CONVERSIONS_POKEMON_HPP
 #define INCLUDED_PKMNSIM_CONVERSIONS_POKEMON_HPP
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/team_pokemon.hpp>
-#include <pkmnsim/types/dict.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/team_pokemon.hpp>
+#include <pkmn/types/dict.hpp>
 
 #include <rpokesav/gen1_pokemon.hpp>
 #include <pokehack/pokestructs.h>

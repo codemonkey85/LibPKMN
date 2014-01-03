@@ -5,10 +5,10 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/qt4/TeamPokemonDisplayWidget.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/qt4/TeamPokemonDisplayWidget.hpp>
 
 #include <sstream>
 #include <string>
