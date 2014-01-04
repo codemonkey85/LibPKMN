@@ -16,9 +16,9 @@ namespace pkmn
     {
         AboutMessageBox::AboutMessageBox(QWidget* parent): QMessageBox(parent)
         {
-            setText("Pokemon Simulator");
-            setInformativeText("LibPKMNsim @PKMNSIM_GIT_DESCRIBE@\n"
-                               "Pokemon-sim Images @PKMNSIM_IMAGES_GIT_DESCRIBE@\n"
+            setText("LibPKMN");
+            setInformativeText("LibPKMN @PKMNSIM_GIT_DESCRIBE@\n"
+                               "LibPKMN Images @PKMNSIM_IMAGES_GIT_DESCRIBE@\n"
                                "Retro Pokesav @RPOKESAV_GIT_DESCRIBE@\n"
                                "Pokehack @POKEHACK_GIT_DESCRIBE@\n"
                                "PokeLib-NC @POKELIB_GIT_DESCRIBE@\n"
