@@ -117,7 +117,7 @@ SET(LIB_SUFFIX ${LIB_SUFFIX} CACHE STRING "lib directory suffix")
 SET(RUNTIME_DIR bin)
 SET(LIBRARY_DIR lib${LIB_SUFFIX})
 SET(INCLUDE_DIR include)
-SET(PKG_DATA_DIR share/pkmnsim)
+SET(PKG_DATA_DIR share/libpkmn)
 
 ########################################################################
 # Register LibLibPKMN components
