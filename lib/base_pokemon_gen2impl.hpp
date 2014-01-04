@@ -9,7 +9,7 @@
 
 #include "base_pokemon_impl.hpp"
 
-namespace pkmnsim
+namespace pkmn
 {
     class base_pokemon_gen2impl: public base_pokemon_impl
     {

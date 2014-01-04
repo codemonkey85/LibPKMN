@@ -7,11 +7,11 @@
 #ifndef INCLUDED_GAME_SAVE_GEN1IMPL_HPP
 #define INCLUDED_GAME_SAVE_GEN1IMPL_HPP
 
-#include <pkmnsim/game_save.hpp>
+#include <pkmn/game_save.hpp>
 
 #include "conversions/trainer.hpp"
 
-namespace pkmnsim
+namespace pkmn
 {
     class game_save_gen1impl: public game_save
     {

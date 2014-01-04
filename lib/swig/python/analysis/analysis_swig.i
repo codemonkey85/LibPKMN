@@ -8,12 +8,12 @@
 %feature("autodoc", "1");
 
 %include "std_vector.i"
-%import "pypkmnsim_swig.i"
+%import "libpkmn_python_swig.i"
 
 %{
-    #include "pkmnsim/analysis/damage.hpp"
-    #include "pkmnsim/analysis/stats.hpp"
+    #include "pkmn/analysis/damage.hpp"
+    #include "pkmn/analysis/stats.hpp"
 %} 
 
-%include "pkmnsim/analysis/damage.hpp"
-%include "pkmnsim/analysis/stats.hpp"
+%include "pkmn/analysis/damage.hpp"
+%include "pkmn/analysis/stats.hpp"

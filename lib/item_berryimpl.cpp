@@ -12,13 +12,13 @@
 #include <boost/format.hpp>
 
 #include "item_berryimpl.hpp"
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     item_berryimpl::item_berryimpl(unsigned int id, unsigned int game): item_impl(id, game)
     {
@@ -142,4 +142,4 @@ namespace pkmnsim
                 break;
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

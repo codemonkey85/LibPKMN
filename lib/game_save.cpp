@@ -9,9 +9,9 @@
 #include <iostream>
 #include <string>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/game_save.hpp>
-#include <pkmnsim/paths.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/game_save.hpp>
+#include <pkmn/paths.hpp>
 
 #include "game_save_gen1impl.hpp"
 #include "game_save_gen3impl.hpp"
@@ -22,7 +22,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     game_save::sptr game_save::make(string filename)
     {
@@ -96,4 +96,4 @@ namespace pkmnsim
             exit(EXIT_FAILURE);
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

@@ -9,10 +9,10 @@
 
 %include "stdint.i"
 %include "std_pair.i"
-%import "pypkmnsim_swig.i"
+%import "libpkmn_python_swig.i"
 
 %{
-    #include "pkmnsim/calculations.hpp"
+    #include "pkmn/calculations.hpp"
 %} 
 
-%include "pkmnsim/calculations.hpp"
+%include "pkmn/calculations.hpp"

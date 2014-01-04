@@ -5,5 +5,5 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-INCLUDE(PKMNsimPython)
-PYTHON_BUILD_MODULE(database_swig PyPKMNsim/database)
+INCLUDE(LibPKMNPython)
+PYTHON_BUILD_MODULE(database_swig LibPKMN/database)

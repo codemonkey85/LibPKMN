@@ -7,10 +7,10 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/prng.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
@@ -18,7 +18,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     team_pokemon_modernimpl::team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                                      unsigned int move1, unsigned int move2,
@@ -344,4 +344,4 @@ namespace pkmnsim
     }
     
     unsigned int team_pokemon_modernimpl::_determine_nature() const {return (_personality % 24);}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

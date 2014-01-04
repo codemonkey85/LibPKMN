@@ -11,7 +11,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     game_save_gen5impl::game_save_gen5impl(pkmds_g5_sptr ptr): game_save()
     {
@@ -31,4 +31,4 @@ namespace pkmnsim
     }
     
     trainer::sptr game_save_gen5impl::get_trainer() const {return _game_trainer;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

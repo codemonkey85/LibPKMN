@@ -7,7 +7,7 @@
 #ifndef INCLUDED_PKMNSIM_CONVERSIONS_PKSQL_HPP
 #define INCLUDED_PKMNSIM_CONVERSIONS_PKSQL_HPP
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 #include <pokehack/pokestructs.h>
 #include <pokelib/pokelib.h>
@@ -19,7 +19,7 @@
  * these functions skip the step completely.
  */
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace conversions
     {

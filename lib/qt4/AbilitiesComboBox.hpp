@@ -7,11 +7,11 @@
 #ifndef INCLUDED_GAMESCOMBOBOX_HPP
 #define INCLUDED_GAMESCOMBOBOX_HPP
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 #include <QComboBox>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

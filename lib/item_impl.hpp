@@ -7,11 +7,11 @@
 #ifndef INCLUDED_ITEM_IMPL_HPP
 #define INCLUDED_ITEM_IMPL_HPP
 
-#include <pkmnsim/item.hpp>
+#include <pkmn/item.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-namespace pkmnsim
+namespace pkmn
 {
     class item_impl: public item
     {

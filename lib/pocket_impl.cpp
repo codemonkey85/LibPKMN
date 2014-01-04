@@ -17,13 +17,13 @@
 
 #include "pocket_impl.hpp"
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/pocket.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/pocket.hpp>
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     pocket::sptr pocket::make(unsigned int game, string name, unsigned int size)
     {
@@ -126,4 +126,4 @@ namespace pkmnsim
         unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
         _amounts[actual_pos] = amount;
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

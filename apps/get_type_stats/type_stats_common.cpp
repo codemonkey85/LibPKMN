@@ -9,14 +9,14 @@
 
 #include <boost/assign.hpp>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/types/dict.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/lists.hpp>
+#include <pkmn/types/dict.hpp>
 
 #include "type_stats_common.hpp"
 
-using namespace pkmnsim;
+using namespace pkmn;
 using namespace std;
 
 //The values are what the base_pokemon subclasses return in get_base_stats()

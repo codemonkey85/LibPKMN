@@ -7,9 +7,9 @@
 
 #include <QString>
 
-#include <pkmnsim/types/pokemon_text.hpp>
+#include <pkmn/types/pokemon_text.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     pokemon_text::pokemon_text(const char* input) {set(input);}
     pokemon_text::pokemon_text(const wchar_t* input) {set(input);}
@@ -76,4 +76,4 @@ namespace pkmnsim
         
         stdstring = intermediary.toStdString();
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

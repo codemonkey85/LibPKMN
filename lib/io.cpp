@@ -11,8 +11,8 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/io.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/io.hpp>
 
 #include <pkmds/pkmds_g5.h>
 #include <pkmds/pkmds_g5_sqlite.h>
@@ -22,7 +22,7 @@
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace io
     {

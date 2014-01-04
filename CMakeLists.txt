@@ -7,15 +7,15 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.5)
 
 IF(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    SET(PKMNSIM_USED_AS_SUBMODULE TRUE CACHE BOOL "Part of larger project")
+    SET(LIBPKMN_USED_AS_SUBMODULE TRUE CACHE BOOL "Part of larger project")
 ELSE()
-    SET(PKMNSIM_USED_AS_SUBMODULE FALSE CACHE BOOL "Part of larger project")
-    PROJECT(Pokemon-sim)
+    SET(LIBPKMN_USED_AS_SUBMODULE FALSE CACHE BOOL "Part of larger project")
+    PROJECT(LibPKMN)
     SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
     
-    SET(Pokemon-sim_VERSION_MAJOR 0)
-    SET(Pokemon-sim_VERSION_MINOR 0)
-    SET(Pokemon-sim_VERSION_PATCH 1)
+    SET(LibPKMN_VERSION_MAJOR 0)
+    SET(LibPKMN_VERSION_MINOR 0)
+    SET(LibPKMN_VERSION_PATCH 1)
     
     ########################################################################
     # Create uninstall target
@@ -44,9 +44,9 @@ ELSE()
     SET(WIN7_PKG ${WIN7_PKG} CACHE BOOL "Building a Windows package")
 ENDIF(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(PKMNSIM_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "PKMNsim source directory")
-SET(PKMNSIM_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "PKMNsim binary directory")
-INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimComponent.cmake)
+SET(LIBPKMN_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "LibPKMN source directory")
+SET(LIBPKMN_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "LibPKMN binary directory")
+INCLUDE(${LIBPKMN_SOURCE_DIR}/cmake/Modules/LibPKMNComponent.cmake)
 
 ########################################################################
 # Before doing anything, check that std::shared_ptr can be used
@@ -71,16 +71,16 @@ MESSAGE(STATUS "Updating Git submodules. This may take a while...")
 EXECUTE_PROCESS(
     COMMAND ${GIT_EXECUTABLE} submodule update --init
     OUTPUT_QUIET
-    WORKING_DIRECTORY ${PKMNSIM_SOURCE_DIR}
+    WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}
 )
 
 ########################################################################
 # Getting compilation info
 ########################################################################
-IF(NOT PKMNSIM_USED_AS_SUBMODULE)
-    INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimConfigInfo.cmake)
+IF(NOT LIBPKMN_USED_AS_SUBMODULE)
+    INCLUDE(${LIBPKMN_SOURCE_DIR}/cmake/Modules/LibPKMNConfigInfo.cmake)
     MESSAGE(STATUS "")
-ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
+ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 
 ####################################################################
 # Find dependencies and set global include and link options
@@ -95,10 +95,10 @@ IF(NOT Boost_FOUND)
 MESSAGE(FATAL_ERROR "Fatal error: Boost (version >= 1.48.0) required.\n")
 ENDIF(NOT Boost_FOUND)
 FIND_PROGRAM(SQLITE3_EXECUTABLE NAMES sqlite3)
-IF(NOT PKMNSIM_USED_AS_SUBMODULE)
+IF(NOT LIBPKMN_USED_AS_SUBMODULE)
     FIND_PACKAGE(Qt4 REQUIRED)
     INCLUDE(UseQt4)
-ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
+ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
@@ -117,17 +117,17 @@ SET(LIB_SUFFIX ${LIB_SUFFIX} CACHE STRING "lib directory suffix")
 SET(RUNTIME_DIR bin)
 SET(LIBRARY_DIR lib${LIB_SUFFIX})
 SET(INCLUDE_DIR include)
-SET(PKG_DATA_DIR share/pkmnsim)
+SET(PKG_DATA_DIR share/libpkmn)
 
 ########################################################################
-# Register LibPKMNsim components
+# Register LibLibPKMN components
 ########################################################################
-PKMNSIM_REGISTER_COMPONENT("LibPKMNsim - Core Library" ENABLE_LIBPKMNSIM ON "Boost_FOUND;SQLITE3_EXECUTABLE;QT4_FOUND" OFF)
-PKMNSIM_REGISTER_COMPONENT("Utilities" ENABLE_UTILITIES ON "ENABLE_LIBPKMNSIM" OFF)
-PKMNSIM_REGISTER_COMPONENT("Applications" ENABLE_APPS ON "ENABLE_LIBPKMNSIM" OFF)
-PKMNSIM_REGISTER_COMPONENT("Unit Tests" ENABLE_TESTS ON "ENABLE_LIBPKMNSIM" OFF)
+LIBPKMN_REGISTER_COMPONENT("LibPKMN - Core Library" ENABLE_LIBPKMN ON "Boost_FOUND;SQLITE3_EXECUTABLE;QT4_FOUND" OFF)
+LIBPKMN_REGISTER_COMPONENT("Utilities" ENABLE_UTILITIES ON "ENABLE_LIBPKMN" OFF)
+LIBPKMN_REGISTER_COMPONENT("Applications" ENABLE_APPS ON "ENABLE_LIBPKMN" OFF)
+LIBPKMN_REGISTER_COMPONENT("Unit Tests" ENABLE_TESTS ON "ENABLE_LIBPKMN" OFF)
 
-INCLUDE_DIRECTORIES(${PKMNSIM_SOURCE_DIR}/include)
+INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/include)
 
 ADD_SUBDIRECTORY(rpokesav)
 ADD_SUBDIRECTORY(pokehack)
@@ -137,28 +137,28 @@ ADD_SUBDIRECTORY(PKMDS)
 ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(lib)
-IF(NOT PKMNSIM_USED_AS_SUBMODULE)
+IF(NOT LIBPKMN_USED_AS_SUBMODULE)
     ADD_SUBDIRECTORY(utils)
     ADD_SUBDIRECTORY(apps)
     IF(ENABLE_TESTS)
         ENABLE_TESTING()
         ADD_SUBDIRECTORY(tests)
     ENDIF(ENABLE_TESTS)
-ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
+ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 
 ########################################################################
 # Set package settings
 ########################################################################
-INCLUDE(${PKMNSIM_SOURCE_DIR}/cmake/Modules/PKMNsimPackage.cmake)
+INCLUDE(${LIBPKMN_SOURCE_DIR}/cmake/Modules/LibPKMNPackage.cmake)
 
 ########################################################################
 # Final display
 ########################################################################
-IF(PKMNSIM_USED_AS_SUBMODULE)
-    MESSAGE(STATUS "Building Pokemon-sim as part of ${CMAKE_PROJECT_NAME}.")
+IF(LIBPKMN_USED_AS_SUBMODULE)
+    MESSAGE(STATUS "Building LibPKMN as part of ${CMAKE_PROJECT_NAME}.")
 ELSE()
-    PKMNSIM_PRINT_COMPONENT_SUMMARY()
-    MESSAGE(STATUS "Building Pokemon-sim.")
+    LIBPKMN_PRINT_COMPONENT_SUMMARY()
+    MESSAGE(STATUS "Building LibPKMN.")
     MESSAGE(STATUS " - Build type: ${CMAKE_BUILD_TYPE}")
     MESSAGE(STATUS " - Compiler: ${CMAKE_CXX_COMPILER_ID}")
     IF(WIN32 AND WIN7_PKG)
@@ -167,4 +167,4 @@ ELSE()
         MESSAGE(STATUS " - Install prefix: ${CMAKE_INSTALL_PREFIX}")
     ENDIF(WIN32 AND WIN7_PKG)
     MESSAGE(STATUS "")
-ENDIF(PKMNSIM_USED_AS_SUBMODULE)
+ENDIF(LIBPKMN_USED_AS_SUBMODULE)

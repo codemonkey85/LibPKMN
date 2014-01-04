@@ -5,7 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-INCLUDE_DIRECTORIES(${PKMNSIM_BINARY_DIR}/include)
+INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
 INCLUDE(${QT_USE_FILE})
 
 QT4_WRAP_CPP(MOCSrcs GetTypeStatsWindow.hpp OptionsGroupBox.hpp CalculationOutput.hpp)
@@ -24,7 +24,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
 ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     SET_TARGET_PROPERTIES(get_type_stats PROPERTIES COMPILE_FLAGS "-std=c++11")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-TARGET_LINK_LIBRARIES(get_type_stats pkmnsim ${QT_QTMAIN_LIBRARY})
+TARGET_LINK_LIBRARIES(get_type_stats pkmn ${QT_QTMAIN_LIBRARY})
 INSTALL(TARGETS get_type_stats RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime)
 IF(MSVC)
     ####################################################################

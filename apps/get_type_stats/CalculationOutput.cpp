@@ -5,12 +5,12 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <pkmnsim/enums.hpp>
+#include <pkmn/enums.hpp>
 
 #include "CalculationOutput.hpp"
 
-using namespace pkmnsim;
-using namespace pkmnsim::qt4;
+using namespace pkmn;
+using namespace pkmn::qt4;
 using namespace std;
 
 CalculationOutput::CalculationOutput(QWidget* parent, int gen): QWidget(parent)

@@ -8,20 +8,20 @@
 INCLUDE(${CSHARP_USE_FILE})
 INCLUDE(${SWIG_USE_FILE})
 
-FILE(TO_NATIVE_PATH "${PKMNSIM_SOURCE_DIR}/lib/swig" PKMNSIM_SWIG_SOURCE_DIR)
-SET(PKMNSIM_SWIG_SOURCE_DIR ${PKMNSIM_SWIG_SOURCE_DIR} CACHE FILEPATH "Pokemon-sim SWIG source directory")
+FILE(TO_NATIVE_PATH "${LIBPKMN_SOURCE_DIR}/lib/swig" LIBPKMN_SWIG_SOURCE_DIR)
+SET(LIBPKMN_SWIG_SOURCE_DIR ${LIBPKMN_SWIG_SOURCE_DIR} CACHE FILEPATH "LibPKMN SWIG source directory")
 
-SET(PKMNSIM_CSHARP_INCLUDE_DIRS
-    ${PKMNLIBEX_SOURCE_DIR}/Pokemon-sim/include
-    ${PKMNSIM_SWIG_SOURCE_DIR}
+SET(LIBPKMN_CSHARP_INCLUDE_DIRS
+    ${LIBPKMN_SOURCE_DIR}/include
+    ${LIBPKMN_SWIG_SOURCE_DIR}
     ${Boost_INCLUDE_DIRS}
 )
 
-SET(PKMNSIM_CSHARP_LIBRARIES
-    pkmnsim
+SET(LIBPKMN_CSHARP_LIBRARIES
+    pkmn
 )
 
-INCLUDE_DIRECTORIES(${PKMNSIM_CSHARP_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(${LIBPKMN_CSHARP_INCLUDE_DIRS})
 SET(CSHARP_SOURCE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources CACHE INTERNAL "")
 SET(CMAKE_SWIG_OUTDIR ${CSHARP_SOURCE_DIRECTORY})
 SET(CSHARP_BINARY_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CSharpBinaries CACHE INTERNAL "")
@@ -40,9 +40,9 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
 
     SET_SOURCE_FILES_PROPERTIES(${swig_module_name}.i PROPERTIES CPLUSPLUS ON)
     IF(UNIX)
-        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"PKMNsimSharp\" -dllimport \"lib${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
+        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"LibPKMN\" -dllimport \"lib${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
     ELSEIF(WIN32)
-        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"PKMNsimSharp\" -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
+        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"LibPKMN\" -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
     ENDIF(UNIX)
 
     SWIG_ADD_MODULE(${swig_module_name} csharp ${swig_module_name}.i)
@@ -54,27 +54,27 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES PREFIX "")
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES SUFFIX ".dll")
     ENDIF(UNIX)
-    SWIG_LINK_LIBRARIES(${swig_module_name} ${PKMNSIM_CSHARP_LIBRARIES})
+    SWIG_LINK_LIBRARIES(${swig_module_name} ${LIBPKMN_CSHARP_LIBRARIES})
 
     IF(WIN32)
         INSTALL(
             TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
             DESTINATION ${RUNTIME_DIR}
-            COMPONENT "PKMNsimSharp"
+            COMPONENT "LibPKMN_CS"
         )
     ELSE(WIN32)
         INSTALL(
             TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
             DESTINATION ${LIBRARY_DIR}
-            COMPONENT "PKMNsimSharp"
+            COMPONENT "LibPKMN_CS"
         )
     ENDIF(WIN32)
 endmacro(CSHARP_BUILD_MODULE)
 
 ####################################################################
-# Build SWIG modules for different parts of LibPKMNsim
+# Build SWIG modules for different parts of LibLibPKMN
 ####################################################################
-CSHARP_BUILD_MODULE(pkmnsimsharp_swig pkmnsimsharp_swig PKMNsim)
+CSHARP_BUILD_MODULE(libpkmn_cs_swig libpkmnsharp_swig LibPKMN)
 CSHARP_BUILD_MODULE(analysis_cs_swig analysis_cs_swig Analysis)
 CSHARP_BUILD_MODULE(calculations_cs_swig calculations_cs_swig Calculations)
 CSHARP_BUILD_MODULE(database_cs_swig database_cs_swig Database)
@@ -90,21 +90,21 @@ CONFIGURE_FILE(
 COPYONLY)
 
 ADD_CUSTOM_COMMAND(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-sharp.dll
-    COMMAND ${CSHARP_COMPILER} ARGS "/t:library" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-sharp.dll" "*.cs"
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
+    COMMAND ${CSHARP_COMPILER} ARGS "/t:library" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll" "*.cs"
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources
-    DEPENDS ${SWIG_MODULE_pkmnsimsharp_swig_REAL_NAME}
-    COMMENT "Building pkmnsim-sharp.dll"
+    DEPENDS ${SWIG_MODULE_libpkmn_cs_swig_REAL_NAME}
+    COMMENT "Building libpkmn-cs.dll"
 )
 
 ADD_CUSTOM_TARGET(
-    pkmnsim-sharp ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-sharp.dll
+    libpkmn-cs ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
 )
 
 
 INSTALL(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/pkmnsim-sharp.dll
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
     DESTINATION ${RUNTIME_DIR}
-    COMPONENT "PKMNsimSharp"
+    COMPONENT "LibPKMN_CS"
 )

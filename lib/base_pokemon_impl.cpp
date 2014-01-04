@@ -12,9 +12,9 @@
 #include <boost/format.hpp>
 
 #include "base_pokemon_impl.hpp"
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
@@ -27,7 +27,7 @@ namespace fs = boost::filesystem;
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     base_pokemon::sptr base_pokemon::make(unsigned int id, unsigned int game_id)
     {
@@ -256,4 +256,4 @@ namespace pkmnsim
     unsigned int base_pokemon_impl::get_pokemon_id() const {return _pokemon_id;}
 
     unsigned int base_pokemon_impl::get_species_id() const {return _species_id;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

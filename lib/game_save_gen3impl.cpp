@@ -9,7 +9,7 @@
  
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     game_save_gen3impl::game_save_gen3impl(pokehack_sptr parser, char* buffer): game_save()
     {
@@ -30,4 +30,4 @@ namespace pkmnsim
     }
     
     trainer::sptr game_save_gen3impl::get_trainer() const {return _game_trainer;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

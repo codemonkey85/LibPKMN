@@ -7,8 +7,8 @@
 #ifndef INCLUDED_PKMNSIM_QT4_BASEPOKEMONDISPLAYWIDGET_HPP
 #define INCLUDED_PKMNSIM_QT4_BASEPOKEMONDISPLAYWIDGET_HPP
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/base_pokemon.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/base_pokemon.hpp>
 
 #include <QChar>
 #include <QFormLayout>
@@ -19,7 +19,7 @@
 #include <QString>
 #include <QWidget>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

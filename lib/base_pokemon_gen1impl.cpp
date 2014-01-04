@@ -10,9 +10,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
@@ -21,7 +21,7 @@
 namespace fs = boost::filesystem;
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     base_pokemon_gen1impl::base_pokemon_gen1impl(unsigned int id, unsigned int game_id):
                                            base_pokemon_impl(id, game_id)
@@ -123,4 +123,4 @@ namespace pkmnsim
     void base_pokemon_gen1impl::get_egg_group_ids(std::vector<unsigned int>
                                                   &egg_group_id_vec) const {};
 
-} /* namespace pkmnsim */
+} /* namespace pkmn */

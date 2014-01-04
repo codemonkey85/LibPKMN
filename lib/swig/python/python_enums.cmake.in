@@ -47,11 +47,11 @@ endmacro(WRITE_PYTHON_LICENSE)
 # Generates Python classes to correspond to C++ enums
 ########################################################################
 macro(GENERATE_PYTHON_ENUM name)
-    SET(ENUM_LOCATION ${PKMNSIM_BINARY_DIR}/lib/swig/python/${name}.py)
+    SET(ENUM_LOCATION ${LIBPKMN_BINARY_DIR}/lib/swig/python/${name}.py)
     FILE(TO_CMAKE_PATH ENUM_LOCATION ${ENUM_LOCATION})
 
     SET(LINE_NUMBER "")
-    SET(ENUMS_FILE "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp")
+    SET(ENUMS_FILE "${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp")
     IF(WIN32)
         #FILE(TO_NATIVE_PATH) doesn't replace / with \
         STRING(REPLACE "/" "\\\\" ENUMS_FILE ${ENUMS_FILE})
@@ -89,7 +89,7 @@ endmacro(GENERATE_PYTHON_ENUM)
 ########################################################################
 # Read enum constants
 ########################################################################
-FILE(STRINGS "${PKMNSIM_SOURCE_DIR}/include/pkmnsim/enums.hpp" ENUMS_HPP_CONTENTS)
+FILE(STRINGS "${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp" ENUMS_HPP_CONTENTS)
 SET(ENUMS_HPP_CONTENTS "${ENUMS_HPP_CONTENTS}" CACHE STRING "enums.hpp contents")
 FOREACH(line ${ENUMS_HPP_CONTENTS})
     STRING(REGEX MATCH "^    namespace [^FR]+" line ${line})

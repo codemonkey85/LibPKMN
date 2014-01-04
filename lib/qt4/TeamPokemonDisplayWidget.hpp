@@ -7,8 +7,8 @@
 #ifndef INCLUDED_PKMNSIM_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP
 #define INCLUDED_PKMNSIM_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP
 
-#include <pkmnsim/config.hpp>
-#include <pkmnsim/team_pokemon.hpp>
+#include <pkmn/config.hpp>
+#include <pkmn/team_pokemon.hpp>
 
 #include <QChar>
 #include <QFormLayout>
@@ -18,7 +18,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

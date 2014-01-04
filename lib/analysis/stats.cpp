@@ -11,14 +11,14 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/analysis/stats.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/analysis/stats.hpp>
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace analysis
     {
@@ -98,4 +98,4 @@ namespace pkmnsim
             stat_vec.push_back(get_max_possible_stat(b_pkmn, stat, level, gen));
         }
     } /* namespace analysis */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

@@ -7,13 +7,13 @@
 #ifndef INCLUDED_GAME_SAVE_GEN3IMPL_HPP
 #define INCLUDED_GAME_SAVE_GEN3IMPL_HPP
 
-#include <pkmnsim/game_save.hpp>
+#include <pkmn/game_save.hpp>
 
 #include <pokehack/SaveParser.h>
 
 #include "conversions/trainer.hpp"
 
-namespace pkmnsim
+namespace pkmn
 {
     class game_save_gen3impl: public game_save
     {

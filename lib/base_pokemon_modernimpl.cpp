@@ -10,10 +10,10 @@
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/lists.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
@@ -22,7 +22,7 @@
 namespace fs = boost::filesystem;
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     base_pokemon_modernimpl::base_pokemon_modernimpl(unsigned int id, unsigned int game):
                                            base_pokemon_impl(id, game)
@@ -1200,4 +1200,4 @@ namespace pkmnsim
     
     //TODO: Give Pokemon-sim its own internal way of distinguishing forms
     unsigned int base_pokemon_modernimpl::get_form_id() const {return _pokemon_id;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

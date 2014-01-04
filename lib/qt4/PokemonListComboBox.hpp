@@ -7,11 +7,11 @@
 #ifndef INCLUDED_POKEMONLISTCOMBOBOX_HPP
 #define INCLUDED_POKEMONLISTCOMBOBOX_HPP
 
-#include <pkmnsim/config.hpp>
+#include <pkmn/config.hpp>
 
 #include <QComboBox>
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {

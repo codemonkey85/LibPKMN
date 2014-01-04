@@ -7,14 +7,14 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
 
 #include "move_mainimpl.hpp"
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     move_mainimpl::move_mainimpl(unsigned int id, unsigned int game): move_impl(id, game)
     {
@@ -45,4 +45,4 @@ namespace pkmnsim
                 break;
         }
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

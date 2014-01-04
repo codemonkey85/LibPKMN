@@ -6,10 +6,10 @@
  */
 
 %include "CamelCase.i"
-%import "pkmnsimsharp_swig.i"
+%import "libpkmn_cs_swig.i"
 
 %{
-    #include "pkmnsim/io.hpp"
+    #include "pkmn/io.hpp"
 %}
 
-%include "pkmnsim/io.hpp"
+%include "pkmn/io.hpp"

@@ -11,18 +11,18 @@
 
 #include <boost/format.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/base_pokemon.hpp>
-#include <pkmnsim/move.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/analysis/damage.hpp>
-#include <pkmnsim/analysis/stats.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/base_pokemon.hpp>
+#include <pkmn/move.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/analysis/damage.hpp>
+#include <pkmn/analysis/stats.hpp>
 
 #include "../SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace analysis
     {
@@ -349,4 +349,4 @@ namespace pkmnsim
             }
         }
     } /* namespace analysis */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

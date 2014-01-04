@@ -7,9 +7,9 @@
 #ifndef INCLUDED_POCKET_IMPL_HPP
 #define INCLUDED_POCKET_IMPL_HPP
 
-#include <pkmnsim/pocket.hpp>
+#include <pkmn/pocket.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class pocket_impl: public pocket
     {

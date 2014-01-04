@@ -7,9 +7,9 @@
 
 #include <string>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/pokemon_text.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/pokemon_text.hpp>
 
 #include "../library_bridge.hpp"
 #include "items.hpp"
@@ -52,7 +52,7 @@ uint16_t tOffset[][3] = {
     {0x25A8, 0x27E8, 0x22D4}, //Rival Name (x8 16 bit)
 };
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace conversions
     {
@@ -338,4 +338,4 @@ namespace pkmnsim
             }
         }
     } /* namespace conversions */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

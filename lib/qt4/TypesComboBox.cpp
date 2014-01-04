@@ -8,12 +8,12 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/lists.hpp>
-#include <pkmnsim/qt4/TypesComboBox.hpp>
+#include <pkmn/lists.hpp>
+#include <pkmn/qt4/TypesComboBox.hpp>
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace qt4
     {
@@ -28,4 +28,4 @@ namespace pkmnsim
             }
         }
     } /* namespace qt4 */
-} /* namespace pkmnsim */
+} /* namespace pkmn */

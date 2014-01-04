@@ -8,14 +8,14 @@
 #include <cmath>
 #include <ctime>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/database/queries.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/database/queries.hpp>
 
 #include "team_pokemon_gen1impl.hpp"
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     team_pokemon_gen1impl::team_pokemon_gen1impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                                  unsigned int move1, unsigned int move2,
@@ -217,4 +217,4 @@ namespace pkmnsim
                               * double(_level))/50.0) + 5.0));
         return stat_val;
     }
-} /* namespace pkmnsim */
+} /* namespace pkmn */

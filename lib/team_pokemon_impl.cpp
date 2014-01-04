@@ -12,12 +12,12 @@
 
 #include <boost/cast.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/move.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/team_pokemon.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/move.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/team_pokemon.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/prng.hpp>
 
 #include "base_pokemon_gen1impl.hpp"
 #include "base_pokemon_gen2impl.hpp"
@@ -36,7 +36,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     team_pokemon::sptr team_pokemon::make(unsigned int id, unsigned int game, unsigned int level,
                                           unsigned int move1, unsigned int move2,
@@ -308,4 +308,4 @@ namespace pkmnsim
     dict<unsigned , unsigned int> team_pokemon_impl::get_ev_yields() const {return _base_pkmn->get_ev_yields();}
 
     bool team_pokemon_impl::is_fully_evolved() const {return _base_pkmn->is_fully_evolved();}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

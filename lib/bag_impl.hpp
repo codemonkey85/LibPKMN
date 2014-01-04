@@ -10,9 +10,9 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/bag.hpp>
+#include <pkmn/bag.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class bag_impl: public bag
     {

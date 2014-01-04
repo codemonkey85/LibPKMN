@@ -10,11 +10,11 @@
 #include <string>
 #include <vector>
 
-#include <pkmnsim/trainer.hpp>
+#include <pkmn/trainer.hpp>
 
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/types/prng.hpp>
 
-namespace pkmnsim
+namespace pkmn
 {
     class trainer_impl: public trainer
     {

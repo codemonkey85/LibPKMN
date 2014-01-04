@@ -7,11 +7,11 @@
 
 #include <boost/cast.hpp>
 
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/trainer.hpp>
-#include <pkmnsim/database/queries.hpp>
-#include <pkmnsim/types/prng.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/trainer.hpp>
+#include <pkmn/database/queries.hpp>
+#include <pkmn/types/prng.hpp>
 
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
@@ -21,7 +21,7 @@
 
 using namespace std;
 
-namespace pkmnsim
+namespace pkmn
 {
     trainer::sptr trainer::make(unsigned int game, pokemon_text name, unsigned int gender)
     {
@@ -143,4 +143,4 @@ namespace pkmnsim
     void trainer_impl::set_public_id(unsigned short id) {_tid.public_id = id;}
 
     void trainer_impl::set_secret_id(unsigned short id) {_tid.secret_id = id;}
-} /* namespace pkmnsim */
+} /* namespace pkmn */

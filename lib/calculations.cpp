@@ -7,16 +7,16 @@
 
 #include <boost/assign/list_of.hpp>
 
-#include <pkmnsim/calculations.hpp>
-#include <pkmnsim/enums.hpp>
-#include <pkmnsim/paths.hpp>
-#include <pkmnsim/types/dict.hpp>
+#include <pkmn/calculations.hpp>
+#include <pkmn/enums.hpp>
+#include <pkmn/paths.hpp>
+#include <pkmn/types/dict.hpp>
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
 #include "SQLiteCpp/src/SQLiteC++.h"
 
-namespace pkmnsim
+namespace pkmn
 {
     namespace calculations
     {
