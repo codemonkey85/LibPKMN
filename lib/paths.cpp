@@ -52,13 +52,13 @@ namespace pkmn
         #ifdef _MSC_VER
         char* database_dir;
         size_t len;
-        _dupenv_s(&database_dir, &len, "PKMNSIM_DATABASE_DIR");
+        _dupenv_s(&database_dir, &len, "LIBPKMN_DATABASE_DIR");
         #else
-        const char* database_dir = getenv("PKMNSIM_DATABASE_DIR"); //Environment variable
+        const char* database_dir = getenv("LIBPKMN_DATABASE_DIR"); //Environment variable
         #endif
-        if(database_dir == NULL) database_dir = "@PKMNSIM_DATABASE_DIR@"; //CMake variable
+        if(database_dir == NULL) database_dir = "@LIBPKMN_DATABASE_DIR@"; //CMake variable
 
-        fs::path database_path = fs::path(database_dir) / "pkmnsim.db";
+        fs::path database_path = fs::path(database_dir) / "libpkmn.db";
         if(not fs::exists(database_path)) throw std::runtime_error("Could not find database!");
         else
         {
@@ -80,11 +80,11 @@ namespace pkmn
         #ifdef _MSC_VER
         char* images_dir;
         size_t len;
-        _dupenv_s(&images_dir, &len, "PKMNSIM_IMAGES_DIR");
+        _dupenv_s(&images_dir, &len, "LIBPKMN_IMAGES_DIR");
         #else
-        const char* images_dir = getenv("PKMNSIM_IMAGES_DIR"); //Environment variable
+        const char* images_dir = getenv("LIBPKMN_IMAGES_DIR"); //Environment variable
         #endif
-        if(images_dir == NULL) images_dir = "@PKMNSIM_IMAGES_DIR@"; //CMake variable
+        if(images_dir == NULL) images_dir = "@LIBPKMN_IMAGES_DIR@"; //CMake variable
         
         if(not fs::exists(fs::path(images_dir))) throw std::runtime_error("Could not find images directory!");
         
