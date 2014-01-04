@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_ANALYSIS_DAMAGE_HPP
-#define INCLUDED_PKMNSIM_ANALYSIS_DAMAGE_HPP
+#ifndef INCLUDED_PKMN_ANALYSIS_DAMAGE_HPP
+#define INCLUDED_PKMN_ANALYSIS_DAMAGE_HPP
 
 #include <string>
 #include <vector>
@@ -18,20 +18,20 @@ namespace pkmn
 {
     namespace analysis
     {
-        double PKMNSIM_API get_type_damage_mod(unsigned int type1, unsigned int type2, bool gen1);
+        double PKMN_API get_type_damage_mod(unsigned int type1, unsigned int type2, bool gen1);
         
-        unsigned int PKMNSIM_API get_base_damage(team_pokemon::sptr attacker, team_pokemon::sptr defender, move::sptr attack);
+        unsigned int PKMN_API get_base_damage(team_pokemon::sptr attacker, team_pokemon::sptr defender, move::sptr attack);
         
-        unsigned int PKMNSIM_API get_base_damage(unsigned int level, unsigned int attack,
+        unsigned int PKMN_API get_base_damage(unsigned int level, unsigned int attack,
                                                  unsigned int defense, unsigned int base_power);
                                                  
-        void PKMNSIM_API get_damage_range(team_pokemon::sptr attacker, team_pokemon::sptr defender,
+        void PKMN_API get_damage_range(team_pokemon::sptr attacker, team_pokemon::sptr defender,
                                           move::sptr attack, std::vector<unsigned int> &damage_range_vec);
                                           
-        void PKMNSIM_API get_damage_range(base_pokemon::sptr attacker, base_pokemon::sptr defender,
+        void PKMN_API get_damage_range(base_pokemon::sptr attacker, base_pokemon::sptr defender,
                                           move::sptr attack, unsigned int attacker_level,
                                           unsigned int defender_level, std::vector<unsigned int> &damage_range_vec);
     }
 }
 
-#endif /* INCLUDED_PKMNSIM_ANALYSIS_DAMAGE_HPP */
+#endif /* INCLUDED_PKMN_ANALYSIS_DAMAGE_HPP */

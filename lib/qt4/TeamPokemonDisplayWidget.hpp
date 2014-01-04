@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP
-#define INCLUDED_PKMNSIM_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP
+#ifndef INCLUDED_PKMN_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP
+#define INCLUDED_PKMN_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP
 
 #include <pkmn/config.hpp>
 #include <pkmn/team_pokemon.hpp>
@@ -22,7 +22,7 @@ namespace pkmn
 {
     namespace qt4
     {
-        class PKMNSIM_API TeamPokemonDisplayWidget: public QWidget
+        class PKMN_API TeamPokemonDisplayWidget: public QWidget
         {
             Q_OBJECT
 
@@ -39,4 +39,4 @@ namespace pkmn
     }
 }
 
-#endif /* INCLUDED_PKMNSIM_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP */
+#endif /* INCLUDED_PKMN_QT4_TEAMPOKEMONDISPLAYWIDGET_HPP */

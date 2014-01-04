@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_TYPES_POKEMON_TEXT_HPP
-#define INCLUDED_PKMNSIM_TYPES_POKEMON_TEXT_HPP
+#ifndef INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP
+#define INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP
 
 #include <string>
 
@@ -13,7 +13,7 @@
 
 namespace pkmn
 {
-    class PKMNSIM_API pokemon_text
+    class PKMN_API pokemon_text
     {
         public:
         
@@ -44,4 +44,4 @@ namespace pkmn
     };
 }
 
-#endif /* INCLUDED_PKMNSIM_TYPES_POKEMON_TEXT_HPP */
+#endif /* INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP */

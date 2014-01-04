@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_TYPES_DICT_HPP
-#define INCLUDED_PKMNSIM_TYPES_DICT_HPP
+#ifndef INCLUDED_PKMN_TYPES_DICT_HPP
+#define INCLUDED_PKMN_TYPES_DICT_HPP
 
 #include <list>
 #include <vector>
@@ -53,4 +53,4 @@ namespace pkmn
 
 #include <pkmn/types/dict.ipp>
 
-#endif /* INCLUDED_PKMNSIM_TYPES_DICT_HPP */
+#endif /* INCLUDED_PKMN_TYPES_DICT_HPP */

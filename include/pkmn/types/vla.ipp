@@ -5,8 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef INCLUDED_PKMNSIM_TYPES_VLA_IPP
-#define INCLUDED_PKMNSIM_TYPES_VLA_IPP
+#ifndef INCLUDED_PKMN_TYPES_VLA_IPP
+#define INCLUDED_PKMN_TYPES_VLA_IPP
 
 #include <cstdlib>
 #include <iostream>
@@ -70,4 +70,4 @@ namespace pkmn
 
 }
 
-#endif /* INCLUDED_PKMNSIM_TYPES_VLA_IPP */
+#endif /* INCLUDED_PKMN_TYPES_VLA_IPP */

@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt,
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_ENUMS_HPP
-#define INCLUDED_PKMNSIM_ENUMS_HPP
+#ifndef INCLUDED_PKMN_ENUMS_HPP
+#define INCLUDED_PKMN_ENUMS_HPP
 
 #include <string>
 #include <vector>
@@ -3268,4 +3268,4 @@ namespace pkmn
     }
 }
 
-#endif /* INCLUDED_PKMNSIM_ENUMS_HPP */
+#endif /* INCLUDED_PKMN_ENUMS_HPP */

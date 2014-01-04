@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_TYPES_PRNG_HPP
-#define INCLUDED_PKMNSIM_TYPES_PRNG_HPP
+#ifndef INCLUDED_PKMN_TYPES_PRNG_HPP
+#define INCLUDED_PKMN_TYPES_PRNG_HPP
 
 #include <cstdint>
 
@@ -13,7 +13,7 @@
 
 namespace pkmn
 {
-    class PKMNSIM_API prng
+    class PKMN_API prng
     {
         public:
         
@@ -37,4 +37,4 @@ namespace pkmn
     };
 }
 
-#endif /* INCLUDED_PKMNSIM_TYPES_PRNG_HPP */
+#endif /* INCLUDED_PKMN_TYPES_PRNG_HPP */

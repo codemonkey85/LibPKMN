@@ -106,7 +106,7 @@ namespace pkmn
 
     unsigned short pokehack_get_block_checksum(block* b);
 
-    uint8_t PKMNSIM_API modern_get_IV(uint32_t* IVint, uint8_t IV);
+    uint8_t PKMN_API modern_get_IV(uint32_t* IVint, uint8_t IV);
 
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val);
     

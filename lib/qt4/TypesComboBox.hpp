@@ -15,7 +15,7 @@ namespace pkmn
 {
     namespace qt4
     {
-        class PKMNSIM_API TypesComboBox: public QComboBox
+        class PKMN_API TypesComboBox: public QComboBox
         {
             Q_OBJECT
 

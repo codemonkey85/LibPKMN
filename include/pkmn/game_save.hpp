@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_GAME_SAVE_HPP
-#define INCLUDED_PKMNSIM_GAME_SAVE_HPP
+#ifndef INCLUDED_PKMN_GAME_SAVE_HPP
+#define INCLUDED_PKMN_GAME_SAVE_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -21,7 +21,7 @@
 
 namespace pkmn
 {
-    class PKMNSIM_API game_save
+    class PKMN_API game_save
     {
         public:
 
@@ -49,5 +49,5 @@ namespace pkmn
             //unsigned int year, month, day, hour, minute, second;
     };
 }
-#endif /* INCLUDED_PKMNSIM_GAME_SAVE_HPP */
+#endif /* INCLUDED_PKMN_GAME_SAVE_HPP */
 

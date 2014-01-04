@@ -16,7 +16,7 @@ namespace pkmn
 {
     namespace qt4
     {
-        class PKMNSIM_API AboutMessageBox: public QMessageBox
+        class PKMN_API AboutMessageBox: public QMessageBox
         {
             Q_OBJECT
 

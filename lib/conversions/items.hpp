@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_CONVERSIONS_ITEMS_HPP
-#define INCLUDED_PKMNSIM_CONVERSIONS_ITEMS_HPP
+#ifndef INCLUDED_PKMN_CONVERSIONS_ITEMS_HPP
+#define INCLUDED_PKMN_CONVERSIONS_ITEMS_HPP
 
 #include <cstdint>
 
@@ -52,20 +52,20 @@ namespace pkmn
             uint16_t quantity;
         };
 
-        void PKMNSIM_API import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav);
+        void PKMN_API import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav);
     
-        void PKMNSIM_API import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
+        void PKMN_API import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
         
-        void PKMNSIM_API export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
+        void PKMN_API export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
         
-        void PKMNSIM_API import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
+        void PKMN_API import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
         
-        void PKMNSIM_API export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
+        void PKMN_API export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
         
-        void PKMNSIM_API import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void PKMN_API import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
         
-        void PKMNSIM_API export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void PKMN_API export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
     }
 }
 
-#endif /* INCLUDED_PKMNSIM_CONVERSIONS_ITEMS_HPP */
+#endif /* INCLUDED_PKMN_CONVERSIONS_ITEMS_HPP */

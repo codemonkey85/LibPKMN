@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_CONFIG_HPP
-#define INCLUDED_PKMNSIM_CONFIG_HPP
+#ifndef INCLUDED_PKMN_CONFIG_HPP
+#define INCLUDED_PKMN_CONFIG_HPP
 
 /***************************************************************************
  * Allow use of and/or/not in MSVC
@@ -39,40 +39,40 @@ inline std::string to_string (const T& t)
  * Define cross-platform macros
  ***************************************************************************/
 #if defined(_MSC_VER)
-    #define PKMNSIM_EXPORT         __declspec(dllexport)
-    #define PKMNSIM_IMPORT         __declspec(dllimport)
-    #define PKMNSIM_INLINE         __forceinline
-    #define PKMNSIM_DEPRECATED     __declspec(deprecated)
-    #define PKMNSIM_ALIGNED(x)     __declspec(align(x))
+    #define PKMN_EXPORT         __declspec(dllexport)
+    #define PKMN_IMPORT         __declspec(dllimport)
+    #define PKMN_INLINE         __forceinline
+    #define PKMN_DEPRECATED     __declspec(deprecated)
+    #define PKMN_ALIGNED(x)     __declspec(align(x))
     # pragma warning(disable: 4251) // class 'A<T>' needs to have dll-interface to be used by clients of class 'B'
 #elif defined(__GNUG__) && __GNUG__ >= 4
-    #define PKMNSIM_EXPORT         __attribute__((visibility("default")))
-    #define PKMNSIM_IMPORT         __attribute__((visibility("default")))
-    #define PKMNSIM_INLINE         inline __attribute__((always_inline))
-    #define PKMNSIM_DEPRECATED     __attribute__((deprecated))
-    #define PKMNSIM_ALIGNED(x)     __attribute__((aligned(x)))
+    #define PKMN_EXPORT         __attribute__((visibility("default")))
+    #define PKMN_IMPORT         __attribute__((visibility("default")))
+    #define PKMN_INLINE         inline __attribute__((always_inline))
+    #define PKMN_DEPRECATED     __attribute__((deprecated))
+    #define PKMN_ALIGNED(x)     __attribute__((aligned(x)))
 #else
-    #define PKMNSIM_EXPORT
-    #define PKMNSIM_IMPORT
-    #define PKMNSIM_INLINE         inline
-    #define PKMNSIM_DEPRECATED
-    #define PKMNSIM_ALIGNED(x)
+    #define PKMN_EXPORT
+    #define PKMN_IMPORT
+    #define PKMN_INLINE         inline
+    #define PKMN_DEPRECATED
+    #define PKMN_ALIGNED(x)
 #endif
 
-#ifdef PKMNSIM_DLL_EXPORTS
-    #define PKMNSIM_API PKMNSIM_EXPORT
+#ifdef PKMN_DLL_EXPORTS
+    #define PKMN_API PKMN_EXPORT
 #else
-    #define PKMNSIM_API PKMNSIM_IMPORT
+    #define PKMN_API PKMN_IMPORT
 #endif
 
 #if defined(linux) || defined(__linux) || defined(__linux__)
-    #define PKMNSIM_PLATFORM_LINUX
+    #define PKMN_PLATFORM_LINUX
 #elif defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
-    #define PKMNSIM_PLATFORM_WIN32
+    #define PKMN_PLATFORM_WIN32
 #elif defined(macintosh) || defined(__APPLE__) || defined(__APPLE_CC__)
-    #define PKMNSIM_PLATFORM_MACOS
+    #define PKMN_PLATFORM_MACOS
 #elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
-    #define PKMNSIM_PLATFORM_BSD
+    #define PKMN_PLATFORM_BSD
 #endif
 
-#endif /* INCLUDED_PKMNSIM_CONFIG_HPP */
+#endif /* INCLUDED_PKMN_CONFIG_HPP */

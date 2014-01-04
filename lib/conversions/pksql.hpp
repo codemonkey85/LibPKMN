@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_CONVERSIONS_PKSQL_HPP
-#define INCLUDED_PKMNSIM_CONVERSIONS_PKSQL_HPP
+#ifndef INCLUDED_PKMN_CONVERSIONS_PKSQL_HPP
+#define INCLUDED_PKMN_CONVERSIONS_PKSQL_HPP
 
 #include <pkmn/config.hpp>
 
@@ -57,4 +57,4 @@ namespace pkmn
     }
 }
 
-#endif /* INCLUDED_PKMNSIM_CONVERSIONS_PKSQL_HPP */
+#endif /* INCLUDED_PKMN_CONVERSIONS_PKSQL_HPP */

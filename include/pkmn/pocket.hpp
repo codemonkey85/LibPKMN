@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_POCKET_HPP
-#define INCLUDED_PKMNSIM_POCKET_HPP
+#ifndef INCLUDED_PKMN_POCKET_HPP
+#define INCLUDED_PKMN_POCKET_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -21,7 +21,7 @@
 
 namespace pkmn
 {
-    class PKMNSIM_API pocket
+    class PKMN_API pocket
     {
         public:
 
@@ -47,4 +47,4 @@ namespace pkmn
     };
 }
 
-#endif /* INCLUDED_PKMNSIM_POCKET_HPP */
+#endif /* INCLUDED_PKMN_POCKET_HPP */

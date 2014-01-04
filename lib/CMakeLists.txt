@@ -107,7 +107,7 @@ IF(ENABLE_LIBPKMN)
     ####################################################################
     # MSVC needs this setting to export functions in pkmn.dll
     ####################################################################
-    SET_TARGET_PROPERTIES(pkmn PROPERTIES DEFINE_SYMBOL "PKMNSIM_DLL_EXPORTS")
+    SET_TARGET_PROPERTIES(pkmn PROPERTIES DEFINE_SYMBOL "PKMN_DLL_EXPORTS")
     INSTALL(TARGETS pkmn
         LIBRARY DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.so
         ARCHIVE DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.lib

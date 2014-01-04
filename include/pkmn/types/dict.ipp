@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_TYPES_DICT_IPP
-#define INCLUDED_PKMNSIM_TYPES_DICT_IPP
+#ifndef INCLUDED_PKMN_TYPES_DICT_IPP
+#define INCLUDED_PKMN_TYPES_DICT_IPP
 
 #include <iostream>
 #include <stdlib.h>
@@ -130,4 +130,4 @@ namespace pkmn
 
 }
 
-#endif /* INCLUDED_PKMNSIM_TYPES_DICT_IPP */
+#endif /* INCLUDED_PKMN_TYPES_DICT_IPP */

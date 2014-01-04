@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_ITEM_HPP
-#define INCLUDED_PKMNSIM_ITEM_HPP
+#ifndef INCLUDED_PKMN_ITEM_HPP
+#define INCLUDED_PKMN_ITEM_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -20,7 +20,7 @@
 
 namespace pkmn
 {
-    class PKMNSIM_API item
+    class PKMN_API item
     {
         public:
 
@@ -40,4 +40,4 @@ namespace pkmn
     };
 }
 
-#endif /* INCLUDED_PKMNSIM_ITEM_HPP */
+#endif /* INCLUDED_PKMN_ITEM_HPP */

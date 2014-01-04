@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP
-#define INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP
+#ifndef INCLUDED_PKMN_CONVERSIONS_TRAINER_HPP
+#define INCLUDED_PKMN_CONVERSIONS_TRAINER_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -44,19 +44,19 @@ namespace pkmn
 {
     namespace conversions
     {
-        trainer::sptr PKMNSIM_API import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
+        trainer::sptr PKMN_API import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
     
-        trainer::sptr PKMNSIM_API import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
+        trainer::sptr PKMN_API import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
 
-        void PKMNSIM_API export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data);
+        void PKMN_API export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data);
 
-        trainer::sptr PKMNSIM_API import_trainer_from_pokelib(pokelib_sptr pokelib_save);
+        trainer::sptr PKMN_API import_trainer_from_pokelib(pokelib_sptr pokelib_save);
 
-        void PKMNSIM_API export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_trainer);
+        void PKMN_API export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_trainer);
 
-        trainer::sptr PKMNSIM_API import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save);
+        trainer::sptr PKMN_API import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save);
 
-        void PKMNSIM_API export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save);
+        void PKMN_API export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save);
     }
 }
-#endif /* INCLUDED_PKMNSIM_CONVERSIONS_TRAINER_HPP */
+#endif /* INCLUDED_PKMN_CONVERSIONS_TRAINER_HPP */

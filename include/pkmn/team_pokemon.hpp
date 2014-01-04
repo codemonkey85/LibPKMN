@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_PKMNSIM_TEAM_POKEMON_HPP
-#define INCLUDED_PKMNSIM_TEAM_POKEMON_HPP
+#ifndef INCLUDED_PKMN_TEAM_POKEMON_HPP
+#define INCLUDED_PKMN_TEAM_POKEMON_HPP
 
 #ifdef _MSC_VER
 #include <memory>
@@ -26,7 +26,7 @@
 
 namespace pkmn
 {
-    class PKMNSIM_API team_pokemon
+    class PKMN_API team_pokemon
     {
         public:
 
@@ -125,4 +125,4 @@ namespace pkmn
     typedef vla<team_pokemon::sptr> pokemon_team_t;
 }
 
-#endif /* INCLUDED_PKMNSIM_TEAM_POKEMON_HPP */
+#endif /* INCLUDED_PKMN_TEAM_POKEMON_HPP */
