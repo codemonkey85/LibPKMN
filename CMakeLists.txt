@@ -46,7 +46,7 @@ ENDIF(NOT ${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
 
 SET(LIBPKMN_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE PATH "LibPKMN source directory")
 SET(LIBPKMN_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "LibPKMN binary directory")
-INCLUDE(${LIBPKMN_SOURCE_DIR}/cmake/Modules/LibPKMNComponent.cmake)
+INCLUDE(LibPKMNComponent)
 
 ########################################################################
 # Before doing anything, check that std::shared_ptr can be used
@@ -149,7 +149,7 @@ ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 ########################################################################
 # Set package settings
 ########################################################################
-INCLUDE(${LIBPKMN_SOURCE_DIR}/cmake/Modules/LibPKMNPackage.cmake)
+INCLUDE(LibPKMNPackage)
 
 ########################################################################
 # Final display

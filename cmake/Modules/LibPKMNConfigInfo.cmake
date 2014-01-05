@@ -20,7 +20,7 @@ IF(GIT_FOUND AND EXISTS ${LIBPKMN_SOURCE_DIR}/.git)
     EXECUTE_PROCESS(
         COMMAND ${GIT_EXECUTABLE} describe --always --abbrev=8 --long
         OUTPUT_VARIABLE LIBPKMN_IMAGES_GIT_DESCRIBE OUTPUT_STRIP_TRAILING_WHITESPACE
-        WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}/share/pkmnsim/images
+        WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}/share/libpkmn/images
     )
     EXECUTE_PROCESS(
         COMMAND ${GIT_EXECUTABLE} describe --always --abbrev=8 --long
