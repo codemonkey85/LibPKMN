@@ -9,6 +9,7 @@
 
 #include <pkmn/enums.hpp>
 #include <pkmn/pocket.hpp>
+#include <pkmn/types/dict.hpp>
 
 #include "bag_impl.hpp"
 

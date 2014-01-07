@@ -18,7 +18,6 @@
 #include <pkmn/config.hpp>
 #include <pkmn/item.hpp>
 #include <pkmn/pocket.hpp>
-#include <pkmn/types/dict.hpp>
 
 namespace pkmn
 {
