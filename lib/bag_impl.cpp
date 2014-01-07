@@ -104,7 +104,7 @@ namespace pkmn
     
     unsigned int bag_impl::get_game_id() {return _game_id;}
     
-    const pocket::sptr bag_impl::get_pocket(string name) {return _contents[name];}
+    pocket::sptr bag_impl::get_pocket(string name) {return _contents[name];}
     
     void bag_impl::get_pocket_list(vector<string> &pocket_vec) {pocket_vec = _contents.keys();}
 } /* namespace pkmn */

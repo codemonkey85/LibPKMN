@@ -21,7 +21,7 @@ namespace pkmn
             bag_impl(unsigned int game);
 
             unsigned int get_game_id();
-            const pocket::sptr get_pocket(std::string name);
+            pocket::sptr get_pocket(std::string name);
             void get_pocket_list(std::vector<std::string> &pocket_vec);
             
         private:

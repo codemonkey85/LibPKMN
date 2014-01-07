@@ -119,7 +119,7 @@ namespace pkmn
         }
     }
 
-    const bag::sptr trainer_impl::get_bag() const {return _item_bag;}
+    bag::sptr trainer_impl::get_bag() const {return _item_bag;}
     
     pokemon_text trainer_impl::get_name() const {return _trainer_name;}
 
