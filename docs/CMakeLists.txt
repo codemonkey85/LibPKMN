@@ -7,7 +7,7 @@
 
 FIND_PACKAGE(Doxygen)
 
-PKMNSIM_REGISTER_COMPONENT("Doxygen - API Documentation" ENABLE_DOXYGEN ON "DOXYGEN_FOUND" OFF)
+LIBPKMN_REGISTER_COMPONENT("Doxygen - C++ API Documentation" ENABLE_DOXYGEN ON "DOXYGEN_FOUND" OFF)
 
 IF(ENABLE_DOXYGEN)
     #Generate the Doxygen configuration file
