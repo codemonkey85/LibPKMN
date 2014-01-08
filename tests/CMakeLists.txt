@@ -33,11 +33,11 @@ FOREACH(cpp_test ${cpp_test_sources})
     TARGET_LINK_LIBRARIES(${cpp_test_name} pkmn)
 
     IF(CMAKE_COMPILER_IS_GNUCXX)
-        IF(LINUX)
+        IF(UNIX)
             SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
         ELSE() #Cygwin
             SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++0x")
-        ENDIF(LINUX)
+        ENDIF(UNIX)
     ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
