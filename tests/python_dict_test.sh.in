@@ -1,5 +1,5 @@
 #!/bin/bash
 
-export PYTHONPATH=$PYTHONPATH:@LIBPKMN_PYTHON_DIR@
+export PYTHONPATH=$PYTHONPATH:@PYTHON_PATH@
 
-python @CMAKE_CURRENT_BINARY_DIR@/python_dict_test.py
+python @CMAKE_CURRENT_SOURCE_DIR@/python_dict_test.py
