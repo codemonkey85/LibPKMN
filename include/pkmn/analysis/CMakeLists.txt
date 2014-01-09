@@ -6,15 +6,8 @@
 #
 FILE(GLOB pkmn_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.hpp")
 
-ADD_SUBDIRECTORY(database)
-ADD_SUBDIRECTORY(types)
-
-#####################################################################
-# Only install headers if LibPKMN is build standalone
-#####################################################################
 IF(NOT LIBPKMN_USED_AS_SUBMODULE)
-    ADD_SUBDIRECTORY(qt4)
     FOREACH(header ${pkmn_headers})
-        INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmn COMPONENT Headers)
+        INSTALL(FILES ${header} DESTINATION ${INCLUDE_DIR}/pkmn/analysis COMPONENT Headers)
     ENDFOREACH(header)
 ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)

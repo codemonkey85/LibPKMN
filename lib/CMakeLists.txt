@@ -66,7 +66,6 @@ IF(ENABLE_LIBPKMN)
     # If built standalone, build Qt4 subclasses
     ####################################################################
     IF(NOT LIBPKMN_USED_AS_SUBMODULE)
-        ADD_SUBDIRECTORY(qt4)
         INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
 
         CONFIGURE_FILE(
@@ -74,7 +73,7 @@ IF(ENABLE_LIBPKMN)
             ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
         )
         
-        FILE(GLOB libpkmn_qt4_headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.hpp")
+        FILE(GLOB libpkmn_qt4_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4/*.hpp")
         FILE(GLOB libpkmn_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
         LIST(APPEND libpkmn_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
     
