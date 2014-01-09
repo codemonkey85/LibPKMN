@@ -62,7 +62,7 @@ IF(ENABLE_PYTHON)
     IF(UNIX)
         FOREACH(python_test ${python_test_names})
             CONFIGURE_FILE(
-                ${CMAKE_CURRENT_SOURCE_DIR}/${python_test}.sh.in
+                ${CMAKE_CURRENT_SOURCE_DIR}/python_test_template.sh.in
                 ${CMAKE_CURRENT_BINARY_DIR}/${python_test}.sh
             @ONLY)
             ADD_TEST(${python_test} ${CMAKE_CURRENT_BINARY_DIR}/${python_test}.sh)
