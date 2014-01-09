@@ -12,6 +12,7 @@ import Forms
 import Games
 import Genders
 import Items
+import Markings
 import Move_Classes
 import Moves
 import Natures

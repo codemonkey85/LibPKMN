@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import LibPKMN
+import python as LibPKMN
 
 if __name__ == "__main__":
 

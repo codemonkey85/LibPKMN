@@ -17,6 +17,18 @@ ADD_SUBDIRECTORY(database)
 ADD_SUBDIRECTORY(io)
 
 ##########################################################
+# Copy manually generated files to binary directory
+##########################################################
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Forms.py
+    ${CMAKE_CURRENT_BINARY_DIR}/Forms.py
+COPYONLY)
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/Ribbons.py
+    ${CMAKE_CURRENT_BINARY_DIR}/Ribbons.py
+COPYONLY)
+
+##########################################################
 # Generate Python enum classes
 ##########################################################
 FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/python_enums.cmake")

@@ -82,6 +82,12 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
     SWIG_LINK_LIBRARIES(${module_name} ${LIBPKMN_PYTHON_LIBRARIES})
 
+    # Copy __init__.py to binary directory for unit tests
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
+        ${CMAKE_CURRENT_BINARY_DIR}/__init__.py
+    COPYONLY)
+
     FILE(GLOB py_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.py")
     LIST(APPEND py_files ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.py)
 
