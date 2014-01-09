@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE(pkmnsim_to_pokelib)
     pkmn::dict<unsigned int, unsigned int> IVs = pkmnsim_pkmn->get_IVs();
     uint32_t* IVint = &(pokelib_pkmn.pkm->pkm.IVint);
 
-    std::cout << std::endl << "LibPKMNsim -> PokeLib-NC Effort Values" << std::endl;
+    std::cout << std::endl << "LibPKMN -> PokeLib-NC Effort Values" << std::endl;
     std::cout << " * HP:              " << EVs[pkmn::Stats::HP] << " -> " << int(pokelib_pkmn.pkm->pkm.ev_hp) << std::endl;
     std::cout << " * Attack:          " << EVs[pkmn::Stats::ATTACK] << " -> " << int(pokelib_pkmn.pkm->pkm.ev_atk) << std::endl;
     std::cout << " * Defense:         " << EVs[pkmn::Stats::DEFENSE] << " -> " << int(pokelib_pkmn.pkm->pkm.ev_def) << std::endl;
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(pkmnsim_to_pokelib)
     BOOST_CHECK_EQUAL(pokelib_pkmn.pkm->pkm.ev_satk, EVs[pkmn::Stats::SPECIAL_ATTACK]);
     BOOST_CHECK_EQUAL(pokelib_pkmn.pkm->pkm.ev_sdef, EVs[pkmn::Stats::SPECIAL_DEFENSE]);
 
-    std::cout << std::endl << "LibPKMNsim -> PokeLib-NC Individual Values" << std::endl;
+    std::cout << std::endl << "LibPKMN -> PokeLib-NC Individual Values" << std::endl;
     std::cout << " * HP:              " << IVs[pkmn::Stats::HP] << " -> " << int(pkmn::modern_get_IV(IVint, pkmn::Stats::HP)) << std::endl;
     std::cout << " * Attack:          " << IVs[pkmn::Stats::ATTACK] << " -> " << int(pkmn::modern_get_IV(IVint, pkmn::Stats::ATTACK)) << std::endl;
     std::cout << " * Defense:         " << IVs[pkmn::Stats::DEFENSE] << " -> " << int(pkmn::modern_get_IV(IVint, pkmn::Stats::DEFENSE)) << std::endl;
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(pkmnsim_to_pokelib)
     BOOST_CHECK_EQUAL(int(pkmn::modern_get_IV(IVint, pkmn::Stats::SPECIAL_ATTACK)), IVs[pkmn::Stats::SPECIAL_ATTACK]);
     BOOST_CHECK_EQUAL(int(pkmn::modern_get_IV(IVint, pkmn::Stats::SPECIAL_DEFENSE)), IVs[pkmn::Stats::SPECIAL_DEFENSE]);
 
-    std::cout << std::endl << "LibPKMNsim -> PokeLib-NC Stats" << std::endl;
+    std::cout << std::endl << "LibPKMN -> PokeLib-NC Stats" << std::endl;
     std::cout << " * HP:              " << stats[pkmn::Stats::HP] << " -> " << int(pokelib_pkmn.pkm->pkm.battle_max_hp) << std::endl;
     std::cout << " * Attack:          " << stats[pkmn::Stats::ATTACK] << " -> " << int(pokelib_pkmn.pkm->pkm.battle_atk) << std::endl;
     std::cout << " * Defense:         " << stats[pkmn::Stats::DEFENSE] << " -> " << int(pokelib_pkmn.pkm->pkm.battle_def) << std::endl;

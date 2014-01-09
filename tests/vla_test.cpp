@@ -13,7 +13,7 @@
 #include <pkmn/types/vla.hpp>
 
 /*
- * LibPKMNsim includes a variable-length array class. This test will
+ * LibPKMN includes a variable-length array class. This test will
  * pass if the array can be created with a variable size.
  */
 

@@ -19,7 +19,7 @@
 #include "../lib/SQLiteCpp/src/SQLiteC++.h"
 
 /*
- * LibPKMNsim includes functions that act as an intermediary between the
+ * LibPKMN includes functions that act as an intermediary between the
  * user and the database, representing common functions. This test confirms
  * that the functions' queries have the expected results. This also tests
  * the accuracy of pkmnsim/enums.hpp.

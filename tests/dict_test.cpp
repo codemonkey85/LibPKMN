@@ -11,7 +11,7 @@
 #include <pkmn/types/dict.hpp>
 
 /*
- * Part of LibPKMNsim's constraints is that Boost cannot be publicly exposed,
+ * Part of LibPKMN's constraints is that Boost cannot be publicly exposed,
  * so an alternative to BOOST_FOREACH is required. MSVC has a foreach method,
  * but it is not portable, so a custom #define is necessary. If this doesn't
  * work, then the Boostless pkmn::dict class will not work.

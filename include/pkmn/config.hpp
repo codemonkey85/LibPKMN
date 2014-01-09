@@ -14,7 +14,7 @@
 
 /***************************************************************************
  * In order to prevent users from needing Boost to develop off of
- * LibPKMNsim, these alternatives are used to get around what would
+ * LibPKMN, these alternatives are used to get around what would
  * usually be done with Boost. These are mainly usd by dict and vla,
  * which are publicly exposed.
  ***************************************************************************/
