@@ -29,6 +29,19 @@ INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/pokehack/include)
 INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PokeLib-NC/include)
 INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PKMDS/include)
 
+MACRO(LIBPKMN_ADD_TEST test_name test_cmd)
+    IF(WIN32)
+        MESSAGE(STATUS "Windows unit tests not implemented.")
+    ELSE()
+        SET(TEST_CMD ${test_cmd})
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/unit_test_template.sh.in
+            ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh
+        @ONLY)
+        ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh)
+    ENDIF()
+ENDMACRO(LIBPKMN_ADD_TEST)
+
 FOREACH(cpp_test ${cpp_test_sources})
     GET_FILENAME_COMPONENT(cpp_test_name ${cpp_test} NAME_WE)
     ADD_EXECUTABLE(${cpp_test_name} ${cpp_test})
@@ -44,8 +57,7 @@ FOREACH(cpp_test ${cpp_test_sources})
         SET_TARGET_PROPERTIES(${cpp_test_name} PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-    ADD_TEST(${cpp_test_name} ${cpp_test_name})
-    SET_TESTS_PROPERTIES(${cpp_test_name} PROPERTIES ENVIRONMENT "${TEST_ENV}")
+    LIBPKMN_ADD_TEST(${cpp_test_name} "${CMAKE_CURRENT_BINARY_DIR}/${cpp_test_name}")
 ENDFOREACH(cpp_test ${cpp_test_sources})
 
 ##################################################
@@ -59,15 +71,8 @@ IF(ENABLE_PYTHON)
         python_enum_test
     )
 
-    IF(UNIX)
-        FOREACH(python_test ${python_test_names})
-            CONFIGURE_FILE(
-                ${CMAKE_CURRENT_SOURCE_DIR}/python_test_template.sh.in
-                ${CMAKE_CURRENT_BINARY_DIR}/${python_test}.sh
-            @ONLY)
-            ADD_TEST(${python_test} ${CMAKE_CURRENT_BINARY_DIR}/${python_test}.sh)
-            SET_TESTS_PROPERTIES(${python_test} PROPERTIES ENVIRONMENT "${TEST_ENV}")
-        ENDFOREACH(python_test ${python_test_names})
-    ENDIF(UNIX)
+    FOREACH(python_test ${python_test_names})
+        LIBPKMN_ADD_TEST(${python_test} "${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${python_test}.py")
+    ENDFOREACH(python_test ${python_test_names})
 ENDIF(ENABLE_PYTHON)
 
