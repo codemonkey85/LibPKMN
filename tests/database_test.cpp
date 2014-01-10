@@ -22,7 +22,7 @@
  * LibPKMN includes functions that act as an intermediary between the
  * user and the database, representing common functions. This test confirms
  * that the functions' queries have the expected results. This also tests
- * the accuracy of pkmnsim/enums.hpp.
+ * the accuracy of pkmn/enums.hpp.
  */
 
 SQLite::Database db(pkmn::get_database_path().c_str());
