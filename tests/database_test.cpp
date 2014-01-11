@@ -135,10 +135,12 @@ BOOST_AUTO_TEST_CASE(item_queries)
     /*
      * Getting ID's from game indices
      */
-    unsigned int item1_id = pkmn::database::get_item_id(pkmn::Items::LURE_BALL, pkmn::Games::SOUL_SILVER);
-    unsigned int item2_id = pkmn::database::get_item_id(pkmn::Items::HYPER_POTION, pkmn::Games::RED);
-    unsigned int item3_id = pkmn::database::get_item_id(pkmn::Items::MYSTERYBERRY, pkmn::Games::CRYSTAL);
-    BOOST_CHECK_EQUAL(item1_id, int(db.execAndGet("SELECT item_id FROM item_game_indices WHERE game_index=494 AND generation_id=4")));
+    unsigned int item1_id = pkmn::database::get_item_index(pkmn::Items::LURE_BALL, pkmn::Games::SOUL_SILVER);
+    unsigned int item2_id = pkmn::database::get_item_index(pkmn::Items::HYPER_POTION, pkmn::Games::RED);
+    unsigned int item3_id = pkmn::database::get_item_index(pkmn::Items::MYSTERYBERRY, pkmn::Games::CRYSTAL);
+    BOOST_CHECK_EQUAL(pkmn::Items::LURE_BALL, int(db.execAndGet("SELECT item_id FROM item_game_indices WHERE game_index=494 AND generation_id=4")));
+    BOOST_CHECK_EQUAL(pkmn::Items::HYPER_POTION, int(db.execAndGet("SELECT item_id FROM item_game_indices WHERE game_index=18 AND generation_id=1")));
+    BOOST_CHECK_EQUAL(pkmn::Items::MYSTERYBERRY, int(db.execAndGet("SELECT item_id FROM item_game_indices WHERE game_index=150 AND generation_id=2")));
 
     /*
      * Getting ID's from names
