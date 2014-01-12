@@ -55,6 +55,14 @@ IF(MSVC)
     IF(MSVC_VERSION LESS 1400)
         MESSAGE(FATAL_ERROR "You must use Microsoft Visual Studio 2008 or later.")
     ENDIF(MSVC_VERSION LESS 1400)
+ELSEIF(CMAKE_COMPILER_IS_GNUCXX)
+    EXECUTE_PROCESS(
+        COMMAND ${CMAKE_CXX_COMPILER} -dumpversion
+        OUTPUT_VARIABLE GCC_VERSION
+    )
+    IF(GCC_VERSION LESS 4.3)
+        MESSAGE(FATAL_ERROR "You must use GCC 4.3 or later.")
+    ENDIF(GCC_VERSION LESS 4.3)
 ENDIF(MSVC)
 
 ########################################################################
