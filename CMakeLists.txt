@@ -49,21 +49,16 @@ SET(LIBPKMN_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "LibPKMN binary 
 INCLUDE(LibPKMNComponent)
 
 ########################################################################
-# Before doing anything, check that std::shared_ptr can be used
+# Check compiler for minimum version
 ########################################################################
-INCLUDE(CheckIncludeFileCXX)
 IF(MSVC)
-    CHECK_INCLUDE_FILE_CXX(memory HAS_MEMORY_HEADER)
-ELSE()
-    CHECK_INCLUDE_FILE_CXX(tr1/memory HAS_MEMORY_HEADER)
+    IF(MSVC_VERSION LESS 1400)
+        MESSAGE(FATAL_ERROR "You must use Microsoft Visual Studio 2008 or later.")
+    ENDIF(MSVC_VERSION LESS 1400)
 ENDIF(MSVC)
 
-IF(NOT HAS_MEMORY_HEADER)
-    MESSAGE(FATAL_ERROR "This compiler doesn't have std::shared_ptr support!")
-ENDIF(NOT HAS_MEMORY_HEADER)
-
 ########################################################################
-# Testing automatic git submodule update
+# Automatic git submodule update
 ########################################################################
 FIND_PACKAGE(Git)
 MESSAGE(STATUS "")
