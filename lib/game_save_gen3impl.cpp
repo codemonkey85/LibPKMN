@@ -11,7 +11,7 @@ using namespace std;
 
 namespace pkmn
 {
-    game_save_gen3impl::game_save_gen3impl(pokehack_sptr parser, char* buffer): game_save()
+    game_save_gen3impl::game_save_gen3impl(pokehack_sptr parser, char* buffer): game_save_impl()
     {
         _parser = parser;
         _data = buffer;
@@ -20,14 +20,12 @@ namespace pkmn
     
     void game_save_gen3impl::load()
     {
-        _game_trainer = conversions::import_trainer_from_pokehack(_parser, _data);
-        _game_id = _game_trainer->get_game_id();
+        _trainer = conversions::import_trainer_from_pokehack(_parser, _data);
+        _game_id = _trainer->get_game_id();
     }
 
     void game_save_gen3impl::save()
     {
-        conversions::export_trainer_to_pokehack(_game_trainer, _parser, _data);
+        conversions::export_trainer_to_pokehack(_trainer, _parser, _data);
     }
-    
-    trainer::sptr game_save_gen3impl::get_trainer() const {return _game_trainer;}
 } /* namespace pkmn */

@@ -13,7 +13,7 @@ using namespace std;
 
 namespace pkmn
 {
-    game_save_gen1impl::game_save_gen1impl(rpokesav_gen1_sptr sav)
+    game_save_gen1impl::game_save_gen1impl(rpokesav_gen1_sptr sav): game_save_impl()
     {
         _sav = sav;
         load();
@@ -21,11 +21,9 @@ namespace pkmn
     
     void game_save_gen1impl::load()
     {
-        _game_trainer = conversions::import_trainer_from_rpokesav_gen1(_sav);
+        _trainer = conversions::import_trainer_from_rpokesav_gen1(_sav);
         _game_id = Games::YELLOW;
     }
 
     void game_save_gen1impl::save() {};
-    
-    trainer::sptr game_save_gen1impl::get_trainer() const {return _game_trainer;}
 } /* namespace pkmn */

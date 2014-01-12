@@ -7,13 +7,13 @@
 #ifndef INCLUDED_GAME_SAVE_GEN4IMPL_HPP
 #define INCLUDED_GAME_SAVE_GEN4IMPL_HPP
 
-#include <pkmn/game_save.hpp>
+#include "game_save_impl.hpp"
 
 #include "conversions/trainer.hpp"
 
 namespace pkmn
 {
-    class game_save_gen4impl: public game_save
+    class game_save_gen4impl: public game_save_impl
     {
         public:
         
@@ -21,8 +21,6 @@ namespace pkmn
             
             void load();
             void save();
-            
-            trainer::sptr get_trainer() const;
             
         private:
         

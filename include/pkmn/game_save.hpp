@@ -35,18 +35,15 @@ namespace pkmn
             virtual void load() = 0;
             virtual void save() = 0;
 
+            virtual unsigned int get_game_id() const = 0;
+            
             virtual trainer::sptr get_trainer() const = 0;
             
-            //virtual std::vector<unsigned int> get_time_played() = 0;
-            //virtual std::vector<unsigned int> get_last_play_time() = 0;
-
-        protected:
-        
-            unsigned int _game_id;
-            trainer::sptr _game_trainer;
+            virtual pokemon_team_t get_trainer_party() const = 0;
+            virtual void set_trainer_party(pokemon_team_t party) = 0;
             
-            //unsigned int hours_played, minutes_played, seconds_played;
-            //unsigned int year, month, day, hour, minute, second;
+            virtual pokemon_text get_trainer_name() const = 0;
+            virtual void set_trainer_name(pokemon_text trainer_name) = 0;
     };
 }
 #endif /* INCLUDED_PKMN_GAME_SAVE_HPP */

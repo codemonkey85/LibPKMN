@@ -13,6 +13,7 @@
 #include <pkmn/game_save.hpp>
 #include <pkmn/paths.hpp>
 
+#include "game_save_impl.hpp"
 #include "game_save_gen1impl.hpp"
 #include "game_save_gen3impl.hpp"
 #include "game_save_gen4impl.hpp"
@@ -96,4 +97,19 @@ namespace pkmn
             exit(EXIT_FAILURE);
         }
     }
+    
+    unsigned int game_save_impl::get_game_id() const {return _game_id;}
+    
+    trainer::sptr game_save_impl::get_trainer() const {return _trainer;}
+    
+    bag::sptr game_save_impl::get_trainer_bag() const {return _trainer->get_bag();}
+    
+    pokemon_team_t game_save_impl::get_trainer_party() const {return _trainer->get_party();}
+    
+    void game_save_impl::set_trainer_party(pokemon_team_t party) {_trainer->set_party(party);}
+    
+    pokemon_text game_save_impl::get_trainer_name() const {return _trainer->get_name();}
+    
+    void game_save_impl::set_trainer_name(pokemon_text trainer_name) {_trainer->set_name(trainer_name);}
+    
 } /* namespace pkmn */

@@ -13,7 +13,7 @@ using namespace std;
 
 namespace pkmn
 {
-    game_save_gen4impl::game_save_gen4impl(pokelib_sptr ptr): game_save()
+    game_save_gen4impl::game_save_gen4impl(pokelib_sptr ptr): game_save_impl()
     {
         _pokelib_save = ptr;
         load();
@@ -21,14 +21,12 @@ namespace pkmn
     
     void game_save_gen4impl::load()
     {
-        _game_trainer = conversions::import_trainer_from_pokelib(_pokelib_save);
-        _game_id = _game_trainer->get_game_id();
+        _trainer = conversions::import_trainer_from_pokelib(_pokelib_save);
+        _game_id = _trainer->get_game_id();
     }
     
     void game_save_gen4impl::save()
     {
-        conversions::export_trainer_to_pokelib(_game_trainer, _pokelib_save);
+        conversions::export_trainer_to_pokelib(_trainer, _pokelib_save);
     }
-    
-    trainer::sptr game_save_gen4impl::get_trainer() const {return _game_trainer;}
 } /* namespace pkmn */

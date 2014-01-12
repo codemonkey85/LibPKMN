@@ -7,7 +7,7 @@
 #ifndef INCLUDED_GAME_SAVE_GEN3IMPL_HPP
 #define INCLUDED_GAME_SAVE_GEN3IMPL_HPP
 
-#include <pkmn/game_save.hpp>
+#include "game_save_impl.hpp"
 
 #include <pokehack/SaveParser.h>
 
@@ -15,7 +15,7 @@
 
 namespace pkmn
 {
-    class game_save_gen3impl: public game_save
+    class game_save_gen3impl: public game_save_impl
     {
         public:
         
@@ -23,8 +23,6 @@ namespace pkmn
             
             void load();
             void save();
-            
-            trainer::sptr get_trainer() const;
             
         private:
         
