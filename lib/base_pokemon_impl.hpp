@@ -65,6 +65,8 @@ namespace pkmn
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
             
+            unsigned int get_exp_yield() const;
+            
         protected:
             
             unsigned int _generation, _form_id, _pokemon_id, _species_id, _type1_id, _type2_id;

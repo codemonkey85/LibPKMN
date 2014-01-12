@@ -64,6 +64,8 @@ namespace pkmn
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
+            
+            virtual unsigned int get_exp_yield() const = 0;
     };
 
     //Related typedefs

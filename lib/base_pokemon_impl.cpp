@@ -256,4 +256,10 @@ namespace pkmn
     unsigned int base_pokemon_impl::get_pokemon_id() const {return _pokemon_id;}
 
     unsigned int base_pokemon_impl::get_species_id() const {return _species_id;}
+    
+    unsigned int base_pokemon_impl::get_exp_yield() const
+    {
+        std::string query_string = "SELECT base_experience FROM pokemon WHERE species_id=" + to_string(_species_id);
+        return int(_db.execAndGet(query_string.c_str()));
+    }
 } /* namespace pkmn */
