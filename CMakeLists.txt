@@ -118,6 +118,7 @@ SET(RUNTIME_DIR bin)
 SET(LIBRARY_DIR lib${LIB_SUFFIX})
 SET(INCLUDE_DIR include)
 SET(PKG_DATA_DIR share/libpkmn)
+SET(DOCS_DIR ${PKG_DATA_DIR}/doc)
 
 ########################################################################
 # Register LibLibPKMN components
@@ -138,6 +139,7 @@ ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(include)
 ADD_SUBDIRECTORY(lib)
 IF(NOT LIBPKMN_USED_AS_SUBMODULE)
+    ADD_SUBDIRECTORY(docs)
     ADD_SUBDIRECTORY(utils)
     ADD_SUBDIRECTORY(apps)
     IF(ENABLE_TESTS)
