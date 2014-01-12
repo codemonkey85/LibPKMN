@@ -63,6 +63,10 @@ ELSEIF(CMAKE_COMPILER_IS_GNUCXX)
     IF(GCC_VERSION LESS 4.3)
         MESSAGE(FATAL_ERROR "You must use GCC 4.3 or later.")
     ENDIF(GCC_VERSION LESS 4.3)
+    ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        #TODO: find minimum usable version of Clang
+    ELSE()
+        MESSAGE(WARNING "This compiler is untested. The code is not guaranteed to compile.")
 ENDIF(MSVC)
 
 ########################################################################
