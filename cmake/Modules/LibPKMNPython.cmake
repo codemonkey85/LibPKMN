@@ -81,6 +81,19 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${module_name}_REAL_NAME} PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
     SWIG_LINK_LIBRARIES(${module_name} ${LIBPKMN_PYTHON_LIBRARIES})
+    
+    IF(WIN32)
+        ADD_CUSTOM_COMMAND(
+            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${SWIG_MODULE_${module_name}_REAL_NAME}.pyd
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/${SWIG_MODULE_${module_name}_REAL_NAME}.pyd
+                    ${CMAKE_CURRENT_BINARY_DIR}/${SWIG_MODULE_${module_name}_REAL_NAME}.pyd
+            COMMENT "Copying ${SWIG_MODULE_${module_name}_REAL_NAME}.pyd for unit test"
+        )
+        ADD_CUSTOM_TARGET(
+            ${SWIG_MODULE_${module_name}_REAL_NAME}_pyd ALL
+            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${SWIG_MODULE_${module_name}_REAL_NAME}.pyd
+        )
+    ENDIF(WIN32)
 
     # Copy __init__.py to binary directory for unit tests
     CONFIGURE_FILE(
