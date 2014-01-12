@@ -62,26 +62,21 @@ IF(ENABLE_LIBPKMN)
         ${database_sources}
     )
     
-    ####################################################################
-    # If built standalone, build Qt4 subclasses
-    ####################################################################
-    IF(NOT LIBPKMN_USED_AS_SUBMODULE)
-        INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
+    INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
 
-        CONFIGURE_FILE(
-            ${CMAKE_CURRENT_SOURCE_DIR}/qt4/AboutMessageBox.cpp.in
-            ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
-        )
-        
-        FILE(GLOB libpkmn_qt4_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4/*.hpp")
-        FILE(GLOB libpkmn_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
-        LIST(APPEND libpkmn_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/qt4/AboutMessageBox.cpp.in
+        ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
+    )
     
-        QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt4_headers})
-    
-        LIST(APPEND libpkmn_sources ${libpkmn_qt4_sources} ${MOCSrcs})
-    ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
+    FILE(GLOB libpkmn_qt4_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4/*.hpp")
+    FILE(GLOB libpkmn_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
+    LIST(APPEND libpkmn_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
 
+    QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt4_headers})
+
+    LIST(APPEND libpkmn_sources ${libpkmn_qt4_sources} ${MOCSrcs})
+    
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/pokehack/include)
