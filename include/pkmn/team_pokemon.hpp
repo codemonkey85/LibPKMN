@@ -1,17 +1,11 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
 #ifndef INCLUDED_PKMN_TEAM_POKEMON_HPP
 #define INCLUDED_PKMN_TEAM_POKEMON_HPP
-
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
 
 #include <string>
 #include <vector>
@@ -22,6 +16,7 @@
 #include <pkmn/move.hpp>
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/pokemon_text.hpp>
+#include <pkmn/types/shared_ptr.hpp>
 #include <pkmn/types/vla.hpp>
 
 namespace pkmn
@@ -30,7 +25,7 @@ namespace pkmn
     {
         public:
 
-            typedef std::shared_ptr<team_pokemon> sptr;
+            typedef pkmn::shared_ptr<team_pokemon> sptr;
             static sptr make(unsigned int id, unsigned int game, unsigned int level,
                              unsigned int move1, unsigned int move2,
                              unsigned int move3, unsigned int move4);

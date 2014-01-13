@@ -7,17 +7,12 @@
 #ifndef INCLUDED_PKMN_GAME_SAVE_HPP
 #define INCLUDED_PKMN_GAME_SAVE_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
 #include <string>
 #include <vector>
 
 #include <pkmn/config.hpp>
 #include <pkmn/trainer.hpp>
+#include <pkmn/types/shared_ptr.hpp>
 
 namespace pkmn
 {
@@ -25,7 +20,7 @@ namespace pkmn
     {
         public:
 
-            typedef std::shared_ptr<game_save> sptr;
+            typedef pkmn::shared_ptr<game_save> sptr;
             static sptr make(std::string filename);
 
             //Class constructors (should never be called directly)

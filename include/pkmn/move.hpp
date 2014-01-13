@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -7,16 +7,11 @@
 #ifndef INCLUDED_PKMN_MOVE_HPP
 #define INCLUDED_PKMN_MOVE_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
 #include <string>
 
 #include <pkmn/config.hpp>
 #include <pkmn/types/dict.hpp>
+#include <pkmn/types/shared_ptr.hpp>
 #include <pkmn/types/vla.hpp>
 
 namespace pkmn
@@ -25,7 +20,7 @@ namespace pkmn
     {
         public:
 
-            typedef std::shared_ptr<move> sptr;
+            typedef pkmn::shared_ptr<move> sptr;
             static sptr make(unsigned int id, unsigned int game);
 
             move() {};
