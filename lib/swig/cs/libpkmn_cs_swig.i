@@ -55,14 +55,14 @@
 %include "pkmn/lists.hpp"
 
 //TODO: make C++ -> C# class name conversion function
-%template(BagSPtr)         std::shared_ptr<pkmn::bag>;
-%template(BasePokemonSPtr) std::shared_ptr<pkmn::base_pokemon>;
-%template(GameSaveSPtr)    std::shared_ptr<pkmn::game_save>;
-%template(ItemSPtr)        std::shared_ptr<pkmn::item>;
-%template(MoveSPtr)        std::shared_ptr<pkmn::move>;
-%template(PocketSPtr)      std::shared_ptr<pkmn::pocket>;
-%template(TeamPokemonSPtr) std::shared_ptr<pkmn::team_pokemon>;
-%template(TrainerSPtr)     std::shared_ptr<pkmn::trainer>;
+%template(BagSPtr)         pkmn::shared_ptr<pkmn::bag>;
+%template(BasePokemonSPtr) pkmn::shared_ptr<pkmn::base_pokemon>;
+%template(GameSaveSPtr)    pkmn::shared_ptr<pkmn::game_save>;
+%template(ItemSPtr)        pkmn::shared_ptr<pkmn::item>;
+%template(MoveSPtr)        pkmn::shared_ptr<pkmn::move>;
+%template(PocketSPtr)      pkmn::shared_ptr<pkmn::pocket>;
+%template(TeamPokemonSPtr) pkmn::shared_ptr<pkmn::team_pokemon>;
+%template(TrainerSPtr)     pkmn::shared_ptr<pkmn::trainer>;
 
 %template(UIntUIntDict) pkmn::dict<unsigned int, unsigned int>;
 %template(StringIntDict) pkmn::dict<std::string, int>;

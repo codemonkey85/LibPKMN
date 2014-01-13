@@ -14,7 +14,7 @@
  */
 
 %define LIBPKMN_PYTHON_FIX(CLASS_NAME)
-    %template(CLASS_NAME ## _sptr) std::shared_ptr<pkmn :: ## CLASS_NAME>;
+    %template(CLASS_NAME ## _sptr) pkmn::shared_ptr<pkmn :: ## CLASS_NAME>;
     %pythoncode %{
         CLASS_NAME = CLASS_NAME.make;
     %}

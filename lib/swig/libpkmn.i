@@ -12,14 +12,8 @@
 %include "stl.i"
 %include "typemaps.i"
 
-namespace std
+namespace pkmn
 {
-    /*
-     * SWIG's std_shared_ptr.i files simply include boost_shared_ptr.i, but for
-     * for ease of development, PKMNsim uses std::shared_ptr. Thus, this SWIG
-     * file creates a dummy std::shared_ptr for SWIG to use instead.
-     */
-
     template<class T> class shared_ptr
     {
         public:
@@ -31,7 +25,10 @@ namespace std
             T * px;
             int pn;
     };
+}
 
+namespace std
+{
     %template(int_vec) vector<int>;
     %template(double_vec) vector<double>;
     %template(string_vec) vector<string>;
