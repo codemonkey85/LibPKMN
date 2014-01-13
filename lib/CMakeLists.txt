@@ -99,6 +99,15 @@ IF(ENABLE_LIBPKMN)
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
     ####################################################################
+    # Use boost::shared_ptr if user specifies
+    ####################################################################
+    IF(USE_BOOST_SHARED_PTR)
+        MESSAGE(STATUS "Using boost::shared_ptr for pkmn::shared_ptr.")
+        MESSAGE(STATUS "")
+        SET_TARGET_PROPERTIES(pkmn PROPERTIES DEFINE_SYMBOL "LIBPKMN_USE_BOOST_SHARED_PTR")
+    ENDIF(USE_BOOST_SHARED_PTR)
+
+    ####################################################################
     # MSVC needs this setting to export functions in pkmn.dll
     ####################################################################
     SET_TARGET_PROPERTIES(pkmn PROPERTIES DEFINE_SYMBOL "PKMN_DLL_EXPORTS")
