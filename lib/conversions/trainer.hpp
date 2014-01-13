@@ -7,14 +7,9 @@
 #ifndef INCLUDED_PKMN_CONVERSIONS_TRAINER_HPP
 #define INCLUDED_PKMN_CONVERSIONS_TRAINER_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
 #include <pkmn/config.hpp>
 #include <pkmn/trainer.hpp>
+#include <pkmn/types/shared_ptr.hpp>
 
 #include <rpokesav/gen1_save.hpp>
 #include <pokehack/SaveParser.h>
@@ -35,10 +30,10 @@
 #define POKEHACK_FRLG_SECURITY_KEY 0x0AF8
 #define POKEHACK_RIVAL_NAME        0x3A4C
 
-typedef std::shared_ptr<rpokesav::gen1_save> rpokesav_gen1_sptr;
-typedef std::shared_ptr<SaveParser> pokehack_sptr;
-typedef std::shared_ptr<PokeLib::Save> pokelib_sptr;
-typedef std::shared_ptr<bw2sav_obj> pkmds_g5_sptr;
+typedef pkmn::shared_ptr<rpokesav::gen1_save> rpokesav_gen1_sptr;
+typedef pkmn::shared_ptr<SaveParser> pokehack_sptr;
+typedef pkmn::shared_ptr<PokeLib::Save> pokelib_sptr;
+typedef pkmn::shared_ptr<bw2sav_obj> pkmds_g5_sptr;
 
 namespace pkmn
 {

@@ -8,7 +8,7 @@
 %feature("autodoc", "1");
  
 /*
- * An interface template needs to be created for each std::shared_ptr used.
+ * An interface template needs to be created for each pkmn::shared_ptr used.
  *
  * To make Python development easier, the make function is rendered unnecessary.
  */
