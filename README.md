@@ -1,16 +1,24 @@
-Pokémon Simulator
+LibPKMN
+===================================
 
-A library that allows for the recreation and full analysis of most aspects of the Pokemon franchise's various game mechanics. A full team can be constructed, complete with held items and abilities, and from there, users can perform complete strategy analysis, giving them the edge they need to create a team that excels.
+The goal of LibPKMN is to be the most portable and universal library available for interacting with the main series Pokémon games. Through this library, users can edit game saves of almost any main series Pokémon game, from party data to game progress. Without any games present, this library can also be used for team formation and strategy analysis.
 
-This library can also interact with the games themselves, allowing for teams and trainers to be imported, tweaked, and exported back into any Generation 1-5 ROM. Aspects that can be tweaked include Pokemon moves and abilities, trainer and Pokemon ID's, and more.
+This library can be built with any modern C++ compiler, and its API can be accessed from C++, C#, Java, and Python, will more to come.
+
+## Feature Roadmap
+
+
+ * Generation 2 game editing (rpokesav submodule)
+ * Communication with Gen 4-5 games (nds_wifi branch)
+ * Qt4 Pokémon Creator
+ * Lua API
 
 ---
 
 Pokémon © 2002-2013 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
-Pokémon info, algorithms, etc., all taken from:
-Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
-Database used courtesy of Alex Munroe (http://www.veekun.com).
+Pokémon info, algorithms, etc., all taken from Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
+SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
 
 Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
 
