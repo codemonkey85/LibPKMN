@@ -31,10 +31,10 @@ This library can be built with any modern C++ compiler, and its API can be acces
 ## Tested With
 
  * C++
- ** GCC 4.6.3 (Ubuntu 12.04)
- ** GCC 4.7.3 (Cygwin 1.7.25)
- ** Clang 3.0 (Ubuntu 12.04)
- ** Microsoft Visual Studio 2010 (Windows 7)
+    * GCC 4.6.3 (Ubuntu 12.04)
+    * GCC 4.7.3 (Cygwin 1.7.25)
+    * Clang 3.0 (Ubuntu 12.04)
+    * Microsoft Visual Studio 2010 (Windows 7)
 
 ## Acknowledgements
 
