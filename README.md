@@ -12,15 +12,6 @@ This library can be built with any modern C++ compiler, and its API can be acces
  * Qt4 Pokémon Creator
  * Lua API
 
-## Acknowledgements
-
-Pokémon © 2002-2014 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
-
-Pokémon info, algorithms, etc., all taken from Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
-SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
-
-Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
-
 ## Dependencies
 
  * CMake 2.8 or above (http://www.cmake.org)
@@ -44,4 +35,13 @@ Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting o
  * Clang 3.0 (Ubuntu 12.04)
  * Microsoft Visual Studio 2010 (Windows 7)
 
+## Acknowledgements
+
+Pokémon © 2002-2014 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
+
+Pokémon info, algorithms, etc., all taken from Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
+SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
+
+Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
+ 
 README last updated: 2013-01-18
