@@ -1,16 +1,17 @@
 LibPKMN
 ===================================
 
-The goal of LibPKMN is to be the most portable and universal library available for interacting with the main series Pokémon games. Through this library, users can edit game saves of almost any main series Pokémon game, from party data to game progress. Without any games present, this library can also be used for team formation and strategy analysis.
+The goal of LibPKMN is to be the most portable and universal library available for interacting with the main series Pokémon games, providing a high-level API that allows users to edit Pokémon game saves without needing the technical knowledge of what goes on under the hood. This game can interact with almost any Generation 1-5 .sav file, giving users access to party data, bag contents, and more. Without any games present, LibPKMN can also be used for team formation and strategy analysis.
 
-This library can be built with any modern C++ compiler, and its API can be accessed from C++, C#, Java, and Python, will more to come.
+This library can be built with any modern C++ compiler, and its API can be accessed from C++, C#, Java, and Python, with more to come.
 
 ## Feature Roadmap
 
  * Generation 2 game editing (rpokesav submodule)
- * Communication with Gen 4-5 games (nds_wifi branch)
+ * Communication with Gen 4-5 retail games (nds_wifi branch)
  * Qt4 Pokémon Creator
  * Lua API
+ * Game save generator
 
 ## Dependencies
 
@@ -35,6 +36,12 @@ This library can be built with any modern C++ compiler, and its API can be acces
     * GCC 4.7.3 (Cygwin 1.7.25)
     * Clang 3.0 (Ubuntu 12.04)
     * Microsoft Visual Studio 2010 (Windows 7)
+ * SWIG 2.0.10
+ * Python 2.7.2
+ * Java
+    * JDK 1.7.0.40
+ * C#
+    * .NET v4.0.30319
 
 ## Acknowledgements
 
