@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -29,13 +29,13 @@ namespace pkmn
     {
         void import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav)
         {
-            pocket::sptr pkmnsim_pocket = item_bag->get_pocket("Items");
+            pocket::sptr libpkmn_pocket = item_bag->get_pocket("Items");
 
             for(int i = 1; i <= sav->get_num_items(); i++)
             {
                 rpokesav::item_t rpokesav_item = sav->get_item(i);
 
-                pkmnsim_pocket->set_item(i, database::get_item_id(rpokesav_item.index, Games::YELLOW),
+                libpkmn_pocket->set_item(i, database::get_item_id(rpokesav_item.index, Games::YELLOW),
                                             rpokesav_item.amount);
             }
         }
@@ -95,8 +95,8 @@ namespace pkmn
                 if(raw_item->index == 0) break;
                 else
                 {
-                    unsigned int pkmnsim_item_id = database::get_item_id(raw_item->index, game);
-                    item_pocket->set_item(item::make(pkmnsim_item_id, game), raw_item->quantity);
+                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
+                    item_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
             for(size_t i = key_item_offset; i < key_item_pocket->get_size(); i+= 4)
@@ -105,8 +105,8 @@ namespace pkmn
                 if(raw_item->index == 0) break;
                 else
                 {
-                    unsigned int pkmnsim_item_id = database::get_item_id(raw_item->index, game);
-                    key_item_pocket->set_item(item::make(pkmnsim_item_id, game), raw_item->quantity);
+                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
+                    key_item_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
             for(size_t i = ball_offset; i < ball_pocket->get_size(); i+= 4)
@@ -115,8 +115,8 @@ namespace pkmn
                 if(raw_item->index == 0) break;
                 else
                 {
-                    unsigned int pkmnsim_item_id = database::get_item_id(raw_item->index, game);
-                    ball_pocket->set_item(item::make(pkmnsim_item_id, game), raw_item->quantity);
+                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
+                    ball_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
             for(size_t i = tm_offset; i < tm_pocket->get_size(); i+= 4)
@@ -125,8 +125,8 @@ namespace pkmn
                 if(raw_item->index == 0) break;
                 else
                 {
-                    unsigned int pkmnsim_item_id = database::get_item_id(raw_item->index, game);
-                    tm_pocket->set_item(item::make(pkmnsim_item_id, game), raw_item->quantity);
+                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
+                    tm_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
             for(size_t i = berry_offset; i < berry_pocket->get_size(); i+= 4)
@@ -135,8 +135,8 @@ namespace pkmn
                 if(raw_item->index == 0) break;
                 else
                 {
-                    unsigned int pkmnsim_item_id = database::get_item_id(raw_item->index, game);
-                    berry_pocket->set_item(item::make(pkmnsim_item_id, game), raw_item->quantity);
+                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
+                    berry_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
         }

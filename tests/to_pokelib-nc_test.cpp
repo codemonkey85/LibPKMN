@@ -18,7 +18,7 @@
 #include "../lib/conversions/pokemon.hpp"
 
 /*
- * Test Pokemon-sim <-> PokeLib-NC conversion.
+ * Test LibPKMN <-> PokeLib-NC conversion.
  */
 
 BOOST_AUTO_TEST_CASE(libpkmn_to_pokelib)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -138,25 +138,25 @@ namespace pkmn
 
     void set_gen_456_otgender(uint8_t* metlevelint, bool is_female);
     
-    uint8_t pkmnsim_getpkmstat(pokemon_obj* pkm);
+    uint8_t libpkmn_getpkmstat(pokemon_obj* pkm);
     
-    void pkmnsim_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm);
+    void libpkmn_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm);
     
-    std::string pkmnsim_getpkxformnamesql(pokemonx_obj *pkx);
+    std::string libpkmn_getpkxformnamesql(pokemonx_obj *pkx);
     
     uint16_t getpkxstat(pokemonx_obj *pkx, unsigned int stat_id);
     
-    uint8_t pkmnsim_pkxstat(pokemonx_obj* pkx);
+    uint8_t libpkmn_pkxstat(pokemonx_obj* pkx);
     
-    void pkmnsim_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx);
+    void libpkmn_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx);
 
-    uint8_t pkmnsim_game_to_hometown(uint8_t game);
+    uint8_t libpkmn_game_to_hometown(uint8_t game);
 
-    uint8_t hometown_to_pkmnsim_game(uint8_t hometown);
+    uint8_t hometown_to_libpkmn_game(uint8_t hometown);
 
-    uint8_t pkmnsim_ball_to_game_ball(uint8_t ball);
+    uint8_t libpkmn_ball_to_game_ball(uint8_t ball);
     
-    uint8_t game_ball_to_pkmnsim_ball(uint8_t game_ball);
+    uint8_t game_ball_to_libpkmn_ball(uint8_t game_ball);
 
     namespace Hometowns
     {

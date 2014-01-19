@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -61,56 +61,56 @@ namespace pkmn
             pokemon_text trainer_name = sav->get_trainer_name();
             
             //No way to tell which specific game
-            trainer::sptr pkmnsim_trainer = trainer::make(Games::YELLOW, trainer_name, Genders::MALE);
+            trainer::sptr libpkmn_trainer = trainer::make(Games::YELLOW, trainer_name, Genders::MALE);
             
-            pkmnsim_trainer->set_money(sav->get_money());
+            libpkmn_trainer->set_money(sav->get_money());
             
-            import_items_from_rpokesav_gen1(pkmnsim_trainer->get_bag(), sav);
+            import_items_from_rpokesav_gen1(libpkmn_trainer->get_bag(), sav);
 
             rpokesav::vla<rpokesav::gen1_pokemon> rpokesav_gen1_team = sav->get_team();
             for(size_t i = 0; i < sav->get_team_size(); i++)
             {
                 team_pokemon::sptr t_pkmn = rpokesav_gen1_pokemon_to_team_pokemon(rpokesav_gen1_team[i],
                                                                                   trainer_name);
-                pkmnsim_trainer->set_pokemon(i+1, t_pkmn);
+                libpkmn_trainer->set_pokemon(i+1, t_pkmn);
             }
             
-            return pkmnsim_trainer;
+            return libpkmn_trainer;
         }
     
         trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data)
         {
             unsigned int game_code = game_data[POKEHACK_GAME_CODE];
-            unsigned int pkmnsim_game_id = 0;
+            unsigned int libpkmn_game_id = 0;
 
             switch(game_code)
             {
                 case 0:
-                    pkmnsim_game_id = Games::RUBY; //TODO: distinguish between Ruby/Sapphire
+                    libpkmn_game_id = Games::RUBY; //TODO: distinguish between Ruby/Sapphire
                     break;
 
                 case 1:
-                    pkmnsim_game_id = Games::FIRE_RED; //TODO: distinguish between FR/LG
+                    libpkmn_game_id = Games::FIRE_RED; //TODO: distinguish between FR/LG
                     break;
 
                 default:
-                    pkmnsim_game_id = Games::EMERALD;
+                    libpkmn_game_id = Games::EMERALD;
                     break;
             }
 
             pokemon_text trainer_name = string(parser->get_text(reinterpret_cast<unsigned char*>(&(game_data[POKEHACK_PLAYER_NAME])), false));
             bool trainer_is_female = game_data[POKEHACK_PLAYER_GENDER];
-            unsigned int pkmnsim_gender;
+            unsigned int libpkmn_gender;
             
-            if(trainer_is_female) pkmnsim_gender = Genders::FEMALE;
-            else pkmnsim_gender = Genders::MALE;
+            if(trainer_is_female) libpkmn_gender = Genders::FEMALE;
+            else libpkmn_gender = Genders::MALE;
 
-            trainer::sptr pkmnsim_trainer = trainer::make(pkmnsim_game_id, trainer_name, pkmnsim_gender);
+            trainer::sptr libpkmn_trainer = trainer::make(libpkmn_game_id, trainer_name, libpkmn_gender);
 
-            pkmnsim_trainer->set_id(*(reinterpret_cast<uint32_t*>(&game_data[POKEHACK_TRAINER_ID])));
-            pkmnsim_trainer->set_money(0); //Currently unimplemented in Pokehack
+            libpkmn_trainer->set_id(*(reinterpret_cast<uint32_t*>(&game_data[POKEHACK_TRAINER_ID])));
+            libpkmn_trainer->set_money(0); //Currently unimplemented in Pokehack
 
-            import_items_from_pokehack(pkmnsim_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
+            import_items_from_pokehack(libpkmn_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
             for(size_t i = 0; i < 6; i++)
             {
@@ -122,23 +122,23 @@ namespace pkmn
                                                                                  parser->pokemon_effort[i],
                                                                                  parser->pokemon_misc[i],
                                                                                  parser->pokemon_growth[i]);
-                    pkmnsim_trainer->set_pokemon(i+1, t_pkmn);
+                    libpkmn_trainer->set_pokemon(i+1, t_pkmn);
                 }
             }
 
-            return pkmnsim_trainer;
+            return libpkmn_trainer;
         }
 
-        void export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data)
+        void export_trainer_to_pokehack(trainer::sptr libpkmn_trainer, pokehack_sptr parser, char* game_data)
         {
-            string trainer_name = pkmnsim_trainer->get_name();
+            string trainer_name = libpkmn_trainer->get_name();
             for(int i = 0; i < 7; i++)
             {
                 game_data[POKEHACK_PLAYER_NAME+i] = pokehack_reverse_char_map[trainer_name[i]];
             }
-            game_data[POKEHACK_PLAYER_GENDER] = (pkmnsim_trainer->get_gender() == Genders::MALE) ? 0 : 1;
+            game_data[POKEHACK_PLAYER_GENDER] = (libpkmn_trainer->get_gender() == Genders::MALE) ? 0 : 1;
 
-            switch(pkmnsim_trainer->get_game_id())
+            switch(libpkmn_trainer->get_game_id())
             {
                 case Games::RUBY:
                 case Games::SAPPHIRE:
@@ -155,11 +155,11 @@ namespace pkmn
             }
 
             uint32_t* pokehack_id = reinterpret_cast<uint32_t*>(game_data[POKEHACK_TRAINER_ID]);
-            *pokehack_id = pkmnsim_trainer->get_id();
+            *pokehack_id = libpkmn_trainer->get_id();
 
-            export_items_to_pokehack(pkmnsim_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
+            export_items_to_pokehack(libpkmn_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
-            pokemon_team_t party = pkmnsim_trainer->get_party();
+            pokemon_team_t party = libpkmn_trainer->get_party();
             for(int i = 0; i < 6; i++)
             {
                 if(party[i]->get_species_id()== Species::NONE) break;
@@ -201,7 +201,7 @@ namespace pkmn
                 if((pokelib_pokemon.pkm->pkm.ot_id == pokelib_public_id)
                     and (pokelib_pokemon.pkm->pkm.ot_sid == pokelib_secret_id))
                 {
-                    game_id = hometown_to_pkmnsim_game(pokelib_pokemon.pkm->pkm.hometown);
+                    game_id = hometown_to_libpkmn_game(pokelib_pokemon.pkm->pkm.hometown);
                     found = true;
                     break;
                 }
@@ -226,33 +226,33 @@ namespace pkmn
             pokemon_text trainer_name = pokelib_trainer->getName();
             unsigned int gender = (pokelib_trainer->getFemale()) ? Genders::FEMALE : Genders::MALE;
 
-            trainer::sptr pkmnsim_trainer = trainer::make(game_id, trainer_name, gender);
+            trainer::sptr libpkmn_trainer = trainer::make(game_id, trainer_name, gender);
 
-            pkmnsim_trainer->set_public_id(pokelib_public_id);
-            pkmnsim_trainer->set_secret_id(pokelib_secret_id);
-            pkmnsim_trainer->set_money(*(reinterpret_cast<uint32_t*>(&(pokelib_save->BlockA[tOffset[offsetMoney][save_type]]))));
+            libpkmn_trainer->set_public_id(pokelib_public_id);
+            libpkmn_trainer->set_secret_id(pokelib_secret_id);
+            libpkmn_trainer->set_money(*(reinterpret_cast<uint32_t*>(&(pokelib_save->BlockA[tOffset[offsetMoney][save_type]]))));
 
-            import_items_from_pokelib(pkmnsim_trainer->get_bag(), *pokelib_trainer);
+            import_items_from_pokelib(libpkmn_trainer->get_bag(), *pokelib_trainer);
 
             for(size_t i = 1; i < (unsigned int)(pokelib_party->count()); i++)
             {
                 PokeLib::Pokemon pokelib_pokemon = pokelib_party->getPokemon(i);
 
                 if(pokelib_pokemon.pkm->pkm.species == 0) break;
-                else pkmnsim_trainer->set_pokemon(i, pokelib_pokemon_to_team_pokemon(pokelib_pokemon));
+                else libpkmn_trainer->set_pokemon(i, pokelib_pokemon_to_team_pokemon(pokelib_pokemon));
             }
 
-            return pkmnsim_trainer;
+            return libpkmn_trainer;
         }
 
-        void export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_save)
+        void export_trainer_to_pokelib(trainer::sptr libpkmn_trainer, pokelib_sptr pokelib_save)
         {
             PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
-            pokelib_trainer->setName(pkmnsim_trainer->get_name());
-            pokelib_trainer->setFemale(pkmnsim_trainer->get_gender() == Genders::FEMALE);
+            pokelib_trainer->setName(libpkmn_trainer->get_name());
+            pokelib_trainer->setFemale(libpkmn_trainer->get_gender() == Genders::FEMALE);
 
-            export_items_to_pokelib(pkmnsim_trainer->get_bag(), pokelib_trainer);
+            export_items_to_pokelib(libpkmn_trainer->get_bag(), pokelib_trainer);
 
             //PokeLib::Save::getTrainer returns new trainer
             pokelib_save->setTrainer(pokelib_trainer);
@@ -261,7 +261,7 @@ namespace pkmn
 
             for(int i = 1; i <= 6; i++)
             {
-                team_pokemon::sptr t_pkmn = pkmnsim_trainer->get_pokemon(i);
+                team_pokemon::sptr t_pkmn = libpkmn_trainer->get_pokemon(i);
                 if(t_pkmn->get_species_id() == Species::NONE) break;
                 else pokelib_party->setPokemon(i, team_pokemon_to_pokelib_pokemon(t_pkmn));
             }
@@ -288,7 +288,7 @@ namespace pkmn
 
                 if((pkmds_pokemon->tid == pkmds_public_id) and (pkmds_pokemon->sid == pkmds_secret_id))
                 {
-                    game_id = hometown_to_pkmnsim_game(int(pkmds_pokemon->hometown));
+                    game_id = hometown_to_libpkmn_game(int(pkmds_pokemon->hometown));
                     gender = (get_gen_456_otgender((reinterpret_cast<uint8_t*>(&(pkmds_pokemon->ball)+1)))) ?
                              Genders::FEMALE : Genders::MALE;
                     found = true;
@@ -302,36 +302,36 @@ namespace pkmn
             }
 
             pokemon_text pkmds_name = ::getsavtrainername(pkmds_save->cur);
-            trainer::sptr pkmnsim_trainer = trainer::make(game_id, pkmds_name, gender);
+            trainer::sptr libpkmn_trainer = trainer::make(game_id, pkmds_name, gender);
 
-            pkmnsim_trainer->set_public_id(pkmds_public_id);
-            pkmnsim_trainer->set_secret_id(pkmds_secret_id);
-            pkmnsim_trainer->set_money(0);
+            libpkmn_trainer->set_public_id(pkmds_public_id);
+            libpkmn_trainer->set_secret_id(pkmds_secret_id);
+            libpkmn_trainer->set_money(0);
             
-            import_items_from_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
+            import_items_from_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
 
             for(size_t i = 0; i < pkmds_party->size; i++)
             {
-                pkmnsim_trainer->set_pokemon(i+1, pkmds_g5_pokemon_to_team_pokemon(&(pkmds_party->pokemon[i])));
+                libpkmn_trainer->set_pokemon(i+1, pkmds_g5_pokemon_to_team_pokemon(&(pkmds_party->pokemon[i])));
             }
 
-            return pkmnsim_trainer;
+            return libpkmn_trainer;
         }
         
-        void export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save)
+        void export_trainer_to_pkmds_g5(trainer::sptr libpkmn_trainer, pkmds_g5_sptr pkmds_save)
         {
-            std::wstring trainer_name = pkmnsim_trainer->get_name();
+            std::wstring trainer_name = libpkmn_trainer->get_name();
         
             for(size_t i = 0; i < trainer_name.size(); i++)
             {
                 pkmds_save->cur.trainername[i] = trainer_name[i];
             }
             
-            export_items_to_pkmds_g5(pkmnsim_trainer->get_bag(), &(pkmds_save->cur.bag));
+            export_items_to_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
             
             for(size_t i = 1; i <= 6; i++)
             {
-                team_pokemon::sptr t_pkmn = pkmnsim_trainer->get_pokemon(i);
+                team_pokemon::sptr t_pkmn = libpkmn_trainer->get_pokemon(i);
             
                 if(t_pkmn->get_species_id() == Species::NONE) break;
                 else team_pokemon_to_pkmds_g5_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));

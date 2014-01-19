@@ -16,7 +16,7 @@ int main(int argc, char **argv)
     QApplication app(argc,argv);
 
     pkmn::qt4::AboutMessageBox box;
-    box.setWindowTitle("Pokemon-sim - About");
+    box.setWindowTitle("LibPKMN - About");
     box.show();
 
     return app.exec();

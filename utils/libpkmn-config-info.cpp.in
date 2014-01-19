@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -18,8 +18,8 @@ int main()
     cout << endl << "LibPKMN - Configuration Info" << endl << endl;
 
     cout << "Git commits:" << endl;
-    cout << " - LibPKMN:        @PKMNSIM_GIT_DESCRIBE@" << endl;
-    cout << " - LibPKMN Images: @PKMNSIM_IMAGES_GIT_DESCRIBE@" << endl;
+    cout << " - LibPKMN:        @LIBPKMN_GIT_DESCRIBE@" << endl;
+    cout << " - LibPKMN Images: @LIBPKMN_IMAGES_GIT_DESCRIBE@" << endl;
     cout << " - Retro Pokesav:  @RPOKESAV_GIT_DESCRIBE@" << endl;
     cout << " - Pokehack:       @POKEHACK_GIT_DESCRIBE@" << endl;
     cout << " - PokeLib-NC:     @POKELIB_GIT_DESCRIBE@" << endl;

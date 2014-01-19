@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -98,7 +98,7 @@ namespace pkmn
             unsigned int level, from_game, species_id;
             
             level = b_pkmn_t->level;
-            from_game = hometown_to_pkmnsim_game(pkmn_m_t->game);
+            from_game = hometown_to_libpkmn_game(pkmn_m_t->game);
             species_id = database::get_species_id(pkmn_g_t->species, from_game);
             
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
@@ -133,7 +133,7 @@ namespace pkmn
           
             uint16_t* metlevel_int = reinterpret_cast<uint16_t*>(&(pkmn_m_t->locationcaught)+1); 
             t_pkmn->set_met_level(get_gen3_met_level(metlevel_int));
-            t_pkmn->set_ball(game_ball_to_pkmnsim_ball(get_gen3_ball(metlevel_int)));
+            t_pkmn->set_ball(game_ball_to_libpkmn_ball(get_gen3_ball(metlevel_int)));
             if(get_gen3_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
@@ -220,14 +220,14 @@ namespace pkmn
             pkmn_a_t->pp3 = move_PPs[2];
             pkmn_a_t->pp4 = move_PPs[3];
 
-            pkmn_m_t->game = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
+            pkmn_m_t->game = libpkmn_game_to_hometown(t_pkmn->get_game_id());
             
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
             pkmn_g_t->held = database::get_item_index(raw_held, t_pkmn->get_game_id());
 
             uint16_t* metlevel_int = reinterpret_cast<uint16_t*>(&(pkmn_m_t->locationcaught)+1);
             set_gen3_met_level(metlevel_int, t_pkmn->get_met_level());
-            set_gen3_ball(metlevel_int, pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
+            set_gen3_ball(metlevel_int, libpkmn_ball_to_game_ball(t_pkmn->get_ball()));
             set_gen3_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
             dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
@@ -312,7 +312,7 @@ namespace pkmn
             unsigned int level, from_game, species_id;
 
             level = pokelib_pkmn.getLevel();
-            from_game = hometown_to_pkmnsim_game(pokelib_pkmn.pkm->pkm.hometown);
+            from_game = hometown_to_libpkmn_game(pokelib_pkmn.pkm->pkm.hometown);
             species_id = database::get_species_id(pokelib_pkmn.pkm->pkm.species, from_game);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
@@ -329,7 +329,7 @@ namespace pkmn
 
             uint8_t* metLevelInt = &(pokelib_pkmn.pkm->pkm.metLevelInt);
             t_pkmn->set_met_level(get_gen_456_met_level(metLevelInt));
-            t_pkmn->set_ball(game_ball_to_pkmnsim_ball(pokelib_pkmn.pkm->pkm.pokeball));
+            t_pkmn->set_ball(game_ball_to_libpkmn_ball(pokelib_pkmn.pkm->pkm.pokeball));
             if(get_gen_456_otgender(metLevelInt)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
 
@@ -353,7 +353,7 @@ namespace pkmn
             t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
             t_pkmn->set_IV(Stats::SPEED, modern_get_IV(IVint, Stats::SPEED));
 
-            //TODO: use form data to set Pokemon-sim form, is fateful encounter
+            //TODO: use form data to set LibPKMN form, is fateful encounter
 
             //Attributes
             uint8_t* markings = &(pokelib_pkmn.pkm->pkm.markings);
@@ -486,7 +486,7 @@ namespace pkmn
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
-            pokelib_pkmn.pkm->pkm.pokeball = pkmnsim_ball_to_game_ball(t_pkmn->get_ball());
+            pokelib_pkmn.pkm->pkm.pokeball = libpkmn_ball_to_game_ball(t_pkmn->get_ball());
             set_gen_456_met_level(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
             moveset_t moves = t_pkmn->get_moves();
@@ -520,7 +520,7 @@ namespace pkmn
             
             pokelib_pkmn.updateBattleStats();
 
-            pokelib_pkmn.pkm->pkm.hometown = pkmnsim_game_to_hometown(t_pkmn->get_game_id());
+            pokelib_pkmn.pkm->pkm.hometown = libpkmn_game_to_hometown(t_pkmn->get_game_id());
 
             //Attributes
             dict<std::string, int> attributes = t_pkmn->get_attributes();
@@ -648,7 +648,7 @@ namespace pkmn
             unsigned int level, from_game, species_id;
 
             level = ::getpkmlevel(p_pkm->pkm_data);
-            from_game = hometown_to_pkmnsim_game(p_pkm->pkm_data.hometown);
+            from_game = hometown_to_libpkmn_game(p_pkm->pkm_data.hometown);
             species_id = database::get_species_id(p_pkm->pkm_data.species, from_game);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
@@ -675,7 +675,7 @@ namespace pkmn
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
-            t_pkmn->set_ball(game_ball_to_pkmnsim_ball(p_pkm->pkm_data.ball));
+            t_pkmn->set_ball(game_ball_to_libpkmn_ball(p_pkm->pkm_data.ball));
             if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
             
@@ -836,7 +836,7 @@ namespace pkmn
 
             wstring nickname_wide = t_pkmn->get_nickname();
             wstring trainer_name_wide = t_pkmn->get_trainer_name();
-            #ifdef PKMNSIM_PLATFORM_LINUX
+            #ifdef LIBPKMN_PLATFORM_LINUX
                 ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(nickname_wide.c_str()), nickname_wide.size());
                 ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(trainer_name_wide.c_str()), trainer_name_wide.size());
             #else
@@ -850,7 +850,7 @@ namespace pkmn
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
-            p_pkm->pkm_data.ball = Balls::balls(pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
+            p_pkm->pkm_data.ball = Balls::balls(libpkmn_ball_to_game_ball(t_pkmn->get_ball()));
             set_gen_456_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
             p_pkm->pkm_data.pid = t_pkmn->get_personality();
             p_pkm->pkm_data.tid = t_pkmn->get_public_trainer_id();
@@ -881,7 +881,7 @@ namespace pkmn
             p_pkm->pkm_data.evs.spdef = EVs[Stats::SPECIAL_DEFENSE];
             p_pkm->pkm_data.evs.speed = EVs[Stats::SPEED];
 
-            p_pkm->pkm_data.hometown = ::Hometowns::hometowns(pkmnsim_game_to_hometown(t_pkmn->get_game_id()));
+            p_pkm->pkm_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_game_id()));
 
             //Attributes
             dict<std::string, int> attributes = t_pkmn->get_attributes();
@@ -1001,7 +1001,7 @@ namespace pkmn
             unsigned int level, from_game, species_id;
 
             level = p_pkx->partyx_data.level;
-            from_game = hometown_to_pkmnsim_game(p_pkx->pkx_data.hometown);
+            from_game = hometown_to_libpkmn_game(p_pkx->pkx_data.hometown);
             species_id = database::get_species_id(p_pkx->pkx_data.species, from_game);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
@@ -1018,7 +1018,7 @@ namespace pkmn
             
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
-            t_pkmn->set_ball(game_ball_to_pkmnsim_ball(p_pkx->pkx_data.ball));
+            t_pkmn->set_ball(game_ball_to_libpkmn_ball(p_pkx->pkx_data.ball));
             if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender(Genders::FEMALE);
             else t_pkmn->set_trainer_gender(Genders::MALE);
             
@@ -1072,7 +1072,7 @@ namespace pkmn
             
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
-            p_pkx->pkx_data.ball = Balls::balls(pkmnsim_ball_to_game_ball(t_pkmn->get_ball()));
+            p_pkx->pkx_data.ball = Balls::balls(libpkmn_ball_to_game_ball(t_pkmn->get_ball()));
             set_gen_456_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
             p_pkx->pkx_data.pid = t_pkmn->get_personality();
             p_pkx->pkx_data.tid = t_pkmn->get_public_trainer_id();
@@ -1103,7 +1103,7 @@ namespace pkmn
             p_pkx->pkx_data.evs.spdef = EVs[Stats::SPECIAL_DEFENSE];
             p_pkx->pkx_data.evs.speed = EVs[Stats::SPEED];
 
-            p_pkx->pkx_data.hometown = ::Hometowns::hometowns(pkmnsim_game_to_hometown(t_pkmn->get_game_id()));
+            p_pkx->pkx_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_game_id()));
         }
         
         PokeLib::Pokemon pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,

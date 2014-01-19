@@ -1,6 +1,6 @@
 #region License
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -16,14 +16,14 @@ using System.Runtime.CompilerServices;
 // change them to the information which is associated with the assembly
 // you compile.
 
-[assembly: AssemblyTitle("PKMNsim")]
-[assembly: AssemblyDescription("Pokemon Simulator")]
+[assembly: AssemblyTitle("LibPKMN")]
+[assembly: AssemblyDescription("LibPKMN")]
 [assembly: AssemblyConfiguration("Retail")]
 [assembly: AssemblyCompany("Nicholas Corgan")]
-[assembly: AssemblyProduct("pkmnsim-sharp.dll")]
-[assembly: AssemblyDefaultAlias("pkmnsim-sharp")]
-[assembly: AssemblyCopyright("Copyright ©2013 Nicholas Corgan. All rights reserved.")]
-[assembly: AssemblyTrademark("PKMNsim - https://github.com/ncorgan/pkmnsim")]
+[assembly: AssemblyProduct("libpkmn-sharp.dll")]
+[assembly: AssemblyDefaultAlias("libpkmn-sharp")]
+[assembly: AssemblyCopyright("Copyright © 2013-2014 Nicholas Corgan. All rights reserved.")]
+[assembly: AssemblyTrademark("LibPKMN - https://github.com/ncorgan/LibPKMN")]
 [assembly: AssemblyCulture("")]
 
 // The assembly version has following format :

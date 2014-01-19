@@ -1,11 +1,11 @@
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-#Extract Git commits from PKMNsim and all submodules
+#Extract Git commits from LibPKMN and all submodules
 
 FIND_PACKAGE(Git)
 

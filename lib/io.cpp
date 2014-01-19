@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -54,7 +54,7 @@ namespace pkmn
             ifile.close();
             memcpy(pkmn_obj, pkm_contents, sizeof(pokemon_obj));
             
-            pkmnsim_pctoparty(p_pkm, pkmn_obj);
+            libpkmn_pctoparty(p_pkm, pkmn_obj);
             return conversions::pkmds_g5_pokemon_to_team_pokemon(p_pkm);
         }
         
@@ -86,7 +86,7 @@ namespace pkmn
             ifile.close();
             memcpy(pkmn_obj, pkx_contents, sizeof(pokemonx_obj));
             
-            pkmnsim_pctopartyx(p_pkm, pkmn_obj);
+            libpkmn_pctopartyx(p_pkm, pkmn_obj);
             return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
         }
 

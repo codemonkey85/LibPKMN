@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -11,7 +11,7 @@
  */
 
 /*
- * pkmnsim/io.hpp
+ * pkmn/io.hpp
  */
 %rename(exportToPKM)   pkmn::export_to_pkm;
 %rename(importFromPKM) pkmn::import_from_pkm;
@@ -19,7 +19,7 @@
 %rename(importFromPKX) pkmn::import_from_pkx;
 
 /*
- * pkmnsim/lists.hpp
+ * pkmn/lists.hpp
  */
 %rename(getGameList)      pkmn::get_game_list;
 %rename(getGameGroupList) pkmn::get_game_group_list;
@@ -31,7 +31,7 @@
 %rename(getPokemonOfType) pkmn::get_pokemon_of_type;
 
 /*
- * pkmnsim/paths.hpp
+ * pkmn/paths.hpp
  */
 %rename(getAppdataPath)  pkmn::get_appdata_path;
 %rename(getDatabasePath) pkmn::get_database_path;
@@ -39,7 +39,7 @@
 %rename(getTmpDir)       pkmn::get_tmp_dir;
 
 /*
- * pkmnsim/analysis/damage.hpp
+ * pkmn/analysis/damage.hpp
  */
 %rename(getTypeDamageMod)   pkmn::analysis::get_type_damage_mod;
 %rename(getBaseDamage)      pkmn::analysis::get_base_damage;
@@ -50,13 +50,13 @@
 %rename(getStatRange)       pkmn::analysis::get_stat_range;
 
 /*
- * pkmnsim/database/lists.hpp
+ * pkmn/database/lists.hpp
  */
 %rename(getTableList)  pkmn::get_table_list;
 %rename(getColumnList) pkmn::get_column_list;
 
 /*
- * pkmnsim/database/queries.hpp
+ * pkmn/database/queries.hpp
  */
 %rename(toDatabaseFormat)    pkmn::database::to_database_format;
 %rename(getAbilityID)        pkmn::database::get_ability_id;
@@ -87,7 +87,7 @@
 %rename(getVersionGroup)     pkmn::database::get_version_group;
 
 /*
- * pkmnsim/types/*.hpp
+ * pkmn/types/*.hpp
  */
 %rename(PRNG)           pkmn::prng;
 %rename(StringIntDict)  pkmn::dict<std::string, int>;

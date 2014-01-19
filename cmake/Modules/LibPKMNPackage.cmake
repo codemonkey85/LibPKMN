@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
@@ -44,9 +44,9 @@ IF(NOT LIBPKMN_USED_AS_SUBMODULE) #Let parent project decide these settings
 
         include(CheckTypeSize)
         check_type_size("void*[8]" BIT_WIDTH BUILTIN_TYPES_ONLY)
-        SET(CPACK_PACKAGE_FILE_NAME "PKMNsim_Win${BIT_WIDTH}")
+        SET(CPACK_PACKAGE_FILE_NAME "LibPKMN_Win${BIT_WIDTH}")
 
-        SET(CPACK_PACKAGE_INSTALL_DIRECTORY "PKMNsim")
+        SET(CPACK_PACKAGE_INSTALL_DIRECTORY "LibPKMN")
     ENDIF()
 ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 
@@ -55,8 +55,8 @@ SET(CPACK_NSIS_MODIFY_PATH ON)
 SET(HLKM_ENV "\\\"SYSTEM\\\\CurrentControlSet\\\\Control\\\\Session Manager\\\\Environment\\\"")
 
 SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
-    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\"
-    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_IMAGES_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\\images\\\"
+    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_DIR\\\" \\\"$INSTDIR\\\\share\\\\libpkmn\\\"
+    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_IMAGES_DIR\\\" \\\"$INSTDIR\\\\share\\\\libpkmn\\\\images\\\"
 ")
 
 SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "

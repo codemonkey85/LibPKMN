@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -43,15 +43,15 @@ namespace pkmn
     
         trainer::sptr PKMN_API import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
 
-        void PKMN_API export_trainer_to_pokehack(trainer::sptr pkmnsim_trainer, pokehack_sptr parser, char* game_data);
+        void PKMN_API export_trainer_to_pokehack(trainer::sptr libpkmn_trainer, pokehack_sptr parser, char* game_data);
 
         trainer::sptr PKMN_API import_trainer_from_pokelib(pokelib_sptr pokelib_save);
 
-        void PKMN_API export_trainer_to_pokelib(trainer::sptr pkmnsim_trainer, pokelib_sptr pokelib_trainer);
+        void PKMN_API export_trainer_to_pokelib(trainer::sptr libpkmn_trainer, pokelib_sptr pokelib_trainer);
 
         trainer::sptr PKMN_API import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save);
 
-        void PKMN_API export_trainer_to_pkmds_g5(trainer::sptr pkmnsim_trainer, pkmds_g5_sptr pkmds_save);
+        void PKMN_API export_trainer_to_pkmds_g5(trainer::sptr libpkmn_trainer, pkmds_g5_sptr pkmds_save);
     }
 }
 #endif /* INCLUDED_PKMN_CONVERSIONS_TRAINER_HPP */
