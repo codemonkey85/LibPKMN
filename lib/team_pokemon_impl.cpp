@@ -83,7 +83,7 @@ namespace pkmn
         _trainer_id = _rand_gen.lcrng_next(gen);
     
         _base_pkmn = base;
-        _nickname = _base_pkmn->get_species_name();
+        _nickname = _base_pkmn->get_name();
         _trainer_name = "Ash";
         _level = level;
         _game_id = game;
@@ -279,7 +279,7 @@ namespace pkmn
 
     void team_pokemon_impl::set_secret_trainer_id(unsigned short id) {_tid.secret_id = id;}
 
-    string team_pokemon_impl::get_species_name() const {return _base_pkmn->get_species_name();}
+    string team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
     
     void team_pokemon_impl::get_egg_group_names(std::vector<std::string>
                                                 &egg_group_name_vec) const
@@ -300,6 +300,8 @@ namespace pkmn
     unsigned int team_pokemon_impl::get_pokemon_id() const {return _base_pkmn->get_pokemon_id();}
 
     unsigned int team_pokemon_impl::get_species_id() const {return _base_pkmn->get_species_id();}
+
+    std::string team_pokemon_impl::get_form_name() const {return _base_pkmn->get_form_name();}
     
     types_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
     

@@ -194,7 +194,7 @@ namespace pkmn
     void base_pokemon_gen2impl::set_form(unsigned int form) {};
     void base_pokemon_gen2impl::set_form(std::string form) {};
     void base_pokemon_gen2impl::repair(unsigned int id) {};
-    string base_pokemon_gen2impl::get_form_name() const {return get_species_name();}
+    string base_pokemon_gen2impl::get_form_name() const {return get_name();}
     unsigned int base_pokemon_gen2impl::get_form_id() const {return _species_id;}
 
     void base_pokemon_gen2impl::get_egg_group_names(std::vector<std::string>

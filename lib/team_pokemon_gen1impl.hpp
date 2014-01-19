@@ -31,7 +31,6 @@ namespace pkmn
             void set_EV(unsigned int EV, unsigned int val);
             void set_IV(unsigned int IV, unsigned int val);
             
-            std::string get_form_name() const;
             unsigned int get_form_id() const;
             
             void set_form(unsigned int form);

@@ -152,6 +152,40 @@ namespace pkmn
         _images_gen_string = "generation-" + to_string(_generation);
     }
 
+    std::string base_pokemon_impl::get_name() const
+    {
+        switch(_species_id)
+        {
+            case Species::NONE:
+                return "None";
+
+            case Species::INVALID:
+                return "Invalid";
+
+            default:
+                return database::get_species_name(_species_id);
+        }
+    }
+
+    std::string base_pokemon_impl::get_species() const
+    {
+        switch(_species_id)
+        {
+            case Species::NONE:
+                return "None";
+
+            case Species::INVALID:
+                return "Invalid";
+
+            default:
+            {
+                std::string query_string = "SELECT genus FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id="
+                                         + to_string(_species_id);
+                return _db.execAndGet(query_string.c_str());
+            }
+        }
+    }
+
     unsigned int base_pokemon_impl::get_pokedex_num() const {return _species_id;}
     string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry(_species_id, _game_id);}
 
@@ -237,21 +271,6 @@ namespace pkmn
     
     unsigned int base_pokemon_impl::get_generation() const {return _generation;}
     
-    string base_pokemon_impl::get_species_name() const
-    {
-        switch(_species_id)
-        {
-            case Species::NONE:
-                return "None";
-
-            case Species::INVALID:
-                return "Invalid Pokemon";
-
-            default:
-                return database::get_species_name(_species_id);
-        }
-    }
-
     unsigned int base_pokemon_impl::get_game_id() const {return _game_id;}
 
     unsigned int base_pokemon_impl::get_pokemon_id() const {return _pokemon_id;}

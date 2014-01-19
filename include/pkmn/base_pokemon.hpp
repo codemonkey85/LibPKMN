@@ -30,12 +30,15 @@ namespace pkmn
 			base_pokemon() {};
             virtual ~base_pokemon() {};
 
+            //Pokedex Data
+            virtual std::string get_name() const = 0;
+            virtual std::string get_species() const = 0;
             virtual unsigned int get_pokedex_num() const = 0;
             virtual std::string get_pokedex_entry() const = 0;
             virtual types_t get_types() const = 0;
-
             virtual double get_height() const = 0;
             virtual double get_weight() const = 0;
+
             virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;
             virtual dict<unsigned int, unsigned int> get_ev_yields() const = 0;
             virtual double get_chance_male() const = 0;
@@ -55,7 +58,6 @@ namespace pkmn
             virtual void get_egg_group_names(std::vector<std::string>
                                              &egg_group_name_vec) const = 0;
             virtual std::string get_form_name() const = 0;
-            virtual std::string get_species_name() const = 0;
             
             virtual void get_egg_group_ids(std::vector<unsigned int>
                                            &egg_group_id_vec) const = 0;

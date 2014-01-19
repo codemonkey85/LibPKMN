@@ -176,8 +176,6 @@ namespace pkmn
         }
     }
 
-    std::string team_pokemon_gen1impl::get_form_name() const {return _base_pkmn->get_species_name();}
-    
     unsigned int team_pokemon_gen1impl::get_form_id() const {return _base_pkmn->get_pokemon_id();}
     
     void team_pokemon_gen1impl::set_form(unsigned int form)

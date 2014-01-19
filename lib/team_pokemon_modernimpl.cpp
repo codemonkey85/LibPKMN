@@ -231,27 +231,6 @@ namespace pkmn
         }
     }
 
-    //TODO: better way of internally dealing with alternate forms
-    
-    std::string team_pokemon_modernimpl::get_form_name() const
-    {
-        //Still doesn't account for things like West Sea vs. East Sea Shellos
-        //Will need to be done with ugly manual work
-        if(_base_pkmn->get_species_id() == _base_pkmn->get_pokemon_id()
-        or _base_pkmn->get_species_id() == Species::NONE
-        or _base_pkmn->get_species_id() == Species::INVALID) return _base_pkmn->get_species_name();
-        else
-        {
-            string query_string = str(boost::format("SELECT id FROM pokemon_forms WHERE pokemon_id=%d")
-                                                    % _base_pkmn->get_pokemon_id());
-            int id = _db.execAndGet(query_string.c_str());
-            
-            query_string = str(boost::format("SELECT pokemon_name FROM pokemon_form_names WHERE pokemon_form_id=%d AND local_language_id=9")
-                                             % id);
-            return string((const char*)(_db.execAndGet(query_string.c_str())));
-        }
-    }
-    
     unsigned int team_pokemon_modernimpl::get_form_id() const {return _base_pkmn->get_pokemon_id();}
     
     void team_pokemon_modernimpl::set_form(unsigned int form)

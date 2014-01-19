@@ -50,18 +50,19 @@ namespace pkmn
 
             base_pokemon_impl(unsigned int species_id, unsigned int game_id);
 
+            //Pokedex Data
+            std::string get_name() const;
+            std::string get_species() const;
             unsigned int get_pokedex_num() const;
             std::string get_pokedex_entry() const;
             types_t get_types() const;
-
             double get_height() const;
             double get_weight() const;
+
 			void get_evolutions(std::vector<sptr> &evolution_vec) const;
 			bool is_fully_evolved() const;
             unsigned int get_generation() const;
 
-            std::string get_species_name() const;
-            
             unsigned int get_game_id() const;
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;

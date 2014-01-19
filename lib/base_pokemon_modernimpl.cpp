@@ -1178,7 +1178,24 @@ namespace pkmn
         }
     }
     
-    string base_pokemon_modernimpl::get_form_name() const {return get_species_name();}
+    std::string base_pokemon_modernimpl::get_form_name() const
+    {
+        //Still doesn't account for things like West Sea vs. East Sea Shellos
+        //Will need to be done with ugly manual work
+        if(_species_id == _pokemon_id
+        or _species_id == Species::NONE
+        or _species_id == Species::INVALID) return get_name();
+        else
+        {
+            string query_string = str(boost::format("SELECT id FROM pokemon_forms WHERE pokemon_id=%d")
+                                                    % _pokemon_id);
+            int id = _db.execAndGet(query_string.c_str());
+
+            query_string = str(boost::format("SELECT pokemon_name FROM pokemon_form_names WHERE pokemon_form_id=%d AND local_language_id=9")
+                                             % id);
+            return string((const char*)(_db.execAndGet(query_string.c_str())));
+        }
+    }
     
     void base_pokemon_modernimpl::get_egg_group_ids(std::vector<unsigned int>
                                                     &egg_group_id_vec) const

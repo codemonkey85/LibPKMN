@@ -81,6 +81,7 @@ namespace pkmn
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
             std::string get_species_name() const;
+            std::string get_form_name() const;
             
             types_t get_types() const;
             dict<unsigned int, unsigned int> get_base_stats() const;
