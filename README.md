@@ -36,12 +36,18 @@ This library can be built with any modern C++ compiler, and its API can be acces
     * GCC 4.7.3 (Cygwin 1.7.25)
     * Clang 3.0 (Ubuntu 12.04)
     * Microsoft Visual Studio 2010 (Windows 7)
- * SWIG 2.0.10
- * Python 2.7.2
+ * SWIG
+    * 2.0.4 (Ubuntu 12.04)
+    * 2.0.10 (Windows 7)
+ * Python 
+    * 2.7.3 (Ubuntu 12.04)
+    * 2.7.2 (Windows 7)
  * Java
-    * JDK 1.7.0.40
+    * 1.6.0.27 (Ubuntu 12.04)
+    * 1.7.0.40 (Windows 7)
  * C#
-    * .NET v4.0.30319
+    * Mono 2.10.8 (Ubuntu 12.04)
+    * .NET v4.0.30319 (Windows 7)
 
 ## Acknowledgements
 
