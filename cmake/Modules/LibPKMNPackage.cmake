@@ -5,7 +5,7 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
-IF(NOT PKMNSIM_USED_AS_SUBMODULE) #Let parent project decide these settings
+IF(NOT LIBPKMN_USED_AS_SUBMODULE) #Let parent project decide these settings
     #Set CPack Generator
     IF(CPACK_GENERATOR)
         #already set
@@ -24,11 +24,11 @@ IF(NOT PKMNSIM_USED_AS_SUBMODULE) #Let parent project decide these settings
     ########################################################################
     # Setup CPack General
     ########################################################################
-    SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Pokémon Simulator")
+    SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "LibPKMN")
     SET(CPACK_PACKAGE_VENDOR              "Nicholas Corgan")
     SET(CPACK_PACKAGE_CONTACT             "Nicholas Corgan <n.corgan@gmail.com>")
     SET(CPACK_PACKAGE_VERSION "0.0.1")
-    SET(CPACK_RESOURCE_FILE_WELCOME ${CMAKE_SOURCE_DIR}/README.txt)
+    SET(CPACK_RESOURCE_FILE_WELCOME ${CMAKE_SOURCE_DIR}/README.md)
     SET(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE.txt)
 
     ########################################################################
@@ -48,20 +48,20 @@ IF(NOT PKMNSIM_USED_AS_SUBMODULE) #Let parent project decide these settings
 
         SET(CPACK_PACKAGE_INSTALL_DIRECTORY "PKMNsim")
     ENDIF()
-ENDIF(NOT PKMNSIM_USED_AS_SUBMODULE)
+ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 
 SET(CPACK_NSIS_MODIFY_PATH ON)
 
 SET(HLKM_ENV "\\\"SYSTEM\\\\CurrentControlSet\\\\Control\\\\Session Manager\\\\Environment\\\"")
 
 SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
-    WriteRegStr HKLM ${HLKM_ENV} \\\"PKMNSIM_DATABASE_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\"
-    WriteRegStr HKLM ${HLKM_ENV} \\\"PKMNSIM_IMAGES_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\\images\\\"
+    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\"
+    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_IMAGES_DIR\\\" \\\"$INSTDIR\\\\share\\\\pkmnsim\\\\images\\\"
 ")
 
 SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
-    DeleteRegValue HKLM ${HLKM_ENV} \\\"PKMNSIM_DATABASE_DIR\\\"
-    DeleteRegValue HKLM ${HLKM_ENV} \\\"PKMNSIM_IMAGES_DIR\\\"
+    DeleteRegValue HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_DIR\\\"
+    DeleteRegValue HKLM ${HLKM_ENV} \\\"LIBPKMN_IMAGES_DIR\\\"
 ")
 
 INCLUDE(CPack)
