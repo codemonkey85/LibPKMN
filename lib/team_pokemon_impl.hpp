@@ -82,7 +82,7 @@ namespace pkmn
             unsigned int get_species_id() const;
             std::string get_species_name() const;
             
-            dict<unsigned int, unsigned int> get_types() const;
+            types_t get_types() const;
             dict<unsigned int, unsigned int> get_base_stats() const;
             dict<unsigned int, unsigned int> get_ev_yields() const;
             bool is_fully_evolved() const;

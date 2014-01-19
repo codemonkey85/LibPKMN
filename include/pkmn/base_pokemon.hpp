@@ -8,6 +8,7 @@
 #define INCLUDED_PKMN_BASE_POKEMON_HPP
 
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <pkmn/config.hpp>
@@ -17,6 +18,8 @@
 
 namespace pkmn
 {
+    typedef std::pair<std::string, std::string> types_t;
+
     class PKMN_API base_pokemon
     {
         public:
@@ -29,7 +32,8 @@ namespace pkmn
 
             virtual unsigned int get_pokedex_num() const = 0;
             virtual std::string get_pokedex_entry() const = 0;
-            virtual dict<unsigned int, unsigned int> get_types() const = 0;
+            virtual types_t get_types() const = 0;
+
             virtual double get_height() const = 0;
             virtual double get_weight() const = 0;
             virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;

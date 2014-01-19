@@ -155,11 +155,12 @@ namespace pkmn
     unsigned int base_pokemon_impl::get_pokedex_num() const {return _species_id;}
     string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry(_species_id, _game_id);}
 
-    dict<unsigned int, unsigned int> base_pokemon_impl::get_types() const
+    types_t base_pokemon_impl::get_types() const
     {
-        dict<unsigned int, unsigned int> types;
-        types[0] = _type1_id;
-        types[1] = _type2_id;
+        types_t types;
+        types.first = database::get_type_name(_type1_id);
+        types.second = database::get_type_name(_type2_id);
+
         return types;
     }
     

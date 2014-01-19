@@ -106,7 +106,7 @@ namespace pkmn
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
             
-            virtual dict<unsigned int, unsigned int> get_types() const = 0;
+            virtual types_t get_types() const = 0;
             virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;
             virtual dict<unsigned int, unsigned int> get_ev_yields() const = 0;
             virtual bool is_fully_evolved() const = 0;

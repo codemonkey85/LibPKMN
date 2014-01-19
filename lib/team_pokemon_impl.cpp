@@ -301,7 +301,7 @@ namespace pkmn
 
     unsigned int team_pokemon_impl::get_species_id() const {return _base_pkmn->get_species_id();}
     
-    dict<unsigned int, unsigned int> team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
+    types_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
     
     dict<unsigned int, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
 
