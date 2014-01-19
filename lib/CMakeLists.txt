@@ -12,8 +12,8 @@ IF(ENABLE_LIBPKMN)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/SQLiteCpp/sqlite3)
     ADD_SUBDIRECTORY(SQLiteCpp/src)
 
-    FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
-    FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
+    #FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
+    #FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
     
     #Configure database info for relevant library files
     CONFIGURE_FILE(
@@ -62,20 +62,20 @@ IF(ENABLE_LIBPKMN)
         ${database_sources}
     )
     
-    INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
+    #INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
 
-    CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/qt4/AboutMessageBox.cpp.in
-        ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
-    )
+    #CONFIGURE_FILE(
+    #    ${CMAKE_CURRENT_SOURCE_DIR}/qt4/AboutMessageBox.cpp.in
+    #    ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
+    #)
     
-    FILE(GLOB libpkmn_qt4_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4/*.hpp")
-    FILE(GLOB libpkmn_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
-    LIST(APPEND libpkmn_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
+    #FILE(GLOB libpkmn_qt4_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4/*.hpp")
+    #FILE(GLOB libpkmn_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
+    #LIST(APPEND libpkmn_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
 
-    QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt4_headers})
+    #QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt4_headers})
 
-    LIST(APPEND libpkmn_sources ${libpkmn_qt4_sources} ${MOCSrcs})
+    #LIST(APPEND libpkmn_sources ${libpkmn_qt4_sources} ${MOCSrcs})
     
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
@@ -116,5 +116,5 @@ IF(ENABLE_LIBPKMN)
         ARCHIVE DESTINATION ${LIBRARY_DIR} COMPONENT Libraries #.lib
         RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime #.dll
     )
-    ADD_SUBDIRECTORY(swig)
+    #ADD_SUBDIRECTORY(swig)
 ENDIF(ENABLE_LIBPKMN)
