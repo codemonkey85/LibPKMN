@@ -13,7 +13,7 @@ This library can be built with any modern C++ compiler, and its API can be acces
  * Lua API
  * Game save generator
 
-## Dependencies
+## Build Dependencies
 
  * CMake 2.8 or above (http://www.cmake.org)
  * Boost 1.48 or above (http://www.boost.org)
@@ -52,4 +52,4 @@ SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
 
 Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
  
-README last updated: 2013-01-18
+README last updated: 2014-01-18
