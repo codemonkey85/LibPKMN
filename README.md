@@ -45,7 +45,7 @@ This library can be built with any modern C++ compiler, and its API can be acces
 
 ## Acknowledgements
 
-Pokémon © 2002-2014 Pokémon. © 1995-2013 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
+Pokémon © 2002-2014 Pokémon. © 1995-2014 Nintendo/Creatures Inc./GAME FREAK inc. TM, ® and Pokémon character names are trademarks of Nintendo. 
 
 Pokémon info, algorithms, etc., all taken from Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
 SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
