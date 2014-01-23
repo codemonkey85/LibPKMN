@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -152,6 +152,15 @@ namespace pkmn
         _images_gen_string = "generation-" + to_string(_generation);
     }
 
+    std::string base_pokemon_impl::get_game() const
+    {
+        std::string query_string = "SELECT name FROM version_names WHERE local_language_id=9 AND version_id="
+                                 + to_string(_game_id);
+        return _db.execAndGet(query_string.c_str());
+    }
+
+    unsigned int base_pokemon_impl::get_generation() const {return _generation;}
+
     std::string base_pokemon_impl::get_name() const
     {
         switch(_species_id)
@@ -189,9 +198,9 @@ namespace pkmn
     unsigned int base_pokemon_impl::get_pokedex_num() const {return _species_id;}
     string base_pokemon_impl::get_pokedex_entry() const {return database::get_pokedex_entry(_species_id, _game_id);}
 
-    types_t base_pokemon_impl::get_types() const
+    string_pair_t base_pokemon_impl::get_types() const
     {
-        types_t types;
+        string_pair_t types;
         types.first = database::get_type_name(_type1_id);
         types.second = database::get_type_name(_type2_id);
 
@@ -269,17 +278,28 @@ namespace pkmn
         return (evolution_vec.begin() == evolution_vec.end());
     }
     
-    unsigned int base_pokemon_impl::get_generation() const {return _generation;}
-    
-    unsigned int base_pokemon_impl::get_game_id() const {return _game_id;}
-
-    unsigned int base_pokemon_impl::get_pokemon_id() const {return _pokemon_id;}
-
-    unsigned int base_pokemon_impl::get_species_id() const {return _species_id;}
-    
     unsigned int base_pokemon_impl::get_exp_yield() const
     {
         std::string query_string = "SELECT base_experience FROM pokemon WHERE species_id=" + to_string(_species_id);
         return int(_db.execAndGet(query_string.c_str()));
     }
+
+    std::string base_pokemon_impl::get_form() const
+    {
+        if(_form_id == _species_id) return "Standard";
+        else
+        {
+            std::string query_string = "SELECT form_name FROM pokemon_form_names WHERE local_language_id=9 AND pokemon_form_id="
+                                     + to_string(_form_id);
+            return (const char*)(_db.execAndGet(query_string.c_str()));
+        }
+    }
+
+    unsigned int base_pokemon_impl::get_pokemon_id() const {return _pokemon_id;}
+
+    unsigned int base_pokemon_impl::get_species_id() const {return _species_id;}
+
+    unsigned int base_pokemon_impl::get_game_id() const {return _game_id;}
+
+    unsigned int base_pokemon_impl::get_form_id() const {return _form_id;}
 } /* namespace pkmn */

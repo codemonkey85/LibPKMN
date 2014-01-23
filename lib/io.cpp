@@ -92,9 +92,9 @@ namespace pkmn
 
         void export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename, std::string title)
         {
-            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
-            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
-            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+            dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
             moveset_t moves = t_pkmn->get_moves();
 
             SQLite::Database pksql_db(filename.c_str(), (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
@@ -152,20 +152,20 @@ namespace pkmn
                         % t_pkmn->get_nature()
                         % t_pkmn->get_personality()
                         % t_pkmn->get_trainer_id()
-                        % EVs[Stats::HP]
-                        % EVs[Stats::ATTACK]
-                        % EVs[Stats::DEFENSE]
-                        % EVs[Stats::SPEED]
-                        % EVs.get(Stats::SPECIAL, 0)
-                        % EVs.get(Stats::SPECIAL_ATTACK, 0)
-                        % EVs.get(Stats::SPECIAL_DEFENSE, 0)
-                        % IVs[Stats::HP]
-                        % IVs[Stats::ATTACK]
-                        % IVs[Stats::DEFENSE]
-                        % IVs[Stats::SPEED]
-                        % IVs.get(Stats::SPECIAL, 0)
-                        % IVs.get(Stats::SPECIAL_ATTACK, 0)
-                        % IVs.get(Stats::SPECIAL_DEFENSE, 0)
+                        % EVs["HP"]
+                        % EVs["Attack"]
+                        % EVs["Defense"]
+                        % EVs["Speed"]
+                        % EVs.get("Special", 0)
+                        % EVs.get("Special Attack", 0)
+                        % EVs.get("Special Defense", 0)
+                        % IVs["HP"]
+                        % IVs["Attack"]
+                        % IVs["Defense"]
+                        % IVs["Speed"]
+                        % IVs.get("Special", 0)
+                        % IVs.get("Special Attack", 0)
+                        % IVs.get("Special Defense", 0)
                         % moves[0]->get_move_id()
                         % moves[1]->get_move_id()
                         % moves[2]->get_move_id()
@@ -203,25 +203,25 @@ namespace pkmn
             t_pkmn->set_nature(int(query.getColumn(11)));
             t_pkmn->set_personality(int(query.getColumn(12)));
             t_pkmn->set_trainer_id(int(query.getColumn(13)));
-            t_pkmn->set_EV(Stats::HP, int(query.getColumn(14)));
-            t_pkmn->set_EV(Stats::ATTACK, int(query.getColumn(15)));
-            t_pkmn->set_EV(Stats::DEFENSE, int(query.getColumn(16)));
-            t_pkmn->set_EV(Stats::SPEED, int(query.getColumn(17)));
-            if(t_pkmn->get_generation() == 1) t_pkmn->set_EV(Stats::SPECIAL, int(query.getColumn(18)));
+            t_pkmn->set_EV("HP", int(query.getColumn(14)));
+            t_pkmn->set_EV("Attack", int(query.getColumn(15)));
+            t_pkmn->set_EV("Defense", int(query.getColumn(16)));
+            t_pkmn->set_EV("Speed", int(query.getColumn(17)));
+            if(t_pkmn->get_generation() == 1) t_pkmn->set_EV("Special", int(query.getColumn(18)));
             else
             {
-                t_pkmn->set_EV(Stats::SPECIAL_ATTACK, int(query.getColumn(19)));
-                t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, int(query.getColumn(20)));
+                t_pkmn->set_EV("Special Attack", int(query.getColumn(19)));
+                t_pkmn->set_EV("Special Defense", int(query.getColumn(20)));
             }
-            t_pkmn->set_IV(Stats::HP, int(query.getColumn(21)));
-            t_pkmn->set_IV(Stats::ATTACK, int(query.getColumn(22)));
-            t_pkmn->set_IV(Stats::DEFENSE, int(query.getColumn(23)));
-            t_pkmn->set_IV(Stats::SPEED, int(query.getColumn(24)));
-            if(t_pkmn->get_generation() < 3) t_pkmn->set_IV(Stats::SPECIAL, int(query.getColumn(25)));
+            t_pkmn->set_IV("HP", int(query.getColumn(21)));
+            t_pkmn->set_IV("Attack", int(query.getColumn(22)));
+            t_pkmn->set_IV("Defense", int(query.getColumn(23)));
+            t_pkmn->set_IV("Speed", int(query.getColumn(24)));
+            if(t_pkmn->get_generation() < 3) t_pkmn->set_IV("Special", int(query.getColumn(25)));
             else
             {
-                t_pkmn->set_IV(Stats::SPECIAL_ATTACK, int(query.getColumn(26)));
-                t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, int(query.getColumn(27)));
+                t_pkmn->set_IV("Special Attack", int(query.getColumn(26)));
+                t_pkmn->set_IV("Special Defense", int(query.getColumn(27)));
             }
             t_pkmn->set_move(int(query.getColumn(28)), 1);
             t_pkmn->set_move(int(query.getColumn(29)), 2);

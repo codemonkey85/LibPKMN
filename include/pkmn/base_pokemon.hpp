@@ -18,7 +18,7 @@
 
 namespace pkmn
 {
-    typedef std::pair<std::string, std::string> types_t;
+    typedef std::pair<std::string, std::string> string_pair_t;
 
     class PKMN_API base_pokemon
     {
@@ -30,43 +30,48 @@ namespace pkmn
 			base_pokemon() {};
             virtual ~base_pokemon() {};
 
-            //Pokedex Data
+            //Game-specific Info
+            virtual std::string get_game() const = 0;
+            virtual unsigned int get_generation() const = 0;
+
+            //Non-Battle Attributes
             virtual std::string get_name() const = 0;
             virtual std::string get_species() const = 0;
             virtual unsigned int get_pokedex_num() const = 0;
             virtual std::string get_pokedex_entry() const = 0;
-            virtual types_t get_types() const = 0;
+            virtual string_pair_t get_types() const = 0;
             virtual double get_height() const = 0;
             virtual double get_weight() const = 0;
-
-            virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;
-            virtual dict<unsigned int, unsigned int> get_ev_yields() const = 0;
+            virtual void get_egg_groups(std::vector<std::string>& egg_group_vec) const = 0;
+            virtual bool has_gender_differences() const = 0;
+			virtual void get_evolutions(std::vector<sptr>& evolution_vec) const = 0;
+			virtual bool is_fully_evolved() const = 0;
             virtual double get_chance_male() const = 0;
             virtual double get_chance_female() const = 0;
             virtual dict<unsigned int, unsigned int> get_abilities() const = 0;
-			virtual void get_evolutions(std::vector<sptr> &evolution_vec) const = 0;
-			virtual bool is_fully_evolved() const = 0;
-            virtual unsigned int get_generation() const = 0;
-            virtual bool has_gender_differences() const = 0;
 
-            virtual std::string get_icon_path(bool is_male) const = 0;
-            virtual std::string get_sprite_path(bool is_male, bool is_shiny) const = 0;
+            //Battle Stats
+            virtual dict<std::string, unsigned int> get_base_stats() const = 0;
+            virtual dict<std::string, unsigned int> get_ev_yields() const = 0;
+            virtual unsigned int get_exp_yield() const = 0;
+
+            //Forms
+            virtual std::string get_form() const = 0;
             virtual void set_form(unsigned int form) = 0;
             virtual void set_form(std::string form) = 0;
             virtual void repair(unsigned int id) = 0;
 
-            virtual void get_egg_group_names(std::vector<std::string>
-                                             &egg_group_name_vec) const = 0;
-            virtual std::string get_form_name() const = 0;
-            
-            virtual void get_egg_group_ids(std::vector<unsigned int>
-                                           &egg_group_id_vec) const = 0;
-            virtual unsigned int get_form_id() const = 0;
-            virtual unsigned int get_game_id() const = 0;
+            virtual std::string get_icon_path(bool is_male) const = 0;
+            virtual std::string get_sprite_path(bool is_male, bool is_shiny) const = 0;
+
+            //Database info
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
+            virtual unsigned int get_game_id() const = 0;
+            virtual unsigned int get_form_id() const = 0;
+            virtual void get_egg_group_ids(std::vector<unsigned int>&
+                                           egg_group_id_vec) const = 0;
             
-            virtual unsigned int get_exp_yield() const = 0;
     };
 
     //Related typedefs

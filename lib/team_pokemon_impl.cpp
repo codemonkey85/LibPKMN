@@ -281,11 +281,11 @@ namespace pkmn
 
     string team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
     
-    void team_pokemon_impl::get_egg_group_names(std::vector<std::string>
-                                                &egg_group_name_vec) const
+    void team_pokemon_impl::get_egg_groups(std::vector<std::string>&
+                                           egg_group_vec) const
     {
-        egg_group_name_vec.clear();
-        _base_pkmn->get_egg_group_names(egg_group_name_vec);
+        egg_group_vec.clear();
+        _base_pkmn->get_egg_groups(egg_group_vec);
     }
     
     void team_pokemon_impl::get_egg_group_ids(std::vector<unsigned int>
@@ -301,13 +301,13 @@ namespace pkmn
 
     unsigned int team_pokemon_impl::get_species_id() const {return _base_pkmn->get_species_id();}
 
-    std::string team_pokemon_impl::get_form_name() const {return _base_pkmn->get_form_name();}
+    std::string team_pokemon_impl::get_form() const {return _base_pkmn->get_form();}
     
-    types_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
+    string_pair_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
     
-    dict<unsigned int, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
+    dict<std::string, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
 
-    dict<unsigned , unsigned int> team_pokemon_impl::get_ev_yields() const {return _base_pkmn->get_ev_yields();}
+    dict<std::string, unsigned int> team_pokemon_impl::get_ev_yields() const {return _base_pkmn->get_ev_yields();}
 
     bool team_pokemon_impl::is_fully_evolved() const {return _base_pkmn->is_fully_evolved();}
 } /* namespace pkmn */

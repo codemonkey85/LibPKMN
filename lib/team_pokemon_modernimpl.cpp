@@ -1,10 +1,11 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <boost/assign.hpp>
 #include <boost/format.hpp>
 
 #include <pkmn/enums.hpp>
@@ -62,11 +63,11 @@ namespace pkmn
 
         if(_base_pkmn->get_species_id() == Species::SHEDINJA) _HP = 1;
         else _HP = _get_hp();
-        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSATK, _ivSATK);
-        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSDEF, _ivSDEF);
+        _ATK = _get_stat("Attack", _evATK, _ivATK);
+        _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        _SATK = _get_stat("Special Attack", _evSATK, _ivSATK);
+        _SDEF = _get_stat("Special Defense", _evSDEF, _ivSDEF);
 
         _icon_path = _base_pkmn->get_icon_path((_gender != Genders::FEMALE));
         _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
@@ -102,46 +103,46 @@ namespace pkmn
         _ability = _determine_ability();
     }
     
-    dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_stats() const
+    dict<std::string, unsigned int> team_pokemon_modernimpl::get_stats() const
     {
-        dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = _HP;
-        stats[Stats::ATTACK] = _ATK;
-        stats[Stats::DEFENSE] = _DEF;
-        stats[Stats::SPECIAL_ATTACK] = _SATK;
-        stats[Stats::SPECIAL_DEFENSE] = _SDEF;
-        stats[Stats::SPEED] = _SPD;
+        dict<std::string, unsigned int> stats;
+        stats["HP"] = _HP;
+        stats["Attack"] = _ATK;
+        stats["Defense"] = _DEF;
+        stats["Special Attack"] = _SATK;
+        stats["Special Defense"] = _SDEF;
+        stats["Speed"] = _SPD;
 
         return stats;
     }
 
-    dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_EVs() const
+    dict<std::string, unsigned int> team_pokemon_modernimpl::get_EVs() const
     {
-        dict<unsigned int, unsigned int> EVs;
-        EVs[Stats::HP] = _evHP;
-        EVs[Stats::ATTACK] = _evATK;
-        EVs[Stats::DEFENSE] = _evDEF;
-        EVs[Stats::SPECIAL_ATTACK] = _evSATK;
-        EVs[Stats::SPECIAL_DEFENSE] = _evSDEF;
-        EVs[Stats::SPEED] = _evSPD;
+        dict<std::string, unsigned int> EVs;
+        EVs["HP"] = _evHP;
+        EVs["Attack"] = _evATK;
+        EVs["Defense"] = _evDEF;
+        EVs["Special Attack"] = _evSATK;
+        EVs["Special Defense"] = _evSDEF;
+        EVs["Speed"] = _evSPD;
         
         return EVs;
     }
     
-    dict<unsigned int, unsigned int> team_pokemon_modernimpl::get_IVs() const
+    dict<std::string, unsigned int> team_pokemon_modernimpl::get_IVs() const
     {
-        dict<unsigned int, unsigned int> IVs;
-        IVs[Stats::HP] = _ivHP;
-        IVs[Stats::ATTACK] = _ivATK;
-        IVs[Stats::DEFENSE] = _ivDEF;
-        IVs[Stats::SPECIAL_ATTACK] = _ivSATK;
-        IVs[Stats::SPECIAL_DEFENSE] = _ivSDEF;
-        IVs[Stats::SPEED] = _ivSPD;
+        dict<std::string, unsigned int> IVs;
+        IVs["HP"] = _ivHP;
+        IVs["Attack"] = _ivATK;
+        IVs["Defense"] = _ivDEF;
+        IVs["Special Attack"] = _ivSATK;
+        IVs["Special Defense"] = _ivSDEF;
+        IVs["Speed"] = _ivSPD;
 
         return IVs;
     }
 
-    void team_pokemon_modernimpl::set_EV(unsigned int EV, unsigned int val)
+    void team_pokemon_modernimpl::set_EV(std::string EV, unsigned int val)
     {
         if(val > 255)
         {
@@ -149,44 +150,39 @@ namespace pkmn
             exit(EXIT_FAILURE);
         }
 
-        switch(EV)
+        if(EV == "HP")
         {
-            case Stats::HP:
-                _evHP = val;
-                _HP = _get_hp();
-                break;
-                
-            case Stats::ATTACK:
-                _evATK = val;
-                _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-                break;
-                
-            case Stats::DEFENSE:
-                _evDEF = val;
-                _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-                break;
-            
-            case Stats::SPECIAL_ATTACK:
-                _evSATK = val;
-                _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSPCL, _ivSPCL);
-                break;
-                
-            case Stats::SPECIAL_DEFENSE:
-                _evSDEF = val;
-                _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSPCL, _ivSPCL);
-                break;
-                
-            case Stats::SPEED:
-                _evSPD = val;
-                _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-                break;
-            
-            default:
-                break;
+            _evHP = val;
+            _HP = _get_hp();
+        }
+        else if(EV == "Attack")
+        {
+            _evATK = val;
+            _ATK = _get_stat("Attack", _evATK, _ivATK);
+        }
+        else if(EV == "Defense")
+        {
+            _evDEF = val;
+            _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        }
+        else if(EV == "Speed")
+        {
+            _evSPD = val;
+            _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        }
+        else if(EV == "Special Attack")
+        {
+            _evSATK = val;
+            _SATK = _get_stat("Special Attack", _evSATK, _ivSATK);
+        }
+        else if(EV == "Special Defense")
+        {
+            _evSDEF = val;
+            _SDEF = _get_stat("Special Defense", _evSDEF, _ivSDEF);
         }
     }
     
-    void team_pokemon_modernimpl::set_IV(unsigned int IV, unsigned int val)
+    void team_pokemon_modernimpl::set_IV(std::string IV, unsigned int val)
     {
         if(val > 31)
         {
@@ -194,41 +190,36 @@ namespace pkmn
             exit(EXIT_FAILURE);
         }
 
-        switch(IV)
-        {
-            case Stats::HP:
-                _ivHP = val;
-                _HP = _get_hp();
-                break;
-                
-            case Stats::ATTACK:
-                _ivATK = val;
-                _ATK = _get_stat(Stats::ATTACK, _ivATK, _ivATK);
-                break;
-                
-            case Stats::DEFENSE:
-                _ivDEF = val;
-                _DEF = _get_stat(Stats::DEFENSE, _ivDEF, _ivDEF);
-                break;
-            
-            case Stats::SPECIAL_ATTACK:
-                _ivSATK = val;
-                _SATK = _get_stat(Stats::SPECIAL_ATTACK, _ivSPCL, _ivSPCL);
-                break;
-                
-            case Stats::SPECIAL_DEFENSE:
-                _ivSDEF = val;
-                _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _ivSPCL, _ivSPCL);
-                break;
-                
-            case Stats::SPEED:
-                _ivSPD = val;
-                _SPD = _get_stat(Stats::SPEED, _ivSPD, _ivSPD);
-                break;
-            
-            default:
-                break;
-        }
+        if(IV == "HP")
+        {   
+            _ivHP = val;
+            _HP = _get_hp();
+        }   
+        else if(IV == "Attack")
+        {   
+            _ivATK = val;
+            _ATK = _get_stat("Attack", _evATK, _ivATK);
+        }   
+        else if(IV == "Defense")
+        {   
+            _ivDEF = val;
+            _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        }   
+        else if(IV == "Speed")
+        {   
+            _ivSPD = val;
+            _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        }   
+        else if(IV == "Special Attack")
+        {   
+            _ivSATK = val;
+            _SATK = _get_stat("Special Attack", _evSATK, _ivSATK);
+        }   
+        else if(IV == "Special Defense")
+        {   
+            _ivSDEF = val;
+            _SDEF = _get_stat("Special Defense", _evSDEF, _ivSDEF);
+        }   
     }
 
     unsigned int team_pokemon_modernimpl::get_form_id() const {return _base_pkmn->get_pokemon_id();}
@@ -237,11 +228,11 @@ namespace pkmn
     {
         _base_pkmn->set_form(form);
         _HP = _get_hp();
-        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSATK, _ivSATK);
-        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSDEF, _ivSDEF);
+        _ATK = _get_stat("Attack", _evATK, _ivATK);
+        _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        _SATK = _get_stat("Special Attack", _evSATK, _ivSATK);
+        _SDEF = _get_stat("Special Defense", _evSDEF, _ivSDEF);
         _icon_path = _base_pkmn->get_icon_path((_gender != Genders::FEMALE));
         _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
         _ability = _determine_ability();
@@ -251,11 +242,11 @@ namespace pkmn
     {
         _base_pkmn->set_form(form);
         _HP = _get_hp();
-        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSATK, _ivSATK);
-        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSDEF, _ivSDEF);
+        _ATK = _get_stat("Attack", _evATK, _ivATK);
+        _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        _SATK = _get_stat("Special Attack", _evSATK, _ivSATK);
+        _SDEF = _get_stat("Special Defense", _evSDEF, _ivSDEF);
         _icon_path = _base_pkmn->get_icon_path((_gender != Genders::FEMALE));
         _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
         _ability = _determine_ability();
@@ -263,20 +254,30 @@ namespace pkmn
 
     unsigned int team_pokemon_modernimpl::_get_hp() const
     {
-        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
+        dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
 
-        unsigned int hp_val = int(floor(((double(_ivHP) + (2.0*double(stats[Stats::HP])) + (0.25*double(_evHP)) + 100.0)
+        unsigned int hp_val = int(floor(((double(_ivHP) + (2.0*double(stats["HP"])) + (0.25*double(_evHP)) + 100.0)
                             * double(_level))/100.0 + 10.0));
         return hp_val;
     }
 
-    unsigned int team_pokemon_modernimpl::_get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
+    unsigned int team_pokemon_modernimpl::_get_stat(std::string stat, unsigned int EV, unsigned int IV) const
     {
-        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
-        double _nature_mod = database::get_nature_stat_effect(_nature, stat);
+        //TODO: better solution
+        dict<std::string, unsigned int> stat_enums = boost::assign::map_list_of
+                                                     ("HP", Stats::HP)
+                                                     ("Attack", Stats::ATTACK)
+                                                     ("Defense", Stats::DEFENSE)
+                                                     ("Special Attack", Stats::SPECIAL_ATTACK)
+                                                     ("Special Defense", Stats::SPECIAL_DEFENSE)
+                                                     ("Speed", Stats::SPEED)
+        ;
+
+        dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
+        double nature_mod = database::get_nature_stat_effect(_nature, stat_enums[stat]);
 
         unsigned int stat_val = int(ceil(((((double(IV) + 2.0*double(stats[stat]) + 0.25*double(EV))
-                              * double(_level))/100.0) + 5.0) * _nature_mod));
+                              * double(_level))/100.0) + 5.0) * nature_mod));
         return stat_val;
     }
 

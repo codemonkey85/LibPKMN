@@ -61,14 +61,14 @@ namespace pkmn
             virtual void set_nature(unsigned int nature) = 0;
             virtual void set_gender(unsigned int gender) = 0;
 
-            virtual dict<unsigned int, unsigned int> get_stats() const = 0;
-            virtual dict<unsigned int, unsigned int> get_IVs() const = 0;
-            virtual dict<unsigned int, unsigned int> get_EVs() const = 0;
+            virtual dict<std::string, unsigned int> get_stats() const = 0;
+            virtual dict<std::string, unsigned int> get_IVs() const = 0;
+            virtual dict<std::string, unsigned int> get_EVs() const = 0;
             
             virtual void set_personality(unsigned int personality) = 0;
             
-            virtual void set_EV(unsigned int EV, unsigned int val) = 0;
-            virtual void set_IV(unsigned int IV, unsigned int val) = 0;
+            virtual void set_EV(std::string EV, unsigned int val) = 0;
+            virtual void set_IV(std::string IV, unsigned int val) = 0;
             
             virtual unsigned int get_generation() const = 0;
             virtual item::sptr get_held_item(bool copy = true) const = 0;
@@ -94,9 +94,9 @@ namespace pkmn
             virtual void set_public_trainer_id(unsigned short id) = 0;
             virtual void set_secret_trainer_id(unsigned short id) = 0;
 
-            virtual void get_egg_group_names(std::vector<std::string>
-                                             &egg_group_name_vec) const = 0;
-            virtual std::string get_form_name() const = 0;
+            virtual void get_egg_groups(std::vector<std::string>&
+                                        egg_group_vec) const = 0;
+            virtual std::string get_form() const = 0;
             virtual std::string get_species_name() const = 0;
             
             virtual void get_egg_group_ids(std::vector<unsigned int>
@@ -106,9 +106,9 @@ namespace pkmn
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
             
-            virtual types_t get_types() const = 0;
-            virtual dict<unsigned int, unsigned int> get_base_stats() const = 0;
-            virtual dict<unsigned int, unsigned int> get_ev_yields() const = 0;
+            virtual string_pair_t get_types() const = 0;
+            virtual dict<std::string, unsigned int> get_base_stats() const = 0;
+            virtual dict<std::string, unsigned int> get_ev_yields() const = 0;
             virtual bool is_fully_evolved() const = 0;
             virtual void set_form(unsigned int form) = 0;
             virtual void set_form(std::string form) = 0;

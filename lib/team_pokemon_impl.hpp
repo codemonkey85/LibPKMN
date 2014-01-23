@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -72,8 +72,8 @@ namespace pkmn
             void set_public_trainer_id(unsigned short id);
             void set_secret_trainer_id(unsigned short id);
 
-            void get_egg_group_names(std::vector<std::string>
-                                     &egg_group_name_vec) const;
+            void get_egg_groups(std::vector<std::string>&
+                                egg_group_vec) const;
             void get_egg_group_ids(std::vector<unsigned int>
                                    &egg_group_id_vec) const;
             
@@ -81,11 +81,11 @@ namespace pkmn
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
             std::string get_species_name() const;
-            std::string get_form_name() const;
+            std::string get_form() const;
             
-            types_t get_types() const;
-            dict<unsigned int, unsigned int> get_base_stats() const;
-            dict<unsigned int, unsigned int> get_ev_yields() const;
+            string_pair_t get_types() const;
+            dict<std::string, unsigned int> get_base_stats() const;
+            dict<std::string, unsigned int> get_ev_yields() const;
             bool is_fully_evolved() const;
 
         protected:
@@ -119,11 +119,8 @@ namespace pkmn
 			dict<std::string, int> _attributes;
 
             virtual unsigned int _get_hp() const = 0;
-            virtual unsigned int _get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const = 0;
+            virtual unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const = 0;
 
-            unsigned int _SPCL, _SATK, _SDEF;
-            unsigned int _ivSPCL, _ivSATK, _ivSDEF;
-            unsigned int _evSPCL, _evSATK, _evSDEF;
             unsigned int _gender, _otgender;
             unsigned int _ability, _nature;
             bool _has_hidden_ability;

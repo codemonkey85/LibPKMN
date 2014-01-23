@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -27,12 +27,12 @@ namespace pkmn
             bool is_shiny() const;
             void set_hidden_ability(bool val);
             
-            dict<unsigned int, unsigned int> get_stats() const;
-            dict<unsigned int, unsigned int> get_IVs() const;
-            dict<unsigned int, unsigned int> get_EVs() const;
+            dict<std::string, unsigned int> get_stats() const;
+            dict<std::string, unsigned int> get_IVs() const;
+            dict<std::string, unsigned int> get_EVs() const;
             
-            void set_EV(unsigned int EV, unsigned int val);
-            void set_IV(unsigned int IV, unsigned int val);
+            void set_EV(std::string EV, unsigned int val);
+            void set_IV(std::string IV, unsigned int val);
           
             unsigned int get_form_id() const;
           
@@ -40,9 +40,13 @@ namespace pkmn
             void set_form(std::string form);
 
         private:
+
+            unsigned int _SATK, _SDEF;
+            unsigned int _evSATK, _evSDEF;
+            unsigned int _ivSATK, _ivSDEF;
         
             unsigned int _get_hp() const;
-            unsigned int _get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const;
+            unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const;
             
             unsigned int _determine_ability() const;
             unsigned int _determine_gender() const;

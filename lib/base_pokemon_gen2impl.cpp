@@ -72,40 +72,31 @@ namespace pkmn
                 repair(_pokemon_id);
                 break;
         }
+
+        _form_id = _species_id;
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_base_stats() const
+    void base_pokemon_gen2impl::get_egg_groups(std::vector<std::string>&
+                                               egg_group_name_vec) const
     {
-        dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = _hp;
-        stats[Stats::ATTACK] = _attack;
-        stats[Stats::DEFENSE] = _defense;
-        stats[Stats::SPECIAL_ATTACK] = _special_attack;
-        stats[Stats::SPECIAL_DEFENSE] = _special_defense;
-        stats[Stats::SPEED] = _speed;
-        
-        return stats;
+        egg_group_name_vec.clear();
+
+        std::vector<unsigned int> egg_group_id_vec;
+        get_egg_group_ids(egg_group_id_vec);
+        switch(_species_id)
+        {
+            case Species::NONE:
+            case Species::INVALID:
+                return;
+
+            default:
+                for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
+                    egg_group_name_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
+        }
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_ev_yields() const
-    {
-        dict<unsigned int, unsigned int> stats = get_base_stats();
-        dict<unsigned int, unsigned int> ev_yields;
-        ev_yields[Stats::HP] = stats[Stats::HP];
-        ev_yields[Stats::ATTACK] = stats[Stats::ATTACK];
-        ev_yields[Stats::DEFENSE] = stats[Stats::DEFENSE];
-        ev_yields[Stats::SPEED] = stats[Stats::SPEED];
-
-        /*
-         * Special was a single stat in Generation 1, but it was separated into
-         * Special Attack and Special Defense in Generation 2. For backwards
-         * compatibility, Pokemon still have a Special EV, which just matches
-         * Pokemon's Special Attack stat.
-         */
-        ev_yields[Stats::SPECIAL] = stats[Stats::SPECIAL_ATTACK];
-        
-        return ev_yields;
-    }
+    //No gender differences in Generation 2
+    bool base_pokemon_gen2impl::has_gender_differences() const {return false;}
 
     double base_pokemon_gen2impl::get_chance_male() const
     {
@@ -167,9 +158,6 @@ namespace pkmn
         }
     }
 
-    //No gender differences in Generation 2
-    bool base_pokemon_gen2impl::has_gender_differences() const {return false;}
-
     //No abilities in Generation 2
     dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_abilities() const
     {
@@ -177,6 +165,44 @@ namespace pkmn
         return abilities;
     }
     
+    dict<std::string, unsigned int> base_pokemon_gen2impl::get_base_stats() const
+    {
+        dict<std::string, unsigned int> stats;
+        stats["HP"] = _hp;
+        stats["Attack"] = _attack;
+        stats["Defense"] = _defense;
+        stats["Special Attack"] = _special_attack;
+        stats["Special Defense"] = _special_defense;
+        stats["Speed"] = _speed;
+        
+        return stats;
+    }
+
+    dict<std::string, unsigned int> base_pokemon_gen2impl::get_ev_yields() const
+    {
+        dict<std::string, unsigned int> stats = get_base_stats();
+        dict<std::string, unsigned int> ev_yields;
+        ev_yields["HP"] = stats["HP"];
+        ev_yields["Attack"] = stats["Attack"];
+        ev_yields["Defense"] = stats["Defense"];
+        ev_yields["Speed"] = stats["Speed"];
+
+        /*
+         * Special was a single stat in Generation 1, but it was separated into
+         * Special Attack and Special Defense in Generation 2. For backwards
+         * compatibility, Pokemon still have a Special EV, which just matches
+         * Pokemon's Special Attack stat.
+         */
+        ev_yields["Special"] = stats["Special Attack"];
+        
+        return ev_yields;
+    }
+   
+    //No forms in Generation 2 
+    void base_pokemon_gen2impl::set_form(unsigned int form) {};
+    void base_pokemon_gen2impl::set_form(std::string form) {};
+    void base_pokemon_gen2impl::repair(unsigned int id) {};
+
     //Gender doesn't matter for icons in Generation 2
     string base_pokemon_gen2impl::get_icon_path(bool is_male) const
     {
@@ -189,35 +215,9 @@ namespace pkmn
         if(is_shiny) return _male_shiny_sprite_path.string();
         else return _male_sprite_path.string();
     }
-   
-    //No forms in Generation 2 
-    void base_pokemon_gen2impl::set_form(unsigned int form) {};
-    void base_pokemon_gen2impl::set_form(std::string form) {};
-    void base_pokemon_gen2impl::repair(unsigned int id) {};
-    string base_pokemon_gen2impl::get_form_name() const {return get_name();}
-    unsigned int base_pokemon_gen2impl::get_form_id() const {return _species_id;}
 
-    void base_pokemon_gen2impl::get_egg_group_names(std::vector<std::string>
-                                                    &egg_group_name_vec) const
-    {
-        egg_group_name_vec.clear();
-
-        vector<unsigned int> egg_group_id_vec;
-        get_egg_group_ids(egg_group_id_vec);
-        switch(_species_id)
-        {
-            case Species::NONE:
-            case Species::INVALID:
-                return;
-
-            default:
-                for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
-                    egg_group_name_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
-        }
-    }
-
-    void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>
-                                                  &egg_group_id_vec) const
+    void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>&
+                                                  egg_group_id_vec) const
     {
         switch(_species_id)
         {
@@ -226,8 +226,8 @@ namespace pkmn
                 return;
 
             default:
-                string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
-                                    + to_string(_species_id);
+                std::string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
+                                         + to_string(_species_id);
                 SQLite::Statement query(_db, query_string.c_str());
 
                 while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -66,30 +66,17 @@ namespace pkmn
                 _special = int(_db.execAndGet(query_string.c_str()));
                 break;
         }
+
+        _form_id = _species_id;
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_base_stats() const
-    {
-        dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = _hp;
-        stats[Stats::ATTACK] = _attack;
-        stats[Stats::DEFENSE] = _defense;
-        stats[Stats::SPEED] = _speed;
-        stats[Stats::SPECIAL] = _special;
-        
-        return stats;
-    }
-
-    //In Generation 1, EV yields were the same as the corresponding base stat
-    dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_ev_yields() const
-    {
-        return get_base_stats();
-    }
+    void base_pokemon_gen1impl::get_egg_groups(std::vector<std::string>&
+                                               egg_group_vec) const {};
 
     //No genders in Generation 1
+    bool base_pokemon_gen1impl::has_gender_differences() const {return false;}
     double base_pokemon_gen1impl::get_chance_male() const {return 0.0;}
     double base_pokemon_gen1impl::get_chance_female() const {return 0.0;}
-    bool base_pokemon_gen1impl::has_gender_differences() const {return false;}
 
     //No abilities in Generation 1
     dict<unsigned int, unsigned int> base_pokemon_gen1impl::get_abilities() const
@@ -98,6 +85,29 @@ namespace pkmn
         return abilities;
     }    
     
+    dict<std::string, unsigned int> base_pokemon_gen1impl::get_base_stats() const
+    {
+        dict<std::string, unsigned int> stats;
+        stats["HP"] = _hp;
+        stats["Attack"] = _attack;
+        stats["Defense"] = _defense;
+        stats["Speed"] = _speed;
+        stats["Special"] = _special;
+        
+        return stats;
+    }
+
+    //In Generation 1, EV yields were the same as the corresponding base stat
+    dict<std::string, unsigned int> base_pokemon_gen1impl::get_ev_yields() const
+    {
+        return get_base_stats();
+    }
+
+    //No forms in Generation 1    
+    void base_pokemon_gen1impl::set_form(unsigned int form) {};
+    void base_pokemon_gen1impl::set_form(std::string form) {};
+    void base_pokemon_gen1impl::repair(unsigned int id) {};
+
     //No genders in Generation 1
     string base_pokemon_gen1impl::get_icon_path(bool is_male) const
     {
@@ -110,16 +120,8 @@ namespace pkmn
         return _male_sprite_path.string();
     }
 
-    //No forms in Generation 1    
-    void base_pokemon_gen1impl::set_form(unsigned int form) {};
-    void base_pokemon_gen1impl::set_form(std::string form) {};
-    void base_pokemon_gen1impl::repair(unsigned int id) {};
-    string base_pokemon_gen1impl::get_form_name() const {return get_name();}
-    unsigned int base_pokemon_gen1impl::get_form_id() const {return _species_id;}
 
     //No eggs in Generation 1
-    void base_pokemon_gen1impl::get_egg_group_names(std::vector<std::string>
-                                                    &egg_group_name_vec) const {};
     void base_pokemon_gen1impl::get_egg_group_ids(std::vector<unsigned int>
                                                   &egg_group_id_vec) const {};
 

@@ -105,52 +105,33 @@ namespace pkmn
         }
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_modernimpl::get_base_stats() const
+    void base_pokemon_modernimpl::get_egg_groups(std::vector<std::string>&
+                                                 egg_group_vec) const
     {
-        dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = _hp;
-        stats[Stats::ATTACK] = _attack;
-        stats[Stats::DEFENSE] = _defense;
-        stats[Stats::SPECIAL_ATTACK] = _special_attack;
-        stats[Stats::SPECIAL_DEFENSE] = _special_defense;
-        stats[Stats::SPEED] = _speed;
-        
-        return stats;
-    }
-
-    dict<unsigned int, unsigned int> base_pokemon_modernimpl::get_ev_yields() const
-    {
-        dict<unsigned int, unsigned int> ev_yields;
+        egg_group_vec.clear();
+    
+        vector<unsigned int> egg_group_id_vec;
+        get_egg_group_ids(egg_group_id_vec);
         switch(_species_id)
         {
             case Species::NONE:
             case Species::INVALID:
-                ev_yields[Stats::HP] = 0;
-                ev_yields[Stats::ATTACK] = 0;
-                ev_yields[Stats::DEFENSE] = 0;
-                ev_yields[Stats::SPECIAL_ATTACK] = 0;
-                ev_yields[Stats::SPECIAL_DEFENSE] = 0;
-                ev_yields[Stats::SPEED] = 0;
+                return;
 
             default:
-                string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
-                               " AND stat_id IN (1,2,3,4,5,6)";
-                SQLite::Statement stats_query(_db, query_string.c_str());
+                for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
+                    egg_group_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
+        }
+    }
 
-                stats_query.executeStep();
-                ev_yields[Stats::HP] = int(stats_query.getColumn(0));
-                stats_query.executeStep();
-                ev_yields[Stats::ATTACK] = int(stats_query.getColumn(0));
-                stats_query.executeStep();
-                ev_yields[Stats::DEFENSE] = int(stats_query.getColumn(0));
-                stats_query.executeStep();
-                ev_yields[Stats::SPECIAL_ATTACK] = int(stats_query.getColumn(0));
-                stats_query.executeStep();
-                ev_yields[Stats::SPECIAL_DEFENSE] = int(stats_query.getColumn(0));
-                stats_query.executeStep();
-                ev_yields[Stats::SPEED] = int(stats_query.getColumn(0));
-
-                return ev_yields;
+    bool base_pokemon_modernimpl::has_gender_differences() const
+    {
+        if(_generation == 3 or _species_id == Species::NONE
+           or _species_id == Species::INVALID) return false;
+        else
+        {
+            string query_string = "SELECT has_gender_differences FROM pokemon_species WHERE id=" + to_string(_pokemon_id);
+            return bool(int(_db.execAndGet(query_string.c_str())));
         }
     }
 
@@ -214,16 +195,6 @@ namespace pkmn
         }
     }
 
-    bool base_pokemon_modernimpl::has_gender_differences(void) const
-    {
-        if(_generation == 3 or _species_id == Species::NONE or _species_id == Species::INVALID) return false;
-        else
-        {
-            string query_string = "SELECT has_gender_differences FROM pokemon_species WHERE id=" + to_string(_pokemon_id);
-            return bool(int(_db.execAndGet(query_string.c_str())));
-        }
-    }
-    
     dict<unsigned int, unsigned int> base_pokemon_modernimpl::get_abilities() const
     {
         dict<unsigned int, unsigned int> abilities;
@@ -271,26 +242,55 @@ namespace pkmn
         }
     }
 
-    string base_pokemon_modernimpl::get_icon_path(bool is_male) const
+    dict<std::string, unsigned int> base_pokemon_modernimpl::get_base_stats() const
     {
-        if(_generation > 3 and not is_male) return _female_icon_path.string();
-        else return _male_icon_path.string();
+        dict<std::string, unsigned int> stats;
+        stats["HP"] = _hp;
+        stats["Attack"] = _attack;
+        stats["Defense"] = _defense;
+        stats["Special Attack"] = _special_attack;
+        stats["Special Defense"] = _special_defense;
+        stats["Speed"] = _speed;
+        
+        return stats;
     }
-    
-    string base_pokemon_modernimpl::get_sprite_path(bool is_male, bool is_shiny) const
+
+    dict<std::string, unsigned int> base_pokemon_modernimpl::get_ev_yields() const
     {
-        if(is_male)
+        dict<std::string, unsigned int> ev_yields;
+        switch(_species_id)
         {
-            if(is_shiny) return _male_shiny_sprite_path.string();
-            else return _male_sprite_path.string();
-        }
-        else
-        {
-            if(is_shiny) return _female_shiny_sprite_path.string();
-            else return _female_sprite_path.string();
+            case Species::NONE:
+            case Species::INVALID:
+                ev_yields["HP"] = 0;
+                ev_yields["Attack"] = 0;
+                ev_yields["Defense"] = 0;
+                ev_yields["Special Attack"] = 0;
+                ev_yields["Special Defense"] = 0;
+                ev_yields["Speed"] = 0;
+
+            default:
+                string query_string = "SELECT effort FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
+                               " AND stat_id IN (1,2,3,4,5,6)";
+                SQLite::Statement stats_query(_db, query_string.c_str());
+
+                stats_query.executeStep();
+                ev_yields["HP"] = int(stats_query.getColumn(0));
+                stats_query.executeStep();
+                ev_yields["Attack"] = int(stats_query.getColumn(0));
+                stats_query.executeStep();
+                ev_yields["Defense"] = int(stats_query.getColumn(0));
+                stats_query.executeStep();
+                ev_yields["Special Attack"] = int(stats_query.getColumn(0));
+                stats_query.executeStep();
+                ev_yields["Special Defense"] = int(stats_query.getColumn(0));
+                stats_query.executeStep();
+                ev_yields["Speed"] = int(stats_query.getColumn(0));
+
+                return ev_yields;
         }
     }
-	
+
     //Manually set Pokemon form
     void base_pokemon_modernimpl::set_form(unsigned int form)
     {
@@ -1159,44 +1159,26 @@ namespace pkmn
         }
     }
     
-    void base_pokemon_modernimpl::get_egg_group_names(std::vector<std::string>
-                                                      &egg_group_name_vec) const
+    string base_pokemon_modernimpl::get_icon_path(bool is_male) const
     {
-        egg_group_name_vec.clear();
-    
-        vector<unsigned int> egg_group_id_vec;
-        get_egg_group_ids(egg_group_id_vec);
-        switch(_species_id)
-        {
-            case Species::NONE:
-            case Species::INVALID:
-                return;
-
-            default:
-                for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
-                    egg_group_name_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
-        }
+        if(_generation > 3 and not is_male) return _female_icon_path.string();
+        else return _male_icon_path.string();
     }
     
-    std::string base_pokemon_modernimpl::get_form_name() const
+    string base_pokemon_modernimpl::get_sprite_path(bool is_male, bool is_shiny) const
     {
-        //Still doesn't account for things like West Sea vs. East Sea Shellos
-        //Will need to be done with ugly manual work
-        if(_species_id == _pokemon_id
-        or _species_id == Species::NONE
-        or _species_id == Species::INVALID) return get_name();
+        if(is_male)
+        {
+            if(is_shiny) return _male_shiny_sprite_path.string();
+            else return _male_sprite_path.string();
+        }
         else
         {
-            string query_string = str(boost::format("SELECT id FROM pokemon_forms WHERE pokemon_id=%d")
-                                                    % _pokemon_id);
-            int id = _db.execAndGet(query_string.c_str());
-
-            query_string = str(boost::format("SELECT pokemon_name FROM pokemon_form_names WHERE pokemon_form_id=%d AND local_language_id=9")
-                                             % id);
-            return string((const char*)(_db.execAndGet(query_string.c_str())));
+            if(is_shiny) return _female_shiny_sprite_path.string();
+            else return _female_sprite_path.string();
         }
     }
-    
+	
     void base_pokemon_modernimpl::get_egg_group_ids(std::vector<unsigned int>
                                                     &egg_group_id_vec) const
     {
@@ -1214,7 +1196,4 @@ namespace pkmn
                 while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));
         }
     }
-    
-    //TODO: Give LibPKMN its own internal way of distinguishing forms
-    unsigned int base_pokemon_modernimpl::get_form_id() const {return _pokemon_id;}
 } /* namespace pkmn */

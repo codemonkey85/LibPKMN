@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -41,11 +41,11 @@ namespace pkmn
         _gender = _determine_gender();
 
         _HP = _get_hp();
-        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSPCL, _ivSPCL);
-        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSPCL, _ivSPCL);
+        _ATK = _get_stat("Attack", _evATK, _ivATK);
+        _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        _SATK = _get_stat("Special Attack", _evSPCL, _ivSPCL);
+        _SDEF = _get_stat("Special Defense", _evSPCL, _ivSPCL);
 
         _icon_path = _base_pkmn->get_icon_path(true);
         _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
@@ -62,50 +62,50 @@ namespace pkmn
     bool team_pokemon_gen2impl::is_shiny() const
     {
         return (_ivSPD == 10 and _ivDEF == 10 and _ivSPCL == 10 and
-                   (_ivATK == 2 or _ivATK == 3 or _ivATK == 6 or
-                    _ivATK == 7 or _ivATK == 10 or _ivATK == 11 or
-                    _ivATK == 14 or _ivATK == 15)
+               (_ivATK == 2 or _ivATK == 3 or _ivATK == 6 or
+                _ivATK == 7 or _ivATK == 10 or _ivATK == 11 or
+                _ivATK == 14 or _ivATK == 15)
                );
     }
 
-    dict<unsigned int, unsigned int> team_pokemon_gen2impl::get_stats() const
+    dict<std::string, unsigned int> team_pokemon_gen2impl::get_stats() const
     {
-        dict<unsigned int, unsigned int> stats;
-        stats[Stats::HP] = _HP;
-        stats[Stats::ATTACK] = _ATK;
-        stats[Stats::DEFENSE] = _DEF;
-        stats[Stats::SPECIAL_ATTACK] = _SATK;
-        stats[Stats::SPECIAL_DEFENSE] = _SDEF;
-        stats[Stats::SPEED] = _SPD;
+        dict<std::string, unsigned int> stats;
+        stats["HP"] = _HP;
+        stats["Attack"] = _ATK;
+        stats["Defense"] = _DEF;
+        stats["Special Attack"] = _SATK;
+        stats["Special Defense"] = _SDEF;
+        stats["Speed"] = _SPD;
 
         return stats;
     }
 
-    dict<unsigned int, unsigned int> team_pokemon_gen2impl::get_EVs() const
+    dict<std::string, unsigned int> team_pokemon_gen2impl::get_EVs() const
     {
-        dict<unsigned int, unsigned int> EVs;
-        EVs[Stats::HP] = _evHP;
-        EVs[Stats::ATTACK] = _evATK;
-        EVs[Stats::DEFENSE] = _evDEF;
-        EVs[Stats::SPEED] = _evSPD;
-        EVs[Stats::SPECIAL] = _evSATK;
+        dict<std::string, unsigned int> EVs;
+        EVs["HP"] = _evHP;
+        EVs["Attack"] = _evATK;
+        EVs["Defense"] = _evDEF;
+        EVs["Speed"] = _evSPD;
+        EVs["Special"] = _evSPCL;
         
         return EVs;
     }
     
-    dict<unsigned int, unsigned int> team_pokemon_gen2impl::get_IVs() const
+    dict<std::string, unsigned int> team_pokemon_gen2impl::get_IVs() const
     {
-        dict<unsigned int, unsigned int> IVs;
-        IVs[Stats::HP] = _ivHP;
-        IVs[Stats::ATTACK] = _ivATK;
-        IVs[Stats::DEFENSE] = _ivDEF;
-        IVs[Stats::SPEED] = _ivSPD;
-        IVs[Stats::SPECIAL] = _ivSATK;
+        dict<std::string, unsigned int> IVs;
+        IVs["HP"] = _ivHP;
+        IVs["Attack"] = _ivATK;
+        IVs["Defense"] = _ivDEF;
+        IVs["Speed"] = _ivSPD;
+        IVs["Special"] = _ivSPCL;
 
         return IVs;
     }
 
-    void team_pokemon_gen2impl::set_EV(unsigned int EV, unsigned int val)
+    void team_pokemon_gen2impl::set_EV(std::string EV, unsigned int val)
     {
         if(val > 65535)
         {
@@ -113,40 +113,35 @@ namespace pkmn
             exit(EXIT_FAILURE);
         }
 
-        switch(EV)
+        if(EV == "HP")
         {
-            case Stats::HP:
-                _evHP = val;
-                _HP = _get_hp();
-                break;
-                
-            case Stats::ATTACK:
-                _evATK = val;
-                _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-                break;
-                
-            case Stats::DEFENSE:
-                _evDEF = val;
-                _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-                break;
-            
-            case Stats::SPEED:
-                _evSPD = val;
-                _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-                break;
-            
-            case Stats::SPECIAL:
-                _evSPCL = val;
-                _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSPCL, _ivSPCL);
-                _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSPCL, _ivSPCL);
-                break;
-            
-            default:
-                break;
+            _evHP = val;
+            _HP = _get_hp();
+        }
+        else if(EV == "Attack")
+        {
+            _evATK = val;
+            _ATK = _get_stat("Attack", _evATK, _ivATK);
+        }
+        else if(EV == "Defense")
+        {
+            _evDEF = val;
+            _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        }
+        else if(EV == "Speed")
+        {
+            _evSPD = val;
+            _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        }
+        else if(EV == "Special")
+        {
+            _evSPCL = val;
+            _SATK = _get_stat("Special Attack", _evSPCL, _ivSPCL);
+            _SDEF = _get_stat("Special Defense", _evSPCL, _ivSPCL);
         }
     }
     
-    void team_pokemon_gen2impl::set_IV(unsigned int IV, unsigned int val)
+    void team_pokemon_gen2impl::set_IV(std::string IV, unsigned int val)
     {
         if(val > 15)
         {
@@ -154,36 +149,31 @@ namespace pkmn
             exit(EXIT_FAILURE);
         }
 
-        switch(IV)
+        if(IV == "HP")
         {
-            case Stats::HP:
-                _ivHP = val;
-                _HP = _get_hp();
-                break;
-                
-            case Stats::ATTACK:
-                _ivATK = val;
-                _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-                break;
-                
-            case Stats::DEFENSE:
-                _ivDEF = val;
-                _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-                break;
-                
-            case Stats::SPEED:
-                _ivSPD = val;
-                _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-                break;
-            
-            case Stats::SPECIAL:
-                _ivSPCL = val;
-                _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSPCL, _ivSPCL);
-                _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSPCL, _ivSPCL);
-                break;
-            
-            default:
-                break;
+            _ivHP = val;
+            _HP = _get_hp();
+        }
+        else if(IV == "Attack")
+        {
+            _ivATK = val;
+            _ATK = _get_stat("Attack", _evATK, _ivATK);
+        }
+        else if(IV == "Defense")
+        {
+            _ivDEF = val;
+            _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        }
+        else if(IV == "Speed")
+        {
+            _ivSPD = val;
+            _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+        }
+        else if(IV == "Special")
+        {
+            _ivSPCL = val;
+            _SATK = _get_stat("Special Attack", _evSPCL, _ivSPCL);
+            _SDEF = _get_stat("Special Defense", _evSPCL, _ivSPCL);
         }
     }
 
@@ -191,42 +181,24 @@ namespace pkmn
     
     void team_pokemon_gen2impl::set_form(unsigned int form)
     {
-        _base_pkmn->set_form(form);
-        _HP = _get_hp();
-        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSPCL, _ivSPCL);
-        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSPCL, _ivSPCL);
-        _icon_path = _base_pkmn->get_icon_path(true);
-        _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
     }
 
     void team_pokemon_gen2impl::set_form(std::string form)
     {
-        _base_pkmn->set_form(form);
-        _HP = _get_hp();
-        _ATK = _get_stat(Stats::ATTACK, _evATK, _ivATK);
-        _DEF = _get_stat(Stats::DEFENSE, _evDEF, _ivDEF);
-        _SPD = _get_stat(Stats::SPEED, _evSPD, _ivSPD);
-        _SATK = _get_stat(Stats::SPECIAL_ATTACK, _evSPCL, _ivSPCL);
-        _SDEF = _get_stat(Stats::SPECIAL_DEFENSE, _evSPCL, _ivSPCL);
-        _icon_path = _base_pkmn->get_icon_path(true);
-        _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
     }
 
     unsigned int team_pokemon_gen2impl::_get_hp() const
     {
-        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
+        dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
 
-        unsigned int hp_val = int(floor((((double(_ivHP) + double(stats[Stats::HP]) + (pow(_evHP,0.5)/8.0)
+        unsigned int hp_val = int(floor((((double(_ivHP) + double(stats["HP"]) + (pow(_evHP,0.5)/8.0)
                             + 50.0) * double(_level))/50.0) + 10.0));
         return hp_val;
     }
 
-    unsigned int team_pokemon_gen2impl::_get_stat(unsigned int stat, unsigned int EV, unsigned int IV) const
+    unsigned int team_pokemon_gen2impl::_get_stat(std::string stat, unsigned int EV, unsigned int IV) const
     {
-        dict<unsigned int, unsigned int> stats = _base_pkmn->get_base_stats();
+        dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
 
         unsigned int stat_val = int(ceil((((double(IV) + double(stats[stat]) + (pow(EV,0.5)/8.0))
                                 * double(_level))/50.0) + 5.0));

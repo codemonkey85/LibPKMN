@@ -71,17 +71,17 @@ namespace pkmn
             //rpokesav::gen1_pokemon doesn't have a trainer name stored, so it must be passed in
             t_pkmn->set_trainer_name(trainer_name);
             
-            t_pkmn->set_EV(Stats::HP, pkmn.get_ev_hp());
-            t_pkmn->set_EV(Stats::ATTACK, pkmn.get_ev_attack());
-            t_pkmn->set_EV(Stats::DEFENSE, pkmn.get_ev_defense());
-            t_pkmn->set_EV(Stats::SPEED, pkmn.get_ev_speed());
-            t_pkmn->set_EV(Stats::SPECIAL, pkmn.get_ev_special());
+            t_pkmn->set_EV("HP", pkmn.get_ev_hp());
+            t_pkmn->set_EV("Attack", pkmn.get_ev_attack());
+            t_pkmn->set_EV("Defense", pkmn.get_ev_defense());
+            t_pkmn->set_EV("Speed", pkmn.get_ev_speed());
+            t_pkmn->set_EV("Special", pkmn.get_ev_special());
             
-            t_pkmn->set_IV(Stats::HP, pkmn.get_iv_hp());
-            t_pkmn->set_IV(Stats::ATTACK, pkmn.get_iv_attack());
-            t_pkmn->set_IV(Stats::DEFENSE, pkmn.get_iv_defense());
-            t_pkmn->set_IV(Stats::SPEED, pkmn.get_iv_speed());
-            t_pkmn->set_IV(Stats::SPECIAL, pkmn.get_iv_special());
+            t_pkmn->set_IV("HP", pkmn.get_iv_hp());
+            t_pkmn->set_IV("Attack", pkmn.get_iv_attack());
+            t_pkmn->set_IV("Defense", pkmn.get_iv_defense());
+            t_pkmn->set_IV("Speed", pkmn.get_iv_speed());
+            t_pkmn->set_IV("Special", pkmn.get_iv_special());
             
             //Generation 1 didn't have separate genders
             t_pkmn->set_trainer_gender(Genders::MALE);
@@ -116,20 +116,20 @@ namespace pkmn
             t_pkmn->set_move_PP(pkmn_a_t->pp3, 1);
             t_pkmn->set_move_PP(pkmn_a_t->pp4, 1);
             
-            t_pkmn->set_EV(Stats::HP, pkmn_e_t->hp);
-            t_pkmn->set_EV(Stats::ATTACK, pkmn_e_t->attack);
-            t_pkmn->set_EV(Stats::DEFENSE, pkmn_e_t->defense);
-            t_pkmn->set_EV(Stats::SPECIAL_ATTACK, pkmn_e_t->spatk);
-            t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, pkmn_e_t->spdef);
-            t_pkmn->set_EV(Stats::SPEED, pkmn_e_t->speed);
+            t_pkmn->set_EV("HP", pkmn_e_t->hp);
+            t_pkmn->set_EV("Attack", pkmn_e_t->attack);
+            t_pkmn->set_EV("Defense", pkmn_e_t->defense);
+            t_pkmn->set_EV("Special Attack", pkmn_e_t->spatk);
+            t_pkmn->set_EV("Special Defense", pkmn_e_t->spdef);
+            t_pkmn->set_EV("Speed", pkmn_e_t->speed);
 
             uint32_t* IVint = &(pkmn_m_t->IVint);            
-            t_pkmn->set_IV(Stats::HP, modern_get_IV(IVint, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(IVint, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(IVint, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(IVint, Stats::SPECIAL_DEFENSE));
-            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(IVint, Stats::SPEED));
+            t_pkmn->set_IV("HP", modern_get_IV(IVint, Stats::HP));
+            t_pkmn->set_IV("Attack", modern_get_IV(IVint, Stats::ATTACK));
+            t_pkmn->set_IV("Defense", modern_get_IV(IVint, Stats::DEFENSE));
+            t_pkmn->set_IV("Special Attack", modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV("Special Defense", modern_get_IV(IVint, Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV("Speed", modern_get_IV(IVint, Stats::SPEED));
           
             uint16_t* metlevel_int = reinterpret_cast<uint16_t*>(&(pkmn_m_t->locationcaught)+1); 
             t_pkmn->set_met_level(get_gen3_met_level(metlevel_int));
@@ -230,30 +230,30 @@ namespace pkmn
             set_gen3_ball(metlevel_int, libpkmn_ball_to_game_ball(t_pkmn->get_ball()));
             set_gen3_otgender(metlevel_int, (t_pkmn->get_trainer_gender() == Genders::FEMALE));
 
-            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
-            b_pkmn_t->maxHP = stats[Stats::HP];
-            b_pkmn_t->attack = stats[Stats::ATTACK];
-            b_pkmn_t->defense = stats[Stats::DEFENSE];
-            b_pkmn_t->spatk = stats[Stats::SPECIAL_ATTACK];
-            b_pkmn_t->spdef = stats[Stats::SPECIAL_DEFENSE];
-            b_pkmn_t->speed = stats[Stats::SPEED];
+            dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+            b_pkmn_t->maxHP = stats["HP"];
+            b_pkmn_t->attack = stats["Attack"];
+            b_pkmn_t->defense = stats["Defense"];
+            b_pkmn_t->spatk = stats["Special Attack"];
+            b_pkmn_t->spdef = stats["Special Defense"];
+            b_pkmn_t->speed = stats["Speed"];
 
-            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
-            pkmn_e_t->hp = EVs[Stats::HP];
-            pkmn_e_t->attack = EVs[Stats::ATTACK];
-            pkmn_e_t->defense = EVs[Stats::DEFENSE];
-            pkmn_e_t->spatk = EVs[Stats::SPECIAL_ATTACK];
-            pkmn_e_t->spdef = EVs[Stats::SPECIAL_DEFENSE];
-            pkmn_e_t->speed = EVs[Stats::SPEED];
+            dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            pkmn_e_t->hp = EVs["HP"];
+            pkmn_e_t->attack = EVs["Attack"];
+            pkmn_e_t->defense = EVs["Defense"];
+            pkmn_e_t->spatk = EVs["Special Attack"];
+            pkmn_e_t->spdef = EVs["Special Defense"];
+            pkmn_e_t->speed = EVs["Speed"];
 
             uint32_t* IVint = &(pkmn_m_t->IVint);
-            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
-            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
+            modern_set_IV(IVint, Stats::HP, IVs["HP"]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs["Attack"]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs["Defense"]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs["Special Attack"]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs["Special Defense"]);
+            modern_set_IV(IVint, Stats::SPEED, IVs["Speed"]);
             
             //Attributes
             dict<std::string, int> attributes = t_pkmn->get_attributes();
@@ -338,20 +338,20 @@ namespace pkmn
             t_pkmn->set_public_trainer_id(pokelib_pkmn.pkm->pkm.ot_id);
             t_pkmn->set_secret_trainer_id(pokelib_pkmn.pkm->pkm.ot_sid);
 
-            t_pkmn->set_EV(Stats::HP, pokelib_pkmn.pkm->pkm.ev_hp);
-            t_pkmn->set_EV(Stats::ATTACK, pokelib_pkmn.pkm->pkm.ev_atk);
-            t_pkmn->set_EV(Stats::DEFENSE, pokelib_pkmn.pkm->pkm.ev_def);
-            t_pkmn->set_EV(Stats::SPECIAL_ATTACK, pokelib_pkmn.pkm->pkm.ev_satk);
-            t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, pokelib_pkmn.pkm->pkm.ev_sdef);
-            t_pkmn->set_EV(Stats::SPEED, pokelib_pkmn.pkm->pkm.ev_spd);
+            t_pkmn->set_EV("HP", pokelib_pkmn.pkm->pkm.ev_hp);
+            t_pkmn->set_EV("Attack", pokelib_pkmn.pkm->pkm.ev_atk);
+            t_pkmn->set_EV("Defense", pokelib_pkmn.pkm->pkm.ev_def);
+            t_pkmn->set_EV("Special Attack", pokelib_pkmn.pkm->pkm.ev_satk);
+            t_pkmn->set_EV("Special Defense", pokelib_pkmn.pkm->pkm.ev_sdef);
+            t_pkmn->set_EV("Speed", pokelib_pkmn.pkm->pkm.ev_spd);
 
             uint32_t* IVint = &(pokelib_pkmn.pkm->pkm.IVint);
-            t_pkmn->set_IV(Stats::HP, modern_get_IV(IVint, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(IVint, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(IVint, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(IVint, Stats::SPEED));
+            t_pkmn->set_IV("HP", modern_get_IV(IVint, Stats::HP));
+            t_pkmn->set_IV("Attack", modern_get_IV(IVint, Stats::ATTACK));
+            t_pkmn->set_IV("Defense", modern_get_IV(IVint, Stats::DEFENSE));
+            t_pkmn->set_IV("Special Attack", modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV("Special Defense", modern_get_IV(IVint, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV("Speed", modern_get_IV(IVint, Stats::SPEED));
 
             //TODO: use form data to set LibPKMN form, is fateful encounter
 
@@ -501,22 +501,22 @@ namespace pkmn
             pokelib_pkmn.pkm->pkm.move[2] = move_PPs[2];
             pokelib_pkmn.pkm->pkm.move[3] = move_PPs[3];
 
-            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
-            pokelib_pkmn.pkm->pkm.ev_hp = EVs[Stats::HP];
-            pokelib_pkmn.pkm->pkm.ev_atk = EVs[Stats::ATTACK];
-            pokelib_pkmn.pkm->pkm.ev_def = EVs[Stats::DEFENSE];
-            pokelib_pkmn.pkm->pkm.ev_satk = EVs[Stats::SPECIAL_ATTACK];
-            pokelib_pkmn.pkm->pkm.ev_sdef = EVs[Stats::SPECIAL_DEFENSE];
-            pokelib_pkmn.pkm->pkm.ev_spd = EVs[Stats::SPEED];
+            dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            pokelib_pkmn.pkm->pkm.ev_hp = EVs["HP"];
+            pokelib_pkmn.pkm->pkm.ev_atk = EVs["Attack"];
+            pokelib_pkmn.pkm->pkm.ev_def = EVs["Defense"];
+            pokelib_pkmn.pkm->pkm.ev_satk = EVs["Special Attack"];
+            pokelib_pkmn.pkm->pkm.ev_sdef = EVs["Special Defense"];
+            pokelib_pkmn.pkm->pkm.ev_spd = EVs["Speed"];
 
-            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
             uint32_t* IVint = &(pokelib_pkmn.pkm->pkm.IVint);
-            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            modern_set_IV(IVint, Stats::HP, IVs["HP"]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs["Attack"]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs["Defense"]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs["Special Attack"]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs["Special Defense"]);
+            modern_set_IV(IVint, Stats::SPEED, IVs["Speed"]);
             
             pokelib_pkmn.updateBattleStats();
 
@@ -684,20 +684,20 @@ namespace pkmn
             t_pkmn->set_public_trainer_id(p_pkm->pkm_data.tid);
             t_pkmn->set_secret_trainer_id(p_pkm->pkm_data.sid);
 
-            t_pkmn->set_EV(Stats::HP, p_pkm->pkm_data.evs.hp);
-            t_pkmn->set_EV(Stats::ATTACK, p_pkm->pkm_data.evs.attack);
-            t_pkmn->set_EV(Stats::DEFENSE, p_pkm->pkm_data.evs.defense);
-            t_pkmn->set_EV(Stats::SPECIAL_ATTACK, p_pkm->pkm_data.evs.spatk);
-            t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, p_pkm->pkm_data.evs.spdef);
-            t_pkmn->set_EV(Stats::SPEED, p_pkm->pkm_data.evs.speed);
+            t_pkmn->set_EV("HP", p_pkm->pkm_data.evs.hp);
+            t_pkmn->set_EV("Attack", p_pkm->pkm_data.evs.attack);
+            t_pkmn->set_EV("Defense", p_pkm->pkm_data.evs.defense);
+            t_pkmn->set_EV("Special Attack", p_pkm->pkm_data.evs.spatk);
+            t_pkmn->set_EV("Special Defense", p_pkm->pkm_data.evs.spdef);
+            t_pkmn->set_EV("Speed", p_pkm->pkm_data.evs.speed);
 
             uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs));
-            t_pkmn->set_IV(Stats::HP, modern_get_IV(ivs, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(ivs, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(ivs, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(ivs, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(ivs, Stats::SPECIAL_DEFENSE));
-            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(ivs, Stats::SPEED));
+            t_pkmn->set_IV("HP", modern_get_IV(ivs, Stats::HP));
+            t_pkmn->set_IV("Attack", modern_get_IV(ivs, Stats::ATTACK));
+            t_pkmn->set_IV("Defense", modern_get_IV(ivs, Stats::DEFENSE));
+            t_pkmn->set_IV("Special Attack", modern_get_IV(ivs, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV("Special Defense", modern_get_IV(ivs, Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV("Speed", modern_get_IV(ivs, Stats::SPEED));
 
             //Attributes
             uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings));
@@ -856,30 +856,30 @@ namespace pkmn
             p_pkm->pkm_data.tid = t_pkmn->get_public_trainer_id();
             p_pkm->pkm_data.sid = t_pkmn->get_secret_trainer_id();
 
-            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
-            p_pkm->party_data.maxhp = stats[Stats::HP];
-            p_pkm->party_data.attack = stats[Stats::ATTACK];
-            p_pkm->party_data.defense = stats[Stats::DEFENSE];
-            p_pkm->party_data.spatk = stats[Stats::SPECIAL_ATTACK];
-            p_pkm->party_data.spdef = stats[Stats::SPECIAL_DEFENSE];
-            p_pkm->party_data.speed = stats[Stats::SPEED];
+            dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+            p_pkm->party_data.maxhp = stats["HP"];
+            p_pkm->party_data.attack = stats["Attack"];
+            p_pkm->party_data.defense = stats["Defense"];
+            p_pkm->party_data.spatk = stats["Special Attack"];
+            p_pkm->party_data.spdef = stats["Special Defense"];
+            p_pkm->party_data.speed = stats["Speed"];
 
-            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
             uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1);
-            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            modern_set_IV(IVint, Stats::HP, IVs["HP"]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs["Attack"]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs["Defense"]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs["Special Attack"]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs["Special Defense"]);
+            modern_set_IV(IVint, Stats::SPEED, IVs["Speed"]);
 
-            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
-            p_pkm->pkm_data.evs.hp = EVs[Stats::HP];
-            p_pkm->pkm_data.evs.attack = EVs[Stats::ATTACK];
-            p_pkm->pkm_data.evs.defense = EVs[Stats::DEFENSE];
-            p_pkm->pkm_data.evs.spatk = EVs[Stats::SPECIAL_ATTACK];
-            p_pkm->pkm_data.evs.spdef = EVs[Stats::SPECIAL_DEFENSE];
-            p_pkm->pkm_data.evs.speed = EVs[Stats::SPEED];
+            dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            p_pkm->pkm_data.evs.hp = EVs["HP"];
+            p_pkm->pkm_data.evs.attack = EVs["Attack"];
+            p_pkm->pkm_data.evs.defense = EVs["Defense"];
+            p_pkm->pkm_data.evs.spatk = EVs["Special Attack"];
+            p_pkm->pkm_data.evs.spdef = EVs["Special Defense"];
+            p_pkm->pkm_data.evs.speed = EVs["Speed"];
 
             p_pkm->pkm_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_game_id()));
 
@@ -1027,20 +1027,20 @@ namespace pkmn
             t_pkmn->set_public_trainer_id(p_pkx->pkx_data.tid);
             t_pkmn->set_secret_trainer_id(p_pkx->pkx_data.sid);
             
-            t_pkmn->set_EV(Stats::HP, p_pkx->pkx_data.evs.hp);
-            t_pkmn->set_EV(Stats::ATTACK, p_pkx->pkx_data.evs.attack);
-            t_pkmn->set_EV(Stats::DEFENSE, p_pkx->pkx_data.evs.defense);
-            t_pkmn->set_EV(Stats::SPECIAL_ATTACK, p_pkx->pkx_data.evs.spatk);
-            t_pkmn->set_EV(Stats::SPECIAL_DEFENSE, p_pkx->pkx_data.evs.spdef);
-            t_pkmn->set_EV(Stats::SPEED, p_pkx->pkx_data.evs.speed);
+            t_pkmn->set_EV("HP", p_pkx->pkx_data.evs.hp);
+            t_pkmn->set_EV("Attack", p_pkx->pkx_data.evs.attack);
+            t_pkmn->set_EV("Defense", p_pkx->pkx_data.evs.defense);
+            t_pkmn->set_EV("Special Attack", p_pkx->pkx_data.evs.spatk);
+            t_pkmn->set_EV("Special Defense", p_pkx->pkx_data.evs.spdef);
+            t_pkmn->set_EV("Speed", p_pkx->pkx_data.evs.speed);
             
             uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkx->pkx_data.ivs));
-            t_pkmn->set_IV(Stats::HP, modern_get_IV(ivs, Stats::HP));
-            t_pkmn->set_IV(Stats::ATTACK, modern_get_IV(ivs, Stats::ATTACK));
-            t_pkmn->set_IV(Stats::DEFENSE, modern_get_IV(ivs, Stats::DEFENSE));
-            t_pkmn->set_IV(Stats::SPECIAL_ATTACK, modern_get_IV(ivs, Stats::SPECIAL_ATTACK));
-            t_pkmn->set_IV(Stats::SPECIAL_DEFENSE, modern_get_IV(ivs, Stats::SPECIAL_DEFENSE));
-            t_pkmn->set_IV(Stats::SPEED, modern_get_IV(ivs, Stats::SPEED));
+            t_pkmn->set_IV("HP", modern_get_IV(ivs, Stats::HP));
+            t_pkmn->set_IV("Attack", modern_get_IV(ivs, Stats::ATTACK));
+            t_pkmn->set_IV("Defense", modern_get_IV(ivs, Stats::DEFENSE));
+            t_pkmn->set_IV("Special Attack", modern_get_IV(ivs, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV("Special Defense", modern_get_IV(ivs, Stats::SPECIAL_DEFENSE));
+            t_pkmn->set_IV("Speed", modern_get_IV(ivs, Stats::SPEED));
             
             return t_pkmn; 
         }
@@ -1078,30 +1078,30 @@ namespace pkmn
             p_pkx->pkx_data.tid = t_pkmn->get_public_trainer_id();
             p_pkx->pkx_data.sid = t_pkmn->get_secret_trainer_id();
 
-            dict<unsigned int, unsigned int> stats = t_pkmn->get_stats();
-            p_pkx->partyx_data.maxhp = stats[Stats::HP];
-            p_pkx->partyx_data.attack = stats[Stats::ATTACK];
-            p_pkx->partyx_data.defense = stats[Stats::DEFENSE];
-            p_pkx->partyx_data.spatk = stats[Stats::SPECIAL_ATTACK];
-            p_pkx->partyx_data.spdef = stats[Stats::SPECIAL_DEFENSE];
-            p_pkx->partyx_data.speed = stats[Stats::SPEED];
+            dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+            p_pkx->partyx_data.maxhp = stats["HP"];
+            p_pkx->partyx_data.attack = stats["Attack"];
+            p_pkx->partyx_data.defense = stats["Defense"];
+            p_pkx->partyx_data.spatk = stats["Special Attack"];
+            p_pkx->partyx_data.spdef = stats["Special Defense"];
+            p_pkx->partyx_data.speed = stats["Speed"];
 
-            dict<unsigned int, unsigned int> IVs = t_pkmn->get_IVs();
+            dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
             uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkx->pkx_data.ppups[3])+1);
-            modern_set_IV(IVint, Stats::HP, IVs[Stats::HP]);
-            modern_set_IV(IVint, Stats::ATTACK, IVs[Stats::ATTACK]);
-            modern_set_IV(IVint, Stats::DEFENSE, IVs[Stats::DEFENSE]);
-            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs[Stats::SPECIAL_ATTACK]);
-            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs[Stats::SPECIAL_DEFENSE]);
-            modern_set_IV(IVint, Stats::SPEED, IVs[Stats::SPEED]);
+            modern_set_IV(IVint, Stats::HP, IVs["HP"]);
+            modern_set_IV(IVint, Stats::ATTACK, IVs["Attack"]);
+            modern_set_IV(IVint, Stats::DEFENSE, IVs["Defense"]);
+            modern_set_IV(IVint, Stats::SPECIAL_ATTACK, IVs["Special Attack"]);
+            modern_set_IV(IVint, Stats::SPECIAL_DEFENSE, IVs["Special Defense"]);
+            modern_set_IV(IVint, Stats::SPEED, IVs["Speed"]);
 
-            dict<unsigned int, unsigned int> EVs = t_pkmn->get_EVs();
-            p_pkx->pkx_data.evs.hp = EVs[Stats::HP];
-            p_pkx->pkx_data.evs.attack = EVs[Stats::ATTACK];
-            p_pkx->pkx_data.evs.defense = EVs[Stats::DEFENSE];
-            p_pkx->pkx_data.evs.spatk = EVs[Stats::SPECIAL_ATTACK];
-            p_pkx->pkx_data.evs.spdef = EVs[Stats::SPECIAL_DEFENSE];
-            p_pkx->pkx_data.evs.speed = EVs[Stats::SPEED];
+            dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            p_pkx->pkx_data.evs.hp = EVs["HP"];
+            p_pkx->pkx_data.evs.attack = EVs["Attack"];
+            p_pkx->pkx_data.evs.defense = EVs["Defense"];
+            p_pkx->pkx_data.evs.spatk = EVs["Special Attack"];
+            p_pkx->pkx_data.evs.spdef = EVs["Special Defense"];
+            p_pkx->pkx_data.evs.speed = EVs["Speed"];
 
             p_pkx->pkx_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_game_id()));
         }
