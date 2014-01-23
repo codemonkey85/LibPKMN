@@ -19,7 +19,7 @@ namespace pkmn
                                   unsigned int move1, unsigned int move2,
                                   unsigned int move3, unsigned int move4);
 
-            unsigned int get_ability() const;
+            std::string get_ability() const;
             unsigned int get_gender() const;
             unsigned int get_nature() const;
             bool is_shiny() const;

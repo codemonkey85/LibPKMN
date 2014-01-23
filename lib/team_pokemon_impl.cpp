@@ -203,11 +203,18 @@ namespace pkmn
     
     void team_pokemon_impl::set_personality(unsigned int personality) {_personality = personality;}
 
-    void team_pokemon_impl::set_ability(unsigned int ability)
+    void team_pokemon_impl::set_ability(std::string ability)
     {
-        std::string query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability);
-        SQLite::Statement query(_db, query_string.c_str());
-        if(query.executeStep()) _ability = ability;
+        //Check if ability is present in given generation
+        unsigned int ability_id = database::get_ability_id(ability);
+
+        if(ability_id != 0)
+        {
+            std::string query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability);
+            SQLite::Statement query(_db, query_string.c_str());
+            unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
+            if(generation_id <= _generation) _ability = ability;
+        }
     }
 
     void team_pokemon_impl::set_gender(unsigned int gender)

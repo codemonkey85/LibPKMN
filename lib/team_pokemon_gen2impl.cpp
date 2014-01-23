@@ -52,7 +52,7 @@ namespace pkmn
     }
 
     //No abilities in Gen 2, but don't throw error
-    unsigned int team_pokemon_gen2impl::get_ability() const {return Abilities::NONE;}
+    std::string team_pokemon_gen2impl::get_ability() const {return "None";}
     
     unsigned int team_pokemon_gen2impl::get_gender() const{return _gender;}
     

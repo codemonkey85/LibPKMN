@@ -138,7 +138,7 @@ namespace pkmn
                                        ");\n"
                                        "COMMIT;";
             std::string pokemon_export =
-                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,'%s',%d,%d,'%s','%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
+                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,'%s',%d,%d,'%s','%s',%d,%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
                         % title
                         % t_pkmn->get_species_id()
                         % t_pkmn->get_game_id()
@@ -199,7 +199,7 @@ namespace pkmn
             t_pkmn->set_held_item(int(query.getColumn(6)));
             t_pkmn->set_ball(int(query.getColumn(7)));
             t_pkmn->set_met_level(int(query.getColumn(9)));
-            t_pkmn->set_ability(int(query.getColumn(10)));
+            t_pkmn->set_ability((const char*)(query.getColumn(10)));
             t_pkmn->set_nature(int(query.getColumn(11)));
             t_pkmn->set_personality(int(query.getColumn(12)));
             t_pkmn->set_trainer_id(int(query.getColumn(13)));

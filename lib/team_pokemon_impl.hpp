@@ -44,7 +44,7 @@ namespace pkmn
             unsigned int get_personality() const;
             virtual void set_personality(unsigned int personality);
 
-            void set_ability(unsigned int ability);
+            void set_ability(std::string ability);
             void set_nature(unsigned int nature);
             void set_gender(unsigned int gender);
             
@@ -122,7 +122,8 @@ namespace pkmn
             virtual unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const = 0;
 
             unsigned int _gender, _otgender;
-            unsigned int _ability, _nature;
+            std::string _ability;
+            unsigned int _nature;
             bool _has_hidden_ability;
             
             static SQLite::Database _db;

@@ -48,7 +48,8 @@ namespace pkmn
 			virtual bool is_fully_evolved() const = 0;
             virtual double get_chance_male() const = 0;
             virtual double get_chance_female() const = 0;
-            virtual dict<unsigned int, unsigned int> get_abilities() const = 0;
+            virtual string_pair_t get_abilities() const = 0;
+            virtual std::string get_hidden_ability() const = 0;
 
             //Battle Stats
             virtual dict<std::string, unsigned int> get_base_stats() const = 0;

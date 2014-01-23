@@ -21,7 +21,7 @@ namespace pkmn
 
             void set_personality(unsigned int new_personality);
             
-            unsigned int get_ability() const;
+            std::string get_ability() const;
             unsigned int get_gender() const;
             unsigned int get_nature() const;
             bool is_shiny() const;
@@ -48,7 +48,7 @@ namespace pkmn
             unsigned int _get_hp() const;
             unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const;
             
-            unsigned int _determine_ability() const;
+            std::string _determine_ability() const;
             unsigned int _determine_gender() const;
             unsigned int _determine_nature() const;
     };

@@ -52,12 +52,12 @@ namespace pkmn
             virtual void set_status(unsigned int status) = 0;
             
             virtual unsigned int get_personality() const = 0;
-            virtual unsigned int get_ability() const = 0;
+            virtual std::string get_ability() const = 0;
             virtual unsigned int get_gender() const = 0;
             virtual unsigned int get_nature() const = 0;
             virtual bool is_shiny() const = 0;
             
-            virtual void set_ability(unsigned int ability) = 0;
+            virtual void set_ability(std::string ability) = 0;
             virtual void set_nature(unsigned int nature) = 0;
             virtual void set_gender(unsigned int gender) = 0;
 

@@ -195,51 +195,54 @@ namespace pkmn
         }
     }
 
-    dict<unsigned int, unsigned int> base_pokemon_modernimpl::get_abilities() const
+    string_pair_t base_pokemon_modernimpl::get_abilities() const
     {
-        dict<unsigned int, unsigned int> abilities;
-        switch(_species_id)
+        string_pair_t abilities;
+        abilities.first = "None";
+        abilities.second = "None";
+
+        if(_species_id == Species::NONE or _species_id == Species::INVALID) return abilities;
+        else
         {
-            case Species::NONE:
-            case Species::INVALID:
-                return abilities;
+            //All Pokemon are guaranteed to have an ability in slot 1
+            std::string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
+                                     + " AND slot=1";
+            abilities.first = database::get_ability_name(int(_db.execAndGet(query_string.c_str())));
 
-            default:
-                //Ability 1 (guaranteed)
-                string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
-                             + " AND slot=1";
-                abilities[0] = int(_db.execAndGet(query_string.c_str()));
-
-                //Ability 2 (not guaranteed, and if exists, might not exist in specified generation)
-                query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
-                             + " AND slot=2";
-                SQLite::Statement ability2_query(_db, query_string.c_str());
-                if(ability2_query.executeStep()) //Will be false if no entry exists
-                {
-                    unsigned int ability2_id = int(ability2_query.getColumn(0)); //ability_id
-                    query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
-                    unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
-                    
-                    if(generation_id > _generation) abilities[1] = Abilities::NONE;
-                    else abilities[1] = ability2_id;
-                }
-                else abilities[1] = Abilities::NONE;
-
-                //Ability 3 (hidden ability, only in Gen 5, even then not guaranteed)
-                if(_generation == 5)
-                {
-                    query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
-                                 + " AND slot=3";
-                    SQLite::Statement ability3_query(_db, query_string.c_str());
-                    if(ability3_query.executeStep()) //Will be false if no entry exists
-                    {
-                        abilities[2] = int(_db.execAndGet(query_string.c_str()));
-                    }
-                    else abilities[2] = Abilities::NONE;
-                }
+            //Second ability not guaranteed (if it exists, it may not be in the current generation)
+            query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
+                         + " AND slot=2";
+            SQLite::Statement ability2_query(_db, query_string.c_str());
+            if(ability2_query.executeStep()) //Will be false if no entry exists
+            {
+                unsigned int ability2_id = int(ability2_query.getColumn(0)); //ability_id
+                query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
+                unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
                 
-                return abilities;
+                if(generation_id <= _generation) abilities.second = database::get_ability_name(ability2_id);
+                else abilities.second = "None";
+            }
+            else abilities.second = "None";
         }
+
+        return abilities;
+    }
+
+    std::string base_pokemon_modernimpl::get_hidden_ability() const
+    {
+        std::string query_string = "SELECT ability_id FROM pokemon_abilities WHERE id=" + to_string(_pokemon_id)
+                                 + " AND is_hidden=1 AND slot=3";
+        SQLite::Statement query(_db, query_string.c_str());
+        if(query.executeStep()) //Will be false if no entry exists
+        {
+            unsigned int ability_id = int(query.getColumn(0)); //ability_id
+            query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability_id);
+            unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
+            
+            if(generation_id <= _generation) return database::get_ability_name(ability_id);
+            else return "None";
+        }
+        else return "None";
     }
 
     dict<std::string, unsigned int> base_pokemon_modernimpl::get_base_stats() const

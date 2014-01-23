@@ -159,11 +159,16 @@ namespace pkmn
     }
 
     //No abilities in Generation 2
-    dict<unsigned int, unsigned int> base_pokemon_gen2impl::get_abilities() const
+    string_pair_t base_pokemon_gen2impl::get_abilities() const
     {
-        dict<unsigned int, unsigned int> abilities;
+        string_pair_t abilities;
+        abilities.first = "None";
+        abilities.second = "None";
+
         return abilities;
     }
+
+    std::string base_pokemon_gen2impl::get_hidden_ability() const {return "None";}
     
     dict<std::string, unsigned int> base_pokemon_gen2impl::get_base_stats() const
     {

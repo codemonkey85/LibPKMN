@@ -28,7 +28,8 @@ namespace pkmn
             bool has_gender_differences() const;
             double get_chance_male() const;
             double get_chance_female() const;
-            dict<unsigned int, unsigned int> get_abilities() const;
+            string_pair_t get_abilities() const;
+            std::string get_hidden_ability() const;
 
             //Battle Stats
             dict<std::string, unsigned int> get_base_stats() const;

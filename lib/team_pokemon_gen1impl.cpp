@@ -49,7 +49,7 @@ namespace pkmn
     }
 
     //No abilities in Gen 1, but don't throw error
-    unsigned int team_pokemon_gen1impl::get_ability() const {return Abilities::NONE;}
+    std::string team_pokemon_gen1impl::get_ability() const {return "None";}
     
     //Gender doesn't exist in Gen 1, Male is default
     unsigned int team_pokemon_gen1impl::get_gender() const {return Genders::MALE;}
