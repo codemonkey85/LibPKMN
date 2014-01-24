@@ -7,12 +7,6 @@
 #ifndef INCLUDED_LIBRARY_BRIDGE_HPP
 #define INCLUDED_LIBRARY_BRIDGE_HPP
 
-#ifdef _MSC_VER
-#include <memory>
-#else
-#include <tr1/memory>
-#endif
-
 #include <cstdint>
 
 #include <boost/assign.hpp>
