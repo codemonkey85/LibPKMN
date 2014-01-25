@@ -16,10 +16,10 @@
 namespace pkmn
 {
     template<typename item_type>
-    vla<item_type>::vla () {}
+    array<item_type>::array () {}
 
     template<typename item_type>
-    vla<item_type>::vla(int items)
+    array<item_type>::array(int items)
     {
         _vec.clear();
         max_items = items;
@@ -30,13 +30,13 @@ namespace pkmn
     }
 
     template<typename item_type>
-    std::size_t vla<item_type>::size(void) const
+    std::size_t array<item_type>::size(void) const
     {
         return max_items;
     }
 
     template<typename item_type>
-    item_type& vla<item_type>::operator[](int pos)
+    item_type& array<item_type>::operator[](int pos)
     {
         if(pos < 0 or pos >= max_items)
         {
@@ -47,7 +47,7 @@ namespace pkmn
     }
 
     template<typename item_type>
-    void vla<item_type>::set(int pos, item_type val)
+    void array<item_type>::set(int pos, item_type val)
     {
         if(pos < 0 or pos >= max_items)
         {
@@ -58,7 +58,7 @@ namespace pkmn
     }
 
     template<typename item_type>
-    item_type vla<item_type>::get(int pos) const
+    item_type array<item_type>::get(int pos) const
     {
         if(pos < 0 or pos >= max_items)
         {

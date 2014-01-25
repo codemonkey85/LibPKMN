@@ -214,7 +214,7 @@ namespace pkmn
             pkmn_a_t->atk3 = moves[2]->get_move_id();
             pkmn_a_t->atk4 = moves[3]->get_move_id();
 
-            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
             pkmn_a_t->pp1 = move_PPs[0];
             pkmn_a_t->pp2 = move_PPs[1];
             pkmn_a_t->pp3 = move_PPs[2];
@@ -495,7 +495,7 @@ namespace pkmn
             pokelib_pkmn.pkm->pkm.move[2] = moves[2]->get_move_id();
             pokelib_pkmn.pkm->pkm.move[3] = moves[3]->get_move_id();
 
-            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
             pokelib_pkmn.pkm->pkm.move[0] = move_PPs[0];
             pokelib_pkmn.pkm->pkm.move[1] = move_PPs[1];
             pokelib_pkmn.pkm->pkm.move[2] = move_PPs[2];
@@ -826,7 +826,7 @@ namespace pkmn
             p_pkm->pkm_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
             p_pkm->pkm_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
 
-            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
             p_pkm->pkm_data.pp[0] = move_PPs[0];
             p_pkm->pkm_data.pp[1] = move_PPs[1];
             p_pkm->pkm_data.pp[2] = move_PPs[2];
@@ -1057,7 +1057,7 @@ namespace pkmn
             p_pkx->pkx_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
             p_pkx->pkx_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
 
-            vla<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
             p_pkx->pkx_data.pp[0] = move_PPs[0];
             p_pkx->pkx_data.pp[1] = move_PPs[1];
             p_pkx->pkx_data.pp[2] = move_PPs[2];

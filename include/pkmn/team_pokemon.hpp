@@ -17,7 +17,7 @@
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/pokemon_text.hpp>
 #include <pkmn/types/shared_ptr.hpp>
-#include <pkmn/types/vla.hpp>
+#include <pkmn/types/array.hpp>
 
 namespace pkmn
 {
@@ -44,7 +44,7 @@ namespace pkmn
             virtual void set_met_level(unsigned int level) = 0;
 
             virtual moveset_t get_moves() const = 0;
-            virtual vla<unsigned int> get_move_PPs() const = 0;
+            virtual array<unsigned int> get_move_PPs() const = 0;
             virtual void set_move(unsigned int move_id, unsigned int pos) = 0;
             virtual void set_move_PP(unsigned int PP, unsigned int pos) = 0;
             
@@ -116,8 +116,8 @@ namespace pkmn
 
     //Related typedefs
     typedef std::vector<team_pokemon::sptr> t_pkmn_vec_t;
-    typedef vla<team_pokemon::sptr> t_pkmn_vla_t;
-    typedef vla<team_pokemon::sptr> pokemon_team_t;
+    typedef array<team_pokemon::sptr> t_pkmn_array_t;
+    typedef array<team_pokemon::sptr> pokemon_team_t;
 }
 
 #endif /* INCLUDED_PKMN_TEAM_POKEMON_HPP */

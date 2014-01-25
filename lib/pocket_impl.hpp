@@ -36,8 +36,8 @@ namespace pkmn
             unsigned int _game_id, _pocket_size;
             std::string _pocket_name;
             
-            vla<unsigned int> _contents;
-            vla<unsigned int> _amounts;
+            array<unsigned int> _contents;
+            array<unsigned int> _amounts;
     };
 }
 

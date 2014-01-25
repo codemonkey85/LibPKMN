@@ -14,15 +14,15 @@
 namespace pkmn
 {
     template <typename item_type>
-    class vla
+    class array
     {
         public:
         
             //Create empty VLA
-            vla(void);
+            array(void);
 
             //Constructor with generic item name
-            vla(int max);
+            array(int max);
 
             std::size_t size(void) const;
 
@@ -41,6 +41,6 @@ namespace pkmn
     };
 }
 
-#include <pkmn/types/vla.ipp>
+#include <pkmn/types/array.ipp>
 
 #endif /* INCLUDED_PKMN_TYPES_VLA_HPP */

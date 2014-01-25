@@ -12,7 +12,7 @@
 #include <pkmn/config.hpp>
 #include <pkmn/item.hpp>
 #include <pkmn/types/shared_ptr.hpp>
-#include <pkmn/types/vla.hpp>
+#include <pkmn/types/array.hpp>
 
 namespace pkmn
 {

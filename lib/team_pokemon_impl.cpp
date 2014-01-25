@@ -93,7 +93,7 @@ namespace pkmn
 
 		_attributes = dict<string, int>();
         _moves = moveset_t(4);
-        _move_PPs = vla<unsigned int>(4);
+        _move_PPs = array<unsigned int>(4);
 
         _icon_path = _base_pkmn->get_icon_path(true);
 
@@ -174,7 +174,7 @@ namespace pkmn
 
     moveset_t team_pokemon_impl::get_moves() const {return _moves;}
     
-    vla<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
+    array<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
 
     void team_pokemon_impl::set_move(unsigned int move_id, unsigned int pos)
     {

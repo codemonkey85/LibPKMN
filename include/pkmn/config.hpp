@@ -15,7 +15,7 @@
 /***************************************************************************
  * In order to prevent users from needing Boost to develop off of
  * LibPKMN, these alternatives are used to get around what would
- * usually be done with Boost. These are mainly usd by dict and vla,
+ * usually be done with Boost. These are mainly usd by dict and array,
  * which are publicly exposed.
  ***************************************************************************/
 

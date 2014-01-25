@@ -34,7 +34,7 @@ namespace pkmn
             void set_met_level(unsigned int level);
             
             moveset_t get_moves() const;
-            vla<unsigned int> get_move_PPs() const;
+            array<unsigned int> get_move_PPs() const;
             void set_move(unsigned int move_id, unsigned int pos);
             void set_move_PP(unsigned int PP, unsigned int pos);
             
@@ -113,7 +113,7 @@ namespace pkmn
             unsigned int _ivHP, _ivATK, _ivDEF, _ivSPD;
             unsigned int _nonvolatile_status;
             moveset_t _moves;
-            vla<unsigned int> _move_PPs;
+            array<unsigned int> _move_PPs;
             unsigned int _num_moves;
             std::string _icon_path, _sprite_path;
 			dict<std::string, int> _attributes;

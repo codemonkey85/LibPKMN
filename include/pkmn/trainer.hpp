@@ -14,7 +14,7 @@
 #include <pkmn/team_pokemon.hpp>
 #include <pkmn/types/pokemon_text.hpp>
 #include <pkmn/types/shared_ptr.hpp>
-#include <pkmn/types/vla.hpp>
+#include <pkmn/types/array.hpp>
 
 namespace pkmn
 {

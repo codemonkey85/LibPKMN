@@ -14,7 +14,7 @@
 #include <pkmn/config.hpp>
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/shared_ptr.hpp>
-#include <pkmn/types/vla.hpp>
+#include <pkmn/types/array.hpp>
 
 namespace pkmn
 {
@@ -77,7 +77,7 @@ namespace pkmn
 
     //Related typedefs
     typedef std::vector<base_pokemon::sptr> b_pkmn_vec_t;
-    typedef vla<base_pokemon::sptr> b_pkmn_vla_t;
+    typedef array<base_pokemon::sptr> b_pkmn_array_t;
 }
 
 #endif /* INCLUDED_PKMN_BASE_POKEMON_HPP */
