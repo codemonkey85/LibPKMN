@@ -91,9 +91,9 @@ namespace pkmn
         _held_item = item::make(Items::NONE, _game_id);
         _ball = PokeBalls::POKE_BALL;
 
-		_attributes = dict<string, int>();
+		_attributes = pkmn::dict<string, int>();
         _moves = moveset_t(4);
-        _move_PPs = array<unsigned int>(4);
+        _move_PPs = pkmn::array<unsigned int>(4);
 
         _icon_path = _base_pkmn->get_icon_path(true);
 
@@ -174,7 +174,7 @@ namespace pkmn
 
     moveset_t team_pokemon_impl::get_moves() const {return _moves;}
     
-    array<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
+    pkmn::array<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
 
     void team_pokemon_impl::set_move(unsigned int move_id, unsigned int pos)
     {
@@ -262,7 +262,7 @@ namespace pkmn
     
 	int team_pokemon_impl::get_attribute(string attribute) const {return _attributes[attribute];}
 
-    dict<string, int> team_pokemon_impl::get_attributes() const {return _attributes;}
+    pkmn::dict<string, int> team_pokemon_impl::get_attributes() const {return _attributes;}
 
     bool team_pokemon_impl::has_attribute(string attribute) const {return _attributes.has_key(attribute);}
 
@@ -287,21 +287,11 @@ namespace pkmn
     void team_pokemon_impl::set_secret_trainer_id(unsigned short id) {_tid.secret_id = id;}
 
     string team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
+
+    pkmn::array<std::string> team_pokemon_impl::get_egg_groups() const {return _base_pkmn->get_egg_groups();}
     
-    void team_pokemon_impl::get_egg_groups(std::vector<std::string>&
-                                           egg_group_vec) const
-    {
-        egg_group_vec.clear();
-        _base_pkmn->get_egg_groups(egg_group_vec);
-    }
+    pkmn::array<unsigned int> team_pokemon_impl::get_egg_group_ids() const {return _base_pkmn->get_egg_group_ids();}
     
-    void team_pokemon_impl::get_egg_group_ids(std::vector<unsigned int>
-                                              &egg_group_id_vec) const
-    {
-        egg_group_id_vec.clear();
-        _base_pkmn->get_egg_group_ids(egg_group_id_vec);
-    }
-                                                
     unsigned int team_pokemon_impl::get_game_id() const {return _game_id;}
     
     unsigned int team_pokemon_impl::get_pokemon_id() const {return _base_pkmn->get_pokemon_id();}
@@ -312,9 +302,9 @@ namespace pkmn
     
     string_pair_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
     
-    dict<std::string, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
+    pkmn::dict<std::string, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
 
-    dict<std::string, unsigned int> team_pokemon_impl::get_ev_yields() const {return _base_pkmn->get_ev_yields();}
+    pkmn::dict<std::string, unsigned int> team_pokemon_impl::get_ev_yields() const {return _base_pkmn->get_ev_yields();}
 
     bool team_pokemon_impl::is_fully_evolved() const {return _base_pkmn->is_fully_evolved();}
 } /* namespace pkmn */

@@ -24,7 +24,7 @@ namespace pkmn
             base_pokemon_modernimpl(unsigned int id, unsigned int game_id);
 
             //Non-Battle Attributes            
-            void get_egg_groups(std::vector<std::string>& egg_group_vec) const;
+            pkmn::array<std::string> get_egg_groups() const;
             bool has_gender_differences() const;
             double get_chance_male() const;
             double get_chance_female() const;
@@ -43,8 +43,7 @@ namespace pkmn
             std::string get_sprite_path(bool is_male, bool is_shiny) const;
 
             //Database Info
-            void get_egg_group_ids(std::vector<unsigned int>&
-                                   egg_group_id_vec) const;
+            pkmn::array<unsigned int> get_egg_group_ids() const;
     };
 }
 

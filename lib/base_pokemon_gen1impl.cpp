@@ -70,8 +70,12 @@ namespace pkmn
         _form_id = _species_id;
     }
 
-    void base_pokemon_gen1impl::get_egg_groups(std::vector<std::string>&
-                                               egg_group_vec) const {};
+    //No eggs in Generation 1
+    pkmn::array<std::string> base_pokemon_gen1impl::get_egg_groups() const
+    {
+        pkmn::array<std::string> egg_group_array(1);
+        egg_group_array[0] = "None";
+    }
 
     //No genders in Generation 1
     bool base_pokemon_gen1impl::has_gender_differences() const {return false;}
@@ -90,9 +94,9 @@ namespace pkmn
 
     std::string base_pokemon_gen1impl::get_hidden_ability() const {return "None";}
 
-    dict<std::string, unsigned int> base_pokemon_gen1impl::get_base_stats() const
+    pkmn::dict<std::string, unsigned int> base_pokemon_gen1impl::get_base_stats() const
     {
-        dict<std::string, unsigned int> stats;
+        pkmn::dict<std::string, unsigned int> stats;
         stats["HP"] = _hp;
         stats["Attack"] = _attack;
         stats["Defense"] = _defense;
@@ -103,7 +107,7 @@ namespace pkmn
     }
 
     //In Generation 1, EV yields were the same as the corresponding base stat
-    dict<std::string, unsigned int> base_pokemon_gen1impl::get_ev_yields() const
+    pkmn::dict<std::string, unsigned int> base_pokemon_gen1impl::get_ev_yields() const
     {
         return get_base_stats();
     }
@@ -124,10 +128,13 @@ namespace pkmn
     {
         return _male_sprite_path.string();
     }
-
-
+    
     //No eggs in Generation 1
-    void base_pokemon_gen1impl::get_egg_group_ids(std::vector<unsigned int>
-                                                  &egg_group_id_vec) const {};
-
+    pkmn::array<unsigned int> base_pokemon_gen1impl::get_egg_group_ids() const
+    {
+        pkmn::array<unsigned int> egg_group_id_array(1);
+        egg_group_id_array[0] = pkmn::Egg_Groups::NONE;
+        
+        return egg_group_id_array;
+    }
 } /* namespace pkmn */

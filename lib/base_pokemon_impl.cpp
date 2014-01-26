@@ -156,7 +156,7 @@ namespace pkmn
     {
         std::string query_string = "SELECT name FROM version_names WHERE local_language_id=9 AND version_id="
                                  + to_string(_game_id);
-        return _db.execAndGet(query_string.c_str());
+        return (const char*)(_db.execAndGet(query_string.c_str()));
     }
 
     unsigned int base_pokemon_impl::get_generation() const {return _generation;}
@@ -190,7 +190,7 @@ namespace pkmn
             {
                 std::string query_string = "SELECT genus FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id="
                                          + to_string(_species_id);
-                return _db.execAndGet(query_string.c_str());
+                return (const char*)(_db.execAndGet(query_string.c_str()));
             }
         }
     }
@@ -235,47 +235,33 @@ namespace pkmn
         }
     }
     
-    void base_pokemon_impl::get_evolutions(b_pkmn_vec_t &evolution_vec) const
+    base_pokemon_array base_pokemon_impl::get_evolutions() const
     {
-        evolution_vec.clear();
-
-        if(_species_id != Species::NONE and _species_id != Species::INVALID)
+        std::vector<unsigned int> id_vec;
+        _get_evolution_ids(id_vec);
+        
+        base_pokemon_array evolution_array;
+        
+        if(id_vec.begin() == id_vec.end())
         {
-            string query_string;
-            
-            vector<int> evolution_ids;
-            vector<int> to_erase;
-            query_string = "SELECT id FROM pokemon_species WHERE evolves_from_species_id=" + to_string(_species_id);
-            SQLite::Statement query(_db, query_string.c_str());
-            while(query.executeStep())
-            {
-                int evol_id = query.getColumn(0); //id
-                evolution_ids.push_back(evol_id);
-            }
-
-            //Evolutions may not be present in specified generation
-            for(unsigned int i = 0; i < evolution_ids.size(); i++)
-            {
-                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(evolution_ids[i]);
-                int generation_id = _db.execAndGet(query_string.c_str());
-                if(generation_id > _generation) to_erase.push_back(i);
-            }
-            for(int j = to_erase.size()-1; j >= 0; j--)
-            {
-                evolution_ids.erase(evolution_ids.begin() + to_erase[j]);
-            }
-
-            //Fill vector with sptrs of all evolutions
-            for(unsigned int i = 0; i < evolution_ids.size(); i++) evolution_vec.push_back(make(evolution_ids[i], _game_id));
+            evolution_array = base_pokemon_array(1);
+            evolution_array[0] = make(pkmn::Species::NONE, _game_id);
         }
+        else
+        {
+            evolution_array = base_pokemon_array(id_vec.size());
+            for(size_t i = 0; i < evolution_array.size(); i++) evolution_array[i] = make(id_vec[i], _game_id);
+        }
+        
+        return evolution_array;
     }
     
     bool base_pokemon_impl::is_fully_evolved() const
     {
-        b_pkmn_vec_t evolution_vec;
-        get_evolutions(evolution_vec);
+        std::vector<unsigned int> id_vec;
+        _get_evolution_ids(id_vec);
 
-        return (evolution_vec.begin() == evolution_vec.end());
+        return (id_vec.begin() == id_vec.end());
     }
     
     unsigned int base_pokemon_impl::get_exp_yield() const
@@ -302,4 +288,32 @@ namespace pkmn
     unsigned int base_pokemon_impl::get_game_id() const {return _game_id;}
 
     unsigned int base_pokemon_impl::get_form_id() const {return _form_id;}
+    
+    void base_pokemon_impl::_get_evolution_ids(std::vector<unsigned int>& id_vec) const
+    {
+        id_vec.clear();
+
+        if(_species_id != Species::NONE and _species_id != Species::INVALID)
+        {
+            string query_string;
+
+            vector<int> to_erase;
+            query_string = "SELECT id FROM pokemon_species WHERE evolves_from_species_id=" + to_string(_species_id);
+            SQLite::Statement query(_db, query_string.c_str());
+            while(query.executeStep())
+            {
+                int evol_id = query.getColumn(0); //id
+                id_vec.push_back(evol_id);
+            }
+
+            //Evolutions may not be present in specified generation
+            for(unsigned int i = 0; i < id_vec.size(); i++)
+            {
+                query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(id_vec[i]);
+                int generation_id = _db.execAndGet(query_string.c_str());
+                if(generation_id > _generation) to_erase.push_back(i);
+            }
+            for(int j = to_erase.size()-1; j >= 0; j--) id_vec.erase(id_vec.begin() + to_erase[j]);
+        }
+    }
 } /* namespace pkmn */

@@ -34,7 +34,7 @@ namespace pkmn
             void set_met_level(unsigned int level);
             
             moveset_t get_moves() const;
-            array<unsigned int> get_move_PPs() const;
+            pkmn::array<unsigned int> get_move_PPs() const;
             void set_move(unsigned int move_id, unsigned int pos);
             void set_move_PP(unsigned int PP, unsigned int pos);
             
@@ -58,7 +58,7 @@ namespace pkmn
             std::string get_sprite_path() const;
             
 			int get_attribute(std::string attribute) const;
-            dict<std::string, int> get_attributes() const;
+            pkmn::dict<std::string, int> get_attributes() const;
             bool has_attribute(std::string attribute) const;
 			void set_attribute(std::string attribute, int value);
             void set_hidden_ability(bool val);
@@ -72,11 +72,9 @@ namespace pkmn
             void set_public_trainer_id(unsigned short id);
             void set_secret_trainer_id(unsigned short id);
 
-            void get_egg_groups(std::vector<std::string>&
-                                egg_group_vec) const;
-            void get_egg_group_ids(std::vector<unsigned int>
-                                   &egg_group_id_vec) const;
-            
+            pkmn::array<std::string> get_egg_groups() const;
+            pkmn::array<unsigned int> get_egg_group_ids() const;
+
             unsigned int get_game_id() const;
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
@@ -84,8 +82,8 @@ namespace pkmn
             std::string get_form() const;
             
             string_pair_t get_types() const;
-            dict<std::string, unsigned int> get_base_stats() const;
-            dict<std::string, unsigned int> get_ev_yields() const;
+            pkmn::dict<std::string, unsigned int> get_base_stats() const;
+            pkmn::dict<std::string, unsigned int> get_ev_yields() const;
             bool is_fully_evolved() const;
 
         protected:
@@ -113,7 +111,7 @@ namespace pkmn
             unsigned int _ivHP, _ivATK, _ivDEF, _ivSPD;
             unsigned int _nonvolatile_status;
             moveset_t _moves;
-            array<unsigned int> _move_PPs;
+            pkmn::array<unsigned int> _move_PPs;
             unsigned int _num_moves;
             std::string _icon_path, _sprite_path;
 			dict<std::string, int> _attributes;

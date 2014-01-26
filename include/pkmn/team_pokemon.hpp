@@ -61,9 +61,9 @@ namespace pkmn
             virtual void set_nature(unsigned int nature) = 0;
             virtual void set_gender(unsigned int gender) = 0;
 
-            virtual dict<std::string, unsigned int> get_stats() const = 0;
-            virtual dict<std::string, unsigned int> get_IVs() const = 0;
-            virtual dict<std::string, unsigned int> get_EVs() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_stats() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_IVs() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_EVs() const = 0;
             
             virtual void set_personality(unsigned int personality) = 0;
             
@@ -80,7 +80,7 @@ namespace pkmn
             virtual std::string get_sprite_path() const = 0;
             
 			virtual int get_attribute(std::string attribute) const = 0;
-            virtual dict<std::string, int> get_attributes() const = 0;
+            virtual pkmn::dict<std::string, int> get_attributes() const = 0;
             virtual bool has_attribute(std::string attribute) const = 0;
 			virtual void set_attribute(std::string attribute, int value) = 0;
             virtual void set_hidden_ability(bool val) = 0;
@@ -94,21 +94,19 @@ namespace pkmn
             virtual void set_public_trainer_id(unsigned short id) = 0;
             virtual void set_secret_trainer_id(unsigned short id) = 0;
 
-            virtual void get_egg_groups(std::vector<std::string>&
-                                        egg_group_vec) const = 0;
+            virtual pkmn::array<std::string> get_egg_groups() const = 0;
             virtual std::string get_form() const = 0;
             virtual std::string get_species_name() const = 0;
-            
-            virtual void get_egg_group_ids(std::vector<unsigned int>
-                                           &egg_group_id_vec) const = 0;
+
+            virtual pkmn::array<unsigned int> get_egg_group_ids() const = 0;
             virtual unsigned int get_form_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
             
             virtual string_pair_t get_types() const = 0;
-            virtual dict<std::string, unsigned int> get_base_stats() const = 0;
-            virtual dict<std::string, unsigned int> get_ev_yields() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_base_stats() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_ev_yields() const = 0;
             virtual bool is_fully_evolved() const = 0;
             virtual void set_form(unsigned int form) = 0;
             virtual void set_form(std::string form) = 0;

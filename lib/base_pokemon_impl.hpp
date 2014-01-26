@@ -62,7 +62,7 @@ namespace pkmn
             string_pair_t get_types() const;
             double get_height() const;
             double get_weight() const;
-			void get_evolutions(std::vector<sptr>& evolution_vec) const;
+            base_pokemon_array get_evolutions() const;
 			bool is_fully_evolved() const;
 
             //Battle Stats
@@ -78,6 +78,8 @@ namespace pkmn
             unsigned int get_form_id() const;
             
         protected:
+            
+            void _get_evolution_ids(std::vector<unsigned int>& id_vec) const;
             
             unsigned int _generation, _form_id, _pokemon_id, _species_id, _type1_id, _type2_id;
             unsigned int _hp, _attack, _defense, _speed, _special, _special_attack, _special_defense;

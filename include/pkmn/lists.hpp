@@ -30,7 +30,7 @@ namespace pkmn
 
     void PKMN_API get_nature_list(std::vector<std::string> &ability_vec);
 
-    void PKMN_API get_pokemon_of_type(b_pkmn_vec_t &pkmn_vector, std::string type1, std::string type2, unsigned int gen, bool lax);
+    void PKMN_API get_pokemon_of_type(base_pokemon_vector &pkmn_vector, std::string type1, std::string type2, unsigned int gen, bool lax);
 
 }
 

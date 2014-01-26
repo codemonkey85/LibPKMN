@@ -369,7 +369,7 @@ namespace pkmn
         }
     }
     
-    void get_pokemon_of_type(b_pkmn_vec_t &pkmn_vector, string type1, string type2, unsigned int gen, bool lax)
+    void get_pokemon_of_type(base_pokemon_vector &pkmn_vector, string type1, string type2, unsigned int gen, bool lax)
     {
         pkmn_vector.clear();
 

@@ -12,9 +12,9 @@
 #include <vector>
 
 #include <pkmn/config.hpp>
+#include <pkmn/types/array.hpp>
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/shared_ptr.hpp>
-#include <pkmn/types/array.hpp>
 
 namespace pkmn
 {
@@ -42,9 +42,9 @@ namespace pkmn
             virtual string_pair_t get_types() const = 0;
             virtual double get_height() const = 0;
             virtual double get_weight() const = 0;
-            virtual void get_egg_groups(std::vector<std::string>& egg_group_vec) const = 0;
+            virtual pkmn::array<std::string> get_egg_groups() const = 0;
             virtual bool has_gender_differences() const = 0;
-			virtual void get_evolutions(std::vector<sptr>& evolution_vec) const = 0;
+            virtual pkmn::array<sptr> get_evolutions() const = 0;
 			virtual bool is_fully_evolved() const = 0;
             virtual double get_chance_male() const = 0;
             virtual double get_chance_female() const = 0;
@@ -52,8 +52,8 @@ namespace pkmn
             virtual std::string get_hidden_ability() const = 0;
 
             //Battle Stats
-            virtual dict<std::string, unsigned int> get_base_stats() const = 0;
-            virtual dict<std::string, unsigned int> get_ev_yields() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_base_stats() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_ev_yields() const = 0;
             virtual unsigned int get_exp_yield() const = 0;
 
             //Forms
@@ -70,14 +70,13 @@ namespace pkmn
             virtual unsigned int get_species_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_form_id() const = 0;
-            virtual void get_egg_group_ids(std::vector<unsigned int>&
-                                           egg_group_id_vec) const = 0;
+            virtual pkmn::array<unsigned int> get_egg_group_ids() const = 0;
             
     };
 
     //Related typedefs
-    typedef std::vector<base_pokemon::sptr> b_pkmn_vec_t;
-    typedef array<base_pokemon::sptr> b_pkmn_array_t;
+    typedef std::vector<base_pokemon::sptr> base_pokemon_vector;
+    typedef array<base_pokemon::sptr> base_pokemon_array;
 }
 
 #endif /* INCLUDED_PKMN_BASE_POKEMON_HPP */

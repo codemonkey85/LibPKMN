@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -76,23 +76,14 @@ namespace pkmn
         _form_id = _species_id;
     }
 
-    void base_pokemon_gen2impl::get_egg_groups(std::vector<std::string>&
-                                               egg_group_name_vec) const
+    pkmn::array<std::string> base_pokemon_gen2impl::get_egg_groups() const
     {
-        egg_group_name_vec.clear();
-
-        std::vector<unsigned int> egg_group_id_vec;
-        get_egg_group_ids(egg_group_id_vec);
-        switch(_species_id)
-        {
-            case Species::NONE:
-            case Species::INVALID:
-                return;
-
-            default:
-                for(unsigned int i = 0; i < egg_group_id_vec.size(); i++)
-                    egg_group_name_vec.push_back(database::get_egg_group_name(egg_group_id_vec[i]));
-        }
+        pkmn::array<unsigned int> egg_group_ids = get_egg_group_ids();
+        pkmn::array<std::string> egg_groups(egg_group_ids.size());
+        
+        for(size_t i = 0; i < egg_group_ids.size(); i++) egg_groups[i] = database::get_egg_group_name(egg_group_ids[i]);
+        
+        return egg_groups;
     }
 
     //No gender differences in Generation 2
@@ -221,14 +212,17 @@ namespace pkmn
         else return _male_sprite_path.string();
     }
 
-    void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>&
-                                                  egg_group_id_vec) const
+    pkmn::array<unsigned int> base_pokemon_gen2impl::get_egg_group_ids() const
     {
+        std::vector<unsigned int> egg_group_id_vec;
+        pkmn::array<unsigned int> egg_group_id_array;
+    
         switch(_species_id)
         {
             case Species::NONE:
             case Species::INVALID:
-                return;
+                egg_group_id_array = pkmn::array<unsigned int>(1);
+                egg_group_id_array[0] = pkmn::Species::NONE;
 
             default:
                 std::string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
@@ -236,6 +230,11 @@ namespace pkmn
                 SQLite::Statement query(_db, query_string.c_str());
 
                 while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));
+                
+                egg_group_id_array = pkmn::array<unsigned int>(egg_group_id_vec.size());
+                for(size_t i = 0; i < egg_group_id_array.size(); i++) egg_group_id_array[i] = egg_group_id_vec[i];
         }
+
+        return egg_group_id_array;
     }
 } /* namespace pkmn */
