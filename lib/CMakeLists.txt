@@ -46,7 +46,6 @@ IF(ENABLE_LIBPKMN)
         item_machineimpl.cpp
         trainer_impl.cpp
         move_impl.cpp
-        move_mainimpl.cpp
         game_save_impl.cpp
         game_save_gen1impl.cpp
         game_save_gen3impl.cpp

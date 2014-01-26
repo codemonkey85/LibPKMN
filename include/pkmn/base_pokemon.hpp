@@ -65,7 +65,7 @@ namespace pkmn
             virtual std::string get_icon_path(bool is_male) const = 0;
             virtual std::string get_sprite_path(bool is_male, bool is_shiny) const = 0;
 
-            //Database info
+            //Database Info
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
             virtual unsigned int get_game_id() const = 0;

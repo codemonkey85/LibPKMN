@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -16,10 +16,9 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "move_impl.hpp"
 
-//TODO: Other includes for Pokémon-specific move implementations (Curse, Hidden Power,etc)
-#include "move_mainimpl.hpp"
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
@@ -27,10 +26,7 @@ namespace pkmn
 {
     move::sptr move::make(unsigned int id, unsigned int game)
     {
-        try
-        {
-            return sptr(new move_mainimpl(id, game));
-        }
+        try {return sptr(new move_impl(id, game));}
         catch(const exception &e)
         {
             cout << "Caught exception: " << e.what() << endl;
@@ -43,6 +39,8 @@ namespace pkmn
     move_impl::move_impl(unsigned int id, unsigned int game): move()
     {
         _game_id = game;
+        _generation = database::get_generation(_game_id);
+
         if(id == Moves::NONE)
         {
             _move_id = Moves::NONE;
@@ -65,17 +63,15 @@ namespace pkmn
         }
         else
         {
-            string query_string;
             _move_id = id;
 
             //Fail if move's generation_id > specified generation
-            query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(id);
+            std::string query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(_move_id);
             int gen_id = _db.execAndGet(query_string.c_str());
-            int game_gen = database::get_generation(_game_id);
 
-            if(gen_id > game_gen)
+            if(gen_id > _generation)
             {
-                string error_message = get_name() + " not present in Generation " + to_string(game_gen) + ".";
+                std::string error_message = get_name() + " not present in Generation " + to_string(_generation) + ".";
                 throw runtime_error(error_message.c_str());
             }
 
@@ -88,77 +84,88 @@ namespace pkmn
             _base_power = int(moves_query.getColumn(4)); //power
             _base_pp = int(moves_query.getColumn(5)); //pp
             _base_accuracy = int(moves_query.getColumn(6)); //accuracy
-            _base_accuracy /= 100; //Stored as 0 < int < 100
+            _base_accuracy /= 100.0; //Stored as 0 < int < 100
             _base_priority = int(moves_query.getColumn(7)); //priority
             _target_id = int(moves_query.getColumn(8)); //target_id
-            _move_damage_class = int(moves_query.getColumn(9)); //damage_class_id
-            _base_effect = int(moves_query.getColumn(10)); //effect_id
-            _base_effect_chance = int(moves_query.getColumn(11)); //effect_chance
+            _move_damage_class_id = int(moves_query.getColumn(9)); //damage_class_id
+            _effect_id = int(moves_query.getColumn(10)); //effect_id
+            _effect_chance = int(moves_query.getColumn(11)); //effect_chance
         }
     }
 
-    string move_impl::get_name() const
-    {
-        switch(_move_id)
-        {
-            case Moves::NONE:
-                return "None";
+    std::string move_impl::get_game() const {return database::get_game_name(_game_id);}
 
-            case Moves::INVALID:
-                return "Invalid Move";
+    unsigned int move_impl::get_generation() const {return _generation;}
 
-            default:
-               return database::get_move_name(_move_id);
-        }
-    }
+    std::string move_impl::get_name() const {return database::get_move_name(_move_id);}
 
-    string move_impl::get_description() const
-    {
-        switch(_move_id)
-        {
-            case Moves::NONE:
-            case Moves::INVALID:
-                return "No info";
+    std::string move_impl::get_description() const {return database::get_move_description(_move_id, _game_id);}
 
-            default:
-                return database::get_move_description(_move_id, _game_id);
-        }
-    }
-
-    unsigned int move_impl::get_type() const {return _type_id;}
+    std::string move_impl::get_type() const {return database::get_type_name(_type_id);}
 
     unsigned int move_impl::get_base_power() const {return _base_power;}
 
     unsigned int move_impl::get_base_pp() const {return _base_pp;}
 
-    double move_impl::get_base_accuracy() const {return _base_accuracy;}
-    
-    unsigned int move_impl::get_move_damage_class() const
+    std::string move_impl::get_move_damage_class() const
     {
-        switch(_move_id)
+        if(_move_id == Moves::NONE or _move_id == Moves::INVALID) return "None";
+        else
         {
-            case Moves::NONE:
-            case Moves::INVALID:
-                return 0;
+            std::string query_string =
+                str(boost::format("SELECT name FROM move_damage_class_prose WHERE local_language_id=9 AND move_damage_class_id=%d")
+                    % _move_damage_class_id);
+            std::string move_damage_class = (const char*)(_db.execAndGet(query_string.c_str()));
+            move_damage_class[0] = toupper(move_damage_class[0]); //"name" field is all-lowercase
 
-            default:
-                //In Gens 1-3, damage class depended on move type
-                //In Gens 4-5, damage class is specific to each move
-                unsigned int from_gen = database::get_generation(_game_id);
-                if(from_gen >= 4) return _move_damage_class;
-                else return database::get_damage_class(_type_id);
+            return move_damage_class;
         }
     }
 
-    string move_impl::get_base_effect() const {return _base_effect;}
+    double move_impl::get_base_accuracy() const {return _base_accuracy;}
 
-    double move_impl::get_base_effect_chance() const {return _base_effect_chance;}
+    std::string move_impl::get_effect() const
+    {
+        if(_move_id == Moves::NONE or _move_id == Moves::INVALID) return "None";
+        else
+        {
+            std::string query_string = str(boost::format("SELECT short_effect FROM move_effect_prose WHERE move_effect_id=%d AND language_id=9")
+                                           % _effect_id);
+            SQLite::Statement query(_db, query_string.c_str());
+
+            std::string entry = (query.executeStep()) ? ((const char*)(query.getColumn(0))) : "None";
+
+            std::string s;
+            istringstream iss(entry);
+            entry = "";
+            while(iss >> s)
+            {
+                if (entry != "") entry += " " + s;
+                else entry = s;
+            }
+
+            return entry;
+        }
+    }
+
+    double move_impl::get_effect_chance() const {return _effect_chance;}
 
     unsigned int move_impl::get_priority() const {return _base_priority;}
+
+    std::string move_impl::get_target() const
+    {
+        std::string query_string = str(boost::format("SELECT name FROM move_target_prose WHERE target_id=%d AND language_id=9")
+                                       % _target_id);
+        return (const char*)(_db.execAndGet(query_string.c_str()));
+    }
 
     unsigned int move_impl::get_move_id() const {return _move_id;}
 
     unsigned int move_impl::get_target_id() const {return _target_id;}
 
     unsigned int move_impl::get_game_id() const {return _game_id;}
+
+    unsigned int move_impl::get_move_damage_class_id() const {return _move_damage_class_id;}
+
+    unsigned int move_impl::get_effect_id() const {return _effect_id;}
 } /* namespace pkmn */
