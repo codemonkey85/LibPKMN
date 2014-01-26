@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -23,7 +23,7 @@ namespace pkmn
     item_berryimpl::item_berryimpl(unsigned int id, unsigned int game): item_impl(id, game)
     {
         //Be forgiving and convert between Gen 2 and Gen 3-5 berries with same effect
-        switch(database::get_generation(game))
+        switch(_generation)
         {
             case 2:
                 if(id >= Items::CHERI_BERRY and id <= Items::ROWAP_BERRY) _gen345_to_gen2();

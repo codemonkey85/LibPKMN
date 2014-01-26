@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -19,17 +19,23 @@ namespace pkmn
 
             item_impl(unsigned int id, unsigned int game);
 
-            unsigned int get_game_id();
-            unsigned int get_category_id();
-            std::string get_category_name();
-            unsigned int get_index();
-            unsigned int get_item_id();
-            std::string get_description();
-            std::string get_name();
+            //Game-specific Info
+            std::string get_game() const;
+            unsigned int get_generation() const;
+            
+            std::string get_name() const;
+            std::string get_description() const;
+            std::string get_category() const;
+            unsigned int get_game_index() const;
+            
+            //Database Info
+            unsigned int get_item_id() const;
+            unsigned int get_category_id() const;
+            unsigned int get_game_id() const;
             
         protected:
             
-            unsigned int _item_id, _game_id, _category_id, _game_index;
+            unsigned int _item_id, _game_id, _category_id, _game_index, _generation;
             std::string _category_name, _description, _item_name;
             
             static SQLite::Database _db;

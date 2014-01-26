@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -46,17 +46,22 @@ namespace pkmn
     {
         _item_id = id;
         _game_id = game;
+        _generation = database::get_generation(_game_id);
         _category_id = database::get_item_category(_item_id);
         _game_index = database::get_item_index(_item_id, _game_id);
         _description = database::get_item_description(_item_id, _game_id);
         _item_name = database::get_item_name(_item_id);
     }
-    
-    unsigned int item_impl::get_game_id() {return _item_id;}
-    
-    unsigned int item_impl::get_category_id() {return _category_id;}
-    
-    string item_impl::get_category_name()
+
+    std::string item_impl::get_game() const {return database::get_game_name(_game_id);}
+
+    unsigned int item_impl::get_generation() const {return _generation;}
+
+    std::string item_impl::get_name() const {return _item_name;}
+
+    std::string item_impl::get_description() const {return _description;}
+
+    string item_impl::get_category() const
     {
         string query_string = "SELECT name FROM item_category_prose "
                                "WHERE local_language_id=9 AND item_category_id="
@@ -64,11 +69,11 @@ namespace pkmn
         return string((const char*)_db.execAndGet(query_string.c_str()));
     }
     
-    unsigned int item_impl::get_index() {return database::get_item_index(_item_id, _game_id);}
+    unsigned int item_impl::get_game_index() const {return _game_index;}
     
-    unsigned int item_impl::get_item_id() {return _item_id;}
+    unsigned int item_impl::get_item_id() const {return _item_id;}
     
-    string item_impl::get_description() {return _description;}
+    unsigned int item_impl::get_category_id() const {return _category_id;}
     
-    string item_impl::get_name() {return _item_name;}
+    unsigned int item_impl::get_game_id() const {return _game_id;}
 } /* namespace pkmn */
