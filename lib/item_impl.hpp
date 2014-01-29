@@ -17,6 +17,7 @@ namespace pkmn
     {
         public:
 
+            item_impl();
             item_impl(unsigned int id, unsigned int game);
 
             //Game-specific Info

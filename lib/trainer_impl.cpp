@@ -15,6 +15,7 @@
 #include <pkmn/types/dict.hpp>
 
 #include "bag_impl.hpp"
+#include "copy_sptrs.hpp"
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
 #include "team_pokemon_modernimpl.hpp"
@@ -98,29 +99,7 @@ namespace pkmn
                                                           Moves::NONE, Moves::NONE, Moves::NONE);
         else
         {
-            if(copy)
-            {
-                switch(_generation)
-                {
-                    case 1:
-                    {
-                        team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(_party[pos-1].get()));
-                        return team_pokemon::sptr(&actual1);
-                    }
-                        
-                    case 2:
-                    {
-                        team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(_party[pos-1].get()));
-                        return team_pokemon::sptr(&actual2);
-                    }
-                                        
-                    default:
-                    {
-                        team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(_party[pos-1].get()));
-                        return team_pokemon::sptr(&actual3456);
-                    }
-                }
-            }
+            if(copy) return copy_team_pokemon(_party[pos-1]);
             else return _party[pos-1];
         }
     }
@@ -132,33 +111,7 @@ namespace pkmn
         {
             //TODO: more through check (items, forms, etc)
             if(database::get_version_group(_game_id) ==
-               database::get_version_group(t_pkmn->get_game_id()))
-            {
-                //Copy Pokemon
-                switch(_generation)
-                {
-                    case 1:
-                    {
-                        team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(t_pkmn.get()));
-                        _party[pos] = team_pokemon::sptr(&actual1);
-                        break;
-                    }
-                    
-                    case 2:
-                    {
-                        team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(t_pkmn.get()));
-                        _party[pos] = team_pokemon::sptr(&actual2);
-                        break;
-                    }
-                    
-                    default:
-                    {
-                        team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(t_pkmn.get()));
-                        _party[pos] = team_pokemon::sptr(&actual3456);
-                        break;
-                    }
-                }
-            }
+               database::get_version_group(t_pkmn->get_game_id())) _party[pos-1] = copy_team_pokemon(t_pkmn);
         }
     }
 
@@ -187,32 +140,7 @@ namespace pkmn
     {
         //Have to copy all Pokemon, so can't simply assign from _party
         party = pokemon_team_t(6);
-        for(size_t i = 0; i < 6; i++)
-        {
-            switch(_generation)
-            {
-                case 1:
-                {
-                    team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(_party[i].get()));
-                    party[i] = team_pokemon::sptr(&actual1);
-                    break;
-                }
-                
-                case 2:
-                {
-                    team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(_party[i].get()));
-                    party[i] = team_pokemon::sptr(&actual2);
-                    break;
-                }
-                
-                default:
-                {
-                    team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(_party[i].get()));
-                    party[i] = team_pokemon::sptr(&actual3456);
-                    break;
-                }
-            }
-        }
+        for(size_t i = 0; i < 6; i++) party[i] = copy_team_pokemon(_party[i]);
     }
 
     void trainer_impl::set_party(pokemon_team_t& party)
@@ -227,41 +155,12 @@ namespace pkmn
            party[5]->get_game_id() != _game_id) return;
 
         _party = pokemon_team_t(6);
-        for(size_t i = 0; i < 6; i++)
-        {
-            switch(_generation)
-            {
-                case 1:
-                {
-                    team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(party[i].get()));
-                    _party[i] = team_pokemon::sptr(&actual1);
-                    break;
-                }
-                
-                case 2:
-                {
-                    team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(party[i].get()));
-                    _party[i] = team_pokemon::sptr(&actual2);
-                    break;
-                }
-                
-                default:
-                {
-                    team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(party[i].get()));
-                    _party[i] = team_pokemon::sptr(&actual3456);
-                    break;
-                }
-            }
-        }
+        for(size_t i = 0; i < 6; i++) _party[i] = copy_team_pokemon(party[i]);
     }
 
     bag::sptr trainer_impl::get_bag(bool copy) const
     {
-        if(copy)
-        {
-            bag_impl actual = *(boost::polymorphic_downcast<bag_impl*>(_bag.get()));
-            return bag::sptr(&actual);
-        }
+        if(copy) return copy_bag(_bag);
         else return _bag;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -14,7 +14,8 @@ namespace pkmn
     class item_berryimpl: public item_impl
     {
         public:
-        
+
+            item_berryimpl();
             item_berryimpl(unsigned int id, unsigned int game);
             
         private:

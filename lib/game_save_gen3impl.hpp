@@ -18,7 +18,8 @@ namespace pkmn
     class game_save_gen3impl: public game_save_impl
     {
         public:
-        
+
+            game_save_gen3impl();
             game_save_gen3impl(pokehack_sptr ptr, char* buffer);
             
             void load();

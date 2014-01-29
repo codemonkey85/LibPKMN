@@ -51,6 +51,7 @@ IF(ENABLE_LIBPKMN)
         game_save_gen3impl.cpp
         game_save_gen4impl.cpp
         game_save_gen5impl.cpp
+        copy_sptrs.cpp
         io.cpp
         conversions/items.cpp
         conversions/pokemon.cpp

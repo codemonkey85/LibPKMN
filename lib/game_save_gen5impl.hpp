@@ -16,7 +16,8 @@ namespace pkmn
     class game_save_gen5impl: public game_save_impl
     {
         public:
-        
+
+            game_save_gen5impl();
             game_save_gen5impl(pkmds_g5_sptr ptr);
             
             void load();

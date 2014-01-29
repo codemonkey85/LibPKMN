@@ -16,7 +16,8 @@ namespace pkmn
     class game_save_gen1impl: public game_save_impl
     {
         public:
-        
+
+            game_save_gen1impl();
             game_save_gen1impl(rpokesav_gen1_sptr sav);
             
             void load();

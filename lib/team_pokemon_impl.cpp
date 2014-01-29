@@ -19,6 +19,8 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/prng.hpp>
 
+#include "copy_sptrs.hpp"
+
 #include "base_pokemon_gen1impl.hpp"
 #include "base_pokemon_gen2impl.hpp"
 #include "base_pokemon_modernimpl.hpp"
@@ -116,29 +118,7 @@ namespace pkmn
     {
         base_pokemon::sptr to_return = _base_pkmn;
         
-        if(copy)
-        {
-            switch(database::get_generation(_game_id))
-            {
-                case 1:
-                {
-                    base_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<base_pokemon_gen1impl*>(to_return.get()));
-                    return base_pokemon::sptr(&actual1);
-                }
-                    
-                case 2:
-                {
-                    base_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<base_pokemon_gen2impl*>(to_return.get()));
-                    return base_pokemon::sptr(&actual2);
-                }
-                                    
-                default:
-                {
-                    base_pokemon_modernimpl actual345 = *(boost::polymorphic_downcast<base_pokemon_modernimpl*>(to_return.get()));
-                    return base_pokemon::sptr(&actual345);
-                }
-            }
-        }
+        if(copy) return copy_base_pokemon(to_return);
         else return to_return;
     }
 

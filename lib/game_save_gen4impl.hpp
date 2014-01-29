@@ -16,7 +16,8 @@ namespace pkmn
     class game_save_gen4impl: public game_save_impl
     {
         public:
-        
+
+            game_save_gen4impl();
             game_save_gen4impl(pokelib_sptr ptr);
             
             void load();
