@@ -114,8 +114,8 @@ namespace pkmn
 
     //Related typedefs
     typedef std::vector<team_pokemon::sptr> t_pkmn_vec_t;
-    typedef array<team_pokemon::sptr> t_pkmn_array_t;
-    typedef array<team_pokemon::sptr> pokemon_team_t;
+    typedef pkmn::array<team_pokemon::sptr> t_pkmn_array_t;
+    typedef pkmn::array<team_pokemon::sptr> pokemon_team_t;
 }
 
 #endif /* INCLUDED_PKMN_TEAM_POKEMON_HPP */

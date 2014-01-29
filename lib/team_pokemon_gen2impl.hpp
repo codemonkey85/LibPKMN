@@ -15,6 +15,7 @@ namespace pkmn
     {
         public:
 
+            team_pokemon_gen2impl();
             team_pokemon_gen2impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                   unsigned int move1, unsigned int move2,
                                   unsigned int move3, unsigned int move4);

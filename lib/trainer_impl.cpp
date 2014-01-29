@@ -1,18 +1,20 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <boost/assign.hpp>
 #include <boost/cast.hpp>
 
 #include <pkmn/enums.hpp>
 #include <pkmn/paths.hpp>
 #include <pkmn/trainer.hpp>
 #include <pkmn/database/queries.hpp>
-#include <pkmn/types/prng.hpp>
+#include <pkmn/types/dict.hpp>
 
+#include "bag_impl.hpp"
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
 #include "team_pokemon_modernimpl.hpp"
@@ -33,10 +35,11 @@ namespace pkmn
     trainer_impl::trainer_impl(unsigned int game, pokemon_text name, unsigned int gender): trainer()
     {
         _game_id = game;
+        _generation = database::get_generation(_game_id);
         _trainer_name = name;
-        _gender = gender;
-        _money = gender;
-        _trainer_id = _rand_gen.lcrng_next(database::get_generation(game));
+        _gender_id = gender;
+        _money = 0;
+        _trainer_id = _rand_gen.lcrng_next(_generation);
 
         _party = pokemon_team_t(6);
         for(int i = 0; i < 6; i++)
@@ -45,57 +48,118 @@ namespace pkmn
                                           Moves::NONE, Moves::NONE);
         }
         
-        _item_bag = bag::make(_game_id);
+        _bag = bag::make(_game_id);
     }
 
-    unsigned int trainer_impl::get_game_id() const {return _game_id;}
+    pokemon_text trainer_impl::get_game() const {return database::get_game_name(_game_id);}
+
+    unsigned int trainer_impl::get_generation() const {return _generation;}
+
+    pokemon_text trainer_impl::get_name() const {return _trainer_name;}
 
     unsigned int trainer_impl::get_money() const {return _money;}
 
-    void trainer_impl::set_money(unsigned int money)
+    pokemon_text trainer_impl::get_gender() const
     {
-        _money = (money > 999999) ? 999999 : _money;
+        return (_gender_id == Genders::MALE) ? "Male" : "Female";
     }
 
-    pokemon_team_t trainer_impl::get_party() {return _party;}
+    unsigned int trainer_impl::get_id() const {return _trainer_id;}
+
+    unsigned short trainer_impl::get_public_id() const {return _tid.public_id;}
+
+    unsigned short trainer_impl::get_secret_id() const {return _tid.secret_id;}
+
+    void trainer_impl::set_name(pokemon_text name)
+    {
+        _trainer_name = (name.std_string().length() <= 7) ? name : _trainer_name;
+    }
+
+    void trainer_impl::set_money(unsigned int money)
+    {
+        _money = (money > 999999) ? _money : money;
+    }
+
+    void trainer_impl::set_gender(unsigned int gender)
+    {
+        if(gender == Genders::MALE or gender == Genders::FEMALE) _gender_id = gender;
+    }
+
+    void trainer_impl::set_id(unsigned int id) {_trainer_id = id;}
+
+    void trainer_impl::set_public_id(unsigned short id) {_tid.public_id = id;}
+    
+    void trainer_impl::set_secret_id(unsigned short id) {_tid.secret_id = id;}
 
     team_pokemon::sptr trainer_impl::get_pokemon(unsigned int pos, bool copy)
     {
-        team_pokemon::sptr to_return = (pos > 6) ? _party[5] : _party[pos];
-        
-        if(copy)
+        //If invalid position given, return invalid Pokemon
+        if(pos == 0 or pos > 6) return team_pokemon::make(Species::INVALID, _game_id, 0, Moves::NONE,
+                                                          Moves::NONE, Moves::NONE, Moves::NONE);
+        else
         {
-            switch(database::get_generation(_game_id))
+            if(copy)
             {
-                case 1:
+                switch(_generation)
                 {
-                    team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(to_return.get()));
-                    return team_pokemon::sptr(&actual1);
-                }
-                    
-                case 2:
-                {
-                    team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(to_return.get()));
-                    return team_pokemon::sptr(&actual2);
-                }
-                                    
-                default:
-                {
-                    team_pokemon_modernimpl actual345 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(to_return.get()));
-                    return team_pokemon::sptr(&actual345);
+                    case 1:
+                    {
+                        team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(_party[pos-1].get()));
+                        return team_pokemon::sptr(&actual1);
+                    }
+                        
+                    case 2:
+                    {
+                        team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(_party[pos-1].get()));
+                        return team_pokemon::sptr(&actual2);
+                    }
+                                        
+                    default:
+                    {
+                        team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(_party[pos-1].get()));
+                        return team_pokemon::sptr(&actual3456);
+                    }
                 }
             }
+            else return _party[pos-1];
         }
-        else return to_return;
     }
-
-    //TODO: check for validity
-    void trainer_impl::set_party(pokemon_team_t &team) {_party = team;}
 
     void trainer_impl::set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn)
     {
-        unsigned int actual_pos = (pos > 6) ? 5 : (pos == 0) ? 0 : (pos-1);
-        _party[actual_pos] = t_pkmn;
+        //Check for valid position, don't do anything otherwise
+        if(pos >= 1 and pos <= 6)
+        {
+            //TODO: more through check (items, forms, etc)
+            if(database::get_version_group(_game_id) ==
+               database::get_version_group(t_pkmn->get_game_id()))
+            {
+                //Copy Pokemon
+                switch(_generation)
+                {
+                    case 1:
+                    {
+                        team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(t_pkmn.get()));
+                        _party[pos] = team_pokemon::sptr(&actual1);
+                        break;
+                    }
+                    
+                    case 2:
+                    {
+                        team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(t_pkmn.get()));
+                        _party[pos] = team_pokemon::sptr(&actual2);
+                        break;
+                    }
+                    
+                    default:
+                    {
+                        team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(t_pkmn.get()));
+                        _party[pos] = team_pokemon::sptr(&actual3456);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     void trainer_impl::remove_pokemon(unsigned int pos)
@@ -119,28 +183,87 @@ namespace pkmn
         }
     }
 
-    bag::sptr trainer_impl::get_bag() const {return _item_bag;}
-    
-    pokemon_text trainer_impl::get_name() const {return _trainer_name;}
-
-    void trainer_impl::set_name(pokemon_text name)
+    void trainer_impl::get_party(pokemon_team_t& party)
     {
-        _trainer_name = (name.std_string().length() > 10) ? _trainer_name : pokemon_text(name);
+        //Have to copy all Pokemon, so can't simply assign from _party
+        party = pokemon_team_t(6);
+        for(size_t i = 0; i < 6; i++)
+        {
+            switch(_generation)
+            {
+                case 1:
+                {
+                    team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(_party[i].get()));
+                    party[i] = team_pokemon::sptr(&actual1);
+                    break;
+                }
+                
+                case 2:
+                {
+                    team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(_party[i].get()));
+                    party[i] = team_pokemon::sptr(&actual2);
+                    break;
+                }
+                
+                default:
+                {
+                    team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(_party[i].get()));
+                    party[i] = team_pokemon::sptr(&actual3456);
+                    break;
+                }
+            }
+        }
     }
 
-    unsigned int trainer_impl::get_gender() const {return _gender;}
-    
-    void trainer_impl::set_gender(unsigned int gender) {_gender = gender;}
-    
-    unsigned int trainer_impl::get_id() const {return _trainer_id;}
+    void trainer_impl::set_party(pokemon_team_t& party)
+    {
+        //Only set party if party and all Pokemon are valid
+        if(party.size() != 6) return;
+        if(party[0]->get_game_id() != _game_id or
+           party[1]->get_game_id() != _game_id or
+           party[2]->get_game_id() != _game_id or
+           party[3]->get_game_id() != _game_id or
+           party[4]->get_game_id() != _game_id or
+           party[5]->get_game_id() != _game_id) return;
 
-    unsigned short trainer_impl::get_public_id() const {return _tid.public_id;}
+        _party = pokemon_team_t(6);
+        for(size_t i = 0; i < 6; i++)
+        {
+            switch(_generation)
+            {
+                case 1:
+                {
+                    team_pokemon_gen1impl actual1 = *(boost::polymorphic_downcast<team_pokemon_gen1impl*>(party[i].get()));
+                    _party[i] = team_pokemon::sptr(&actual1);
+                    break;
+                }
+                
+                case 2:
+                {
+                    team_pokemon_gen2impl actual2 = *(boost::polymorphic_downcast<team_pokemon_gen2impl*>(party[i].get()));
+                    _party[i] = team_pokemon::sptr(&actual2);
+                    break;
+                }
+                
+                default:
+                {
+                    team_pokemon_modernimpl actual3456 = *(boost::polymorphic_downcast<team_pokemon_modernimpl*>(party[i].get()));
+                    _party[i] = team_pokemon::sptr(&actual3456);
+                    break;
+                }
+            }
+        }
+    }
 
-    unsigned short trainer_impl::get_secret_id() const {return _tid.secret_id;}
+    bag::sptr trainer_impl::get_bag(bool copy) const
+    {
+        if(copy)
+        {
+            bag_impl actual = *(boost::polymorphic_downcast<bag_impl*>(_bag.get()));
+            return bag::sptr(&actual);
+        }
+        else return _bag;
+    }
 
-    void trainer_impl::set_id(unsigned int id) {_trainer_id = id;}
-
-    void trainer_impl::set_public_id(unsigned short id) {_tid.public_id = id;}
-
-    void trainer_impl::set_secret_id(unsigned short id) {_tid.secret_id = id;}
+    unsigned int trainer_impl::get_game_id() const {return _game_id;}
 } /* namespace pkmn */

@@ -25,8 +25,8 @@ namespace pkmn
             
             bag::sptr get_trainer_bag() const;
             
-            pokemon_team_t get_trainer_party() const;
-            void set_trainer_party(pokemon_team_t party);
+            void get_trainer_party(pokemon_team_t& party);
+            void set_trainer_party(pokemon_team_t& party);
             
             pokemon_text get_trainer_name() const;
             void set_trainer_name(pokemon_text trainer_name);

@@ -104,9 +104,9 @@ namespace pkmn
     
     bag::sptr game_save_impl::get_trainer_bag() const {return _trainer->get_bag();}
     
-    pokemon_team_t game_save_impl::get_trainer_party() const {return _trainer->get_party();}
+    void game_save_impl::get_trainer_party(pokemon_team_t& party) {_trainer->get_party(party);}
     
-    void game_save_impl::set_trainer_party(pokemon_team_t party) {_trainer->set_party(party);}
+    void game_save_impl::set_trainer_party(pokemon_team_t& party) {_trainer->set_party(party);}
     
     pokemon_text game_save_impl::get_trainer_name() const {return _trainer->get_name();}
     

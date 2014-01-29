@@ -15,6 +15,7 @@ namespace pkmn
     {
         public:
 
+            team_pokemon_modernimpl();
             team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
                                     unsigned int move1, unsigned int move2,
                                     unsigned int move3, unsigned int move4);

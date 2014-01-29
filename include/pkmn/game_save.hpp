@@ -34,8 +34,8 @@ namespace pkmn
             
             virtual trainer::sptr get_trainer() const = 0;
             
-            virtual pokemon_team_t get_trainer_party() const = 0;
-            virtual void set_trainer_party(pokemon_team_t party) = 0;
+            virtual void get_trainer_party(pokemon_team_t& party) = 0;
+            virtual void set_trainer_party(pokemon_team_t& party) = 0;
             
             virtual pokemon_text get_trainer_name() const = 0;
             virtual void set_trainer_name(pokemon_text trainer_name) = 0;

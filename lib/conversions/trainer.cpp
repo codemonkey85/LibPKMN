@@ -136,7 +136,7 @@ namespace pkmn
             {
                 game_data[POKEHACK_PLAYER_NAME+i] = pokehack_reverse_char_map[trainer_name[i]];
             }
-            game_data[POKEHACK_PLAYER_GENDER] = (libpkmn_trainer->get_gender() == Genders::MALE) ? 0 : 1;
+            game_data[POKEHACK_PLAYER_GENDER] = (libpkmn_trainer->get_gender().std_string() == "Male") ? 0 : 1;
 
             switch(libpkmn_trainer->get_game_id())
             {
@@ -159,7 +159,8 @@ namespace pkmn
 
             export_items_to_pokehack(libpkmn_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
-            pokemon_team_t party = libpkmn_trainer->get_party();
+            pokemon_team_t party;
+            libpkmn_trainer->get_party(party);
             for(int i = 0; i < 6; i++)
             {
                 if(party[i]->get_species_id()== Species::NONE) break;
@@ -250,7 +251,7 @@ namespace pkmn
             PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
             pokelib_trainer->setName(libpkmn_trainer->get_name());
-            pokelib_trainer->setFemale(libpkmn_trainer->get_gender() == Genders::FEMALE);
+            pokelib_trainer->setFemale(libpkmn_trainer->get_gender().std_string() == "Female");
 
             export_items_to_pokelib(libpkmn_trainer->get_bag(), pokelib_trainer);
 

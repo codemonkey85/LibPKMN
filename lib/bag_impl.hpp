@@ -18,6 +18,7 @@ namespace pkmn
     {
         public:
 
+            bag_impl();
             bag_impl(unsigned int game);
 
             unsigned int get_game_id();
