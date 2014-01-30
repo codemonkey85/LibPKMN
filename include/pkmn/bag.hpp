@@ -22,6 +22,7 @@ namespace pkmn
 
             typedef pkmn::shared_ptr<bag> sptr;
             static sptr make(unsigned int game);
+            static sptr make(std::string game);
 
             bag() {};
             virtual ~bag() {};

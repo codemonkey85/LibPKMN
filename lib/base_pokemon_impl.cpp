@@ -29,7 +29,7 @@ using namespace std;
 
 namespace pkmn
 {
-    base_pokemon::sptr base_pokemon::make(unsigned int id, unsigned int game_id)
+    base_pokemon::sptr base_pokemon::make(unsigned int species_id, unsigned int game_id)
     {
         try
         {
@@ -41,13 +41,13 @@ namespace pkmn
             switch(gen)
             {
                 case 1:
-                    return sptr(new base_pokemon_gen1impl(id, game_id));
+                    return sptr(new base_pokemon_gen1impl(species_id, game_id));
 
                 case 2:
-                    return sptr(new base_pokemon_gen2impl(id, game_id));
+                    return sptr(new base_pokemon_gen2impl(species_id, game_id));
 
                 default:
-                    return sptr(new base_pokemon_modernimpl(id, game_id));
+                    return sptr(new base_pokemon_modernimpl(species_id, game_id));
             }
         }
         catch(const exception &e)
@@ -55,6 +55,21 @@ namespace pkmn
             cerr << "Caught exception: " << e.what() << endl;
             exit(EXIT_FAILURE);
         }
+    }
+
+    base_pokemon::sptr base_pokemon::make(std::string species, std::string game)
+    {
+        SQLite::Database db(get_database_path().c_str());
+        
+        std::string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_name WHERE name='%s'")
+                                       % species.c_str());
+        int species_id = db.execAndGet(query_string.c_str());
+
+        query_string = str(boost::format("SELECT version_id FROM version_names WHERE name='%s'")
+                           % game.c_str());
+        int game_id = db.execAndGet(query_string.c_str());
+
+        return make(species_id, game_id);
     }
 
     SQLite::Database base_pokemon_impl::_db(get_database_path().c_str());

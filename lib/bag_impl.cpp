@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -7,13 +7,17 @@
 
 #include <iostream>
 
+#include <boost/algorithm/string.hpp>
+#include <boost/format.hpp>
+
 #include <pkmn/enums.hpp>
 #include <pkmn/pocket.hpp>
+#include <pkmn/paths.hpp>
 #include <pkmn/types/dict.hpp>
 
 #include "bag_impl.hpp"
 
-using namespace std;
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 namespace pkmn
 {
@@ -21,11 +25,23 @@ namespace pkmn
     {
         return sptr(new bag_impl(game));
     }
-    
+
+    bag::sptr bag::make(std::string game)
+    {
+        //FRLG and HGSS are stored without spaces
+        if(game != "Black 2" and game != "White 2") boost::erase_all(game, " ");
+
+        SQLite::Database db(get_database_path().c_str());
+        std::string query_string = str(boost::format("SELECT version_id FROM version_names WHERE name='%s'")
+                                       % game.c_str());
+        int game_id = db.execAndGet(query_string.c_str());
+        return make(game_id);
+    }
+
     bag_impl::bag_impl(unsigned int game): bag()
     {
         _game_id = game;
-        _contents = dict<string, pocket::sptr>();
+        _contents = dict<std::string, pocket::sptr>();
     
         switch(game)
         {
@@ -105,7 +121,7 @@ namespace pkmn
     
     unsigned int bag_impl::get_game_id() {return _game_id;}
     
-    pocket::sptr bag_impl::get_pocket(string name) {return _contents[name];}
+    pocket::sptr bag_impl::get_pocket(std::string name) {return _contents[name];}
     
-    void bag_impl::get_pocket_list(vector<string> &pocket_vec) {pocket_vec = _contents.keys();}
+    void bag_impl::get_pocket_list(std::vector<std::string> &pocket_vec) {pocket_vec = _contents.keys();}
 } /* namespace pkmn */
