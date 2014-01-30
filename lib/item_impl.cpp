@@ -40,6 +40,11 @@ namespace pkmn
         else return sptr(new item_impl(id, game));
     }
 
+    item::sptr item::make(std::string name, std::string game)
+    {
+        return make(database::get_item_id(name), database::get_game_id(game));
+    }
+
     SQLite::Database item_impl::_db(get_database_path().c_str());
     
     item_impl::item_impl(unsigned int id, unsigned int game): item()

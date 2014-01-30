@@ -22,6 +22,7 @@ namespace pkmn
 
             typedef pkmn::shared_ptr<move> sptr;
             static sptr make(unsigned int id, unsigned int game);
+            static sptr make(std::string name, std::string game);
 
             move() {};
             virtual ~move() {};

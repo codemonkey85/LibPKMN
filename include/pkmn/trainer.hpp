@@ -23,6 +23,7 @@ namespace pkmn
 
             typedef pkmn::shared_ptr<trainer> sptr;
             static sptr make(unsigned int game, pokemon_text name, unsigned int gender);
+            static sptr make(std::string game, pokemon_text name, std::string gender);
             
             trainer() {};
             virtual ~trainer() {};

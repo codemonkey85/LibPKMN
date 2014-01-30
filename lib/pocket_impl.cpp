@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -20,6 +20,7 @@
 #include <pkmn/enums.hpp>
 #include <pkmn/paths.hpp>
 #include <pkmn/pocket.hpp>
+#include <pkmn/database/queries.hpp>
 
 using namespace std;
 
@@ -29,7 +30,12 @@ namespace pkmn
     {
         return sptr(new pocket_impl(game, name, size));
     }
-    
+
+    pocket::sptr pocket::make(std::string game, std::string name, unsigned int size)
+    {
+        return make(database::get_game_id(game), name, size);
+    }
+
     pocket_impl::pocket_impl(unsigned int game, string name, unsigned int size)
     {
         _game_id = game;

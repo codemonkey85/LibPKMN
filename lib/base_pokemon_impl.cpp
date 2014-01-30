@@ -16,8 +16,6 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
-
 #include "base_pokemon_impl.hpp"
 #include "base_pokemon_gen1impl.hpp"
 #include "base_pokemon_gen2impl.hpp"
@@ -59,17 +57,7 @@ namespace pkmn
 
     base_pokemon::sptr base_pokemon::make(std::string species, std::string game)
     {
-        SQLite::Database db(get_database_path().c_str());
-        
-        std::string query_string = str(boost::format("SELECT pokemon_species_id FROM pokemon_species_name WHERE name='%s'")
-                                       % species.c_str());
-        int species_id = db.execAndGet(query_string.c_str());
-
-        query_string = str(boost::format("SELECT version_id FROM version_names WHERE name='%s'")
-                           % game.c_str());
-        int game_id = db.execAndGet(query_string.c_str());
-
-        return make(species_id, game_id);
+        return make(database::get_species_id(species), database::get_game_id(game));
     }
 
     SQLite::Database base_pokemon_impl::_db(get_database_path().c_str());

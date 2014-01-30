@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include <boost/cast.hpp>
+#include <boost/format.hpp>
 
 #include <pkmn/enums.hpp>
 #include <pkmn/move.hpp>
@@ -33,8 +33,6 @@
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
 #include "team_pokemon_modernimpl.hpp"
-
-#include "SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
@@ -70,6 +68,19 @@ namespace pkmn
             cout << "Caught exception: " << e.what() << endl;
             exit(EXIT_FAILURE);
         }
+    }
+
+    team_pokemon::sptr team_pokemon::make(std::string name, std::string game, unsigned int level,
+                                          std::string move1, std::string move2,
+                                          std::string move3, std::string move4)
+    {
+        return make(database::get_species_id(name),
+                    database::get_game_id(game),
+                    level,
+                    database::get_move_id(move1),
+                    database::get_move_id(move2),
+                    database::get_move_id(move3),
+                    database::get_move_id(move4));
     }
 
     SQLite::Database team_pokemon_impl::_db(get_database_path().c_str());

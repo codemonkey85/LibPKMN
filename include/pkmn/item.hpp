@@ -20,6 +20,7 @@ namespace pkmn
 
             typedef pkmn::shared_ptr<item> sptr;
             static sptr make(unsigned int id, unsigned int game);
+            static sptr make(std::string name, std::string game);
 
             item() {};
             virtual ~item() {};

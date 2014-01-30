@@ -22,6 +22,7 @@ namespace pkmn
 
             typedef pkmn::shared_ptr<pocket> sptr;
             static sptr make(unsigned int game, std::string name, unsigned int size);
+            static sptr make(std::string game, std::string name, unsigned int size);
 
             pocket() {};
             virtual ~pocket() {};

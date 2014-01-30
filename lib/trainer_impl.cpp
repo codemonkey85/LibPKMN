@@ -6,7 +6,7 @@
  */
 
 #include <boost/assign.hpp>
-#include <boost/cast.hpp>
+#include <boost/format.hpp>
 
 #include <pkmn/enums.hpp>
 #include <pkmn/paths.hpp>
@@ -29,6 +29,13 @@ namespace pkmn
     trainer::sptr trainer::make(unsigned int game, pokemon_text name, unsigned int gender)
     {
         return sptr(new trainer_impl(game, name, gender));
+    }
+
+    trainer::sptr trainer::make(std::string game, pokemon_text name, std::string gender)
+    {
+        return make(database::get_game_id(game),
+                    name,
+                    ((gender == "Female") ? Genders::FEMALE : Genders::MALE));
     }
 
     prng trainer_impl::_rand_gen;

@@ -5,7 +5,6 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-
 #include <algorithm>
 #include <iostream>
 
@@ -17,8 +16,6 @@
 #include <pkmn/database/queries.hpp>
 
 #include "move_impl.hpp"
-
-#include "SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
@@ -32,6 +29,11 @@ namespace pkmn
             cout << "Caught exception: " << e.what() << endl;
             exit(EXIT_FAILURE);
         }
+    }
+
+    move::sptr move::make(std::string name, std::string game)
+    {
+        return make(database::get_move_id(name), database::get_game_id(game));
     }
 
     SQLite::Database move_impl::_db(get_database_path().c_str());

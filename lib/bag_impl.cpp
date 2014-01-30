@@ -13,11 +13,10 @@
 #include <pkmn/enums.hpp>
 #include <pkmn/pocket.hpp>
 #include <pkmn/paths.hpp>
+#include <pkmn/database/queries.hpp>
 #include <pkmn/types/dict.hpp>
 
 #include "bag_impl.hpp"
-
-#include "SQLiteCpp/src/SQLiteC++.h"
 
 namespace pkmn
 {
@@ -30,12 +29,7 @@ namespace pkmn
     {
         //FRLG and HGSS are stored without spaces
         if(game != "Black 2" and game != "White 2") boost::erase_all(game, " ");
-
-        SQLite::Database db(get_database_path().c_str());
-        std::string query_string = str(boost::format("SELECT version_id FROM version_names WHERE name='%s'")
-                                       % game.c_str());
-        int game_id = db.execAndGet(query_string.c_str());
-        return make(game_id);
+        return make(database::get_game_id(game));
     }
 
     bag_impl::bag_impl(unsigned int game): bag()

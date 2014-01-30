@@ -29,6 +29,9 @@ namespace pkmn
             static sptr make(unsigned int id, unsigned int game, unsigned int level,
                              unsigned int move1, unsigned int move2,
                              unsigned int move3, unsigned int move4);
+            static sptr make(std::string name, std::string game, unsigned int level,
+                             std::string move1, std::string move2,
+                             std::string move3, std::string move4);
 
             team_pokemon() {};
             virtual ~team_pokemon() {};
