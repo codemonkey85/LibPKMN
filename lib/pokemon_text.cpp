@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -75,5 +75,29 @@ namespace pkmn
         #endif
         
         stdstring = intermediary.toStdString();
+    }
+
+    std::istream& operator>>(std::istream& stream, pokemon_text& text)
+    {
+        stream >> text.std_string();
+        return stream;
+    }
+
+    std::wistream& operator>>(std::wistream& wstream, pokemon_text& text)
+    {
+        wstream >> text.std_wstring();
+        return wstream;
+    }
+
+    std::ostream& operator<<(std::ostream& stream, pokemon_text& text)
+    {
+        stream << text.std_string();
+        return stream;
+    }
+
+    std::wostream& operator<<(std::wostream& wstream, pokemon_text& text)
+    {
+        wstream << text.std_wstring();
+        return wstream;
     }
 } /* namespace pkmn */

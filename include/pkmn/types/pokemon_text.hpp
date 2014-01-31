@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -7,6 +7,7 @@
 #ifndef INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP
 #define INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP
 
+#include <iostream>
 #include <string>
 
 #include <pkmn/config.hpp>
@@ -36,12 +37,14 @@ namespace pkmn
             //Typecasts
             inline operator std::string() const {return stdstring;}
             inline operator std::wstring() const {return stdwstring;}
-
-        private:
         
             std::string stdstring;
             std::wstring stdwstring;
     };
+    std::istream& operator>>(std::istream &stream, const pokemon_text& text);
+    std::wistream& operator>>(std::wistream &wstream, const pokemon_text& text);
+    std::ostream& operator<<(std::ostream &stream, const pokemon_text& text);
+    std::wostream& operator<<(std::wostream &wstream, const pokemon_text& text);
 }
 
 #endif /* INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP */
