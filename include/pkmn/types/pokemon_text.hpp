@@ -37,12 +37,14 @@ namespace pkmn
             //Typecasts
             inline operator std::string() const {return stdstring;}
             inline operator std::wstring() const {return stdwstring;}
-        
+
+        private:
+
             std::string stdstring;
             std::wstring stdwstring;
     };
-    std::istream& operator>>(std::istream &stream, const pokemon_text& text);
-    std::wistream& operator>>(std::wistream &wstream, const pokemon_text& text);
+    std::istream& operator>>(std::istream &stream, pokemon_text& text);
+    std::wistream& operator>>(std::wistream &wstream, pokemon_text& text);
     std::ostream& operator<<(std::ostream &stream, const pokemon_text& text);
     std::wostream& operator<<(std::wostream &wstream, const pokemon_text& text);
 }

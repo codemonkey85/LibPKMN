@@ -89,13 +89,13 @@ namespace pkmn
         return wstream;
     }
 
-    std::ostream& operator<<(std::ostream& stream, pokemon_text& text)
+    std::ostream& operator<<(std::ostream& stream, const pokemon_text& text)
     {
         stream << text.std_string();
         return stream;
     }
 
-    std::wostream& operator<<(std::wostream& wstream, pokemon_text& text)
+    std::wostream& operator<<(std::wostream& wstream, const pokemon_text& text)
     {
         wstream << text.std_wstring();
         return wstream;
