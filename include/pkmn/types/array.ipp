@@ -1,15 +1,16 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef INCLUDED_PKMN_TYPES_VLA_IPP
-#define INCLUDED_PKMN_TYPES_VLA_IPP
+#ifndef INCLUDED_PKMN_TYPES_ARRAY_IPP
+#define INCLUDED_PKMN_TYPES_ARRAY_IPP
 
 #include <cstdlib>
 #include <iostream>
+#include <stdexcept>
 
 #include <pkmn/config.hpp>
 
@@ -19,55 +20,49 @@ namespace pkmn
     array<item_type>::array () {}
 
     template<typename item_type>
-    array<item_type>::array(int items)
+    array<item_type>::array(size_t size)
     {
-        _vec.clear();
-        max_items = items;
+        _vec = std::vector<item_type>(size);
+        _size = size;
 
-        _vec = std::vector<item_type>(items);
-
-        invalid_pos_err_msg = "Position must be 0-" + to_string(max_items - 1) + ".";
+        invalid_pos_err_msg = "Position must be 0-" + to_string(_size - 1) + ".";
     }
 
     template<typename item_type>
-    std::size_t array<item_type>::size(void) const
+    size_t array<item_type>::size() const
     {
-        return max_items;
+        return _size;
     }
 
     template<typename item_type>
-    item_type& array<item_type>::operator[](int pos)
+    item_type& array<item_type>::operator[](size_t pos)
     {
-        if(pos < 0 or pos >= max_items)
-        {
-            std::cerr << invalid_pos_err_msg << std::endl;
-            exit(EXIT_FAILURE);
-        }
+        if(pos < 0 or pos >= _size) throw std::runtime_error(invalid_pos_err_msg.c_str());
         else return _vec[pos];
     }
 
     template<typename item_type>
-    void array<item_type>::set(int pos, item_type val)
+    item_type& array<item_type>::at(size_t pos) const
     {
-        if(pos < 0 or pos >= max_items)
-        {
-            std::cerr << invalid_pos_err_msg << std::endl;
-            exit(EXIT_FAILURE);
-        }
-        else _vec[pos] = val;
+        if(pos < 0 or pos >= _size) throw std::runtime_error(invalid_pos_err_msg.c_str());
+        else return _vec[pos];
     }
 
     template<typename item_type>
-    item_type array<item_type>::get(int pos) const
-    {
-        if(pos < 0 or pos >= max_items)
-        {
-            std::cerr << invalid_pos_err_msg << std::endl;
-            exit(EXIT_FAILURE);
-        }
-        return _vec[pos];
-    }
+    item_type& array<item_type>::front() const {return _vec[0];}
 
+    template<typename item_type>
+    item_type& array<item_type>::back() const {return _vec[_size-1];}
+
+    template<typename item_type>
+    item_type* array<item_type>::data() const {return &_vec[0];}
+
+    template<typename item_type>
+    void array<item_type>::set(item_type val, size_t pos)
+    {
+        if(pos < 0 or pos >= _size) throw std::runtime_error(invalid_pos_err_msg.c_str());
+        else _vec[pos] = val;
+    }
 }
 
-#endif /* INCLUDED_PKMN_TYPES_VLA_IPP */
+#endif /* INCLUDED_PKMN_TYPES_ARRAY_IPP */

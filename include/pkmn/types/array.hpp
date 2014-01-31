@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#ifndef INCLUDED_PKMN_TYPES_VLA_HPP
-#define INCLUDED_PKMN_TYPES_VLA_HPP
+#ifndef INCLUDED_PKMN_TYPES_ARRAY_HPP
+#define INCLUDED_PKMN_TYPES_ARRAY_HPP
 
 #include <string>
 #include <vector>
@@ -18,29 +18,27 @@ namespace pkmn
     {
         public:
         
-            //Create empty VLA
-            array(void);
+            array();
+            array(size_t size);
 
-            //Constructor with generic item name
-            array(int max);
+            //std::array functions
+            size_t size() const;
+            item_type& operator[](size_t pos);
+            item_type& at(size_t pos) const;
+            item_type& front() const;
+            item_type& back() const;
+            item_type* data() const;
 
-            std::size_t size(void) const;
-
-            //Get or set item at position pos
-            item_type& operator[](int pos);
-
-            //Can't use [] with Python
-            item_type get(int pos) const;
-            void set(int pos, item_type val);
+            void set(item_type val, size_t pos);
 
         private:
         
             std::vector<item_type> _vec;
             std::string invalid_pos_err_msg;
-            int max_items;
+            size_t _size;
     };
 }
 
 #include <pkmn/types/array.ipp>
 
-#endif /* INCLUDED_PKMN_TYPES_VLA_HPP */
+#endif /* INCLUDED_PKMN_TYPES_ARRAY_HPP */
