@@ -49,7 +49,7 @@ namespace pkmn
                     return Genders::FEMALE;
 
                 default:
-                    return (ivATK >= thresholds.get(gender_rate, 0)) ? Genders::MALE : Genders::FEMALE;
+                    return (ivATK >= thresholds.at(gender_rate, 0)) ? Genders::MALE : Genders::FEMALE;
             }
         }
 
@@ -82,7 +82,7 @@ namespace pkmn
                     return Genders::FEMALE;
 
                 default:
-                    return (personality > ratios.get(gender_rate, 0)) ? Genders::MALE : Genders::FEMALE;
+                    return (personality > ratios.at(gender_rate, 0)) ? Genders::MALE : Genders::FEMALE;
             }
         }
 

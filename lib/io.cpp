@@ -156,16 +156,16 @@ namespace pkmn
                         % EVs["Attack"]
                         % EVs["Defense"]
                         % EVs["Speed"]
-                        % EVs.get("Special", 0)
-                        % EVs.get("Special Attack", 0)
-                        % EVs.get("Special Defense", 0)
+                        % EVs.at("Special", 0)
+                        % EVs.at("Special Attack", 0)
+                        % EVs.at("Special Defense", 0)
                         % IVs["HP"]
                         % IVs["Attack"]
                         % IVs["Defense"]
                         % IVs["Speed"]
-                        % IVs.get("Special", 0)
-                        % IVs.get("Special Attack", 0)
-                        % IVs.get("Special Defense", 0)
+                        % IVs.at("Special", 0)
+                        % IVs.at("Special Attack", 0)
+                        % IVs.at("Special Defense", 0)
                         % moves[0]->get_move_id()
                         % moves[1]->get_move_id()
                         % moves[2]->get_move_id()

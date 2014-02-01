@@ -39,16 +39,16 @@ namespace pkmn
             inline operator std::wstring() const {return stdwstring;}
             
             char& operator[](size_t pos);
+            friend std::istream& operator>>(std::istream &stream, pokemon_text& text);
+            friend std::wistream& operator>>(std::wistream &wstream, pokemon_text& text);
+            friend std::ostream& operator<<(std::ostream &stream, const pokemon_text& text);
+            friend std::wostream& operator<<(std::wostream &wstream, const pokemon_text& text);
 
         private:
 
             std::string stdstring;
             std::wstring stdwstring;
     };
-    std::istream& operator>>(std::istream &stream, pokemon_text& text);
-    std::wistream& operator>>(std::wistream &wstream, pokemon_text& text);
-    std::ostream& operator<<(std::ostream &stream, const pokemon_text& text);
-    std::wostream& operator<<(std::wostream &wstream, const pokemon_text& text);
 }
 
 #endif /* INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP */

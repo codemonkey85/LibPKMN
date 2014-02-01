@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -23,25 +23,20 @@ namespace pkmn
             template <typename InputIterator>
             dict(InputIterator first, InputIterator last);
 
-            std::size_t size(void) const;
+            bool empty() const;
+            size_t size() const;
+            const Val& operator[](const Key& key) const;
+            Val& operator[](const Key& key);
+            const Val& at(const Key& key) const;
+            const Val& at(const Key& key, const Val& other) const;
+            void insert(const Key& key, const Val& val);
+            void erase(const Key& key);
+            void swap(const Key& key1, const Key& key2);
+            void clear();
 
-            std::vector<Key> keys(void) const;
-
-            std::vector<Val> vals(void) const;
-
-            bool has_key(const Key &key) const;
-
-            const Val &get(const Key &key, const Val &other) const;
-
-            const Val &get(const Key &key) const;
-
-            void set(const Key &key, const Val &val);
-
-            const Val &operator[](const Key &key) const;
-
-            Val &operator[](const Key &key);
-
-            Val pop(const Key &key);
+            bool has_key(const Key& key) const;
+            std::vector<Key> keys() const;
+            std::vector<Val> vals() const;
 
         private:
         

@@ -75,6 +75,7 @@ namespace pkmn
     {
         pkmn::array<std::string> egg_group_array(1);
         egg_group_array[0] = "None";
+        return egg_group_array;
     }
 
     //No genders in Generation 1
