@@ -92,25 +92,29 @@ namespace pkmn
 
     std::istream& operator>>(std::istream& stream, pokemon_text& text)
     {
-        stream >> text.stdstring;
+        std::string to_set;
+        stream >> to_set;
+        text.set(to_set);
         return stream;
     }
 
     std::wistream& operator>>(std::wistream& wstream, pokemon_text& text)
     {
-        wstream >> text.stdwstring;
+        std::wstring to_set;
+        wstream >> to_set;
+        text.set(to_set);
         return wstream;
     }
 
     std::ostream& operator<<(std::ostream& stream, const pokemon_text& text)
     {
-        stream << text.stdstring;
+        stream << text.std_string();
         return stream;
     }
 
     std::wostream& operator<<(std::wostream& wstream, const pokemon_text& text)
     {
-        wstream << text.stdwstring;
+        wstream << text.std_wstring();
         return wstream;
     }
 } /* namespace pkmn */
