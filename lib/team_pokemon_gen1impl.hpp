@@ -20,22 +20,21 @@ namespace pkmn
                                   unsigned int move1, unsigned int move2,
                                   unsigned int move3, unsigned int move4);
 
+            //Getting Individual Stat Info
+            std::string get_gender() const;
+            std::string get_nature() const;
             std::string get_ability() const;
-            unsigned int get_gender() const;
-            unsigned int get_nature() const;
             bool is_shiny() const;
-            
-            dict<std::string, unsigned int> get_stats() const;
-            dict<std::string, unsigned int> get_EVs() const;
-            dict<std::string, unsigned int> get_IVs() const;
-            
-            void set_EV(std::string EV, unsigned int val);
-            void set_IV(std::string IV, unsigned int val);
-            
-            unsigned int get_form_id() const;
-            
-            void set_form(unsigned int form);
-            void set_form(std::string form);
+            pkmn::dict<std::string, unsigned int> get_stats() const;
+            pkmn::dict<std::string, unsigned int> get_EVs() const;
+            pkmn::dict<std::string, unsigned int> get_IVs() const;
+
+            //Setting Individual Stat Info
+            void set_personality(unsigned int personality);
+            void set_nature(std::string nature);
+            void set_ability(std::string ability);
+            void set_EV(std::string stat_name, unsigned int stat);
+            void set_IV(std::string stat_name, unsigned int stat);
 
         private:
 
@@ -43,6 +42,7 @@ namespace pkmn
         
             unsigned int _get_hp() const;
             unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const;
+            void _set_stats();
     };
 }
 

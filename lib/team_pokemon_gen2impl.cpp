@@ -40,24 +40,14 @@ namespace pkmn
 
         _gender = _determine_gender();
 
-        _HP = _get_hp();
-        _ATK = _get_stat("Attack", _evATK, _ivATK);
-        _DEF = _get_stat("Defense", _evDEF, _ivDEF);
-        _SPD = _get_stat("Speed", _evSPD, _ivSPD);
-        _SATK = _get_stat("Special Attack", _evSPCL, _ivSPCL);
-        _SDEF = _get_stat("Special Defense", _evSPCL, _ivSPCL);
-
-        _icon_path = _base_pkmn->get_icon_path(true);
-        _sprite_path = _base_pkmn->get_sprite_path((_gender != Genders::FEMALE), is_shiny());
+        _set_stats();
     }
 
-    //No abilities in Gen 2, but don't throw error
+    std::string team_pokemon_gen2impl::get_gender() const {return _gender;}
+
+    std::string team_pokemon_gen2impl::get_nature() const {return "None";}
+
     std::string team_pokemon_gen2impl::get_ability() const {return "None";}
-    
-    unsigned int team_pokemon_gen2impl::get_gender() const{return _gender;}
-    
-    //No natures in Gen 2, but don't throw error
-    unsigned int team_pokemon_gen2impl::get_nature() const {return Natures::NONE;}
 
     bool team_pokemon_gen2impl::is_shiny() const
     {
@@ -68,9 +58,9 @@ namespace pkmn
                );
     }
 
-    dict<std::string, unsigned int> team_pokemon_gen2impl::get_stats() const
+    pkmn::dict<std::string, unsigned int> team_pokemon_gen2impl::get_stats() const
     {
-        dict<std::string, unsigned int> stats;
+        pkmn::dict<std::string, unsigned int> stats;
         stats["HP"] = _HP;
         stats["Attack"] = _ATK;
         stats["Defense"] = _DEF;
@@ -81,9 +71,9 @@ namespace pkmn
         return stats;
     }
 
-    dict<std::string, unsigned int> team_pokemon_gen2impl::get_EVs() const
+    pkmn::dict<std::string, unsigned int> team_pokemon_gen2impl::get_EVs() const
     {
-        dict<std::string, unsigned int> EVs;
+        pkmn::dict<std::string, unsigned int> EVs;
         EVs["HP"] = _evHP;
         EVs["Attack"] = _evATK;
         EVs["Defense"] = _evDEF;
@@ -93,9 +83,9 @@ namespace pkmn
         return EVs;
     }
     
-    dict<std::string, unsigned int> team_pokemon_gen2impl::get_IVs() const
+    pkmn::dict<std::string, unsigned int> team_pokemon_gen2impl::get_IVs() const
     {
-        dict<std::string, unsigned int> IVs;
+        pkmn::dict<std::string, unsigned int> IVs;
         IVs["HP"] = _ivHP;
         IVs["Attack"] = _ivATK;
         IVs["Defense"] = _ivDEF;
@@ -105,7 +95,16 @@ namespace pkmn
         return IVs;
     }
 
-    void team_pokemon_gen2impl::set_EV(std::string EV, unsigned int val)
+    void team_pokemon_gen2impl::set_personality(unsigned int personality)
+    {
+        _personality = personality;
+    }
+
+    void team_pokemon_gen2impl::set_nature(std::string nature) {}
+
+    void team_pokemon_gen2impl::set_ability(std::string ability) {}
+
+    void team_pokemon_gen2impl::set_EV(std::string stat_name, unsigned int val)
     {
         if(val > 65535)
         {
@@ -113,35 +112,16 @@ namespace pkmn
             exit(EXIT_FAILURE);
         }
 
-        if(EV == "HP")
-        {
-            _evHP = val;
-            _HP = _get_hp();
-        }
-        else if(EV == "Attack")
-        {
-            _evATK = val;
-            _ATK = _get_stat("Attack", _evATK, _ivATK);
-        }
-        else if(EV == "Defense")
-        {
-            _evDEF = val;
-            _DEF = _get_stat("Defense", _evDEF, _ivDEF);
-        }
-        else if(EV == "Speed")
-        {
-            _evSPD = val;
-            _SPD = _get_stat("Speed", _evSPD, _ivSPD);
-        }
-        else if(EV == "Special")
-        {
-            _evSPCL = val;
-            _SATK = _get_stat("Special Attack", _evSPCL, _ivSPCL);
-            _SDEF = _get_stat("Special Defense", _evSPCL, _ivSPCL);
-        }
+        if(stat_name == "HP") _evHP = val;
+        else if(stat_name == "Attack") _evATK = val;
+        else if(stat_name == "Defense") _evDEF = val;
+        else if(stat_name == "Speed") _evSPD = val;
+        else if(stat_name == "Special") _evSPCL = val;
+        
+        _set_stats();
     }
     
-    void team_pokemon_gen2impl::set_IV(std::string IV, unsigned int val)
+    void team_pokemon_gen2impl::set_IV(std::string stat_name, unsigned int val)
     {
         if(val > 15)
         {
@@ -149,47 +129,18 @@ namespace pkmn
             exit(EXIT_FAILURE);
         }
 
-        if(IV == "HP")
-        {
-            _ivHP = val;
-            _HP = _get_hp();
-        }
-        else if(IV == "Attack")
-        {
-            _ivATK = val;
-            _ATK = _get_stat("Attack", _evATK, _ivATK);
-        }
-        else if(IV == "Defense")
-        {
-            _ivDEF = val;
-            _DEF = _get_stat("Defense", _evDEF, _ivDEF);
-        }
-        else if(IV == "Speed")
-        {
-            _ivSPD = val;
-            _SPD = _get_stat("Speed", _evSPD, _ivSPD);
-        }
-        else if(IV == "Special")
-        {
-            _ivSPCL = val;
-            _SATK = _get_stat("Special Attack", _evSPCL, _ivSPCL);
-            _SDEF = _get_stat("Special Defense", _evSPCL, _ivSPCL);
-        }
-    }
-
-    unsigned int team_pokemon_gen2impl::get_form_id() const {return _base_pkmn->get_pokemon_id();}
-    
-    void team_pokemon_gen2impl::set_form(unsigned int form)
-    {
-    }
-
-    void team_pokemon_gen2impl::set_form(std::string form)
-    {
+        if(stat_name == "HP") _ivHP = val;
+        else if(stat_name == "Attack") _ivATK = val;
+        else if(stat_name == "Defense") _ivDEF = val;
+        else if(stat_name == "Speed") _ivSPD = val;
+        else if(stat_name == "Special") _ivSPCL = val;
+        
+        _set_stats();
     }
 
     unsigned int team_pokemon_gen2impl::_get_hp() const
     {
-        dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
+        pkmn::dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
 
         unsigned int hp_val = int(floor((((double(_ivHP) + double(stats["HP"]) + (pow(_evHP,0.5)/8.0)
                             + 50.0) * double(_level))/50.0) + 10.0));
@@ -198,41 +149,51 @@ namespace pkmn
 
     unsigned int team_pokemon_gen2impl::_get_stat(std::string stat, unsigned int EV, unsigned int IV) const
     {
-        dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
+        pkmn::dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
 
         unsigned int stat_val = int(ceil((((double(IV) + double(stats[stat]) + (pow(EV,0.5)/8.0))
                                 * double(_level))/50.0) + 5.0));
         return stat_val;
     }
 
-    unsigned int team_pokemon_gen2impl::_determine_gender() const
+    void team_pokemon_gen2impl::_set_stats()
     {
-        if(_base_pkmn->get_chance_male() + _base_pkmn->get_chance_female() == 0.0) return Genders::GENDERLESS;
-        else if(_base_pkmn->get_chance_male() == 1.0) return Genders::MALE;
-        else if(_base_pkmn->get_chance_female() == 1.0) return Genders::FEMALE;
+        _HP = _get_hp();
+        _ATK = _get_stat("Attack", _evATK, _ivATK);
+        _DEF = _get_stat("Defense", _evDEF, _ivDEF);
+        _SATK = _get_stat("Special Attack", _evSPCL, _ivSPCL);
+        _SDEF = _get_stat("Special Defense", _evSPCL, _ivSPCL);
+        _SPD = _get_stat("Speed", _evSPD, _ivSPD);
+    }
+
+    std::string team_pokemon_gen2impl::_determine_gender() const
+    {
+        if(_base_pkmn->get_chance_male() + _base_pkmn->get_chance_female() == 0.0) return "Genderless";
+        else if(_base_pkmn->get_chance_male() == 1.0) return "Male";
+        else if(_base_pkmn->get_chance_female() == 1.0) return "Female";
         else
         {
             //Gender is determined by gender ratio and Attack IV
             //If the Attack IV is below a certain number, the Pokemon will be female
             if(_base_pkmn->get_chance_male() == 0.875)
             {
-                if(_ivATK > 1) return Genders::MALE;
-                else return Genders::FEMALE;
+                if(_ivATK > 1) return "Male";
+                else return "Female";
             }
             else if(_base_pkmn->get_chance_male() == 0.75)
             {
-                if(_ivATK > 3) return Genders::MALE;
-                else return Genders::FEMALE;
+                if(_ivATK > 3) return "Male";
+                else return "Female";
             }
             else if(_base_pkmn->get_chance_male() == 0.5)
             {
-                if(_ivATK > 7) return Genders::MALE;
-                else return Genders::FEMALE;
+                if(_ivATK > 7) return "Male";
+                else return "Female";
             }
             else //25% male
             {
-                if(_ivATK > 11) return Genders::MALE;
-                else return Genders::FEMALE;
+                if(_ivATK > 11) return "Male";
+                else return "Female";
             }
         }
     }

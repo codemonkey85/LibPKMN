@@ -35,84 +35,95 @@ namespace pkmn
 
             team_pokemon() {};
             virtual ~team_pokemon() {};
-            
+
+            //Game-specific Info
+            virtual std::string get_game() const = 0;
+            virtual unsigned int get_generation() const = 0;
+
+            //Non-battle Stats
             virtual base_pokemon::sptr get_base_pokemon(bool copy = true) const = 0;
+            virtual pokemon_text get_species_name() const = 0;
             virtual pokemon_text get_nickname() const = 0;
-            virtual void set_nickname(pokemon_text name) = 0;
+            virtual string_pair_t get_types() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_base_stats() const = 0;
+            virtual void set_nickname(pokemon_text nickname) = 0;
+
+            //Getting Trainer Info
             virtual pokemon_text get_trainer_name() const = 0;
-            virtual void set_trainer_name(pokemon_text name) = 0;
-            virtual unsigned int get_level() const = 0;
-            virtual void set_level(unsigned int level) = 0;
+            virtual pokemon_text get_trainer_gender() const = 0;
+            virtual unsigned int get_trainer_id() const = 0;
+            virtual unsigned short get_trainer_public_id() const = 0;
+            virtual unsigned short get_trainer_secret_id() const = 0;
+            virtual pokemon_text get_ball() const = 0;
             virtual unsigned int get_met_level() const = 0;
+
+            //Setting Trainer Info
+            virtual void set_trainer_name(pokemon_text trainer_name) = 0;
+            virtual void set_trainer_gender(pokemon_text gender) = 0;
+            virtual void set_trainer_id(unsigned int id) = 0;
+            virtual void set_trainer_public_id(unsigned short id) = 0;
+            virtual void set_trainer_secret_id(unsigned short id) = 0;
+            virtual void set_ball(pokemon_text ball) = 0;
             virtual void set_met_level(unsigned int level) = 0;
 
-            virtual moveset_t get_moves() const = 0;
-            virtual array<unsigned int> get_move_PPs() const = 0;
-            virtual void set_move(unsigned int move_id, unsigned int pos) = 0;
-            virtual void set_move_PP(unsigned int PP, unsigned int pos) = 0;
-            
-            virtual unsigned int get_status() const = 0;
-            virtual void set_status(unsigned int status) = 0;
-            
+            //Getting Individual Stat Info
             virtual unsigned int get_personality() const = 0;
+            virtual unsigned int get_level() const = 0;
+            virtual std::string get_gender() const = 0;
+            virtual std::string get_nature() const = 0;
             virtual std::string get_ability() const = 0;
-            virtual unsigned int get_gender() const = 0;
-            virtual unsigned int get_nature() const = 0;
+            virtual bool using_hidden_ability() const = 0;
             virtual bool is_shiny() const = 0;
-            
-            virtual void set_ability(std::string ability) = 0;
-            virtual void set_nature(unsigned int nature) = 0;
-            virtual void set_gender(unsigned int gender) = 0;
-
             virtual pkmn::dict<std::string, unsigned int> get_stats() const = 0;
-            virtual pkmn::dict<std::string, unsigned int> get_IVs() const = 0;
             virtual pkmn::dict<std::string, unsigned int> get_EVs() const = 0;
+            virtual pkmn::dict<std::string, unsigned int> get_IVs() const = 0;
             
+            //Setting Individual Stat Info
             virtual void set_personality(unsigned int personality) = 0;
-            
-            virtual void set_EV(std::string EV, unsigned int val) = 0;
-            virtual void set_IV(std::string IV, unsigned int val) = 0;
-            
-            virtual unsigned int get_generation() const = 0;
-            virtual item::sptr get_held_item(bool copy = true) const = 0;
-            virtual void set_held_item(item::sptr item) = 0;
-            virtual void set_held_item(unsigned int item_id) = 0;
-            virtual unsigned int get_ball() const = 0;
-            virtual void set_ball(unsigned int ball) = 0;
-            virtual std::string get_icon_path() const = 0;
-            virtual std::string get_sprite_path() const = 0;
-            
-			virtual int get_attribute(std::string attribute) const = 0;
+            virtual void set_level(unsigned int level) = 0;
+            virtual void set_nature(std::string nature) = 0;
+            virtual void set_ability(std::string ability) = 0;
+            virtual void set_using_hidden_ability(bool value) = 0;
+            virtual void set_EV(std::string stat_name, unsigned int stat) = 0;
+            virtual void set_IV(std::string stat_name, unsigned int stat) = 0;
+
+            //Battle Stat Info
+            virtual pokemon_text get_status() const = 0;
+            virtual item::sptr get_held_item() const = 0;
+            virtual void set_status(pokemon_text status) = 0;
+            virtual void set_held_item(pokemon_text item_name) = 0;
+            virtual void set_held_item(item::sptr item_sptr) = 0;
+
+            //Getting Move Info
+            virtual move::sptr get_move(unsigned int pos) const = 0;
+            virtual moveset_t get_moves() const = 0;
+            virtual unsigned int get_move_PP(unsigned int pos) const = 0;
+            virtual pkmn::array<unsigned int> get_move_PPs() const = 0;
+
+            //Setting Move Info
+            virtual void set_move(pokemon_text move_name, unsigned int pos) = 0;
+            virtual void set_move(unsigned int move_id, unsigned int pos) = 0;
+            virtual void set_move(move::sptr move_sptr, unsigned int pos) = 0;
+            virtual void set_move_PP(unsigned int PP, unsigned int pos) = 0;
+
+            //Misc
+            virtual int get_attribute(std::string attribute) const = 0;
             virtual pkmn::dict<std::string, int> get_attributes() const = 0;
             virtual bool has_attribute(std::string attribute) const = 0;
 			virtual void set_attribute(std::string attribute, int value) = 0;
-            virtual void set_hidden_ability(bool val) = 0;
+            virtual std::string get_icon_path() const = 0;
+            virtual std::string get_sprite_path() const = 0;
+            virtual void set_form(std::string form) = 0;
+            virtual void set_form(unsigned int form) = 0;
 
-            virtual unsigned int get_trainer_gender() const = 0;
-            virtual void set_trainer_gender(unsigned int gender) = 0;
-            virtual unsigned int get_trainer_id() const = 0;
-            virtual unsigned short get_public_trainer_id() const = 0;
-            virtual unsigned short get_secret_trainer_id() const = 0;
-            virtual void set_trainer_id(unsigned int id) = 0;
-            virtual void set_public_trainer_id(unsigned short id) = 0;
-            virtual void set_secret_trainer_id(unsigned short id) = 0;
-
-            virtual pkmn::array<std::string> get_egg_groups() const = 0;
-            virtual std::string get_form() const = 0;
-            virtual std::string get_species_name() const = 0;
-
-            virtual pkmn::array<unsigned int> get_egg_group_ids() const = 0;
+            //Database Info
             virtual unsigned int get_form_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
-            
-            virtual string_pair_t get_types() const = 0;
-            virtual pkmn::dict<std::string, unsigned int> get_base_stats() const = 0;
-            virtual pkmn::dict<std::string, unsigned int> get_ev_yields() const = 0;
-            virtual bool is_fully_evolved() const = 0;
-            virtual void set_form(unsigned int form) = 0;
-            virtual void set_form(std::string form) = 0;
+            virtual unsigned int get_ability_id() const = 0;
+            virtual unsigned int get_item_id() const = 0;
+            virtual unsigned int get_nature_id() const = 0;
     };
 
     //Related typedefs

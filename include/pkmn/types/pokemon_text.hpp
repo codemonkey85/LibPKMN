@@ -39,6 +39,7 @@ namespace pkmn
             inline operator std::wstring() const {return stdwstring;}
             
             char& operator[](size_t pos);
+            bool operator==(pokemon_text& other);
 
         private:
 
@@ -46,6 +47,7 @@ namespace pkmn
             std::wstring stdwstring;
     };
     
+    bool operator==(const pokemon_text& l, const pokemon_text& r);
     std::istream& operator>>(std::istream &stream, pokemon_text& text);
     std::wistream& operator>>(std::wistream &wstream, pokemon_text& text);
     std::ostream& operator<<(std::ostream &stream, const pokemon_text& text);

@@ -14,6 +14,7 @@
 #include <pkmn/config.hpp>
 #include <pkmn/enums.hpp>
 #include <pkmn/types/dict.hpp>
+#include <pkmn/types/pokemon_text.hpp>
 
 #include <pokehack/pokestructs.h>
 #include <pokehack/SaveParser.h>
@@ -23,7 +24,7 @@
 
 namespace pkmn
 {
-    static const dict<char, int> pokehack_reverse_char_map = boost::assign::map_list_of
+    static const pkmn::dict<char, int> pokehack_reverse_char_map = boost::assign::map_list_of
         ('0', int(0xA1))
         ('1', int(0xA2))
         ('2', int(0xA3))
@@ -95,6 +96,66 @@ namespace pkmn
         ('z', int(0xEE))
         (' ', int(0xEF))
         ('\0', int(0xFF));
+
+    static const pkmn::dict<uint8_t, pokemon_text> ball_dict = boost::assign::map_list_of
+        (PokeBalls::UNKNOWN, "Poke Ball")
+        (PokeBalls::POKE_BALL, "Poke Ball")
+        (PokeBalls::GREAT_BALL, "Great Ball")
+        (PokeBalls::ULTRA_BALL, "Ultra Ball")
+        (PokeBalls::MASTER_BALL, "Master Ball")
+        (PokeBalls::SAFARI_BALL, "Safari Ball")
+        (PokeBalls::LEVEL_BALL, "Level Ball")
+        (PokeBalls::LURE_BALL, "Lure Ball")
+        (PokeBalls::MOON_BALL, "Moon Ball")
+        (PokeBalls::FRIEND_BALL, "Friend Ball")
+        (PokeBalls::LOVE_BALL, "Love Ball")
+        (PokeBalls::HEAVY_BALL, "Heavy Ball")
+        (PokeBalls::FAST_BALL, "Fast Ball")
+        (PokeBalls::SPORT_BALL, "Sport Ball")
+        (PokeBalls::PREMIER_BALL, "Premier Ball")
+        (PokeBalls::REPEAT_BALL, "Repeat Ball")
+        (PokeBalls::TIMER_BALL, "Timer Ball")
+        (PokeBalls::NEST_BALL, "Nest Ball")
+        (PokeBalls::NET_BALL, "Net Ball")
+        (PokeBalls::DIVE_BALL, "Dive Ball")
+        (PokeBalls::LUXURY_BALL, "Luxury Ball")
+        (PokeBalls::HEAL_BALL, "Heal Ball")
+        (PokeBalls::QUICK_BALL, "Quick Ball")
+        (PokeBalls::DUSK_BALL, "Dusk Ball")
+        (PokeBalls::CHERISH_BALL, "Cherish Ball")
+        (PokeBalls::PARK_BALL, "Park Ball")
+        (PokeBalls::DREAM_BALL, "Dream Ball")
+    ;
+
+    static const pkmn::dict<pokemon_text, uint8_t> reverse_ball_dict = boost::assign::map_list_of
+        ("None", PokeBalls::POKE_BALL)
+        ("Poke Ball", PokeBalls::POKE_BALL)
+        ("Great Ball", PokeBalls::GREAT_BALL)
+        ("Ultra Ball", PokeBalls::ULTRA_BALL)
+        ("Master Ball", PokeBalls::MASTER_BALL)
+        ("Safari Ball", PokeBalls::SAFARI_BALL)
+        ("Level Ball", PokeBalls::LEVEL_BALL)
+        ("Lure Ball", PokeBalls::LURE_BALL)
+        ("Moon Ball", PokeBalls::MOON_BALL)
+        ("Friend Ball", PokeBalls::FRIEND_BALL)
+        ("Love Ball", PokeBalls::LOVE_BALL)
+        ("Heavy Ball", PokeBalls::HEAVY_BALL)
+        ("Fast Ball", PokeBalls::FAST_BALL)
+        ("Sport Ball", PokeBalls::SPORT_BALL)
+        ("Premier Ball", PokeBalls::PREMIER_BALL)
+        ("Repeat Ball", PokeBalls::REPEAT_BALL)
+        ("Timer Ball", PokeBalls::TIMER_BALL)
+        ("Nest Ball", PokeBalls::NEST_BALL)
+        ("Net Ball", PokeBalls::NET_BALL)
+        ("Dive Ball", PokeBalls::DIVE_BALL)
+        ("Luxury Ball", PokeBalls::LUXURY_BALL)
+        ("Heal Ball", PokeBalls::HEAL_BALL)
+        ("Quick Ball", PokeBalls::QUICK_BALL)
+        ("Dusk Ball", PokeBalls::DUSK_BALL)
+        ("Cherish Ball", PokeBalls::CHERISH_BALL)
+        ("Park Ball", PokeBalls::PARK_BALL)
+        ("Dream Ball", PokeBalls::DREAM_BALL)
+    ;
 
     char* pokehack_get_text(unsigned char* raw, bool is_nickname);
 

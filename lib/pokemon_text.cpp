@@ -90,6 +90,11 @@ namespace pkmn
         else return stdstring[pos];
     }
 
+    bool operator==(const pokemon_text& l, const pokemon_text& r)
+    {
+        return l.std_string() == r.std_string();
+    }
+
     std::istream& operator>>(std::istream& stream, pokemon_text& text)
     {
         std::string to_set;

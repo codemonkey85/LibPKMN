@@ -133,12 +133,11 @@ namespace pkmn
                                        "    move2 INTEGER NOT NULL,\n"
                                        "    move3 INTEGER NOT NULL,\n"
                                        "    move4 INTEGER NOT NULL,\n"
-                                       "    is_female INTEGER NOT NULL,\n"
                                        "    ot_is_female INTEGER NOT NULL\n"
                                        ");\n"
                                        "COMMIT;";
             std::string pokemon_export =
-                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,'%s',%d,%d,'%s','%s',%d,%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
+                str(boost::format("INSERT INTO \"pokemon\" VALUES(0,'%s',%d,%d,'%s','%s',%d,%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d);")
                         % title
                         % t_pkmn->get_species_id()
                         % t_pkmn->get_game_id()
@@ -170,8 +169,7 @@ namespace pkmn
                         % moves[1]->get_move_id()
                         % moves[2]->get_move_id()
                         % moves[3]->get_move_id()
-                        % ((t_pkmn->get_gender() == Genders::FEMALE) ? 1 : 0)
-                        % ((t_pkmn->get_trainer_gender() == Genders::FEMALE) ? 1 : 0)
+                        % ((t_pkmn->get_trainer_gender().std_string() == "Female") ? 1 : 0)
                     );
 
             pksql_db.exec(create_table.c_str());
@@ -196,11 +194,11 @@ namespace pkmn
 
             t_pkmn->set_nickname((const char*)(query.getColumn(4)));
             t_pkmn->set_trainer_name((const char*)(query.getColumn(5)));
-            t_pkmn->set_held_item(int(query.getColumn(6)));
-            t_pkmn->set_ball(int(query.getColumn(7)));
+            t_pkmn->set_held_item((const char*)(query.getColumn(6)));
+            t_pkmn->set_ball((const char*)(query.getColumn(7)));
             t_pkmn->set_met_level(int(query.getColumn(9)));
             t_pkmn->set_ability((const char*)(query.getColumn(10)));
-            t_pkmn->set_nature(int(query.getColumn(11)));
+            t_pkmn->set_nature((const char*)(query.getColumn(11)));
             t_pkmn->set_personality(int(query.getColumn(12)));
             t_pkmn->set_trainer_id(int(query.getColumn(13)));
             t_pkmn->set_EV("HP", int(query.getColumn(14)));
@@ -227,8 +225,7 @@ namespace pkmn
             t_pkmn->set_move(int(query.getColumn(29)), 2);
             t_pkmn->set_move(int(query.getColumn(30)), 3);
             t_pkmn->set_move(int(query.getColumn(31)), 4);
-            t_pkmn->set_gender((int(query.getColumn(32)) ? Genders::FEMALE : Genders::MALE));
-            t_pkmn->set_trainer_gender((int(query.getColumn(33)) ? Genders::FEMALE : Genders::MALE));
+            t_pkmn->set_trainer_gender((int(query.getColumn(32)) ? "Female" : "Male"));
 
             return t_pkmn;
         }

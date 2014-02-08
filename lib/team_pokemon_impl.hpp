@@ -19,79 +19,93 @@ namespace pkmn
     {
         public:
 
-            team_pokemon_impl(base_pokemon::sptr base_pkmn, unsigned int g, unsigned int level,
+            team_pokemon_impl(base_pokemon::sptr base_pkmn, unsigned int game, unsigned int level,
                               unsigned int move1, unsigned int move2,
                               unsigned int move3, unsigned int move4);
 
-            base_pokemon::sptr get_base_pokemon(bool copy = true) const;
-            pokemon_text get_nickname() const;
-            void set_nickname(pokemon_text name);
-            pokemon_text get_trainer_name() const;
-            void set_trainer_name(pokemon_text name);
-            unsigned int get_level() const;
-            void set_level(unsigned int level);
-            unsigned int get_met_level() const;
-            void set_met_level(unsigned int level);
-            
-            moveset_t get_moves() const;
-            pkmn::array<unsigned int> get_move_PPs() const;
-            void set_move(unsigned int move_id, unsigned int pos);
-            void set_move_PP(unsigned int PP, unsigned int pos);
-            
-            unsigned int get_status() const;
-            void set_status(unsigned int status);
-            
-            unsigned int get_personality() const;
-            virtual void set_personality(unsigned int personality);
-
-            void set_ability(std::string ability);
-            void set_nature(unsigned int nature);
-            void set_gender(unsigned int gender);
-            
+            //Game-specific Info
+            std::string get_game() const;
             unsigned int get_generation() const;
-            item::sptr get_held_item(bool copy = true) const;
-            void set_held_item(item::sptr item);
-            void set_held_item(unsigned int item_id);
-            unsigned int get_ball() const;
-            void set_ball(unsigned int ball);
-            std::string get_icon_path() const;
-            std::string get_sprite_path() const;
-            
-			int get_attribute(std::string attribute) const;
+
+            //Non-battle Stats
+            base_pokemon::sptr get_base_pokemon(bool copy = true) const;
+            pokemon_text get_species_name() const;
+            pokemon_text get_nickname() const;
+            string_pair_t get_types() const;
+            pkmn::dict<std::string, unsigned int> get_base_stats() const;
+            void set_nickname(pokemon_text nickname);
+
+            //Getting Trainer Info
+            pokemon_text get_trainer_name() const;
+            pokemon_text get_trainer_gender() const;
+            unsigned int get_trainer_id() const;
+            unsigned short get_trainer_public_id() const;
+            unsigned short get_trainer_secret_id() const;
+            pokemon_text get_ball() const;
+            unsigned int get_met_level() const;
+
+            //Setting Trainer Info
+            void set_trainer_name(pokemon_text trainer_name);
+            void set_trainer_gender(pokemon_text gender);
+            void set_trainer_id(unsigned int id);
+            void set_trainer_public_id(unsigned short id);
+            void set_trainer_secret_id(unsigned short id);
+            void set_ball(pokemon_text ball);
+            void set_met_level(unsigned int level);
+
+            //Getting Individual Stat Info
+            unsigned int get_personality() const;
+            unsigned int get_level() const;
+            bool using_hidden_ability() const;
+
+            //Setting Individual Stat Info
+            void set_level(unsigned int level);
+            virtual void set_using_hidden_ability(bool value);
+
+            //Battle Stat Info
+            pokemon_text get_status() const;
+            item::sptr get_held_item() const;
+            void set_status(pokemon_text status);
+            void set_held_item(pokemon_text item_name);
+            void set_held_item(item::sptr item_sptr);
+
+            //Getting Move Info
+            move::sptr get_move(unsigned int pos) const;
+            moveset_t get_moves() const;
+            unsigned int get_move_PP(unsigned int pos) const;
+            pkmn::array<unsigned int> get_move_PPs() const;
+
+            //Setting Move Info
+            void set_move(pokemon_text move_name, unsigned int pos);
+            void set_move(unsigned int move_id, unsigned int pos);
+            void set_move(move::sptr move_sptr, unsigned int pos);
+            void set_move_PP(unsigned int PP, unsigned int pos);
+
+            //Misc
+            int get_attribute(std::string attribute) const;
             pkmn::dict<std::string, int> get_attributes() const;
             bool has_attribute(std::string attribute) const;
 			void set_attribute(std::string attribute, int value);
-            void set_hidden_ability(bool val);
+            std::string get_icon_path() const;
+            std::string get_sprite_path() const;
+            virtual void set_form(std::string form);
+            virtual void set_form(unsigned int form);
 
-            unsigned int get_trainer_gender() const;
-            void set_trainer_gender(unsigned int gender);
-            unsigned int get_trainer_id() const;
-            unsigned short get_public_trainer_id() const;
-            unsigned short get_secret_trainer_id() const;
-            void set_trainer_id(unsigned int id);
-            void set_public_trainer_id(unsigned short id);
-            void set_secret_trainer_id(unsigned short id);
-
-            pkmn::array<std::string> get_egg_groups() const;
-            pkmn::array<unsigned int> get_egg_group_ids() const;
-
+            //Database Info
+            unsigned int get_form_id() const;
             unsigned int get_game_id() const;
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
-            std::string get_species_name() const;
-            std::string get_form() const;
-            
-            string_pair_t get_types() const;
-            pkmn::dict<std::string, unsigned int> get_base_stats() const;
-            pkmn::dict<std::string, unsigned int> get_ev_yields() const;
-            bool is_fully_evolved() const;
+            unsigned int get_ability_id() const;
+            unsigned int get_item_id() const;
+            unsigned int get_nature_id() const;
 
         protected:
         
             base_pokemon::sptr _base_pkmn;
-            pokemon_text _nickname, _trainer_name;
-            item::sptr _held_item;
-            unsigned int _ball;
+            pokemon_text _nickname, _trainer_name, _ball;
+            std::string _trainer_gender;
+            unsigned int _held_item;
             unsigned int _game_id, _generation;
             unsigned int _level, _met_level;
             unsigned int _personality;
@@ -109,19 +123,17 @@ namespace pkmn
             unsigned int _HP, _ATK, _DEF, _SPD;
             unsigned int _evHP, _evATK, _evDEF, _evSPD;
             unsigned int _ivHP, _ivATK, _ivDEF, _ivSPD;
-            unsigned int _nonvolatile_status;
+            pokemon_text _nonvolatile_status;
             moveset_t _moves;
             pkmn::array<unsigned int> _move_PPs;
-            unsigned int _num_moves;
             std::string _icon_path, _sprite_path;
-			dict<std::string, int> _attributes;
+            pkmn::dict<std::string, int> _attributes;
 
             virtual unsigned int _get_hp() const = 0;
             virtual unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const = 0;
+            virtual void _set_stats() = 0;
 
-            unsigned int _gender, _otgender;
-            std::string _ability;
-            unsigned int _nature;
+            std::string _ability, _gender, _nature, _otgender;
             bool _has_hidden_ability;
             
             static SQLite::Database _db;

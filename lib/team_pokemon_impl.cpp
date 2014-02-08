@@ -98,11 +98,13 @@ namespace pkmn
         _base_pkmn = base;
         _nickname = _base_pkmn->get_name();
         _trainer_name = "Ash";
+        _trainer_gender = "Male";
         _level = level;
         _game_id = game;
         _generation = _base_pkmn->get_generation();
-        _held_item = item::make(Items::NONE, _game_id);
-        _ball = PokeBalls::POKE_BALL;
+        _held_item = Items::NONE;
+        _ball = database::get_item_name(Items::POKE_BALL);
+        _met_level = 1;
 
 		_attributes = pkmn::dict<string, int>();
         _moves = moveset_t(4);
@@ -122,180 +124,210 @@ namespace pkmn
         _moves[3] = move::make(move4, _game_id);
         _move_PPs[3] = _moves[3]->get_base_pp();
 
-        _nonvolatile_status = Statuses::OK;
+        _nonvolatile_status = "OK";
     }
 
-    base_pokemon::sptr team_pokemon_impl::get_base_pokemon(bool copy) const
-    {
-        base_pokemon::sptr to_return = _base_pkmn;
-        
-        if(copy) return copy_base_pokemon(to_return);
-        else return to_return;
-    }
-
-    pokemon_text team_pokemon_impl::get_nickname() const {return _nickname;}
-    
-    void team_pokemon_impl::set_nickname(pokemon_text name)
-    {
-        size_t max_len = (_game_id >= Games::X) ? 12 : 10;
-        if(name.std_string().length() <= max_len) _nickname = name;
-    }
-    
-    pokemon_text team_pokemon_impl::get_trainer_name() const {return _trainer_name;}
-    
-    void team_pokemon_impl::set_trainer_name(pokemon_text name)
-    {
-        if(name.std_string().length() == 0) _trainer_name = "Ash"; //Reset to default
-        else if(name.std_string().length() <= 7) _trainer_name = name;
-    }
-
-    unsigned int team_pokemon_impl::get_level() const {return _level;}
-    
-    void team_pokemon_impl::set_level(unsigned int level)
-    {
-        if(level > 0 and level <= 100) _level = level;
-    }
-
-    unsigned int team_pokemon_impl::get_met_level() const {return _met_level;}
-    
-    void team_pokemon_impl::set_met_level(unsigned int level)
-    {
-        if(level > 0 and level <= 100) _met_level = level;
-    }
-
-    moveset_t team_pokemon_impl::get_moves() const {return _moves;}
-    
-    pkmn::array<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
-
-    void team_pokemon_impl::set_move(unsigned int move_id, unsigned int pos)
-    {
-        //Will fail if move is incompatible with this generation
-        unsigned int actual_pos = (pos > 4) ? 3 : (pos == 0) ? 0 : (pos-1);
-        _moves[actual_pos] = move::make(move_id, _game_id);
-        _move_PPs[actual_pos] = database::get_move_pp(move_id);
-    }
-    
-    void team_pokemon_impl::set_move_PP(unsigned int PP, unsigned int pos)
-    {
-        //TODO: implement PP Up stats
-        unsigned int actual_pos = (pos > 4) ? 3 : (pos == 0) ? 0 : (pos-1);
-        if(PP <= _moves[actual_pos]->get_base_pp()) _move_PPs[actual_pos] = PP;
-    }
-    
-    unsigned int team_pokemon_impl::get_status() const {return _nonvolatile_status;}
-    
-    void team_pokemon_impl::set_status(unsigned int status)
-    {
-        if(status >= Statuses::OK and status <= Statuses::SLEEP) _nonvolatile_status = status;
-        else status = Statuses::OK;
-    }
-    
-    unsigned int team_pokemon_impl::get_personality() const {return _personality;}
-    
-    void team_pokemon_impl::set_personality(unsigned int personality) {_personality = personality;}
-
-    void team_pokemon_impl::set_ability(std::string ability)
-    {
-        //Check if ability is present in given generation
-        unsigned int ability_id = database::get_ability_id(ability);
-
-        if(ability_id != 0)
-        {
-            std::string query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability);
-            SQLite::Statement query(_db, query_string.c_str());
-            unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
-            if(generation_id <= _generation) _ability = ability;
-        }
-    }
-
-    void team_pokemon_impl::set_gender(unsigned int gender)
-    {
-        //Don't change gender if genderless
-        if(gender != Genders::GENDERLESS) _gender = (gender == Genders::FEMALE) ?
-                                                    Genders::FEMALE : Genders::MALE;
-    }
-
-    void team_pokemon_impl::set_nature(unsigned int nature)
-    {
-        _nature = (nature <= Natures::SERIOUS) ? _nature : Natures::SERIOUS;
-    }
+    std::string team_pokemon_impl::get_game() const {return database::get_game_name(_game_id);}
 
     unsigned int team_pokemon_impl::get_generation() const {return _generation;}
 
-    item::sptr team_pokemon_impl::get_held_item(bool copy) const
+    base_pokemon::sptr team_pokemon_impl::get_base_pokemon(bool copy) const
     {
-        item::sptr to_return = _held_item;
-        
-        unsigned int item_id = to_return->get_item_id();
-        
-        if(copy) return item::make(item_id, _game_id);
-        else return to_return;
-    }
-    
-    void team_pokemon_impl::set_held_item(item::sptr item)
-    {
-        //Don't set item if it doesn't exist in this game
-        if(database::get_item_index(item->get_item_id(), _game_id)) _held_item = item;
-    }
-    
-    void team_pokemon_impl::set_held_item(unsigned int item_id)
-    {
-        set_held_item(item::make(item_id, _game_id));
+        return (copy) ? copy_base_pokemon(_base_pkmn) : _base_pkmn;
     }
 
-    unsigned int team_pokemon_impl::get_ball() const {return _ball;}
+    pokemon_text team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
 
-    void team_pokemon_impl::set_ball(unsigned int ball) {_ball = ball;}
-    
-    string team_pokemon_impl::get_icon_path() const {return _icon_path;}
+    pokemon_text team_pokemon_impl::get_nickname() const {return _nickname;}
 
-    string team_pokemon_impl::get_sprite_path() const {return _sprite_path;}
-    
-	int team_pokemon_impl::get_attribute(string attribute) const {return _attributes[attribute];}
+    string_pair_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
 
-    pkmn::dict<string, int> team_pokemon_impl::get_attributes() const {return _attributes;}
+    pkmn::dict<std::string, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
 
-    bool team_pokemon_impl::has_attribute(string attribute) const {return _attributes.has_key(attribute);}
+    void team_pokemon_impl::set_nickname(pokemon_text nickname)
+    {
+        unsigned int max_len = (_generation == 6) ? 12 : 10;
 
-	void team_pokemon_impl::set_attribute(string attribute, int value) {_attributes[attribute] = value;}
-    
-    void team_pokemon_impl::set_hidden_ability(bool val) {_has_hidden_ability = val;}
+        if(nickname.std_string().length() > 0 and nickname.std_string().length() <= max_len) _nickname = nickname;
+    }
 
-    unsigned int team_pokemon_impl::get_trainer_gender() const {return _otgender;}
+    pokemon_text team_pokemon_impl::get_trainer_name() const {return _trainer_name;}
 
-    void team_pokemon_impl::set_trainer_gender(unsigned int gender) {_otgender = gender;}
+    pokemon_text team_pokemon_impl::get_trainer_gender() const {return _trainer_gender;}
 
     unsigned int team_pokemon_impl::get_trainer_id() const {return _trainer_id;}
 
-    unsigned short team_pokemon_impl::get_public_trainer_id() const {return _tid.public_id;}
+    unsigned short team_pokemon_impl::get_trainer_public_id() const {return _tid.public_id;}
 
-    unsigned short team_pokemon_impl::get_secret_trainer_id() const {return _tid.secret_id;}
+    unsigned short team_pokemon_impl::get_trainer_secret_id() const {return _tid.secret_id;}
+
+    pokemon_text team_pokemon_impl::get_ball() const {return _ball;}
+
+    unsigned int team_pokemon_impl::get_met_level() const {return _met_level;}
+
+    void team_pokemon_impl::set_trainer_name(pokemon_text trainer_name)
+    {
+        if(trainer_name.std_string().length() > 0 and trainer_name.std_string().length() <= 7) _trainer_name = trainer_name;
+    }
+
+    void team_pokemon_impl::set_trainer_gender(pokemon_text gender)
+    {
+        if(gender.std_string() == "Male" or gender.std_string() == "Female") _trainer_gender = gender;
+    }
 
     void team_pokemon_impl::set_trainer_id(unsigned int id) {_trainer_id = id;}
 
-    void team_pokemon_impl::set_public_trainer_id(unsigned short id) {_tid.public_id = id;}
+    void team_pokemon_impl::set_trainer_public_id(unsigned short id) {_tid.public_id = id;}
 
-    void team_pokemon_impl::set_secret_trainer_id(unsigned short id) {_tid.secret_id = id;}
+    void team_pokemon_impl::set_trainer_secret_id(unsigned short id) {_tid.secret_id = id;}
 
-    string team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
+    void team_pokemon_impl::set_ball(pokemon_text ball)
+    {
+        //TODO: add validity check
+        _ball = ball;
+    }
 
-    pkmn::array<std::string> team_pokemon_impl::get_egg_groups() const {return _base_pkmn->get_egg_groups();}
+    void team_pokemon_impl::set_met_level(unsigned int level)
+    {
+        _met_level = (level <= 100) ? level : _met_level;
+    }
+
+    unsigned int team_pokemon_impl::get_personality() const {return _personality;}
+
+    unsigned int team_pokemon_impl::get_level() const {return _level;}
+
+    bool team_pokemon_impl::using_hidden_ability() const {return _has_hidden_ability;}
+
+    void team_pokemon_impl::set_level(unsigned int level)
+    {
+        _level = level;
+        _set_stats();
+    }
+
+    void team_pokemon_impl::set_using_hidden_ability(bool value) {_has_hidden_ability = value;}
+
+    pokemon_text team_pokemon_impl::get_status() const {return _nonvolatile_status;}
+
+    item::sptr team_pokemon_impl::get_held_item() const {return item::make(_held_item, _game_id);}
+
+    void team_pokemon_impl::set_status(pokemon_text status)
+    {
+        //TODO: add validity check
+        _nonvolatile_status = status;
+    }
+
+    void team_pokemon_impl::set_held_item(pokemon_text item_name)
+    {
+        _held_item = database::get_item_id(item_name);
+    }
+
+    void team_pokemon_impl::set_held_item(item::sptr item_sptr)
+    {
+        _held_item = item_sptr->get_item_id();
+    }
+
+    move::sptr team_pokemon_impl::get_move(unsigned int pos) const
+    {
+        return (pos >= 1 and pos <= 4) ? copy_move(_moves[pos-1]) : move::make(Moves::NONE, _game_id);
+    }
+
+    moveset_t team_pokemon_impl::get_moves() const
+    {
+        //Copy move sptrs to prevent editing
+        moveset_t to_return(4);
+        for(size_t i = 0; i < 4; i++) to_return[i] = copy_move(_moves[i]);
+        return to_return;
+    }
+
+    unsigned int team_pokemon_impl::get_move_PP(unsigned int pos) const
+    {
+        return(pos >= 1 and pos <= 4) ? _move_PPs[pos-1] : 0;
+    }
+
+    pkmn::array<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
+
+    void team_pokemon_impl::set_move(pokemon_text move_name, unsigned int pos)
+    {
+        unsigned int move_id = database::get_move_id(move_name.std_string());
+        set_move(move_id, pos);
+    }
+
+    void team_pokemon_impl::set_move(unsigned int move_id, unsigned int pos)
+    {
+        std::string query_string(str(boost::format("SELECT generation_id FROM moves WHERE id=%d")
+                                     % move_id));
+        SQLite::Statement query(_db, query_string.c_str());
+        unsigned int generation = (query.executeStep()) ? int(query.getColumn(0)) : 7; //Invalid if invalid move ID is given
+        if(generation <= _generation and (pos >= 1 and pos <= 4)) //Position must be valid
+        {
+            _moves[pos-1] = move::make(move_id, _game_id);
+            _move_PPs[pos-1] = database::get_move_pp(move_id);
+        }
+    }
+
+    void team_pokemon_impl::set_move(move::sptr move_sptr, unsigned int pos)
+    {
+        set_move(move_sptr->get_move_id(), pos);
+    }
+
+    void team_pokemon_impl::set_move_PP(unsigned int PP, unsigned int pos)
+    {
+        if(pos >= 1 and pos <= 4)
+        {
+            if(PP <= _moves[pos-1]->get_base_pp()) _move_PPs[pos-1] = PP;
+        }
+    }
+
+    int team_pokemon_impl::get_attribute(std::string attribute) const
+    {
+        return _attributes.at(attribute, 0);
+    }
+
+    pkmn::dict<std::string,int> team_pokemon_impl::get_attributes() const {return _attributes;}
+
+    bool team_pokemon_impl::has_attribute(std::string attribute) const
+    {
+        return _attributes.has_key(attribute);
+    }
+
+    void team_pokemon_impl::set_attribute(std::string attribute, int value)
+    {
+        _attributes[attribute] = value;
+    }
+
+    std::string team_pokemon_impl::get_icon_path() const
+    {
+        return _base_pkmn->get_icon_path((_gender == "Male"));
+    }
+
+    std::string team_pokemon_impl::get_sprite_path() const
+    {
+        return _base_pkmn->get_sprite_path((_gender == "Male"), is_shiny());
+    }
     
-    pkmn::array<unsigned int> team_pokemon_impl::get_egg_group_ids() const {return _base_pkmn->get_egg_group_ids();}
-    
+    void team_pokemon_impl::set_form(std::string form)
+    {
+        _base_pkmn->set_form(form);
+        _set_stats();
+    }
+
+    void team_pokemon_impl::set_form(unsigned int form)
+    {
+        _base_pkmn->set_form(form);
+        _set_stats();
+    }
+
+    unsigned int team_pokemon_impl::get_form_id() const {return _base_pkmn->get_form_id();}
+
     unsigned int team_pokemon_impl::get_game_id() const {return _game_id;}
-    
+
     unsigned int team_pokemon_impl::get_pokemon_id() const {return _base_pkmn->get_pokemon_id();}
 
     unsigned int team_pokemon_impl::get_species_id() const {return _base_pkmn->get_species_id();}
 
-    std::string team_pokemon_impl::get_form() const {return _base_pkmn->get_form();}
-    
-    string_pair_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
-    
-    pkmn::dict<std::string, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
+    unsigned int team_pokemon_impl::get_ability_id() const {return database::get_ability_id(_ability);}
 
-    pkmn::dict<std::string, unsigned int> team_pokemon_impl::get_ev_yields() const {return _base_pkmn->get_ev_yields();}
+    unsigned int team_pokemon_impl::get_item_id() const {return _held_item;}
 
-    bool team_pokemon_impl::is_fully_evolved() const {return _base_pkmn->is_fully_evolved();}
+    unsigned int team_pokemon_impl::get_nature_id() const {return database::get_nature_id(_nature);}
 } /* namespace pkmn */

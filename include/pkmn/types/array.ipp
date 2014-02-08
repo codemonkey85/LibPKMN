@@ -35,7 +35,14 @@ namespace pkmn
     }
 
     template<typename item_type>
-    item_type& array<item_type>::operator[](size_t pos)
+    const item_type& array<item_type>::operator[](const size_t pos) const
+    {
+        if(pos >= _size) throw std::runtime_error(invalid_pos_err_msg.c_str());
+        else return _vec[pos];
+    }
+
+    template <typename item_type>
+    item_type& array<item_type>::operator[](const size_t pos)
     {
         if(pos >= _size) throw std::runtime_error(invalid_pos_err_msg.c_str());
         else return _vec[pos];
