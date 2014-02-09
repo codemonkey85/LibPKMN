@@ -58,7 +58,7 @@ namespace pkmn
         }
 
         _gender = _determine_gender();
-        _ability = _determine_ability();
+        _nature = _determine_nature();
         _ability = _determine_ability();
 
         _set_stats();
@@ -124,7 +124,7 @@ namespace pkmn
         _personality = personality;
         _ability = _determine_ability();
         _gender = _determine_gender();
-        _ability = _determine_ability();
+        _nature = _determine_nature();
     }
 
     void team_pokemon_modernimpl::set_gender(std::string gender)
@@ -345,5 +345,10 @@ namespace pkmn
 
         //Should never get here, this stops Clang from complaining
         return "Male";
+    }
+
+    std::string team_pokemon_modernimpl::_determine_nature() const
+    {
+        return database::get_nature_name(_personality % 24);
     }
 } /* namespace pkmn */
