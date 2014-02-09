@@ -41,20 +41,9 @@ namespace pkmn
 
             //Get gender character
             QChar gender;
-            switch(t_pkmn->get_gender())
-            {
-                case Genders::MALE:
-                    gender = QChar('M');
-                    break;
-
-                case Genders::FEMALE:
-                    gender = QChar('F');
-                    break;
-
-                default:
-                    gender = QChar('N');
-                    break;
-            }
+            if(t_pkmn->get_gender() == "Male") gender = QChar('M');
+            else if(t_pkmn->get_gender() == "Female") gender = QChar('F');
+            else gender = QChar('N');
             
             //Fill labels
             QString pokemonQString;
@@ -82,8 +71,8 @@ namespace pkmn
             if(database::get_generation(game) >= 3)
             {
                 abilityNatureQString = QString("Ability: %1, Nature: %2").arg(
-                    QString::fromStdString(database::get_ability_name(t_pkmn->get_ability())),
-                    QString::fromStdString(database::get_nature_name(t_pkmn->get_nature()))
+                    QString::fromStdString(t_pkmn->get_ability()),
+                    QString::fromStdString(t_pkmn->get_nature())
                 );
                 abilityNatureLabel = new QLabel(abilityNatureQString);
             }
