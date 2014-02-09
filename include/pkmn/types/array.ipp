@@ -49,20 +49,17 @@ namespace pkmn
     }
 
     template<typename item_type>
-    item_type& array<item_type>::at(size_t pos) const
+    item_type array<item_type>::at(size_t pos) const
     {
         if(pos < 0 or pos >= _size) throw std::runtime_error(invalid_pos_err_msg.c_str());
         else return _vec[pos];
     }
 
     template<typename item_type>
-    item_type& array<item_type>::front() const {return _vec[0];}
+    item_type array<item_type>::front() const {return _vec[0];}
 
     template<typename item_type>
-    item_type& array<item_type>::back() const {return _vec[_size-1];}
-
-    template<typename item_type>
-    item_type* array<item_type>::data() const {return &_vec[0];}
+    item_type array<item_type>::back() const {return _vec[_size-1];}
 
     template<typename item_type>
     void array<item_type>::set(item_type val, size_t pos)

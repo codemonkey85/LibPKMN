@@ -216,7 +216,7 @@ namespace pkmn
         _nonvolatile_status = status;
     }
 
-    void team_pokemon_impl::set_held_item(pokemon_text item_name)
+    void team_pokemon_impl::set_held_item(std::string item_name)
     {
         _held_item = database::get_item_id(item_name);
     }
@@ -246,9 +246,9 @@ namespace pkmn
 
     pkmn::array<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
 
-    void team_pokemon_impl::set_move(pokemon_text move_name, unsigned int pos)
+    void team_pokemon_impl::set_move(std::string move_name, unsigned int pos)
     {
-        unsigned int move_id = database::get_move_id(move_name.std_string());
+        unsigned int move_id = database::get_move_id(move_name);
         set_move(move_id, pos);
     }
 

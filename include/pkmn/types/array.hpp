@@ -25,10 +25,9 @@ namespace pkmn
             size_t size() const;
             const item_type& operator[](const size_t pos) const;
             item_type& operator[](const size_t pos);
-            item_type& at(const size_t pos) const;
-            item_type& front() const;
-            item_type& back() const;
-            item_type* data() const;
+            item_type at(const size_t pos) const;
+            item_type front() const;
+            item_type back() const;
 
             void set(item_type val, size_t pos);
 

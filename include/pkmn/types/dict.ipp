@@ -33,7 +33,7 @@ namespace pkmn
     {
         FOREACH(const dict_pair& p, _map.begin(), _map.end())
         {
-            if (p.first == key) return p.second;
+            if(p.first == key) return p.second;
         }
         std::string err_msg = "Key '" + to_string(key) + "' not found.";
         throw std::runtime_error(err_msg.c_str());
@@ -44,7 +44,7 @@ namespace pkmn
     {
         FOREACH(dict_pair& p, _map.begin(), _map.end())
         {
-            if (p.first == key) return p.second;
+            if(p.first == key) return p.second;
         }
         _map.push_back(std::make_pair(key, Val()));
         return _map.back().second;
@@ -55,7 +55,7 @@ namespace pkmn
     {
         FOREACH(const dict_pair& p, _map.begin(), _map.end())
         {
-            if (p.first == key) return p.second;
+            if(p.first == key) return p.second;
         }
         std::string err_msg = "Key '" + to_string(key) + "' not found.";
         throw std::runtime_error(err_msg.c_str());
@@ -66,7 +66,7 @@ namespace pkmn
     {
         FOREACH(const dict_pair& p, _map.begin(), _map.end())
         {
-            if (p.first == key) return p.second;
+            if(p.first == key) return p.second;
         }
         return other;
     }
@@ -76,10 +76,13 @@ namespace pkmn
     {
         FOREACH(dict_pair& p, _map.begin(), _map.end())
         {
-            if (p.first == key) return p.second;
+            if(p.first == key)
+            {
+                std::string err_msg = "Key '" + to_string(key) + "' already exists.";
+                throw std::runtime_error(err_msg.c_str());
+            }
         }
         _map.push_back(std::make_pair(key, val));
-        return _map.back().second;
     }
 
     template <typename Key, typename Val>
@@ -88,7 +91,7 @@ namespace pkmn
         typename std::list<std::pair<Key,Val> >::iterator it = _map.begin();
         while(it != _map.end())
         {
-            if(*it.first == key)
+            if((*it).first == key)
             {
                 _map.erase(it);
                 return;

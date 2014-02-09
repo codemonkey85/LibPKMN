@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -35,10 +35,29 @@ namespace std
     %template(uint_vec) vector<unsigned int>;
 };
 
+/*
+ * Ignore C++ operators.
+ * Their functionality will be replicated in the other languages.
+ */
+%ignore pkmn::array::operator[];
+%ignore pkmn::array::data();
 %ignore pkmn::dict::operator[];
-%ignore pkmn::vla::operator[];
+%ignore pkmn::pokemon_text::operator[];
 %ignore pkmn::pokemon_text::operator std::string;
 %ignore pkmn::pokemon_text::operator std::wstring;
+%ignore pkmn::pokemon_text::const_char();
+%ignore pkmn::pokemon_text::const_wchar_t();
+%ignore pkmn::pokemon_text::std_string();
+%ignore pkmn::pokemon_text::std_wstring();
+%ignore pkmn::pokemon_text::set(const char*);
+%ignore pkmn::pokemon_text::set(std::string);
+%ignore pkmn::pokemon_text::set(const wchar_t*);
+%ignore pkmn::pokemon_text::set(std::wstring);
+%ignore pkmn::operator==(const pkmn::pokemon_text&, const pkmn::pokemon_text&);
+%ignore pkmn::operator>>(std::istream&, pkmn::pokemon_text&);
+%ignore pkmn::operator>>(std::wistream&, pkmn::pokemon_text&);
+%ignore pkmn::operator<<(std::ostream&, const pkmn::pokemon_text&);
+%ignore pkmn::operator<<(std::wostream&, const pkmn::pokemon_text&);
 
 %{
     #include "pkmn/config.hpp"

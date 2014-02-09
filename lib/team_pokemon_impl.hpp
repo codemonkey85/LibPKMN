@@ -66,7 +66,7 @@ namespace pkmn
             pokemon_text get_status() const;
             item::sptr get_held_item() const;
             void set_status(pokemon_text status);
-            void set_held_item(pokemon_text item_name);
+            void set_held_item(std::string item_name);
             void set_held_item(item::sptr item_sptr);
 
             //Getting Move Info
@@ -76,7 +76,7 @@ namespace pkmn
             pkmn::array<unsigned int> get_move_PPs() const;
 
             //Setting Move Info
-            void set_move(pokemon_text move_name, unsigned int pos);
+            void set_move(std::string move_name, unsigned int pos);
             void set_move(unsigned int move_id, unsigned int pos);
             void set_move(move::sptr move_sptr, unsigned int pos);
             void set_move_PP(unsigned int PP, unsigned int pos);

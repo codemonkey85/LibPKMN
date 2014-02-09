@@ -91,7 +91,7 @@ namespace pkmn
             virtual pokemon_text get_status() const = 0;
             virtual item::sptr get_held_item() const = 0;
             virtual void set_status(pokemon_text status) = 0;
-            virtual void set_held_item(pokemon_text item_name) = 0;
+            virtual void set_held_item(std::string item_name) = 0;
             virtual void set_held_item(item::sptr item_sptr) = 0;
 
             //Getting Move Info
@@ -101,7 +101,7 @@ namespace pkmn
             virtual pkmn::array<unsigned int> get_move_PPs() const = 0;
 
             //Setting Move Info
-            virtual void set_move(pokemon_text move_name, unsigned int pos) = 0;
+            virtual void set_move(std::string move_name, unsigned int pos) = 0;
             virtual void set_move(unsigned int move_id, unsigned int pos) = 0;
             virtual void set_move(move::sptr move_sptr, unsigned int pos) = 0;
             virtual void set_move_PP(unsigned int PP, unsigned int pos) = 0;
