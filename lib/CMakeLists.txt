@@ -12,7 +12,7 @@ IF(ENABLE_LIBPKMN)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/SQLiteCpp/sqlite3)
     ADD_SUBDIRECTORY(SQLiteCpp/src)
 
-    #FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
+    FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
     
     #Configure database info for relevant library files
