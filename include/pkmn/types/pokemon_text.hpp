@@ -39,7 +39,6 @@ namespace pkmn
             inline operator std::wstring() const {return stdwstring;}
             
             char& operator[](size_t pos);
-            bool operator==(pokemon_text& other);
 
         private:
 
