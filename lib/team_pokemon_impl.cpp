@@ -46,7 +46,7 @@ namespace pkmn
         {
             base_pokemon::sptr base = base_pokemon::make(id, game);
             
-            if(base->get_generation() < 1 or base->get_generation() > 5) throw runtime_error("Gen must be 1-5.");
+            if(base->get_generation() < 1 or base->get_generation() > 6) throw runtime_error("Gen must be 1-6.");
 
             switch(base->get_generation())
             {

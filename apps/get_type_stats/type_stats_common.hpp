@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -32,7 +32,6 @@ class stat_st
 };
 
 //Prototypes
-pkmn::dict<std::string, unsigned int> get_stat_map();
 void remove_unevolved_pokemon(std::vector<pkmn::base_pokemon::sptr> &pkmn_vector);
 int sort_pokemon_by_stats(std::string type1, std::string type2, std::vector<stat_st> &highest_stats,
                            std::vector<stat_st> &lowest_stats, int gen, bool lax, bool evolved);

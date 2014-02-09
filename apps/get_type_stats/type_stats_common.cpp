@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -18,21 +18,6 @@
 
 using namespace pkmn;
 using namespace std;
-
-//The values are what the base_pokemon subclasses return in get_base_stats()
-dict<string, unsigned int> get_stat_map()
-{
-    dict<string, unsigned int> stat_map = boost::assign::map_list_of
-        ("HP", Stats::HP)
-        ("Attack", Stats::ATTACK)
-        ("Defense", Stats::DEFENSE)
-        ("Special Attack", Stats::SPECIAL_ATTACK)
-        ("Special Defense", Stats::SPECIAL_DEFENSE)
-        ("Special", Stats::SPECIAL)
-        ("Speed", Stats::SPEED);
-
-    return stat_map;
-}
 
 void remove_unevolved_pokemon(vector<base_pokemon::sptr> &pkmn_vector)
 {
@@ -80,12 +65,12 @@ int sort_pokemon_by_stats(string type1, string type2, vector<stat_st> &highest_s
 
     for(unsigned int i = 0; i < pkmn_vector.size(); i++)
     {
-        string pkmn_name = pkmn_vector[i]->get_species_name();
-        dict<unsigned int, unsigned int> stats = pkmn_vector[i]->get_base_stats();
+        string pkmn_name = pkmn_vector[i]->get_species();
+        dict<std::string, unsigned int> stats = pkmn_vector[i]->get_base_stats();
 
         for(unsigned int j = 0; j < highest_stats.size(); j++)
         {
-            unsigned int stat = get_stat_map()[highest_stats[j].stat_name];
+            std::string stat = highest_stats[j].stat_name;
 
             //TODO: account for case of stats being equal by appending pkmn_name strings
             if(highest_stats[j].pkmn_name == "Missingno." or highest_stats[j].stat_value < stats[stat])
