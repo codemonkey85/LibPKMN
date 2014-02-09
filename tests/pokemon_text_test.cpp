@@ -10,7 +10,6 @@
 #include <boost/assign/list_of.hpp>
 #include <boost/test/unit_test.hpp>
 
-#include <pkmn/config.hpp>
 #include <pkmn/types/pokemon_text.hpp>
 
 BOOST_AUTO_TEST_CASE(multibyte_to_wide)
@@ -45,4 +44,11 @@ BOOST_AUTO_TEST_CASE(wide_to_wide)
     std::wstring test_wstr(L"Test string");
     pkmn::pokemon_text test_pkmntext(test_wstr);
     BOOST_CHECK(test_wstr == test_pkmntext.std_wstring());
+}
+
+BOOST_AUTO_TEST_CASE(comparison_operator)
+{
+    pkmn::pokemon_text test_pkmntext1("Test string");
+    pkmn::pokemon_text test_pkmntext2("Test string");
+    BOOST_CHECK(test_pkmntext1 == test_pkmntext2);
 }

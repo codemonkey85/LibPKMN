@@ -92,7 +92,8 @@ namespace pkmn
 
     bool operator==(const pokemon_text& l, const pokemon_text& r)
     {
-        return l.std_string() == r.std_string();
+        return (l.std_string() == r.std_string()
+               and (l.std_wstring() == r.std_wstring()));
     }
 
     std::istream& operator>>(std::istream& stream, pokemon_text& text)

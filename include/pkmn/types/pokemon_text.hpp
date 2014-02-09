@@ -46,11 +46,11 @@ namespace pkmn
             std::wstring stdwstring;
     };
     
-    bool operator==(const pokemon_text& l, const pokemon_text& r);
-    std::istream& operator>>(std::istream &stream, pokemon_text& text);
-    std::wistream& operator>>(std::wistream &wstream, pokemon_text& text);
-    std::ostream& operator<<(std::ostream &stream, const pokemon_text& text);
-    std::wostream& operator<<(std::wostream &wstream, const pokemon_text& text);
+    PKMN_API bool operator==(const pokemon_text& l, const pokemon_text& r);
+    PKMN_API std::istream& operator>>(std::istream &stream, pokemon_text& text);
+    PKMN_API std::wistream& operator>>(std::wistream &wstream, pokemon_text& text);
+    PKMN_API std::ostream& operator<<(std::ostream &stream, const pokemon_text& text);
+    PKMN_API std::wostream& operator<<(std::wostream &wstream, const pokemon_text& text);
 }
 
 #endif /* INCLUDED_PKMN_TYPES_POKEMON_TEXT_HPP */
