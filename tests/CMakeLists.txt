@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
@@ -16,10 +16,7 @@ SET(DATABASE_PATH ${LIBPKMN_BINARY_DIR}/share/libpkmn)
 FILE(TO_NATIVE_PATH ${DATABASE_PATH} DATABASE_PATH)
 
 SET(cpp_test_sources
-    database_test.cpp
     dict_test.cpp
-    vla_test.cpp
-    to_pokelib-nc_test.cpp
 )
 
 INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/conversions)

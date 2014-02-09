@@ -99,7 +99,7 @@ namespace pkmn
     }
 
     template <typename Key, typename Val>
-    void dict<Key, Val>::swap(const Key& key1, const Key& key2)
+    void dict<Key, Val>::swap(Key key1, Key key2)
     {
         std::string err_msg;
         if(not has_key(key1))
@@ -112,9 +112,9 @@ namespace pkmn
             err_msg = "Key '" + to_string(key2) + "' not found.";
             throw std::runtime_error(err_msg.c_str());
         }
-        Val temp = _map[key1];
-        _map[key1] = _map[key2];
-        _map[key2] = temp;
+        Val temp = at(key1);
+        (*this)[key1] = (*this)[key2];//_map[key1] = _map[key2];
+        (*this)[key2] = temp;//_map[key2] = temp;
     }
 
     template <typename Key, typename Val>

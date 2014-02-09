@@ -31,7 +31,7 @@ namespace pkmn
             const Val& at(const Key& key, const Val& other) const;
             void insert(const Key& key, const Val& val);
             void erase(const Key& key);
-            void swap(const Key& key1, const Key& key2);
+            void swap(Key key1, Key key2);
             void clear();
 
             bool has_key(const Key& key) const;
