@@ -7,6 +7,7 @@
 
 %include "stdint.i"
 %include "std_string.i"
+%include "std_pair.i"
 %include "std_vector.i"
 %include "std_wstring.i"
 %include "stl.i"
@@ -29,6 +30,10 @@ namespace pkmn
 
 namespace std
 {
+    %template(uchar_pair) pair<uint8_t, uint8_t>;
+    %template(uint_pair) pair<unsigned int, unsigned int>;
+    %template(string_pair) pair<std::string, std::string>;
+
     %template(int_vec) vector<int>;
     %template(double_vec) vector<double>;
     %template(string_vec) vector<string>;
