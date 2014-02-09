@@ -38,7 +38,6 @@ namespace pkmn
             inline operator std::string() const {return stdstring;}
             inline operator std::wstring() const {return stdwstring;}
             
-            char& operator[](size_t pos);
             const char& operator[](size_t pos) const;
 
         private:

@@ -79,17 +79,6 @@ namespace pkmn
         stdstring = intermediary.toStdString();
     }
     
-    char& pokemon_text::operator[](size_t pos)
-    {
-        size_t size = stdstring.size();
-        if(pos >= size)
-        {
-            std::string invalid_pos_err_msg = "Position must be 0-" + to_string(size - 1) + ".";
-            throw std::runtime_error(invalid_pos_err_msg.c_str());
-        }
-        else return stdstring[pos];
-    }
-
     const char& pokemon_text::operator[](size_t pos) const
     {
         size_t size = stdstring.size();
