@@ -118,4 +118,16 @@ namespace pkmn
     pocket::sptr bag_impl::get_pocket(std::string name) {return _contents[name];}
     
     void bag_impl::get_pocket_list(std::vector<std::string> &pocket_vec) {pocket_vec = _contents.keys();}
+
+    void bag_impl::_check() const
+    {
+        FOREACH(std::string& key, _contents.keys().begin(), _contents.keys().end())
+        {
+            if(_game_id != _contents[key]->get_game_id())
+            {
+                throw std::runtime_error(str(boost::format("Pocket \"%s\" is invalid!")
+                                             % key));
+            }
+        }
+    }
 } /* namespace pkmn */

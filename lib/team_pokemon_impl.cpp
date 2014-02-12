@@ -19,8 +19,6 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/prng.hpp>
 
-#include "copy_sptrs.hpp"
-
 #include "base_pokemon_gen1impl.hpp"
 #include "base_pokemon_gen2impl.hpp"
 #include "base_pokemon_modernimpl.hpp"
@@ -89,13 +87,10 @@ namespace pkmn
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,
                                          unsigned int move3, unsigned int move4): team_pokemon()
-    {
-        unsigned int gen = database::get_generation(game);
-        
-        _personality = _rand_gen.lcrng_next(gen);
-        _trainer_id = _rand_gen.lcrng_next(gen);
-    
+    {    
         _base_pkmn = base;
+        _pokemon_id = _base_pkmn->get_pokemon_id();
+        _form_id = _base_pkmn->get_form_id();
         _nickname = _base_pkmn->get_name();
         _trainer_name = "Ash";
         _trainer_gender = "Male";
@@ -105,6 +100,9 @@ namespace pkmn
         _held_item = Items::NONE;
         _ball = database::get_item_name(Items::POKE_BALL);
         _met_level = 1;
+
+        _personality = _rand_gen.lcrng_next(_generation);
+        _trainer_id = _rand_gen.lcrng_next(_generation);
 
 		_attributes = pkmn::dict<string, int>();
         _moves = moveset_t(4);
@@ -131,10 +129,7 @@ namespace pkmn
 
     unsigned int team_pokemon_impl::get_generation() const {return _generation;}
 
-    base_pokemon::sptr team_pokemon_impl::get_base_pokemon(bool copy) const
-    {
-        return (copy) ? copy_base_pokemon(_base_pkmn) : _base_pkmn;
-    }
+    base_pokemon::sptr team_pokemon_impl::get_base_pokemon() const {return _base_pkmn;}
 
     pokemon_text team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
 
@@ -200,8 +195,11 @@ namespace pkmn
 
     void team_pokemon_impl::set_level(unsigned int level)
     {
-        _level = level;
-        _set_stats();
+        if(level > 0 and level <= 100)
+        {
+            level = _level;
+            _set_stats();
+        }
     }
 
     void team_pokemon_impl::set_using_hidden_ability(bool value) {_has_hidden_ability = value;}
@@ -218,26 +216,26 @@ namespace pkmn
 
     void team_pokemon_impl::set_held_item(std::string item_name)
     {
-        _held_item = database::get_item_id(item_name);
+        unsigned int item_id = database::get_item_id(item_name);
+        std::string query_string(str(boost::format("SELECT generation_id FROM item_game_indices WHERE item_id=%d")
+                                     % item_id));
+        SQLite::Statement query(_db, query_string.c_str());
+        unsigned int gen = query.executeStep() ? int(query.getColumn(0)) : 7;
+
+        if(_generation <= gen) _held_item = item_id;
     }
 
     void team_pokemon_impl::set_held_item(item::sptr item_sptr)
     {
-        _held_item = item_sptr->get_item_id();
+        set_held_item(item_sptr->get_name());
     }
 
     move::sptr team_pokemon_impl::get_move(unsigned int pos) const
     {
-        return (pos >= 1 and pos <= 4) ? copy_move(_moves[pos-1]) : move::make(Moves::NONE, _game_id);
+        return (pos >= 1 and pos <= 4) ? _moves[pos-1] : move::make(Moves::NONE, _game_id);
     }
 
-    moveset_t team_pokemon_impl::get_moves() const
-    {
-        //Copy move sptrs to prevent editing
-        moveset_t to_return(4);
-        for(size_t i = 0; i < 4; i++) to_return[i] = copy_move(_moves[i]);
-        return to_return;
-    }
+    moveset_t team_pokemon_impl::get_moves() const {return _moves;}
 
     unsigned int team_pokemon_impl::get_move_PP(unsigned int pos) const
     {
@@ -297,22 +295,26 @@ namespace pkmn
 
     std::string team_pokemon_impl::get_icon_path() const
     {
+        _check();
         return _base_pkmn->get_icon_path((_gender == "Male"));
     }
 
     std::string team_pokemon_impl::get_sprite_path() const
     {
+        _check();
         return _base_pkmn->get_sprite_path((_gender == "Male"), is_shiny());
     }
     
     void team_pokemon_impl::set_form(std::string form)
     {
+        _check();
         _base_pkmn->set_form(form);
         _set_stats();
     }
 
     void team_pokemon_impl::set_form(unsigned int form)
     {
+        _check();
         _base_pkmn->set_form(form);
         _set_stats();
     }
@@ -330,4 +332,22 @@ namespace pkmn
     unsigned int team_pokemon_impl::get_item_id() const {return _held_item;}
 
     unsigned int team_pokemon_impl::get_nature_id() const {return database::get_nature_id(_nature);}
+
+    //Make sure values are sane to prevent user tampering
+    void team_pokemon_impl::_check() const
+    {
+        if(_base_pkmn->get_pokemon_id() != _pokemon_id or _base_pkmn->get_form_id() != _form_id)
+        {
+            throw std::runtime_error("Underlying base_pokemon is invalid!");
+        }
+        for(size_t i = 0; i < 4; i++)
+        {
+            if(_moves[i]->get_generation() > _generation)
+            {
+                throw std::runtime_error(str(boost::format("Move %d (%s) is invalid!")
+                                             % (i+1)
+                                             % _moves[i]->get_name().c_str()));
+            }
+        }
+    }
 } /* namespace pkmn */

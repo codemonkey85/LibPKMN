@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -25,7 +25,7 @@ namespace pkmn
             void remove_item(unsigned int pos);
             void set_item(unsigned int pos, item::sptr item, unsigned int amount);
             void set_item(unsigned int pos, unsigned int item_id, unsigned int amount);
-            void set_item(item::sptr item, unsigned int amount);
+            void set_item(item::sptr item_sptr, unsigned int amount);
             void set_item(unsigned int item_id, unsigned int amount);
             
             unsigned int get_amount(unsigned int pos);

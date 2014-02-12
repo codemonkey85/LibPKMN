@@ -28,7 +28,7 @@ namespace pkmn
             unsigned int get_generation() const;
 
             //Non-battle Stats
-            base_pokemon::sptr get_base_pokemon(bool copy = true) const;
+            base_pokemon::sptr get_base_pokemon() const;
             pokemon_text get_species_name() const;
             pokemon_text get_nickname() const;
             string_pair_t get_types() const;
@@ -103,6 +103,7 @@ namespace pkmn
         protected:
         
             base_pokemon::sptr _base_pkmn;
+            unsigned int _pokemon_id, _form_id; //Copied from _base_pkmn for _check()
             pokemon_text _nickname, _trainer_name, _ball;
             std::string _trainer_gender;
             unsigned int _held_item;
@@ -138,6 +139,8 @@ namespace pkmn
             
             static SQLite::Database _db;
             static prng _rand_gen;
+
+            void _check() const;
     };
 }
 

@@ -33,9 +33,9 @@ namespace pkmn
             
             virtual item::sptr get_item(unsigned int pos) = 0;
             virtual void remove_item(unsigned int pos) = 0;
-            virtual void set_item(unsigned int pos, item::sptr item, unsigned int amount) = 0;
+            virtual void set_item(unsigned int pos, item::sptr item_sptr, unsigned int amount) = 0;
             virtual void set_item(unsigned int pos, unsigned int item_id, unsigned int amount) = 0;
-            virtual void set_item(item::sptr item, unsigned int amount) = 0;
+            virtual void set_item(item::sptr item_sptr, unsigned int amount) = 0;
             virtual void set_item(unsigned int item_id, unsigned int amount) = 0;
             
             virtual unsigned int get_amount(unsigned int pos) = 0;

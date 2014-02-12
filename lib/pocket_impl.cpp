@@ -83,9 +83,9 @@ namespace pkmn
         }
     }
     
-    void pocket_impl::set_item(unsigned int pos, item::sptr item, unsigned int amount)
+    void pocket_impl::set_item(unsigned int pos, item::sptr item_sptr, unsigned int amount)
     {
-        set_item(pos, item->get_item_id(), amount);
+        set_item(pos, item_sptr->get_item_id(), amount);
     }
     
     void pocket_impl::set_item(unsigned int pos, unsigned int item_id, unsigned int amount)
@@ -95,7 +95,12 @@ namespace pkmn
         _amounts[actual_pos] = amount;
     }
     
-    void pocket_impl::set_item(item::sptr item, unsigned int amount)
+    void pocket_impl::set_item(item::sptr item_sptr, unsigned int amount)
+    {
+        set_item(item_sptr->get_item_id(), amount);
+    }
+    
+    void pocket_impl::set_item(unsigned int item_id, unsigned int amount)
     {
         //Find first non-blank item
         unsigned int actual_pos = -1;
@@ -111,14 +116,9 @@ namespace pkmn
         //No space left in pocket
         if(actual_pos != -1)
         {
-            _contents[actual_pos] = item->get_item_id();
+            _contents[actual_pos] = item_id;
             _amounts[actual_pos] = amount;
         }
-    }
-    
-    void pocket_impl::set_item(unsigned int item_id, unsigned int amount)
-    {
-        set_item(item::make(item_id, _game_id), amount);
     }
     
     unsigned int pocket_impl::get_amount(unsigned int pos)

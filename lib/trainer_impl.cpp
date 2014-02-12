@@ -15,7 +15,6 @@
 #include <pkmn/types/dict.hpp>
 
 #include "bag_impl.hpp"
-#include "copy_sptrs.hpp"
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"
 #include "team_pokemon_modernimpl.hpp"
@@ -88,9 +87,10 @@ namespace pkmn
         _money = (money > 999999) ? _money : money;
     }
 
-    void trainer_impl::set_gender(unsigned int gender)
+    void trainer_impl::set_gender(pokemon_text gender)
     {
-        if(gender == Genders::MALE or gender == Genders::FEMALE) _gender_id = gender;
+        if(gender == "Male") _gender_id = Genders::MALE;
+        else if(gender == "Female") _gender_id = Genders::FEMALE;
     }
 
     void trainer_impl::set_id(unsigned int id) {_trainer_id = id;}
@@ -99,16 +99,12 @@ namespace pkmn
     
     void trainer_impl::set_secret_id(unsigned short id) {_tid.secret_id = id;}
 
-    team_pokemon::sptr trainer_impl::get_pokemon(unsigned int pos, bool copy)
+    team_pokemon::sptr trainer_impl::get_pokemon(unsigned int pos)
     {
         //If invalid position given, return invalid Pokemon
         if(pos == 0 or pos > 6) return team_pokemon::make(Species::INVALID, _game_id, 0, Moves::NONE,
                                                           Moves::NONE, Moves::NONE, Moves::NONE);
-        else
-        {
-            if(copy) return copy_team_pokemon(_party[pos-1]);
-            else return _party[pos-1];
-        }
+        else return _party[pos-1];
     }
 
     void trainer_impl::set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn)
@@ -118,7 +114,7 @@ namespace pkmn
         {
             //TODO: more through check (items, forms, etc)
             if(database::get_version_group(_game_id) ==
-               database::get_version_group(t_pkmn->get_game_id())) _party[pos-1] = copy_team_pokemon(t_pkmn);
+               database::get_version_group(t_pkmn->get_game_id())) _party[pos-1] = t_pkmn;
         }
     }
 
@@ -145,11 +141,10 @@ namespace pkmn
 
     void trainer_impl::get_party(pokemon_team_t& party)
     {
-        //Have to copy all Pokemon, so can't simply assign from _party
-        party = pokemon_team_t(6);
-        for(size_t i = 0; i < 6; i++) party[i] = copy_team_pokemon(_party[i]);
+        party = _party;
     }
 
+    //TODO: allow for other trainers' Pokemon
     void trainer_impl::set_party(pokemon_team_t& party)
     {
         //Only set party if party and all Pokemon are valid
@@ -161,15 +156,10 @@ namespace pkmn
            party[4]->get_game_id() != _game_id or
            party[5]->get_game_id() != _game_id) return;
 
-        _party = pokemon_team_t(6);
-        for(size_t i = 0; i < 6; i++) _party[i] = copy_team_pokemon(party[i]);
+        _party = party;
     }
 
-    bag::sptr trainer_impl::get_bag(bool copy) const
-    {
-        if(copy) return copy_bag(_bag);
-        else return _bag;
-    }
+    bag::sptr trainer_impl::get_bag() const {return _bag;}
 
     unsigned int trainer_impl::get_game_id() const {return _game_id;}
 } /* namespace pkmn */

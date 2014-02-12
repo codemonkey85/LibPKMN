@@ -37,20 +37,20 @@ namespace pkmn
             //Set attributes
             void set_name(pokemon_text name);
             void set_money(unsigned int money);
-            void set_gender(unsigned int gender);
+            void set_gender(pokemon_text gender);
             void set_id(unsigned int id);
             void set_public_id(unsigned short id);
             void set_secret_id(unsigned short id);
 
             //Pokemon
-            team_pokemon::sptr get_pokemon(unsigned int pos, bool copy = false);
+            team_pokemon::sptr get_pokemon(unsigned int pos);
             void set_pokemon(unsigned int pos, team_pokemon::sptr t_pkmn);
             void remove_pokemon(unsigned int pos);
             void get_party(pokemon_team_t& party);
             void set_party(pokemon_team_t& party);
 
             //Bag
-            bag::sptr get_bag(bool copy = false) const;
+            bag::sptr get_bag() const;
             
             //Database Info
             unsigned int get_game_id() const;
