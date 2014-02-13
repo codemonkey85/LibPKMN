@@ -56,6 +56,7 @@
     int __getitem__(std::string i) {return (*self)[i];}
     void __setitem__(std::string i, int val) {(*self)[i] = val;}
 };
+%ignore pkmn::pokemon_text::const_char();
 %extend pkmn::pokemon_text{
     char* __repr__() {return (char*)((*self).const_char());}
     char* __str__() {return (char*)((*self).const_char());}
