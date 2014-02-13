@@ -57,6 +57,16 @@
 %template(StringStringDict) pkmn::dict<std::string, std::string>;
 %template(StringUIntDict) pkmn::dict<std::string, unsigned int>;
 
+//Factory functions need to specifically be associated with newobject
+%newobject pkmn::bag::make;
+%newobject pkmn::base_pokemon::make;
+%newobject pkmn::game_save::make;
+%newobject pkmn::item::make;
+%newobject pkmn::move::make;
+%newobject pkmn::pocket::make;
+%newobject pkmn::team_pokemon::make;
+%newobject pkmn::trainer::make;
+
 //TODO: make C++ -> C# class name conversion function
 %template(BagSPtr)         pkmn::shared_ptr<pkmn::bag>;
 %template(BasePokemonSPtr) pkmn::shared_ptr<pkmn::base_pokemon>;
