@@ -1,31 +1,60 @@
 #!/usr/bin/env python
+#
+# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
+#
+# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# or copy at http://opensource.org/licenses/MIT)
+#
 
 import python as LibPKMN
 
 if __name__ == "__main__":
 
     #########################################
-    # pkmn::dict<unsigned int, unsigned int>
-    #########################################
-    dict1 = LibPKMN.dict_uint_uint()
-
-    # Test SWIG'd __setitem__
-    dict1[5] = 76
-    dict1[18] = 3
-
-    # Test SWIG'd __getitem__
-    print dict1[5]
-    print dict1[18]
-
-    #########################################
     # pkmn::dict<std::string, int>
     #########################################
-    dict2 = LibPKMN.dict_string_int()
+    dict1 = LibPKMN.string_int_dict()
+    dict1["abc"] = -1
+    dict1["def"] = 5
+    dict1["ghi"] = 57
+    assert(dict1["abc"] == -1)
+    assert(dict1["def"] == 5)
+    assert(dict1["ghi"] == 57)
+    assert(dict1.at("abc",5) == -1)
+    assert(dict1.at("ade",-10) == -10)
+    dict1.swap("abc","ghi")
+    assert(dict1["abc"] == 57)
+    assert(dict1["ghi"] == -1)
 
-    # Test SWIG'd __setitem__
-    dict2["string1"] = -58
-    dict2["string2"] = 234
+    #########################################
+    # pkmn::dict<std::string, std::string>
+    #########################################
+    dict2 = LibPKMN.string_string_dict()
+    dict2["abc"] = "def"
+    dict2["ghi"] = "jkl"
+    dict2["mno"] = "pqr"
+    assert(dict2["abc"] == "def")
+    assert(dict2["ghi"] == "jkl")
+    assert(dict2["mno"] == "pqr")
+    assert(dict2.at("abc","stu") == "def")
+    assert(dict2.at("stu","vwx") == "vwx")
+    dict2.swap("abc","mno")
+    assert(dict2["abc"] == "pqr")
+    assert(dict2["mno"] == "def")
 
-    # Test SWIG'd __getitem__
-    print dict2["string1"]
-    print dict2["string2"]
+    #########################################
+    # pkmn::dict<std::string, unsigned int>
+    #########################################
+    dict3 = LibPKMN.string_uint_dict()
+    dict1 = LibPKMN.string_int_dict()
+    dict1["abc"] = 10
+    dict1["def"] = 5
+    dict1["ghi"] = 57
+    assert(dict1["abc"] == 10)
+    assert(dict1["def"] == 5)
+    assert(dict1["ghi"] == 57)
+    assert(dict1.at("abc",5) == 10)
+    assert(dict1.at("ade",-10) == -10)
+    dict1.swap("abc","ghi")
+    assert(dict1["abc"] == 57)
+    assert(dict1["ghi"] == 10)

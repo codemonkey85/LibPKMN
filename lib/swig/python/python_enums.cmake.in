@@ -32,8 +32,9 @@ endmacro(GET_LINE_NUMBER)
 ########################################################################
 # Writes MIT License to beginning of generated file
 ########################################################################
-macro(WRITE_PYTHON_LICENSE filename)
-SET(PYTHON_LICENSE_TEXT "#
+macro(WRITE_PYTHON_HEADER filename)
+SET(PYTHON_LICENSE_TEXT "#!/usr/bin/env python
+\#
 \# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
 \#
 \# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
@@ -41,7 +42,7 @@ SET(PYTHON_LICENSE_TEXT "#
 \#
 ")
 FILE(WRITE "${filename}" "${PYTHON_LICENSE_TEXT}")
-endmacro(WRITE_PYTHON_LICENSE)
+endmacro(WRITE_PYTHON_HEADER)
 
 ########################################################################
 # Generates Python classes to correspond to C++ enums
@@ -59,7 +60,7 @@ macro(GENERATE_PYTHON_ENUM name)
     GET_LINE_NUMBER(${name} ${ENUMS_FILE})
 
     FILE(REMOVE ${ENUM_LOCATION})
-    WRITE_PYTHON_LICENSE(${ENUM_LOCATION})
+    WRITE_PYTHON_HEADER(${ENUM_LOCATION})
 
     MATH(EXPR current_line "${LINE_NUMBER} + 3")
     LIST(GET ENUMS_HPP_CONTENTS ${current_line} line_contents)

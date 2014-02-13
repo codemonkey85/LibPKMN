@@ -24,6 +24,18 @@
  * Extend array, dict, and pokemon_text to act more like native Python
  * arrays, dicts, and strings
  */
+%extend pkmn::array<std::string>{
+    std::string __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, std::string val) {(*self)[i] = val;}
+};
+%extend pkmn::array<unsigned int>{
+    unsigned int __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, unsigned int val) {(*self)[i] = val;}
+};
+%extend pkmn::array<pkmn::base_pokemon::sptr>{
+    pkmn::base_pokemon::sptr __getitem__(int i) {return (*self)[i];}
+    void __setitem__(int i, pkmn::base_pokemon::sptr val) {(*self)[i] = val;}
+};
 %extend pkmn::array<pkmn::move::sptr>{
     pkmn::move::sptr __getitem__(int i) {return (*self)[i];}
     void __setitem__(int i, pkmn::move::sptr val) {(*self)[i] = val;}
@@ -35,6 +47,10 @@
 %extend pkmn::dict<unsigned int, unsigned int>{
     unsigned int __getitem__(unsigned int i) {return (*self)[i];}
     void __setitem__(unsigned int i, unsigned int val) {(*self)[i] = val;}
+};
+%extend pkmn::dict<std::string, std::string>{
+    std::string __getitem__(std::string i) {return (*self)[i];}
+    void __setitem__(std::string i, std::string val) {(*self)[i] = val;}
 };
 %extend pkmn::dict<std::string, int>{
     int __getitem__(std::string i) {return (*self)[i];}
