@@ -35,7 +35,7 @@ namespace pkmn
             double get_base_accuracy() const;
             std::string get_effect() const;
             double get_effect_chance() const;
-            unsigned int get_priority() const;
+            int get_priority() const;
             std::string get_target() const;
 
             //Database Info
@@ -51,7 +51,8 @@ namespace pkmn
             unsigned int _game_id, _generation, _move_id, _type_id, _target_id;
             unsigned int _move_damage_class_id, _effect_id;
 
-            unsigned int _base_power, _base_pp, _base_priority;
+            unsigned int _base_power, _base_pp;
+            int _base_priority;
             double _base_accuracy, _effect_chance;
             unsigned int _move_damage_class;
             std::string _effect;

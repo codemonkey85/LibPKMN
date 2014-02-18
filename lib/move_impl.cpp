@@ -87,7 +87,7 @@ namespace pkmn
             _base_pp = int(moves_query.getColumn(5)); //pp
             _base_accuracy = int(moves_query.getColumn(6)); //accuracy
             _base_accuracy /= 100.0; //Stored as 0 < int < 100
-            _base_priority = int(moves_query.getColumn(7)); //priority
+            _base_priority = moves_query.getColumn(7); //priority
             _target_id = int(moves_query.getColumn(8)); //target_id
             _move_damage_class_id = int(moves_query.getColumn(9)); //damage_class_id
             _effect_id = int(moves_query.getColumn(10)); //effect_id
@@ -152,7 +152,7 @@ namespace pkmn
 
     double move_impl::get_effect_chance() const {return _effect_chance;}
 
-    unsigned int move_impl::get_priority() const {return _base_priority;}
+    int move_impl::get_priority() const {return _base_priority;}
 
     std::string move_impl::get_target() const
     {
