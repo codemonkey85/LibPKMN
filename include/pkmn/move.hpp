@@ -17,8 +17,6 @@
 namespace pkmn
 {
     /*!
-     * @brief Class representing a <a href="http://bulbapedia.bulbagarden.net/wiki/Move">Pokémon move</a>
-     *
      * The move class represents a <a href="http://bulbapedia.bulbagarden.net/wiki/Move">Pokémon move</a>.
      * The factory function takes in a move name/ID and a game name/ID, and returns
      * a class instance from which any information can be retrieved, from battle
@@ -38,7 +36,7 @@ namespace pkmn
             typedef pkmn::shared_ptr<move> sptr;
 
             /*!
-             * This is the class's factory function. It takes in the database ID for the game
+             * This is the class's factory function. It takes in the SQLite database ID for the game
              * and move this class should describe.
              *
              * \return shared pointer to instance of pkmn::move with described parameters
@@ -173,19 +171,19 @@ namespace pkmn
              */
             virtual std::string get_target() const = 0;
 
-            //! Return move's ID in underlying SQLite database
+            //! Return move's SQLite database ID
             virtual unsigned int get_move_id() const = 0;
 
-            //! Return move's target ID in underlying SQLite database
+            //! Return move's target SQLite database ID
             virtual unsigned int get_target_id() const = 0;
 
-            //! Return database ID of game used to create this move instance
+            //! Return SQLite database ID of game used to create this move instance
             virtual unsigned int get_game_id() const = 0;
 
-            //! Return ID of move's damage class (Physical, Special, Status)
+            //! Return SQLite database ID of move's damage class (Physical, Special, Status)
             virtual unsigned int get_move_damage_class_id() const = 0;
 
-            //! Return ID of move's base effect
+            //! Return SQLite database ID of move's base effect
             virtual unsigned int get_effect_id() const = 0;
     };
 
