@@ -112,6 +112,9 @@ IF(ENABLE_CSHARP)
     )
 
     FOREACH(cs_test ${cs_test_names})
+        FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs)
+        FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe)
+        FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll)
         CONFIGURE_FILE(
             ${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs
             ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs
