@@ -17,6 +17,8 @@
 namespace pkmn
 {
     /*!
+     * @brief Class representing a <a href="http://bulbapedia.bulbagarden.net/wiki/Move">Pokémon move</a>
+     *
      * The move class represents a <a href="http://bulbapedia.bulbagarden.net/wiki/Move">Pokémon move</a>.
      * The factory function takes in a move name/ID and a game name/ID, and returns
      * a class instance from which any information can be retrieved, from battle
