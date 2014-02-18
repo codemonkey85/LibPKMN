@@ -29,10 +29,8 @@ INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PKMDS/include)
 MACRO(LIBPKMN_ADD_TEST test_name test_cmd)
     IF(WIN32)
         SET(TEST_CMD ${test_cmd})
-        IF(WIN32)
-            STRING(REPLACE "/" "\\" TEST_CMD "${TEST_CMD}")
-            STRING(REPLACE "/" "\\" LIBPKMN_BINARY_DIR "${LIBPKMN_BINARY_DIR}")
-        ENDIF(WIN32)
+        STRING(REPLACE "/" "\\" TEST_CMD "${TEST_CMD}")
+        STRING(REPLACE "/" "\\" LIBPKMN_BINARY_DIR "${LIBPKMN_BINARY_DIR}")
         CONFIGURE_FILE(
             ${CMAKE_CURRENT_SOURCE_DIR}/unit_test_template.bat.in
             ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.bat
@@ -48,6 +46,18 @@ MACRO(LIBPKMN_ADD_TEST test_name test_cmd)
     ENDIF()
 ENDMACRO(LIBPKMN_ADD_TEST)
 
+MACRO(LIBPKMN_ADD_LINUX_CS_TEST test_name)
+    SET(TEST_NAME ${test_name})
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/cs_unit_test_template.sh.in
+        ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh
+    @ONLY)
+    ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh)
+ENDMACRO(LIBPKMN_ADD_LINUX_CS_TEST)
+
+##################################################
+# C++ tests
+##################################################
 FOREACH(cpp_test ${cpp_test_sources})
     GET_FILENAME_COMPONENT(cpp_test_name ${cpp_test} NAME_WE)
     ADD_EXECUTABLE(${cpp_test_name} ${cpp_test})
@@ -88,3 +98,38 @@ IF(ENABLE_PYTHON)
     ENDFOREACH(python_test ${python_test_names})
 ENDIF(ENABLE_PYTHON)
 
+##################################################
+# C# tests
+##################################################
+IF(ENABLE_CSHARP)
+    FILE(TO_NATIVE_PATH "${LIBPKMN_BINARY_DIR}/lib/swig/cs/libpkmn-cs.dll" LIBPKMN_CS_DLL)
+    SET(LIBPKMN_CS_DLL ${LIBPKMN_CS_DLL} CACHE FILEPATH "libpkmn-cs.dll location")
+    FILE(TO_NATIVE_PATH "${LIBPKMN_BINARY_DIR}/lib/swig/cs" LIBRARY_PATH)
+    SET(LIBRARY_PATH "${LIBRARY_PATH}" CACHE FILEPATH "LibPKMN C# library directory")
+
+    SET(cs_test_names
+        CSharpPokemonTextTest
+    )
+
+    FOREACH(cs_test ${cs_test_names})
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs
+            ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs
+        )
+        ADD_CUSTOM_COMMAND(
+            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe
+            COMMAND ${CSHARP_COMPILER} ARGS "/r:${LIBPKMN_CS_DLL}" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe" "${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+            COMMENT "Building C# executable ${cs_test}"
+        )
+        ADD_CUSTOM_TARGET(
+            ${cs_test} ALL
+            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe
+        )
+        IF(WIN32)
+            LIBPKMN_ADD_TEST(${cs_test} "${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe")
+        ELSE()
+            LIBPKMN_ADD_LINUX_CS_TEST(${cs_test})
+        ENDIF(WIN32)
+    ENDFOREACH(cs_test ${cs_test_names})
+ENDIF(ENABLE_CSHARP)

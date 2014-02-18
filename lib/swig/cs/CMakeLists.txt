@@ -74,7 +74,7 @@ endmacro(CSHARP_BUILD_MODULE)
 ####################################################################
 # Build SWIG modules for different parts of LibLibPKMN
 ####################################################################
-CSHARP_BUILD_MODULE(libpkmn_cs_swig libpkmnsharp_swig LibPKMN)
+CSHARP_BUILD_MODULE(libpkmn_cs_swig libpkmn_cs_swig LibPKMN)
 CSHARP_BUILD_MODULE(analysis_cs_swig analysis_cs_swig Analysis)
 CSHARP_BUILD_MODULE(calculations_cs_swig calculations_cs_swig Calculations)
 CSHARP_BUILD_MODULE(database_cs_swig database_cs_swig Database)
@@ -83,6 +83,10 @@ CSHARP_BUILD_MODULE(io_cs_swig io_cs_swig IO)
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/AssemblyInfo.cs.in
     ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/AssemblyInfo.cs
+COPYONLY)
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/pokemon_text_partial.cs
+    ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/pokemon_text_partial.cs
 COPYONLY)
 
 ADD_CUSTOM_COMMAND(

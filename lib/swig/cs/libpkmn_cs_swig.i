@@ -5,7 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-%rename(toString) pkmn::pokemon_text::const_char;
+%rename(tostring) pkmn::pokemon_text::const_char;
+%typemap(csclassmodifiers) pkmn::pokemon_text "public partial class"
 
 %include "libpkmn.i"
 

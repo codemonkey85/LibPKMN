@@ -6,4 +6,9 @@ export LIBPKMN_IMAGES_DIR=@IMAGES_PATH@
 export PATH=$PATH:@LIBRARY_PATH@
 export PYTHONPATH=$PYTHONPATH:@PYTHON_PATH@
 
-@TEST_CMD@
+if [ ! -f "@LIBPKMN_BINARY_DIR@/tests/libpkmn-cs.dll" ]
+then
+    cp @LIBRARY_PATH@/libpkmn-cs.dll @CMAKE_CURRENT_BINARY_DIR@
+fi
+
+@CMAKE_CURRENT_BINARY_DIR@/@TEST_NAME@.exe
