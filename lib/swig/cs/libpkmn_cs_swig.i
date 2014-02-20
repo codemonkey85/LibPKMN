@@ -8,10 +8,38 @@
 %rename(tostring) pkmn::pokemon_text::const_char;
 %typemap(csclassmodifiers) pkmn::pokemon_text "public partial class"
 
-//TODO: make macro for dicts
-%typemap(csclassmodifiers) pkmn::dict<std::string, int> "public partial class"
-%typemap(csclassmodifiers) pkmn::dict<std::string, std::string> "public partial class"
-%typemap(csclassmodifiers) pkmn::dict<std::string, unsigned int> "public partial class"
+/*
+ * Macro for dict templates to avoid using partial classes for every type
+ */
+%define LIBPKMN_CS_DICT(dict_name,ctype1,ctype2,cstype1,cstype2)
+    %typemap(cscode) pkmn::dict<ctype1, ctype2> %{
+        public static implicit operator System.Collections.Generic.Dictionary<cstype1, cstype2>(dict_name input)
+        {
+            System.Collections.Generic.Dictionary<cstype1, cstype2> output = new System.Collections.Generic.Dictionary<cstype1, cstype2>();
+            cstype1 ## _vec keys = input.keys();
+            cstype2 ## _vec vals = input.vals();
+
+            for(int i = 0; i < keys.Count; i++)
+            {
+                output.Add(keys[i], vals[i]);
+            }
+
+            return output;
+        }
+
+        public static implicit operator dict_name(System.Collections.Generic.Dictionary<cstype1, cstype2> input)
+        {
+            dict_name output = new dict_name();
+            foreach(var pair in input)
+            {
+                output.insert(pair.Key, pair.Value);
+            }
+            return output;
+        }
+    %}
+
+    %template(dict_name) pkmn::dict<ctype1, ctype2>;
+%enddef
 
 %include "libpkmn.i"
 
@@ -59,9 +87,9 @@
 %template(BasePokemonArray) pkmn::array<pkmn::base_pokemon::sptr>;
 %template(Moveset) pkmn::array<pkmn::move::sptr>;
 %template(PokemonTeam) pkmn::array<pkmn::team_pokemon::sptr>;
-%template(StringIntDict) pkmn::dict<std::string, int>;
-%template(StringStringDict) pkmn::dict<std::string, std::string>;
-%template(StringUIntDict) pkmn::dict<std::string, unsigned int>;
+LIBPKMN_CS_DICT(StringIntDict,std::string,int,string,int)
+LIBPKMN_CS_DICT(StringStringDict,std::string,std::string,string,string)
+LIBPKMN_CS_DICT(StringUIntDict,std::string,unsigned int,string,uint)
 
 //Factory functions need to specifically be associated with newobject
 %newobject pkmn::bag::make;
