@@ -12,6 +12,7 @@
 %ignore pkmn::pokemon_text::set(std::string);
 %ignore pkmn::pokemon_text::set(std::wstring);
 
+%include "CamelCase.i"
 %include "stdint.i"
 %include "std_pair.i"
 %include "libpkmn.i"

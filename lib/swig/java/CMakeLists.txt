@@ -28,7 +28,7 @@ FILE(MAKE_DIRECTORY ${JAVA_BUILD_DIRECTORY})
 FILE(MAKE_DIRECTORY ${JAVA_BUILD_DIRECTORY})
 
 INCLUDE(UseSWIG)
-MACRO(JAVA_GENERATE_FILES swig_source java_module_name do_build)
+MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_build)
     FOREACH(dir ${LIBPKMN_JAVA_INCLUDE_DIRS})
         LIST(APPEND CMAKE_SWIG_FLAGS "-I${dir}")
     ENDFOREACH(dir ${LIBPKMN_JAVA_INCLUDE_DIRS})
@@ -37,6 +37,9 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name do_build)
     SET(CMAKE_SWIG_OUTDIR ${JAVA_BUILD_DIRECTORY}/org/nc/LibPKMN)
     SET(CMAKE_SWIG_FLAGS -module ${java_module_name} -package "org.nc.LibPKMN" ${CMAKE_GLOBAL_SWIG_FLAGS})
     SWIG_ADD_MODULE(${swig_source} java ${swig_source}.i)
+    IF(NOT ${depend_module_name} STREQUAL "none")
+        ADD_DEPENDENCIES(${SWIG_MODULE_${swig_source}_REAL_NAME} ${SWIG_MODULE_${depend_module_name}_REAL_NAME})
+    ENDIF(NOT ${depend_module_name} STREQUAL "none")
     IF(UNIX)
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_source}_REAL_NAME} PROPERTIES PREFIX "lib")
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_source}_REAL_NAME} PROPERTIES SUFFIX ".so")
@@ -49,25 +52,25 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name do_build)
 
     IF(${do_build} STREQUAL "true")
         ADD_CUSTOM_COMMAND(
-            OUTPUT ${JAVA_BUILD_DIRECTORY}/org/nc/LibPKMN/${java_module_name}.class
+            OUTPUT ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
+            COMMENT "Creating LibPKMN.jar"
             COMMAND ${Java_JAVAC_EXECUTABLE} -d ${JAVA_BUILD_DIRECTORY} ${JAVA_BUILD_DIRECTORY}/org/nc/LibPKMN/*.java
+            COMMAND ${Java_JAR_EXECUTABLE} cf ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar -C ${JAVA_BUILD_DIRECTORY} org
             DEPENDS ${SWIG_MODULE_${swig_source}_REAL_NAME}
-            COMMENT "Compiling LibPKMN Java source"
         )
         ADD_CUSTOM_TARGET(
-            LibPKMN_java_source ALL DEPENDS ${JAVA_BUILD_DIRECTORY}/org/nc/LibPKMN/${java_module_name}.class
+            LibPKMN_jar ALL DEPENDS ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
+        )
+        INSTALL(
+            FILES ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
+            DESTINATION ${JAVA_INSTALL_DIRECTORY}
+            COMPONENT "LibPKMN_Java"
         )
     ENDIF(${do_build} STREQUAL "true")
 ENDMACRO(JAVA_GENERATE_FILES)
 
-JAVA_GENERATE_FILES(libpkmn_java_swig core "true")
+JAVA_GENERATE_FILES(libpkmn_java_swig core none false)
+JAVA_GENERATE_FILES(analysis_java_swig analysis libpkmn_java_swig false)
+JAVA_GENERATE_FILES(calculations_java_swig calculations analysis_java_swig false)
+JAVA_GENERATE_FILES(io_java_swig io calculations_java_swig true)
 
-ADD_CUSTOM_COMMAND(
-    OUTPUT ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
-    COMMAND ${Java_JAR_EXECUTABLE} cf ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar -C ${JAVA_BUILD_DIRECTORY} org
-    DEPENDS LibPKMN_java_source
-    COMMENT "Creating LibPKMN.jar"
-)
-ADD_CUSTOM_TARGET(
-    LibPKMN_jar ALL DEPENDS ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
-)
