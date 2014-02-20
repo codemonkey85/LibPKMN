@@ -6,7 +6,24 @@
  */
 
 %rename(tostring) pkmn::pokemon_text::const_char;
-%typemap(csclassmodifiers) pkmn::pokemon_text "public partial class"
+
+%typemap(cscode) pkmn::pokemon_text %{
+    public override string ToString()
+    {
+        return tostring();
+    }
+
+    public static implicit operator string(pokemon_text input)
+    {
+        return input.tostring();
+    }
+
+    public static implicit operator pokemon_text(string input)
+    {
+        pokemon_text temp = new pokemon_text(input);
+        return temp;
+    }
+%}
 
 /*
  * Macro for dict templates to avoid using partial classes for every type

@@ -84,10 +84,6 @@ CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/AssemblyInfo.cs.in
     ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/AssemblyInfo.cs
 COPYONLY)
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/pokemon_text_partial.cs
-    ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/pokemon_text_partial.cs
-COPYONLY)
 
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
