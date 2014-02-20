@@ -108,6 +108,7 @@ IF(ENABLE_CSHARP)
     SET(LIBRARY_PATH "${LIBRARY_PATH}" CACHE FILEPATH "LibPKMN C# library directory")
 
     SET(cs_test_names
+        CSharpDictTest
         CSharpPokemonTextTest
     )
 

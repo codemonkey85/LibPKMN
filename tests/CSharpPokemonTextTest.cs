@@ -13,38 +13,38 @@ public class PokemonTextTest
     public static int Main(string[] args)
     {
         //Testing printing on command line
-        LibPKMN.pokemon_text test_text1 = new LibPKMN.pokemon_text("Test1");
+        pokemon_text test_text1 = new pokemon_text("Test1");
         System.Console.WriteLine(test_text1);
 
-        //Testing string -> LibPKMN.pokemon_text
+        //Testing string -> pokemon_text
         string test_string1 = "Test2";
-        LibPKMN.pokemon_text test_text2 = test_string1; //implicit
+        pokemon_text test_text2 = test_string1; //implicit
         if(test_text2 != "Test2")
         {
-            throw new System.Exception("C# string -> LibPKMN.pokemon_text implicit conversion failed!");
+            throw new System.Exception("C# string -> pokemon_text implicit conversion failed!");
         }
-        LibPKMN.pokemon_text test_text3 = (LibPKMN.pokemon_text)test_string1; //explicit
+        pokemon_text test_text3 = (pokemon_text)test_string1; //explicit
         if(test_text3 != "Test2")
         {
-            throw new System.Exception("C# string -> LibPKMN.pokemon_text explicit conversion failed!");
+            throw new System.Exception("C# string -> pokemon_text explicit conversion failed!");
         }
 
-        //Testing LibPKMN.pokemon_text -> string
-        LibPKMN.pokemon_text test_text4 = new LibPKMN.pokemon_text("Test3");
+        //Testing pokemon_text -> string
+        pokemon_text test_text4 = new pokemon_text("Test3");
         string test_string2 = test_text4.ToString();
         if(test_string2 != "Test3")
         {
-            throw new System.Exception("LibPKMN.pokemon_text.ToString() failed!");
+            throw new System.Exception("pokemon_text.ToString() failed!");
         }
         string test_string3 = test_text4;
         if(test_string3 != "Test3")
         {
-            throw new System.Exception("LibPKMN.pokemon_text -> C# string implicit conversion failed!");
+            throw new System.Exception("pokemon_text -> C# string implicit conversion failed!");
         }
         string test_string4 = (string)test_text4;
         if(test_string4 != "Test3")
         {
-            throw new System.Exception("LibPKMN.pokemon_text -> C# string explicit conversion failed!");
+            throw new System.Exception("pokemon_text -> C# string explicit conversion failed!");
         }
 
         return 0;

@@ -8,6 +8,11 @@
 %rename(tostring) pkmn::pokemon_text::const_char;
 %typemap(csclassmodifiers) pkmn::pokemon_text "public partial class"
 
+//TODO: make macro for dicts
+%typemap(csclassmodifiers) pkmn::dict<std::string, int> "public partial class"
+%typemap(csclassmodifiers) pkmn::dict<std::string, std::string> "public partial class"
+%typemap(csclassmodifiers) pkmn::dict<std::string, unsigned int> "public partial class"
+
 %include "libpkmn.i"
 
 %{

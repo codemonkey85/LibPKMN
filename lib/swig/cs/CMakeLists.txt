@@ -88,6 +88,18 @@ CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/pokemon_text_partial.cs
     ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/pokemon_text_partial.cs
 COPYONLY)
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/StringIntDict_partial.cs
+    ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/StringIntDict_partial.cs
+COPYONLY)
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/StringStringDict_partial.cs
+    ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/StringStringDict_partial.cs
+COPYONLY)
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/StringUIntDict_partial.cs
+    ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/StringUIntDict_partial.cs
+COPYONLY)
 
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
