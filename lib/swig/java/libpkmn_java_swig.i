@@ -5,12 +5,34 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-%ignore pkmn::pokemon_text::pokemon_text(const wchar_t*);
-%ignore pkmn::pokemon_text::pokemon_text(std::string);
-%ignore pkmn::pokemon_text::pokemon_text(std::wstring);
-%ignore pkmn::pokemon_text::set(const wchar_t*);
-%ignore pkmn::pokemon_text::set(std::string);
-%ignore pkmn::pokemon_text::set(std::wstring);
+%typemap(javacode) pkmn::pokemon_text %{
+    @Override public string toString() {
+        return const_char();
+    }
+%}
+
+/*
+ * Macro for dict templates to avoid individual javacode declarations for HashMaps
+ */
+%define LIBPKMN_JAVA_DICT(dict_name, ctype1, ctype2, javatype1, javatype2, vec1, vec2)
+    %typemap(javacode) pkmn::dict<ctype1, ctype2> %{
+        public java.util.HashMap<javatype1, javatype2> toHashMap() {
+            java.util.HashMap<javatype1, javatype2> output = new java.util.HashMap<javatype1, javatype2>();
+
+            vec1 key_vec = keys();
+            vec2 val_vec = vals();
+
+            for(int i = 0; i < key_vec.size(); i++)
+            {
+                output.put(key_vec.get(i), val_vec.get(i));
+            }
+
+            return output;
+        }
+    %}
+
+    %template(dict_name) pkmn::dict<ctype1, ctype2>;
+%enddef
 
 %include "CamelCase.i"
 %include "stdint.i"
@@ -70,8 +92,10 @@
 %template(TeamPokemonSPtr) pkmn::shared_ptr<pkmn::team_pokemon>;
 %template(TrainerSPtr)     pkmn::shared_ptr<pkmn::trainer>;
 
-%template(UIntUIntDict) pkmn::dict<unsigned int, unsigned int>;
-%template(StringIntDict) pkmn::dict<std::string, int>;
+LIBPKMN_JAVA_DICT(StringIntDict, int, int, int, int, int_vec, int_vec)
+LIBPKMN_JAVA_DICT(StringStringDict, std::string, std::string, string, string, string_vec, string_vec)
+LIBPKMN_JAVA_DICT(StringUIntDict, std::string, unsigned int, string, long, string_vec, uint_vec)
+
 %template(UIntArray) pkmn::array<unsigned int>;
 
 %template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
