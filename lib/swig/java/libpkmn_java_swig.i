@@ -14,7 +14,6 @@
 
 %include "stdint.i"
 %include "std_pair.i"
-%include "CamelCase.i"
 %include "libpkmn.i"
 
 %{
@@ -26,7 +25,7 @@
     #include "pkmn/types/dict.hpp"
     #include "pkmn/types/pokemon_text.hpp"
     #include "pkmn/types/prng.hpp"
-    #include "pkmn/types/vla.hpp"
+    #include "pkmn/types/array.hpp"
 
     #include "pkmn/base_pokemon.hpp"
     #include "pkmn/item.hpp"
@@ -47,7 +46,7 @@
 %include "pkmn/types/dict.hpp"
 %include "pkmn/types/pokemon_text.hpp"
 %include "pkmn/types/prng.hpp"
-%include "pkmn/types/vla.hpp"
+%include "pkmn/types/array.hpp"
 
 %include "pkmn/base_pokemon.hpp"
 %include "pkmn/item.hpp"
@@ -72,11 +71,11 @@
 
 %template(UIntUIntDict) pkmn::dict<unsigned int, unsigned int>;
 %template(StringIntDict) pkmn::dict<std::string, int>;
-%template(UIntVLA) pkmn::vla<unsigned int>;
+%template(UIntArray) pkmn::array<unsigned int>;
 
 %template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
-%template(BasePokemonVLA) pkmn::vla<pkmn::base_pokemon::sptr>;
+%template(BasePokemonArray) pkmn::array<pkmn::base_pokemon::sptr>;
 %template(MoveVector) std::vector<pkmn::move::sptr>;
-%template(Moveset) pkmn::vla<pkmn::move::sptr>;
+%template(Moveset) pkmn::array<pkmn::move::sptr>;
 %template(TeamPokemonVector) std::vector<pkmn::team_pokemon::sptr>;
-%template(PokemonTeam) pkmn::vla<pkmn::team_pokemon::sptr>;
+%template(PokemonTeam) pkmn::array<pkmn::team_pokemon::sptr>;

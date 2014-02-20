@@ -29,7 +29,7 @@ FILE(MAKE_DIRECTORY ${CSHARP_SOURCE_DIRECTORY})
 FILE(MAKE_DIRECTORY ${CSHARP_BINARY_DIRECTORY})
 
 INCLUDE(UseSWIG)
-macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
+MACRO(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
     FOREACH(CMAKE_CONFIGURATION_TYPE ${CMAKE_CONFIGURATION_TYPES})
         STRING(TOUPPER ${CMAKE_CONFIGURATION_TYPE} CMAKE_CONFIGURATION_TYPE)
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_TARGET_NAME}
@@ -69,7 +69,7 @@ macro(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
             COMPONENT "LibPKMN_CS"
         )
     ENDIF(WIN32)
-endmacro(CSHARP_BUILD_MODULE)
+ENDMACRO(CSHARP_BUILD_MODULE)
 
 ####################################################################
 # Build SWIG modules for different parts of LibLibPKMN
