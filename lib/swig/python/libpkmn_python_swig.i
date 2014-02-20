@@ -13,7 +13,7 @@
  * To make Python development easier, the make function is rendered unnecessary.
  */
 
-%define LIBPKMN_PYTHON_FIX(CLASS_NAME)
+%define LIBPKMN_PYTHON_SPTR(CLASS_NAME)
     %template(CLASS_NAME ## _sptr) pkmn::shared_ptr<pkmn :: ## CLASS_NAME>;
     %pythoncode %{
         CLASS_NAME = CLASS_NAME.make;
@@ -21,41 +21,27 @@
 %enddef
 
 /*
- * Extend array, dict, and pokemon_text to act more like native Python
- * arrays, dicts, and strings
+ * Macro for pkmn::array templates
  */
-%extend pkmn::array<std::string>{
-    std::string __getitem__(int i) {return (*self)[i];}
-    void __setitem__(int i, std::string val) {(*self)[i] = val;}
-};
-%extend pkmn::array<unsigned int>{
-    unsigned int __getitem__(int i) {return (*self)[i];}
-    void __setitem__(int i, unsigned int val) {(*self)[i] = val;}
-};
-%extend pkmn::array<pkmn::base_pokemon::sptr>{
-    pkmn::base_pokemon::sptr __getitem__(int i) {return (*self)[i];}
-    void __setitem__(int i, pkmn::base_pokemon::sptr val) {(*self)[i] = val;}
-};
-%extend pkmn::array<pkmn::move::sptr>{
-    pkmn::move::sptr __getitem__(int i) {return (*self)[i];}
-    void __setitem__(int i, pkmn::move::sptr val) {(*self)[i] = val;}
-};
-%extend pkmn::array<pkmn::team_pokemon::sptr>{
-    pkmn::team_pokemon::sptr __getitem__(int i) {return (*self)[i];}
-    void __setitem__(int i, pkmn::team_pokemon::sptr val) {(*self)[i] = val;}
-};
-%extend pkmn::dict<unsigned int, unsigned int>{
-    unsigned int __getitem__(unsigned int i) {return (*self)[i];}
-    void __setitem__(unsigned int i, unsigned int val) {(*self)[i] = val;}
-};
-%extend pkmn::dict<std::string, std::string>{
-    std::string __getitem__(std::string i) {return (*self)[i];}
-    void __setitem__(std::string i, std::string val) {(*self)[i] = val;}
-};
-%extend pkmn::dict<std::string, int>{
-    int __getitem__(std::string i) {return (*self)[i];}
-    void __setitem__(std::string i, int val) {(*self)[i] = val;}
-};
+%define LIBPKMN_PYTHON_ARRAY(python_name, arrtype)
+    %extend pkmn::array<arrtype>{
+        arrtype __getitem__(int i) {return (*self)[i];}
+        void __setitem__(int i, arrtype val) {(*self)[i] = val;}
+    }
+    %template(python_name) pkmn::array<arrtype>;
+%enddef
+
+/*
+ * Macro for pkmn::dict templates
+ */
+%define LIBPKMN_PYTHON_DICT(python_name, type1, type2)
+    %extend pkmn::dict<type1, type2>{
+        type2 __getitem__(type1 i) {return (*self)[i];}
+        void __setitem__(type1 i, type2 val) {(*self)[i] = val;}
+    }
+    %template(python_name) pkmn::dict<type1, type2>;
+%enddef
+
 %ignore pkmn::pokemon_text::const_char();
 %extend pkmn::pokemon_text{
     char* __repr__() {return (char*)((*self).const_char());}
@@ -101,17 +87,8 @@
 %include "pkmn/paths.hpp"
 
 /*
- * Templates for specific uses of pkmn::array and pkmn::dict
+ * pkmn::pokemon_text typemaps
  */
-%template(string_array) pkmn::array<std::string>;
-%template(uint_array) pkmn::array<unsigned int>;
-%template(base_pokemon_array) pkmn::array<pkmn::base_pokemon::sptr>;
-%template(moveset_t) pkmn::array<pkmn::move::sptr>;
-%template(pokemon_team_t) pkmn::array<pkmn::team_pokemon::sptr>;
-%template(string_int_dict) pkmn::dict<std::string, int>;
-%template(string_string_dict) pkmn::dict<std::string, std::string>;
-%template(string_uint_dict) pkmn::dict<std::string, unsigned int>;
-
 //Python str -> pkmn::pokemon_text
 %typemap(in) pkmn::pokemon_text {
     $1 = pkmn::pokemon_text(PyString_AsString($input));
@@ -122,11 +99,21 @@
     $result = PyString_FromString($1);
 }
 
-LIBPKMN_PYTHON_FIX(base_pokemon)
-LIBPKMN_PYTHON_FIX(item)
-LIBPKMN_PYTHON_FIX(pocket)
-LIBPKMN_PYTHON_FIX(bag)
-LIBPKMN_PYTHON_FIX(move)
-LIBPKMN_PYTHON_FIX(team_pokemon)
-LIBPKMN_PYTHON_FIX(trainer)
-LIBPKMN_PYTHON_FIX(game_save)
+LIBPKMN_PYTHON_ARRAY(string_array, std::string)
+LIBPKMN_PYTHON_ARRAY(uint_array, unsigned int)
+LIBPKMN_PYTHON_ARRAY(base_pokemon_array, pkmn::base_pokemon::sptr)
+LIBPKMN_PYTHON_ARRAY(moveset, pkmn::move::sptr)
+LIBPKMN_PYTHON_ARRAY(pokemon_team, pkmn::team_pokemon::sptr)
+
+LIBPKMN_PYTHON_DICT(string_int_dict, std::string, int)
+LIBPKMN_PYTHON_DICT(string_string_dict, std::string, std::string)
+LIBPKMN_PYTHON_DICT(string_uint_dict, std::string, unsigned int)
+
+LIBPKMN_PYTHON_SPTR(base_pokemon)
+LIBPKMN_PYTHON_SPTR(item)
+LIBPKMN_PYTHON_SPTR(pocket)
+LIBPKMN_PYTHON_SPTR(bag)
+LIBPKMN_PYTHON_SPTR(move)
+LIBPKMN_PYTHON_SPTR(team_pokemon)
+LIBPKMN_PYTHON_SPTR(trainer)
+LIBPKMN_PYTHON_SPTR(game_save)

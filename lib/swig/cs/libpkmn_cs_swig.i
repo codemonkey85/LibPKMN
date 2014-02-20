@@ -11,7 +11,7 @@
 /*
  * Macro for dict templates to avoid using partial classes for every type
  */
-%define LIBPKMN_CS_DICT(dict_name,ctype1,ctype2,cstype1,cstype2)
+%define LIBPKMN_CS_DICT(dict_name, ctype1, ctype2, cstype1, cstype2)
     %typemap(cscode) pkmn::dict<ctype1, ctype2> %{
         public static implicit operator System.Collections.Generic.Dictionary<cstype1, cstype2>(dict_name input)
         {
@@ -87,9 +87,9 @@
 %template(BasePokemonArray) pkmn::array<pkmn::base_pokemon::sptr>;
 %template(Moveset) pkmn::array<pkmn::move::sptr>;
 %template(PokemonTeam) pkmn::array<pkmn::team_pokemon::sptr>;
-LIBPKMN_CS_DICT(StringIntDict,std::string,int,string,int)
-LIBPKMN_CS_DICT(StringStringDict,std::string,std::string,string,string)
-LIBPKMN_CS_DICT(StringUIntDict,std::string,unsigned int,string,uint)
+LIBPKMN_CS_DICT(StringIntDict, std::string, int, string, int)
+LIBPKMN_CS_DICT(StringStringDict, std::string, std::string, string, string)
+LIBPKMN_CS_DICT(StringUIntDict, std::string,unsigned int, string, uint)
 
 //Factory functions need to specifically be associated with newobject
 %newobject pkmn::bag::make;
