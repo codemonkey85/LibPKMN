@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -7,7 +7,6 @@
 #ifndef INCLUDED_PKMN_QT4_BASEPOKEMONDISPLAYWIDGET_HPP
 #define INCLUDED_PKMN_QT4_BASEPOKEMONDISPLAYWIDGET_HPP
 
-#include <pkmn/config.hpp>
 #include <pkmn/base_pokemon.hpp>
 
 #include <QChar>
@@ -23,7 +22,7 @@ namespace pkmn
 {
     namespace qt4
     {
-        class PKMN_API BasePokemonDisplayWidget: public QWidget
+        class BasePokemonDisplayWidget: public QWidget
         {
             Q_OBJECT
             
