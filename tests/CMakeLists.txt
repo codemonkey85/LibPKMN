@@ -84,8 +84,6 @@ ENDFOREACH(cpp_test ${cpp_test_sources})
 # Python tests
 ##################################################
 IF(ENABLE_PYTHON)
-    SET(PYTHON_PATH ${LIBPKMN_BINARY_DIR}/lib/swig)
-
     SET(python_test_names
         python_dict_test
         python_enum_test
@@ -121,6 +119,7 @@ IF(ENABLE_CSHARP)
             ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs
         )
         ADD_CUSTOM_COMMAND(
+            DEPENDS libpkmn-cs
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe
             COMMAND ${CSHARP_COMPILER} ARGS "/r:${LIBPKMN_CS_DLL}" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe" "${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs"
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}

@@ -36,10 +36,7 @@
             cstype1 ## _vec keys = input.keys();
             cstype2 ## _vec vals = input.vals();
 
-            for(int i = 0; i < keys.Count; i++)
-            {
-                output.Add(keys[i], vals[i]);
-            }
+            for(int i = 0; i < keys.Count; i++) output.Add(keys[i], vals[i]);
 
             return output;
         }
@@ -47,10 +44,7 @@
         public static implicit operator dict_name(System.Collections.Generic.Dictionary<cstype1, cstype2> input)
         {
             dict_name output = new dict_name();
-            foreach(var pair in input)
-            {
-                output.insert(pair.Key, pair.Value);
-            }
+            foreach(System.Collections.Generic.KeyValuePair<cstype1, cstype2> pair in input) output.insert(pair.Key, pair.Value);
             return output;
         }
     %}

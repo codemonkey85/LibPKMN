@@ -25,7 +25,7 @@ public class PokemonTextTest
 
         //StringIntDict -> Dictionary<string, int>
         Dictionary<string, int> test_cs_dict1 = test_dict1;
-        foreach(var pair in test_cs_dict1)
+        foreach(System.Collections.Generic.KeyValuePair<string, int> pair in test_cs_dict1)
         {
             if(pair.Value != test_dict1.at(pair.Key))
             {
@@ -34,14 +34,12 @@ public class PokemonTextTest
         }
 
         //Dictionary<string, int> -> StringIntDict
-        Dictionary<string, int> test_cs_dict2 = new Dictionary<string, int>()
-        {
-            {"TestKey1", -10},
-            {"TestKey2", -5},
-            {"TestKey3", 0},
-            {"TestKey4", 5},
-            {"TestKey5", 10}
-        };
+        Dictionary<string, int> test_cs_dict2 = new Dictionary<string, int>();
+        test_cs_dict2.Add("TestKey1", -10);
+        test_cs_dict2.Add("TestKey2", -5);
+        test_cs_dict2.Add("TestKey3", 0);
+        test_cs_dict2.Add("TestKey4", 5);
+        test_cs_dict2.Add("TestKey5", 10);
         StringIntDict test_dict2 = test_cs_dict2;
         string_vec test_dict2_keys = test_dict2.keys();
         for(int i = 0; i < test_dict2_keys.Count; i++)
@@ -64,7 +62,7 @@ public class PokemonTextTest
 
         //StringStringDict -> Dictionary<string, string>
         Dictionary<string, string> test_cs_dict3 = test_dict3;
-        foreach(var pair in test_cs_dict3)
+        foreach(System.Collections.Generic.KeyValuePair<string, string> pair in test_cs_dict3)
         {
             if(pair.Value != test_dict3.at(pair.Key))
             {
@@ -73,14 +71,12 @@ public class PokemonTextTest
         }
 
         //Dictionary<string, string> -> StringStringDict
-        Dictionary<string, string> test_cs_dict4 = new Dictionary<string, string>()
-        {
-            {"TestKey1", "TestValue1"},
-            {"TestKey2", "TestValue2"},
-            {"TestKey3", "TestValue3"},
-            {"TestKey4", "TestValue4"},
-            {"TestKey5", "TestValue5"}
-        };
+        Dictionary<string, string> test_cs_dict4 = new Dictionary<string, string>();
+        test_cs_dict4.Add("TestKey1", "TestValue1");
+        test_cs_dict4.Add("TestKey2", "TestValue2");
+        test_cs_dict4.Add("TestKey3", "TestValue3");
+        test_cs_dict4.Add("TestKey4", "TestValue4");
+        test_cs_dict4.Add("TestKey5", "TestValue5");
         StringStringDict test_dict4 = test_cs_dict4;
         string_vec test_dict4_keys = test_dict4.keys();
         for(int i = 0; i < test_dict4_keys.Count; i++)
@@ -103,7 +99,7 @@ public class PokemonTextTest
 
         //StringUIntDict -> Dictionary<string, uint>
         Dictionary<string, uint> test_cs_dict5 = test_dict5;
-        foreach(var pair in test_cs_dict5)
+        foreach(System.Collections.Generic.KeyValuePair<string, uint> pair in test_cs_dict5)
         {
             if(pair.Value != test_dict5.at(pair.Key))
             {
@@ -112,14 +108,12 @@ public class PokemonTextTest
         }
 
         //Dictionary<string, uint> -> StringUIntDict
-        Dictionary<string, uint> test_cs_dict6 = new Dictionary<string, uint>()
-        {
-            {"TestKey1", 0},
-            {"TestKey2", 5},
-            {"TestKey3", 10},
-            {"TestKey4", 15},
-            {"TestKey5", 20}
-        };
+        Dictionary<string, uint> test_cs_dict6 = new Dictionary<string, uint>();
+        test_cs_dict6.Add("TestKey1", 0);
+        test_cs_dict6.Add("TestKey2", 5);
+        test_cs_dict6.Add("TestKey3", 10);
+        test_cs_dict6.Add("TestKey4", 15);
+        test_cs_dict6.Add("TestKey5", 20);
         StringUIntDict test_dict6 = test_cs_dict6;
         string_vec test_dict6_keys = test_dict6.keys();
         for(int i = 0; i < test_dict6_keys.Count; i++)
