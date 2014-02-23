@@ -40,31 +40,23 @@ namespace pkmn
                                           unsigned int move1, unsigned int move2,
                                           unsigned int move3, unsigned int move4)
     {
-        try
+        base_pokemon::sptr base = base_pokemon::make(id, game);
+        
+        if(base->get_generation() < 1 or base->get_generation() > 6) throw runtime_error("Gen must be 1-6.");
+
+        switch(base->get_generation())
         {
-            base_pokemon::sptr base = base_pokemon::make(id, game);
-            
-            if(base->get_generation() < 1 or base->get_generation() > 6) throw runtime_error("Gen must be 1-6.");
+            case 1:
+                return sptr(new team_pokemon_gen1impl(base, game, level,
+                                                   move1, move2, move3, move4));
 
-            switch(base->get_generation())
-            {
-                case 1:
-                    return sptr(new team_pokemon_gen1impl(base, game, level,
-                                                       move1, move2, move3, move4));
+            case 2:
+                return sptr(new team_pokemon_gen2impl(base, game, level,
+                                                   move1, move2, move3, move4));
 
-                case 2:
-                    return sptr(new team_pokemon_gen2impl(base, game, level,
-                                                       move1, move2, move3, move4));
-
-                default:
-                    return sptr(new team_pokemon_modernimpl(base, game, level,
-                                                       move1, move2, move3, move4));
-            }
-        }
-        catch(exception &e)
-        {
-            cout << "Caught exception: " << e.what() << endl;
-            exit(EXIT_FAILURE);
+            default:
+                return sptr(new team_pokemon_modernimpl(base, game, level,
+                                                   move1, move2, move3, move4));
         }
     }
 

@@ -29,29 +29,21 @@ namespace pkmn
 {
     base_pokemon::sptr base_pokemon::make(unsigned int species_id, unsigned int game_id)
     {
-        try
+        //Get generation from game enum
+        int gen = database::get_generation(game_id);
+
+        if(gen < 1 or gen > 6) throw runtime_error("Gen must be 1-6.");
+
+        switch(gen)
         {
-            //Get generation from game enum
-            int gen = database::get_generation(game_id);
+            case 1:
+                return sptr(new base_pokemon_gen1impl(species_id, game_id));
 
-            if(gen < 1 or gen > 6) throw runtime_error("Gen must be 1-6.");
+            case 2:
+                return sptr(new base_pokemon_gen2impl(species_id, game_id));
 
-            switch(gen)
-            {
-                case 1:
-                    return sptr(new base_pokemon_gen1impl(species_id, game_id));
-
-                case 2:
-                    return sptr(new base_pokemon_gen2impl(species_id, game_id));
-
-                default:
-                    return sptr(new base_pokemon_modernimpl(species_id, game_id));
-            }
-        }
-        catch(const exception &e)
-        {
-            cerr << "Caught exception: " << e.what() << endl;
-            exit(EXIT_FAILURE);
+            default:
+                return sptr(new base_pokemon_modernimpl(species_id, game_id));
         }
     }
 

@@ -5,6 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%include "exception.i"
 %include "stdint.i"
 %include "std_string.i"
 %include "std_pair.i"
@@ -12,6 +13,14 @@
 %include "std_wstring.i"
 %include "stl.i"
 %include "typemaps.i"
+
+%exception {
+  try {
+    $action
+  } catch (const std::exception& e) {
+    SWIG_exception(SWIG_RuntimeError, e.what());
+  }
+}
 
 namespace pkmn
 {

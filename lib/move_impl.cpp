@@ -23,12 +23,7 @@ namespace pkmn
 {
     move::sptr move::make(unsigned int id, unsigned int game)
     {
-        try {return sptr(new move_impl(id, game));}
-        catch(const exception &e)
-        {
-            cout << "Caught exception: " << e.what() << endl;
-            exit(EXIT_FAILURE);
-        }
+        return sptr(new move_impl(id, game));
     }
 
     move::sptr move::make(std::string name, std::string game)
