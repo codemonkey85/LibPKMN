@@ -8,18 +8,32 @@
 %rename(tostring) pkmn::pokemon_text::const_char;
 
 %typemap(cscode) pkmn::pokemon_text %{
-    public override string ToString()
-    {
+    public char this[int index] {
+        get {
+            return ToString()[index];
+        }
+        set {
+            char[] arr = ToString().ToCharArray();
+            arr[index] = value;
+            set(new string(arr));
+        }
+    }
+
+    public int Length {
+        get {
+            return ToString().Length;
+        }
+    }
+
+    public override string ToString() {
         return tostring();
     }
 
-    public static implicit operator string(pokemon_text input)
-    {
+    public static implicit operator string(pokemon_text input) {
         return input.tostring();
     }
 
-    public static implicit operator pokemon_text(string input)
-    {
+    public static implicit operator pokemon_text(string input) {
         pokemon_text temp = new pokemon_text(input);
         return temp;
     }
@@ -30,8 +44,28 @@
  */
 %define LIBPKMN_CS_DICT(dict_name, ctype1, ctype2, cstype1, cstype2)
     %typemap(cscode) pkmn::dict<ctype1, ctype2> %{
-        public static implicit operator System.Collections.Generic.Dictionary<cstype1, cstype2>(dict_name input)
-        {
+        public cstype1 ## _vec Keys {
+            get {
+                return keys();
+            }
+        }
+
+        public cstype2 ## _vec Values {
+            get {
+                return vals();
+            }
+        }
+        
+        public cstype2 this[cstype1 index] {
+            get {
+                return at(index);
+            }
+            set {
+                Add(index, value);
+            }
+        }
+
+        public static implicit operator System.Collections.Generic.Dictionary<cstype1, cstype2>(dict_name input) {
             System.Collections.Generic.Dictionary<cstype1, cstype2> output = new System.Collections.Generic.Dictionary<cstype1, cstype2>();
             cstype1 ## _vec keys = input.keys();
             cstype2 ## _vec vals = input.vals();
@@ -41,13 +75,17 @@
             return output;
         }
 
-        public static implicit operator dict_name(System.Collections.Generic.Dictionary<cstype1, cstype2> input)
-        {
+        public static implicit operator dict_name(System.Collections.Generic.Dictionary<cstype1, cstype2> input) {
             dict_name output = new dict_name();
-            foreach(System.Collections.Generic.KeyValuePair<cstype1, cstype2> pair in input) output.insert(pair.Key, pair.Value);
+            foreach(System.Collections.Generic.KeyValuePair<cstype1, cstype2> pair in input) output.Add(pair.Key, pair.Value);
             return output;
         }
     %}
+
+    %rename(Add) pkmn::dict<ctype1, ctype2>::insert;
+    %rename(Clear) pkmn::dict<ctype1, ctype2>::clear;
+    %rename(ContainsKey) pkmn::dict<ctype1, ctype2>::has_key;
+    %rename(Remove) pkmn::dict<ctype1, ctype2>::erase;
 
     %template(dict_name) pkmn::dict<ctype1, ctype2>;
 %enddef

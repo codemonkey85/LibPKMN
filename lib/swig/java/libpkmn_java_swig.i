@@ -6,6 +6,14 @@
  */
 
 %typemap(javacode) pkmn::pokemon_text %{
+    public char charAt(int index) {
+        return toString().charAt(index);
+    }
+
+    public int length() {
+        return toString().length();
+    }
+
     @Override public String toString() {
         return const_char();
     }
@@ -30,6 +38,12 @@
             return output;
         }
     %}
+
+    %rename(put) pkmn::dict<ctype1, ctype2>::insert;
+    %rename(containsKey) pkmn::dict<ctype1, ctype2>::has_key;
+    %rename(remove) pkmn::dict<ctype1, ctype2>::erase;
+    %rename(KeySet) pkmn::dict<ctype1, ctype2>::keys;
+    %rename(values) pkmn::dict<ctype1, ctype2>::vals;
 
     %template(dict_name) pkmn::dict<ctype1, ctype2>;
 %enddef

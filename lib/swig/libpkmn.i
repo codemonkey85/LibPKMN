@@ -65,7 +65,6 @@ namespace std
 %ignore pkmn::pokemon_text::const_wchar_t() const;
 %ignore pkmn::pokemon_text::std_string() const;
 %ignore pkmn::pokemon_text::std_wstring() const;
-%ignore pkmn::pokemon_text::set(const char*);
 %ignore pkmn::pokemon_text::set(std::string);
 %ignore pkmn::pokemon_text::set(const wchar_t*);
 %ignore pkmn::pokemon_text::set(std::wstring);
