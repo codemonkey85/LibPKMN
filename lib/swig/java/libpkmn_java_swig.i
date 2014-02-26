@@ -10,6 +10,14 @@
         return toString().charAt(index);
     }
 
+    @Override public boolean equals(Object other) {
+        return (toString().equals(((PokemonText)other).toString()));
+    }
+
+    public boolean isEmpty() {
+        return toString().isEmpty();
+    }
+
     public int length() {
         return toString().length();
     }
@@ -27,8 +35,8 @@
         public java.util.HashMap<javatype1, javatype2> toHashMap() {
             java.util.HashMap<javatype1, javatype2> output = new java.util.HashMap<javatype1, javatype2>();
 
-            vec1 key_vec = keys();
-            vec2 val_vec = vals();
+            vec1 key_vec = KeySet();
+            vec2 val_vec = values();
 
             for(int i = 0; i < key_vec.size(); i++)
             {
