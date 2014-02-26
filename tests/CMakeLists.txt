@@ -46,14 +46,22 @@ MACRO(LIBPKMN_ADD_TEST test_name test_cmd)
     ENDIF()
 ENDMACRO(LIBPKMN_ADD_TEST)
 
-MACRO(LIBPKMN_ADD_LINUX_CS_TEST test_name)
+MACRO(LIBPKMN_ADD_CS_TEST test_name)
     SET(TEST_NAME ${test_name})
-    CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/cs_unit_test_template.sh.in
-        ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh
-    @ONLY)
-    ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh)
-ENDMACRO(LIBPKMN_ADD_LINUX_CS_TEST)
+    IF(WIN32)
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/cs_unit_test_template.bat.in
+            ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.bat
+        @ONLY)
+        ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.bat)
+    ELSE()
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/cs_unit_test_template.sh.in
+            ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh
+        @ONLY)
+        ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh)
+    ENDIF(WIN32)
+ENDMACRO(LIBPKMN_ADD_CS_TEST)
 
 ##################################################
 # C++ tests
@@ -129,10 +137,6 @@ IF(ENABLE_CSHARP)
             ${cs_test} ALL
             DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe
         )
-        IF(WIN32)
-            LIBPKMN_ADD_TEST(${cs_test} "${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe")
-        ELSE()
-            LIBPKMN_ADD_LINUX_CS_TEST(${cs_test})
-        ENDIF(WIN32)
+        LIBPKMN_ADD_CS_TEST(${cs_test})
     ENDFOREACH(cs_test ${cs_test_names})
 ENDIF(ENABLE_CSHARP)
