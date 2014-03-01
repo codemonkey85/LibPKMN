@@ -152,3 +152,7 @@ LIBPKMN_CS_DICT(StringUIntDict, std::string, unsigned int, string, uint)
 %template(PocketSPtr)      pkmn::shared_ptr<pkmn::pocket>;
 %template(TeamPokemonSPtr) pkmn::shared_ptr<pkmn::team_pokemon>;
 %template(TrainerSPtr)     pkmn::shared_ptr<pkmn::trainer>;
+
+%template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
+%template(Moveset) std::vector<pkmn::move::sptr>;
+%template(PokemonTeam) std::vector<pkmn::team_pokemon::sptr>;

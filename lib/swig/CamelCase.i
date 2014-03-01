@@ -86,22 +86,5 @@
 %rename(getTypeName)         pkmn::database::get_type_name;
 %rename(getVersionGroup)     pkmn::database::get_version_group;
 
-/*
- * pkmn/types/*.hpp
- */
-%rename(PRNG)           pkmn::prng;
-%rename(StringIntDict)  pkmn::dict<std::string, int>;
-%rename(StringUintDict) pkmn::dict<std::string, unsigned int>;
-%rename(UIntUIntDict)   pkmn::dict<unsigned int, unsigned int>;
-%rename(PokemonText)    pkmn::pokemon_text;
-%rename(UIntVLA)        pkmn::vla<unsigned int>;
-%rename(BasePokemonVLA) pkmn::vla<pkmn::base_pokemon::sptr>;
-%rename(Moveset)        pkmn::vla<pkmn::move::sptr>;
-%rename(PokemonTeam)    pkmn::vla<pkmn::team_pokemon::sptr>;
-
-/*
- * Vectors
- */
-%rename(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
-%rename(MoveVector)        std::vector<pkmn::move::sptr>;
-%rename(TeamPokemonVector) std::vector<pkmn::team_pokemon::sptr>;
+%rename(PokemonText) pkmn::pokemon_text;
+%rename(PRNG) pkmn::prng;
