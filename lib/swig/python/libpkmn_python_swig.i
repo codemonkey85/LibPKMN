@@ -21,17 +21,6 @@
 %enddef
 
 /*
- * Macro for pkmn::array templates
- */
-%define LIBPKMN_PYTHON_ARRAY(python_name, arrtype)
-    %extend pkmn::array<arrtype>{
-        arrtype __getitem__(int i) {return (*self)[i];}
-        void __setitem__(int i, arrtype val) {(*self)[i] = val;}
-    }
-    %template(python_name) pkmn::array<arrtype>;
-%enddef
-
-/*
  * Macro for pkmn::dict templates
  */
 %define LIBPKMN_PYTHON_DICT(python_name, type1, type2)
@@ -51,7 +40,6 @@
 %include "libpkmn.i"
 
 %{
-    #include "pkmn/types/array.hpp"
     #include "pkmn/types/dict.hpp"
     #include "pkmn/types/pokemon_text.hpp"
     #include "pkmn/types/prng.hpp"
@@ -69,7 +57,6 @@
     #include "pkmn/paths.hpp"
 %}
 
-%include "pkmn/types/array.hpp"
 %include "pkmn/types/dict.hpp"
 %include "pkmn/types/pokemon_text.hpp"
 %include "pkmn/types/prng.hpp"
@@ -98,12 +85,6 @@
 %typemap(out) PyString {
     $result = PyString_FromString($1);
 }
-
-LIBPKMN_PYTHON_ARRAY(string_array, std::string)
-LIBPKMN_PYTHON_ARRAY(uint_array, unsigned int)
-LIBPKMN_PYTHON_ARRAY(base_pokemon_array, pkmn::base_pokemon::sptr)
-LIBPKMN_PYTHON_ARRAY(moveset, pkmn::move::sptr)
-LIBPKMN_PYTHON_ARRAY(pokemon_team, pkmn::team_pokemon::sptr)
 
 LIBPKMN_PYTHON_DICT(string_int_dict, std::string, int)
 LIBPKMN_PYTHON_DICT(string_string_dict, std::string, std::string)

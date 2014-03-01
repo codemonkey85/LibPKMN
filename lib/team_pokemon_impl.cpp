@@ -98,7 +98,7 @@ namespace pkmn
 
 		_attributes = pkmn::dict<string, int>();
         _moves = moveset_t(4);
-        _move_PPs = pkmn::array<unsigned int>(4);
+        _move_PPs = std::vector<unsigned int>(4);
 
         _icon_path = _base_pkmn->get_icon_path(true);
 
@@ -227,14 +227,14 @@ namespace pkmn
         return (pos >= 1 and pos <= 4) ? _moves[pos-1] : move::make(Moves::NONE, _game_id);
     }
 
-    moveset_t team_pokemon_impl::get_moves() const {return _moves;}
+    void team_pokemon_impl::get_moves(moveset_t& moves) const {moves = _moves;}
 
     unsigned int team_pokemon_impl::get_move_PP(unsigned int pos) const
     {
         return(pos >= 1 and pos <= 4) ? _move_PPs[pos-1] : 0;
     }
 
-    pkmn::array<unsigned int> team_pokemon_impl::get_move_PPs() const {return _move_PPs;}
+    void team_pokemon_impl::get_move_PPs(std::vector<unsigned int>& move_PPs) const {move_PPs = _move_PPs;}
 
     void team_pokemon_impl::set_move(std::string move_name, unsigned int pos)
     {

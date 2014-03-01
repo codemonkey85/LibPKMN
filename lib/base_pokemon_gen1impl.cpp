@@ -71,11 +71,10 @@ namespace pkmn
     }
 
     //No eggs in Generation 1
-    pkmn::array<std::string> base_pokemon_gen1impl::get_egg_groups() const
+    void base_pokemon_gen1impl::get_egg_groups(std::vector<std::string>& egg_group_vec) const
     {
-        pkmn::array<std::string> egg_group_array(1);
-        egg_group_array[0] = "None";
-        return egg_group_array;
+        egg_group_vec.clear();
+        egg_group_vec.push_back("None");
     }
 
     //No genders in Generation 1
@@ -131,11 +130,9 @@ namespace pkmn
     }
     
     //No eggs in Generation 1
-    pkmn::array<unsigned int> base_pokemon_gen1impl::get_egg_group_ids() const
+    void base_pokemon_gen1impl::get_egg_group_ids(std::vector<unsigned int>& egg_group_id_vec) const
     {
-        pkmn::array<unsigned int> egg_group_id_array(1);
-        egg_group_id_array[0] = pkmn::Egg_Groups::NONE;
-        
-        return egg_group_id_array;
+        egg_group_id_vec.clear();
+        egg_group_id_vec.push_back(pkmn::Egg_Groups::NONE);
     }
 } /* namespace pkmn */

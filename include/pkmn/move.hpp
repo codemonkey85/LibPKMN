@@ -10,7 +10,6 @@
 #include <string>
 
 #include <pkmn/config.hpp>
-#include <pkmn/types/array.hpp>
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/shared_ptr.hpp>
 
@@ -188,8 +187,7 @@ namespace pkmn
     };
 
     //Related typedefs
-    typedef std::vector<move::sptr> move_vector_t;
-    typedef pkmn::array<move::sptr> moveset_t;
+    typedef std::vector<move::sptr> moveset_t;
 }
 
 #endif /* INCLUDED_PKMN_MOVE_HPP */

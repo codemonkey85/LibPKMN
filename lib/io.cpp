@@ -95,7 +95,8 @@ namespace pkmn
             dict<std::string, unsigned int> stats = t_pkmn->get_stats();
             dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
             dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
-            moveset_t moves = t_pkmn->get_moves();
+            moveset_t moves;
+            t_pkmn->get_moves(moves);
 
             SQLite::Database pksql_db(filename.c_str(), (SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
             //TODO: attributes

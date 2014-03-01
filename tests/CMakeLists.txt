@@ -95,7 +95,6 @@ IF(ENABLE_PYTHON)
     SET(python_test_names
         python_dict_test
         python_enum_test
-        python_pkmn_array_test
         python_pokemon_text_test
     )
 

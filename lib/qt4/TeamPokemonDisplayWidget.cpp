@@ -77,7 +77,8 @@ namespace pkmn
                 abilityNatureLabel = new QLabel(abilityNatureQString);
             }
             
-            moveset_t moves = t_pkmn->get_moves();
+            moveset_t moves;
+            t_pkmn->get_moves(moves);
             QString attackOneQString = QString("%1").arg(
                 QString::fromStdString(moves[0]->get_name())
             );

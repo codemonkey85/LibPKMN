@@ -71,9 +71,9 @@ namespace pkmn
 
             //Getting Move Info
             move::sptr get_move(unsigned int pos) const;
-            moveset_t get_moves() const;
+            void get_moves(moveset_t& moves) const;
             unsigned int get_move_PP(unsigned int pos) const;
-            pkmn::array<unsigned int> get_move_PPs() const;
+            void get_move_PPs(std::vector<unsigned int>& move_PPs) const;
 
             //Setting Move Info
             void set_move(std::string move_name, unsigned int pos);
@@ -126,7 +126,7 @@ namespace pkmn
             unsigned int _ivHP, _ivATK, _ivDEF, _ivSPD;
             pokemon_text _nonvolatile_status;
             moveset_t _moves;
-            pkmn::array<unsigned int> _move_PPs;
+            std::vector<unsigned int> _move_PPs;
             std::string _icon_path, _sprite_path;
             pkmn::dict<std::string, int> _attributes;
 

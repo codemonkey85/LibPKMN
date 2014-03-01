@@ -7,6 +7,8 @@
 #ifndef INCLUDED_POCKET_IMPL_HPP
 #define INCLUDED_POCKET_IMPL_HPP
 
+#include <vector>
+
 #include <pkmn/pocket.hpp>
 
 namespace pkmn
@@ -36,8 +38,8 @@ namespace pkmn
             unsigned int _game_id, _pocket_size;
             std::string _pocket_name;
             
-            array<unsigned int> _contents;
-            array<unsigned int> _amounts;
+            std::vector<unsigned int> _contents;
+            std::vector<unsigned int> _amounts;
     };
 }
 
