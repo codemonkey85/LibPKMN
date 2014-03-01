@@ -43,8 +43,24 @@ MACRO(LIBPKMN_ADD_TEST test_name test_cmd)
             ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh
         @ONLY)
         ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh)
-    ENDIF()
+    ENDIF(WIN32)
 ENDMACRO(LIBPKMN_ADD_TEST)
+
+MACRO(LIBPKMN_ADD_PYTHON_TEST test_name)
+    SET(TEST_CMD "${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${python_test}.py")
+    FILE(TO_NATIVE_PATH "${LIBPKMN_BINARY_DIR}/lib/swig" LIBPKMN_SWIG_DIR)
+    SET(LIBPKMN_SWIG_DIR ${LIBPKMN_SWIG_DIR} CACHE FILEPATH "LibPKMN SWIG build directory")
+    SET(PYTHON_PATH "${LIBPKMN_SWIG_DIR}")
+    IF(WIN32)
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/python_unit_test_template.bat.in
+            ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.bat
+        @ONLY)
+        ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.bat)
+    ELSE()
+        LIBPKMN_ADD_TEST(${python_test} "${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${python_test}.py")
+    ENDIF(WIN32)
+ENDMACRO(LIBPKMN_ADD_PYTHON_TEST)
 
 MACRO(LIBPKMN_ADD_CS_TEST test_name)
     SET(TEST_NAME ${test_name})
@@ -99,7 +115,7 @@ IF(ENABLE_PYTHON)
     )
 
     FOREACH(python_test ${python_test_names})
-        LIBPKMN_ADD_TEST(${python_test} "${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/${python_test}.py")
+        LIBPKMN_ADD_PYTHON_TEST(${python_test})
     ENDFOREACH(python_test ${python_test_names})
 ENDIF(ENABLE_PYTHON)
 

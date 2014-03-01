@@ -1,0 +1,23 @@
+@echo off
+set LIBPKMN_DATABASE_DIR=@DATABASE_PATH@
+set LIBPKMN_IMAGES_DIR=@IMAGES_PATH@
+set PYTHONPATH=%PYTHONPATH%;@PYTHON_PATH@
+set PATH=%PATH%;@LIBPKMN_BINARY_DIR@\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\rpokesav\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\pokehack\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\PokeLib-NC\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\PKMDS\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\lib\swig\cs
+
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\lib\swig\python\_libpkmn_python_swig.pyd (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\python\@CMAKE_BUILD_TYPE@\_libpkmn_python_swig.pyd @LIBPKMN_BINARY_DIR@\lib\swig\python\_libpkmn_python_swig.pyd
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\lib\swig\python\analysis\_analysis_swig.pyd (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\python\analysis\@CMAKE_BUILD_TYPE@\_analysis_swig.pyd @LIBPKMN_BINARY_DIR@\lib\swig\python\analysis\_analysis_swig.pyd
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\lib\swig\python\calculations\_calculations_swig.pyd (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\python\calculations\@CMAKE_BUILD_TYPE@\_calculations_swig.pyd @LIBPKMN_BINARY_DIR@\lib\swig\python\calculations\_calculations_swig.pyd
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\lib\swig\python\database\_database_swig.pyd (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\python\database\@CMAKE_BUILD_TYPE@\_database_swig.pyd @LIBPKMN_BINARY_DIR@\lib\swig\python\database\_database_swig.pyd
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\lib\swig\python\io\_io_swig.pyd (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\python\io\@CMAKE_BUILD_TYPE@\_io_swig.pyd @LIBPKMN_BINARY_DIR@\lib\swig\python\io\_io_swig.pyd
+)
+
+@TEST_CMD@
