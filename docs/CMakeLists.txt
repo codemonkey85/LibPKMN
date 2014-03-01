@@ -35,9 +35,9 @@ IF(ENABLE_DOXYGEN)
             ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_cs
         @ONLY)
 
-        FILE(GLOB_RECURSE cs_source_files ${LIBPKMN_BINARY_DIR}/lib/swig/cs/CSharpSources/*.cs)
         ADD_CUSTOM_COMMAND(
-            OUTPUT ${DOXYGEN_CS_OUTPUT_DIR}/html/index.html DEPENDS ${cs_source_files}
+            OUTPUT ${DOXYGEN_CS_OUTPUT_DIR}/html/index.html
+            DEPENDS libpkmn-cs
             COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_cs
             COMMENT "Generating C# API documentation with Doxygen"
         )
@@ -55,7 +55,8 @@ IF(ENABLE_DOXYGEN)
 
         FILE(GLOB_RECURSE java_source_files ${LIBPKMN_BINARY_DIR}/lib/swig/java/org/nc/LibPKMN/*.java)
         ADD_CUSTOM_COMMAND(
-            OUTPUT ${DOXYGEN_JAVA_OUTPUT_DIR}/html/index.html DEPENDS ${java_source_files}
+            OUTPUT ${DOXYGEN_JAVA_OUTPUT_DIR}/html/index.html
+            DEPENDS LibPKMN_jar
             COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile_java
             COMMENT "Generating Java API documentation with Doxygen"
         )
