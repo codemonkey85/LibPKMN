@@ -76,14 +76,13 @@ namespace pkmn
         _form_id = _species_id;
     }
 
-    pkmn::array<std::string> base_pokemon_gen2impl::get_egg_groups() const
+    void base_pokemon_gen2impl::get_egg_groups(std::vector<std::string>& egg_group_vec) const
     {
-        pkmn::array<unsigned int> egg_group_ids = get_egg_group_ids();
-        pkmn::array<std::string> egg_groups(egg_group_ids.size());
-        
-        for(size_t i = 0; i < egg_group_ids.size(); i++) egg_groups[i] = database::get_egg_group_name(egg_group_ids[i]);
-        
-        return egg_groups;
+        std::vector<unsigned int> egg_group_ids;
+        get_egg_group_ids(egg_group_ids);
+
+        egg_group_vec.clear();
+        for(size_t i = 0; i < egg_group_ids.size(); i++) egg_group_vec.push_back(database::get_egg_group_name(egg_group_ids[i]));
     }
 
     //No gender differences in Generation 2
@@ -212,17 +211,16 @@ namespace pkmn
         else return _male_sprite_path.string();
     }
 
-    pkmn::array<unsigned int> base_pokemon_gen2impl::get_egg_group_ids() const
+    void base_pokemon_gen2impl::get_egg_group_ids(std::vector<unsigned int>& egg_group_id_vec) const
     {
-        std::vector<unsigned int> egg_group_id_vec;
-        pkmn::array<unsigned int> egg_group_id_array;
-    
+        egg_group_id_vec.clear();
+
         switch(_species_id)
         {
             case Species::NONE:
             case Species::INVALID:
-                egg_group_id_array = pkmn::array<unsigned int>(1);
-                egg_group_id_array[0] = pkmn::Species::NONE;
+                egg_group_id_vec.push_back(pkmn::Species::NONE);
+                break;
 
             default:
                 std::string query_string = "SELECT egg_group_id FROM pokemon_egg_groups WHERE species_id="
@@ -230,11 +228,7 @@ namespace pkmn
                 SQLite::Statement query(_db, query_string.c_str());
 
                 while(query.executeStep()) egg_group_id_vec.push_back(int(query.getColumn(0)));
-                
-                egg_group_id_array = pkmn::array<unsigned int>(egg_group_id_vec.size());
-                for(size_t i = 0; i < egg_group_id_array.size(); i++) egg_group_id_array[i] = egg_group_id_vec[i];
+                break;
         }
-
-        return egg_group_id_array;
     }
 } /* namespace pkmn */

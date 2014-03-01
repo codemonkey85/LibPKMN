@@ -208,13 +208,15 @@ namespace pkmn
             for(int i = 0; i < nickname.size(); i++) b_pkmn_t->name[i] = pokehack_reverse_char_map[nickname[i]];
             for(int i = 0; i < trainer_name.size(); i++) b_pkmn_t->otname[i] = pokehack_reverse_char_map[trainer_name[i]];
 
-            moveset_t moves = t_pkmn->get_moves();
+            moveset_t moves;
+            t_pkmn->get_moves(moves);
             pkmn_a_t->atk1 = moves[0]->get_move_id();
             pkmn_a_t->atk2 = moves[1]->get_move_id();
             pkmn_a_t->atk3 = moves[2]->get_move_id();
             pkmn_a_t->atk4 = moves[3]->get_move_id();
 
-            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            std::vector<unsigned int> move_PPs;
+            t_pkmn->get_move_PPs(move_PPs);
             pkmn_a_t->pp1 = move_PPs[0];
             pkmn_a_t->pp2 = move_PPs[1];
             pkmn_a_t->pp3 = move_PPs[2];
@@ -491,13 +493,15 @@ namespace pkmn
             pokelib_pkmn.pkm->pkm.pokeball = libpkmn_ball_to_game_ball(reverse_ball_dict.at(t_pkmn->get_ball(), PokeBalls::POKE_BALL));
             set_gen_456_met_level(metlevel_int, (t_pkmn->get_trainer_gender().std_string() == "Female"));
 
-            moveset_t moves = t_pkmn->get_moves();
+            moveset_t moves;
+            t_pkmn->get_moves(moves);
             pokelib_pkmn.pkm->pkm.move[0] = moves[0]->get_move_id();
             pokelib_pkmn.pkm->pkm.move[1] = moves[1]->get_move_id();
             pokelib_pkmn.pkm->pkm.move[2] = moves[2]->get_move_id();
             pokelib_pkmn.pkm->pkm.move[3] = moves[3]->get_move_id();
 
-            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            std::vector<unsigned int> move_PPs;
+            t_pkmn->get_move_PPs(move_PPs);
             pokelib_pkmn.pkm->pkm.move[0] = move_PPs[0];
             pokelib_pkmn.pkm->pkm.move[1] = move_PPs[1];
             pokelib_pkmn.pkm->pkm.move[2] = move_PPs[2];
@@ -822,13 +826,15 @@ namespace pkmn
                                         database::get_species_index(t_pkmn->get_pokemon_id(),
                                         t_pkmn->get_game_id()));
             
-            moveset_t moves = t_pkmn->get_moves();
-            p_pkm->pkm_data.moves[0] = ::Moves::moves(t_pkmn->get_moves()[0]->get_move_id());
-            p_pkm->pkm_data.moves[1] = ::Moves::moves(t_pkmn->get_moves()[1]->get_move_id());
-            p_pkm->pkm_data.moves[2] = ::Moves::moves(t_pkmn->get_moves()[2]->get_move_id());
-            p_pkm->pkm_data.moves[3] = ::Moves::moves(t_pkmn->get_moves()[3]->get_move_id());
+            moveset_t moves;
+            t_pkmn->get_moves(moves);
+            p_pkm->pkm_data.moves[0] = ::Moves::moves(moves[0]->get_move_id());
+            p_pkm->pkm_data.moves[1] = ::Moves::moves(moves[1]->get_move_id());
+            p_pkm->pkm_data.moves[2] = ::Moves::moves(moves[2]->get_move_id());
+            p_pkm->pkm_data.moves[3] = ::Moves::moves(moves[3]->get_move_id());
 
-            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            std::vector<unsigned int> move_PPs;
+            t_pkmn->get_move_PPs(move_PPs);
             p_pkm->pkm_data.pp[0] = move_PPs[0];
             p_pkm->pkm_data.pp[1] = move_PPs[1];
             p_pkm->pkm_data.pp[2] = move_PPs[2];
@@ -1053,13 +1059,15 @@ namespace pkmn
                                         database::get_species_index(t_pkmn->get_pokemon_id(),
                                         t_pkmn->get_game_id()));
             
-            moveset_t moves = t_pkmn->get_moves();
+            moveset_t moves;
+            t_pkmn->get_moves(moves);
             p_pkx->pkx_data.moves[0] = ::Moves::moves(moves[0]->get_move_id());
             p_pkx->pkx_data.moves[1] = ::Moves::moves(moves[1]->get_move_id());
             p_pkx->pkx_data.moves[2] = ::Moves::moves(moves[2]->get_move_id());
             p_pkx->pkx_data.moves[3] = ::Moves::moves(moves[3]->get_move_id());
 
-            array<unsigned int> move_PPs = t_pkmn->get_move_PPs();
+            std::vector<unsigned int> move_PPs;
+            t_pkmn->get_move_PPs(move_PPs);
             p_pkx->pkx_data.pp[0] = move_PPs[0];
             p_pkx->pkx_data.pp[1] = move_PPs[1];
             p_pkx->pkx_data.pp[2] = move_PPs[2];

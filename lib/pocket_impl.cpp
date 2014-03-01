@@ -7,9 +7,6 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
-
-#include <boost/cast.hpp>
 
 #include "item_impl.hpp"
 #include "item_berryimpl.hpp"
@@ -42,8 +39,8 @@ namespace pkmn
         _pocket_name = name;
         _pocket_size = size;
         
-        _contents = array<unsigned int>(_pocket_size);
-        _amounts = array<unsigned int>(_pocket_size);
+        _contents = std::vector<unsigned int>(_pocket_size);
+        _amounts = std::vector<unsigned int>(_pocket_size);
         for(size_t i = 0; i < _pocket_size; i++)
         {
             _contents[i] = Items::NONE;

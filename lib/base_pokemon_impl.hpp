@@ -62,7 +62,7 @@ namespace pkmn
             string_pair_t get_types() const;
             double get_height() const;
             double get_weight() const;
-            base_pokemon_array get_evolutions() const;
+            void get_evolutions(base_pokemon_vector& evolution_vec) const;
 			bool is_fully_evolved() const;
 
             //Battle Stats

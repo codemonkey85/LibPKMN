@@ -230,25 +230,18 @@ namespace pkmn
         }
     }
     
-    base_pokemon_array base_pokemon_impl::get_evolutions() const
+    void base_pokemon_impl::get_evolutions(base_pokemon_vector& evolution_vec) const
     {
+        evolution_vec.clear();
+    
         std::vector<unsigned int> id_vec;
         _get_evolution_ids(id_vec);
         
-        base_pokemon_array evolution_array;
-        
-        if(id_vec.begin() == id_vec.end())
-        {
-            evolution_array = base_pokemon_array(1);
-            evolution_array[0] = make(pkmn::Species::NONE, _game_id);
-        }
+        if(id_vec.begin() == id_vec.end()) evolution_vec.push_back(make(pkmn::Species::NONE, _game_id));
         else
         {
-            evolution_array = base_pokemon_array(id_vec.size());
-            for(size_t i = 0; i < evolution_array.size(); i++) evolution_array[i] = make(id_vec[i], _game_id);
+            for(size_t i = 0; i < id_vec.size(); i++) evolution_vec.push_back(make(id_vec[i], _game_id));
         }
-        
-        return evolution_array;
     }
     
     bool base_pokemon_impl::is_fully_evolved() const
