@@ -53,8 +53,6 @@ namespace std
  * Ignore C++ operators and some duplicate constructors.
  * Their functionality will be replicated in the other languages.
  */
-%ignore pkmn::array::operator[];
-%ignore pkmn::array::data();
 %ignore pkmn::dict::operator[];
 %ignore pkmn::pokemon_text::pokemon_text(std::string);
 %ignore pkmn::pokemon_text::pokemon_text(const wchar_t*);

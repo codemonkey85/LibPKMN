@@ -57,7 +57,6 @@
 %{
     #include "pkmn/paths.hpp"
 
-    #include "pkmn/types/array.hpp"
     #include "pkmn/types/dict.hpp"
     #include "pkmn/types/pokemon_text.hpp"
     #include "pkmn/types/prng.hpp"
@@ -77,7 +76,6 @@
 
 %include "pkmn/paths.hpp"
 
-%include "pkmn/types/array.hpp"
 %include "pkmn/types/dict.hpp"
 %include "pkmn/types/pokemon_text.hpp"
 %include "pkmn/types/prng.hpp"
@@ -93,14 +91,9 @@
 
 %include "pkmn/lists.hpp"
 
-%template(StringArray) pkmn::array<std::string>;
-%template(UIntArray) pkmn::array<unsigned int>;
-%template(BasePokemonArray) pkmn::array<pkmn::base_pokemon::sptr>;
-%template(Moveset) pkmn::array<pkmn::move::sptr>;
-%template(PokemonTeam) pkmn::array<pkmn::team_pokemon::sptr>;
 LIBPKMN_CS_DICT(StringIntDict, std::string, int, string, int)
 LIBPKMN_CS_DICT(StringStringDict, std::string, std::string, string, string)
-LIBPKMN_CS_DICT(StringUIntDict, std::string,unsigned int, string, uint)
+LIBPKMN_CS_DICT(StringUIntDict, std::string, unsigned int, string, uint)
 
 //Factory functions need to specifically be associated with newobject
 %newobject pkmn::bag::make;

@@ -48,7 +48,6 @@
     #include "pkmn/types/dict.hpp"
     #include "pkmn/types/pokemon_text.hpp"
     #include "pkmn/types/prng.hpp"
-    #include "pkmn/types/array.hpp"
 
     #include "pkmn/base_pokemon.hpp"
     #include "pkmn/item.hpp"
@@ -69,7 +68,6 @@
 %include "pkmn/types/dict.hpp"
 %include "pkmn/types/pokemon_text.hpp"
 %include "pkmn/types/prng.hpp"
-%include "pkmn/types/array.hpp"
 
 %include "pkmn/base_pokemon.hpp"
 %include "pkmn/item.hpp"
@@ -96,11 +94,6 @@ LIBPKMN_JAVA_DICT(StringIntDict, int, int, Integer, Integer, int_vec, int_vec)
 LIBPKMN_JAVA_DICT(StringStringDict, std::string, std::string, String, String, string_vec, string_vec)
 LIBPKMN_JAVA_DICT(StringUIntDict, std::string, unsigned int, String, Long, string_vec, uint_vec)
 
-%template(UIntArray) pkmn::array<unsigned int>;
-
 %template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
-%template(BasePokemonArray) pkmn::array<pkmn::base_pokemon::sptr>;
-%template(MoveVector) std::vector<pkmn::move::sptr>;
-%template(Moveset) pkmn::array<pkmn::move::sptr>;
-%template(TeamPokemonVector) std::vector<pkmn::team_pokemon::sptr>;
-%template(PokemonTeam) pkmn::array<pkmn::team_pokemon::sptr>;
+%template(Moveset) std::vector<pkmn::move::sptr>;
+%template(PokemonTeam) std::vector<pkmn::team_pokemon::sptr>;
