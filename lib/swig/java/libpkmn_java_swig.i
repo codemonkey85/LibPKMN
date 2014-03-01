@@ -112,7 +112,7 @@
 %template(TeamPokemonSPtr) pkmn::shared_ptr<pkmn::team_pokemon>;
 %template(TrainerSPtr)     pkmn::shared_ptr<pkmn::trainer>;
 
-LIBPKMN_JAVA_DICT(StringIntDict, int, int, Integer, Integer, int_vec, int_vec)
+LIBPKMN_JAVA_DICT(StringIntDict, std::string, int, String, Integer, string_vec, int_vec)
 LIBPKMN_JAVA_DICT(StringStringDict, std::string, std::string, String, String, string_vec, string_vec)
 LIBPKMN_JAVA_DICT(StringUIntDict, std::string, unsigned int, String, Long, string_vec, uint_vec)
 
