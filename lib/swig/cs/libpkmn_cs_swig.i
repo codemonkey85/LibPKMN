@@ -8,6 +8,12 @@
 %rename(tostring) pkmn::pokemon_text::const_char;
 
 %typemap(cscode) pkmn::pokemon_text %{
+    /// <summary>
+    /// The [] operator gets or sets individual characters.
+    /// </summary>
+    /// <returns>
+    /// Character whose position is given in [].
+    /// </returns>
     public char this[int index] {
         get {
             return ToString()[index];
@@ -19,20 +25,32 @@
         }
     }
 
+    /// <returns>
+    /// Length of string.
+    /// </returns>
     public int Length {
         get {
             return ToString().Length;
         }
     }
 
+    /// <returns>
+    /// Native C# representation of string.
+    /// </returns>
     public override string ToString() {
         return tostring();
     }
 
+    /// <summary>
+    /// Allows an instance of LibPKMN.pokemon_text to be cast as a native C# string.
+    /// </summary>
     public static implicit operator string(pokemon_text input) {
         return input.tostring();
     }
 
+    /// <summary>
+    /// Allows a native C# string to be cast as an instance of LibPKMN.pokemon_text.
+    /// </summary>
     public static implicit operator pokemon_text(string input) {
         pokemon_text temp = new pokemon_text(input);
         return temp;
@@ -44,18 +62,30 @@
  */
 %define LIBPKMN_CS_DICT(dict_name, ctype1, ctype2, cstype1, cstype2)
     %typemap(cscode) pkmn::dict<ctype1, ctype2> %{
+        /// <returns>
+        /// Returns a vector (cstype1) containing the dictionary's keys.
+        /// </returns>
         public cstype1 ## _vec Keys {
             get {
                 return keys();
             }
         }
 
+        /// <returns>
+        /// Returns a vector (cstype2) containing the dictionary's values.
+        /// </returns>
         public cstype2 ## _vec Values {
             get {
                 return vals();
             }
         }
-        
+
+        /// <summary>
+        /// The [] operator gets or sets dictionary entries.
+        /// </summary>
+        /// <returns>
+        /// cstype2 whose position is given in [].
+        /// </returns>
         public cstype2 this[cstype1 index] {
             get {
                 return at(index);
@@ -65,6 +95,9 @@
             }
         }
 
+        /// <summary>
+        /// Allows a dict_name to be cast as a native C# Dictionary<cstype1, cstype2>.
+        /// </summary>
         public static implicit operator System.Collections.Generic.Dictionary<cstype1, cstype2>(dict_name input) {
             System.Collections.Generic.Dictionary<cstype1, cstype2> output = new System.Collections.Generic.Dictionary<cstype1, cstype2>();
             cstype1 ## _vec keys = input.keys();
@@ -75,6 +108,9 @@
             return output;
         }
 
+        /// <summary>
+        /// Allows a native C# Dictionary<cstype1, cstype2> to be cast as a dict_name.
+        /// </summary>
         public static implicit operator dict_name(System.Collections.Generic.Dictionary<cstype1, cstype2> input) {
             dict_name output = new dict_name();
             foreach(System.Collections.Generic.KeyValuePair<cstype1, cstype2> pair in input) output.Add(pair.Key, pair.Value);
