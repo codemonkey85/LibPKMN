@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+#
+# Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
+#
+# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# or copy at http://opensource.org/licenses/MIT)
+#
+
+if __name__ == "__main__":
+
+    f = open("@CMAKE_CURRENT_BINARY_DIR@/libpkmn_db_dump",'a')
+    g = open("@CMAKE_CURRENT_SOURCE_DIR@/libpkmn_db_additions",'r')
+
+    glines = g.readlines()
+    chars = '\n'.join(glines)
+    
+    f.write(chars)
+    
+    f.close()
+    g.close()

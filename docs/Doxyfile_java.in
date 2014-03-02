@@ -597,14 +597,14 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/base_pokemon.java \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/game_save.java \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/item.java \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/move.java \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/pocket.java \
+EXCLUDE                = @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/BasePokemon.java \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/GameSave.java \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/Item.java \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/Move.java \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/Pocket.java \
                          @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/PRNG.java \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/team_pokemon.java \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/trainer.java
+                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/TeamPokemon.java \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/Trainer.java
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or
 # directories that are symbolic links (a Unix filesystem feature) are excluded

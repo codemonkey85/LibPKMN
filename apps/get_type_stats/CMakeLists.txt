@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
@@ -8,13 +8,14 @@
 INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
 INCLUDE(${QT_USE_FILE})
 
-QT4_WRAP_CPP(MOCSrcs GetTypeStatsWindow.hpp OptionsGroupBox.hpp CalculationOutput.hpp)
+QT4_WRAP_CPP(MOCSrcs BasePokemonDisplayWidget.hpp GetTypeStatsWindow.hpp OptionsGroupBox.hpp CalculationOutput.hpp)
 
 LIST(APPEND gui_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/get_type_stats.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/CalculationOutput.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/GetTypeStatsWindow.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/OptionsGroupBox.cpp
+    get_type_stats.cpp
+    BasePokemonDisplayWidget.cpp
+    CalculationOutput.cpp
+    GetTypeStatsWindow.cpp
+    OptionsGroupBox.cpp
     ${MOCSrcs}
 )
 

@@ -597,14 +597,14 @@ RECURSIVE              = YES
 # excluded from the INPUT source files. This way you can easily exclude a
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/base_pokemon.cs \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/game_save.cs \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/item.cs \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/move.cs \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/pocket.cs \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/prng.cs \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/team_pokemon.cs \
-                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/trainer.cs 
+EXCLUDE                = @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/BasePokemon.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/GameSave.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/Item.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/Move.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/Pocket.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/PRNG.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/TeamPokemon.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/Trainer.cs 
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or
 # directories that are symbolic links (a Unix filesystem feature) are excluded

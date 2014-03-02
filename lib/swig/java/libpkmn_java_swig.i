@@ -64,7 +64,6 @@
 %{
     #include "pkmn/config.hpp"
 
-    #include "pkmn/calculations.hpp"
     #include "pkmn/paths.hpp"
 
     #include "pkmn/types/dict.hpp"
@@ -84,7 +83,6 @@
 
 %}
 
-%include "pkmn/calculations.hpp"
 %include "pkmn/paths.hpp"
 
 %include "pkmn/types/dict.hpp"

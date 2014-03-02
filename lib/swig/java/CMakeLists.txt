@@ -69,8 +69,9 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_bui
     ENDIF(${do_build} STREQUAL "true")
 ENDMACRO(JAVA_GENERATE_FILES)
 
-JAVA_GENERATE_FILES(libpkmn_java_swig core none false)
-JAVA_GENERATE_FILES(analysis_java_swig analysis libpkmn_java_swig false)
-JAVA_GENERATE_FILES(calculations_java_swig calculations analysis_java_swig false)
-JAVA_GENERATE_FILES(io_java_swig io calculations_java_swig true)
+JAVA_GENERATE_FILES(libpkmn_java_swig Core none false)
+JAVA_GENERATE_FILES(analysis_java_swig Analysis libpkmn_java_swig false)
+JAVA_GENERATE_FILES(calculations_java_swig Calculations analysis_java_swig false)
+JAVA_GENERATE_FILES(database_java_swig Database calculations_java_swig false)
+JAVA_GENERATE_FILES(io_java_swig IO database_java_swig true)
 
