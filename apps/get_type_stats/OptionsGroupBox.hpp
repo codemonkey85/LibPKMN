@@ -18,7 +18,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include <pkmn/qt4/TypesComboBox.hpp>
+#include <pkmn/qt/TypesComboBox.hpp>
 
 #include "type_stats_common.hpp"
 

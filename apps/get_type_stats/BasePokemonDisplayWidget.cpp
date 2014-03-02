@@ -19,7 +19,7 @@ using namespace std;
 
 namespace pkmn
 {
-    namespace qt4
+    namespace qt
     {
         BasePokemonDisplayWidget::BasePokemonDisplayWidget(QWidget* parent, base_pokemon::sptr pkmn): QWidget(parent)
         {
@@ -50,5 +50,5 @@ namespace pkmn
 
             setLayout(mainLayout);
         }
-    } /* namespace qt4 */
+    } /* namespace qt */
 } /* namespace pkmn */

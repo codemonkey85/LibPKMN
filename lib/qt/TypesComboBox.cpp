@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -9,13 +9,13 @@
 #include <vector>
 
 #include <pkmn/lists.hpp>
-#include <pkmn/qt4/TypesComboBox.hpp>
+#include <pkmn/qt/TypesComboBox.hpp>
 
 using namespace std;
 
 namespace pkmn
 {
-    namespace qt4
+    namespace qt
     {
         TypesComboBox::TypesComboBox(QWidget* parent, int gen): QComboBox(parent)
         {
@@ -27,5 +27,5 @@ namespace pkmn
                 addItem(tr(types_vec[i].c_str()), QVariant(i));
             }
         }
-    } /* namespace qt4 */
+    } /* namespace qt */
 } /* namespace pkmn */

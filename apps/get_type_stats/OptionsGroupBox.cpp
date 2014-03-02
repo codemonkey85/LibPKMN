@@ -8,7 +8,7 @@
 #include "OptionsGroupBox.hpp"
 
 using namespace pkmn;
-using namespace pkmn::qt4;
+using namespace pkmn::qt;
 using namespace std;
 
 OptionsGroupBox::OptionsGroupBox(QWidget* parent): QGroupBox(parent)

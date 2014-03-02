@@ -20,7 +20,7 @@
 
 namespace pkmn
 {
-    namespace qt4
+    namespace qt
     {
         class BasePokemonDisplayWidget: public QWidget
         {

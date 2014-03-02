@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -13,14 +13,14 @@
 
 namespace pkmn
 {
-    namespace qt4
+    namespace qt
     {
-        class PKMN_API GamesComboBox: public QComboBox
+        class PKMN_API AbilitiesComboBox: public QComboBox
         {
             Q_OBJECT
 
             public:
-                GamesComboBox(QWidget* parent = 0, int gen = 5);
+                AbilitiesComboBox(QWidget* parent = 0, int gen = 5);
 
             /*signals:
 

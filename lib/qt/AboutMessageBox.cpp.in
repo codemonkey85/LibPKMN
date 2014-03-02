@@ -8,11 +8,11 @@
 #include <string>
 #include <vector>
 
-#include <pkmn/qt4/AboutMessageBox.hpp>
+#include <pkmn/qt/AboutMessageBox.hpp>
 
 namespace pkmn
 {
-    namespace qt4
+    namespace qt
     {
         AboutMessageBox::AboutMessageBox(QWidget* parent): QMessageBox(parent)
         {

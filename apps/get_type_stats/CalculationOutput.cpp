@@ -10,7 +10,7 @@
 #include "CalculationOutput.hpp"
 
 using namespace pkmn;
-using namespace pkmn::qt4;
+using namespace pkmn::qt;
 using namespace std;
 
 CalculationOutput::CalculationOutput(QWidget* parent, int gen): QWidget(parent)

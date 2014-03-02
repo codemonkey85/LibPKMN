@@ -20,7 +20,7 @@
 #include <QVBoxLayout>
 
 #include "BasePokemonDisplayWidget.hpp"
-#include <pkmn/qt4/TypesComboBox.hpp>
+#include <pkmn/qt/TypesComboBox.hpp>
 
 #include "CalculationOutput.hpp"
 #include "OptionsGroupBox.hpp"

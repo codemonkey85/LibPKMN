@@ -64,17 +64,17 @@ IF(ENABLE_LIBPKMN)
     INCLUDE_DIRECTORIES(${LIBPKMN_BINARY_DIR}/include)
 
     CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/qt4/AboutMessageBox.cpp.in
-        ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/qt/AboutMessageBox.cpp.in
+        ${CMAKE_CURRENT_BINARY_DIR}/qt/AboutMessageBox.cpp
     )
     
-    FILE(GLOB libpkmn_qt4_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4/*.hpp")
-    FILE(GLOB libpkmn_qt4_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt4/*.cpp")
-    LIST(APPEND libpkmn_qt4_sources ${CMAKE_CURRENT_BINARY_DIR}/qt4/AboutMessageBox.cpp)
+    FILE(GLOB libpkmn_qt_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt/*.hpp")
+    FILE(GLOB libpkmn_qt_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt/*.cpp")
+    LIST(APPEND libpkmn_qt_sources ${CMAKE_CURRENT_BINARY_DIR}/qt/AboutMessageBox.cpp)
 
-    QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt4_headers})
+    QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt_headers})
 
-    LIST(APPEND libpkmn_sources ${libpkmn_qt4_sources} ${MOCSrcs})
+    LIST(APPEND libpkmn_sources ${libpkmn_qt_sources} ${MOCSrcs})
     
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
