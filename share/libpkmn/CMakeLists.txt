@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
@@ -21,8 +21,13 @@ CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/libpkmn_db_dump
     ${CMAKE_CURRENT_BINARY_DIR}/libpkmn_db_dump
 COPYPONLY)
+CONFIGURE_FILE(
+    ${CMAKE_CURRENT_SOURCE_DIR}/database_concat.py.in
+    ${CMAKE_CURRENT_BINARY_DIR}/database_concat.py
+@ONLY)
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpkmn.db
+    COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/database_concat.py
     COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/libpkmn.db ".read ${CMAKE_CURRENT_BINARY_DIR}/libpkmn_db_dump"
     COMMENT "Compiling LibPKMN SQLite database"
 )
