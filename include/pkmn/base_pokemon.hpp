@@ -70,14 +70,12 @@ namespace pkmn
             virtual unsigned int get_species_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
             virtual unsigned int get_form_id() const = 0;
-            //virtual pkmn::array<unsigned int> get_egg_group_ids() const = 0;
             virtual void get_egg_group_ids(std::vector<unsigned int>& egg_group_id_vec) const = 0;
             
     };
 
     //Related typedefs
     typedef std::vector<base_pokemon::sptr> base_pokemon_vector;
-    //typedef array<base_pokemon::sptr> base_pokemon_array;
 }
 
 #endif /* INCLUDED_PKMN_BASE_POKEMON_HPP */
