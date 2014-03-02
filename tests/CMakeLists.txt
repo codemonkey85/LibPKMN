@@ -18,6 +18,7 @@ FILE(TO_NATIVE_PATH ${DATABASE_PATH} DATABASE_PATH)
 SET(cpp_test_sources
     dict_test.cpp
     pokemon_text_test.cpp
+    prng_test.cpp
 )
 
 INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/conversions)

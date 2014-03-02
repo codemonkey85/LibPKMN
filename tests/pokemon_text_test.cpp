@@ -7,7 +7,6 @@
 
 #include <iostream>
 
-#include <boost/assign/list_of.hpp>
 #include <boost/test/unit_test.hpp>
 
 #include <pkmn/types/pokemon_text.hpp>

@@ -98,3 +98,8 @@ LIBPKMN_PYTHON_SPTR(move)
 LIBPKMN_PYTHON_SPTR(team_pokemon)
 LIBPKMN_PYTHON_SPTR(trainer)
 LIBPKMN_PYTHON_SPTR(game_save)
+
+%template(prng_sptr) pkmn::shared_ptr<pkmn::prng>;
+%pythoncode %{
+    prng = prng.get;
+%}

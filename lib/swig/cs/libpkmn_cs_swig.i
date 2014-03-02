@@ -140,6 +140,7 @@ LIBPKMN_CS_DICT(StringUIntDict, std::string, unsigned int, string, uint)
 %newobject pkmn::item::make;
 %newobject pkmn::move::make;
 %newobject pkmn::pocket::make;
+%newobject pkmn::prng::get;
 %newobject pkmn::team_pokemon::make;
 %newobject pkmn::trainer::make;
 
@@ -150,6 +151,7 @@ LIBPKMN_CS_DICT(StringUIntDict, std::string, unsigned int, string, uint)
 %template(ItemSPtr)        pkmn::shared_ptr<pkmn::item>;
 %template(MoveSPtr)        pkmn::shared_ptr<pkmn::move>;
 %template(PocketSPtr)      pkmn::shared_ptr<pkmn::pocket>;
+%template(PRNGSPtr)        pkmn::shared_ptr<pkmn::prng>;
 %template(TeamPokemonSPtr) pkmn::shared_ptr<pkmn::team_pokemon>;
 %template(TrainerSPtr)     pkmn::shared_ptr<pkmn::trainer>;
 

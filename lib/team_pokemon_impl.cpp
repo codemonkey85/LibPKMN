@@ -74,7 +74,6 @@ namespace pkmn
     }
 
     SQLite::Database team_pokemon_impl::_db(get_database_path().c_str());
-    prng team_pokemon_impl::_rand_gen;
     
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,
@@ -93,8 +92,9 @@ namespace pkmn
         _ball = database::get_item_name(Items::POKE_BALL);
         _met_level = 1;
 
-        _personality = _rand_gen.lcrng_next(_generation);
-        _trainer_id = _rand_gen.lcrng_next(_generation);
+        prng::sptr _rand_gen = prng::get(_generation);
+        _personality = _rand_gen->lcrng();
+        _trainer_id = _rand_gen->lcrng();
 
 		_attributes = pkmn::dict<string, int>();
         _moves = moveset_t(4);

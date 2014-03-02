@@ -9,8 +9,6 @@
 
 #include <pkmn/team_pokemon.hpp>
 
-#include <pkmn/types/prng.hpp>
-
 #include "SQLiteCpp/src/SQLiteC++.h"
 
 namespace pkmn
@@ -138,7 +136,6 @@ namespace pkmn
             bool _has_hidden_ability;
             
             static SQLite::Database _db;
-            static prng _rand_gen;
 
             void _check() const;
     };

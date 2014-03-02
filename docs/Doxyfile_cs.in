@@ -602,6 +602,7 @@ EXCLUDE                = @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/base_pok
                          @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/item.cs \
                          @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/move.cs \
                          @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/pocket.cs \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/prng.cs \
                          @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/team_pokemon.cs \
                          @LIBPKMN_BINARY_DIR@/lib/swig/cs/CSharpSources/trainer.cs 
 

@@ -602,6 +602,7 @@ EXCLUDE                = @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/base_
                          @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/item.java \
                          @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/move.java \
                          @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/pocket.java \
+                         @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/PRNG.java \
                          @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/team_pokemon.java \
                          @LIBPKMN_BINARY_DIR@/lib/swig/java/org/nc/LibPKMN/trainer.java
 

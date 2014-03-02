@@ -13,6 +13,7 @@
 #include <pkmn/trainer.hpp>
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/dict.hpp>
+#include <pkmn/types/prng.hpp>
 
 #include "bag_impl.hpp"
 #include "team_pokemon_gen1impl.hpp"
@@ -37,16 +38,16 @@ namespace pkmn
                     ((gender == "Female") ? Genders::FEMALE : Genders::MALE));
     }
 
-    prng trainer_impl::_rand_gen;
-
     trainer_impl::trainer_impl(unsigned int game, pokemon_text name, unsigned int gender): trainer()
     {
+        prng::sptr _rand_gen = prng::get(_generation);
+
         _game_id = game;
         _generation = database::get_generation(_game_id);
         _trainer_name = name;
         _gender_id = gender;
         _money = 0;
-        _trainer_id = _rand_gen.lcrng_next(_generation);
+        _trainer_id = _rand_gen->lcrng();
 
         _party = pokemon_team_t(6);
         for(int i = 0; i < 6; i++)

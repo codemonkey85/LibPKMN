@@ -27,7 +27,7 @@ IF(ENABLE_LIBPKMN)
 
     LIST(APPEND libpkmn_sources
         library_bridge.cpp
-        prng.cpp
+        prng_impl.cpp
         pokemon_text.cpp
         calculations.cpp
         base_pokemon_impl.cpp

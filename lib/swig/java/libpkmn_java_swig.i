@@ -109,6 +109,7 @@
 %template(ItemSPtr)        pkmn::shared_ptr<pkmn::item>;
 %template(MoveSPtr)        pkmn::shared_ptr<pkmn::move>;
 %template(PocketSPtr)      pkmn::shared_ptr<pkmn::pocket>;
+%template(PRNGSPtr)        pkmn::shared_ptr<pkmn::prng>;
 %template(TeamPokemonSPtr) pkmn::shared_ptr<pkmn::team_pokemon>;
 %template(TrainerSPtr)     pkmn::shared_ptr<pkmn::trainer>;
 

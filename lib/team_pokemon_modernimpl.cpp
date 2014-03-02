@@ -15,9 +15,9 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/prng.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
-
 #include "team_pokemon_modernimpl.hpp"
+
+#include "SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
@@ -28,13 +28,15 @@ namespace pkmn
                                                      unsigned int move3, unsigned int move4): team_pokemon_impl(base,game,level,
                                                                                               move1,move2,move3,move4)
     {
+        prng::sptr _rand_gen = prng::get(_generation);
+
         //Random individual values
-        _ivHP = _rand_gen.lcrng_next(_generation) % 32;
-        _ivATK = _rand_gen.lcrng_next(_generation) % 32;
-        _ivDEF = _rand_gen.lcrng_next(_generation) % 32;
-        _ivSPD = _rand_gen.lcrng_next(_generation) % 32;
-        _ivSATK = _rand_gen.lcrng_next(_generation) % 32;
-        _ivSDEF = _rand_gen.lcrng_next(_generation) % 32;
+        _ivHP = _rand_gen->lcrng() % 32;
+        _ivATK = _rand_gen->lcrng() % 32;
+        _ivDEF = _rand_gen->lcrng() % 32;
+        _ivSPD = _rand_gen->lcrng() % 32;
+        _ivSATK = _rand_gen->lcrng() % 32;
+        _ivSDEF = _rand_gen->lcrng() % 32;
 
         /*
          * Random effort values within following rules:
@@ -49,12 +51,12 @@ namespace pkmn
         _evSDEF = 256;
         while((_evHP+_evATK+_evDEF+_evSPD+_evSATK+_evSDEF)>510 || _evHP>255 || _evATK>255 || _evDEF>255 || _evSPD>255 || _evSATK>255 || _evSDEF>255)
         {
-            _evHP = _rand_gen.lcrng_next(_generation) % 256;
-            _evATK = _rand_gen.lcrng_next(_generation) % 256;
-            _evDEF = _rand_gen.lcrng_next(_generation) % 256;
-            _evSPD = _rand_gen.lcrng_next(_generation) % 256;
-            _evSATK = _rand_gen.lcrng_next(_generation) % 256;
-            _evSDEF = _rand_gen.lcrng_next(_generation) % 256;
+            _evHP = _rand_gen->lcrng() % 256;
+            _evATK = _rand_gen->lcrng() % 256;
+            _evDEF = _rand_gen->lcrng() % 256;
+            _evSPD = _rand_gen->lcrng() % 256;
+            _evSATK = _rand_gen->lcrng() % 256;
+            _evSDEF = _rand_gen->lcrng() % 256;
         }
 
         _gender = _determine_gender();
