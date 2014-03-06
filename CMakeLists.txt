@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
@@ -83,8 +83,10 @@ MESSAGE(FATAL_ERROR "Fatal error: Boost (version >= 1.48.0) required.\n")
 ENDIF(NOT Boost_FOUND)
 FIND_PROGRAM(SQLITE3_EXECUTABLE NAMES sqlite3)
 FIND_PACKAGE(PythonInterp REQUIRED)
-FIND_PACKAGE(Qt4 REQUIRED)
-INCLUDE(UseQt4)
+FIND_PACKAGE(Qt4)
+IF(QT4_FOUND)
+    INCLUDE(UseQt4)
+ENDIF(QT4_FOUND)
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
@@ -107,11 +109,12 @@ SET(PKG_DATA_DIR share/libpkmn)
 SET(DOCS_DIR share/doc/libpkmn)
 
 ########################################################################
-# Register LibLibPKMN components
+# Register LibPKMN components
 ########################################################################
-LIBPKMN_REGISTER_COMPONENT("LibPKMN - Core Library" ENABLE_LIBPKMN ON "Boost_FOUND;PYTHONINTERP_FOUND;SQLITE3_EXECUTABLE;QT4_FOUND" OFF)
+LIBPKMN_REGISTER_COMPONENT("LibPKMN - Core Library" ENABLE_LIBPKMN ON "Boost_FOUND;PYTHONINTERP_FOUND;SQLITE3_EXECUTABLE" OFF)
+LIBPKMN_REGISTER_COMPONENT("LibPKMN - Qt Subclasses" ENABLE_LIBPKMN_QT ON "ENABLE_LIBPKMN;QT4_FOUND" OFF)
 LIBPKMN_REGISTER_COMPONENT("Utilities" ENABLE_UTILITIES ON "ENABLE_LIBPKMN" OFF)
-LIBPKMN_REGISTER_COMPONENT("Applications" ENABLE_APPS ON "ENABLE_LIBPKMN" OFF)
+LIBPKMN_REGISTER_COMPONENT("Applications" ENABLE_APPS ON "ENABLE_LIBPKMN_QT" OFF)
 LIBPKMN_REGISTER_COMPONENT("Unit Tests" ENABLE_TESTS ON "ENABLE_LIBPKMN" OFF)
 
 INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/include)

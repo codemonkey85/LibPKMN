@@ -68,11 +68,12 @@ IF(ENABLE_LIBPKMN)
         ${CMAKE_CURRENT_BINARY_DIR}/qt/AboutMessageBox.cpp
     )
     
-    FILE(GLOB libpkmn_qt_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt/*.hpp")
-    FILE(GLOB libpkmn_qt_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt/*.cpp")
-    LIST(APPEND libpkmn_qt_sources ${CMAKE_CURRENT_BINARY_DIR}/qt/AboutMessageBox.cpp)
-
-    QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt_headers})
+    IF(ENABLE_LIBPKMN_QT)
+        FILE(GLOB libpkmn_qt_headers "${LIBPKMN_SOURCE_DIR}/include/pkmn/qt/*.hpp")
+        FILE(GLOB libpkmn_qt_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "qt/*.cpp")
+        LIST(APPEND libpkmn_qt_sources ${CMAKE_CURRENT_BINARY_DIR}/qt/AboutMessageBox.cpp)
+        QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt_headers})
+    ENDIF(ENABLE_LIBPKMN_QT)
 
     LIST(APPEND libpkmn_sources ${libpkmn_qt_sources} ${MOCSrcs})
     
