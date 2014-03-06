@@ -5,8 +5,9 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%include "exception.i"
 %include "CamelCase.i"
-%include "libpkmn_java_swig.i"
+%import "libpkmn_java_swig.i"
 
 %{
     #include "pkmn/io.hpp"

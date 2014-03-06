@@ -73,6 +73,7 @@ ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 ####################################################################
 FIND_PACKAGE(Boost 1.48.0 COMPONENTS
     filesystem
+    locale
     program_options
     system
     unit_test_framework

@@ -42,17 +42,17 @@
     }
 
     /// <summary>
-    /// Allows an instance of LibPKMN.pokemon_text to be cast as a native C# string.
+    /// Allows an instance of LibPKMN.PokemonText to be cast as a native C# string.
     /// </summary>
-    public static implicit operator string(pokemon_text input) {
+    public static implicit operator string(PokemonText input) {
         return input.tostring();
     }
 
     /// <summary>
-    /// Allows a native C# string to be cast as an instance of LibPKMN.pokemon_text.
+    /// Allows a native C# string to be cast as an instance of LibPKMN.PokemonText.
     /// </summary>
-    public static implicit operator pokemon_text(string input) {
-        pokemon_text temp = new pokemon_text(input);
+    public static implicit operator PokemonText(string input) {
+        PokemonText temp = new PokemonText(input);
         return temp;
     }
 %}
@@ -126,6 +126,7 @@
     %template(dict_name) pkmn::dict<ctype1, ctype2>;
 %enddef
 
+%include "CamelCase.i"
 %include "libpkmn.i"
 
 %{
