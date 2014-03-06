@@ -14,7 +14,7 @@ public class PokemonTextTest
     {
         //Testing printing on command line
         PokemonText test_text1 = new PokemonText("Test1");
-        System.Console.WriteLine(test_text1);
+        System.Console.WriteLine("PokemonText: " + test_text1);
 
         //Testing string -> PokemonText
         string test_string1 = "Test2";
@@ -23,11 +23,13 @@ public class PokemonTextTest
         {
             throw new System.Exception("C# string -> PokemonText implicit conversion failed!");
         }
+        System.Console.WriteLine("C# string -> PokemonText (implicit): " + test_text2);
         PokemonText test_text3 = (PokemonText)test_string1; //explicit
         if(test_text3 != "Test2")
         {
             throw new System.Exception("C# string -> PokemonText explicit conversion failed!");
         }
+        System.Console.WriteLine("C# string -> PokemonText (explicit): " + test_text3);
 
         //Testing PokemonText -> string
         PokemonText test_text4 = new PokemonText("Test3");
@@ -36,16 +38,19 @@ public class PokemonTextTest
         {
             throw new System.Exception("PokemonText.ToString() failed!");
         }
+        System.Console.WriteLine("PokemonText.ToString(): " + test_string2);
         string test_string3 = test_text4;
         if(test_string3 != "Test3")
         {
             throw new System.Exception("PokemonText -> C# string implicit conversion failed!");
         }
+        System.Console.WriteLine("PokemonText -> C# string (implicit): " + test_string3);
         string test_string4 = (string)test_text4;
         if(test_string4 != "Test3")
         {
             throw new System.Exception("PokemonText -> C# string explicit conversion failed!");
         }
+        System.Console.WriteLine("PokemonText -> C# string (explicit): " + test_string4);
 
         return 0;
     }    
