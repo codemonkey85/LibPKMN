@@ -116,4 +116,17 @@ IF(ENABLE_LIBPKMN)
         RUNTIME DESTINATION ${RUNTIME_DIR} COMPONENT Runtime #.dll
     )
     ADD_SUBDIRECTORY(swig)
+
+    IF(UNIX)
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/pkmn.pc.in
+            ${CMAKE_CURRENT_BINARY_DIR}/pkmn.pc
+        @ONLY)
+
+        INSTALL(
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/pkmn.pc
+            DESTINATION ${LIBRARY_DIR}/pkgconfig
+            COMPONENT libraries
+        )
+    ENDIF(UNIX)
 ENDIF(ENABLE_LIBPKMN)
