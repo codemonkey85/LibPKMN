@@ -7,9 +7,9 @@
 
 #include <stdexcept>
 
-#include <QString>
-
 #include <pkmn/types/pokemon_text.hpp>
+
+#include "convert.hpp"
 
 namespace pkmn
 {
@@ -25,58 +25,26 @@ namespace pkmn
     
     void pokemon_text::set(const char* input)
     {
-        QString intermediary = QString(input);
-        
-        stdstring = intermediary.toStdString();
-        
-        #ifdef _MSC_VER
-            stdwstring = std::wstring((const wchar_t*)intermediary.utf16());
-        #else
-            stdwstring = intermediary.toStdWString();
-        #endif
+        stdstring = std::string(input);
+        stdwstring = boost::nowide::widen(input);
     }
     
     void pokemon_text::set(const wchar_t* input)
     {
-        QString intermediary;
-    
-        #ifdef _MSC_VER
-            intermediary = QString::fromUtf16((const ushort*)input);
-            stdwstring = std::wstring((const wchar_t*)intermediary.utf16());
-        #else
-            intermediary = QString::fromWCharArray(input);
-            stdwstring = intermediary.toStdWString();
-        #endif
-        
-        stdstring = intermediary.toStdString();
+        stdstring = boost::nowide::narrow(input);
+        stdwstring = std::wstring(input);
     }
     
     void pokemon_text::set(std::string input)
     {
-        QString intermediary = QString::fromStdString(input);
-        
-        stdstring = intermediary.toStdString();
-        
-        #ifdef _MSC_VER
-            stdwstring = std::wstring((const wchar_t*)intermediary.utf16());
-        #else
-            stdwstring = intermediary.toStdWString();
-        #endif
+        stdstring = input;
+        stdwstring = boost::nowide::widen(input);
     }
     
     void pokemon_text::set(std::wstring input)
     {
-        QString intermediary;
-        
-        #ifdef _MSC_VER
-            intermediary = QString::fromUtf16((const ushort*)input.c_str());
-            stdwstring = std::wstring((const wchar_t*)intermediary.utf16());
-        #else
-            intermediary = QString::fromStdWString(input);
-            stdwstring = intermediary.toStdWString();
-        #endif
-        
-        stdstring = intermediary.toStdString();
+        stdstring = boost::nowide::narrow(input);
+        stdwstring = input;
     }
     
     const char& pokemon_text::operator[](size_t pos) const

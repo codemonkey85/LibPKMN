@@ -71,12 +71,7 @@ ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 ####################################################################
 # Find dependencies and set global include and link options
 ####################################################################
-FIND_PACKAGE(Boost 1.48.0 COMPONENTS
-    filesystem
-    program_options
-    system
-    unit_test_framework
-REQUIRED)
+FIND_PACKAGE(Boost 1.48.0 REQUIRED)
 IF(NOT Boost_FOUND)
 MESSAGE(FATAL_ERROR "Fatal error: Boost (version >= 1.48.0) required.\n")
 ENDIF(NOT Boost_FOUND)
@@ -87,10 +82,6 @@ INCLUDE(UseQt4)
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
-
-IF(MSVC)
-	ADD_DEFINITIONS(-DBOOST_ALL_DYN_LINK) #Let MSVC automatically link to Boost libs
-ENDIF(MSVC)
 
 ####################################################################
 # Set install subdirectories
