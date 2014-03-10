@@ -85,17 +85,26 @@ namespace pkmn
             case Games::DIAMOND:
             case Games::PEARL:
             case Games::PLATINUM:
+                _contents["Items"] = pocket::make(_game_id, "Items", 165);
+                _contents["Medicine"] = pocket::make(_game_id, "Medicine", 40);
+                _contents["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 15);
+                _contents["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 100);
+                _contents["Berries"] = pocket::make(_game_id, "Berries", 64);
+                _contents["Mail"] = pocket::make(_game_id, "Mail", 12);
+                _contents["Battle Items"] = pocket::make(_game_id, "Battle Items", 30);
+                _contents["Key Items"] = pocket::make(_game_id, "Key Items", 50);
+                break;
+
             case Games::HEART_GOLD:
             case Games::SOUL_SILVER:
-                //"Infinite" space in each pocket, but 100 should do
-                _contents["Items"] = pocket::make(_game_id, "Items", 100);
-                _contents["Medicine"] = pocket::make(_game_id, "Medicine", 100);
-                _contents["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 100);
+                _contents["Items"] = pocket::make(_game_id, "Items", 165);
+                _contents["Medicine"] = pocket::make(_game_id, "Medicine", 40);
+                _contents["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 24);
                 _contents["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 100);
-                _contents["Berries"] = pocket::make(_game_id, "Berries", 100);
-                _contents["Mail"] = pocket::make(_game_id, "Mail", 100);
-                _contents["Battle Items"] = pocket::make(_game_id, "Battle Items", 100);
-                _contents["Key Items"] = pocket::make(_game_id, "Key Items", 100);
+                _contents["Berries"] = pocket::make(_game_id, "Berries", 64);
+                _contents["Mail"] = pocket::make(_game_id, "Mail", 12);
+                _contents["Battle Items"] = pocket::make(_game_id, "Battle Items", 30);
+                _contents["Key Items"] = pocket::make(_game_id, "Key Items", 43);
                 break;
                 
             case Games::BLACK:
