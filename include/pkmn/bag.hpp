@@ -28,8 +28,8 @@ namespace pkmn
             bag() {};
             virtual ~bag() {};
 
-            virtual std::string get_game() = 0;
-            virtual unsigned int get_generation() = 0;
+            virtual std::string get_game() const = 0;
+            virtual unsigned int get_generation() const = 0;
 
             virtual void add_item(pokemon_text item_name, unsigned int amount) = 0;
             virtual void add_item(unsigned int item_id, unsigned int amount) = 0;
@@ -37,14 +37,14 @@ namespace pkmn
             virtual void remove_item(pokemon_text item_name, unsigned int amount) = 0;
             virtual void remove_item(unsigned int item_id, unsigned int amount) = 0;
             virtual void remove_item(item::sptr item_sptr, unsigned int amount) = 0;
-            virtual unsigned int get_item_amount(pokemon_text item_name);
-            virtual unsigned int get_item_amount(unsigned int item_id);
-            virtual unsigned int get_item_amount(item::sptr item_sptr);
+            virtual unsigned int get_item_amount(pokemon_text item_name) const = 0;
+            virtual unsigned int get_item_amount(unsigned int item_id) const = 0;
+            virtual unsigned int get_item_amount(item::sptr item_sptr) const = 0;
             
-            virtual pocket::sptr get_pocket(std::string name) = 0;
-            virtual pkmn::dict<std::string, pocket::sptr> get_pockets() = 0;
+            virtual pocket::sptr get_pocket(std::string name) const = 0;
+            virtual pkmn::dict<std::string, pocket::sptr> get_pockets() const = 0;
 
-            virtual unsigned int get_game_id() = 0;
+            virtual unsigned int get_game_id() const = 0;
     };
 }
 

@@ -113,6 +113,7 @@ namespace pkmn
             {
                 pokehack_item* raw_item = (pokehack_item*)(&data[i]);
                 if(raw_item->index == 0) break;
+                if(raw_item->index == 0) break;
                 else
                 {
                     unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
@@ -178,30 +179,28 @@ namespace pkmn
             pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
             pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
             
-            pocket::sptr tm_pocket;
-            if(game == Games::FIRE_RED) tm_pocket = item_bag->get_pocket("TM Case");
-            else tm_pocket = item_bag->get_pocket("TMs and HMs");
+            pocket::sptr tm_pocket = (game == Games::FIRE_RED) ? item_bag->get_pocket("TM Case")
+                                                               : item_bag->get_pocket("TMs and HMs");
             
-            pocket::sptr berry_pocket;
-            if(game == Games::FIRE_RED) berry_pocket = item_bag->get_pocket("Berry Pouch");
-            else berry_pocket = item_bag->get_pocket("Berries");
+            pocket::sptr berry_pocket = (game == Games::FIRE_RED) ? item_bag->get_pocket("Berry Pouch")
+                                                                  : item_bag->get_pocket("Berries");
             
             for(size_t i = 0; i < item_pocket->get_size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[item_offset+(i*4)]);
-                unsigned int item_id = item_pocket->get_item(i+1)->get_item_id();
+                unsigned int item_id = item_pocket->get_item(i+1).first->get_item_id();
                 
                 if(item_id == Items::NONE) break;
                 else
                 {
                     raw_item->index = database::get_item_index(item_id, game);
-                    raw_item->quantity = item_pocket->get_amount(i);
+                    raw_item->quantity = item_pocket->get_item_amount(i);
                 }
             }
             for(size_t i = 0; i < key_item_pocket->get_size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[key_item_offset+(i*4)]);
-                unsigned int item_id = key_item_pocket->get_item(i+1)->get_item_id();
+                unsigned int item_id = key_item_pocket->get_item(i+1).first->get_item_id();
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -213,7 +212,7 @@ namespace pkmn
             for(size_t i = 0; i < ball_pocket->get_size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[ball_offset+(i*4)]);
-                unsigned int item_id = ball_pocket->get_item(i+1)->get_item_id();
+                unsigned int item_id = ball_pocket->get_item(i+1).first->get_item_id();
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -225,7 +224,7 @@ namespace pkmn
             for(size_t i = 0; i < tm_pocket->get_size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[tm_offset+(i*4)]);
-                unsigned int item_id = tm_pocket->get_item(i+1)->get_item_id();
+                unsigned int item_id = tm_pocket->get_item(i+1).first->get_item_id();
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -237,7 +236,7 @@ namespace pkmn
             for(size_t i = 0; i < berry_pocket->get_size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[berry_offset+(i*4)]);
-                unsigned int item_id = berry_pocket->get_item(i+1)->get_item_id();
+                unsigned int item_id = berry_pocket->get_item(i+1).first->get_item_id();
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -342,8 +341,9 @@ namespace pkmn
             
             for(size_t i = 0; i < item_pocket->get_size(); i++)
             {
-                unsigned int item_id = item_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = item_pocket->get_amount(i+1);
+                bag_slot_t bag_item = item_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -357,8 +357,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < medicine_pocket->get_size(); i++)
             {
-                unsigned int item_id = medicine_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = medicine_pocket->get_amount(i+1);
+                bag_slot_t bag_item = medicine_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -372,8 +373,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < ball_pocket->get_size(); i++)
             {
-                unsigned int item_id = ball_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = ball_pocket->get_amount(i+1);
+                bag_slot_t bag_item = ball_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -387,8 +389,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < tm_pocket->get_size(); i++)
             {
-                unsigned int item_id = tm_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = tm_pocket->get_amount(i+1);
+                bag_slot_t bag_item = tm_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -402,8 +405,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < berry_pocket->get_size(); i++)
             {
-                unsigned int item_id = berry_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = berry_pocket->get_amount(i+1);
+                bag_slot_t bag_item = berry_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -417,8 +421,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < mail_pocket->get_size(); i++)
             {
-                unsigned int item_id = mail_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = mail_pocket->get_amount(i+1);
+                bag_slot_t bag_item = mail_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -432,8 +437,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < battle_item_pocket->get_size(); i++)
             {
-                unsigned int item_id = battle_item_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = battle_item_pocket->get_amount(i+1);
+                bag_slot_t bag_item = battle_item_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -447,8 +453,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < key_item_pocket->get_size(); i++)
             {
-                unsigned int item_id = key_item_pocket->get_item(i+1)->get_item_id();
-                unsigned int amount = key_item_pocket->get_amount(i+1);
+                bag_slot_t bag_item = key_item_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_item_id();
+                unsigned int amount = bag_item.second;
             
                 if(item_id == Items::NONE) break;
                 else
@@ -526,9 +533,9 @@ namespace pkmn
             
             for(size_t i = 0; i < item_pocket->get_size(); i++)
             {
-                unsigned int item_id = item_pocket->get_item(i+1)->get_item_id();
-                item_id = database::get_item_index(item_id, item_bag->get_game_id());
-                unsigned int amount = item_pocket->get_amount(i+1);
+                bag_slot_t bag_item = item_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_game_index();
+                unsigned int amount = bag_item.second;
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -539,9 +546,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < medicine_pocket->get_size(); i++)
             {
-                unsigned int item_id = medicine_pocket->get_item(i+1)->get_item_id();
-                item_id = database::get_item_index(item_id, item_bag->get_game_id());
-                unsigned int amount = medicine_pocket->get_amount(i+1);
+                bag_slot_t bag_item = medicine_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_game_index();
+                unsigned int amount = bag_item.second;
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -552,9 +559,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < tm_pocket->get_size(); i++)
             {
-                unsigned int item_id = tm_pocket->get_item(i+1)->get_item_id();
-                item_id = database::get_item_index(item_id, item_bag->get_game_id());
-                unsigned int amount = tm_pocket->get_amount(i+1);
+                bag_slot_t bag_item = tm_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_game_index();
+                unsigned int amount = bag_item.second;
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -565,9 +572,9 @@ namespace pkmn
             }
             for(size_t i = 0; i < berry_pocket->get_size(); i++)
             {
-                unsigned int item_id = berry_pocket->get_item(i+1)->get_item_id();
-                item_id = database::get_item_index(item_id, item_bag->get_game_id());
-                unsigned int amount = berry_pocket->get_amount(i+1);
+                bag_slot_t bag_item = berry_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_game_index();
+                unsigned int amount = bag_item.second;
                 
                 if(item_id == Items::NONE) break;
                 else
@@ -576,10 +583,11 @@ namespace pkmn
                     pkmds_bag->berries_pocket[i].quantity = amount;
                 }
             }
-            for(size_t i = 0; i < berry_pocket->get_size(); i++)
+            for(size_t i = 0; i < key_item_pocket->get_size(); i++)
             {
-                unsigned int item_id = key_item_pocket->get_item(i+1)->get_item_id();
-                item_id = database::get_item_index(item_id, item_bag->get_game_id());
+                bag_slot_t bag_item = key_item_pocket->get_item(i+1);
+                unsigned int item_id = bag_item.first->get_game_index();
+                unsigned int amount = bag_item.second;
                 
                 if(item_id == Items::NONE) break;
                 else

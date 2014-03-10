@@ -8,13 +8,17 @@
 #define INCLUDED_PKMN_POCKET_HPP
 
 #include <string>
+#include <utility>
 
 #include <pkmn/config.hpp>
 #include <pkmn/item.hpp>
+#include <pkmn/types/pokemon_text.hpp>
 #include <pkmn/types/shared_ptr.hpp>
 
 namespace pkmn
 {
+    typedef std::pair<item::sptr, unsigned int> bag_slot_t;
+
     class PKMN_API pocket
     {
         public:
@@ -25,20 +29,33 @@ namespace pkmn
 
             pocket() {};
             virtual ~pocket() {};
-            
-            virtual unsigned int get_game_id() = 0;
-            virtual std::string get_name() = 0;
-            virtual unsigned int get_size() = 0;
-            
-            virtual item::sptr get_item(unsigned int pos) = 0;
+
+            virtual std::string get_game() const = 0;
+            virtual unsigned int get_generation() const = 0;
+
+            virtual std::string get_name() const = 0;
+            virtual unsigned int get_size() const = 0;
+
+            virtual void add_item(pokemon_text item_name, unsigned int amount) = 0;
+            virtual void add_item(unsigned int item_id, unsigned int amount) = 0;
+            virtual void add_item(item::sptr item_sptr, unsigned int amount) = 0;
+            virtual void remove_item(pokemon_text item_name, unsigned int amount) = 0;
+            virtual void remove_item(unsigned int item_id, unsigned int amount) = 0;
+            virtual void remove_item(item::sptr item_sptr, unsigned int amount) = 0;
+            virtual unsigned int get_item_amount(pokemon_text item_name) const = 0;
+            virtual unsigned int get_item_amount(unsigned int item_id) const = 0;
+            virtual unsigned int get_item_amount(item::sptr item_sptr) const = 0;
+
+            virtual bag_slot_t get_item(unsigned int pos) const = 0;
             virtual void remove_item(unsigned int pos) = 0;
             virtual void set_item(unsigned int pos, item::sptr item_sptr, unsigned int amount) = 0;
             virtual void set_item(unsigned int pos, unsigned int item_id, unsigned int amount) = 0;
             virtual void set_item(item::sptr item_sptr, unsigned int amount) = 0;
             virtual void set_item(unsigned int item_id, unsigned int amount) = 0;
-            
-            virtual unsigned int get_amount(unsigned int pos) = 0;
+
             virtual void set_amount(unsigned int pos, unsigned int amount) = 0;
+
+            virtual unsigned int get_game_id() const = 0;
     };
 }
 

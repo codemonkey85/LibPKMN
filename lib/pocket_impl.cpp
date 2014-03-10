@@ -36,6 +36,7 @@ namespace pkmn
     pocket_impl::pocket_impl(unsigned int game, string name, unsigned int size)
     {
         _game_id = game;
+        _generation = database::get_generation(_game_id);
         _pocket_name = name;
         _pocket_size = size;
         
@@ -47,17 +48,105 @@ namespace pkmn
             _amounts[i] = 0;
         }
     }
-    
-    unsigned int pocket_impl::get_game_id() {return _game_id;}
-    
-    std::string pocket_impl::get_name() {return _pocket_name;}
-    
-    unsigned int pocket_impl::get_size() {return _pocket_size;}
-    
-    item::sptr pocket_impl::get_item(unsigned int pos)
+
+    std::string pocket_impl::get_game() const {return database::get_game_name(_game_id);}
+
+    unsigned int pocket_impl::get_generation() const {return _generation;}
+
+    std::string pocket_impl::get_name() const {return _pocket_name;}
+
+    unsigned int pocket_impl::get_size() const {return _pocket_size;}
+
+    void pocket_impl::add_item(pokemon_text item_name, unsigned int amount)
+    {
+        add_item(database::get_item_id(item_name), amount);
+    }
+
+    void pocket_impl::add_item(unsigned int item_id, unsigned int amount)
+    {
+        for(size_t i = 0; i < _pocket_size; i++)
+        {
+            if(_contents[i] == item_id and _amounts[i] < 99)
+            {
+                _amounts[i]++;
+                break;
+            }
+            else if(_contents[i] == 0)
+            {
+                /*
+                 * Assume we've found an empty slot and the item isn't in the bag,
+                 * so check to make sure the item is valid for the game.
+                 */
+                if(database::get_item_index(item_id, _game_id) != 0)
+                {
+                    _contents[i] = item_id;
+                    _amounts[i] = amount;
+                    break;
+                }
+            }
+            /*
+             * If the function finishes the for-loop without entering either
+             * part of the if-statement, then no item was added.
+             */
+        }
+    }
+
+    void pocket_impl::add_item(item::sptr item_sptr, unsigned int amount)
+    {
+        add_item(item_sptr->get_item_id(), amount);
+    }
+
+    void pocket_impl::remove_item(pokemon_text item_name, unsigned int amount)
+    {
+        remove_item(database::get_item_id(item_name), amount);
+    }
+
+    void pocket_impl::remove_item(unsigned int item_id, unsigned int amount)
+    {
+        for(size_t i = 0; i < _pocket_size; i++)
+        {
+            if(_contents[i] == item_id)
+            {
+                if(amount < _amounts[i]) _amounts[i] -= amount;
+                else remove_item(i+1);
+
+                break;
+            }
+        }
+    }
+
+    void pocket_impl::remove_item(item::sptr item_sptr, unsigned int amount)
+    {
+        remove_item(item_sptr->get_item_id(), amount);
+    }
+
+    unsigned int pocket_impl::get_item_amount(pokemon_text item_name) const
+    {
+        return get_item_amount(database::get_item_id(item_name));
+    }
+
+    unsigned int pocket_impl::get_item_amount(unsigned int item_id) const
+    {
+        for(size_t i = 0; i < _pocket_size; i++)
+        {
+            if(_contents[i] == item_id)
+            {
+                return _amounts[i];
+            }
+            else if(_contents[i] == 0) break;
+        }
+        return 0;
+    }
+
+    unsigned int pocket_impl::get_item_amount(item::sptr item_sptr) const
+    {
+        return get_item_amount(item_sptr->get_item_id());
+    }
+
+    bag_slot_t pocket_impl::get_item(unsigned int pos) const
     {
         unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        return item::make(_contents[actual_pos], _game_id);
+        return std::make_pair(item::make(_contents[actual_pos], _game_id), _amounts[actual_pos]);
     }
     
     void pocket_impl::remove_item(unsigned int pos)
@@ -118,15 +207,11 @@ namespace pkmn
         }
     }
     
-    unsigned int pocket_impl::get_amount(unsigned int pos)
-    {
-        unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        return _amounts[actual_pos];
-    }
-    
     void pocket_impl::set_amount(unsigned int pos, unsigned int amount)
     {
         unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
         _amounts[actual_pos] = amount;
     }
+
+    unsigned int pocket_impl::get_game_id() const {return _game_id;}
 } /* namespace pkmn */
