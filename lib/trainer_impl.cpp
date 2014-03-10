@@ -47,7 +47,12 @@ namespace pkmn
         _trainer_name = name;
         _gender_id = gender;
         _money = 0;
-        _trainer_id = _rand_gen->lcrng();
+        
+        /*
+         * Public vs. secret ID's weren't a factor in Generations I-II
+         */
+        _trainer_id = (_generation < 3) ? (_rand_gen->lcrng() % 65535)
+                                        : _rand_gen->lcrng();
 
         _party = pokemon_team_t(6);
         for(int i = 0; i < 6; i++)
@@ -72,15 +77,25 @@ namespace pkmn
         return (_gender_id == Genders::MALE) ? "Male" : "Female";
     }
 
-    unsigned int trainer_impl::get_id() const {return _trainer_id;}
+    unsigned int trainer_impl::get_id() const
+    {
+        return (_generation < 3) ? _tid.public_id
+                                 : _trainer_id;
+    }
 
     unsigned short trainer_impl::get_public_id() const {return _tid.public_id;}
 
-    unsigned short trainer_impl::get_secret_id() const {return _tid.secret_id;}
+    unsigned short trainer_impl::get_secret_id() const
+    {
+        return (_generation < 3) ? 0
+                                 : _tid.secret_id;
+    }
 
     void trainer_impl::set_name(pokemon_text name)
     {
-        _trainer_name = (name.std_string().length() <= 7) ? name : _trainer_name;
+        _trainer_name = (name.std_string().length() >= 1
+                         and name.std_string().length() <= 7) ? name
+                                                                : _trainer_name;
     }
 
     void trainer_impl::set_money(unsigned int money)
