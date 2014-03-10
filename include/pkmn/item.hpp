@@ -31,80 +31,57 @@ namespace pkmn
 
             typedef pkmn::shared_ptr<item> sptr;
 
+            //! Class's factory function (using SQLite ID's)
             /*!
              * This is the class's factory function. It takes in the SQLite database ID for the game
              * and item this class should describe.
              *
+             * \param id SQLite database ID of the desired item, as defined in <pkmn/enums.hpp>
+             * \param id SQLite database ID of the item's game, as defined in <pkmn/enums.hpp>
              * \return shared pointer to instance of pkmn::item with described parameters
              */
             static sptr make(unsigned int id, unsigned int game);
 
+            //! Class's factory function
             /*!
              * This is the class's factory function. It takes in the name of the game
              * and item this class should describe.
              *
+             * \param name item's name
+             * \param game item's game
              * \return shared pointer to instance of pkmn::item with described parameters
              */
             static sptr make(std::string name, std::string game);
 
-
+            //! Class constructor (use factory function instead)
             item() {};
             virtual ~item() {};
 
-            /*!
-             * Return the name of the game from which this item was created.
-             *
-             * Examples: "Red", "Diamond"
-             *
-             * \return game's name
-             */
+            //! Return the name of the item from which this item was created (ex. "Red", "Diamond").
             virtual std::string get_game() const = 0;
 
-            /*!
-             * Return the generation (1-6) of the game from which this item
-             * was created.
-             *
-             * \return game's generation
-             */
+            //! Return the generation of the item from which this item was created (1-6).
             virtual unsigned int get_generation() const = 0;
 
-            /*!
-             * Return the item's name.
-             *
-             * \return name of item
-             */
+            //! Return the item's name.
             virtual std::string get_name() const = 0;
 
-            /*!
-             * Return the item's description. This varies between version groups.
-             *
-             * \return item's description
-             */
+            //! Return the item's description (varies between games).
             virtual std::string get_description() const = 0;
 
-            /*!
-             * Return the item's category (Medicine, Key Items, etc).
-             *
-             * \return item's category
-             */
+            //! Return the item's category (ex. "Medicine", "Key Items").
             virtual std::string get_category() const = 0;
 
-            /*!
-             * In different version groups, the same item has a different index value
-             * associated with it. As such, this function returns a different value for
-             * each version group.
-             *
-             * \return item's index number for given version group
-             */
+            //! Return the items in-game index value (varies between version groups).
             virtual unsigned int get_game_index() const = 0;
             
-            //! Return item's SQLite database ID
+            //! Return item's SQLite database ID.
             virtual unsigned int get_item_id() const = 0;
 
-            //! Return item category's SQLite database ID
+            //! Return item category's SQLite database ID.
             virtual unsigned int get_category_id() const = 0;
 
-            //! Return SQLite Database ID of game used to create this item instance
+            //! Return SQLite Database ID of game used to create this item instance.
             virtual unsigned int get_game_id() const = 0;
     };
 }

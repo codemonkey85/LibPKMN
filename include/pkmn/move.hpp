@@ -50,40 +50,23 @@ namespace pkmn
              */
             static sptr make(std::string name, std::string game);
 
+            //! Class constructor (use factory function instead)
             move() {};
             virtual ~move() {};
 
-            /*!
-             * Return the name of the game from which this move was created.
-             *
-             * Examples: "Red", "Diamond"
-             *
-             * \return game's name
-             */
+            //! Return the name of the item from which this move was created (ex. "Red", "Diamond").
             virtual std::string get_game() const = 0;
 
-            /*!
-             * Return the generation (1-6) of the game from which this move
-             * was created.
-             *
-             * \return game's generation
-             */
+            //! Return the generation of the item from which this move was created (1-6).
             virtual unsigned int get_generation() const = 0;
 
-            /*!
-             * Return the move's name.
-             *
-             * \return name of move
-             */
+            //! Return the move's name.
             virtual std::string get_name() const = 0;
 
-            /*!
-             * Return the move's description. This varies between version groups.
-             *
-             * \return move's description
-             */
+            //! Return the move's description (varies between games).
             virtual std::string get_description() const = 0;
 
+            //! Return the move's type.
             /*!
              * Return the move's type.
              *
@@ -95,6 +78,7 @@ namespace pkmn
              */
             virtual std::string get_type() const = 0;
 
+            //! Return the move's base attack power.
             /*!
              * Return the move's base power. This value, combined with stats from the attacker
              * and defender, is used to determine how much damage the move inflicts. For moves
@@ -106,6 +90,7 @@ namespace pkmn
              */
             virtual unsigned int get_base_power() const = 0;
 
+            //! Return the move's base max PP.
             /*!
              * Return the move's base <a href="http://bulbapedia.bulbagarden.net/wiki/Power_points">Power Points (PP)</a>
              * amount, without the usage of PP Up or PP Max to increase the value.
@@ -114,6 +99,7 @@ namespace pkmn
              */
             virtual unsigned int get_base_pp() const = 0;
 
+            //! Return the move's damage class ("Physical", "Special", or "Status").
             /*!
              * Return the move's damage class (Physical, Special, or Status). Physical moves are generally moves
              * that make contact with the target, while Special moves are generally projectile or beam-based.
@@ -129,6 +115,7 @@ namespace pkmn
              */
             virtual std::string get_move_damage_class() const = 0;
 
+            //! Return the move's accuracy (0.0-100.0).
             /*!
              * Return the move's accuracy (0.0-100.0), before any modifier moves/items are applied. For
              * example, Hydro Pump's accuracy is 80% (source: <a href="http://bulbapedia.bulbagarden.net/wiki/Hydro_pump">Bulbapedia</a>),
@@ -139,13 +126,10 @@ namespace pkmn
              */
             virtual double get_base_accuracy() const = 0;
 
-            /*!
-             * Return the move's effect (ex. Burn). 
-             *
-             * \return move's effect
-             */
+            //! Return the move's effect (ex. "Burn", "Confusion").
             virtual std::string get_effect() const = 0;
 
+            //! Return the probability of the move's effect occurring (0.0-100.0).
             /*!
              * Return the probability (0.0-100.0) of the chance given by get_effect() occurring.
              * If the move has no associated status, this function will return 0.0.
@@ -154,13 +138,10 @@ namespace pkmn
              */
             virtual double get_effect_chance() const = 0;
 
-            /*!
-             * Return move's <a href="http://bulbapedia.bulbagarden.net/wiki/Priority">priority</a> (-8 - 8).
-             *
-             * \return move's priority
-             */
+            //! Return the move's <a href="http://bulbapedia.bulbagarden.net/wiki/Priority">priority</a> (-8 - 8).
             virtual int get_priority() const = 0;
 
+            //! Return the move's target.
             /*!
              * In Double Battles and Triple Battles, moves can target all opponents, some opponents, allies,
              * or some combination thereof. This function returns a string describing this target or group
