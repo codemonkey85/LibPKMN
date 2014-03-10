@@ -86,9 +86,17 @@
     $result = PyString_FromString($1);
 }
 
+%template(bag_slot) std::pair<pkmn::item::sptr, unsigned int>;
+
+%template(base_pokemon_vec) std::vector<pkmn::base_pokemon::sptr>;
+%template(moveset) std::vector<pkmn::move::sptr>;
+%rename(pocket_vec) std::vector<pkmn::pocket::sptr>;
+%rename(pokemon_team) std::vector<pkmn::team_pokemon::sptr>;
+
 LIBPKMN_PYTHON_DICT(string_int_dict, std::string, int)
 LIBPKMN_PYTHON_DICT(string_string_dict, std::string, std::string)
 LIBPKMN_PYTHON_DICT(string_uint_dict, std::string, unsigned int)
+LIBPKMN_PYTHON_DICT(pocket_dict, std::string, pkmn::pocket::sptr)
 
 LIBPKMN_PYTHON_SPTR(base_pokemon)
 LIBPKMN_PYTHON_SPTR(item)

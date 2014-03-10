@@ -10,6 +10,21 @@
  * main naming convention is CamelCase/lowerCamelCase.
  */
 
+%include "std_pair.i"
+
+/*
+ * pkmn/bag.hpp
+ */
+%rename(Bag) pkmn::bag;
+%rename(getGame) pkmn::bag::get_game;
+%rename(getGeneration) pkmn::bag::get_generation;
+%rename(addItem) pkmn::bag::add_item;
+%rename(removeItem) pkmn::bag::remove_item;
+%rename(getItemAmount) pkmn::bag::get_item_amount;
+%rename(getPocket) pkmn::bag::get_pocket;
+%rename(getPockets) pkmn::bag::get_pockets;
+%rename(getGameID) pkmn::bag::get_game_id;
+
 /*
  * pkmn/base_pokemon.hpp
  */
@@ -134,6 +149,23 @@
 %rename(getDatabasePath) pkmn::get_database_path;
 %rename(getImagesDir) pkmn::get_images_dir;
 %rename(getTmpDir) pkmn::get_tmp_dir;
+
+/*
+ * pkmn/pocket.hpp
+ */
+%rename(Pocket) pkmn::pocket;
+%rename(getGame) pkmn::pocket::get_game;
+%rename(getGeneration) pkmn::pocket::get_generation;
+%rename(getName) pkmn::pocket::get_name;
+%rename(getSize) pkmn::pocket::get_size;
+%rename(addItem) pkmn::pocket::add_item;
+%rename(removeItem) pkmn::pocket::remove_item;
+%rename(getItemAmount) pkmn::pocket::get_item_amount;
+%rename(getItem) pkmn::pocket::get_item;
+%rename(removeItem) pkmn::pocket::remove_item;
+%rename(setItem) pkmn::pocket::set_item;
+%rename(setAmount) pkmn::pocket::set_amount;
+%rename(getGameID) pkmn::pocket::get_game_id;
 
 /*
  * pkmn/team_pokemon.hpp

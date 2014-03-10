@@ -166,6 +166,13 @@
 
 %include "pkmn/lists.hpp"
 
+%template(BagSlot) std::pair<pkmn::item::sptr, unsigned int>;
+
+%template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
+%template(Moveset) std::vector<pkmn::move::sptr>;
+%template(PocketVector) std::vector<pkmn::pocket::sptr>;
+%template(PokemonTeam) std::vector<pkmn::team_pokemon::sptr>;
+
 LIBPKMN_CS_DICT(StringIntDict, std::string, int, string, int)
 LIBPKMN_CS_DICT(StringStringDict, std::string, std::string, string, string)
 LIBPKMN_CS_DICT(StringUIntDict, std::string, unsigned int, string, uint)
@@ -191,7 +198,3 @@ LIBPKMN_CS_DICT(StringUIntDict, std::string, unsigned int, string, uint)
 %template(PRNGSPtr)        pkmn::shared_ptr<pkmn::prng>;
 %template(TeamPokemonSPtr) pkmn::shared_ptr<pkmn::team_pokemon>;
 %template(TrainerSPtr)     pkmn::shared_ptr<pkmn::trainer>;
-
-%template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
-%template(Moveset) std::vector<pkmn::move::sptr>;
-%template(PokemonTeam) std::vector<pkmn::team_pokemon::sptr>;
