@@ -31,7 +31,8 @@
     %template(python_name) pkmn::dict<type1, type2>;
 %enddef
 
-%ignore pkmn::pokemon_text::const_char();
+%ignore pkmn::pokemon_text::const_char;
+%rename(__len__) pkmn::pokemon_text::length;
 %extend pkmn::pokemon_text{
     char* __repr__() {return (char*)((*self).const_char());}
     char* __str__() {return (char*)((*self).const_char());}

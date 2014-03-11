@@ -17,36 +17,38 @@ namespace pkmn
     pokemon_text::pokemon_text(const wchar_t* input) {set(input);}
     pokemon_text::pokemon_text(std::string input) {set(input);}
     pokemon_text::pokemon_text(std::wstring input) {set(input);}
-    
+
     const char* pokemon_text::const_char() const {return stdstring.c_str();}
     const wchar_t* pokemon_text::const_wchar_t() const {return stdwstring.c_str();}
     std::string pokemon_text::std_string() const {return stdstring;}
     std::wstring pokemon_text::std_wstring() const {return stdwstring;}
-    
+
     void pokemon_text::set(const char* input)
     {
         stdstring = std::string(input);
         stdwstring = boost::nowide::widen(input);
     }
-    
+
     void pokemon_text::set(const wchar_t* input)
     {
         stdstring = boost::nowide::narrow(input);
         stdwstring = std::wstring(input);
     }
-    
+
     void pokemon_text::set(std::string input)
     {
         stdstring = input;
         stdwstring = boost::nowide::widen(input);
     }
-    
+
     void pokemon_text::set(std::wstring input)
     {
         stdstring = boost::nowide::narrow(input);
         stdwstring = input;
     }
-    
+
+    size_t pokemon_text::length() const {return stdstring.length();}
+
     const char& pokemon_text::operator[](size_t pos) const
     {
         size_t size = stdstring.size();

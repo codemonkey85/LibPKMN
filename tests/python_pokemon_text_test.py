@@ -12,3 +12,4 @@ if __name__ == "__main__":
 
     test_text1 = LibPKMN.pokemon_text("foo")
     print test_text1
+    print len(test_text1)

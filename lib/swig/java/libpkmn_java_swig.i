@@ -18,10 +18,6 @@
         return toString().isEmpty();
     }
 
-    public int length() {
-        return toString().length();
-    }
-
     @Override public String toString() {
         return const_char();
     }

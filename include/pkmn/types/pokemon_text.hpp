@@ -33,7 +33,9 @@ namespace pkmn
             void set(const wchar_t* input);
             void set(std::string input);
             void set(std::wstring input);
-            
+
+            size_t length() const;
+
             //Typecasts
             inline operator std::string() const {return stdstring;}
             inline operator std::wstring() const {return stdwstring;}
