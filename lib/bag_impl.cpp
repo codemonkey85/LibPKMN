@@ -139,6 +139,7 @@ namespace pkmn
         boost::assign::list_of
         (
             boost::assign::list_of //Never used
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Items") //Poke Balls
@@ -150,6 +151,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //RB
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Items") //Poke Balls
@@ -161,6 +163,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //Yellow
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Items") //Poke Balls
@@ -172,6 +175,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //GS
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Balls") //Poke Balls
@@ -183,6 +187,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //Crystal
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Balls") //Poke Balls
@@ -194,6 +199,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //RS
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -205,6 +211,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //Emerald
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -216,6 +223,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //FRLG
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -227,6 +235,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //DP
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Medicine") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -238,6 +247,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //Platinum
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Medicine") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -249,6 +259,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //HGSS
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Medicine") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -260,6 +271,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //BW
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Medicine") //Medicine
                 ("Items") //Poke Balls
@@ -271,6 +283,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //Colosseum
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -282,6 +295,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //XD
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Items") //Medicine
                 ("Poke Balls") //Poke Balls
@@ -293,6 +307,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //B2W2
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Medicine") //Medicine
                 ("Items") //Poke Balls
@@ -304,6 +319,7 @@ namespace pkmn
         )
         (
             boost::assign::list_of //XY
+                ("Items") //Invalid
                 ("Items") //Misc
                 ("Medicine") //Medicine
                 ("Items") //Poke Balls
