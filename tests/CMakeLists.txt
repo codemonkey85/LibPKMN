@@ -16,9 +16,9 @@ SET(DATABASE_PATH ${LIBPKMN_BINARY_DIR}/share/libpkmn)
 FILE(TO_NATIVE_PATH ${DATABASE_PATH} DATABASE_PATH)
 
 SET(cpp_test_sources
-    bag_pocket_test.cpp
     dict_test.cpp
     pokemon_text_test.cpp
+    bag_pocket_test.cpp
     prng_test.cpp
 )
 
@@ -114,6 +114,7 @@ IF(ENABLE_PYTHON)
         python_dict_test
         python_enum_test
         python_pokemon_text_test
+        python_bag_pocket_test
     )
 
     FOREACH(python_test ${python_test_names})
@@ -133,6 +134,7 @@ IF(ENABLE_CSHARP)
     SET(cs_test_names
         CSharpDictTest
         CSharpPokemonTextTest
+        CSharpBagPocketTest
     )
 
     FOREACH(cs_test ${cs_test_names})

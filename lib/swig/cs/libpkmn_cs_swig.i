@@ -170,12 +170,13 @@
 
 %template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
 %template(Moveset) std::vector<pkmn::move::sptr>;
-%template(PocketVector) std::vector<pkmn::pocket::sptr>;
+%template(PocketSPtr_vec) std::vector<pkmn::pocket::sptr>; //Temporary, necessary for dict for now
 %template(PokemonTeam) std::vector<pkmn::team_pokemon::sptr>;
 
 LIBPKMN_CS_DICT(StringIntDict, std::string, int, string, int)
 LIBPKMN_CS_DICT(StringStringDict, std::string, std::string, string, string)
 LIBPKMN_CS_DICT(StringUIntDict, std::string, unsigned int, string, uint)
+LIBPKMN_CS_DICT(PocketDict, std::string, pkmn::pocket::sptr, string, PocketSPtr)
 
 //Factory functions need to specifically be associated with newobject
 %newobject pkmn::bag::make;
