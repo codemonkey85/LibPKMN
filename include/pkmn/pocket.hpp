@@ -34,7 +34,7 @@ namespace pkmn
             virtual unsigned int get_generation() const = 0;
 
             virtual std::string get_name() const = 0;
-            virtual unsigned int get_size() const = 0;
+            virtual unsigned int size() const = 0;
 
             virtual void add_item(pokemon_text item_name, unsigned int amount) = 0;
             virtual void add_item(unsigned int item_id, unsigned int amount) = 0;

@@ -19,17 +19,11 @@ namespace pkmn
 
             pocket_impl(unsigned int game, std::string name, unsigned int size);
 
-            std::string get_game();
-            unsigned int get_generation();
-            
-            std::string get_name();
-            unsigned int get_size();
-
             std::string get_game() const;
             unsigned int get_generation() const;
-
+            
             std::string get_name() const;
-            unsigned int get_size() const;
+            unsigned int size() const;
 
             void add_item(pokemon_text item_name, unsigned int amount);
             void add_item(unsigned int item_id, unsigned int amount);

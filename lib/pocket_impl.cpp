@@ -55,7 +55,7 @@ namespace pkmn
 
     std::string pocket_impl::get_name() const {return _pocket_name;}
 
-    unsigned int pocket_impl::get_size() const {return _pocket_size;}
+    unsigned int pocket_impl::size() const {return _pocket_size;}
 
     void pocket_impl::add_item(pokemon_text item_name, unsigned int amount)
     {

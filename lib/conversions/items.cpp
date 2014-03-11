@@ -89,7 +89,7 @@ namespace pkmn
             if(game == Games::FIRE_RED or game == Games::LEAF_GREEN) berry_pocket = item_bag->get_pocket("Berry Pouch");
             else berry_pocket = item_bag->get_pocket("Berries");
             
-            for(size_t i = item_offset; i < item_pocket->get_size(); i+= 4)
+            for(size_t i = item_offset; i < item_pocket->size(); i+= 4)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
@@ -99,7 +99,7 @@ namespace pkmn
                     item_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
-            for(size_t i = key_item_offset; i < key_item_pocket->get_size(); i+= 4)
+            for(size_t i = key_item_offset; i < key_item_pocket->size(); i+= 4)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
@@ -109,7 +109,7 @@ namespace pkmn
                     key_item_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
-            for(size_t i = ball_offset; i < ball_pocket->get_size(); i+= 4)
+            for(size_t i = ball_offset; i < ball_pocket->size(); i+= 4)
             {
                 pokehack_item* raw_item = (pokehack_item*)(&data[i]);
                 if(raw_item->index == 0) break;
@@ -120,7 +120,7 @@ namespace pkmn
                     ball_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
-            for(size_t i = tm_offset; i < tm_pocket->get_size(); i+= 4)
+            for(size_t i = tm_offset; i < tm_pocket->size(); i+= 4)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
@@ -130,7 +130,7 @@ namespace pkmn
                     tm_pocket->set_item(item::make(libpkmn_item_id, game), raw_item->quantity);
                 }
             }
-            for(size_t i = berry_offset; i < berry_pocket->get_size(); i+= 4)
+            for(size_t i = berry_offset; i < berry_pocket->size(); i+= 4)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
                 if(raw_item->index == 0) break;
@@ -185,7 +185,7 @@ namespace pkmn
             pocket::sptr berry_pocket = (game == Games::FIRE_RED) ? item_bag->get_pocket("Berry Pouch")
                                                                   : item_bag->get_pocket("Berries");
             
-            for(size_t i = 0; i < item_pocket->get_size(); i++)
+            for(size_t i = 0; i < item_pocket->size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[item_offset+(i*4)]);
                 unsigned int item_id = item_pocket->get_item(i+1).first->get_item_id();
@@ -197,7 +197,7 @@ namespace pkmn
                     raw_item->quantity = item_pocket->get_item_amount(i);
                 }
             }
-            for(size_t i = 0; i < key_item_pocket->get_size(); i++)
+            for(size_t i = 0; i < key_item_pocket->size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[key_item_offset+(i*4)]);
                 unsigned int item_id = key_item_pocket->get_item(i+1).first->get_item_id();
@@ -209,7 +209,7 @@ namespace pkmn
                     raw_item->quantity = 1;
                 }
             }
-            for(size_t i = 0; i < ball_pocket->get_size(); i++)
+            for(size_t i = 0; i < ball_pocket->size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[ball_offset+(i*4)]);
                 unsigned int item_id = ball_pocket->get_item(i+1).first->get_item_id();
@@ -221,7 +221,7 @@ namespace pkmn
                     raw_item->quantity = 1;
                 }
             }
-            for(size_t i = 0; i < tm_pocket->get_size(); i++)
+            for(size_t i = 0; i < tm_pocket->size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[tm_offset+(i*4)]);
                 unsigned int item_id = tm_pocket->get_item(i+1).first->get_item_id();
@@ -233,7 +233,7 @@ namespace pkmn
                     raw_item->quantity = 1;
                 }
             }
-            for(size_t i = 0; i < berry_pocket->get_size(); i++)
+            for(size_t i = 0; i < berry_pocket->size(); i++)
             {
                 pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[berry_offset+(i*4)]);
                 unsigned int item_id = berry_pocket->get_item(i+1).first->get_item_id();
@@ -260,7 +260,7 @@ namespace pkmn
             pocket::sptr battle_item_pocket = item_bag->get_pocket("Battle Items");
             pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
             
-            for(size_t i = 0; i < item_pocket->get_size(); i++)
+            for(size_t i = 0; i < item_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemGeneral, i+1);
                 
@@ -268,7 +268,7 @@ namespace pkmn
                 else item_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                            pokelib_bagitem.count);
             }
-            for(size_t i = 0; i < medicine_pocket->get_size(); i++)
+            for(size_t i = 0; i < medicine_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemMedicine, i+1);
                 
@@ -276,7 +276,7 @@ namespace pkmn
                 else medicine_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                                pokelib_bagitem.count);
             }
-            for(size_t i = 0; i < ball_pocket->get_size(); i++)
+            for(size_t i = 0; i < ball_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemBall, i+1);
                 
@@ -284,7 +284,7 @@ namespace pkmn
                 else ball_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                            pokelib_bagitem.count);
             }
-            for(size_t i = 0; i < tm_pocket->get_size(); i++)
+            for(size_t i = 0; i < tm_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemTM, i+1);
                 
@@ -292,7 +292,7 @@ namespace pkmn
                 else tm_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                          pokelib_bagitem.count);
             }
-            for(size_t i = 0; i < berry_pocket->get_size(); i++)
+            for(size_t i = 0; i < berry_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemBerry, i+1);
                 
@@ -300,7 +300,7 @@ namespace pkmn
                 else berry_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                             pokelib_bagitem.count);
             }
-            for(size_t i = 0; i < mail_pocket->get_size(); i++)
+            for(size_t i = 0; i < mail_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemMail, i+1);
                 
@@ -308,7 +308,7 @@ namespace pkmn
                 else mail_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                            pokelib_bagitem.count);
             }
-            for(size_t i = 0; i < battle_item_pocket->get_size(); i++)
+            for(size_t i = 0; i < battle_item_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemBattle, i+1);
                 
@@ -316,7 +316,7 @@ namespace pkmn
                 else battle_item_pocket->set_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                                   pokelib_bagitem.count);
             }
-            for(size_t i = 0; i < key_item_pocket->get_size(); i++)
+            for(size_t i = 0; i < key_item_pocket->size(); i++)
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemKey, i+1);
                 
@@ -339,7 +339,7 @@ namespace pkmn
             pocket::sptr battle_item_pocket = item_bag->get_pocket("Battle Items");
             pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
             
-            for(size_t i = 0; i < item_pocket->get_size(); i++)
+            for(size_t i = 0; i < item_pocket->size(); i++)
             {
                 bag_slot_t bag_item = item_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -355,7 +355,7 @@ namespace pkmn
                     pokelib_trainer->setItem(PokeLib::ItemGeneral, (i+1), pokelib_bagitem);
                 }
             }
-            for(size_t i = 0; i < medicine_pocket->get_size(); i++)
+            for(size_t i = 0; i < medicine_pocket->size(); i++)
             {
                 bag_slot_t bag_item = medicine_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -371,7 +371,7 @@ namespace pkmn
                     pokelib_trainer->setItem(PokeLib::ItemMedicine, (i+1), pokelib_bagitem);
                 }
             }
-            for(size_t i = 0; i < ball_pocket->get_size(); i++)
+            for(size_t i = 0; i < ball_pocket->size(); i++)
             {
                 bag_slot_t bag_item = ball_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -387,7 +387,7 @@ namespace pkmn
                     pokelib_trainer->setItem(PokeLib::ItemBall, (i+1), pokelib_bagitem);
                 }
             }
-            for(size_t i = 0; i < tm_pocket->get_size(); i++)
+            for(size_t i = 0; i < tm_pocket->size(); i++)
             {
                 bag_slot_t bag_item = tm_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -403,7 +403,7 @@ namespace pkmn
                     pokelib_trainer->setItem(PokeLib::ItemTM, (i+1), pokelib_bagitem);
                 }
             }
-            for(size_t i = 0; i < berry_pocket->get_size(); i++)
+            for(size_t i = 0; i < berry_pocket->size(); i++)
             {
                 bag_slot_t bag_item = berry_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -419,7 +419,7 @@ namespace pkmn
                     pokelib_trainer->setItem(PokeLib::ItemBerry, (i+1), pokelib_bagitem);
                 }
             }
-            for(size_t i = 0; i < mail_pocket->get_size(); i++)
+            for(size_t i = 0; i < mail_pocket->size(); i++)
             {
                 bag_slot_t bag_item = mail_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -435,7 +435,7 @@ namespace pkmn
                     pokelib_trainer->setItem(PokeLib::ItemMail, (i+1), pokelib_bagitem);
                 }
             }
-            for(size_t i = 0; i < battle_item_pocket->get_size(); i++)
+            for(size_t i = 0; i < battle_item_pocket->size(); i++)
             {
                 bag_slot_t bag_item = battle_item_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -451,7 +451,7 @@ namespace pkmn
                     pokelib_trainer->setItem(PokeLib::ItemBattle, (i+1), pokelib_bagitem);
                 }
             }
-            for(size_t i = 0; i < key_item_pocket->get_size(); i++)
+            for(size_t i = 0; i < key_item_pocket->size(); i++)
             {
                 bag_slot_t bag_item = key_item_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_item_id();
@@ -531,7 +531,7 @@ namespace pkmn
             pocket::sptr berry_pocket = item_bag->get_pocket("Berries");
             pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
             
-            for(size_t i = 0; i < item_pocket->get_size(); i++)
+            for(size_t i = 0; i < item_pocket->size(); i++)
             {
                 bag_slot_t bag_item = item_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_game_index();
@@ -544,7 +544,7 @@ namespace pkmn
                     pkmds_bag->items_pocket[i].quantity = amount;
                 }
             }
-            for(size_t i = 0; i < medicine_pocket->get_size(); i++)
+            for(size_t i = 0; i < medicine_pocket->size(); i++)
             {
                 bag_slot_t bag_item = medicine_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_game_index();
@@ -557,7 +557,7 @@ namespace pkmn
                     pkmds_bag->medicine_pocket[i].quantity = amount;
                 }
             }
-            for(size_t i = 0; i < tm_pocket->get_size(); i++)
+            for(size_t i = 0; i < tm_pocket->size(); i++)
             {
                 bag_slot_t bag_item = tm_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_game_index();
@@ -570,7 +570,7 @@ namespace pkmn
                     pkmds_bag->tms_pocket[i].quantity = amount;
                 }
             }
-            for(size_t i = 0; i < berry_pocket->get_size(); i++)
+            for(size_t i = 0; i < berry_pocket->size(); i++)
             {
                 bag_slot_t bag_item = berry_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_game_index();
@@ -583,7 +583,7 @@ namespace pkmn
                     pkmds_bag->berries_pocket[i].quantity = amount;
                 }
             }
-            for(size_t i = 0; i < key_item_pocket->get_size(); i++)
+            for(size_t i = 0; i < key_item_pocket->size(); i++)
             {
                 bag_slot_t bag_item = key_item_pocket->get_item(i+1);
                 unsigned int item_id = bag_item.first->get_game_index();
