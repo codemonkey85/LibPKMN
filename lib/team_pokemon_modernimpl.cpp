@@ -190,11 +190,7 @@ namespace pkmn
 
     void team_pokemon_modernimpl::set_EV(std::string EV, unsigned int val)
     {
-        if(val > 255)
-        {
-            cerr << "Gen 3-5 EV's must be 0-255." << endl;
-            exit(EXIT_FAILURE);
-        }
+        if(val > 255) throw std::runtime_error("Gen 3-6 EV's must be 0-255.");
 
         if(EV == "HP")
         {
@@ -230,11 +226,7 @@ namespace pkmn
     
     void team_pokemon_modernimpl::set_IV(std::string IV, unsigned int val)
     {
-        if(val > 31)
-        {
-            cerr << "Gen 3-5 IV's must be 0-31." << endl;
-            exit(EXIT_FAILURE);
-        }
+        if(val > 31) throw std::runtime_error("Gen 3-6 IV's must be 0-31.");
 
         if(IV == "HP")
         {   

@@ -106,11 +106,7 @@ namespace pkmn
 
     void team_pokemon_gen2impl::set_EV(std::string stat_name, unsigned int val)
     {
-        if(val > 65535)
-        {
-            cerr << "Gen 2 EV's must be 0-65535." << endl;
-            exit(EXIT_FAILURE);
-        }
+        if(val > 65535) throw std::runtime_error("Gen 2 EV's must be 0-65535.");
 
         if(stat_name == "HP") _evHP = val;
         else if(stat_name == "Attack") _evATK = val;
@@ -123,11 +119,7 @@ namespace pkmn
     
     void team_pokemon_gen2impl::set_IV(std::string stat_name, unsigned int val)
     {
-        if(val > 15)
-        {
-            cerr << "Gen 2 IV's must be 0-15." << endl;
-            exit(EXIT_FAILURE);
-        }
+        if(val > 15) throw std::runtime_error("Gen 2 IV's must be 0-15.");
 
         if(stat_name == "HP") _ivHP = val;
         else if(stat_name == "Attack") _ivATK = val;

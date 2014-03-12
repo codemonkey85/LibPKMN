@@ -91,11 +91,7 @@ namespace pkmn
             rpokesav_gen1_sptr g1_sav(new rpokesav::gen1_save(filename));
             if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav));
         }
-        else
-        {
-            cerr << "This file is too small to be a proper save file." << endl;
-            exit(EXIT_FAILURE);
-        }
+        else throw std::runtime_error("This file is too small to be a proper save file.");
     }
     
     unsigned int game_save_impl::get_game_id() const {return _game_id;}
