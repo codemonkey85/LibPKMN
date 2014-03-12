@@ -136,7 +136,7 @@ namespace pkmn
      * corresponds to the Generation VI item pocket ID.
      */
     std::vector<std::vector<std::string> > bag_impl::_category_pockets =
-        boost::assign::list_of
+        boost::assign::list_of<std::vector<std::string> >
         (
             boost::assign::list_of //Never used
                 ("Items") //Invalid

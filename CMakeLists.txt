@@ -71,7 +71,18 @@ ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 ####################################################################
 # Find dependencies and set global include and link options
 ####################################################################
-FIND_PACKAGE(Boost 1.48.0 REQUIRED)
+IF(NOT MSVC)
+    SET(BOOST_COMPONENTS
+        filesystem
+        locale
+        program_options
+        system
+        unit_test_framework
+    )
+ENDIF(NOT MSVC)
+FIND_PACKAGE(Boost 1.48.0 COMPONENTS
+    ${BOOST_COMPONENTS}
+REQUIRED)
 IF(NOT Boost_FOUND)
 MESSAGE(FATAL_ERROR "Fatal error: Boost (version >= 1.48.0) required.\n")
 ENDIF(NOT Boost_FOUND)
