@@ -68,6 +68,8 @@ IF(NOT LIBPKMN_USED_AS_SUBMODULE)
     MESSAGE(STATUS "")
 ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 
+INCLUDE(${LIBPKMN_SOURCE_DIR}/cmake/Modules/LibPKMNCompilerCheck.cmake)
+
 ####################################################################
 # Find dependencies and set global include and link options
 ####################################################################

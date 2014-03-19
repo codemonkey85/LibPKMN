@@ -40,31 +40,31 @@
     // GCC 4.3 and following have std::shared_ptr support when called with -std=c++0x (or -std=c++11 starting with GCC 4.7)
     #include <memory>
     namespace pkmn {
-    using std::shared_ptr;
+        using std::shared_ptr;
     } // namespace pkmn
 #elif (defined(__GNUC__) && (__GNUC__ == 4) && defined(__GXX_EXPERIMENTAL_CXX0X__))
     // GCC 4.0/4.1/4.2 have std::shared_ptr support when when called with -std=c++0x
     #include <tr1/memory>
     namespace pkmn {
-    using std::tr1::shared_ptr;
+        using std::tr1::shared_ptr;
     } // namespace pkmn
 #elif defined(__clang__) && __has_feature(cxx_nullptr)
     // Clang 2.9 and above ?
     #include <memory>
     namespace pkmn {
-    using std::shared_ptr;
+        using std::shared_ptr;
     } // namespace pkmn
 #elif defined(_MSC_VER) && (_MSC_VER >= 1600)
     // Visual Studio 2010 compile by default in C++11 mode
     #include <memory>
     namespace pkmn {
-    using std::shared_ptr;
+        using std::shared_ptr;
     } // namespace pkmn
 #elif defined(_MSC_VER) && (_MSC_VER >= 1500)
     // Visual Studio 2008 : beware, TR1 is provided with the Service Pack 1 only !
     #include <memory>
     namespace pkmn {
-    using std::tr1:shared_ptr;
+        using std::tr1::shared_ptr;
     } // namespace pkmn
 #else
 
