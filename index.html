@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>LibPKMN by ncorgan</title>
+    <title>LibPKMN - a universal Pokémon save editing and analysis library</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -34,42 +34,46 @@
           <h1>LibPKMN</h1>
           <p>Universal Pokémon save editing and analysis library</p>
           <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/ncorgan">ncorgan</a></span>
+          <span class="credits left">Project maintained by <a href="https://github.com/ncorgan">Nicholas Corgan</a></span>
           <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
         </div>
 
         <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>LibPKMN is a C++ library that allows users to read and edit game saves of any Pokémon game from the main series (22 games released 1996-2013). With LibPKMN, users can generate Pokémon teams on their PC and import them into their saves, allowing their creations to be used in-game. Even without a save present, users can use the library for team study and strategy formation.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>This library is designed to be as portable as possible. Using the <a href="http://www.cmake.org/">CMake</a> build system for platform-independence. LibPKMN can be compiled with any modern version of GCC, Clang, or Microsoft Visual Studio C++. Portability is further extended through the use of <a href="http://www.swig.org/">SWIG</a>, which generates Python, C#, and Java API's to allow further development.</p>
 
 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a name="submodules" class="anchor" href="#submodules"><span class="octicon octicon-link"></span></a>Submodules</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>LibPKMN would not exist without the inclusion of other open-source libraries, included as Git submodules.</p>
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<ul>
+<li><a href="https://github.com/SRombauts/SQLiteCpp">SQLiteCpp</a> - SQLite3 C++ wrapper</li>
+<li><a href="https://github.com/Grazfather/pokehack">Pokehack</a> - Generation III save editing library</li>
+<li><a href="https://github.com/ncorgan/PokeLib-NC">PokeLib-NC</a> - Generation IV save editing library, a fork of Robert Maupin's <a href="https://github.com/Chase-san/PokeLib">PokeLib</a></li>
+<li><a href="https://github.com/codemonkey85/PKMDS">PKMDS</a> - Generation V-VI save editing library</li>
+</ul>
 
 <h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a name="in-the-works" class="anchor" href="#in-the-works"><span class="octicon octicon-link"></span></a>In the Works</h3>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+<p>LibPKMN is constantly evolving, with many features in development.</p>
+
+<ul>
+<li><a href="https://github.com/ncorgan/LibPKMN/tree/game_save_dev">Generation I-II support</a></li>
+<li><a href="https://github.com/ncorgan/LibPKMN/tree/gts_communication">Communication with Nintendo DS games</a></li>
+<li><a href="https://github.com/ncorgan/LibPKMN/tree/flexible_qt">Qt5 compatibility</a></li>
+</ul>
+
+<h3>
+<a name="acknowledgments" class="anchor" href="#acknowledgments"><span class="octicon octicon-link"></span></a>Acknowledgments</h3>
+
+<p>A special thanks to <a href="https://github.com/codemonkey85" class="user-mention">Michael Bond</a>, for consultation on Generation V-VI game mechanics.</p>
+
+<p>This software is in no way affiliated with or endorsed by Nintendo, Creatures Inc. or Game Freak Inc, and is created for solely recreational and non-profit use. Pokémon, Pokémon character names, are trademarks of Nintendo. Other trademarks are the property of their respective owners.</p>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
