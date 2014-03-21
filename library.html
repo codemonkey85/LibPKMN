@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>LibPKMN - Core Library</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/ncorgan/LibPKMN">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/ncorgan/LibPKMN/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/ncorgan/LibPKMN/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>LibPKMN</h1>
+          <p>Core Library</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/ncorgan">Nicholas Corgan</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+<p>This page discusses the structure of the core LibPKMN library.</p>
+
+<h3>
+<a name="abstractions" class="anchor" href="#abstractions"><span class="octicon octicon-link"></span></a>Abstractions</h3>
+
+<p>The key to LibPKMN is abstraction, whether between different game save formats or simply between Pokémon of different generations.</p>
+
+<p>There have been many changes to the games between generations. Different attributes were added, certain calculations were done differently, and some stats changed altogether. However, the user does not need to worry about any of this. In processing parameters passed by the users, each class's factory function deals with this, and the user uses a shared pointer to the correct implementation. For example, if the user calls for an Eevee <a href="https://github.com/ncorgan/LibPKMN/blob/master/include/pkmn/base_pokemon.hpp">Base Pokemon</a> from a Generation I game and asks for its evolutions, it will receive a list with Vaporeon, Jolteon, and Flareon, the only evolutions present in these games. However, an Eevee <a href="https://github.com/ncorgan/LibPKMN/blob/master/include/pkmn/base_pokemon.hpp">Base Pokemon</a> from a Generation IV game will return a list that also includes Espeon, Umbreon, Glaceon, and Leafeon.</p>
+
+<p>This paradigm becomes even more prevalent in the <a href="https://github.com/ncorgan/LibPKMN/blob/master/include/pkmn/game_save.hpp">Game Save</a> class, which interacts directly with a binary game save. All six generations store the game data in vastly different ways, but with LibPKMN, the user does not deal with this at all. For instance, let's say the user wants to edit the trainer's team. Normally, they would need to know where in the binary file the party is stored and what kind of parsing and bit-shifting is necessary to access different attributes. These methods vary wildly between generations, but with LibPKMN, this is all that's necessary:</p>
+
+<pre>
+<code>pkmn::game_save::sptr sav = pkmn::game_save::make("pokemon_emerald.sav");
+pkmn::pokemon_team_t team;
+sav->get_party(team);</code>
+</pre>
+
+<p>And now the user has a vector of easy editable Pokémon. Once they're done, they simply need to call:</p>
+
+<pre>
+<code>sav->save();</code>
+</pre>
+
+<p>to save their work and get back to playing.</p>
+
+<h3>
+<a name="sqlite3" class="anchor" href="#sqlite3"><span class="octicon octicon-link"></span></a>Underlying SQLite database</h3>
+
+<p>Underneath the library lies a SQLite database, containing vast amounts of information on every aspect of the Pokémon games. This database can be found <a href="http://veekun.com/static/pokedex/downloads/veekun-pokedex.sqlite.gz">here</a>. For the most part, the database remains the same as what is given in the link, with only minor modifications for some missing Generation I-II values. All stats, names, and other values relevant to each class are queried from this database.</p>
+
+<p>This database is automatically compiled from a dump and installed on the user's system alongside LibPKMN.</p>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
