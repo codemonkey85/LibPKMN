@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>LibPKMN - Core Library</title>
+    <title>LibPKMN - Core Library Structure</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="javascripts/jquery.min.js"></script>
@@ -69,6 +69,11 @@ sav->get_party(team);</code>
 <p>Underneath the library lies a SQLite database, containing vast amounts of information on every aspect of the Pokémon games. This database can be found <a href="http://veekun.com/static/pokedex/downloads/veekun-pokedex.sqlite.gz">here</a>. For the most part, the database remains the same as what is given in the link, with only minor modifications for some missing Generation I-II values. All stats, names, and other values relevant to each class are queried from this database.</p>
 
 <p>This database is automatically compiled from a dump and installed on the user's system alongside LibPKMN.</p>
+
+<h3>
+<a name="limitations" class="anchor" href="#limitations"><span class="octicon octicon-link"></span></a>Current Limitations</h3>
+
+<p>Like any software, LibPKMN is not perfect. The majority of its limitations stem from intergenerational changes. The stat values and Pokémon changes stored in LibPKMN's SQLite database are only guaranteed to be accurate for Generation VI. However, there have been changes in various attributes of most Pokémon, most notably experience yield between Generations IV and V. With the addition of the Fairy type in Generation VI, some Pokémon's types have changed, and the table of type strengths/weaknesses changed. Because of all this, any queries involving past generations are not currently guaranteed to be fully accurate.</p>
 
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
