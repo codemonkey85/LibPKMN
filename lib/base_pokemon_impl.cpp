@@ -254,7 +254,9 @@ namespace pkmn
     
     unsigned int base_pokemon_impl::get_exp_yield() const
     {
-        std::string query_string = "SELECT base_experience FROM pokemon WHERE species_id=" + to_string(_species_id);
+        std::string query_string;
+        if(_generation < 4 and _species_id <= 439) query_string = "SELECT exp_yield FROM old_exp_yields WHERE species_id=" + to_string(_species_id);
+        else query_string = "SELECT base_experience FROM pokemon WHERE species_id=" + to_string(_species_id);
         return int(_db.execAndGet(query_string.c_str()));
     }
 
