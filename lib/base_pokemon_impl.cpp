@@ -306,4 +306,46 @@ namespace pkmn
             for(int j = to_erase.size()-1; j >= 0; j--) id_vec.erase(id_vec.begin() + to_erase[j]);
         }
     }
+    
+    /*
+     * There are several Pokémon whose stats changed in Generation VI. This function sets the old stats
+     * if the Pokémon is from a prior generation.
+     */
+    void base_pokemon_impl::_use_old_stats()
+    {
+        //TODO: better way without unnecessary database queries?
+        if(_species_id == Species::BUTTERFREE) _special_attack = 80;
+        else if(_species_id == Species::BEEDRILL) _attack = 80;
+        else if(_species_id == Species::PIDGEOT) _speed = 91;
+        else if(_species_id == Species::PIKACHU)
+        {
+            _defense = 30;
+            _special_defense = 40;
+        }
+        else if(_species_id == Species::RAICHU) _speed = 100;
+        else if(_species_id == Species::NIDOQUEEN) _attack = 82;
+        else if(_species_id == Species::NIDOKING) _attack = 92;
+        else if(_species_id == Species::CLEFABLE) _special_attack = 85;
+        else if(_species_id == Species::WIGGLYTUFF) _special_attack = 75;
+        else if(_species_id == Species::VILEPLUME) _special_attack = 100;
+        else if(_species_id == Species::POLIWRATH) _attack = 85;
+        else if(_species_id == Species::ALAKAZAM) _special_defense = 85;
+        else if(_species_id == Species::VICTREEBEL) _special_defense = 60;
+        else if(_species_id == Species::GOLEM) _attack = 210;
+        else if(_species_id == Species::AMPHAROS) _defense = 75;
+        else if(_species_id == Species::BELLOSSOM) _defense = 85;
+        else if(_species_id == Species::AZUMARILL) _special_attack = 50;
+        else if(_species_id == Species::JUMPLUFF) _special_defense = 85;
+        else if(_species_id == Species::BEAUTIFLY) _special_attack = 90;
+        else if(_species_id == Species::EXPLOUD) _special_defense = 63;
+        else if(_species_id == Species::STARAPTOR) _special_defense = 50;
+        else if(_species_id == Species::ROSERADE) _defense = 55;
+        else if(_species_id == Species::STOUTLAND) _attack = 100;
+        else if(_species_id == Species::UNFEZANT) _attack = 105;
+        else if(_species_id == Species::GIGALITH) _special_defense = 70;
+        else if(_species_id == Species::SEISMITOAD) _attack = 85;
+        else if(_species_id == Species::LEAVANNY) _special_defense = 70;
+        else if(_species_id == Species::SCOLIPEDE) _attack = 90;
+        else if(_species_id == Species::KROOKODILE) _defense = 70;
+    }
 } /* namespace pkmn */

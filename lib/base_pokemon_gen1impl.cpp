@@ -64,6 +64,7 @@ namespace pkmn
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id="
                                     + to_string(_pokemon_id) + " AND stat_id=9";
                 _special = int(_db.execAndGet(query_string.c_str()));
+                _use_old_stats();
                 break;
         }
 

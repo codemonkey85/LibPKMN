@@ -21,6 +21,7 @@ namespace pkmn
     class base_pokemon_modernimpl: public base_pokemon_impl
     {
         public:
+
             base_pokemon_modernimpl(unsigned int id, unsigned int game_id);
 
             //Non-Battle Attributes            

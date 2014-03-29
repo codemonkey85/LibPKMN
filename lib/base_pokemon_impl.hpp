@@ -80,6 +80,7 @@ namespace pkmn
         protected:
             
             void _get_evolution_ids(std::vector<unsigned int>& id_vec) const;
+            void _use_old_stats();
             
             unsigned int _generation, _form_id, _pokemon_id, _species_id, _type1_id, _type2_id;
             unsigned int _hp, _attack, _defense, _speed, _special, _special_attack, _special_defense;

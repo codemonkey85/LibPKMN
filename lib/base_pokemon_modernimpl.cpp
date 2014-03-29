@@ -99,6 +99,7 @@ namespace pkmn
                 _special_attack = int(query.getColumn(0));
                 query.executeStep();
                 _special_defense = int(query.getColumn(0));
+                if(_generation < 6) _use_old_stats();
                 
                 repair(_pokemon_id);
                 break;
@@ -865,6 +866,7 @@ namespace pkmn
         _special_defense = int(stats_query.getColumn(0));
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
+        if(_generation < 6) _use_old_stats();
     }
 
     void base_pokemon_modernimpl::set_form(string form)
@@ -1043,6 +1045,7 @@ namespace pkmn
         _special_defense = int(stats_query.getColumn(0));
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
+        if(_generation < 6) _use_old_stats();
     }
 
     void base_pokemon_modernimpl::repair(unsigned int id)

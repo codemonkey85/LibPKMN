@@ -68,6 +68,7 @@ namespace pkmn
                 _special_attack = int(query.getColumn(0));
                 query.executeStep();
                 _special_defense = int(query.getColumn(0));
+                _use_old_stats();
                 
                 repair(_pokemon_id);
                 break;
