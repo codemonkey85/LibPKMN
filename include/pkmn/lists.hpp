@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <pkmn/base_pokemon.hpp>
@@ -21,6 +22,8 @@ namespace pkmn
     void PKMN_API get_game_group_list(std::vector<std::string>& game_group_vec);
 
     void PKMN_API get_item_list(std::vector<std::string>& item_vec, unsigned int game);
+
+    void PKMN_API get_pokedex_order(std::vector<std::pair<unsigned int, unsigned int> >& entry_list, unsigned int pokedex_id);
 
     void PKMN_API get_pokemon_list(std::vector<std::string>& pokemon_vec, unsigned int game);
 

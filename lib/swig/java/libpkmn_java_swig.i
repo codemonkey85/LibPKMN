@@ -109,6 +109,7 @@
 
 %template(BagSlot) std::pair<pkmn::item::sptr, unsigned int>;
 
+%template(UIntPairVector) std::vector<std::pair<unsigned int, unsigned int> >;
 %template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;
 %template(Moveset) std::vector<pkmn::move::sptr>;
 %template(PocketVector) std::vector<pkmn::pocket::sptr>;
