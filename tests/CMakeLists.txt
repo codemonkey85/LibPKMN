@@ -16,6 +16,7 @@ SET(DATABASE_PATH ${LIBPKMN_BINARY_DIR}/share/libpkmn)
 FILE(TO_NATIVE_PATH ${DATABASE_PATH} DATABASE_PATH)
 
 SET(cpp_test_sources
+    db_additions_test.cpp
     dict_test.cpp
     pokemon_text_test.cpp
     bag_pocket_test.cpp

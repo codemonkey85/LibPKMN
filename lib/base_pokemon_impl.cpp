@@ -254,10 +254,25 @@ namespace pkmn
     
     unsigned int base_pokemon_impl::get_exp_yield() const
     {
-        std::string query_string;
-        if(_generation < 4 and _species_id <= 439) query_string = "SELECT exp_yield FROM old_exp_yields WHERE species_id=" + to_string(_species_id);
-        else query_string = "SELECT base_experience FROM pokemon WHERE species_id=" + to_string(_species_id);
-        return int(_db.execAndGet(query_string.c_str()));
+        //Check for exceptions not covered in database
+        if(_generation == 4 and _species_id == Species::ABRA) return 75;
+        else if(_generation == 4 and _species_id == Species::MACHOP) return 75;
+        else if(_generation == 4 and _species_id == Species::GEODUDE) return 73;
+        else if(_generation == 4 and _species_id == Species::OMANYTE) return 99;
+        else if(_generation == 4 and _species_id == Species::KABUTO) return 99;
+        else if(_generation == 4 and _species_id == Species::KABUTOPS) return 199;
+        else if(_generation == 4 and _species_id == Species::DUNSPARCE) return 125;
+        else if(_generation == 4 and _species_id == Species::LILEEP) return 99;
+        else if(_generation == 4 and _species_id == Species::CRADILY) return 199;
+        else if(_generation == 4 and _species_id == Species::ANORITH) return 99;
+        else if(_generation == 4 and _species_id == Species::ARMALDO) return 199;
+        else
+        {
+            std::string query_string;
+            if(_generation < 4 and _species_id <= 439) query_string = "SELECT exp_yield FROM old_exp_yields WHERE species_id=" + to_string(_species_id);
+            else query_string = "SELECT base_experience FROM pokemon WHERE species_id=" + to_string(_species_id);
+            return int(_db.execAndGet(query_string.c_str()));
+        }
     }
 
     std::string base_pokemon_impl::get_form() const
