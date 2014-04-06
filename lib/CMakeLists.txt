@@ -12,6 +12,30 @@ IF(ENABLE_LIBPKMN)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/SQLiteCpp/sqlite3)
     ADD_SUBDIRECTORY(SQLiteCpp/src)
 
+    # LibSPEC will never have a CMakeLists.txt file, so use this to build library
+    MESSAGE(STATUS "Building LibSPEC as part of LibPKMN.")
+    MESSAGE(STATUS "")
+    LIST(APPEND libspec_sources
+        libspec/checksum.c
+        libspec/game_gba.c
+        libspec/game_gb.c
+        libspec/game_nds.c
+        libspec/game_ndsi.c
+        libspec/pkm.c
+        libspec/prng.c
+        libspec/stat.c
+    )
+    ADD_LIBRARY(spec SHARED ${libspec_sources})
+    IF(CMAKE_COMPILER_IS_GNUCXX)
+        IF(LINUX)
+            SET_TARGET_PROPERTIES(spec PROPERTIES COMPILE_FLAGS "-std=c99 -fPIC")
+        ELSE() #Cygwin
+            SET_TARGET_PROPERTIES(spec PROPERTIES COMPILE_FLAGS "-std=c99 -fPIC")
+        ENDIF(LINUX)
+    ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+        SET_TARGET_PROPERTIES(spec PROPERTIES COMPILE_FLAGS "-std=c99 -fPIC")
+    ENDIF(CMAKE_COMPILER_IS_GNUCXX)
+
     FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
     
@@ -23,7 +47,7 @@ IF(ENABLE_LIBPKMN)
 
     INCLUDE(${QT_USE_FILE})
     LIST(APPEND libpkmn_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    LIST(APPEND libpkmn_libs ${Boost_LIBRARIES} rpokesav pokehack pokelib-nc pkmds SQLiteCpp)
+    LIST(APPEND libpkmn_libs ${Boost_LIBRARIES} rpokesav pokehack pokelib-nc pkmds spec SQLiteCpp)
 
     LIST(APPEND libpkmn_sources
         library_bridge.cpp
