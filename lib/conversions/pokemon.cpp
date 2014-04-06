@@ -28,6 +28,7 @@
 #include "pokemon.hpp"
 #include "PokeText.h"
 #include "../library_bridge.hpp"
+#include "../SQLiteCpp/src/SQLiteC++.h"
 
 using namespace std;
 
@@ -35,8 +36,32 @@ namespace pkmn
 {
     namespace conversions
     {
+        SQLite::Database _db(get_database_path().c_str());
+
+        //Conversions from SQLite database values for growth ID's to LibSPEC's enums
+        stat_growth_rate_t libspec_growth_rates[6] = {STAT_GROWTH_RATE_ERRATIC, STAT_GROWTH_RATE_FAST,
+                                                      STAT_GROWTH_RATE_MEDIUM_FAST, STAT_GROWTH_RATE_MEDIUM_SLOW,
+                                                      STAT_GROWTH_RATE_SLOW, STAT_GROWTH_RATE_FLUCTUATING};
+
         //Used with item index functions
         uint8_t gen3_game_ids[4] = {Games::NONE, Games::RUBY, Games::EMERALD, Games::FIRE_RED};
+
+        team_pokemon::sptr import_gen3_pokemon(pk3_box_t* pkmn, gba_savetype_t save_type)
+        {
+            pk3_t full_pkmn;
+            full_pkmn.box = *pkmn; //Unfortunately, copying is necessary here
+
+            //LibSPEC has no way to link Pokemon to growth rates, so use database
+            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
+                                         % pkmn->species));
+            uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
+
+            full_pkmn.party.level = stat_get_level(libspec_growth_rates[growth_rate], pkmn->exp);
+
+            //Party stats don't matter since LibPKMN automatically calculate those, so
+            //use this as is.
+            return import_gen3_pokemon(&full_pkmn, save_type);
+        }
 
         team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type)
         {
