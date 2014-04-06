@@ -26,6 +26,7 @@
 #include <pkmds/pkmds_g5_sqlite.h>
 
 #include "pokemon.hpp"
+#include "PokeText.h"
 #include "../library_bridge.hpp"
 
 using namespace std;
@@ -34,6 +35,133 @@ namespace pkmn
 {
     namespace conversions
     {
+        //Used with item index functions
+        uint8_t gen3_game_ids[4] = {Games::NONE, Games::RUBY, Games::EMERALD, Games::FIRE_RED};
+
+        team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type)
+        {
+            //Avoiding bitfields and structs
+            uint16_t* met_int = reinterpret_cast<uint16_t*>(&(pkmn->box.met_loc)+1);
+            uint32_t* IV_int = reinterpret_cast<uint32_t*>(&(pkmn->box.iv));
+            uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->box.markings));
+            uint32_t* ribbon_int = reinterpret_cast<uint32_t*>(&(pkmn->box.ribbon));
+
+            uint8_t game = (*met_int & 0x1E0) >> 5;
+
+            //Check for invalid values
+            if(pkmn->box.species == 0 or
+               (pkmn->box.species > 251 and pkmn->box.species < 277) or
+               pkmn->box.species == 412) //TODO: investigate how egg works
+            {
+                return team_pokemon::make(Species::INVALID, Games::RUBY, 0,
+                                          Moves::NONE, Moves::NONE, Moves::NONE, Moves::NONE);
+            }
+
+            uint16_t game_id = hometown_to_libpkmn_game(game);
+            uint16_t species_id = database::get_species_id(species_id, game_id);
+
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, game_id, pkmn->party.level,
+                                                           pkmn->box.move[0], pkmn->box.move[1],
+                                                           pkmn->box.move[2], pkmn->box.move[3]);
+
+            //Convert nickname and trainer name
+            uint16_t nickname_arr[10];
+            gba_text_to_ucs2((char16_t*)nickname_arr, (char8_t*)pkmn->box.nickname, PK3_NICKNAME_LENGTH);
+            t_pkmn->set_nickname(PokeLib::PokeText::convertFrom((uint16_t*)nickname_arr));
+
+            uint16_t trainername_arr[10];
+            gba_text_to_ucs2((char16_t*)trainername_arr, (char8_t*)pkmn->box.ot_name, PK3_OT_NAME_LENGTH);
+            t_pkmn->set_nickname(PokeLib::PokeText::convertFrom((uint16_t*)trainername_arr));
+
+            //Item
+            uint16_t item_id = database::get_item_id(pkmn->box.held_item, gen3_game_ids[save_type]);
+            t_pkmn->set_held_item(database::get_item_name(item_id));
+
+            //ID's
+            t_pkmn->set_personality(pkmn->box.pid);
+            t_pkmn->set_trainer_id(pkmn->box.ot_fid);
+
+            //Move PP's
+            t_pkmn->set_move_PP(pkmn->box.move_pp[0], 1);
+            t_pkmn->set_move_PP(pkmn->box.move_pp[1], 2);
+            t_pkmn->set_move_PP(pkmn->box.move_pp[2], 3);
+            t_pkmn->set_move_PP(pkmn->box.move_pp[3], 4);
+
+            //Effort values
+            t_pkmn->set_EV("HP", pkmn->box.ev.hp);
+            t_pkmn->set_EV("Attack", pkmn->box.ev.atk);
+            t_pkmn->set_EV("Defense", pkmn->box.ev.def);
+            t_pkmn->set_EV("Speed", pkmn->box.ev.spd);
+            t_pkmn->set_EV("Special Attack", pkmn->box.ev.satk);
+            t_pkmn->set_EV("Special Defense", pkmn->box.ev.sdef);
+
+            //Individual values
+            t_pkmn->set_IV("HP", modern_get_IV(IV_int, Stats::HP));
+            t_pkmn->set_IV("Attack", modern_get_IV(IV_int, Stats::ATTACK));
+            t_pkmn->set_IV("Defense", modern_get_IV(IV_int, Stats::DEFENSE));
+            t_pkmn->set_IV("Speed", modern_get_IV(IV_int, Stats::SPEED));
+            t_pkmn->set_IV("Special Attack", modern_get_IV(IV_int, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV("Special Defense", modern_get_IV(IV_int, Stats::SPECIAL_DEFENSE));
+
+            t_pkmn->set_met_level(get_gen3_met_level(met_int));
+            t_pkmn->set_ball(ball_dict.at(game_ball_to_libpkmn_ball(get_gen3_ball(met_int)), "Poke Ball"));
+            if(get_gen3_otgender(met_int)) t_pkmn->set_trainer_gender("Female");
+            else t_pkmn->set_trainer_gender("Male");
+
+            //Attributes
+            t_pkmn->set_attribute("friendship", pkmn->box.friendship);
+            t_pkmn->set_attribute("circle", get_marking(marking_int, Markings::CIRCLE));
+            t_pkmn->set_attribute("triangle", get_marking(marking_int, Markings::TRIANGLE));
+            t_pkmn->set_attribute("square", get_marking(marking_int, Markings::SQUARE));
+            t_pkmn->set_attribute("heart", get_marking(marking_int, Markings::HEART));
+            t_pkmn->set_attribute("country", pkmn->box.language);
+
+            t_pkmn->set_attribute("cool", pkmn->box.contest.cool);
+            t_pkmn->set_attribute("beauty", pkmn->box.contest.beauty);
+            t_pkmn->set_attribute("cute", pkmn->box.contest.cute);
+            t_pkmn->set_attribute("smart", pkmn->box.contest.smart);
+            t_pkmn->set_attribute("tough", pkmn->box.contest.tough);
+            t_pkmn->set_attribute("sheen", pkmn->box.contest.sheen);
+
+            t_pkmn->set_attribute("hoenn_cool_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::COOL));
+            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::COOL_SUPER));
+            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::COOL_HYPER));
+            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::COOL_MASTER));
+            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::BEAUTY));
+            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::BEAUTY_SUPER));
+            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::BEAUTY_HYPER));
+            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::BEAUTY_MASTER));
+            t_pkmn->set_attribute("hoenn_cute_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::CUTE));
+            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::CUTE_SUPER));
+            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::CUTE_HYPER));
+            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::CUTE_MASTER));
+            t_pkmn->set_attribute("hoenn_smart_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::SMART));
+            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::SMART_SUPER));
+            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::SMART_HYPER));
+            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::SMART_MASTER));
+            t_pkmn->set_attribute("hoenn_tough_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::TOUGH));
+            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::TOUGH_SUPER));
+            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::TOUGH_HYPER));
+            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::TOUGH_MASTER));
+            
+            t_pkmn->set_attribute("hoenn_champion_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::CHAMPION));
+            t_pkmn->set_attribute("hoenn_winning_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::WINNING));
+            t_pkmn->set_attribute("hoenn_victory_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::VICTORY));
+            t_pkmn->set_attribute("hoenn_artist_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::ARTIST));
+            t_pkmn->set_attribute("hoenn_effort_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::EFFORT));
+            t_pkmn->set_attribute("hoenn_marine_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::MARINE));
+            t_pkmn->set_attribute("hoenn_land_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::LAND));
+            t_pkmn->set_attribute("hoenn_sky_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::SKY));
+            t_pkmn->set_attribute("hoenn_country_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::COUNTRY));
+            t_pkmn->set_attribute("hoenn_national_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::NATIONAL));
+            t_pkmn->set_attribute("hoenn_earth_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::EARTH));
+            t_pkmn->set_attribute("hoenn_world_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::WORLD));
+            
+            return t_pkmn;
+        }
+
+        //OLD below
+
         team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
                                                                  pokemon_text trainer_name)
         {

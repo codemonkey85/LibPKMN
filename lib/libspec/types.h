@@ -24,17 +24,17 @@ typedef enum {
 	false = 0,
 } boolean_value_t;
 
+/**
+ * @brief Type used for 16 bit characters (nds, dsi).
+ */
+typedef uint16_t char16_t;
+
 #endif
 
 /**
  * @brief Type used for 8 bit characters (gb, gba).
  */
 typedef uint8_t char8_t;
-
-/**
- * @brief Type used for 16 bit characters (nds, dsi).
- */
-typedef uint16_t char16_t;
 
 /** Global Definitions */
 enum {

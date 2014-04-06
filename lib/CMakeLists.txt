@@ -25,7 +25,7 @@ IF(ENABLE_LIBPKMN)
         libspec/prng.c
         libspec/stat.c
     )
-    ADD_LIBRARY(spec SHARED ${libspec_sources})
+    ADD_LIBRARY(spec STATIC ${libspec_sources})
     IF(CMAKE_COMPILER_IS_GNUCXX)
         IF(LINUX)
             SET_TARGET_PROPERTIES(spec PROPERTIES COMPILE_FLAGS "-std=c99 -fPIC")
@@ -79,9 +79,9 @@ IF(ENABLE_LIBPKMN)
         conversions/items.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
+        conversions/PokeText.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${analysis_sources}
-        ${conversions_sources}
         ${database_sources}
     )
     

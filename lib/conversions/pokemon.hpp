@@ -11,6 +11,8 @@
 #include <pkmn/team_pokemon.hpp>
 #include <pkmn/types/dict.hpp>
 
+#include "../libspec/libspec.h"
+
 #include <rpokesav/gen1_pokemon.hpp>
 #include <pokehack/pokestructs.h>
 #include <pokelib/pokelib.h>
@@ -21,6 +23,12 @@ namespace pkmn
 {
     namespace conversions
     {
+        //team_pokemon::sptr import_gen3_pokemon(pk3_box_t* pkmn);
+
+        team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type);
+
+        //OLD below
+
         team_pokemon::sptr PKMN_API rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
                                                                              pokemon_text trainer_name);
     
