@@ -35,6 +35,30 @@ IF(NOT HAVE_STRONGLY_TYPED_ENUMS)
     MESSAGE(FATAL_ERROR "Strongly typed enums not supported!")
 ENDIF(NOT HAVE_STRONGLY_TYPED_ENUMS)
 
+CHECK_CXX_SOURCE_COMPILES("
+    namespace testnamespace
+    {
+        enum testenum
+        {
+            foo,
+            bar,
+            baz
+        };
+    }
+
+    int main()
+    {
+        int a = testnamespace::bar;
+
+        return 0;
+    }
+    " HAVE_SCOPED_ENUMS
+)
+
+IF(NOT HAVE_SCOPED_ENUMS)
+    MESSAGE(FATAL_ERROR "Scoped enums not supported!")
+ENDIF(NOT HAVE_SCOPED_ENUMS)
+
 #
 # It's harder to check the compiler with CMake and test for the
 # appropriate include, so use the same code.
