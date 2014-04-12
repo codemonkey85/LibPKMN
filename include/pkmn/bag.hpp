@@ -121,16 +121,16 @@ namespace pkmn
 
             /*!
              * This is the class's factory function. It returns a shared_ptr to a bag
-             * based on the given game
+             * based on the given game.
              *
-             * \param game SQLite ID of the desired game
+             * \param game SQLite ID of the desired game, as defined in <pkmn/enums.hpp>
              * \return shared pointer to instance of pkmn::bag from the given game
              */
             static sptr make(unsigned int game);
 
             /*!
-             * This is the class's factory function. It takes in the name of the game this trainer
-             * comes from, the trainer's name, and the trainer's gender.
+             * This is the class's factory function. It returns a shared_ptr to a bag
+             * based on the given game.
              *
              * \param game name of the desired game
              * \return shared pointer to instance of pkmn::trainer with described parameters
@@ -150,7 +150,7 @@ namespace pkmn
             virtual std::string get_game() const = 0;
 
             /*!
-             * Return the generation (1-6) of the game from which this trainer
+             * Return the generation (1-6) of the game from which this bag
              * was created.
              *
              * \return game's generation
