@@ -76,7 +76,18 @@ IF(ENABLE_LIBPKMN)
     QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt4_headers})
 
     LIST(APPEND libpkmn_sources ${libpkmn_qt4_sources} ${MOCSrcs})
-    
+
+    ####################################################################
+    # Add DLL resource file when using MSVC
+    ####################################################################
+    IF(MSVC)
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/pkmn.rc.in
+            ${CMAKE_CURRENT_BINARY_DIR}/pkmn.rc
+        @ONLY)
+        LIST(APPEND libpkmn_sources ${CMAKE_CURRENT_BINARY_DIR}/pkmn.rc)
+    ENDIF(MSVC)
+
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/pokehack/include)
