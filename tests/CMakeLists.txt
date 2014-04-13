@@ -117,6 +117,7 @@ IF(ENABLE_PYTHON)
         python_enum_test
         python_pokemon_text_test
         python_bag_pocket_test
+        python_copy_sptr_test
     )
 
     FOREACH(python_test ${python_test_names})
@@ -137,6 +138,7 @@ IF(ENABLE_CSHARP)
         CSharpDictTest
         CSharpPokemonTextTest
         CSharpBagPocketTest
+        CSharpCopySPtrTest
     )
 
     FOREACH(cs_test ${cs_test_names})
