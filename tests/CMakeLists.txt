@@ -21,6 +21,7 @@ SET(cpp_test_sources
     pokemon_text_test.cpp
     bag_pocket_test.cpp
     prng_test.cpp
+    copy_sptr_test.cpp
 )
 
 INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/conversions)

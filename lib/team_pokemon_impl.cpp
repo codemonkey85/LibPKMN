@@ -206,7 +206,11 @@ namespace pkmn
 
     unsigned int team_pokemon_impl::get_generation() const {return _generation;}
 
-    base_pokemon::sptr team_pokemon_impl::get_base_pokemon() const {return _base_pkmn;}
+    base_pokemon::sptr team_pokemon_impl::get_base_pokemon(bool copy) const
+    {
+        return (copy) ? copy_base_pokemon(_base_pkmn)
+                      : _base_pkmn;
+    }
 
     pokemon_text team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
 

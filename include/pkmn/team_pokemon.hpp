@@ -40,7 +40,7 @@ namespace pkmn
             virtual unsigned int get_generation() const = 0;
 
             //Non-battle Stats
-            virtual base_pokemon::sptr get_base_pokemon() const = 0;
+            virtual base_pokemon::sptr get_base_pokemon(bool copy = false) const = 0;
             virtual pokemon_text get_species_name() const = 0;
             virtual pokemon_text get_nickname() const = 0;
             virtual string_pair_t get_types() const = 0;
