@@ -63,7 +63,7 @@ namespace pkmn
         }
     }
 
-    game_save::sptr copy_game_save(game_save::sptr in)
+    /*game_save::sptr copy_game_save(game_save::sptr in)
     {
         switch(database::get_generation(in->get_game_id())) //Generation determines implementation class
         {
@@ -72,11 +72,11 @@ namespace pkmn
                 game_save_gen1impl actual1 = *pkmn::dynamic_pointer_cast<game_save_gen1impl>(in);
                 return pkmn::dynamic_pointer_cast<game_save>(pkmn::make_shared<game_save_gen1impl>(actual1));
             }
-            /*case 2:
+            case 2:
             {
                 game_save_gen2impl actual2 = *pkmn::dynamic_pointer_cast<game_save_gen2impl>(in);
                 return pkmn::dynamic_pointer_cast<game_save>(pkmn::make_shared<game_save_gen2impl>(actual2));
-            }*/
+            }
             case 3:
             {
                 game_save_gen3impl actual3 = *pkmn::dynamic_pointer_cast<game_save_gen3impl>(in);
@@ -87,18 +87,18 @@ namespace pkmn
                 game_save_gen4impl actual4 = *pkmn::dynamic_pointer_cast<game_save_gen4impl>(in);
                 return pkmn::dynamic_pointer_cast<game_save>(pkmn::make_shared<game_save_gen4impl>(actual4));
             }
-            case 5:
+            default:
             {
                 game_save_gen5impl actual5 = *pkmn::dynamic_pointer_cast<game_save_gen5impl>(in);
                 return pkmn::dynamic_pointer_cast<game_save>(pkmn::make_shared<game_save_gen5impl>(actual5));
             }
-            /*case 6:
+            case 6:
             {
                 game_save_gen6impl actual6 = *pkmn::dynamic_pointer_cast<game_save_gen6impl>(in);
                 return pkmn::dynamic_pointer_cast<game_save>(pkmn::make_shared<game_save_gen6impl>(actual6));
-            }*/
+            }
         }
-    }
+    }*/
 
     item::sptr copy_item(item::sptr in)
     {

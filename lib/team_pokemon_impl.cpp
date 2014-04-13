@@ -19,9 +19,7 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/prng.hpp>
 
-#include "base_pokemon_gen1impl.hpp"
-#include "base_pokemon_gen2impl.hpp"
-#include "base_pokemon_modernimpl.hpp"
+#include "copy_sptrs.hpp"
 
 #include "item_impl.hpp"
 #include "item_berryimpl.hpp"
@@ -115,6 +113,93 @@ namespace pkmn
         _move_PPs[3] = _moves[3]->get_base_pp();
 
         _nonvolatile_status = "OK";
+    }
+
+    team_pokemon_impl::team_pokemon_impl(const team_pokemon_impl& other) :
+        _base_pkmn(copy_base_pokemon(other._base_pkmn)),
+        _pokemon_id(other._pokemon_id),
+        _form_id(other._form_id),
+        _nickname(other._nickname),
+        _trainer_name(other._trainer_name),
+        _ball(other._ball),
+        _trainer_gender(other._trainer_gender),
+        _held_item(other._held_item),
+        _game_id(other._game_id),
+        _generation(other._generation),
+        _level(other._level),
+        _met_level(other._met_level),
+        _personality(other._personality),
+        _trainer_id(other._trainer_id),
+        _HP(other._HP),
+        _ATK(other._ATK),
+        _DEF(other._DEF),
+        _SPD(other._SPD),
+        _evHP(other._evHP),
+        _evATK(other._evATK),
+        _evDEF(other._evDEF),
+        _evSPD(other._evSPD),
+        _ivHP(other._ivHP),
+        _ivATK(other._ivATK),
+        _ivDEF(other._ivDEF),
+        _ivSPD(other._ivSPD),
+        _nonvolatile_status(other._nonvolatile_status),
+        _move_PPs(other._move_PPs),
+        _icon_path(other._icon_path),
+        _sprite_path(other._sprite_path),
+        _attributes(other._attributes),
+        _ability(other._ability),
+        _gender(other._gender),
+        _nature(other._nature),
+        _otgender(other._otgender),
+        _has_hidden_ability(other._has_hidden_ability)
+    {
+        _moves = moveset_t();
+        for(size_t i = 0; i < 4; i++) _moves.push_back(copy_move(other._moves[i]));
+    }
+
+    team_pokemon_impl& team_pokemon_impl::operator=(const team_pokemon_impl& other)
+    {
+        _base_pkmn = copy_base_pokemon(other._base_pkmn);
+        _pokemon_id = other._pokemon_id;
+        _form_id = other._form_id;
+        _nickname = other._nickname;
+        _trainer_name = other._trainer_name;
+        _ball = other._ball;
+        _trainer_gender = other._trainer_gender;
+        _held_item = other._held_item;
+        _game_id = other._game_id;
+        _generation = other._generation;
+        _level = other._level;
+        _met_level = other._met_level;
+        _personality = other._personality;
+        _trainer_id = other._trainer_id;
+        _HP = other._HP;
+        _ATK = other._ATK;
+        _DEF = other._DEF;
+        _SPD = other._SPD;
+        _evHP = other._evHP;
+        _evATK = other._evATK;
+        _evDEF = other._evDEF;
+        _evSPD = other._evSPD;
+        _ivHP = other._ivHP;
+        _ivATK = other._ivATK;
+        _ivDEF = other._ivDEF;
+        _ivSPD = other._ivSPD;
+        _nonvolatile_status = other._nonvolatile_status;
+        _move_PPs = other._move_PPs;
+        _icon_path = other._icon_path;
+        _sprite_path = other._sprite_path;
+        _attributes = other._attributes;
+        _ability = other._ability;
+        _gender = other._gender;
+        _nature = other._nature;
+        _otgender = other._otgender;
+        _has_hidden_ability = other._has_hidden_ability;
+
+        _moves = moveset_t();
+        for(size_t i = 0; i < 4; i++) _moves.push_back(copy_move(other._moves[i]));
+
+        return (*this);
     }
 
     std::string team_pokemon_impl::get_game() const {return database::get_game_name(_game_id);}

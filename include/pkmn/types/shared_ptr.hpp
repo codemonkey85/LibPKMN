@@ -30,6 +30,7 @@
 #ifdef LIBPKMN_USE_BOOST_SHARED_PTR
     // Use Boost only if explicitly told
     #include <boost/shared_ptr.hpp>
+    #include <boost/make_shared.hpp>
     namespace pkmn {
     using boost::shared_ptr;
     using boost::make_shared;

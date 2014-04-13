@@ -138,6 +138,22 @@ namespace pkmn
         }
     }
 
+    bag_impl& bag_impl::operator=(const bag_impl& other)
+    {
+        _game_id = other._game_id;
+        _generation = other._generation;
+
+        std::vector<std::string> pocket_names = other._pockets.keys();
+        std::vector<pocket::sptr> pockets = other._pockets.vals();
+
+        for(size_t i = 0; i < pocket_names.size(); i++)
+        {
+            _pockets[pocket_names[i]] = copy_pocket(pockets[i]);
+        }
+
+        return *this;
+    }
+
     SQLite::Database bag_impl::_db(get_database_path().c_str());
 
     /*
