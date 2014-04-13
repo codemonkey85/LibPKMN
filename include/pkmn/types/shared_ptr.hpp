@@ -1,15 +1,6 @@
-/**
- * @file  shared_ptr.hpp
- * @brief shared_ptr is a minimal implementation of smart pointer, a subset of the C++11 std::shared_ptr or boost::shared_ptr.
- *
- *  This file includes "boost/shared_ptr.hpp" if LIBPKMN_USE_BOOST_SHARED_PTR is defined,
- * or <memory> (or <tr1/memory>) when C++11 (or experimental C++0x) is available,
- * and imports the symbol "shared_ptr" inside the current namespace (ie. pkmn::shared_ptr).
- *  If no std::shared_ptr is available, it defines a minimal shared_ptr implementation.
- *
- * Original file copyright:
- *
+/*
  * Copyright (c) 2013 Sebastien Rombauts (sebastien.rombauts@gmail.com)
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
