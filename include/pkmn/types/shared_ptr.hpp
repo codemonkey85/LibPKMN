@@ -46,14 +46,6 @@
         using std::tr1::make_shared;
         using std::tr1::dynamic_pointer_cast;
     } // namespace pkmn
-#elif defined(__clang__) && __has_feature(cxx_nullptr)
-    // Clang 2.9 and above ?
-    #include <memory>
-    namespace pkmn {
-        using std::shared_ptr;
-        using std::make_shared;
-        using std::dynamic_pointer_cast;
-    } // namespace pkmn
 #elif defined(_MSC_VER) && (_MSC_VER >= 1600)
     // Visual Studio 2010 compile by default in C++11 mode
     #include <memory>
