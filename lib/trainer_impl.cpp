@@ -40,10 +40,9 @@ namespace pkmn
 
     trainer_impl::trainer_impl(unsigned int game, pokemon_text name, unsigned int gender): trainer()
     {
-        prng::sptr _rand_gen = prng::get(_generation);
-
         _game_id = game;
         _generation = database::get_generation(_game_id);
+        prng::sptr _rand_gen = prng::get(_generation);
         _trainer_name = name;
         _gender_id = gender;
         _money = 0;
