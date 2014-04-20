@@ -346,6 +346,22 @@ namespace pkmn
             set_ribbon(ribbon_int, Ribbons::Hoenn::WORLD, attributes.at("hoenn_world_ribbon",false));
         }
 
+        void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_t* pkmn, gba_savetype_t save_type)
+        {
+            uint8_t* status_int = reinterpret_cast<uint8_t*>(&(pkmn->party));
+            pkmn::dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+
+            export_gen3_pokemon(t_pkmn, &(pkmn->box), save_type);
+            *status_int = 0;
+            pkmn->party.stats.hp = stats["HP"];
+            pkmn->party.stats.max_hp = stats["HP"];
+            pkmn->party.stats.atk = stats["HP"];
+            pkmn->party.stats.def = stats["HP"];
+            pkmn->party.stats.spd = stats["HP"];
+            pkmn->party.stats.satk = stats["HP"];
+            pkmn->party.stats.sdef = stats["HP"];
+        }
+
         //OLD below
 
         team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
