@@ -44,7 +44,7 @@ typedef enum {
  */
 typedef enum {
 	STAT_HP = 0,
-	STAT_ATTAK = 1,
+	STAT_ATTACK = 1,
 	STAT_DEFENSE = 2,
 	STAT_SPEED = 3,
 	STAT_SP_ATTACK = 4,
