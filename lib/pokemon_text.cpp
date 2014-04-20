@@ -9,7 +9,7 @@
 
 #include <pkmn/types/pokemon_text.hpp>
 
-#include "convert.hpp"
+#include "conversions/boost_widen.hpp"
 
 namespace pkmn
 {
