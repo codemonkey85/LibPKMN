@@ -27,6 +27,82 @@ namespace pkmn
 {
     namespace conversions
     {
+        void import_gen3_items(bag::sptr item_bag, gba_storage_t* storage, gba_savetype_t save_type)
+        {
+            //Get pocket names and pointers for appropriate storage structures
+            bool is_frlg = (item_bag->get_game_id() == Games::FIRE_RED or item_bag->get_game_id() == Games::LEAF_GREEN);
+
+            pocket::sptr item_pocket = item_bag->get_pocket("Items");
+            pocket::sptr keyitem_pocket = item_bag->get_pocket("Key Items");
+            pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
+            pocket::sptr tmhm_pocket = is_frlg ? item_bag->get_pocket("TM Case")
+                                               : item_bag->get_pocket("TMs and HMs");
+            pocket::sptr berry_pocket = is_frlg ? item_bag->get_pocket("Berry Pouch")
+                                                : item_bag->get_pocket("Berries");
+
+            gba_item_slot_t* item;
+            gba_item_slot_t* keyitem;
+            gba_item_slot_t* ball;
+            gba_item_slot_t* tmhm;
+            gba_item_slot_t* berry;
+
+            switch(save_type)
+            {
+                case GBA_TYPE_RS:
+                    item = reinterpret_cast<gba_item_slot_t*>(storage->rs_items.item);
+                    keyitem = reinterpret_cast<gba_item_slot_t*>(storage->rs_items.keyitem);
+                    ball = reinterpret_cast<gba_item_slot_t*>(storage->rs_items.ball);
+                    tmhm = reinterpret_cast<gba_item_slot_t*>(storage->rs_items.tmhm);
+                    berry = reinterpret_cast<gba_item_slot_t*>(storage->rs_items.berry);
+                    break;
+
+                case GBA_TYPE_E:
+                    item = reinterpret_cast<gba_item_slot_t*>(storage->e_items.item);
+                    keyitem = reinterpret_cast<gba_item_slot_t*>(storage->e_items.keyitem);
+                    ball = reinterpret_cast<gba_item_slot_t*>(storage->e_items.ball);
+                    tmhm = reinterpret_cast<gba_item_slot_t*>(storage->e_items.tmhm);
+                    berry = reinterpret_cast<gba_item_slot_t*>(storage->e_items.berry);
+                    break;
+
+                default:
+                    item = reinterpret_cast<gba_item_slot_t*>(storage->frlg_items.item);
+                    keyitem = reinterpret_cast<gba_item_slot_t*>(storage->frlg_items.keyitem);
+                    ball = reinterpret_cast<gba_item_slot_t*>(storage->frlg_items.ball);
+                    tmhm = reinterpret_cast<gba_item_slot_t*>(storage->frlg_items.tmhm);
+                    berry = reinterpret_cast<gba_item_slot_t*>(storage->frlg_items.berry);
+                    break;
+            }
+
+            //With pointers defined, grab items from game bag
+            for(size_t i = 0; i < item_pocket->size(); i++)
+            {
+                item_pocket->add_item(database::get_item_id(item[i].index, item_bag->get_game_id()),
+                                      item[i].amount);
+            }
+            for(size_t i = 0; i < keyitem_pocket->size(); i++)
+            {
+                keyitem_pocket->add_item(database::get_item_id(keyitem[i].index, item_bag->get_game_id()),
+                                      keyitem[i].amount);
+            }
+            for(size_t i = 0; i < ball_pocket->size(); i++)
+            {
+                ball_pocket->add_item(database::get_item_id(ball[i].index, item_bag->get_game_id()),
+                                      ball[i].amount);
+            }
+            for(size_t i = 0; i < tmhm_pocket->size(); i++)
+            {
+                tmhm_pocket->add_item(database::get_item_id(tmhm[i].index, item_bag->get_game_id()),
+                                      tmhm[i].amount);
+            }
+            for(size_t i = 0; i < berry_pocket->size(); i++)
+            {
+                berry_pocket->add_item(database::get_item_id(berry[i].index, item_bag->get_game_id()),
+                                      berry[i].amount);
+            }
+        }
+
+        //OLD BELOW
+
         void import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav)
         {
             pocket::sptr libpkmn_pocket = item_bag->get_pocket("Items");

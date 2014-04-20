@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -18,6 +18,8 @@
 #include <pkmds/pkmds_g5.h>
 
 #include "trainer.hpp"
+
+#include "../libspec/libspec.h"
 
 /*
  * Items aren't currently implemented in Pokehack, so
@@ -46,6 +48,8 @@ namespace pkmn
 {
     namespace conversions
     {
+        void import_gen3_items(bag::sptr item_bag, gba_storage_t* storage, gba_savetype_t save_type);
+
         struct pokehack_item
         {
             uint16_t index;

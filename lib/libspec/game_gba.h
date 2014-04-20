@@ -374,7 +374,7 @@ typedef struct {
 /**
  * @brief Ruby/Sapphire Item Storage
  */
-typedef struct { //216 items
+typedef union { //216 items
 	gba_item_slot_t all[GBA_RS_ITEM_COUNT];
 	struct {
 		gba_item_slot_t pc[50];
