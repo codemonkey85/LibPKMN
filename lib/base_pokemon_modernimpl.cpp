@@ -220,7 +220,7 @@ namespace pkmn
 
     std::string base_pokemon_modernimpl::get_hidden_ability() const
     {
-        std::string query_string = "SELECT ability_id FROM pokemon_abilities WHERE id=" + to_string(_pokemon_id)
+        std::string query_string = "SELECT ability_id FROM pokemon_abilities WHERE pokemon_id=" + to_string(_pokemon_id)
                                  + " AND is_hidden=1 AND slot=3";
         SQLite::Statement query(_db, query_string.c_str());
         if(query.executeStep()) //Will be false if no entry exists
