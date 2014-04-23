@@ -40,6 +40,7 @@ namespace pkmn
 
     trainer_impl::trainer_impl(unsigned int game, pokemon_text name, unsigned int gender): trainer()
     {
+        std::cout << "trainer_impl ctor" << std::endl;
         _game_id = game;
         _generation = database::get_generation(_game_id);
         prng::sptr _rand_gen = prng::get(_generation);
@@ -61,6 +62,7 @@ namespace pkmn
         }
         
         _bag = bag::make(_game_id);
+        std::cout << "end trainer_impl ctor" << std::endl;
     }
 
     pokemon_text trainer_impl::get_game() const {return database::get_game_name(_game_id);}

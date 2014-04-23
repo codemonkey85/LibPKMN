@@ -16,10 +16,13 @@
 #include "game_save_impl.hpp"
 #include "game_save_gen1impl.hpp"
 #include "game_save_gen3impl.hpp"
+#include "game_save_ls3impl.hpp"
 #include "game_save_gen4impl.hpp"
 #include "game_save_gen5impl.hpp"
 #include "library_bridge.hpp"
 #include "conversions/trainer.hpp"
+
+#include "libspec/libspec.h"
 
 using namespace std;
 
@@ -69,7 +72,7 @@ namespace pkmn
         else if(size >= 0x20000)
         {
             //Check validity by manually using Pokehack checksum function on binary
-            block binary_block;
+            /*block binary_block;
             memcpy(&binary_block, buffer, 4096);
             unsigned short checksum_from_pokehack = pokehack_get_block_checksum(&binary_block);
             unsigned short checksum_from_binary = binary_block.footer.checksum;
@@ -84,7 +87,8 @@ namespace pkmn
                 {
                     return sptr(new game_save_gen3impl(parser, buffer));
                 }
-            }
+            }*/
+            if(gba_is_gba_save((uint8_t*)buffer)) return sptr(new game_save_ls3impl((uint8_t*)buffer));
         }
         else if(size >= (2 << 14))
         {

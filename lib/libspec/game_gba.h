@@ -466,6 +466,7 @@ extern "C" {
 void gba_text_to_ucs2(char16_t *dst, char8_t *src, size_t size);
 void ucs2_to_gba_text(char8_t *dst, char16_t *src, size_t size);
 
+bool gba_is_gba_save(const uint8_t *ptr);
 gba_save_t *gba_read_main_save(const uint8_t *);
 gba_save_t *gba_read_backup_save(const uint8_t *);
 void gba_write_main_save(uint8_t *, const gba_save_t *);

@@ -41,6 +41,7 @@ namespace pkmn
                                           unsigned int move3, unsigned int move4)
     {
         base_pokemon::sptr base = base_pokemon::make(id, game);
+        std::cout << base->get_name() << std::endl;
         
         if(base->get_generation() < 1 or base->get_generation() > 6) throw runtime_error("Gen must be 1-6.");
 
@@ -78,7 +79,8 @@ namespace pkmn
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,
                                          unsigned int move3, unsigned int move4): team_pokemon()
-    {    
+    {
+        std::cout << "team_pokemon_impl ctor" << std::endl;
         _base_pkmn = base;
         _pokemon_id = _base_pkmn->get_pokemon_id();
         _form_id = _base_pkmn->get_form_id();
@@ -115,6 +117,7 @@ namespace pkmn
         _move_PPs[3] = _moves[3]->get_base_pp();
 
         _nonvolatile_status = "OK";
+        std::cout << "end team_pokemon_impl ctor" << std::endl;
     }
 
     std::string team_pokemon_impl::get_game() const {return database::get_game_name(_game_id);}

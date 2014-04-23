@@ -66,6 +66,8 @@ namespace pkmn
 
         team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type)
         {
+            std::cout << "import_gen3_pokemon" << std::endl;
+            pk3_decrypt(&(pkmn->box));
             //Avoiding bitfields and structs
             uint16_t* met_int = reinterpret_cast<uint16_t*>(&(pkmn->box.met_loc)+1);
             uint32_t* IV_int = reinterpret_cast<uint32_t*>(&(pkmn->box.iv));
@@ -183,6 +185,7 @@ namespace pkmn
             t_pkmn->set_attribute("hoenn_national_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::NATIONAL));
             t_pkmn->set_attribute("hoenn_earth_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::EARTH));
             t_pkmn->set_attribute("hoenn_world_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::WORLD));
+            pk3_encrypt(&(pkmn->box));
             
             return t_pkmn;
         }
