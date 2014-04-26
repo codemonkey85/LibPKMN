@@ -27,7 +27,6 @@
 #include <pkmds/pkmds_g5_sqlite.h>
 
 #include "pokemon.hpp"
-#include "PokeText.h"
 #include "../library_bridge.hpp"
 #include "../SQLiteCpp/src/SQLiteC++.h"
 
@@ -207,20 +206,20 @@ namespace pkmn
             pkmn->ot_fid = t_pkmn->get_trainer_id();
 
             //Nickname
-            PokeLib::poketext nickname = PokeLib::PokeText::convertTo(t_pkmn->get_nickname().std_wstring());
+            std::basic_string<uint16_t> nickname(boost::locale::conv::utf_to_utf<uint16_t>(t_pkmn->get_nickname().std_wstring()));
             memset(pkmn->nickname, 0xFF, PK3_NICKNAME_LENGTH);
             ucs2_to_gba_text((char8_t*)pkmn->nickname, (char16_t*)nickname.c_str(), nickname.size());
 
             pkmn->language = 0x202; //Default to English
 
             //Trainer Name
-            PokeLib::poketext trainer_name = PokeLib::PokeText::convertTo(t_pkmn->get_trainer_name().std_wstring());
+            std::basic_string<uint16_t> trainer_name(boost::locale::conv::utf_to_utf<uint16_t>(t_pkmn->get_trainer_name().std_wstring()));
             memset(pkmn->ot_name, 0xFF, PK3_OT_NAME_LENGTH);
             ucs2_to_gba_text((char8_t*)pkmn->ot_name, (char16_t*)trainer_name.c_str(), trainer_name.size());
 
             //Markings
             set_marking(marking_int, Markings::CIRCLE, attributes.at("circle", 0));
-            set_marking(marking_int, Markings::TRIANGLE, attributes.at("traingle", 0));
+            set_marking(marking_int, Markings::TRIANGLE, attributes.at("triangle", 0));
             set_marking(marking_int, Markings::SQUARE, attributes.at("square", 0));
             set_marking(marking_int, Markings::HEART, attributes.at("heart", 0));
 

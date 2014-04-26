@@ -79,7 +79,6 @@ IF(ENABLE_LIBPKMN)
         conversions/items.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
-        conversions/PokeText.cpp
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${analysis_sources}
         ${database_sources}

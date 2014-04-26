@@ -15,7 +15,6 @@
 
 #include "conversions/items.hpp"
 #include "conversions/pokemon.hpp"
-#include "conversions/PokeText.h"
  
 namespace pkmn
 {
