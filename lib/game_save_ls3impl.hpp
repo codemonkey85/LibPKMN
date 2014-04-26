@@ -19,6 +19,7 @@ namespace pkmn
 
             game_save_ls3impl();
             game_save_ls3impl(uint8_t* buffer);
+            ~game_save_ls3impl();
             
             void load();
             void save();

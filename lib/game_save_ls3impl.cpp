@@ -35,6 +35,11 @@ namespace pkmn
 
         load();
     }
+
+    game_save_ls3impl::~game_save_ls3impl()
+    {
+        gba_free_save(_save);
+    }
     
     void game_save_ls3impl::load()
     {
