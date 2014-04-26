@@ -46,7 +46,7 @@ namespace pkmn
 
         for(size_t i = 0; i < 6; i++)
         {
-            _trainer->set_pokemon(i+1, conversions::import_gen3_pokemon(&(_party->pokemon[0]),
+            _trainer->set_pokemon(i+1, conversions::import_gen3_pokemon(&(_party->pokemon[i]),
                                                                         _save->type));
         }
         conversions::import_gen3_items(_trainer->get_bag(), _storage, _save->type);

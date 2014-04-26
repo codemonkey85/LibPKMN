@@ -14,6 +14,7 @@
 
 #include <boost/assign.hpp>
 #include <boost/format.hpp>
+#include <boost/locale/encoding_utf.hpp>
 
 #include <pkmn/enums.hpp>
 #include <pkmn/item.hpp>
@@ -95,11 +96,13 @@ namespace pkmn
             //Convert nickname and trainer name
             uint16_t nickname_arr[10];
             gba_text_to_ucs2((char16_t*)nickname_arr, (char8_t*)pkmn->box.nickname, PK3_NICKNAME_LENGTH);
-            t_pkmn->set_nickname(PokeLib::PokeText::convertFrom((uint16_t*)nickname_arr));
+            t_pkmn->set_nickname(boost::locale::conv::utf_to_utf<wchar_t>(nickname_arr));
+            std::cout << "Nickname: " << t_pkmn->get_nickname() << std::endl;
 
             uint16_t trainername_arr[10];
             gba_text_to_ucs2((char16_t*)trainername_arr, (char8_t*)pkmn->box.ot_name, PK3_OT_NAME_LENGTH);
-            t_pkmn->set_nickname(PokeLib::PokeText::convertFrom((uint16_t*)trainername_arr));
+            t_pkmn->set_trainer_name(boost::locale::conv::utf_to_utf<wchar_t>(nickname_arr));
+            std::cout << "Trainer name: " << t_pkmn->get_trainer_name() << std::endl;
 
             //Item
             uint16_t item_id = database::get_item_id(pkmn->box.held_item, gen3_game_ids[save_type]);
