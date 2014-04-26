@@ -25,46 +25,6 @@ using namespace std;
 
 namespace pkmn
 {
-    //To avoid C/C++ include messiness while avoiding bringing in pokehack/SaveParser.h
-    char* pokehack_get_text(unsigned char* raw, bool is_nickname)
-    {
-        char* actual_text;
-        int len;
-
-        if(is_nickname)
-        {
-            actual_text = new char[MAX_NICKNAME_LEN];
-            len = MAX_NICKNAME_LEN;
-        }
-        else
-        {
-            actual_text = new char[MAX_TRAINER_NAME_LEN];
-            len = MAX_TRAINER_NAME_LEN;
-        }
-
-        for(int i = 0; i < len; i++)
-        {
-            if(int(raw[i]) != 255) actual_text[i] = text[int(raw[i])];
-            else actual_text[i] = '\0';
-        }
-
-        return actual_text;
-    }
-
-    unsigned short int pokehack_get_block_checksum(block* b)
-    {
-        int checksum = 0;
-        int i;
-        for (i = 0; i < BLOCK_DATA_LEN; i+=4)
-        {
-            checksum += *((int*)b+i/4);
-        }
-        checksum += checksum >> 16;
-        checksum &= 0xFFFF;
-
-        return (unsigned short int)checksum;
-    }
-
     uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV)
     {
         switch(IV)

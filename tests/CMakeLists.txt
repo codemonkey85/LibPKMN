@@ -23,12 +23,6 @@ SET(cpp_test_sources
     prng_test.cpp
 )
 
-INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/conversions)
-INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
-INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/pokehack/include)
-INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PokeLib-NC/include)
-INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PKMDS/include)
-
 MACRO(LIBPKMN_ADD_TEST test_name test_cmd)
     IF(WIN32)
         SET(TEST_CMD ${test_cmd})

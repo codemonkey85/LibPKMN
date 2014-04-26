@@ -47,7 +47,7 @@ IF(ENABLE_LIBPKMN)
 
     INCLUDE(${QT_USE_FILE})
     LIST(APPEND libpkmn_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    LIST(APPEND libpkmn_libs ${Boost_LIBRARIES} rpokesav pokehack pokelib-nc pkmds spec SQLiteCpp)
+    LIST(APPEND libpkmn_libs ${Boost_LIBRARIES} rpokesav pokelib-nc pkmds spec SQLiteCpp)
 
     LIST(APPEND libpkmn_sources
         library_bridge.cpp
@@ -102,7 +102,6 @@ IF(ENABLE_LIBPKMN)
     
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
-    INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/pokehack/include)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PokeLib-NC/include)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PKMDS/include)
     ADD_LIBRARY(pkmn SHARED ${libpkmn_sources})

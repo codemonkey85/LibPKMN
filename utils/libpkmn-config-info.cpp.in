@@ -21,7 +21,6 @@ int main()
     cout << " - LibPKMN:        @LIBPKMN_GIT_DESCRIBE@" << endl;
     cout << " - LibPKMN Images: @LIBPKMN_IMAGES_GIT_DESCRIBE@" << endl;
     cout << " - Retro Pokesav:  @RPOKESAV_GIT_DESCRIBE@" << endl;
-    cout << " - Pokehack:       @POKEHACK_GIT_DESCRIBE@" << endl;
     cout << " - PokeLib-NC:     @POKELIB_GIT_DESCRIBE@" << endl;
     cout << " - PKMDS:          @PKMDS_GIT_DESCRIBE@" << endl;
     cout << " - SQLiteC++:      @SQLITECPP_GIT_DESCRIBE@" << endl << endl;
