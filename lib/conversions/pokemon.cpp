@@ -67,7 +67,6 @@ namespace pkmn
 
         team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type)
         {
-            std::cout << "import_gen3_pokemon" << std::endl;
             pk3_decrypt(&(pkmn->box));
             //Avoiding bitfields and structs
             uint16_t* met_int = reinterpret_cast<uint16_t*>(&(pkmn->box.met_loc)+1);
@@ -75,7 +74,7 @@ namespace pkmn
             uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->box.markings));
             uint32_t* ribbon_int = reinterpret_cast<uint32_t*>(&(pkmn->box.ribbon));
 
-            uint8_t game = (*met_int & 0x1E0) >> 5;
+            uint16_t game = (*met_int & 0x780) >> 7;
 
             //Check for invalid values
             if(pkmn->box.species == 0 or
@@ -87,7 +86,7 @@ namespace pkmn
             }
 
             uint16_t game_id = hometown_to_libpkmn_game(game);
-            uint16_t species_id = database::get_species_id(species_id, game_id);
+            uint16_t species_id = database::get_species_id(pkmn->box.species, game_id);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, game_id, pkmn->party.level,
                                                            pkmn->box.move[0], pkmn->box.move[1],
@@ -97,12 +96,10 @@ namespace pkmn
             uint16_t nickname_arr[10];
             gba_text_to_ucs2((char16_t*)nickname_arr, (char8_t*)pkmn->box.nickname, PK3_NICKNAME_LENGTH);
             t_pkmn->set_nickname(boost::locale::conv::utf_to_utf<wchar_t>(nickname_arr));
-            std::cout << "Nickname: " << t_pkmn->get_nickname() << std::endl;
 
             uint16_t trainername_arr[10];
             gba_text_to_ucs2((char16_t*)trainername_arr, (char8_t*)pkmn->box.ot_name, PK3_OT_NAME_LENGTH);
-            t_pkmn->set_trainer_name(boost::locale::conv::utf_to_utf<wchar_t>(nickname_arr));
-            std::cout << "Trainer name: " << t_pkmn->get_trainer_name() << std::endl;
+            t_pkmn->set_trainer_name(boost::locale::conv::utf_to_utf<wchar_t>(trainername_arr));
 
             //Item
             uint16_t item_id = database::get_item_id(pkmn->box.held_item, gen3_game_ids[save_type]);
