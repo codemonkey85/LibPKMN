@@ -5,6 +5,10 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <iostream>
+
+#include <boost/locale/encoding_utf.hpp>
+
 #include <pkmn/enums.hpp>
 
 #include "game_save_ls3impl.hpp"
@@ -13,8 +17,6 @@
 #include "conversions/pokemon.hpp"
 #include "conversions/PokeText.h"
  
-using namespace std;
-
 namespace pkmn
 {
     unsigned int _game_ids[] = {Games::NONE, Games::RUBY,
@@ -38,8 +40,7 @@ namespace pkmn
     {
         uint16_t name_arr[7];
         gba_text_to_ucs2((char16_t*)name_arr, (char8_t*)__trainer->name, 7);
-        pokemon_text trainer_name(PokeLib::PokeText::convertFrom((uint16_t*)name_arr));
-        std::cout << trainer_name << std::endl;
+        pokemon_text trainer_name(boost::locale::conv::utf_to_utf<wchar_t>(name_arr));
 
         _trainer = trainer::make(_game_id, trainer_name, __trainer->gender);
 
