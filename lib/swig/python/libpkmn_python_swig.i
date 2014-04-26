@@ -92,8 +92,8 @@
 %template(uint_pair_vec) std::vector<std::pair<unsigned int, unsigned int> >;
 %template(base_pokemon_vec) std::vector<pkmn::base_pokemon::sptr>;
 %template(moveset) std::vector<pkmn::move::sptr>;
-%rename(pocket_vec) std::vector<pkmn::pocket::sptr>;
-%rename(pokemon_team) std::vector<pkmn::team_pokemon::sptr>;
+%template(pocket_vec) std::vector<pkmn::pocket::sptr>;
+%template(pokemon_team) std::vector<pkmn::team_pokemon::sptr>;
 
 LIBPKMN_PYTHON_DICT(string_int_dict, std::string, int)
 LIBPKMN_PYTHON_DICT(string_string_dict, std::string, std::string)
