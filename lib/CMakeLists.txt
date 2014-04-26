@@ -73,7 +73,6 @@ IF(ENABLE_LIBPKMN)
         game_save_impl.cpp
         game_save_gen1impl.cpp
         game_save_gen3impl.cpp
-        game_save_ls3impl.cpp
         game_save_gen4impl.cpp
         game_save_gen5impl.cpp
         io.cpp

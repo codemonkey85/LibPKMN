@@ -12,7 +12,6 @@
 #include <pkmn/types/shared_ptr.hpp>
 
 #include <rpokesav/gen1_save.hpp>
-#include <pokehack/SaveParser.h>
 #include <pokelib/pokelib.h>
 #include <pkmds/pkmds_g5.h>
 
@@ -31,7 +30,6 @@
 #define POKEHACK_RIVAL_NAME        0x3A4C
 
 typedef pkmn::shared_ptr<rpokesav::gen1_save> rpokesav_gen1_sptr;
-typedef pkmn::shared_ptr<SaveParser> pokehack_sptr;
 typedef pkmn::shared_ptr<PokeLib::Save> pokelib_sptr;
 typedef pkmn::shared_ptr<bw2sav_obj> pkmds_g5_sptr;
 
@@ -41,10 +39,6 @@ namespace pkmn
     {
         trainer::sptr PKMN_API import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
     
-        trainer::sptr PKMN_API import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
-
-        void PKMN_API export_trainer_to_pokehack(trainer::sptr libpkmn_trainer, pokehack_sptr parser, char* game_data);
-
         trainer::sptr PKMN_API import_trainer_from_pokelib(pokelib_sptr pokelib_save);
 
         void PKMN_API export_trainer_to_pokelib(trainer::sptr libpkmn_trainer, pokelib_sptr pokelib_trainer);
