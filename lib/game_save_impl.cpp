@@ -23,6 +23,8 @@
 
 #include "libspec/libspec.h"
 
+namespace fs = boost::filesystem;
+
 using namespace std;
 
 namespace pkmn
@@ -47,7 +49,7 @@ namespace pkmn
             if(pokelib_save->parseRawSave())
             {
                 free(buffer);
-                return sptr(new game_save_gen4impl(pokelib_save));
+                return sptr(new game_save_gen4impl(pokelib_save, filename));
             }
             else
             {
@@ -55,7 +57,7 @@ namespace pkmn
                 free(buffer);
                 pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
                 read(filename.c_str(), sav.get());
-                if(savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
+                if(savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav, filename));
             }
         }
         else if(size > 0x40000)
@@ -65,20 +67,29 @@ namespace pkmn
             if(pokelib_save->parseRawSave())
             {
                 free(buffer);
-                return sptr(new game_save_gen4impl(pokelib_save));
+                return sptr(new game_save_gen4impl(pokelib_save, filename));
             }
         }
         else if(size >= 0x20000)
         {
-            if(gba_is_gba_save((uint8_t*)buffer)) return sptr(new game_save_gen3impl((uint8_t*)buffer));
+            if(gba_is_gba_save((uint8_t*)buffer)) return sptr(new game_save_gen3impl((uint8_t*)buffer,
+                                                                                     filename));
         }
         else if(size >= (2 << 14))
         {
             rpokesav_gen1_sptr g1_sav(new rpokesav::gen1_save(filename));
-            if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav));
+            if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav, filename));
         }
         else throw std::runtime_error("This file is too small to be a proper save file.");
     }
+
+    game_save_impl::game_save_impl(uint8_t* buffer, std::string filename)
+    {
+        _data = buffer;
+        _filepath = fs::absolute(fs::path(filename));
+    }
+
+    void game_save_impl::save() const {save_as(_filepath.string());}
     
     unsigned int game_save_impl::get_game_id() const {return _game_id;}
     
@@ -86,7 +97,7 @@ namespace pkmn
     
     bag::sptr game_save_impl::get_trainer_bag() const {return _trainer->get_bag();}
     
-    void game_save_impl::get_trainer_party(pokemon_team_t& party) {_trainer->get_party(party);}
+    void game_save_impl::get_trainer_party(pokemon_team_t& party) const {_trainer->get_party(party);}
     
     void game_save_impl::set_trainer_party(pokemon_team_t& party) {_trainer->set_party(party);}
     

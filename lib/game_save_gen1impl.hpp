@@ -18,10 +18,10 @@ namespace pkmn
         public:
 
             game_save_gen1impl();
-            game_save_gen1impl(rpokesav_gen1_sptr sav);
+            game_save_gen1impl(rpokesav_gen1_sptr sav, std::string orig_filename);
             
             void load();
-            void save();
+            void save_as(std::string filename) const;
             
         private:
         

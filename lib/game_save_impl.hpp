@@ -21,6 +21,9 @@ namespace pkmn
         public:
         
             game_save_impl() {};
+            game_save_impl(uint8_t* buffer, std::string orig_filename);
+
+            void save() const;
             
             unsigned int get_game_id() const;
             
@@ -28,7 +31,7 @@ namespace pkmn
             
             bag::sptr get_trainer_bag() const;
             
-            void get_trainer_party(pokemon_team_t& party);
+            void get_trainer_party(pokemon_team_t& party) const;
             void set_trainer_party(pokemon_team_t& party);
             
             pokemon_text get_trainer_name() const;
@@ -36,7 +39,8 @@ namespace pkmn
             
         protected:
 
-            boost::filesystem::path filepath;
+            uint8_t* _data;
+            boost::filesystem::path _filepath;
 
             unsigned int _game_id;
             trainer::sptr _trainer;

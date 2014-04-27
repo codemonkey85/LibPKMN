@@ -13,7 +13,8 @@ using namespace std;
 
 namespace pkmn
 {
-    game_save_gen5impl::game_save_gen5impl(pkmds_g5_sptr ptr): game_save_impl()
+    game_save_gen5impl::game_save_gen5impl(pkmds_g5_sptr ptr,
+                                           std::string orig_filename): game_save_impl(0, orig_filename)
     {
         _sav = ptr;
         load();
@@ -25,7 +26,7 @@ namespace pkmn
         _game_id = _trainer->get_game_id();
     }
 
-    void game_save_gen5impl::save()
+    void game_save_gen5impl::save_as(std::string filename) const
     {
         conversions::export_trainer_to_pkmds_g5(_trainer, _sav);
     }

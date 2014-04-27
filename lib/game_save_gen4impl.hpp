@@ -18,10 +18,10 @@ namespace pkmn
         public:
 
             game_save_gen4impl();
-            game_save_gen4impl(pokelib_sptr ptr);
+            game_save_gen4impl(pokelib_sptr ptr, std::string orig_filename);
             
             void load();
-            void save();
+            void save_as(std::string filename) const;
             
         private:
         

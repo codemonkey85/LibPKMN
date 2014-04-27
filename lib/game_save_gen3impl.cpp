@@ -21,9 +21,10 @@ namespace pkmn
     unsigned int _game_ids[] = {Games::NONE, Games::RUBY,
                                 Games::EMERALD, Games::FIRE_RED};
 
-    game_save_gen3impl::game_save_gen3impl(uint8_t* buffer): game_save_impl()
+    game_save_gen3impl::game_save_gen3impl(uint8_t* buffer,
+                                           std::string orig_filename): game_save_impl(buffer,
+                                                                                      orig_filename)
     {
-        _data = buffer;
         _save = gba_read_main_save(_data);
         __trainer = gba_get_trainer(_save);
         _storage = gba_get_storage(_save);
@@ -56,7 +57,7 @@ namespace pkmn
         conversions::import_gen3_items(_trainer->get_bag(), _storage, _save->type);
     }
 
-    void game_save_gen3impl::save()
+    void game_save_gen3impl::save_as(std::string filename) const
     {
     }
 } /* namespace pkmn */

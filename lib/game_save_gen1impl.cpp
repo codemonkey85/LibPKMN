@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -13,7 +13,8 @@ using namespace std;
 
 namespace pkmn
 {
-    game_save_gen1impl::game_save_gen1impl(rpokesav_gen1_sptr sav): game_save_impl()
+    game_save_gen1impl::game_save_gen1impl(rpokesav_gen1_sptr sav,
+                                           std::string orig_filename): game_save_impl(0, orig_filename)
     {
         _sav = sav;
         load();
@@ -25,5 +26,5 @@ namespace pkmn
         _game_id = Games::YELLOW;
     }
 
-    void game_save_gen1impl::save() {};
+    void game_save_gen1impl::save_as(std::string filename) const {};
 } /* namespace pkmn */

@@ -28,13 +28,14 @@ namespace pkmn
             virtual ~game_save() {};
             
             virtual void load() = 0;
-            virtual void save() = 0;
+            virtual void save() const = 0;
+            virtual void save_as(std::string filename) const = 0;
 
             virtual unsigned int get_game_id() const = 0;
             
             virtual trainer::sptr get_trainer() const = 0;
             
-            virtual void get_trainer_party(pokemon_team_t& party) = 0;
+            virtual void get_trainer_party(pokemon_team_t& party) const = 0;
             virtual void set_trainer_party(pokemon_team_t& party) = 0;
             
             virtual pokemon_text get_trainer_name() const = 0;

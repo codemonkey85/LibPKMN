@@ -18,15 +18,14 @@ namespace pkmn
         public:
 
             game_save_gen3impl();
-            game_save_gen3impl(uint8_t* buffer);
+            game_save_gen3impl(uint8_t* buffer, std::string orig_filename);
             ~game_save_gen3impl();
             
             void load();
-            void save();
+            void save_as(std::string filename) const;
             
         private:
         
-            uint8_t* _data;
             gba_save_t* _save;
             gba_trainer_t* __trainer;
             gba_storage_t* _storage;

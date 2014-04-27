@@ -13,7 +13,8 @@ using namespace std;
 
 namespace pkmn
 {
-    game_save_gen4impl::game_save_gen4impl(pokelib_sptr ptr): game_save_impl()
+    game_save_gen4impl::game_save_gen4impl(pokelib_sptr ptr,
+                                           std::string orig_filename): game_save_impl(0, orig_filename)
     {
         _pokelib_save = ptr;
         load();
@@ -25,7 +26,7 @@ namespace pkmn
         _game_id = _trainer->get_game_id();
     }
     
-    void game_save_gen4impl::save()
+    void game_save_gen4impl::save_as(std::string filename) const
     {
         conversions::export_trainer_to_pokelib(_trainer, _pokelib_save);
     }

@@ -18,10 +18,10 @@ namespace pkmn
         public:
 
             game_save_gen5impl();
-            game_save_gen5impl(pkmds_g5_sptr ptr);
+            game_save_gen5impl(pkmds_g5_sptr ptr, std::string filename);
             
             void load();
-            void save();
+            void save_as(std::string filename) const;
             
         private:
         
