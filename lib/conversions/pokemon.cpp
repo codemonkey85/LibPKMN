@@ -42,7 +42,7 @@ namespace pkmn
                                                       STAT_GROWTH_RATE_SLOW, STAT_GROWTH_RATE_FLUCTUATING};
 
         //Used with item index functions
-        uint8_t gen3_game_ids[4] = {Games::NONE, Games::RUBY, Games::EMERALD, Games::FIRE_RED};
+        uint8_t gen3_game_ids[] = {Games::NONE, Games::RUBY, Games::EMERALD, Games::FIRE_RED};
 
         SQLite::Database _db(get_database_path().c_str());
 
@@ -73,18 +73,17 @@ namespace pkmn
             uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->box.markings));
             uint32_t* ribbon_int = reinterpret_cast<uint32_t*>(&(pkmn->box.ribbon));
 
-            uint16_t game = (*met_int & 0x780) >> 7;
+            uint16_t game_id = hometown_to_libpkmn_game((*met_int & 0x780) >> 7);
 
             //Check for invalid values
             if(pkmn->box.species == 0 or
                (pkmn->box.species > 251 and pkmn->box.species < 277) or
                pkmn->box.species == 412) //TODO: investigate how egg works
             {
-                return team_pokemon::make(Species::INVALID, Games::RUBY, 0,
+                return team_pokemon::make(Species::INVALID, game_id, 0,
                                           Moves::NONE, Moves::NONE, Moves::NONE, Moves::NONE);
             }
 
-            uint16_t game_id = hometown_to_libpkmn_game(game);
             uint16_t species_id = database::get_species_id(pkmn->box.species, game_id);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, game_id, pkmn->party.level,
@@ -364,6 +363,199 @@ namespace pkmn
             pkmn->party.stats.sdef = stats["HP"];
         }
 
+        team_pokemon::sptr import_nds_pokemon(pkm_box_t* pkmn)
+        {
+            pkm_decrypt(pkmn);
+            //Avoiding bitfields and structs
+            uint8_t* met_int = reinterpret_cast<uint8_t*>(&(pkmn->pokeball)+1);
+            uint32_t* IV_int = reinterpret_cast<uint32_t*>(&(pkmn->iv));
+            uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->markings));
+            uint32_t* hoenn_ribbon_int = reinterpret_cast<uint32_t*>(&(pkmn->ribbon_hoenn1));
+            uint32_t* sinnoh_unova_ribbon12_int = reinterpret_cast<uint32_t*>(&(pkmn->ribbon_sinnoh1));
+            uint32_t* sinnoh_ribbon34_int = reinterpret_cast<uint32_t*>(&(pkmn->ribbon_sinnoh3));
+
+            uint16_t game_id = hometown_to_libpkmn_game(pkmn->hometown);
+            uint16_t species_id = database::get_species_id(pkmn->species, game_id);
+
+            if(species_id == 0)
+            {
+                return team_pokemon::make(Species::INVALID, game_id, 0,
+                                          Moves::NONE, Moves::NONE, Moves::NONE, Moves::NONE);
+            }
+
+            //LibSPEC has no way to link Pokemon to growth rates, so use database
+            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
+                                         % pkmn->species));
+            uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
+
+            //full_pkmn.party.level = stat_get_level(libspec_growth_rates[growth_rate], pkmn->exp);
+            uint8_t level = stat_get_level(stat_growth_rate_t(growth_rate), pkmn->exp);
+
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, game_id, level,
+                                                           pkmn->move[0], pkmn->move[1],
+                                                           pkmn->move[2], pkmn->move[3]);
+
+            //convert nickname and trainer name
+            uint16_t nickname_arr[11];
+            nds_text_to_ucs2((char16_t*)nickname_arr, (char16_t*)pkmn->nickname, 11);
+            t_pkmn->set_nickname(boost::locale::conv::utf_to_utf<wchar_t>(nickname_arr));
+
+            uint16_t trainername_arr[11];
+            nds_text_to_ucs2((char16_t*)trainername_arr, (char16_t*)pkmn->ot_name, 11);
+            t_pkmn->set_trainer_name(boost::locale::conv::utf_to_utf<wchar_t>(trainername_arr));
+
+            //Item
+            uint16_t item_id = database::get_item_id(pkmn->held_item, game_id);
+            t_pkmn->set_held_item(database::get_item_name(item_id));
+
+            //ID's
+            t_pkmn->set_personality(pkmn->header.pid);
+            t_pkmn->set_trainer_public_id(pkmn->ot_id);
+            t_pkmn->set_trainer_secret_id(pkmn->ot_sid);
+
+            //Move PP's
+            //TODO: take PP Ups into account
+            t_pkmn->set_move_PP(pkmn->move_pp[0], 1);
+            t_pkmn->set_move_PP(pkmn->move_pp[1], 2);
+            t_pkmn->set_move_PP(pkmn->move_pp[2], 3);
+            t_pkmn->set_move_PP(pkmn->move_pp[3], 4);
+
+            //Effort values
+            t_pkmn->set_EV("HP", pkmn->ev.hp);
+            t_pkmn->set_EV("Attack", pkmn->ev.atk);
+            t_pkmn->set_EV("Defense", pkmn->ev.def);
+            t_pkmn->set_EV("Speed", pkmn->ev.spd);
+            t_pkmn->set_EV("Special Attack", pkmn->ev.satk);
+            t_pkmn->set_EV("Special Defense", pkmn->ev.sdef);
+
+            //Individual values
+            t_pkmn->set_IV("HP", modern_get_IV(IV_int, Stats::HP));
+            t_pkmn->set_IV("Attack", modern_get_IV(IV_int, Stats::ATTACK));
+            t_pkmn->set_IV("Defense", modern_get_IV(IV_int, Stats::DEFENSE));
+            t_pkmn->set_IV("Speed", modern_get_IV(IV_int, Stats::SPEED));
+            t_pkmn->set_IV("Special Attack", modern_get_IV(IV_int, Stats::SPECIAL_ATTACK));
+            t_pkmn->set_IV("Special Defense", modern_get_IV(IV_int, Stats::SPECIAL_DEFENSE));
+
+            t_pkmn->set_met_level(get_gen_456_met_level(met_int));
+            if(game_id == Games::HEART_GOLD or game_id == Games::SOUL_SILVER)
+                t_pkmn->set_ball(ball_dict.at(game_ball_to_libpkmn_ball(pkmn->pokeball_hgss), "Poke Ball"));
+            else
+                t_pkmn->set_ball(ball_dict.at(game_ball_to_libpkmn_ball(pkmn->pokeball), "Poke Ball"));
+            if(*met_int & 1) t_pkmn->set_trainer_gender("Female");
+            else t_pkmn->set_trainer_gender("Male");
+
+            //Attributes
+            t_pkmn->set_attribute("friendship", pkmn->friendship);
+            t_pkmn->set_attribute("circle", get_marking(marking_int, Markings::CIRCLE));
+            t_pkmn->set_attribute("triangle", get_marking(marking_int, Markings::TRIANGLE));
+            t_pkmn->set_attribute("square", get_marking(marking_int, Markings::SQUARE));
+            t_pkmn->set_attribute("heart", get_marking(marking_int, Markings::HEART));
+            t_pkmn->set_attribute("country", pkmn->country);
+
+            t_pkmn->set_attribute("cool", pkmn->contest.cool);
+            t_pkmn->set_attribute("beauty", pkmn->contest.beauty);
+            t_pkmn->set_attribute("cute", pkmn->contest.cute);
+            t_pkmn->set_attribute("smart", pkmn->contest.smart);
+            t_pkmn->set_attribute("tough", pkmn->contest.tough);
+            t_pkmn->set_attribute("sheen", pkmn->contest.sheen);
+
+            //Hoenn Ribbons
+            t_pkmn->set_attribute("hoenn_cool_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL));
+            t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL_SUPER));
+            t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL_HYPER));
+            t_pkmn->set_attribute("hoenn_cool_master_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL_MASTER));
+            t_pkmn->set_attribute("hoenn_beauty_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY));
+            t_pkmn->set_attribute("hoenn_beauty_super_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY_SUPER));
+            t_pkmn->set_attribute("hoenn_beauty_hyper_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY_HYPER));
+            t_pkmn->set_attribute("hoenn_beauty_master_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY_MASTER));
+            t_pkmn->set_attribute("hoenn_cute_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE));
+            t_pkmn->set_attribute("hoenn_cute_super_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE_SUPER));
+            t_pkmn->set_attribute("hoenn_cute_hyper_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE_HYPER));
+            t_pkmn->set_attribute("hoenn_cute_master_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE_MASTER));
+            t_pkmn->set_attribute("hoenn_smart_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART));
+            t_pkmn->set_attribute("hoenn_smart_super_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART_SUPER));
+            t_pkmn->set_attribute("hoenn_smart_hyper_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART_HYPER));
+            t_pkmn->set_attribute("hoenn_smart_master_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART_MASTER));
+            t_pkmn->set_attribute("hoenn_tough_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH));
+            t_pkmn->set_attribute("hoenn_tough_super_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH_SUPER));
+            t_pkmn->set_attribute("hoenn_tough_hyper_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH_HYPER));
+            t_pkmn->set_attribute("hoenn_tough_master_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH_MASTER));
+            t_pkmn->set_attribute("hoenn_champion_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CHAMPION));
+            t_pkmn->set_attribute("hoenn_winning_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::WINNING));
+            t_pkmn->set_attribute("hoenn_victory_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::VICTORY));
+            t_pkmn->set_attribute("hoenn_artist_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::ARTIST));
+            t_pkmn->set_attribute("hoenn_effort_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::EFFORT));
+            t_pkmn->set_attribute("hoenn_marine_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::MARINE));
+            t_pkmn->set_attribute("hoenn_land_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::LAND));
+            t_pkmn->set_attribute("hoenn_sky_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SKY));
+            t_pkmn->set_attribute("hoenn_country_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COUNTRY));
+            t_pkmn->set_attribute("hoenn_national_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::NATIONAL));
+            t_pkmn->set_attribute("hoenn_earth_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::EARTH));
+            t_pkmn->set_attribute("hoenn_world_ribbon", get_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::WORLD));
+
+            //Sinnoh Ribbons
+            t_pkmn->set_attribute("sinnoh_champion_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CHAMPION));
+            t_pkmn->set_attribute("sinnoh_ability_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::ABILITY));
+            t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GREAT_ABILITY));
+            t_pkmn->set_attribute("sinnoh_double_ability_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::DOUBLE_ABILITY));
+            t_pkmn->set_attribute("sinnoh_multi_ability_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::MULTI_ABILITY));
+            t_pkmn->set_attribute("sinnoh_pair_ability_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::PAIR_ABILITY));
+            t_pkmn->set_attribute("sinnoh_world_ability_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::WORLD_ABILITY));
+            t_pkmn->set_attribute("sinnoh_alert_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::ALERT));
+            t_pkmn->set_attribute("sinnoh_shock_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::SHOCK));
+            t_pkmn->set_attribute("sinnoh_downcast_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::DOWNCAST));
+            t_pkmn->set_attribute("sinnoh_careless_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CARELESS));
+            t_pkmn->set_attribute("sinnoh_relax_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::RELAX));
+            t_pkmn->set_attribute("sinnoh_snooze_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::SNOOZE));
+            t_pkmn->set_attribute("sinnoh_smile_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::SMILE));
+            t_pkmn->set_attribute("sinnoh_gorgeous_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GORGEOUS));
+            t_pkmn->set_attribute("sinnoh_royal_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::ROYAL));
+            t_pkmn->set_attribute("sinnoh_gorgeous_royal_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GORGEOUS_ROYAL));
+            t_pkmn->set_attribute("sinnoh_footprint_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::FOOTPRINT));
+            t_pkmn->set_attribute("sinnoh_record_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::RECORD));
+            t_pkmn->set_attribute("sinnoh_history_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::HISTORY));
+            t_pkmn->set_attribute("sinnoh_legend_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::LEGEND));
+            t_pkmn->set_attribute("sinnoh_red_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::RED));
+            t_pkmn->set_attribute("sinnoh_green_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GREEN));
+            t_pkmn->set_attribute("sinnoh_blue_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::BLUE));
+            t_pkmn->set_attribute("sinnoh_festival_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_carnival_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::FESTIVAL));
+            t_pkmn->set_attribute("sinnoh_classic_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CLASSIC));
+            t_pkmn->set_attribute("sinnoh_premier_ribbon", get_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::PREMIER));
+            t_pkmn->set_attribute("sinnoh_cool_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL-23));
+            t_pkmn->set_attribute("sinnoh_cool_super_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_cool_hyper_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL_HYPER-23));
+            t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY-23));
+            t_pkmn->set_attribute("sinnoh_beauty_super_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_hyper_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY_HYPER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_cute_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE-23));
+            t_pkmn->set_attribute("sinnoh_cute_super_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_cute_hyper_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE_HYPER-23));
+            t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_smart_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART-23));
+            t_pkmn->set_attribute("sinnoh_smart_super_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_smart_hyper_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART_HYPER-23));
+            t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART_MASTER-23));
+            t_pkmn->set_attribute("sinnoh_tough_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH-23));
+            t_pkmn->set_attribute("sinnoh_tough_super_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_tough_hyper_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH_HYPER-23));
+            t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH_MASTER-23));
+
+            t_pkmn->set_attribute("eggmet_year", pkmn->egg_met_date.year);
+            t_pkmn->set_attribute("eggmet_month", pkmn->egg_met_date.month);
+            t_pkmn->set_attribute("eggmet_day", pkmn->egg_met_date.day);
+            t_pkmn->set_attribute("met_year", pkmn->met_date.year);
+            t_pkmn->set_attribute("met_month", pkmn->met_date.month);
+            t_pkmn->set_attribute("met_day", pkmn->met_date.day);
+
+            pkm_encrypt(pkmn);
+            return t_pkmn;
+        }
+
+        team_pokemon::sptr import_nds_pokemon(pkm_nds_t* pkmn) {return import_nds_pokemon(&(pkmn->box));}
+
         //OLD below
 
         team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
@@ -555,24 +747,24 @@ namespace pkmn
 
             uint32_t* ribbonSinnohB = &(pokelib_pkmn.pkm->pkm.intRibbonSinnohB);
             t_pkmn->set_attribute("sinnoh_cool_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL-23));
-            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_SUPER-23));
             t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_MASTER-23));
             t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY-23));
-            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_SUPER-23));
             t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_MASTER-23));
             t_pkmn->set_attribute("sinnoh_cute_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE-23));
-            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_SUPER-23));
             t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_MASTER-23));
             t_pkmn->set_attribute("sinnoh_smart_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART-23));
-            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_SUPER-23));
             t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_MASTER-23));
             t_pkmn->set_attribute("sinnoh_tough_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH-23));
-            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_SUPER-23));
             t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_MASTER-23));
 
             t_pkmn->set_attribute("eggmet_year", pokelib_pkmn.pkm->pkm.eggDate[0]);
@@ -729,24 +921,24 @@ namespace pkmn
 
             uint32_t* ribbonSinnohB = &(pokelib_pkmn.pkm->pkm.intRibbonSinnohB);
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL-23, attributes.at("sinnoh_cool_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_GREAT-23, attributes.at("sinnoh_cool_great_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_ULTRA-23, attributes.at("sinnoh_cool_ultra_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_SUPER-23, attributes.at("sinnoh_cool_great_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_HYPER-23, attributes.at("sinnoh_cool_ultra_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::COOL_MASTER-23, attributes.at("sinnoh_cool_master_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY-23, attributes.at("sinnoh_beauty_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_GREAT-23, attributes.at("sinnoh_beauty_great_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_ULTRA-23, attributes.at("sinnoh_beauty_ultra_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_SUPER-23, attributes.at("sinnoh_beauty_great_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_HYPER-23, attributes.at("sinnoh_beauty_ultra_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::BEAUTY_MASTER-23, attributes.at("sinnoh_beauty_master_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE-23, attributes.at("sinnoh_cute_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_GREAT-23, attributes.at("sinnoh_cute_great_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_ULTRA-23, attributes.at("sinnoh_cute_ultra_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_SUPER-23, attributes.at("sinnoh_cute_great_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_HYPER-23, attributes.at("sinnoh_cute_ultra_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::CUTE_MASTER-23, attributes.at("sinnoh_cute_master_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART-23, attributes.at("sinnoh_smart_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_GREAT-23, attributes.at("sinnoh_smart_great_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_ULTRA-23, attributes.at("sinnoh_smart_ultra_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_SUPER-23, attributes.at("sinnoh_smart_great_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_HYPER-23, attributes.at("sinnoh_smart_ultra_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::SMART_MASTER-23, attributes.at("sinnoh_smart_master_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH-23, attributes.at("sinnoh_tough_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_GREAT-23, attributes.at("sinnoh_tough_great_ribbon",false));
-            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_ULTRA-23, attributes.at("sinnoh_tough_ultra_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_SUPER-23, attributes.at("sinnoh_tough_great_ribbon",false));
+            set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_HYPER-23, attributes.at("sinnoh_tough_ultra_ribbon",false));
             set_ribbon(ribbonSinnohB, Ribbons::Sinnoh::TOUGH_MASTER-23, attributes.at("sinnoh_tough_master_ribbon",false));
 
             pokelib_pkmn.pkm->pkm.eggDate[0] = attributes.at("eggmet_year",0);
@@ -900,24 +1092,24 @@ namespace pkmn
 
             uint32_t* sribbon3 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3));
             t_pkmn->set_attribute("sinnoh_cool_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL-23));
-            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL_SUPER-23));
             t_pkmn->set_attribute("sinnoh_cool_master_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL_MASTER-23));
             t_pkmn->set_attribute("sinnoh_beauty_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY-23));
-            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_beauty_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_beauty_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_SUPER-23));
             t_pkmn->set_attribute("sinnoh_beauty_master_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_MASTER-23));
             t_pkmn->set_attribute("sinnoh_cute_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::CUTE-23));
-            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_cute_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_cute_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_SUPER-23));
             t_pkmn->set_attribute("sinnoh_cute_master_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_MASTER-23));
             t_pkmn->set_attribute("sinnoh_smart_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::SMART-23));
-            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::SMART_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::SMART_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_smart_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::SMART_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_smart_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::SMART_SUPER-23));
             t_pkmn->set_attribute("sinnoh_smart_master_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::SMART_MASTER-23));
             t_pkmn->set_attribute("sinnoh_tough_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH-23));
-            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_GREAT-23));
-            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_GREAT-23));
+            t_pkmn->set_attribute("sinnoh_tough_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_SUPER-23));
+            t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_SUPER-23));
             t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_MASTER-23));
 
             t_pkmn->set_attribute("eggmet_year", p_pkm->pkm_data.metdate.year);
@@ -1088,24 +1280,24 @@ namespace pkmn
 
             uint32_t* sribbon3 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3));
             set_ribbon(sribbon3, Ribbons::Sinnoh::COOL-23, attributes.at("sinnoh_cool_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23, attributes.at("sinnoh_cool_great_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::COOL_ULTRA-23, attributes.at("sinnoh_cool_ultra_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::COOL_SUPER-23, attributes.at("sinnoh_cool_great_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::COOL_HYPER-23, attributes.at("sinnoh_cool_ultra_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::COOL_MASTER-23, attributes.at("sinnoh_cool_master_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY-23, attributes.at("sinnoh_beauty_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_GREAT-23, attributes.at("sinnoh_beauty_great_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_ULTRA-23, attributes.at("sinnoh_beauty_ultra_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_SUPER-23, attributes.at("sinnoh_beauty_great_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_HYPER-23, attributes.at("sinnoh_beauty_ultra_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::BEAUTY_MASTER-23, attributes.at("sinnoh_beauty_master_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::CUTE-23, attributes.at("sinnoh_cute_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_GREAT-23, attributes.at("sinnoh_cute_great_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_ULTRA-23, attributes.at("sinnoh_cute_ultra_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_SUPER-23, attributes.at("sinnoh_cute_great_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_HYPER-23, attributes.at("sinnoh_cute_ultra_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::CUTE_MASTER-23, attributes.at("sinnoh_cute_master_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::SMART-23, attributes.at("sinnoh_smart_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::SMART_GREAT-23, attributes.at("sinnoh_smart_great_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::SMART_ULTRA-23, attributes.at("sinnoh_smart_ultra_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::SMART_SUPER-23, attributes.at("sinnoh_smart_great_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::SMART_HYPER-23, attributes.at("sinnoh_smart_ultra_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::SMART_MASTER-23, attributes.at("sinnoh_smart_master_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH-23, attributes.at("sinnoh_tough_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_GREAT-23, attributes.at("sinnoh_tough_great_ribbon",false));
-            set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_ULTRA-23, attributes.at("sinnoh_tough_ultra_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_SUPER-23, attributes.at("sinnoh_tough_great_ribbon",false));
+            set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_HYPER-23, attributes.at("sinnoh_tough_ultra_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_MASTER-23, attributes.at("sinnoh_tough_master_ribbon",false));
 
             p_pkm->pkm_data.eggdate.year = attributes.at("eggmet_year",0);
