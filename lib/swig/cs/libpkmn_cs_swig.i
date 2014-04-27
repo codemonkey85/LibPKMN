@@ -188,6 +188,7 @@ LIBPKMN_CS_DICT(PocketDict, std::string, pkmn::pocket::sptr, string, PocketSPtr)
 %newobject pkmn::pocket::make;
 %newobject pkmn::prng::get;
 %newobject pkmn::team_pokemon::make;
+%newobject pkmn::team_pokemon::get_base_pokemon;
 %newobject pkmn::trainer::make;
 
 //TODO: make C++ -> C# class name conversion function

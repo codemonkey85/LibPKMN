@@ -49,7 +49,7 @@ namespace pkmn
              * This is the class's factory function. It takes in the name of the game this trainer
              * comes from, the trainer's name, and the trainer's gender.
              *
-             * \param game name of the desired game
+             * \param game of the desired game
              * \param name trainer's name
              * \param gender trainer's gender
              * \return shared pointer to instance of pkmn::trainer with described parameters

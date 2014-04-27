@@ -20,6 +20,8 @@ namespace pkmn
         public:
 
             bag_impl(unsigned int game);
+            bag_impl(const bag_impl& other);
+            bag_impl& operator=(const bag_impl& other);
             ~bag_impl() {};
 
             std::string get_game() const;

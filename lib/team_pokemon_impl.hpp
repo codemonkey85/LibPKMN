@@ -17,6 +17,9 @@ namespace pkmn
     {
         public:
 
+            team_pokemon_impl() {};
+            team_pokemon_impl(const team_pokemon_impl& other);
+            team_pokemon_impl& operator=(const team_pokemon_impl& other);
             team_pokemon_impl(base_pokemon::sptr base_pkmn, unsigned int game, unsigned int level,
                               unsigned int move1, unsigned int move2,
                               unsigned int move3, unsigned int move4);
@@ -26,7 +29,7 @@ namespace pkmn
             unsigned int get_generation() const;
 
             //Non-battle Stats
-            base_pokemon::sptr get_base_pokemon() const;
+            base_pokemon::sptr get_base_pokemon(bool copy = false) const;
             pokemon_text get_species_name() const;
             pokemon_text get_nickname() const;
             string_pair_t get_types() const;

@@ -37,7 +37,7 @@ namespace pkmn
              * and item this class should describe.
              *
              * \param id SQLite database ID of the desired item, as defined in <pkmn/enums.hpp>
-             * \param id SQLite database ID of the item's game, as defined in <pkmn/enums.hpp>
+             * \param game SQLite database ID of the item's game, as defined in <pkmn/enums.hpp>
              * \return shared pointer to instance of pkmn::item with described parameters
              */
             static sptr make(unsigned int id, unsigned int game);

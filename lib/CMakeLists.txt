@@ -76,6 +76,7 @@ IF(ENABLE_LIBPKMN)
         game_save_gen4impl.cpp
         game_save_gen5impl.cpp
         io.cpp
+        copy_sptrs.cpp
         conversions/items.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
@@ -98,7 +99,18 @@ IF(ENABLE_LIBPKMN)
     QT4_WRAP_CPP(MOCSrcs ${libpkmn_qt4_headers})
 
     LIST(APPEND libpkmn_sources ${libpkmn_qt4_sources} ${MOCSrcs})
-    
+
+    ####################################################################
+    # Add DLL resource file when using MSVC
+    ####################################################################
+    IF(MSVC)
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/pkmn.rc.in
+            ${CMAKE_CURRENT_BINARY_DIR}/pkmn.rc
+        @ONLY)
+        LIST(APPEND libpkmn_sources ${CMAKE_CURRENT_BINARY_DIR}/pkmn.rc)
+    ENDIF(MSVC)
+
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PokeLib-NC/include)
@@ -118,15 +130,6 @@ IF(ENABLE_LIBPKMN)
     ELSEIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         SET_TARGET_PROPERTIES(pkmn PROPERTIES COMPILE_FLAGS "-std=c++11 -fPIC")
     ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-
-    ####################################################################
-    # Use boost::shared_ptr if user specifies
-    ####################################################################
-    IF(USE_BOOST_SHARED_PTR)
-        MESSAGE(STATUS "Using boost::shared_ptr for pkmn::shared_ptr.")
-        MESSAGE(STATUS "")
-        SET_TARGET_PROPERTIES(pkmn PROPERTIES DEFINE_SYMBOL "LIBPKMN_USE_BOOST_SHARED_PTR")
-    ENDIF(USE_BOOST_SHARED_PTR)
 
     ####################################################################
     # MSVC needs this setting to export functions in pkmn.dll

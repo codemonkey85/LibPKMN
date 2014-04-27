@@ -21,6 +21,7 @@ SET(cpp_test_sources
     pokemon_text_test.cpp
     bag_pocket_test.cpp
     prng_test.cpp
+    copy_sptr_test.cpp
 )
 
 MACRO(LIBPKMN_ADD_TEST test_name test_cmd)
@@ -110,6 +111,7 @@ IF(ENABLE_PYTHON)
         python_enum_test
         python_pokemon_text_test
         python_bag_pocket_test
+        python_copy_sptr_test
     )
 
     FOREACH(python_test ${python_test_names})
@@ -130,6 +132,7 @@ IF(ENABLE_CSHARP)
         CSharpDictTest
         CSharpPokemonTextTest
         CSharpBagPocketTest
+        CSharpCopySPtrTest
     )
 
     FOREACH(cs_test ${cs_test_names})
