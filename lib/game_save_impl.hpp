@@ -7,13 +7,16 @@
 #ifndef INCLUDED_GAME_SAVE_IMPL_HPP
 #define INCLUDED_GAME_SAVE_IMPL_HPP
 
+#include <boost/filesystem.hpp>
+#include <boost/noncopyable.hpp>
+
 #include <pkmn/game_save.hpp>
 
 #include "conversions/trainer.hpp"
 
 namespace pkmn
 {
-    class game_save_impl: public game_save
+    class game_save_impl: public game_save, boost::noncopyable
     {
         public:
         
@@ -32,7 +35,9 @@ namespace pkmn
             void set_trainer_name(pokemon_text trainer_name);
             
         protected:
-        
+
+            boost::filesystem::path filepath;
+
             unsigned int _game_id;
             trainer::sptr _trainer;
     };
