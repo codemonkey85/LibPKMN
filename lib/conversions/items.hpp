@@ -24,7 +24,8 @@ namespace pkmn
 {
     namespace conversions
     {
-        void import_gen3_items(bag::sptr item_bag, gba_storage_t* storage, gba_savetype_t save_type);
+        void import_gen3_items(bag::sptr item_bag, gba_save_t* save, gba_savetype_t save_type);
+        //void import_gen3_items(bag::sptr item_bag, gba_storage_t* storage, gba_savetype_t save_type);
 
         void PKMN_API import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav);
     

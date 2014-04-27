@@ -69,7 +69,7 @@ namespace pkmn
             uint16_t species_id = database::get_species_id(pkmn->species, game_id);
 
             //LibSPEC has no way to link Pokemon to growth rates, so use database
-            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
+            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE id=%d")
                                          % pkmn->species));
             uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
 
@@ -223,7 +223,7 @@ namespace pkmn
                                                        t_pkmn->get_game_id());
             //TODO: store actual experience, currently set it to what level needs
             //LibSPEC has no way to link Pokemon to growth rates, so use database
-            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
+            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE id=%d")
                                          % pkmn->species));
             uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
             switch(growth_rate)
@@ -382,7 +382,7 @@ namespace pkmn
             }
 
             //LibSPEC has no way to link Pokemon to growth rates, so use database
-            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
+            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE id=%d")
                                          % pkmn->species));
             uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
 
@@ -598,7 +598,7 @@ namespace pkmn
 
             //TODO: store actual experience, currently set it to what level needs
             //LibSPEC has no way to link Pokemon to growth rates, so use database
-            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
+            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE id=%d")
                                          % pkmn->species));
             uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
             switch(growth_rate)

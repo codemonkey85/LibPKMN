@@ -27,7 +27,6 @@ namespace pkmn
     {
         _save = gba_read_main_save(_data);
         __trainer = gba_get_trainer(_save);
-        _storage = gba_get_storage(_save);
         _party = gba_get_party(_save);
         _pc = gba_get_pc(_save);
 
@@ -54,7 +53,7 @@ namespace pkmn
             _trainer->set_pokemon(i+1, conversions::import_gen3_pokemon(&(_party->pokemon[i]),
                                                                         _save->type));
         }
-        conversions::import_gen3_items(_trainer->get_bag(), _storage, _save->type);
+        conversions::import_gen3_items(_trainer->get_bag(), _save, _save->type);
     }
 
     void game_save_gen3impl::save_as(std::string filename) const

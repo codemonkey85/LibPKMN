@@ -11,6 +11,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Enum containing the different gba game types.
  */
@@ -41,7 +45,9 @@ typedef struct {
 	/** @brief The savetype of the save. */
 	gba_savetype_t type;
 	/** @brief Internal data used by the library. */
+#ifndef SWIG
 	void *internal;
+#endif
 } gba_save_t;
 
 /* Generation 3 Pokemon Data Structure */
@@ -77,8 +83,20 @@ enum {
 enum {
 	GBA_RS_ITEM_COUNT = 216,
 	GBA_E_ITEM_COUNT = 236,
-	GBA_FRLG_ITEM_COUNT = 216
+	GBA_FRLG_ITEM_COUNT = 216,
 };
+
+/**
+ * @brief Defines the gba item pockets.
+ */
+typedef enum {
+	GBA_ITEM_POCKET_PC = 0,
+	GBA_ITEM_POCKET_ITEM = 1,
+	GBA_ITEM_POCKET_KEYITEM = 2,
+	GBA_ITEM_POCKET_BALL = 3,
+	GBA_ITEM_POCKET_HMTM = 4,
+	GBA_ITEM_POCKET_BERRY = 5
+} gba_item_pocket_t;
 
 
 // packed structs
@@ -87,10 +105,10 @@ enum {
  * @brief The pokemon's markings that you see in the party or box. Used for searching.
  */
 typedef struct { //0x8
-	bool circle : 1;
-	bool square : 1;
-	bool triangle : 1;
-	bool heart : 1;
+	uint8_t circle : 1;
+	uint8_t square : 1;
+	uint8_t triangle : 1;
+	uint8_t heart : 1;
 	uint8_t : 4; //unused
 } pk3_marking_t;
 
@@ -155,41 +173,41 @@ typedef struct {
  */
 typedef struct { //0x2
 	//byte 1
-	bool cool_normal : 1;
-	bool cool_super : 1;
-	bool cool_hyper : 1;
-	bool cool_master : 1;
-	bool beauty_normal : 1;
-	bool beauty_super : 1;
-	bool beauty_hyper : 1;
-	bool beauty_master : 1;
+	uint8_t cool_normal : 1;
+	uint8_t cool_super : 1;
+	uint8_t cool_hyper : 1;
+	uint8_t cool_master : 1;
+	uint8_t beauty_normal : 1;
+	uint8_t beauty_super : 1;
+	uint8_t beauty_hyper : 1;
+	uint8_t beauty_master : 1;
 	//byte 2
-	bool cute_normal : 1;
-	bool cute_super : 1;
-	bool cute_hyper : 1;
-	bool cute_master : 1;
-	bool smart_normal : 1;
-	bool smart_super : 1;
-	bool smart_hyper : 1;
-	bool smart_master : 1;
+	uint8_t cute_normal : 1;
+	uint8_t cute_super : 1;
+	uint8_t cute_hyper : 1;
+	uint8_t cute_master : 1;
+	uint8_t smart_normal : 1;
+	uint8_t smart_super : 1;
+	uint8_t smart_hyper : 1;
+	uint8_t smart_master : 1;
 	//byte 3
-	bool tough_normal : 1;
-	bool tough_super : 1;
-	bool tough_hyper : 1;
-	bool tough_master : 1;
-	bool champion : 1;
-	bool winning : 1;
-	bool victory : 1;
-	bool artist : 1;
+	uint8_t tough_normal : 1;
+	uint8_t tough_super : 1;
+	uint8_t tough_hyper : 1;
+	uint8_t tough_master : 1;
+	uint8_t champion : 1;
+	uint8_t winning : 1;
+	uint8_t victory : 1;
+	uint8_t artist : 1;
 	//byte 4
-	bool effort : 1;
-	bool marine : 1;
-	bool land : 1;
-	bool sky : 1;
-	bool country : 1;
-	bool national : 1;
-	bool earth : 1;
-	bool world : 1;
+	uint8_t effort : 1;
+	uint8_t marine : 1;
+	uint8_t land : 1;
+	uint8_t sky : 1;
+	uint8_t country : 1;
+	uint8_t national : 1;
+	uint8_t earth : 1;
+	uint8_t world : 1;
 } pk3_ribbon_t;
 
 /**
@@ -270,7 +288,7 @@ typedef struct { //80 bytes for box data
 					/** Pokeball Caught In */
 					uint8_t pokeball : 4;
 					/** Original Trainer's Gender */
-					bool is_ot_female : 1;
+					uint8_t is_ot_female : 1;
 				};
 				union {
 					/** Pokemon's Individual Values */
@@ -278,9 +296,9 @@ typedef struct { //80 bytes for box data
 					struct {
 						uint32_t : 30;
 						/** Is this pokemon an Egg? */
-						bool is_egg : 1;
+						uint8_t is_egg : 1;
 						/** Which of the two possible abilities does this pokemon have? */
-						bool ability : 1;
+						uint8_t ability : 1;
 					};
 				};
 				/** Pokemon's Ribbons */
@@ -291,6 +309,16 @@ typedef struct { //80 bytes for box data
 } pk3_box_t;
 
 typedef struct {
+	/** @brief Turns of sleep status remaining */
+	uint8_t status_sleep : 3;
+	uint8_t status_poison : 1;
+	uint8_t status_burn : 1;
+	uint8_t status_freeze : 1;
+	uint8_t status_paralysis : 1;
+	uint8_t status_toxic : 1;
+} pk3_status_t;
+
+typedef struct {
 	uint16_t hp;
 	uint16_t max_hp;
 	uint16_t atk;
@@ -299,16 +327,6 @@ typedef struct {
 	uint16_t satk;
 	uint16_t sdef;
 } pk3_stats_t;
-
-typedef struct {
-	/** @brief Turns of sleep status remaining */
-	uint8_t status_sleep : 3;
-	bool status_poison : 1;
-	bool status_burn : 1;
-	bool status_freeze : 1;
-	bool status_paralysis : 1;
-	bool status_toxic : 1;
-} pk3_status_t;
 
 typedef struct {
 	pk3_status_t status;
@@ -371,64 +389,6 @@ typedef struct {
 	uint16_t amount;
 } gba_item_slot_t;
 
-/**
- * @brief Ruby/Sapphire Item Storage
- */
-typedef union { //216 items
-	gba_item_slot_t all[GBA_RS_ITEM_COUNT];
-	struct {
-		gba_item_slot_t pc[50];
-		gba_item_slot_t item[20];
-		gba_item_slot_t keyitem[20];
-		gba_item_slot_t ball[16];
-		gba_item_slot_t tmhm[64];
-		gba_item_slot_t berry[46];
-	};
-} gba_rs_storage_t;
-
-/**
- * @brief Emerald Item Storage
- */
-typedef union { //236 items E
-	gba_item_slot_t all[GBA_E_ITEM_COUNT];
-	struct {
-		gba_item_slot_t pc[50];
-		gba_item_slot_t item[30];
-		gba_item_slot_t keyitem[30];
-		gba_item_slot_t ball[16];
-		gba_item_slot_t tmhm[64];
-		gba_item_slot_t berry[46];
-	};
-} gba_e_storage_t;
-
-/**
- * @brief Fire Red/Leaf Green Item Storage
- */
-typedef union { //216 items FRLG
-	gba_item_slot_t all[GBA_FRLG_ITEM_COUNT];
-	struct {
-		gba_item_slot_t pc[30];
-		gba_item_slot_t item[42];
-		gba_item_slot_t keyitem[30];
-		gba_item_slot_t ball[13];
-		gba_item_slot_t tmhm[58];
-		gba_item_slot_t berry[43];
-	};
-} gba_frlg_storage_t;
-
-/**
- * Combined Item Storage
- */
-typedef struct {
-	uint32_t money;
-	uint32_t : 32;
-	union {
-		gba_rs_storage_t rs_items;
-		//It's okay if a data structure goes beyond the end of the data, as long as they don't try and access it!
-		gba_e_storage_t e_items;
-		gba_frlg_storage_t frlg_items;
-	};
-} gba_storage_t;
 
 /**
  * @brief GBA Time Played Structure
@@ -459,14 +419,11 @@ typedef struct {
 } gba_trainer_t;
 #pragma pack(pop)
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void gba_text_to_ucs2(char16_t *dst, char8_t *src, size_t size);
 void ucs2_to_gba_text(char8_t *dst, char16_t *src, size_t size);
 
-bool gba_is_gba_save(const uint8_t *ptr);
+uint8_t gba_is_gba_save(const uint8_t *ptr);
+
 gba_save_t *gba_read_main_save(const uint8_t *);
 gba_save_t *gba_read_backup_save(const uint8_t *);
 void gba_write_main_save(uint8_t *, const gba_save_t *);
@@ -479,17 +436,24 @@ uint8_t *gba_create_data();
 void pk3_decrypt(pk3_box_t *);
 void pk3_encrypt(pk3_box_t *);
 
-gba_storage_t *gba_get_storage(gba_save_t *);
+uint32_t gba_get_money(gba_save_t *);
+void gba_set_money(gba_save_t *, uint32_t);
+
+gba_item_slot_t *gba_get_item(gba_save_t *, size_t);
+gba_item_slot_t *gba_get_pocket_item(gba_save_t *, gba_item_pocket_t, size_t);
+size_t gba_get_pocket_offset(gba_save_t *, gba_item_pocket_t);
+size_t gba_get_pocket_size(gba_save_t *, gba_item_pocket_t);
+
 gba_trainer_t *gba_get_trainer(gba_save_t *);
 gba_party_t *gba_get_party(gba_save_t *);
 gba_pc_t *gba_get_pc(gba_save_t *);
 
-bool gba_pokedex_get_national(gba_save_t *);
-void gba_pokedex_set_national(gba_save_t *, bool);
-bool gba_pokedex_get_owned(gba_save_t *, size_t);
-void gba_pokedex_set_owned(gba_save_t *, size_t, bool);
-bool gba_pokedex_get_seen(gba_save_t *, size_t);
-void gba_pokedex_set_seen(gba_save_t *, size_t, bool);
+uint8_t gba_pokedex_get_national(gba_save_t *);
+void gba_pokedex_set_national(gba_save_t *, uint8_t);
+uint8_t gba_pokedex_get_owned(gba_save_t *, size_t);
+void gba_pokedex_set_owned(gba_save_t *, size_t, uint8_t);
+uint8_t gba_pokedex_get_seen(gba_save_t *, size_t);
+void gba_pokedex_set_seen(gba_save_t *, size_t, uint8_t);
 
 //TODO rival name, badges, day care pokemon (then GBA is done :D)
 

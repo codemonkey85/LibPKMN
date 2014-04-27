@@ -28,7 +28,6 @@ namespace pkmn
         
             gba_save_t* _save;
             gba_trainer_t* __trainer;
-            gba_storage_t* _storage;
             gba_party_t* _party;
             gba_pc_t* _pc;
     };
