@@ -28,6 +28,7 @@ namespace pkmn
         void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_t* pkmn, gba_savetype_t save_type);
         team_pokemon::sptr import_nds_pokemon(pkm_box_t* pkmn);
         team_pokemon::sptr import_nds_pokemon(pkm_nds_t* pkmn);
+        void export_nds_pokemon(team_pokemon::sptr t_pkmn, pkm_box_t* pkmn);
 
         //OLD below
 

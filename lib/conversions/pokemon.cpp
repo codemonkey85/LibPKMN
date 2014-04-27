@@ -48,79 +48,68 @@ namespace pkmn
 
         team_pokemon::sptr import_gen3_pokemon(pk3_box_t* pkmn, gba_savetype_t save_type)
         {
-            pk3_t full_pkmn;
-            full_pkmn.box = *pkmn; //Unfortunately, copying is necessary here
+            pk3_decrypt(pkmn);
+            //Avoiding bitfields and structs
+            uint16_t* met_int = reinterpret_cast<uint16_t*>(&(pkmn->met_loc)+1);
+            uint32_t* IV_int = reinterpret_cast<uint32_t*>(&(pkmn->iv));
+            uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->markings));
+            uint32_t* ribbon_int = reinterpret_cast<uint32_t*>(&(pkmn->ribbon));
+
+            uint16_t game_id = hometown_to_libpkmn_game((*met_int & 0x780) >> 7);
+
+            //Check for invalid values
+            if(pkmn->species == 0 or
+               (pkmn->species > 251 and pkmn->species < 277) or
+               pkmn->species == 412) //TODO: investigate how egg works
+            {
+                return team_pokemon::make(Species::INVALID, game_id, 0,
+                                          Moves::NONE, Moves::NONE, Moves::NONE, Moves::NONE);
+            }
+
+            uint16_t species_id = database::get_species_id(pkmn->species, game_id);
 
             //LibSPEC has no way to link Pokemon to growth rates, so use database
             std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
                                          % pkmn->species));
             uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
 
-            //full_pkmn.party.level = stat_get_level(libspec_growth_rates[growth_rate], pkmn->exp);
-            full_pkmn.party.level = stat_get_level(stat_growth_rate_t(growth_rate), pkmn->exp);
+            uint8_t level = stat_get_level(stat_growth_rate_t(growth_rate), pkmn->exp);
 
-            //Party stats don't matter since LibPKMN automatically calculate those, so
-            //use this as is.
-            return import_gen3_pokemon(&full_pkmn, save_type);
-        }
-
-        team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type)
-        {
-            pk3_decrypt(&(pkmn->box));
-            //Avoiding bitfields and structs
-            uint16_t* met_int = reinterpret_cast<uint16_t*>(&(pkmn->box.met_loc)+1);
-            uint32_t* IV_int = reinterpret_cast<uint32_t*>(&(pkmn->box.iv));
-            uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->box.markings));
-            uint32_t* ribbon_int = reinterpret_cast<uint32_t*>(&(pkmn->box.ribbon));
-
-            uint16_t game_id = hometown_to_libpkmn_game((*met_int & 0x780) >> 7);
-
-            //Check for invalid values
-            if(pkmn->box.species == 0 or
-               (pkmn->box.species > 251 and pkmn->box.species < 277) or
-               pkmn->box.species == 412) //TODO: investigate how egg works
-            {
-                return team_pokemon::make(Species::INVALID, game_id, 0,
-                                          Moves::NONE, Moves::NONE, Moves::NONE, Moves::NONE);
-            }
-
-            uint16_t species_id = database::get_species_id(pkmn->box.species, game_id);
-
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, game_id, pkmn->party.level,
-                                                           pkmn->box.move[0], pkmn->box.move[1],
-                                                           pkmn->box.move[2], pkmn->box.move[3]);
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, game_id, level,
+                                                           pkmn->move[0], pkmn->move[1],
+                                                           pkmn->move[2], pkmn->move[3]);
 
             //Convert nickname and trainer name
             uint16_t nickname_arr[10];
-            gba_text_to_ucs2((char16_t*)nickname_arr, (char8_t*)pkmn->box.nickname, PK3_NICKNAME_LENGTH);
+            gba_text_to_ucs2((char16_t*)nickname_arr, (char8_t*)pkmn->nickname, PK3_NICKNAME_LENGTH);
             t_pkmn->set_nickname(boost::locale::conv::utf_to_utf<wchar_t>(nickname_arr));
 
             uint16_t trainername_arr[10];
-            gba_text_to_ucs2((char16_t*)trainername_arr, (char8_t*)pkmn->box.ot_name, PK3_OT_NAME_LENGTH);
+            gba_text_to_ucs2((char16_t*)trainername_arr, (char8_t*)pkmn->ot_name, PK3_OT_NAME_LENGTH);
             t_pkmn->set_trainer_name(boost::locale::conv::utf_to_utf<wchar_t>(trainername_arr));
 
             //Item
-            uint16_t item_id = database::get_item_id(pkmn->box.held_item, gen3_game_ids[save_type]);
+            uint16_t item_id = database::get_item_id(pkmn->held_item, gen3_game_ids[save_type]);
             t_pkmn->set_held_item(database::get_item_name(item_id));
 
             //ID's
-            t_pkmn->set_personality(pkmn->box.pid);
-            t_pkmn->set_trainer_id(pkmn->box.ot_fid);
+            t_pkmn->set_personality(pkmn->pid);
+            t_pkmn->set_trainer_id(pkmn->ot_fid);
 
             //Move PP's
             //TODO: take PP Ups into account
-            t_pkmn->set_move_PP(pkmn->box.move_pp[0], 1);
-            t_pkmn->set_move_PP(pkmn->box.move_pp[1], 2);
-            t_pkmn->set_move_PP(pkmn->box.move_pp[2], 3);
-            t_pkmn->set_move_PP(pkmn->box.move_pp[3], 4);
+            t_pkmn->set_move_PP(pkmn->move_pp[0], 1);
+            t_pkmn->set_move_PP(pkmn->move_pp[1], 2);
+            t_pkmn->set_move_PP(pkmn->move_pp[2], 3);
+            t_pkmn->set_move_PP(pkmn->move_pp[3], 4);
 
             //Effort values
-            t_pkmn->set_EV("HP", pkmn->box.ev.hp);
-            t_pkmn->set_EV("Attack", pkmn->box.ev.atk);
-            t_pkmn->set_EV("Defense", pkmn->box.ev.def);
-            t_pkmn->set_EV("Speed", pkmn->box.ev.spd);
-            t_pkmn->set_EV("Special Attack", pkmn->box.ev.satk);
-            t_pkmn->set_EV("Special Defense", pkmn->box.ev.sdef);
+            t_pkmn->set_EV("HP", pkmn->ev.hp);
+            t_pkmn->set_EV("Attack", pkmn->ev.atk);
+            t_pkmn->set_EV("Defense", pkmn->ev.def);
+            t_pkmn->set_EV("Speed", pkmn->ev.spd);
+            t_pkmn->set_EV("Special Attack", pkmn->ev.satk);
+            t_pkmn->set_EV("Special Defense", pkmn->ev.sdef);
 
             //Individual values
             t_pkmn->set_IV("HP", modern_get_IV(IV_int, Stats::HP));
@@ -136,19 +125,19 @@ namespace pkmn
             else t_pkmn->set_trainer_gender("Male");
 
             //Attributes
-            t_pkmn->set_attribute("friendship", pkmn->box.friendship);
+            t_pkmn->set_attribute("friendship", pkmn->friendship);
             t_pkmn->set_attribute("circle", get_marking(marking_int, Markings::CIRCLE));
             t_pkmn->set_attribute("triangle", get_marking(marking_int, Markings::TRIANGLE));
             t_pkmn->set_attribute("square", get_marking(marking_int, Markings::SQUARE));
             t_pkmn->set_attribute("heart", get_marking(marking_int, Markings::HEART));
-            t_pkmn->set_attribute("country", pkmn->box.language);
+            t_pkmn->set_attribute("country", pkmn->language);
 
-            t_pkmn->set_attribute("cool", pkmn->box.contest.cool);
-            t_pkmn->set_attribute("beauty", pkmn->box.contest.beauty);
-            t_pkmn->set_attribute("cute", pkmn->box.contest.cute);
-            t_pkmn->set_attribute("smart", pkmn->box.contest.smart);
-            t_pkmn->set_attribute("tough", pkmn->box.contest.tough);
-            t_pkmn->set_attribute("sheen", pkmn->box.contest.sheen);
+            t_pkmn->set_attribute("cool", pkmn->contest.cool);
+            t_pkmn->set_attribute("beauty", pkmn->contest.beauty);
+            t_pkmn->set_attribute("cute", pkmn->contest.cute);
+            t_pkmn->set_attribute("smart", pkmn->contest.smart);
+            t_pkmn->set_attribute("tough", pkmn->contest.tough);
+            t_pkmn->set_attribute("sheen", pkmn->contest.sheen);
 
             t_pkmn->set_attribute("hoenn_cool_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::COOL));
             t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::COOL_SUPER));
@@ -183,13 +172,20 @@ namespace pkmn
             t_pkmn->set_attribute("hoenn_national_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::NATIONAL));
             t_pkmn->set_attribute("hoenn_earth_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::EARTH));
             t_pkmn->set_attribute("hoenn_world_ribbon", get_ribbon(ribbon_int, Ribbons::Hoenn::WORLD));
-            pk3_encrypt(&(pkmn->box));
+            pk3_encrypt(pkmn);
             
             return t_pkmn;
         }
 
+        team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type)
+        {
+            return import_gen3_pokemon(&(pkmn->box), save_type);
+        }
+
         void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_box_t* pkmn, gba_savetype_t save_type)
         {
+            pk3_decrypt(pkmn);
+
             //Avoiding bitfields and structs
             uint8_t* ppup_int = reinterpret_cast<uint8_t*>(&(pkmn->pp_up));
             uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->markings));
@@ -224,7 +220,7 @@ namespace pkmn
 
             pkmn->species = t_pkmn->get_species_id();
             pkmn->held_item = database::get_item_index(t_pkmn->get_held_item()->get_item_id(),
-                                                       gen3_game_ids[int(save_type)]);
+                                                       t_pkmn->get_game_id());
             //TODO: store actual experience, currently set it to what level needs
             //LibSPEC has no way to link Pokemon to growth rates, so use database
             std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
@@ -345,6 +341,8 @@ namespace pkmn
             set_ribbon(ribbon_int, Ribbons::Hoenn::NATIONAL, attributes.at("hoenn_national_ribbon",false));
             set_ribbon(ribbon_int, Ribbons::Hoenn::EARTH, attributes.at("hoenn_earth_ribbon",false));
             set_ribbon(ribbon_int, Ribbons::Hoenn::WORLD, attributes.at("hoenn_world_ribbon",false));
+
+            pk3_encrypt(pkmn);
         }
 
         void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_t* pkmn, gba_savetype_t save_type)
@@ -388,7 +386,6 @@ namespace pkmn
                                          % pkmn->species));
             uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
 
-            //full_pkmn.party.level = stat_get_level(libspec_growth_rates[growth_rate], pkmn->exp);
             uint8_t level = stat_get_level(stat_growth_rate_t(growth_rate), pkmn->exp);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, game_id, level,
@@ -555,6 +552,255 @@ namespace pkmn
         }
 
         team_pokemon::sptr import_nds_pokemon(pkm_nds_t* pkmn) {return import_nds_pokemon(&(pkmn->box));}
+
+        void export_nds_pokemon(team_pokemon::sptr t_pkmn, pkm_box_t* pkmn)
+        {
+            pkm_decrypt(pkmn);
+
+            //Avoiding bitfields and structs
+            uint8_t* ppup_int = reinterpret_cast<uint8_t*>(&(pkmn->move_pp_up));
+            uint8_t* marking_int = reinterpret_cast<uint8_t*>(&(pkmn->markings));
+            uint8_t* met_int = reinterpret_cast<uint8_t*>(&(pkmn->pokeball)+1);
+            uint32_t* IV_int = reinterpret_cast<uint32_t*>(&(pkmn->iv));
+            uint32_t* hoenn_ribbon_int = reinterpret_cast<uint32_t*>(&(pkmn->ribbon_hoenn1));
+            uint32_t* sinnoh_unova_ribbon12_int = reinterpret_cast<uint32_t*>(&(pkmn->ribbon_sinnoh1));
+            uint32_t* sinnoh_ribbon34_int = reinterpret_cast<uint32_t*>(&(pkmn->ribbon_sinnoh3));
+            pkmn::dict<std::string, int> attributes = t_pkmn->get_attributes();
+            pkmn::dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            pkmn::dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
+
+            //ID's
+            pkmn->header.pid = t_pkmn->get_personality();
+            pkmn->ot_id = t_pkmn->get_trainer_public_id();
+            pkmn->ot_sid = t_pkmn->get_trainer_secret_id();
+
+            //Nickname
+            std::basic_string<uint16_t> nickname(boost::locale::conv::utf_to_utf<uint16_t>(t_pkmn->get_nickname().std_wstring()));
+            memset(pkmn->nickname, 0xFF, PKM_NICKNAME_LENGTH);
+            ucs2_to_nds_text(pkmn->nickname, (char16_t*)nickname.c_str(), nickname.size());
+
+            pkmn->country = 0x2; //Default to USA
+
+            //Trainer name
+            std::basic_string<uint16_t> trainer_name(boost::locale::conv::utf_to_utf<uint16_t>(t_pkmn->get_trainer_name().std_wstring()));
+            memset(pkmn->ot_name, 0xFF, PKM_OT_NAME_LENGTH);
+            ucs2_to_nds_text(pkmn->ot_name, (char16_t*)trainer_name.c_str(), nickname.size());
+
+            //Markings
+            set_marking(marking_int, Markings::CIRCLE, attributes.at("circle", 0));
+            set_marking(marking_int, Markings::TRIANGLE, attributes.at("triangle", 0));
+            set_marking(marking_int, Markings::SQUARE, attributes.at("square", 0));
+            set_marking(marking_int, Markings::HEART, attributes.at("heart", 0));
+
+            pkmn->species = t_pkmn->get_species_id();
+            pkmn->held_item = database::get_item_index(t_pkmn->get_held_item()->get_item_id(),
+                                                       t_pkmn->get_game_id());
+
+            //TODO: store actual experience, currently set it to what level needs
+            //LibSPEC has no way to link Pokemon to growth rates, so use database
+            std::string query_string(str(boost::format("SELECT growth_rate_id FROM pokemon_species WHERE pokemon_species=%d")
+                                         % pkmn->species));
+            uint8_t growth_rate = int(_db.execAndGet(query_string.c_str())) - 1;
+            switch(growth_rate)
+            {
+                case STAT_GROWTH_RATE_ERRATIC:
+                    pkmn->exp = STAT_TOTAL_EXP_ERRATIC[t_pkmn->get_level() - 1];
+                    break;
+
+                case STAT_GROWTH_RATE_FAST:
+                    pkmn->exp = STAT_TOTAL_EXP_FAST[t_pkmn->get_level() - 1];
+                    break;
+
+                case STAT_GROWTH_RATE_MEDIUM_FAST:
+                    pkmn->exp = STAT_TOTAL_EXP_MEDIUM_FAST[t_pkmn->get_level() - 1];
+                    break;
+
+                case STAT_GROWTH_RATE_MEDIUM_SLOW:
+                    pkmn->exp = STAT_TOTAL_EXP_MEDIUM_SLOW[t_pkmn->get_level() - 1];
+                    break;
+
+                case STAT_GROWTH_RATE_SLOW:
+                    pkmn->exp = STAT_TOTAL_EXP_SLOW[t_pkmn->get_level() - 1];
+                    break;
+
+                default:
+                    pkmn->exp = STAT_TOTAL_EXP_FLUCTUATING[t_pkmn->get_level() - 1];
+                    break;
+            }
+            *ppup_int = 0;
+            pkmn->friendship = attributes.at("friendship",70); //TODO: find base friendships for each species
+
+            //Moves
+            moveset_t moves;
+            std::vector<unsigned int> move_PPs;
+            t_pkmn->get_moves(moves);
+            t_pkmn->get_move_PPs(move_PPs);
+            pkmn->move[0] = moves[0]->get_move_id();
+            pkmn->move[1] = moves[1]->get_move_id();
+            pkmn->move[2] = moves[2]->get_move_id();
+            pkmn->move[3] = moves[3]->get_move_id();
+            pkmn->move_pp[0] = move_PPs[0];
+            pkmn->move_pp[1] = move_PPs[1];
+            pkmn->move_pp[2] = move_PPs[2];
+            pkmn->move_pp[3] = move_PPs[3];
+
+            //EVs
+            pkmn->ev.hp = EVs["HP"];
+            pkmn->ev.atk = EVs["Attack"];
+            pkmn->ev.def = EVs["Defense"];
+            pkmn->ev.spd = EVs["Speed"];
+            pkmn->ev.satk = EVs["Special Attack"];
+            pkmn->ev.sdef = EVs["Special Defense"];
+
+            //Contest
+            pkmn->contest.cool = attributes.at("cool",0);
+            pkmn->contest.beauty = attributes.at("beauty",0);
+            pkmn->contest.cute = attributes.at("cute",0);
+            pkmn->contest.smart = attributes.at("smart",0);
+            pkmn->contest.tough = attributes.at("tough",0);
+            pkmn->contest.sheen = attributes.at("sheen",0);
+
+            //Origin Info
+
+            //TODO: Pokerus
+            //TODO: Met location
+            set_gen_456_met_level(met_int, t_pkmn->get_met_level());
+            //TODO: allow game_id to be different than met game
+            pkmn->pokeball = reverse_ball_dict[t_pkmn->get_ball()];
+            if(t_pkmn->get_trainer_gender() == "Female") *met_int |= 1;
+            else *met_int &= 1;
+
+            //IVs
+            modern_set_IV(IV_int, Stats::HP, IVs["HP"]);
+            modern_set_IV(IV_int, Stats::ATTACK, IVs["Attack"]);
+            modern_set_IV(IV_int, Stats::DEFENSE, IVs["Defense"]);
+            modern_set_IV(IV_int, Stats::SPEED, IVs["Speed"]);
+            modern_set_IV(IV_int, Stats::SPECIAL_ATTACK, IVs["Special Attack"]);
+
+            pkmn->ability = t_pkmn->get_ability_id();
+
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL, attributes.at("hoenn_cool_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL_SUPER, attributes.at("hoenn_cool_super_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL_HYPER, attributes.at("hoenn_cool_hyper_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COOL_MASTER, attributes.at("hoenn_cool_master_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY, attributes.at("hoenn_beauty_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY_SUPER, attributes.at("hoenn_beauty_super_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY_HYPER, attributes.at("hoenn_beauty_hyper_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::BEAUTY_MASTER, attributes.at("hoenn_beauty_master_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE, attributes.at("hoenn_cute_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE_SUPER, attributes.at("hoenn_cute_super_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE_HYPER, attributes.at("hoenn_cute_hyper_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CUTE_MASTER, attributes.at("hoenn_cute_master_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART, attributes.at("hoenn_smart_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART_SUPER, attributes.at("hoenn_smart_super_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART_HYPER, attributes.at("hoenn_smart_hyper_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SMART_MASTER, attributes.at("hoenn_smart_master_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH, attributes.at("hoenn_tough_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH_SUPER, attributes.at("hoenn_tough_super_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH_HYPER, attributes.at("hoenn_tough_hyper_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::TOUGH_MASTER, attributes.at("hoenn_tough_master_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::CHAMPION, attributes.at("hoenn_champion_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::WINNING, attributes.at("hoenn_winning_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::VICTORY, attributes.at("hoenn_victory_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::ARTIST, attributes.at("hoenn_artist_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::EFFORT, attributes.at("hoenn_effort_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::MARINE, attributes.at("hoenn_marine_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::LAND, attributes.at("hoenn_land_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::SKY, attributes.at("hoenn_sky_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::COUNTRY, attributes.at("hoenn_country_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::NATIONAL, attributes.at("hoenn_national_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::EARTH, attributes.at("hoenn_earth_ribbon",false));
+            set_ribbon(hoenn_ribbon_int, Ribbons::Hoenn::WORLD, attributes.at("hoenn_world_ribbon",false));
+
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CHAMPION, attributes.at("champion_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::ABILITY, attributes.at("ability_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GREAT_ABILITY, attributes.at("great_ability_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::DOUBLE_ABILITY, attributes.at("double_ability_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::MULTI_ABILITY, attributes.at("multi_ability_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::PAIR_ABILITY, attributes.at("pair_ability_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::WORLD_ABILITY, attributes.at("world_ability_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::ALERT, attributes.at("alert_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::SHOCK, attributes.at("shock_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::DOWNCAST, attributes.at("downcast_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CARELESS, attributes.at("careless_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::RELAX, attributes.at("relax_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::ALERT, attributes.at("alert_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::SHOCK, attributes.at("shock_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::DOWNCAST, attributes.at("downcast_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CARELESS, attributes.at("careless_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::RELAX, attributes.at("relax_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::SNOOZE, attributes.at("snooze_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::SMILE, attributes.at("smile_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GORGEOUS, attributes.at("gorgeous_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::ROYAL, attributes.at("royal_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GORGEOUS_ROYAL, attributes.at("gorgeous_royal_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::RECORD, attributes.at("record_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::HISTORY, attributes.at("history_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::LEGEND, attributes.at("legend_ribbon",false));
+            if(t_pkmn->get_generation() == 4)
+            {
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::RED, attributes.at("red_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::GREEN, attributes.at("green_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::BLUE, attributes.at("blue_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::FESTIVAL, attributes.at("festival_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CARNIVAL, attributes.at("carnival_ribbon",false));
+            }
+            else
+            {
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Unova::WORLD_CHAMPION, attributes.at("world_champion_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Unova::BIRTHDAY, attributes.at("birthday_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Unova::SPECIAL, attributes.at("special_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Unova::SOUVENIR, attributes.at("souvenir_ribbon",false));
+                set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Unova::WISHING, attributes.at("wishing_ribbon",false));
+            }
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::CLASSIC, attributes.at("classic_ribbon",false));
+            set_ribbon(sinnoh_unova_ribbon12_int, Ribbons::Sinnoh::PREMIER, attributes.at("premier_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL-23, attributes.at("cool_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL_SUPER-23, attributes.at("cool_great_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL_HYPER-23, attributes.at("cool_ultra_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::COOL_MASTER-23, attributes.at("cool_master_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY-23, attributes.at("beauty_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY_SUPER-23, attributes.at("beauty_great_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY_HYPER-23, attributes.at("beauty_ultra_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::BEAUTY_MASTER-23, attributes.at("beauty_master_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE-23, attributes.at("cute_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE_SUPER-23, attributes.at("cute_great_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE_HYPER-23, attributes.at("cute_ultra_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::CUTE_MASTER-23, attributes.at("cute_master_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART-23, attributes.at("smart_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART_SUPER-23, attributes.at("smart_great_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART_HYPER-23, attributes.at("smart_ultra_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::SMART_MASTER-23, attributes.at("smart_master_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH-23, attributes.at("tough_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH_SUPER-23, attributes.at("tough_great_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH_HYPER-23, attributes.at("tough_ultra_ribbon",false));
+            set_ribbon(sinnoh_ribbon34_int, Ribbons::Sinnoh::TOUGH_MASTER-23, attributes.at("tough_master_ribbon",false));
+
+            pkmn->egg_met_date.year = attributes.at("eggmet_year",0);
+            pkmn->egg_met_date.month = attributes.at("eggmet_month",0);
+            pkmn->egg_met_date.day = attributes.at("eggmet_day",0);
+            pkmn->met_date.year = attributes.at("et_year",0);
+            pkmn->met_date.month = attributes.at("et_month",0);
+            pkmn->met_date.day = attributes.at("met_day",0);
+
+            pkm_encrypt(pkmn);
+        }
+
+        void export_nds_pokemon(team_pokemon::sptr t_pkmn, pkm_nds_t* pkmn)
+        {
+            uint8_t* status_int = reinterpret_cast<uint8_t*>(&(pkmn->party));
+            pkmn::dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+
+            export_nds_pokemon(t_pkmn, &(pkmn->box));
+            *status_int = 0;
+            pkmn->party.hp = stats["HP"];
+            pkmn->party.maxhp = stats["HP"];
+            pkmn->party.atk = stats["HP"];
+            pkmn->party.def = stats["HP"];
+            pkmn->party.spd = stats["HP"];
+            pkmn->party.satk = stats["HP"];
+            pkmn->party.sdef = stats["HP"];
+        }
 
         //OLD below
 
