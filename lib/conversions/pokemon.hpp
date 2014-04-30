@@ -29,6 +29,7 @@ namespace pkmn
         team_pokemon::sptr import_nds_pokemon(pkm_box_t* pkmn);
         team_pokemon::sptr import_nds_pokemon(pkm_nds_t* pkmn);
         void export_nds_pokemon(team_pokemon::sptr t_pkmn, pkm_box_t* pkmn);
+        void export_nds_pokemon(team_pokemon::sptr t_pkmn, pkm_nds_t* pkmn);
 
         //OLD below
 

@@ -795,11 +795,11 @@ namespace pkmn
             *status_int = 0;
             pkmn->party.hp = stats["HP"];
             pkmn->party.maxhp = stats["HP"];
-            pkmn->party.atk = stats["HP"];
-            pkmn->party.def = stats["HP"];
-            pkmn->party.spd = stats["HP"];
-            pkmn->party.satk = stats["HP"];
-            pkmn->party.sdef = stats["HP"];
+            pkmn->party.atk = stats["Attack"];
+            pkmn->party.def = stats["Defense"];
+            pkmn->party.spd = stats["Speed"];
+            pkmn->party.satk = stats["Special Attack"];
+            pkmn->party.sdef = stats["Special Defense"];
         }
 
         //OLD below
