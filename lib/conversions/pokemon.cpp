@@ -352,13 +352,14 @@ namespace pkmn
 
             export_gen3_pokemon(t_pkmn, &(pkmn->box), save_type);
             *status_int = 0;
+            pkmn->party.level = t_pkmn->get_level();
             pkmn->party.stats.hp = stats["HP"];
             pkmn->party.stats.max_hp = stats["HP"];
-            pkmn->party.stats.atk = stats["HP"];
-            pkmn->party.stats.def = stats["HP"];
-            pkmn->party.stats.spd = stats["HP"];
-            pkmn->party.stats.satk = stats["HP"];
-            pkmn->party.stats.sdef = stats["HP"];
+            pkmn->party.stats.atk = stats["Attack"];
+            pkmn->party.stats.def = stats["Defense"];
+            pkmn->party.stats.spd = stats["Speed"];
+            pkmn->party.stats.satk = stats["Special Attack"];
+            pkmn->party.stats.sdef = stats["Special Defense"];
         }
 
         team_pokemon::sptr import_nds_pokemon(pkm_box_t* pkmn)
@@ -779,8 +780,8 @@ namespace pkmn
             pkmn->egg_met_date.year = attributes.at("eggmet_year",0);
             pkmn->egg_met_date.month = attributes.at("eggmet_month",0);
             pkmn->egg_met_date.day = attributes.at("eggmet_day",0);
-            pkmn->met_date.year = attributes.at("et_year",0);
-            pkmn->met_date.month = attributes.at("et_month",0);
+            pkmn->met_date.year = attributes.at("met_year",0);
+            pkmn->met_date.month = attributes.at("met_month",0);
             pkmn->met_date.day = attributes.at("met_day",0);
 
             pkm_encrypt(pkmn);
@@ -793,6 +794,7 @@ namespace pkmn
 
             export_nds_pokemon(t_pkmn, &(pkmn->box));
             *status_int = 0;
+            pkmn->party.level = t_pkmn->get_level();
             pkmn->party.hp = stats["HP"];
             pkmn->party.maxhp = stats["HP"];
             pkmn->party.atk = stats["Attack"];
