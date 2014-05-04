@@ -14,7 +14,7 @@
 //    get a kind of universal easy to use "shared_ptr" type
 //
 #ifdef LIBPKMN_USE_BOOST_SHARED_PTR
-    // Use Boost only if explicitly told
+    // Use Boost if explicitly told
     #include <boost/shared_ptr.hpp>
     #include <boost/make_shared.hpp>
     namespace pkmn {
@@ -58,9 +58,9 @@
         using std::tr1::dynamic_pointer_cast;
     } // namespace pkmn
 #else
-    using std::shared_ptr;
-    using std::make_shared;
-    using std::dynamic_pointer_cast;
+    using boost::shared_ptr;
+    using boost::make_shared;
+    using boost::dynamic_pointer_cast;
 #endif
 
 #endif /* INCLUDED_PKMN_TYPES_SHARED_PTR_HPP */
