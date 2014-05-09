@@ -7,8 +7,7 @@
 
 #include <algorithm>
 #include <iostream>
-
-#include <boost/format.hpp>
+#include <sstream>
 
 #include <pkmn/move.hpp>
 #include <pkmn/enums.hpp>
@@ -16,8 +15,6 @@
 #include <pkmn/database/queries.hpp>
 
 #include "move_impl.hpp"
-
-using namespace std;
 
 namespace pkmn
 {
@@ -63,17 +60,20 @@ namespace pkmn
             _move_id = id;
 
             //Fail if move's generation_id > specified generation
-            std::string query_string = "SELECT generation_id FROM moves WHERE id=" + to_string(_move_id);
-            int gen_id = _db.execAndGet(query_string.c_str());
+            std::ostringstream query_stream;
+            query_stream << "SELECT generation_id FROM moves WHERE id=" << _move_id;
+            unsigned int gen_id = int(_db.execAndGet(query_stream.str().c_str()));
 
             if(gen_id > _generation)
             {
-                std::string error_message = get_name() + " not present in Generation " + to_string(_generation) + ".";
-                throw runtime_error(error_message.c_str());
+                std::ostringstream error_stream;
+                error_stream << get_name() << " not present in Generation " << _generation << ".";
+                throw std::runtime_error(error_stream.str().c_str());
             }
 
-            query_string = "SELECT * FROM moves WHERE id=" + to_string(_move_id);
-            SQLite::Statement moves_query(_db, query_string.c_str());
+            query_stream.str("");
+            query_stream << "SELECT * FROM moves WHERE id=" << _move_id;
+            SQLite::Statement moves_query(_db, query_stream.str().c_str());
             moves_query.executeStep();
 
             //Get available values from queries
@@ -109,10 +109,11 @@ namespace pkmn
         if(_move_id == Moves::NONE or _move_id == Moves::INVALID) return "None";
         else
         {
-            std::string query_string =
-                str(boost::format("SELECT name FROM move_damage_class_prose WHERE local_language_id=9 AND move_damage_class_id=%d")
-                    % _move_damage_class_id);
-            std::string move_damage_class = (const char*)(_db.execAndGet(query_string.c_str()));
+            std::ostringstream query_stream;
+            query_stream << "SELECT name FROM move_damage_class_prose WHERE local_language_id=9 AND move_damage_class_id="
+                         << _move_damage_class_id;
+
+            std::string move_damage_class = (const char*)(_db.execAndGet(query_stream.str().c_str()));
             move_damage_class[0] = toupper(move_damage_class[0]); //"name" field is all-lowercase
 
             return move_damage_class;
@@ -126,14 +127,14 @@ namespace pkmn
         if(_move_id == Moves::NONE or _move_id == Moves::INVALID) return "None";
         else
         {
-            std::string query_string = str(boost::format("SELECT short_effect FROM move_effect_prose WHERE move_effect_id=%d AND language_id=9")
-                                           % _effect_id);
-            SQLite::Statement query(_db, query_string.c_str());
+            std::ostringstream query_stream;
+            query_stream << "SELECT short_effect FROM move_effect_prose WHERE local_language_id=9 AND move_effect_id=" << _effect_id;
+            SQLite::Statement query(_db, query_stream.str().c_str());
 
             std::string entry = (query.executeStep()) ? ((const char*)(query.getColumn(0))) : "None";
 
             std::string s;
-            istringstream iss(entry);
+            std::istringstream iss(entry);
             entry = "";
             while(iss >> s)
             {
@@ -151,9 +152,9 @@ namespace pkmn
 
     std::string move_impl::get_target() const
     {
-        std::string query_string = str(boost::format("SELECT name FROM move_target_prose WHERE target_id=%d AND language_id=9")
-                                       % _target_id);
-        return (const char*)(_db.execAndGet(query_string.c_str()));
+        std::ostringstream query_stream;
+        query_stream << "SELECT name FROM move_target_prose WHERE local_language_id=9 AND move_target_id=" << _target_id;
+        return (const char*)(_db.execAndGet(query_stream.str().c_str()));
     }
 
     unsigned int move_impl::get_move_id() const {return _move_id;}
