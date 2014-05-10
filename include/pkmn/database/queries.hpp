@@ -62,7 +62,7 @@ namespace pkmn
 
         unsigned int PKMN_API get_move_pp(unsigned int move_id);
 
-        unsigned int PKMN_API get_species_id(unsigned int pkmn_id);
+        unsigned int PKMN_API get_species_id(unsigned int pokemon_id);
         unsigned int PKMN_API get_species_id(std::string species_name);
         unsigned int PKMN_API get_species_id(unsigned int species_index, unsigned int version);
         unsigned int PKMN_API get_species_index(unsigned int pokemon_id, unsigned int version);
