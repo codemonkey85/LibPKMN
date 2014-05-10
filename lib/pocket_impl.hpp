@@ -7,6 +7,7 @@
 #ifndef INCLUDED_POCKET_IMPL_HPP
 #define INCLUDED_POCKET_IMPL_HPP
 
+#include <cstdint>
 #include <vector>
 
 #include <pkmn/pocket.hpp>
