@@ -184,7 +184,7 @@ namespace pkmn
         std::string get_item_name(unsigned int item_id)
         {
             std::ostringstream query_stream;
-            query_stream << "SELECT name FROM item_names WHERE local_language_id-9 AND item_id=" << item_id;
+            query_stream << "SELECT name FROM item_names WHERE local_language_id=9 AND item_id=" << item_id;
             SQLite::Statement query(db, query_stream.str().c_str());
             
             return (query.executeStep()) ? ((const char*)(query.getColumn(0))) : "None";
