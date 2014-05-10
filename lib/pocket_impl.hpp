@@ -10,6 +10,7 @@
 #include <vector>
 
 #include <pkmn/pocket.hpp>
+#include <pkmn/types/dict.hpp>
 
 namespace pkmn
 {
@@ -34,15 +35,7 @@ namespace pkmn
             unsigned int get_item_amount(pokemon_text item_name) const;
             unsigned int get_item_amount(unsigned int item_id) const;
             unsigned int get_item_amount(item::sptr item_sptr) const;
-
-            bag_slot_t get_item(unsigned int pos) const;
-            void remove_item(unsigned int pos);
-            void set_item(unsigned int pos, item::sptr item_sptr, unsigned int amount);
-            void set_item(unsigned int pos, unsigned int item_id, unsigned int amount);
-            void set_item(item::sptr item_sptr, unsigned int amount);
-            void set_item(unsigned int item_id, unsigned int amount);
-
-            void set_amount(unsigned int pos, unsigned int amount);
+            void get_item_list(item_list_t &item_list) const;
 
             unsigned int get_game_id() const;
 
@@ -51,8 +44,7 @@ namespace pkmn
             unsigned int _game_id, _generation, _pocket_size;
             std::string _pocket_name;
 
-            std::vector<unsigned int> _contents;
-            std::vector<unsigned int> _amounts;
+            pkmn::dict<uint16_t, uint8_t> _item_dict;
     };
 }
 

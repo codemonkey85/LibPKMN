@@ -20,8 +20,6 @@ namespace pkmn
 
     base_pokemon::sptr copy_base_pokemon(base_pokemon::sptr in);
 
-    //game_save::sptr copy_game_save(game_save::sptr in);
-
     item::sptr copy_item(item::sptr in);
 
     move::sptr copy_move(move::sptr in);

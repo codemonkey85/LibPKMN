@@ -42,10 +42,11 @@ namespace pkmn
     {
         _game_id = game;
         _generation = database::get_generation(_game_id);
-        prng::sptr _rand_gen = prng::get(_generation);
         _trainer_name = name;
         _gender_id = gender;
         _money = 0;
+
+        prng::sptr _rand_gen = prng::get(_generation);
         
         /*
          * Public vs. secret ID's weren't a factor in Generations I-II

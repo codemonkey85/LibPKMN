@@ -88,6 +88,7 @@
 }
 
 %template(bag_slot) std::pair<pkmn::item::sptr, unsigned int>;
+%template(item_list) std::vector<std::pair<pkmn::item::sptr, unsigned int> >;
 
 %template(uint_pair_vec) std::vector<std::pair<unsigned int, unsigned int> >;
 %template(base_pokemon_vec) std::vector<pkmn::base_pokemon::sptr>;
