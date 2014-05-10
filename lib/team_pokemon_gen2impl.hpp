@@ -39,7 +39,7 @@ namespace pkmn
         private:
 
             unsigned int _SATK, _SDEF, _evSPCL, _ivSPCL;
-        
+
             unsigned int _get_hp() const;
             unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const;
             void _set_stats();

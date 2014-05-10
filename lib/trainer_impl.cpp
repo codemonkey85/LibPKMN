@@ -47,7 +47,7 @@ namespace pkmn
         _money = 0;
 
         prng::sptr _rand_gen = prng::get(_generation);
-        
+
         /*
          * Public vs. secret ID's weren't a factor in Generations I-II
          */
@@ -60,7 +60,7 @@ namespace pkmn
             _party[i] = team_pokemon::make(Species::NONE, _game_id, 1, Moves::NONE, Moves::NONE,
                                           Moves::NONE, Moves::NONE);
         }
-        
+
         _bag = bag::make(_game_id);
     }
 
@@ -112,7 +112,7 @@ namespace pkmn
     void trainer_impl::set_id(unsigned int id) {_trainer_id = id;}
 
     void trainer_impl::set_public_id(unsigned short id) {_tid.public_id = id;}
-    
+
     void trainer_impl::set_secret_id(unsigned short id) {_tid.secret_id = id;}
 
     team_pokemon::sptr trainer_impl::get_pokemon(unsigned int pos)
@@ -137,12 +137,12 @@ namespace pkmn
     void trainer_impl::remove_pokemon(unsigned int pos)
     {
         unsigned int actual_pos = (pos > 6) ? 5 : (pos == 0) ? 0 : (pos-1);
-    
+
         team_pokemon::sptr blank_pokemon = team_pokemon::make(Species::NONE, _game_id, 0, Moves::NONE,
                                            Moves::NONE, Moves::NONE, Moves::NONE);
 
         set_pokemon(actual_pos, blank_pokemon);
-        
+
         //Move over any non-blank Pokemon in later positions
         for(int i = (actual_pos+1); i < 6; i++)
         {

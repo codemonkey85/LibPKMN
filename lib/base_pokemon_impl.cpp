@@ -99,12 +99,12 @@ namespace pkmn
 
             default:
                 _species_id = id;
-                
+
                 string query_string;
-                
+
                 //Get generation and name from specified game enum
                 query_string = "SELECT name FROM version_names WHERE version_id=" + to_string(_game_id);
-                
+
                 //Fail if Pokemon's generation_id > specified gen
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(_species_id);
                 unsigned int gen_id = int(_db.execAndGet(query_string.c_str()));
@@ -117,7 +117,7 @@ namespace pkmn
                 //Get Pokemon ID from database
                 query_string = "SELECT id FROM pokemon WHERE species_id=" + to_string(_species_id);
                 _pokemon_id = int(_db.execAndGet(query_string.c_str()));
-                
+
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
                 query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
@@ -132,10 +132,10 @@ namespace pkmn
                 _defense = int(stats_query.getColumn(0));
                 stats_query.executeStep();
                 _speed = int(stats_query.getColumn(0));
-                
+
                 query_string = "SELECT type_id FROM pokemon_types WHERE slot=1 and pokemon_id=" + to_string(_pokemon_id);
                 _type1_id = int(_db.execAndGet(query_string.c_str()));
-                
+
                 //If there's only one type, this won't return anything
                 query_string = "SELECT type_id FROM pokemon_types WHERE slot=2 and pokemon_id=" + to_string(_pokemon_id);
                 SQLite::Statement query(_db, query_string.c_str());
@@ -201,7 +201,7 @@ namespace pkmn
 
         return types;
     }
-    
+
     double base_pokemon_impl::get_height() const
     {
         switch(_species_id)
@@ -215,7 +215,7 @@ namespace pkmn
                 return (double(_db.execAndGet(query_string.c_str())) / 10.0);
         }
     }
-    
+
     double base_pokemon_impl::get_weight() const
     {
         switch(_species_id)
@@ -229,21 +229,21 @@ namespace pkmn
                 return (double(_db.execAndGet(query_string.c_str())) / 10.0);
         }
     }
-    
+
     void base_pokemon_impl::get_evolutions(base_pokemon_vector& evolution_vec) const
     {
         evolution_vec.clear();
-    
+
         std::vector<unsigned int> id_vec;
         _get_evolution_ids(id_vec);
-        
+
         if(id_vec.begin() == id_vec.end()) evolution_vec.push_back(make(pkmn::Species::NONE, _game_id));
         else
         {
             for(size_t i = 0; i < id_vec.size(); i++) evolution_vec.push_back(make(id_vec[i], _game_id));
         }
     }
-    
+
     bool base_pokemon_impl::is_fully_evolved() const
     {
         std::vector<unsigned int> id_vec;
@@ -251,7 +251,7 @@ namespace pkmn
 
         return (id_vec.begin() == id_vec.end());
     }
-    
+
     unsigned int base_pokemon_impl::get_exp_yield() const
     {
         //Check for exceptions not covered in database
@@ -293,7 +293,7 @@ namespace pkmn
     unsigned int base_pokemon_impl::get_game_id() const {return _game_id;}
 
     unsigned int base_pokemon_impl::get_form_id() const {return _form_id;}
-    
+
     void base_pokemon_impl::_get_evolution_ids(std::vector<unsigned int>& id_vec) const
     {
         id_vec.clear();
@@ -321,7 +321,7 @@ namespace pkmn
             for(int j = to_erase.size()-1; j >= 0; j--) id_vec.erase(id_vec.begin() + to_erase[j]);
         }
     }
-    
+
     /*
      * There are several Pokémon whose stats changed in Generation VI. This function sets the old stats
      * if the Pokémon is from a prior generation.

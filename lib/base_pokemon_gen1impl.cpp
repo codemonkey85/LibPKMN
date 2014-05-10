@@ -49,11 +49,11 @@ namespace pkmn
             case Species::NONE: //None, should only be used for empty slots at end of party
                 SET_POKEBALL_IMAGE();
                 break;
-            
+
             case Species::INVALID: //Invalid, aka Missingno.
                 SET_SUBSTITUTE_IMAGE();
                 break;
-            
+
             default:
                 SET_IMAGES_PATHS(_images_default_basename);
 
@@ -103,7 +103,7 @@ namespace pkmn
         stats["Defense"] = _defense;
         stats["Speed"] = _speed;
         stats["Special"] = _special;
-        
+
         return stats;
     }
 
@@ -123,13 +123,13 @@ namespace pkmn
     {
         return _male_icon_path.string();
     }
-    
+
     //No genders or shininess in Generation 1
     string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
         return _male_sprite_path.string();
     }
-    
+
     //No eggs in Generation 1
     void base_pokemon_gen1impl::get_egg_group_ids(std::vector<unsigned int>& egg_group_id_vec) const
     {

@@ -17,9 +17,9 @@ namespace pkmn
 
             item_berryimpl();
             item_berryimpl(unsigned int id, unsigned int game);
-            
+
         private:
-        
+
             void _gen2_to_gen345();
             void _gen345_to_gen2();
     };

@@ -56,10 +56,10 @@ namespace pkmn
                 _images_game_string = "black-white";
                 break;
         }
-        
+
         _sprite_dir = fs::path(_images_dir / _images_gen_string / _images_game_string);
         _shiny_sprite_dir = fs::path(_sprite_dir / "shiny");
-        
+
         switch(_species_id)
         {
             case Species::NONE: //None, should only be used for empty slots at end of party
@@ -76,7 +76,7 @@ namespace pkmn
                 //Unfezant, Frillish and Jellicent have different icons for each gender
                 if(HAS_DIFFERENT_FEMALE_ICON) _female_icon_path = FEMALE_ICON_PATH(_images_default_basename);
                 else _female_icon_path = _male_icon_path;
-                
+
                 _male_sprite_path = SPRITE_PATH(_images_default_basename);
                 _male_shiny_sprite_path = SHINY_SPRITE_PATH(_images_default_basename);
                 if(_generation > 3 and has_gender_differences())
@@ -89,7 +89,7 @@ namespace pkmn
                     _female_sprite_path = _male_sprite_path;
                     _female_shiny_sprite_path = _male_shiny_sprite_path;
                 }
-                
+
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
@@ -100,7 +100,7 @@ namespace pkmn
                 query.executeStep();
                 _special_defense = int(query.getColumn(0));
                 if(_generation < 6) _use_old_stats();
-                
+
                 repair(_pokemon_id);
                 break;
         }
@@ -208,7 +208,7 @@ namespace pkmn
                 unsigned int ability2_id = int(ability2_query.getColumn(0)); //ability_id
                 query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability2_id);
                 unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
-                
+
                 if(generation_id <= _generation) abilities.second = database::get_ability_name(ability2_id);
                 else abilities.second = "None";
             }
@@ -228,7 +228,7 @@ namespace pkmn
             unsigned int ability_id = int(query.getColumn(0)); //ability_id
             query_string = "SELECT generation_id FROM abilities WHERE id=" + to_string(ability_id);
             unsigned int generation_id = int(_db.execAndGet(query_string.c_str()));
-            
+
             if(generation_id <= _generation) return database::get_ability_name(ability_id);
             else return "None";
         }
@@ -244,7 +244,7 @@ namespace pkmn
         stats["Special Attack"] = _special_attack;
         stats["Special Defense"] = _special_defense;
         stats["Speed"] = _speed;
-        
+
         return stats;
     }
 
@@ -849,7 +849,7 @@ namespace pkmn
             default:
                 break;
         }
-        
+
         string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement stats_query(_db, query_string.c_str());
@@ -877,7 +877,7 @@ namespace pkmn
         std::string sprites = fs::path(fs::path(get_images_dir()) / gen_string
                                      / _images_game_string.c_str()).string();
         std::string s_sprites = fs::path(fs::path(sprites) / "shiny").string();
-        
+
         switch(_species_id)
         {
             case Species::UNOWN:
@@ -984,7 +984,7 @@ namespace pkmn
                 {
                     transform(form.begin(), form.end(), form.begin(), ::tolower);
                     string basename = (boost::format("%d-%s.png") % _species_id % form).str();
-                    
+
                     SET_IMAGES_PATHS(basename);
                 }
                 break;
@@ -1028,7 +1028,7 @@ namespace pkmn
                 if(form == "Douse Drive") set_form(Forms::Genesect::DOUSE_DRIVE);
                 break;
         }
-        
+
         string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
                               " AND stat_id IN (1,2,3,4,5,6)";
         SQLite::Statement stats_query(_db, query_string.c_str());
@@ -1153,13 +1153,13 @@ namespace pkmn
                 break;
         }
     }
-    
+
     string base_pokemon_modernimpl::get_icon_path(bool is_male) const
     {
         if(_generation > 3 and not is_male) return _female_icon_path.string();
         else return _male_icon_path.string();
     }
-    
+
     string base_pokemon_modernimpl::get_sprite_path(bool is_male, bool is_shiny) const
     {
         if(is_male)

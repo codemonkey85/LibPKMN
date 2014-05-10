@@ -49,12 +49,12 @@ namespace pkmn
 
             //Bag
             bag::sptr get_bag() const;
-            
+
             //Database Info
             unsigned int get_game_id() const;
 
         protected:
-        
+
             unsigned int _money, _game_id, _gender_id, _generation;
 
             union
@@ -70,7 +70,7 @@ namespace pkmn
             bag::sptr _bag;
             pokemon_text _trainer_name;
             pokemon_team_t _party;
-            
+
             std::string _sprite_path;
     };
 }

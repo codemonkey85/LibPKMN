@@ -19,12 +19,12 @@ namespace pkmn
 
             game_save_gen1impl();
             game_save_gen1impl(rpokesav_gen1_sptr sav);
-            
+
             void load();
             void save();
-            
+
         private:
-        
+
             rpokesav_gen1_sptr _sav;
     };
 }

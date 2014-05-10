@@ -39,7 +39,7 @@ namespace pkmn
         _game_id = game;
         _generation = database::get_generation(_game_id);
         _pockets = pkmn::dict<std::string, pocket::sptr>();
-    
+
         switch(game)
         {
             case Games::RED:
@@ -47,7 +47,7 @@ namespace pkmn
             case Games::YELLOW:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 20);
                 break;
-                
+
             case Games::GOLD:
             case Games::SILVER:
             case Games::CRYSTAL:
@@ -56,7 +56,7 @@ namespace pkmn
                 _pockets["KeyItems"] = pocket::make(_game_id, "KeyItems", 26);
                 _pockets["TM/HM"] = pocket::make(_game_id, "TM/HM", 99);
                 break;
-                
+
             case Games::RUBY:
             case Games::SAPPHIRE:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 20);
@@ -65,7 +65,7 @@ namespace pkmn
                 _pockets["Berries"] = pocket::make(_game_id, "Berries", 46);
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 20);
                 break;
-            
+
             case Games::EMERALD:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 20);
                 _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 16);
@@ -73,7 +73,7 @@ namespace pkmn
                 _pockets["Berries"] = pocket::make(_game_id, "Berries", 46);
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 30);
                 break;
-                
+
             case Games::FIRE_RED:
             case Games::LEAF_GREEN:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 42);
@@ -82,7 +82,7 @@ namespace pkmn
                 _pockets["TM Case"] = pocket::make(_game_id, "TM Case", 58);
                 _pockets["Berry Pouch"] = pocket::make(_game_id, "Berry Pouch", 43);
                 break;
-            
+
             case Games::DIAMOND:
             case Games::PEARL:
             case Games::PLATINUM:
@@ -107,7 +107,7 @@ namespace pkmn
                 _pockets["Battle Items"] = pocket::make(_game_id, "Battle Items", 30);
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 43);
                 break;
-                
+
             case Games::BLACK:
             case Games::WHITE:
             case Games::BLACK2:
@@ -119,7 +119,7 @@ namespace pkmn
                 _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 109);
                 _pockets["Berries"] = pocket::make(_game_id, "Berries", 64);
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 83);
-            
+
             default:
                 break;
         }

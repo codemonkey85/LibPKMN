@@ -23,22 +23,22 @@ namespace pkmn
             //Game-specific Info
             std::string get_game() const;
             unsigned int get_generation() const;
-            
+
             std::string get_name() const;
             std::string get_description() const;
             std::string get_category() const;
             unsigned int get_game_index() const;
-            
+
             //Database Info
             unsigned int get_item_id() const;
             unsigned int get_category_id() const;
             unsigned int get_game_id() const;
-            
+
         protected:
-            
+
             unsigned int _item_id, _game_id, _category_id, _game_index, _generation;
             std::string _category_name, _description, _item_name;
-            
+
             static SQLite::Database _db;
     };
 }

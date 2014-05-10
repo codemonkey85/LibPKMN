@@ -8,7 +8,7 @@
 #ifdef _MSC_VER
 #pragma warning(disable:4244)
 #endif
- 
+
 #include <pkmn/enums.hpp>
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
@@ -71,27 +71,27 @@ namespace pkmn
         {
             case Stats::HP:
                 return ((*IVint >> 2) & 31);
-                
+
             case Stats::ATTACK:
                 return ((*IVint >> 7) & 31);
-            
+
             case Stats::DEFENSE:
                 return ((*IVint >> 12) & 31);
-                
+
             case Stats::SPEED:
                 return ((*IVint >> 17) & 31);
-                
+
             case Stats::SPECIAL_ATTACK:
                 return ((*IVint >> 22) & 31);
-                
+
             case Stats::SPECIAL_DEFENSE:
                 return ((*IVint >> 27) & 31);
-                
+
             default:
                 return 0;
         }
     }
-    
+
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val)
     {
         switch(IV)
@@ -121,23 +121,23 @@ namespace pkmn
                 break;
         }
     }
-    
+
     bool get_marking(uint8_t* markint, uint8_t mark)
     {
         return ((*markint >> mark) & 0x1);
     }
-    
+
     void set_marking(uint8_t* markint, uint8_t mark, bool val)
     {
         if(val) *markint |= (1 << mark);
         else *markint &= ~(1 << mark);
     }
-    
+
     bool get_ribbon(uint32_t* ribbonint, uint8_t ribbon)
     {
         return ((*ribbonint >> ribbon) & 0x1);
     }
-    
+
     void set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val)
     {
         if(val) *ribbonint |= (1 << ribbon);
@@ -205,13 +205,13 @@ namespace pkmn
         SQLite::Database db(get_database_path().c_str());
         std::string pkmstatsql = getpkmstatsql(pkm, ::Stat_IDs::stat_ids(stat_id));
         unsigned int basestat = int(db.execAndGet(pkmstatsql.c_str()));
-                                     
+
         std::string pkmlevelsql = getpkmlevelsql(int(pkm->species),
                                                  int(pkm->exp));
         unsigned int level = int(db.execAndGet(pkmlevelsql.c_str()));
         unsigned int ev = 0;
         unsigned int iv = 0;
-        
+
         uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pkm->ppup[3])+1);
         switch(stat_id)
         {
@@ -221,23 +221,23 @@ namespace pkmn
                 return (int)((floor((double)(floor((double)(((iv +
                        (2 * basestat) + floor((double)(ev/4))+100)
                        * level) / 100)) + 10))));
-                       
+
             case Stats::ATTACK:
                 ev = pkm->evs.attack;
                 break;
-                
+
             case Stats::DEFENSE:
                 ev = pkm->evs.defense;
                 break;
-                
+
             case Stats::SPECIAL_ATTACK:
                 ev = pkm->evs.spatk;
                 break;
-                
+
             case Stats::SPECIAL_DEFENSE:
                 ev = pkm->evs.spdef;
                 break;
-                
+
             default:
                 ev = pkm->evs.speed;
         }
@@ -247,7 +247,7 @@ namespace pkmn
         return (int)((floor((double)(floor((double)(((iv + (2 * basestat)
                + floor((double)(ev/4))) * level) / 100)) + 5)) * naturemod));
     }
-    
+
     void libpkmn_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm)
     {
         p_pkm->pkm_data = *pkm;
@@ -258,13 +258,13 @@ namespace pkmn
         p_pkm->party_data.spatk = libpkmn_getpkmstat(pkm, Stats::SPECIAL_ATTACK);
         p_pkm->party_data.spdef = libpkmn_getpkmstat(pkm, Stats::SPECIAL_DEFENSE);
         p_pkm->party_data.speed = libpkmn_getpkmstat(pkm, Stats::SPEED);
-        
+
         SQLite::Database db(get_database_path().c_str());
         std::string pkxlevelsql = getpkmlevelsql(int(pkm->species),
                                                  int(pkm->exp));
         p_pkm->party_data.level = int(db.execAndGet(pkxlevelsql.c_str()));
     }
-    
+
     string libpkmn_getpkxformnamesql(pokemonx_obj *pkx)
     {
         ostringstream o;
@@ -285,7 +285,7 @@ namespace pkmn
           << "       AND ( pokemon_forms.form_order = " << (int)(pkx->forms.form) << " + 1 ) ";
         return o.str();
     }
-    
+
     std::string libpkmn_getpkxstatsql(pokemonx_obj *pkx, unsigned int stat_id)
     {
         ostringstream o;
@@ -322,13 +322,13 @@ namespace pkmn
         SQLite::Database db(get_database_path().c_str());
         std::string pkxstatsql = libpkmn_getpkxstatsql(pkx, stat_id);
         unsigned int basestat = int(db.execAndGet(pkxstatsql.c_str()));
-                                     
+
         std::string pkxlevelsql = getpkmlevelsql(int(pkx->species),
                                                  int(pkx->exp));
         unsigned int level = int(db.execAndGet(pkxlevelsql.c_str()));
         unsigned int ev = 0;
         unsigned int iv = 0;
-        
+
         uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pkx->ppups[3])+1);
         switch(stat_id)
         {
@@ -338,23 +338,23 @@ namespace pkmn
                 return (int)((floor((double)(floor((double)(((iv +
                        (2 * basestat) + floor((double)(ev/4))+100)
                        * level) / 100)) + 10))));
-                       
+
             case Stats::ATTACK:
                 ev = pkx->evs.attack;
                 break;
-                
+
             case Stats::DEFENSE:
                 ev = pkx->evs.defense;
                 break;
-                
+
             case Stats::SPECIAL_ATTACK:
                 ev = pkx->evs.spatk;
                 break;
-                
+
             case Stats::SPECIAL_DEFENSE:
                 ev = pkx->evs.spdef;
                 break;
-                
+
             default:
                 ev = pkx->evs.speed;
         }
@@ -367,7 +367,7 @@ namespace pkmn
 
     void libpkmn_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx)
     {
-    
+
         p_pkx->pkx_data = *pkx;
         p_pkx->partyx_data.maxhp = libpkmn_getpkxstat(pkx, Stats::HP);
         p_pkx->partyx_data.hp = p_pkx->partyx_data.maxhp;
@@ -376,13 +376,13 @@ namespace pkmn
         p_pkx->partyx_data.spatk = libpkmn_getpkxstat(pkx, Stats::SPECIAL_ATTACK);
         p_pkx->partyx_data.spdef = libpkmn_getpkxstat(pkx, Stats::SPECIAL_DEFENSE);
         p_pkx->partyx_data.speed = libpkmn_getpkxstat(pkx, Stats::SPEED);
-        
+
         SQLite::Database db(get_database_path().c_str());
         std::string pkxlevelsql = getpkmlevelsql(int(pkx->species),
                                                  int(pkx->exp));
         p_pkx->partyx_data.level = int(db.execAndGet(pkxlevelsql.c_str()));
     }
-    
+
     uint8_t libpkmn_game_to_hometown(uint8_t game)
     {
         switch(game)

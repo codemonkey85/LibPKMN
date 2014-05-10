@@ -8,7 +8,7 @@
 #include <pkmn/enums.hpp>
 
 #include "game_save_gen1impl.hpp"
- 
+
 using namespace std;
 
 namespace pkmn
@@ -18,7 +18,7 @@ namespace pkmn
         _sav = sav;
         load();
     }
-    
+
     void game_save_gen1impl::load()
     {
         _trainer = conversions::import_trainer_from_rpokesav_gen1(_sav);

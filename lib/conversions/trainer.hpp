@@ -40,7 +40,7 @@ namespace pkmn
     namespace conversions
     {
         trainer::sptr PKMN_API import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
-    
+
         trainer::sptr PKMN_API import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
 
         void PKMN_API export_trainer_to_pokehack(trainer::sptr libpkmn_trainer, pokehack_sptr parser, char* game_data);

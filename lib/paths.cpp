@@ -70,7 +70,7 @@ namespace pkmn
         if(fs::exists(database_path)) return database_path.string();
         else throw std::runtime_error("Could not find database!");
     }
-    
+
     //Get images directory
     std::string get_images_dir()
     {

@@ -19,21 +19,21 @@ namespace pkmn
     class game_save_impl: public game_save, boost::noncopyable
     {
         public:
-        
+
             game_save_impl() {};
-            
+
             unsigned int get_game_id() const;
-            
+
             trainer::sptr get_trainer() const;
-            
+
             bag::sptr get_trainer_bag() const;
-            
+
             void get_trainer_party(pokemon_team_t& party);
             void set_trainer_party(pokemon_team_t& party);
-            
+
             pokemon_text get_trainer_name() const;
             void set_trainer_name(pokemon_text trainer_name);
-            
+
         protected:
 
             boost::filesystem::path filepath;

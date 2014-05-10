@@ -36,7 +36,7 @@ namespace pkmn
         char* buffer = (char*)malloc(size);
         int result = fread(buffer, 1, size, save_file);
         fclose(save_file);
-        
+
         //Once size is determined, determine whether or not save is valid
         if(size > 0x80000)
         {
@@ -93,19 +93,19 @@ namespace pkmn
         }
         else throw std::runtime_error("This file is too small to be a proper save file.");
     }
-    
+
     unsigned int game_save_impl::get_game_id() const {return _game_id;}
-    
+
     trainer::sptr game_save_impl::get_trainer() const {return _trainer;}
-    
+
     bag::sptr game_save_impl::get_trainer_bag() const {return _trainer->get_bag();}
-    
+
     void game_save_impl::get_trainer_party(pokemon_team_t& party) {_trainer->get_party(party);}
-    
+
     void game_save_impl::set_trainer_party(pokemon_team_t& party) {_trainer->set_party(party);}
-    
+
     pokemon_text game_save_impl::get_trainer_name() const {return _trainer->get_name();}
-    
+
     void game_save_impl::set_trainer_name(pokemon_text trainer_name) {_trainer->set_name(trainer_name);}
-    
+
 } /* namespace pkmn */

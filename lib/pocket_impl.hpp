@@ -23,7 +23,7 @@ namespace pkmn
 
             std::string get_game() const;
             unsigned int get_generation() const;
-            
+
             std::string get_name() const;
             unsigned int size() const;
 

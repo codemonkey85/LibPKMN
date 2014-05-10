@@ -104,7 +104,7 @@ namespace pkmn
         EVs["Special Attack"] = _evSATK;
         EVs["Special Defense"] = _evSDEF;
         EVs["Speed"] = _evSPD;
-        
+
         return EVs;
     }
 
@@ -158,7 +158,7 @@ namespace pkmn
             _set_stats();
         }
     }
-    
+
     void team_pokemon_modernimpl::set_ability(std::string ability)
     {
         //Search for given ability in database
@@ -223,7 +223,7 @@ namespace pkmn
             _SDEF = _get_stat("Special Defense", _evSDEF, _ivSDEF);
         }
     }
-    
+
     void team_pokemon_modernimpl::set_IV(std::string IV, unsigned int val)
     {
         if(val > 31) throw std::runtime_error("Gen 3-6 IV's must be 0-31.");
@@ -323,7 +323,7 @@ namespace pkmn
         else if(_has_hidden_ability and _generation >= 5) return hidden_ability;
         else return ((_personality % 2) == 0) ? abilities.first : abilities.second;
     }
-    
+
     std::string team_pokemon_modernimpl::_determine_gender() const
     {
         if(_base_pkmn->get_chance_male() + _base_pkmn->get_chance_female() == 0

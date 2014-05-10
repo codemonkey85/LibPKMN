@@ -6,7 +6,7 @@
  */
 
 #include "game_save_gen5impl.hpp"
- 
+
 #include "conversions/trainer.hpp"
 
 using namespace std;
@@ -18,7 +18,7 @@ namespace pkmn
         _sav = ptr;
         load();
     }
-    
+
     void game_save_gen5impl::load()
     {
         _trainer = conversions::import_trainer_from_pkmds_g5(_sav);

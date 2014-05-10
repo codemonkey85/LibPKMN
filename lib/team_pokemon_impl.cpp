@@ -39,7 +39,7 @@ namespace pkmn
                                           unsigned int move3, unsigned int move4)
     {
         base_pokemon::sptr base = base_pokemon::make(id, game);
-        
+
         if(base->get_generation() < 1 or base->get_generation() > 6) throw runtime_error("Gen must be 1-6.");
 
         switch(base->get_generation())
@@ -72,7 +72,7 @@ namespace pkmn
     }
 
     SQLite::Database team_pokemon_impl::_db(get_database_path().c_str());
-    
+
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,
                                          unsigned int move3, unsigned int move4): team_pokemon()
@@ -102,13 +102,13 @@ namespace pkmn
 
         _moves[0] = move::make(move1, _game_id);
         _move_PPs[0] = _moves[0]->get_base_pp();
-        
+
         _moves[1] = move::make(move2, _game_id);
         _move_PPs[1] = _moves[1]->get_base_pp();
-        
+
         _moves[2] = move::make(move3, _game_id);
         _move_PPs[2] = _moves[2]->get_base_pp();
-        
+
         _moves[3] = move::make(move4, _game_id);
         _move_PPs[3] = _moves[3]->get_base_pp();
 
@@ -385,7 +385,7 @@ namespace pkmn
         _check();
         return _base_pkmn->get_sprite_path((_gender == "Male"), is_shiny());
     }
-    
+
     void team_pokemon_impl::set_form(std::string form)
     {
         _check();

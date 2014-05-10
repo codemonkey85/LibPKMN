@@ -42,7 +42,7 @@ namespace pkmn
                 _images_game_string = "crystal";
                 break;
         }
-       
+
         _sprite_dir = fs::path(_images_dir / "generation-2" / _images_game_string);
         _shiny_sprite_dir = _sprite_dir;
 
@@ -58,7 +58,7 @@ namespace pkmn
 
             default:
                 SET_IMAGES_PATHS(_images_default_basename);
-                
+
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
                 string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
@@ -69,7 +69,7 @@ namespace pkmn
                 query.executeStep();
                 _special_defense = int(query.getColumn(0));
                 _use_old_stats();
-                
+
                 repair(_pokemon_id);
                 break;
         }
@@ -160,7 +160,7 @@ namespace pkmn
     }
 
     std::string base_pokemon_gen2impl::get_hidden_ability() const {return "None";}
-    
+
     dict<std::string, unsigned int> base_pokemon_gen2impl::get_base_stats() const
     {
         dict<std::string, unsigned int> stats;
@@ -170,7 +170,7 @@ namespace pkmn
         stats["Special Attack"] = _special_attack;
         stats["Special Defense"] = _special_defense;
         stats["Speed"] = _speed;
-        
+
         return stats;
     }
 
@@ -190,10 +190,10 @@ namespace pkmn
          * Pokemon's Special Attack stat.
          */
         ev_yields["Special"] = stats["Special Attack"];
-        
+
         return ev_yields;
     }
-   
+
     //No forms in Generation 2 
     void base_pokemon_gen2impl::set_form(unsigned int form) {};
     void base_pokemon_gen2impl::set_form(std::string form) {};
@@ -204,7 +204,7 @@ namespace pkmn
     {
         return _male_icon_path.string();
     }
-    
+
     //Gender doesn't matter for sprites in Generation 2
     string base_pokemon_gen2impl::get_sprite_path(bool is_male, bool is_shiny) const
     {

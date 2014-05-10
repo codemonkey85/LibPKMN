@@ -21,12 +21,12 @@ namespace pkmn
 
             game_save_gen3impl();
             game_save_gen3impl(pokehack_sptr ptr, char* buffer);
-            
+
             void load();
             void save();
-            
+
         private:
-        
+
             pokehack_sptr _parser;
             char* _data;
     };

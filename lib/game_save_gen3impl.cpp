@@ -6,7 +6,7 @@
  */
 
 #include "game_save_gen3impl.hpp"
- 
+
 using namespace std;
 
 namespace pkmn
@@ -17,7 +17,7 @@ namespace pkmn
         _data = buffer;
         load();
     }
-    
+
     void game_save_gen3impl::load()
     {
         _trainer = conversions::import_trainer_from_pokehack(_parser, _data);

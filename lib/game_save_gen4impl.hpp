@@ -19,12 +19,12 @@ namespace pkmn
 
             game_save_gen4impl();
             game_save_gen4impl(pokelib_sptr ptr);
-            
+
             void load();
             void save();
-            
+
         private:
-        
+
             pokelib_sptr _pokelib_save;
     };
 }

@@ -23,7 +23,7 @@ namespace pkmn
     {
         team_pokemon::sptr PKMN_API rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
                                                                              pokemon_text trainer_name);
-    
+
         team_pokemon::sptr PKMN_API pokehack_pokemon_to_team_pokemon(belt_pokemon_t* b_pkmn_t,
                                                                         pokemon_attacks_t* pkmn_a_t,
                                                                         pokemon_effort_t* pkmn_e_t,
@@ -46,7 +46,7 @@ namespace pkmn
         void PKMN_API team_pokemon_to_pkmds_g5_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm);
 
         team_pokemon::sptr PKMN_API pkmds_g6_pokemon_to_team_pokemon(party_pkx* p_pkx);
-        
+
         void PKMN_API team_pokemon_to_pkmds_g6_pokemon(team_pokemon::sptr t_pkmn, party_pkx* p_pkx);
 
         PokeLib::Pokemon PKMN_API pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,

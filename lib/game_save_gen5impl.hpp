@@ -19,12 +19,12 @@ namespace pkmn
 
             game_save_gen5impl();
             game_save_gen5impl(pkmds_g5_sptr ptr);
-            
+
             void load();
             void save();
-            
+
         private:
-        
+
             pkmds_g5_sptr _sav;
     };
 }

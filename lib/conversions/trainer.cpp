@@ -59,12 +59,12 @@ namespace pkmn
         trainer::sptr import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav)
         {
             pokemon_text trainer_name = sav->get_trainer_name();
-            
+
             //No way to tell which specific game
             trainer::sptr libpkmn_trainer = trainer::make(Games::YELLOW, trainer_name, Genders::MALE);
-            
+
             libpkmn_trainer->set_money(sav->get_money());
-            
+
             import_items_from_rpokesav_gen1(libpkmn_trainer->get_bag(), sav);
 
             rpokesav::vla<rpokesav::gen1_pokemon> rpokesav_gen1_team = sav->get_team();
@@ -74,10 +74,10 @@ namespace pkmn
                                                                                   trainer_name);
                 libpkmn_trainer->set_pokemon(i+1, t_pkmn);
             }
-            
+
             return libpkmn_trainer;
         }
-    
+
         trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data)
         {
             unsigned int game_code = game_data[POKEHACK_GAME_CODE];
@@ -101,7 +101,7 @@ namespace pkmn
             pokemon_text trainer_name = string(parser->get_text(reinterpret_cast<unsigned char*>(&(game_data[POKEHACK_PLAYER_NAME])), false));
             bool trainer_is_female = game_data[POKEHACK_PLAYER_GENDER];
             unsigned int libpkmn_gender;
-            
+
             if(trainer_is_female) libpkmn_gender = Genders::FEMALE;
             else libpkmn_gender = Genders::MALE;
 
@@ -308,7 +308,7 @@ namespace pkmn
             libpkmn_trainer->set_public_id(pkmds_public_id);
             libpkmn_trainer->set_secret_id(pkmds_secret_id);
             libpkmn_trainer->set_money(0);
-            
+
             import_items_from_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
 
             for(size_t i = 0; i < pkmds_party->size; i++)
@@ -318,22 +318,22 @@ namespace pkmn
 
             return libpkmn_trainer;
         }
-        
+
         void export_trainer_to_pkmds_g5(trainer::sptr libpkmn_trainer, pkmds_g5_sptr pkmds_save)
         {
             std::wstring trainer_name = libpkmn_trainer->get_name();
-        
+
             for(size_t i = 0; i < trainer_name.size(); i++)
             {
                 pkmds_save->cur.trainername[i] = trainer_name[i];
             }
-            
+
             export_items_to_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
-            
+
             for(size_t i = 1; i <= 6; i++)
             {
                 team_pokemon::sptr t_pkmn = libpkmn_trainer->get_pokemon(i);
-            
+
                 if(t_pkmn->get_species_id() == Species::NONE) break;
                 else team_pokemon_to_pkmds_g5_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));
             }

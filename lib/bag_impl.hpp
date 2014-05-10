@@ -36,7 +36,7 @@ namespace pkmn
             unsigned int get_item_amount(pokemon_text item_name) const;
             unsigned int get_item_amount(unsigned int item_id) const;
             unsigned int get_item_amount(item::sptr item_sptr) const;
-            
+
             pocket::sptr get_pocket(std::string name) const;
             pkmn::dict<std::string, pocket::sptr> get_pockets() const;
 
