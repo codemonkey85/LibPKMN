@@ -9,6 +9,7 @@
 
 #include <string>
 #include <utility>
+#include <vector>
 
 #include <pkmn/config.hpp>
 #include <pkmn/item.hpp>
@@ -18,6 +19,7 @@
 namespace pkmn
 {
     typedef std::pair<item::sptr, unsigned int> bag_slot_t;
+    typedef std::vector<bag_slot_t> item_list_t;
 
     class PKMN_API pocket
     {
@@ -45,15 +47,7 @@ namespace pkmn
             virtual unsigned int get_item_amount(pokemon_text item_name) const = 0;
             virtual unsigned int get_item_amount(unsigned int item_id) const = 0;
             virtual unsigned int get_item_amount(item::sptr item_sptr) const = 0;
-
-            virtual bag_slot_t get_item(unsigned int pos) const = 0;
-            virtual void remove_item(unsigned int pos) = 0;
-            virtual void set_item(unsigned int pos, item::sptr item_sptr, unsigned int amount) = 0;
-            virtual void set_item(unsigned int pos, unsigned int item_id, unsigned int amount) = 0;
-            virtual void set_item(item::sptr item_sptr, unsigned int amount) = 0;
-            virtual void set_item(unsigned int item_id, unsigned int amount) = 0;
-
-            virtual void set_amount(unsigned int pos, unsigned int amount) = 0;
+            virtual void get_item_list(item_list_t &item_list) const = 0;
 
             virtual unsigned int get_game_id() const = 0;
     };

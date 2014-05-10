@@ -167,6 +167,7 @@
 %include "pkmn/lists.hpp"
 
 %template(BagSlot) std::pair<pkmn::item::sptr, unsigned int>;
+%template(ItemList) std::vector<std::pair<pkmn::item::sptr, unsigned int> >;
 
 %template(UIntPairVector) std::vector<std::pair<unsigned int, unsigned int> >;
 %template(BasePokemonVector) std::vector<pkmn::base_pokemon::sptr>;

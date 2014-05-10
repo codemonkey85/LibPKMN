@@ -5,12 +5,8 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-#include <iostream>
+#include <algorithm>
 #include <string>
-
-#include "item_impl.hpp"
-#include "item_berryimpl.hpp"
-#include "item_machineimpl.hpp"
 
 #include "pocket_impl.hpp"
 
@@ -38,15 +34,7 @@ namespace pkmn
         _game_id = game;
         _generation = database::get_generation(_game_id);
         _pocket_name = name;
-        _pocket_size = size;
-        
-        _contents = std::vector<unsigned int>(_pocket_size);
-        _amounts = std::vector<unsigned int>(_pocket_size);
-        for(size_t i = 0; i < _pocket_size; i++)
-        {
-            _contents[i] = Items::NONE;
-            _amounts[i] = 0;
-        }
+        _item_dict = pkmn::dict<uint16_t, uint8_t>();
     }
 
     std::string pocket_impl::get_game() const {return database::get_game_name(_game_id);}
@@ -64,30 +52,10 @@ namespace pkmn
 
     void pocket_impl::add_item(unsigned int item_id, unsigned int amount)
     {
-        for(size_t i = 0; i < _pocket_size; i++)
+        if(database::get_item_index(item_id, _game_id) != 0)
         {
-            if(_contents[i] == item_id and _amounts[i] < 99)
-            {
-                _amounts[i]++;
-                break;
-            }
-            else if(_contents[i] == 0)
-            {
-                /*
-                 * Assume we've found an empty slot and the item isn't in the bag,
-                 * so check to make sure the item is valid for the game.
-                 */
-                if(database::get_item_index(item_id, _game_id) != 0)
-                {
-                    _contents[i] = item_id;
-                    _amounts[i] = amount;
-                    break;
-                }
-            }
-            /*
-             * If the function finishes the for-loop without entering either
-             * part of the if-statement, then no item was added.
-             */
+            if(_item_dict.has_key(item_id) or _item_dict.size() < _pocket_size)
+                _item_dict[item_id] = std::min(int(amount), 99);
         }
     }
 
@@ -103,15 +71,10 @@ namespace pkmn
 
     void pocket_impl::remove_item(unsigned int item_id, unsigned int amount)
     {
-        for(size_t i = 0; i < _pocket_size; i++)
+        if(_item_dict.has_key(item_id))
         {
-            if(_contents[i] == item_id)
-            {
-                if(amount < _amounts[i]) _amounts[i] -= amount;
-                else remove_item(i+1);
-
-                break;
-            }
+            if(amount < _item_dict[item_id]) _item_dict[item_id] -= amount;
+            else _item_dict.erase(item_id);
         }
     }
 
@@ -127,15 +90,7 @@ namespace pkmn
 
     unsigned int pocket_impl::get_item_amount(unsigned int item_id) const
     {
-        for(size_t i = 0; i < _pocket_size; i++)
-        {
-            if(_contents[i] == item_id)
-            {
-                return _amounts[i];
-            }
-            else if(_contents[i] == 0) break;
-        }
-        return 0;
+        return _item_dict.at(item_id, 0);
     }
 
     unsigned int pocket_impl::get_item_amount(item::sptr item_sptr) const
@@ -143,74 +98,22 @@ namespace pkmn
         return get_item_amount(item_sptr->get_item_id());
     }
 
-    bag_slot_t pocket_impl::get_item(unsigned int pos) const
+    /*
+     * Return list of items with more intuitive interface without exposing
+     * internal memory structure.
+     */
+    void pocket_impl::get_item_list(item_list_t &item_list) const
     {
-        unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        return std::make_pair(item::make(_contents[actual_pos], _game_id), _amounts[actual_pos]);
-    }
-    
-    void pocket_impl::remove_item(unsigned int pos)
-    {
-        unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        set_item(actual_pos, Items::NONE, 0);
-        
-        //Move over any non-blank item in later positions
-        for(size_t i = (actual_pos+1); i < _pocket_size; i++)
+        item_list.clear();
+
+        std::vector<uint16_t> keys = _item_dict.keys();
+        std::vector<uint8_t> vals = _item_dict.vals();
+
+        for(size_t i = 0; i < keys.size(); i++)
         {
-            if(_contents[i] == Items::NONE) break;
-            else
-            {
-                _contents[i-1] = _contents[i];
-                _contents[i] = Items::NONE;
-                
-                _amounts[i-1] = _amounts[i];
-                _amounts[i] = 0;
-            }
+            item_list.push_back(std::make_pair(item::make(keys[i], _game_id),
+                                               vals[i]));
         }
-    }
-    
-    void pocket_impl::set_item(unsigned int pos, item::sptr item_sptr, unsigned int amount)
-    {
-        set_item(pos, item_sptr->get_item_id(), amount);
-    }
-    
-    void pocket_impl::set_item(unsigned int pos, unsigned int item_id, unsigned int amount)
-    {
-        unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        _contents[actual_pos] = item_id;
-        _amounts[actual_pos] = amount;
-    }
-    
-    void pocket_impl::set_item(item::sptr item_sptr, unsigned int amount)
-    {
-        set_item(item_sptr->get_item_id(), amount);
-    }
-    
-    void pocket_impl::set_item(unsigned int item_id, unsigned int amount)
-    {
-        //Find first non-blank item
-        unsigned int actual_pos = -1;
-        for(size_t i = 0; i < _pocket_size; i++)
-        {
-            if(_contents[i] == Items::NONE)
-            {
-                actual_pos = i;
-                break;
-            }
-        }
-        
-        //No space left in pocket
-        if(actual_pos != -1)
-        {
-            _contents[actual_pos] = item_id;
-            _amounts[actual_pos] = amount;
-        }
-    }
-    
-    void pocket_impl::set_amount(unsigned int pos, unsigned int amount)
-    {
-        unsigned int actual_pos = (pos > _pocket_size) ? (_pocket_size-1) : (pos == 0) ? 0 : (pos-1);
-        _amounts[actual_pos] = amount;
     }
 
     unsigned int pocket_impl::get_game_id() const {return _game_id;}
