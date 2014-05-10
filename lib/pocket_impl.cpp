@@ -32,6 +32,7 @@ namespace pkmn
     pocket_impl::pocket_impl(unsigned int game, string name, unsigned int size)
     {
         _game_id = game;
+        _pocket_size = size;
         _generation = database::get_generation(_game_id);
         _pocket_name = name;
         _item_dict = pkmn::dict<uint16_t, uint8_t>();
