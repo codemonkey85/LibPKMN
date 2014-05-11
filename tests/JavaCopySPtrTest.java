@@ -11,6 +11,7 @@ public class JavaCopySPtrTest
 {
     public static void main(String[] args)
     {
-        System.out.println("foo");
+        String path = Core.getDatabasePath();
+        System.out.println(path);
     }
 }

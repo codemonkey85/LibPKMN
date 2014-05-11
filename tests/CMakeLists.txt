@@ -193,15 +193,11 @@ IF(ENABLE_JAVA)
     )
 
     FOREACH(java_test ${java_test_names})
-        CONFIGURE_FILE(
-            ${CMAKE_CURRENT_SOURCE_DIR}/${java_test}.java
-            ${CMAKE_CURRENT_BINARY_DIR}/${java_test}.java
-        )
         ADD_CUSTOM_COMMAND(
             DEPENDS LibPKMN_jar
             DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${java_test}.java
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${java_test}.class
-            COMMAND ${Java_JAVAC_EXECUTABLE} -classpath ${LIBPKMN_JAR} -d ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${java_test}.java
+            COMMAND ${Java_JAVAC_EXECUTABLE} -classpath ${LIBPKMN_JAR} -d ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${java_test}.java
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Building Java program ${java_test}"
         )
