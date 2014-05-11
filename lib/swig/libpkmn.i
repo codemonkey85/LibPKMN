@@ -66,11 +66,6 @@ namespace std
 %ignore pkmn::pokemon_text::set(std::string);
 %ignore pkmn::pokemon_text::set(const wchar_t*);
 %ignore pkmn::pokemon_text::set(std::wstring);
-%ignore pkmn::operator==(const pkmn::pokemon_text&, const pkmn::pokemon_text&);
-%ignore pkmn::operator>>(std::istream&, pkmn::pokemon_text&);
-%ignore pkmn::operator>>(std::wistream&, pkmn::pokemon_text&);
-%ignore pkmn::operator<<(std::ostream&, const pkmn::pokemon_text&);
-%ignore pkmn::operator<<(std::wostream&, const pkmn::pokemon_text&);
 
 %{
     #include "pkmn/config.hpp"
