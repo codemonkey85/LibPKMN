@@ -50,6 +50,20 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_bui
     ENDIF(UNIX)
     SWIG_LINK_LIBRARIES(${swig_source} ${LIBPKMN_JAVA_LIBRARIES})
 
+    IF(WIN32)
+        INSTALL(
+            TARGETS ${SWIG_MODULE_${swig_source}_REAL_NAME}
+            DESTINATION ${RUNTIME_DIR}
+            COMPONENT "LibPKMN_Java"
+        )
+    ELSE()
+        INSTALL(
+            TARGETS ${SWIG_MODULE_${swig_source}_REAL_NAME}
+            DESTINATION ${LIBRARY_DIR}
+            COMPONENT "LibPKMN_Java"
+        )
+    ENDIF(WIN32)
+
     IF(${do_build} STREQUAL "true")
         ADD_CUSTOM_COMMAND(
             OUTPUT ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
@@ -74,4 +88,3 @@ JAVA_GENERATE_FILES(analysis_java_swig Analysis libpkmn_java_swig false)
 JAVA_GENERATE_FILES(calculations_java_swig Calculations analysis_java_swig false)
 JAVA_GENERATE_FILES(database_java_swig Database calculations_java_swig false)
 JAVA_GENERATE_FILES(io_java_swig IO database_java_swig true)
-

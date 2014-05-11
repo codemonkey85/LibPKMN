@@ -5,6 +5,17 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%pragma(java) jniclasscode=%{
+  static {
+    try {
+        System.loadLibrary("calculations_java_swig");
+    } catch (UnsatisfiedLinkError e) {
+      System.err.println("Native code library failed to load. \n" + e);
+      System.exit(1);
+    }
+  }
+%}
+
 %include "stdint.i"
 %include "std_pair.i"
 

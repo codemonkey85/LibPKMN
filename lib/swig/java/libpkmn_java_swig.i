@@ -5,6 +5,17 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%pragma(java) jniclasscode=%{
+  static {
+    try {
+        System.loadLibrary("libpkmn_java_swig");
+    } catch (UnsatisfiedLinkError e) {
+      System.err.println("Native code library failed to load. \n" + e);
+      System.exit(1);
+    }
+  }
+%}
+
 %typemap(javacode) pkmn::pokemon_text %{
     public char charAt(int index) {
         return toString().charAt(index);
