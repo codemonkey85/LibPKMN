@@ -9,6 +9,7 @@
 #include <fstream>
 #include <cstring>
 
+#include <boost/filesystem.hpp>
 #include <boost/format.hpp>
 
 #include <pkmn/enums.hpp>
@@ -22,6 +23,8 @@
 
 #include "libspec/libspec.h"
 #include "SQLiteCpp/SQLiteC++.h"
+
+namespace fs = boost::filesystem;
 
 namespace pkmn
 {
@@ -69,21 +72,46 @@ namespace pkmn
 
         team_pokemon::sptr import_from_3gpkm(std::string filename)
         {
-            pk3_t pk3;
-            uint8_t pk3_raw[sizeof(pk3_t)];
-            memset(pk3_raw, 0, sizeof(pk3_t));
-
             std::ifstream ifile;
             ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
-            ifile.read((char*)pk3_raw, sizeof(pk3_t));
-            ifile.close();
-            memcpy(&pk3, pk3_raw, sizeof(pk3_t));
 
-            uint16_t* game_int = reinterpret_cast<uint16_t*>(&(pk3.box.met_loc)+1);
-            uint8_t libpkmn_id = hometown_to_libpkmn_game((*game_int & 0x1E) >> 1);
-            gba_savetype_t save_type;
-            get_gen3_savetype(libpkmn_id, save_type);
-            return conversions::import_gen3_pokemon(&pk3, save_type);
+            //Check to see if this is a valid .3gpkm file
+            ifile.seekg(0, std::ios::end);
+            unsigned int file_size = ifile.tellg();
+            if(file_size == sizeof(pk3_t))
+            {
+                pk3_t pk3;
+
+                ifile.seekg(0, std::ios::beg);
+                ifile.read((char*)&pk3, sizeof(pk3_t));
+                ifile.close();
+
+                uint16_t* game_int = reinterpret_cast<uint16_t*>(&(pk3.box.met_loc)+1);
+                uint8_t libpkmn_id = hometown_to_libpkmn_game((*game_int & 0x1E) >> 1);
+                gba_savetype_t save_type;
+                get_gen3_savetype(libpkmn_id, save_type);
+                return conversions::import_gen3_pokemon(&pk3, save_type);
+            }
+            else if(file_size == sizeof(pk3_box_t))
+            {
+                pk3_box_t pk3;
+
+                ifile.seekg(0, std::ios::beg);
+                ifile.read((char*)&pk3, sizeof(pk3_box_t));
+                ifile.close();
+
+                uint16_t* game_int = reinterpret_cast<uint16_t*>(&(pk3.met_loc)+1);
+                uint8_t libpkmn_id = hometown_to_libpkmn_game((*game_int & 0x1E) >> 1);
+                gba_savetype_t save_type;
+                get_gen3_savetype(libpkmn_id, save_type);
+                return conversions::import_gen3_pokemon(&pk3, save_type);
+            }
+            else
+            {
+                ifile.close();
+                throw std::runtime_error("This is not a valid .3gpkm file!");
+            }
+
         }
 
         void export_to_pkm(team_pokemon::sptr t_pkmn, std::string filename)
@@ -105,20 +133,39 @@ namespace pkmn
             ofile.close();
         }
 
-        //TODO: accept party of box Pokemon, check validity
         team_pokemon::sptr import_from_pkm(std::string filename)
         {
-            pkm_nds_t pkm;
-            uint8_t pkm_raw[sizeof(pkm_nds_t)];
-            memset(pkm_raw, 0, sizeof(pkm_nds_t));
-
             std::ifstream ifile;
             ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
-            ifile.read((char*)pkm_raw, sizeof(pkm_nds_t));
-            ifile.close();
-            memcpy(&pkm, pkm_raw, sizeof(pkm_nds_t));
 
-            return conversions::import_nds_pokemon(&pkm);
+            //Check to see if this is a valid .pkm file
+            ifile.seekg(0, std::ios::end);
+            unsigned int file_size = ifile.tellg();
+            if(file_size == sizeof(pkm_nds_t))
+            {
+                pkm_nds_t pkm;
+
+                ifile.seekg(0, std::ios::beg);
+                ifile.read((char*)&pkm, sizeof(pkm_nds_t));
+                ifile.close();
+
+                return conversions::import_nds_pokemon(&pkm);
+            }
+            else if(file_size == sizeof(pkm_box_t))
+            {
+                pkm_box_t pkm;
+
+                ifile.seekg(0, std::ios::beg);
+                ifile.read((char*)&pkm, sizeof(pkm_box_t));
+                ifile.close();
+
+                return conversions::import_nds_pokemon(&pkm);
+            }
+            else
+            {
+                ifile.close();
+                throw std::runtime_error("This is not a valid .pkm file!");
+            }
         }
 
         void export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename, std::string title)
