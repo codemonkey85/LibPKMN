@@ -11,7 +11,7 @@
 
 #include <pkmn/bag.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
 {

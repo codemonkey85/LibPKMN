@@ -23,7 +23,6 @@ int main()
     cout << " - Retro Pokesav:  @RPOKESAV_GIT_DESCRIBE@" << endl;
     cout << " - PokeLib-NC:     @POKELIB_GIT_DESCRIBE@" << endl;
     cout << " - PKMDS:          @PKMDS_GIT_DESCRIBE@" << endl;
-    cout << " - SQLiteC++:      @SQLITECPP_GIT_DESCRIBE@" << endl << endl;
 
     cout << "Dependency versions:" << endl;
     cout << " - Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@" << endl;

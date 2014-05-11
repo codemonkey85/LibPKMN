@@ -16,7 +16,7 @@
 #include <pkmds/pkmds_sql.h>
 
 #include "library_bridge.hpp"
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 #define MAX_NICKNAME_LEN 10
 #define MAX_TRAINER_NAME_LEN 7

@@ -22,7 +22,6 @@ namespace pkmn
                                "Retro Pokesav @RPOKESAV_GIT_DESCRIBE@\n"
                                "PokeLib-NC @POKELIB_GIT_DESCRIBE@\n"
                                "PKMDS @PKMDS_GIT_DESCRIBE@\n"
-                               "SQLiteC++ @SQLITECPP_GIT_DESCRIBE@\n"
                                "Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@\n"
                                "Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@");
             setStandardButtons(QMessageBox::Close);

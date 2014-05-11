@@ -40,7 +40,7 @@
 
 #include <pkmn/base_pokemon.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
 {

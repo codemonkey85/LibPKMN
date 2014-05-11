@@ -18,7 +18,7 @@
 
 #include <pokelib/data_tables.h>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
 {

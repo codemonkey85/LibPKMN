@@ -28,7 +28,7 @@
 
 #include "pokemon.hpp"
 #include "../library_bridge.hpp"
-#include "../SQLiteCpp/src/SQLiteC++.h"
+#include "../SQLiteCpp/SQLiteC++.h"
 
 using namespace std;
 

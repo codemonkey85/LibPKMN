@@ -9,8 +9,8 @@
 FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} LIBPKMN_PKG_DATA_PATH)
 
 IF(ENABLE_LIBPKMN)
-    INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/lib/SQLiteCpp/sqlite3)
-    ADD_SUBDIRECTORY(SQLiteCpp/src)
+    INCLUDE_DIRECTORIES(SQLiteCpp)
+    ADD_SUBDIRECTORY(SQLiteCpp)
 
     # LibSPEC will never have a CMakeLists.txt file, so use this to build library
     MESSAGE(STATUS "Building LibSPEC as part of LibPKMN.")
