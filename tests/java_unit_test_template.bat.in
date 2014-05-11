@@ -1,0 +1,30 @@
+@echo off
+IF NOT DEFINED ORIG_PATH (
+    SET ORIG_PATH="%PATH%"
+)
+
+SET LIBPKMN_DATABASE_DIR=@DATABASE_PATH@
+SET LIBPKMN_IMAGES_DIR=@IMAGES_PATH@
+SET PATH=%PATH%;@LIBPKMN_BINARY_DIR@\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\rpokesav\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\pokehack\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\PokeLib-NC\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\PKMDS\lib\@CMAKE_BUILD_TYPE@;@LIBPKMN_BINARY_DIR@\lib\swig\java
+
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\tests\libpkmn_java_swig.dll (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\java\@CMAKE_BUILD_TYPE@\libpkmn_java_swig.dll @LIBPKMN_BINARY_DIR@\tests\libpkmn_java_swig.dll
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\tests\analysis_java_swig.dll (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\java\@CMAKE_BUILD_TYPE@\analysis_java_swig.dll @LIBPKMN_BINARY_DIR@\tests\analysis_java_swig.dll
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\tests\calculations_java_swig.dll (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\java\@CMAKE_BUILD_TYPE@\calculations_java_swig.dll @LIBPKMN_BINARY_DIR@\tests\calculations_java_swig.dll
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\tests\database_java_swig.dll (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\java\@CMAKE_BUILD_TYPE@\database_java_swig.dll @LIBPKMN_BINARY_DIR@\tests\database_java_swig.dll
+)
+IF NOT EXIST @LIBPKMN_BINARY_DIR@\tests\io_java_swig.dll (
+    COPY @LIBPKMN_BINARY_DIR@\lib\swig\java\@CMAKE_BUILD_TYPE@\io_java_swig.dll @LIBPKMN_BINARY_DIR@\tests\io_java_swig.dll
+)
+
+"@Java_JAVA_EXECUTABLE@" -classpath @CMAKE_CURRENT_BINARY_DIR@;@LIBPKMN_JAR@ "@TEST_NAME@"
+
+SET LIBPKMN_DATABASE_DIR=
+SET LIBPKMN_IMAGES_DIR=
+SET PATH="%ORIG_PATH%"

@@ -83,6 +83,23 @@ MACRO(LIBPKMN_ADD_CS_TEST test_name)
     ENDIF(WIN32)
 ENDMACRO(LIBPKMN_ADD_CS_TEST)
 
+MACRO(LIBPKMN_ADD_JAVA_TEST test_name)
+    SET(TEST_NAME ${test_name})
+    IF(WIN32)
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/java_unit_test_template.bat.in
+            ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.bat
+        @ONLY)
+        ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.bat)
+    ELSE()
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/java_unit_test_template.sh.in
+            ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh
+        @ONLY)
+        ADD_TEST(${test_name} ${CMAKE_CURRENT_BINARY_DIR}/${test_name}.sh)
+    ENDIF(WIN32)
+ENDMACRO(LIBPKMN_ADD_JAVA_TEST)
+
 ##################################################
 # C++ tests
 ##################################################
@@ -163,3 +180,35 @@ IF(ENABLE_CSHARP)
         LIBPKMN_ADD_CS_TEST(${cs_test})
     ENDFOREACH(cs_test ${cs_test_names})
 ENDIF(ENABLE_CSHARP)
+
+##################################################
+# Java tests
+##################################################
+IF(ENABLE_JAVA)
+    FILE(TO_NATIVE_PATH "${LIBPKMN_BINARY_DIR}/lib/swig/java/LibPKMN.jar" LIBPKMN_JAR)
+    SET(LIBPKMN_JAR ${LIBPKMN_JAR} CACHE FILEPATH "LibPKMN.jar location")
+
+    SET(java_test_names
+        JavaCopySPtrTest
+    )
+
+    FOREACH(java_test ${java_test_names})
+        CONFIGURE_FILE(
+            ${CMAKE_CURRENT_SOURCE_DIR}/${java_test}.java
+            ${CMAKE_CURRENT_BINARY_DIR}/${java_test}.java
+        )
+        ADD_CUSTOM_COMMAND(
+            DEPENDS LibPKMN_jar
+            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${java_test}.java
+            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${java_test}.class
+            COMMAND ${Java_JAVAC_EXECUTABLE} -classpath ${LIBPKMN_JAR} -d ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${java_test}.java
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Building Java program ${java_test}"
+        )
+        ADD_CUSTOM_TARGET(
+            ${java_test} ALL
+            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${java_test}.class
+        )
+        LIBPKMN_ADD_JAVA_TEST(${java_test})
+    ENDFOREACH(java_test ${java_test_names})
+ENDIF(ENABLE_JAVA)
