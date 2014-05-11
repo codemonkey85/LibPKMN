@@ -35,7 +35,7 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_bui
     SET_SOURCE_FILES_PROPERTIES(${swig_source}.i PROPERTIES CPLUSPLUS ON)
 
     SET(CMAKE_SWIG_OUTDIR ${JAVA_BUILD_DIRECTORY}/org/nc/LibPKMN)
-    SET(CMAKE_SWIG_FLAGS -module ${java_module_name} -package "org.nc.LibPKMN" ${CMAKE_GLOBAL_SWIG_FLAGS})
+    SET(CMAKE_SWIG_FLAGS -module ${java_module_name} -package "org.nc" ${CMAKE_GLOBAL_SWIG_FLAGS})
     SWIG_ADD_MODULE(${swig_source} java ${swig_source}.i)
     IF(NOT ${depend_module_name} STREQUAL "none")
         ADD_DEPENDENCIES(${SWIG_MODULE_${swig_source}_REAL_NAME} ${SWIG_MODULE_${depend_module_name}_REAL_NAME})
@@ -83,7 +83,7 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_bui
     ENDIF(${do_build} STREQUAL "true")
 ENDMACRO(JAVA_GENERATE_FILES)
 
-JAVA_GENERATE_FILES(libpkmn_java_swig Core none false)
+JAVA_GENERATE_FILES(libpkmn_java_swig LibPKMN none false)
 JAVA_GENERATE_FILES(analysis_java_swig Analysis libpkmn_java_swig false)
 JAVA_GENERATE_FILES(calculations_java_swig Calculations analysis_java_swig false)
 JAVA_GENERATE_FILES(database_java_swig Database calculations_java_swig false)
