@@ -23,7 +23,6 @@ This library can be built with any modern C++ compiler, and its API can be acces
 ## Git Submodules
 
  * LibPKMN Images (https://github.com/ncorgan/LibPKMN-images) - Pokemon sprites and icons
- * SQLiteCpp (https://github.com/SRombauts/SQLiteCpp) - SQLite3 C++ wrapper
  * Retro Pokesav (https://github.com/ncorgan/rpokesav) - Gen 1 save editing library
  * PokeLib-NC (https://github.com/ncorgan/PokeLib-NC) - Gen 4 save editing library
  * PKMDS (https://github.com/codemonkey85/PKMDS) - Gen 5-6 save editing library
