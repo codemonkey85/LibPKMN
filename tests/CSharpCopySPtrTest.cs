@@ -26,13 +26,13 @@ public class CopySPtrTest
         BasePKMN1.setForm("Grass");
         BasePKMN2.setForm("Fire");
 
-        if(TeamPKMN.getFormID() != BasePKMN2.getFormID())
-        {
-            throw new System.Exception("Improper BasePokemonSPtr returned from TeamPokemonSPtr!");
-        }
         if(TeamPKMN.getFormID() == BasePKMN1.getFormID())
         {
             throw new System.Exception("Failed to copy BasePokemonSPtr from TeamPokemonSPtr!");
+        }
+        if(TeamPKMN.getFormID() != BasePKMN2.getFormID())
+        {
+            throw new System.Exception("Improper BasePokemonSPtr returned from TeamPokemonSPtr!");
         }
 
         return 0;

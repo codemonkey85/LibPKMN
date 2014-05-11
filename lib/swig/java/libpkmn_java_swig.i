@@ -131,3 +131,15 @@ LIBPKMN_JAVA_DICT(StringIntDict, std::string, int, String, Integer, string_vec, 
 LIBPKMN_JAVA_DICT(StringStringDict, std::string, std::string, String, String, string_vec, string_vec)
 LIBPKMN_JAVA_DICT(StringUIntDict, std::string, unsigned int, String, Long, string_vec, uint_vec)
 LIBPKMN_JAVA_DICT(PocketDict, std::string, pkmn::pocket::sptr, String, PocketSPtr, string_vec, PocketVector)
+
+//Factory functions need to specifically be associated with newobject
+%newobject pkmn::bag::make;
+%newobject pkmn::base_pokemon::make;
+%newobject pkmn::game_save::make;
+%newobject pkmn::item::make;
+%newobject pkmn::move::make;
+%newobject pkmn::pocket::make;
+%newobject pkmn::prng::get;
+%newobject pkmn::team_pokemon::make;
+%newobject pkmn::team_pokemon::get_base_pokemon;
+%newobject pkmn::trainer::make;
