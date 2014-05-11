@@ -14,14 +14,14 @@ namespace pkmn
 {
     namespace io
     {
+        void PKMN_API export_to_3gpkm(team_pokemon::sptr t_pkmn, std::string filename);
+
+        team_pokemon::sptr PKMN_API import_from_pkm(std::string filename);
+
         void PKMN_API export_to_pkm(team_pokemon::sptr t_pkmn, std::string filename);
 
         team_pokemon::sptr PKMN_API import_from_pkm(std::string filename);
         
-        void PKMN_API export_to_pkx(team_pokemon::sptr t_pkmn, std::string filename);
-        
-        team_pokemon::sptr PKMN_API import_from_pkx(std::string filename);
-
         void PKMN_API export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename,
                                          std::string title = "");
 

@@ -20,74 +20,105 @@
 #include "library_bridge.hpp"
 #include "conversions/pokemon.hpp"
 
+#include "libspec/libspec.h"
 #include "SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
 {
     namespace io
     {
+        static void get_gen3_savetype(unsigned int libpkmn_id, gba_savetype_t &save_type)
+        {
+            switch(libpkmn_id)
+            {
+                case Games::RUBY:
+                case Games::SAPPHIRE:
+                    save_type = GBA_TYPE_RS;
+                    break;
+
+                case Games::EMERALD:
+                    save_type = GBA_TYPE_E;
+                    break;
+
+                case Games::FIRE_RED:
+                case Games::LEAF_GREEN:
+                    save_type = GBA_TYPE_FRLG;
+                    break;
+
+                default:
+                    save_type = GBA_TYPE_RS;
+                    break;
+            }
+        }
+
+        void export_to_3gpkm(team_pokemon::sptr t_pkmn, std::string filename)
+        {
+            //Check to see if t_pkmn is compatible with the .3gpkm format
+            unsigned int generation = t_pkmn->get_generation();
+            if(generation != 3)
+            {
+                throw std::runtime_error("Only Pokemon of generation III can be exported to .3gpkm!");
+            }
+
+            pk3_t pk3;
+            uint8_t pk3_raw[sizeof(pk3_t)];
+            gba_savetype_t save_type;
+            get_gen3_savetype(t_pkmn->get_game_id(), save_type);
+            conversions::export_gen3_pokemon(t_pkmn, &pk3, save_type);
+        }
+
+        team_pokemon::sptr import_from_3gpkm(std::string filename)
+        {
+            pk3_t pk3;
+            uint8_t pk3_raw[sizeof(pk3_t)];
+            memset(pk3_raw, 0, sizeof(pk3_t));
+
+            std::ifstream ifile;
+            ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
+            ifile.read((char*)pk3_raw, sizeof(pk3_t));
+            ifile.close();
+            memcpy(&pk3, pk3_raw, sizeof(pk3_t));
+
+            uint16_t* game_int = reinterpret_cast<uint16_t*>(&(pk3.box.met_loc)+1);
+            uint8_t libpkmn_id = hometown_to_libpkmn_game((*game_int & 0x1E) >> 1);
+            gba_savetype_t save_type;
+            get_gen3_savetype(libpkmn_id, save_type);
+            return conversions::import_gen3_pokemon(&pk3, save_type);
+        }
+
         void export_to_pkm(team_pokemon::sptr t_pkmn, std::string filename)
         {
-            party_pkm* p_pkm = new party_pkm;
-            conversions::team_pokemon_to_pkmds_g5_pokemon(t_pkmn, p_pkm);
+            //Check to see if t_pkmn is compatible with the .pkm format
+            unsigned int generation = t_pkmn->get_generation();
+            if(generation != 4 and generation != 5)
+            {
+                throw std::runtime_error("Only Pokemon of generation IV-V can be exported to .pkm!");
+            }
 
-            uint8_t pkm_contents[sizeof(pokemon_obj)];
-            memcpy(&pkm_contents, &(p_pkm->pkm_data), sizeof(pokemon_obj));
+            pkm_nds_t pkm;
+            uint8_t pkm_raw[sizeof(pkm_nds_t)];
+            conversions::export_nds_pokemon(t_pkmn, &pkm);
 
             std::ofstream ofile;
             ofile.open(filename.c_str(), std::ofstream::out | std::ofstream::binary);
-            ofile.write((char*)pkm_contents, sizeof(pokemon_obj));
+            ofile.write((char*)pkm_raw, sizeof(pokemon_obj));
             ofile.close();
         }
 
+        //TODO: accept party of box Pokemon, check validity
         team_pokemon::sptr import_from_pkm(std::string filename)
         {
-            party_pkm* p_pkm = new party_pkm;
-            pokemon_obj* pkmn_obj = new pokemon_obj;
-
-            uint8_t pkm_contents[sizeof(pokemon_obj)];
-            memset(pkm_contents, 0, sizeof(pokemon_obj));
+            pkm_nds_t pkm;
+            uint8_t pkm_raw[sizeof(pkm_nds_t)];
+            memset(pkm_raw, 0, sizeof(pkm_nds_t));
 
             std::ifstream ifile;
             ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
-            ifile.read((char*)pkm_contents, sizeof(pokemon_obj));
+            ifile.read((char*)pkm_raw, sizeof(pkm_nds_t));
             ifile.close();
-            memcpy(pkmn_obj, pkm_contents, sizeof(pokemon_obj));
+            memcpy(&pkm, pkm_raw, sizeof(pkm_nds_t));
 
-            libpkmn_pctoparty(p_pkm, pkmn_obj);
-            return conversions::pkmds_g5_pokemon_to_team_pokemon(p_pkm);
-        }
-
-        void export_to_pkx(team_pokemon::sptr t_pkmn, std::string filename)
-        {
-            party_pkx* p_pkx = new party_pkx;
-            conversions::team_pokemon_to_pkmds_g6_pokemon(t_pkmn, p_pkx);
-
-            uint8_t pkx_contents[sizeof(pokemonx_obj)];
-            memcpy(&pkx_contents, &(p_pkx->pkx_data), sizeof(pokemonx_obj));
-
-            std::ofstream ofile;
-            ofile.open(filename.c_str(), std::ofstream::out | std::ofstream::binary);
-            ofile.write((char*)pkx_contents, sizeof(pokemonx_obj));
-            ofile.close();
-        }
-
-        team_pokemon::sptr import_from_pkx(std::string filename)
-        {
-            party_pkx* p_pkm = new party_pkx;
-            pokemonx_obj* pkmn_obj = new pokemonx_obj;
-
-            uint8_t pkx_contents[sizeof(pokemonx_obj)];
-            memset(pkx_contents, 0, sizeof(pokemonx_obj));
-
-            std::ifstream ifile;
-            ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
-            ifile.read((char*)pkx_contents, sizeof(pokemonx_obj));
-            ifile.close();
-            memcpy(pkmn_obj, pkx_contents, sizeof(pokemonx_obj));
-
-            libpkmn_pctopartyx(p_pkm, pkmn_obj);
-            return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
+            return conversions::import_nds_pokemon(&pkm);
         }
 
         void export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename, std::string title)
