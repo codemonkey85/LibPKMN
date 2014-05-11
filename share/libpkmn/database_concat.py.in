@@ -8,13 +8,18 @@
 
 if __name__ == "__main__":
 
-    f = open("@CMAKE_CURRENT_BINARY_DIR@/libpkmn_db_dump",'a')
+    f = open("@CMAKE_CURRENT_SOURCE_DIR@/libpkmn_db_dump",'r')
     g = open("@CMAKE_CURRENT_SOURCE_DIR@/libpkmn_db_additions",'r')
+    h = open("@CMAKE_CURRENT_BINARY_DIR@/libpkmn_db_dump",'w')
 
+    flines = f.readlines()
     glines = g.readlines()
-    chars = '\n'.join(glines)
+    fchars = '\n'.join(flines)
+    gchars = '\n'.join(glines)
     
-    f.write(chars)
+    h.write(fchars)
+    h.write(gchars)
     
     f.close()
     g.close()
+    h.close()

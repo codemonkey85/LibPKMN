@@ -16,9 +16,9 @@ namespace pkmn
     class move_impl: public move
     {
         public:
-        
+
             move_impl(unsigned int id, unsigned int game);
-        
+
             //Game-specific Info
             std::string get_game() const;
             unsigned int get_generation() const;
@@ -46,7 +46,7 @@ namespace pkmn
             unsigned int get_effect_id() const;
 
         protected:
-        
+
             //Database values
             unsigned int _game_id, _generation, _move_id, _type_id, _target_id;
             unsigned int _move_damage_class_id, _effect_id;
@@ -56,7 +56,7 @@ namespace pkmn
             double _base_accuracy, _effect_chance;
             unsigned int _move_damage_class;
             std::string _effect;
-            
+
             static SQLite::Database _db;
     };
 }

@@ -47,11 +47,11 @@ namespace pkmn
             unsigned int _SATK, _SDEF;
             unsigned int _evSATK, _evSDEF;
             unsigned int _ivSATK, _ivSDEF;
-        
+
             unsigned int _get_hp() const;
             unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const;
             void _set_stats();
-            
+
             std::string _determine_ability() const;
             std::string _determine_gender() const;
             std::string _determine_nature() const;

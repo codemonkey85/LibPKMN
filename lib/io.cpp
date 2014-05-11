@@ -53,11 +53,11 @@ namespace pkmn
             ifile.read((char*)pkm_contents, sizeof(pokemon_obj));
             ifile.close();
             memcpy(pkmn_obj, pkm_contents, sizeof(pokemon_obj));
-            
+
             libpkmn_pctoparty(p_pkm, pkmn_obj);
             return conversions::pkmds_g5_pokemon_to_team_pokemon(p_pkm);
         }
-        
+
         void export_to_pkx(team_pokemon::sptr t_pkmn, std::string filename)
         {
             party_pkx* p_pkx = new party_pkx;
@@ -85,7 +85,7 @@ namespace pkmn
             ifile.read((char*)pkx_contents, sizeof(pokemonx_obj));
             ifile.close();
             memcpy(pkmn_obj, pkx_contents, sizeof(pokemonx_obj));
-            
+
             libpkmn_pctopartyx(p_pkm, pkmn_obj);
             return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
         }

@@ -29,7 +29,7 @@ namespace pkmn
     }
 
     SQLite::Database move_impl::_db(get_database_path().c_str());
-    
+
     move_impl::move_impl(unsigned int id, unsigned int game): move()
     {
         _game_id = game;

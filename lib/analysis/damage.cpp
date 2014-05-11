@@ -28,7 +28,7 @@ namespace pkmn
     namespace analysis
     {
         static SQLite::Database db(get_database_path().c_str());
-    
+
         //TODO: Account for Gen V-VI differences
         double get_type_damage_mod(std::string type1, std::string type2, unsigned int gen)
         {

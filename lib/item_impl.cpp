@@ -46,7 +46,7 @@ namespace pkmn
     }
 
     SQLite::Database item_impl::_db(get_database_path().c_str());
-    
+
     item_impl::item_impl(unsigned int id, unsigned int game): item()
     {
         _item_id = id;
@@ -73,12 +73,12 @@ namespace pkmn
                                + to_string(_category_id);
         return string((const char*)_db.execAndGet(query_string.c_str()));
     }
-    
+
     unsigned int item_impl::get_game_index() const {return _game_index;}
-    
+
     unsigned int item_impl::get_item_id() const {return _item_id;}
-    
+
     unsigned int item_impl::get_category_id() const {return _category_id;}
-    
+
     unsigned int item_impl::get_game_id() const {return _game_id;}
 } /* namespace pkmn */

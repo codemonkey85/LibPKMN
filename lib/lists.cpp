@@ -77,7 +77,7 @@ namespace pkmn
     void get_type_list(std::vector<std::string> &type_vec, unsigned int gen)
     {
         type_vec.clear();
-    
+
         std::string query_string = "SELECT name FROM type_names WHERE local_language_id=9";
 
         SQLite::Statement type_names_query(db, query_string.c_str());
@@ -94,9 +94,9 @@ namespace pkmn
     void get_ability_list(std::vector<std::string> &ability_vec, unsigned int gen)
     {
         ability_vec.clear();
-    
+
         std::string query_string = "SELECT id FROM abilities WHERE generation_id<=" + to_string(gen);
-        
+
         SQLite::Statement query(db, query_string.c_str());
         while(query.executeStep())
         {
@@ -118,7 +118,7 @@ namespace pkmn
             nature_vec.push_back(nature);
         }
     }
-    
+
     void get_pokemon_of_type(base_pokemon_vector &pkmn_vector, std::string type1, std::string type2, unsigned int gen, bool lax)
     {
         pkmn_vector.clear();
@@ -219,7 +219,7 @@ namespace pkmn
         //function doesn't discriminate between games in the same generation, so this array
         //guarantees that the given generation will use a game in that generation
         int game_id_from_gen[] = {0,1,4,7,13,17};
-        
+
         for(unsigned int i = 0; i < applicable_ids.size(); i++)
         {
             //Manually correct for Magnemite and Magneton in Gen 1

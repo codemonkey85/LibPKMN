@@ -11,22 +11,19 @@ SET(LIBPKMN_DATABASE_DIR ${DATABASE_DIR} CACHE FILEPATH "Database directory")
 FILE(TO_NATIVE_PATH "${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR}/images" IMAGES_DIR)
 SET(LIBPKMN_IMAGES_DIR ${IMAGES_DIR} CACHE FILEPATH "Database directory")
 
-FILE(REMOVE "${CMAKE_CURRENT_BINARY_DIR}/libpkmn.db")
-
 ####################################################################
 # Database dump is distributed instead of a binary, so compile and
 # install in correct location
 ####################################################################
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/libpkmn_db_dump
-    ${CMAKE_CURRENT_BINARY_DIR}/libpkmn_db_dump
-COPYPONLY)
 CONFIGURE_FILE(
     ${CMAKE_CURRENT_SOURCE_DIR}/database_concat.py.in
     ${CMAKE_CURRENT_BINARY_DIR}/database_concat.py
 @ONLY)
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpkmn.db
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/libpkmn_db_dump
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/libpkmn_db_additions
+    COMMAND ${CMAKE_COMMAND} -E remove ${CMAKE_CURRENT_BINARY_DIR}/libpkmn.db
     COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/database_concat.py
     COMMAND ${SQLITE3_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/libpkmn.db ".read ${CMAKE_CURRENT_BINARY_DIR}/libpkmn_db_dump"
     COMMENT "Compiling LibPKMN SQLite database"

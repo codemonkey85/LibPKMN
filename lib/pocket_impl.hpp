@@ -7,6 +7,7 @@
 #ifndef INCLUDED_POCKET_IMPL_HPP
 #define INCLUDED_POCKET_IMPL_HPP
 
+#include <cstdint>
 #include <vector>
 
 #include <pkmn/pocket.hpp>
@@ -22,7 +23,7 @@ namespace pkmn
 
             std::string get_game() const;
             unsigned int get_generation() const;
-            
+
             std::string get_name() const;
             unsigned int size() const;
 

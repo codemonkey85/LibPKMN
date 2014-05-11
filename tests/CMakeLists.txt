@@ -136,17 +136,11 @@ IF(ENABLE_CSHARP)
     )
 
     FOREACH(cs_test ${cs_test_names})
-        FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs)
-        FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe)
-        FILE(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll)
-        CONFIGURE_FILE(
-            ${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs
-            ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs
-        )
         ADD_CUSTOM_COMMAND(
             DEPENDS libpkmn-cs
+            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe
-            COMMAND ${CSHARP_COMPILER} ARGS "/r:${LIBPKMN_CS_DLL}" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe" "${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.cs"
+            COMMAND ${CSHARP_COMPILER} ARGS "/r:${LIBPKMN_CS_DLL}" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe" "${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs"
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             COMMENT "Building C# executable ${cs_test}"
         )

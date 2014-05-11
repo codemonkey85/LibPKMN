@@ -17,9 +17,9 @@ namespace pkmn
 
             item_machineimpl();
             item_machineimpl(unsigned int id, unsigned int game);
-            
+
         private:
-        
+
             unsigned int _machine_id, _move_id;
     };
 }

@@ -22,7 +22,7 @@ namespace pkmn
     namespace database
     {
         static SQLite::Database db(get_database_path().c_str());
-    
+
         void get_table_list(vector<string> &vec)
         {
             vec.clear();
@@ -43,7 +43,7 @@ namespace pkmn
 
             string query_str = str(boost::format("PRAGMA table_info(%s)") % table_name);
             SQLite::Statement query(db, query_str.c_str());
-            
+
             while(query.executeStep())
             {
                 string column_name = query.getColumn(1);

@@ -102,7 +102,7 @@ namespace pkmn
             unsigned int get_nature_id() const;
 
         protected:
-        
+
             base_pokemon::sptr _base_pkmn;
             unsigned int _pokemon_id, _form_id; //Copied from _base_pkmn for _check()
             pokemon_text _nickname, _trainer_name, _ball;
@@ -111,7 +111,7 @@ namespace pkmn
             unsigned int _game_id, _generation;
             unsigned int _level, _met_level;
             unsigned int _personality;
-            
+
             union
             {
                 struct
@@ -137,7 +137,7 @@ namespace pkmn
 
             std::string _ability, _gender, _nature, _otgender;
             bool _has_hidden_ability;
-            
+
             static SQLite::Database _db;
 
             void _check() const;

@@ -84,13 +84,13 @@ namespace pkmn
     uint8_t PKMN_API modern_get_IV(uint32_t* IVint, uint8_t IV);
 
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val);
-    
+
     bool get_marking(uint8_t* markint, uint8_t mark);
-    
+
     void set_marking(uint8_t* markint, uint8_t mark, bool val);
-    
+
     bool get_ribbon(uint32_t* ribbonint, uint8_t ribbon);
-    
+
     void set_ribbon(uint32_t* ribbonint, uint8_t ribbon, bool val);
 
     uint8_t get_gen3_ball(uint16_t* metlevelint);
@@ -112,17 +112,17 @@ namespace pkmn
     bool get_gen_456_otgender(uint8_t* metlevelint);
 
     void set_gen_456_otgender(uint8_t* metlevelint, bool is_female);
-    
+
     uint8_t libpkmn_getpkmstat(pokemon_obj* pkm);
-    
+
     void libpkmn_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm);
-    
+
     std::string libpkmn_getpkxformnamesql(pokemonx_obj *pkx);
-    
+
     uint16_t getpkxstat(pokemonx_obj *pkx, unsigned int stat_id);
-    
+
     uint8_t libpkmn_pkxstat(pokemonx_obj* pkx);
-    
+
     void libpkmn_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx);
 
     uint8_t libpkmn_game_to_hometown(uint8_t game);
@@ -130,7 +130,7 @@ namespace pkmn
     uint8_t hometown_to_libpkmn_game(uint8_t hometown);
 
     uint8_t libpkmn_ball_to_game_ball(uint8_t ball);
-    
+
     uint8_t game_ball_to_libpkmn_ball(uint8_t game_ball);
 
     namespace Hometowns

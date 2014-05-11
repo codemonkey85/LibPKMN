@@ -72,7 +72,7 @@ namespace pkmn
 
         return EVs;
     }
-    
+
     pkmn::dict<std::string, unsigned int> team_pokemon_gen1impl::get_IVs() const
     {
         pkmn::dict<std::string, unsigned int> IVs;
@@ -103,20 +103,20 @@ namespace pkmn
         else if(stat_name == "Defense") _evDEF = val;
         else if(stat_name == "Speed") _evSPD = val;
         else if(stat_name == "Special") _evSPCL = val;
-        
+
         _set_stats();
     }
-    
+
     void team_pokemon_gen1impl::set_IV(std::string stat_name, unsigned int val)
     {
         if(val > 15) throw std::runtime_error("Gen 1 IV's must be 0-15.");
-        
+
         if(stat_name == "HP") _ivHP = val;
         else if(stat_name == "Attack") _ivATK = val;
         else if(stat_name == "Defense") _ivDEF = val;
         else if(stat_name == "Speed") _ivSPD = val;
         else if(stat_name == "Special") _ivSPCL = val;
-        
+
         _set_stats();
     }
 
