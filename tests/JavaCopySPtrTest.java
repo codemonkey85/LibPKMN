@@ -5,13 +5,14 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
-import org.nc.LibPKMN;
+import org.nc.*;
 
 public class JavaCopySPtrTest
 {
     public static void main(String[] args)
     {
         String path = LibPKMN.getDatabasePath();
-        System.out.println(path);
+        long entry = Database.getItemID("Bicycle");
+        System.out.println(path + " " + entry);
     }
 }
