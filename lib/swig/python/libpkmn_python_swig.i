@@ -32,6 +32,7 @@
 %enddef
 
 %ignore pkmn::pokemon_text::const_char;
+%rename(__eq__) pkmn::operator==(const pkmn::pokemon_text&, const pkmn::pokemon_text&);
 %rename(__len__) pkmn::pokemon_text::length;
 %extend pkmn::pokemon_text{
     char* __repr__() {return (char*)((*self).const_char());}
