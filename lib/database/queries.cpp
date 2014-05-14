@@ -17,7 +17,7 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
 
-#include "../SQLiteCpp/src/SQLiteC++.h"
+#include "../SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
 {

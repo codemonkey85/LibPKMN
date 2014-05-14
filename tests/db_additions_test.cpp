@@ -13,7 +13,7 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/types/dict.hpp>
 
-#include "../lib/SQLiteCpp/src/SQLiteC++.h"
+#include "../lib/SQLiteCpp/SQLiteC++.h"
 
 SQLite::Database db(pkmn::get_database_path().c_str());
 

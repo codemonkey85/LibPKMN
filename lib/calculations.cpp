@@ -14,7 +14,7 @@
 
 #include <pkmds/pkmds_g5_sqlite.h>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
 {
