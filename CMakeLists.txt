@@ -71,15 +71,6 @@ ENDIF(NOT LIBPKMN_USED_AS_SUBMODULE)
 INCLUDE(LibPKMNCompilerCheck)
 
 ####################################################################
-# Use boost::shared_ptr if user specifies
-####################################################################
-IF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR USE_BOOST_SHARED_PTR)
-    MESSAGE(STATUS "Using boost::shared_ptr for pkmn::shared_ptr.")
-    MESSAGE(STATUS "")
-    ADD_DEFINITIONS(-DLIBPKMN_USE_BOOST_SHARED_PTR)
-ENDIF("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR USE_BOOST_SHARED_PTR)
-
-####################################################################
 # Find dependencies and set global include and link options
 ####################################################################
 IF(NOT MSVC)

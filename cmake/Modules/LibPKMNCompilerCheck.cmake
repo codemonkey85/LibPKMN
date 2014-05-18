@@ -62,10 +62,10 @@ IF(NOT HAVE_SCOPED_ENUMS)
 ENDIF(NOT HAVE_SCOPED_ENUMS)
 
 #
-# It's harder to check the compiler with CMake and test for the
-# appropriate include, so use the same code.
+# If the user doesn't specifically say to use boost::shared_ptr,
+# manually check to see if it's necessary.
 #
-IF(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT USE_BOOST_SHARED_PTR)
+IF(NOT USE_BOOST_SHARED_PTR)
     CHECK_CXX_SOURCE_COMPILES("
         #if (defined(__GNUC__) && \\\\
                (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 2)) && \\\\
@@ -102,9 +102,7 @@ IF(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT USE_BOOST_SHARED_PTR)
                 using std::tr1::dynamic_pointer_cast;
             } // namespace pkmn
         #else
-            using std::shared_ptr;
-            using std::make_shared;
-            using std::dynamic_pointer_cast;
+            #error no std::shared_ptr
         #endif
 
         int main()
@@ -115,9 +113,9 @@ IF(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT USE_BOOST_SHARED_PTR)
     )
 
     IF(NOT HAVE_SHARED_PTR)
-        MESSAGE(FATAL_ERROR "Shared pointers not supported!")
+        ADD_DEFINITIONS(-DLIBPKMN_USE_BOOST_SHARED_PTR)
     ENDIF(NOT HAVE_SHARED_PTR)
-ENDIF(NOT "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT USE_BOOST_SHARED_PTR)
+ENDIF(NOT USE_BOOST_SHARED_PTR)
 
 #
 # By this point, any non-supported compiler setup should have errored out, but if
