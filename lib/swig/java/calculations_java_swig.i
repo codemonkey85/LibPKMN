@@ -5,11 +5,12 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+%include "exception.i"
 %include "stdint.i"
 %include "std_pair.i"
 
 %include "CamelCase.i"
-%include "libpkmn.i"
+%import "libpkmn_java_swig.i"
 
 %{
     #include "pkmn/calculations.hpp"

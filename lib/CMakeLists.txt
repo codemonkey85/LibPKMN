@@ -11,7 +11,6 @@ FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} LIBPKMN_PKG_DATA_PAT
 IF(ENABLE_LIBPKMN)
     ADD_SUBDIRECTORY(SQLiteCpp)
 
-    FILE(GLOB analysis_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "analysis/*.c*")
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
     
     #Configure database info for relevant library files

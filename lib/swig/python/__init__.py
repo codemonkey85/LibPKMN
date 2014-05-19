@@ -24,7 +24,6 @@ import Statuses
 import Types
 
 from libpkmn_python_swig import *
-import analysis
 import calculations
 import database
 import io
