@@ -35,7 +35,7 @@ namespace pkmn
             static uint64_t _gen56_lcrng_seed;
             static uint32_t _arng_seed;
             static unsigned int _mtrng_pos;
-            static uint32_t _mtrng_seeds[624];
+            static uint32_t _mtrng_nums[624];
     };
 }
 
