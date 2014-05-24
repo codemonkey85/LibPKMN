@@ -49,16 +49,18 @@ SET(LIBPKMN_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "LibPKMN binary 
 INCLUDE(LibPKMNComponent)
 
 ########################################################################
-# Automatic git submodule update
+# Update Git submodules if specified by user
 ########################################################################
 FIND_PACKAGE(Git)
-MESSAGE(STATUS "")
-MESSAGE(STATUS "Updating Git submodules. This may take a while...")
-EXECUTE_PROCESS(
-    COMMAND ${GIT_EXECUTABLE} submodule update --init
-    OUTPUT_QUIET
-    WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}
-)
+IF(UPDATE_SUBMODULES)
+    MESSAGE(STATUS "")
+    MESSAGE(STATUS "Updating Git submodules. This may take a while...")
+    EXECUTE_PROCESS(
+        COMMAND ${GIT_EXECUTABLE} submodule update --init
+        OUTPUT_QUIET
+        WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}
+    )
+ENDIF(UPDATE_SUBMODULES)
 
 ########################################################################
 # Getting compilation info
