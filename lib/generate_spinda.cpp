@@ -26,6 +26,46 @@ namespace fs = boost::filesystem;
 
 namespace pkmn
 {
+    namespace Spinda_Gen3
+    {
+        enum colors
+        {
+            SPOT_DARK = 0xB05828,
+            SPOT_NORMAL = 0xD86838,
+            SPOT_LIGHT = 0xD88848
+        };
+    }
+
+    namespace Spinda_Gen3Shiny
+    {
+        enum colors
+        {
+            SPOT_DARK = 0xD86838,
+            SPOT_NORMAL = 0x90A038,
+            SPOT_LIGHT = 0xB0C058
+        };
+    }
+
+    namespace Spinda_Gen4
+    {
+        enum colors
+        {
+            SPOT_DARK = 0xBD4A31,
+            SPOT_NORMAL = 0xEF524A,
+            SPOT_LIGHT = 0xEF947B
+        };
+    }
+
+    namespace Spinda_Gen4Shiny
+    {
+        enum colors
+        {
+            SPOT_DARK = 0x7B9C00,
+            SPOT_NORMAL = 0xA5CE10,
+            SPOT_LIGHT = 0xCED65A
+        };
+    }
+
     std::string generate_spinda_image(uint32_t personality, bool gen3, bool shiny)
     {
         /*
