@@ -51,6 +51,7 @@ IF(ENABLE_LIBPKMN)
         game_save_gen5impl.cpp
         io.cpp
         copy_sptrs.cpp
+        generate_spinda.cpp
         conversions/items.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
