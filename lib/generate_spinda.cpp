@@ -26,6 +26,17 @@ namespace fs = boost::filesystem;
 
 namespace pkmn
 {
+    namespace Spot_Locations
+    {
+        enum locations
+        {
+            TOP_LEFT,
+            TOP_RIGHT,
+            BOTTOM_LEFT,
+            BOTTOM_RIGHT
+        }
+    }
+
     namespace Spinda_Gen3
     {
         enum colors
