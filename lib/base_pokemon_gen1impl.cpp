@@ -14,7 +14,7 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 #include "base_pokemon_gen1impl.hpp"
 

@@ -1,9 +1,6 @@
 [submodule "pokehack"]
 	path = pokehack
 	url = https://github.com/ncorgan/pokehack.git
-[submodule "lib/SQLiteCpp"]
-	path = lib/SQLiteCpp
-	url = https://github.com/ncorgan/SQLiteCpp.git
 [submodule "PokeLib-NC"]
 	path = PokeLib-NC
 	url = https://github.com/ncorgan/PokeLib-NC.git

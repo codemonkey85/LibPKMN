@@ -71,6 +71,13 @@
 %rename(getGen2UnownForm) pkmn::calculations::get_gen2_unown_form;
 %rename(getGen3UnownForm) pkmn::calculations::get_gen3_unown_form;
 %rename(getWurmpleEvolution) pkmn::calculations::get_wurmple_evolution;
+%rename(getTypeDamageMod) pkmn::calculations::get_type_damage_mod;
+%rename(getBaseDamage) pkmn::calculations::get_base_damage;
+%rename(getDamageRange) pkmn::calculations::get_damage_range;
+%rename(getMinPossibleStat) pkmn::calculations::get_min_possible_stat;
+%rename(getMaxPossibleStat) pkmn::calculations::get_max_possible_stat;
+%rename(isStatPossible) pkmn::calculations::is_stat_possible;
+%rename(getStatRange) pkmn::calculations::get_stat_range;
 
 /*
  * pkmn/game_save.hpp
@@ -260,21 +267,6 @@
 %rename(setParty) pkmn::trainer::set_party;
 %rename(getBag) pkmn::trainer::get_bag;
 %rename(getGameID) pkmn::trainer::get_game_id;
-
-/*
- * pkmn/analysis/damage.hpp
- */
-%rename(getTypeDamageMod) pkmn::analysis::get_type_damage_mod;
-%rename(getBaseDamage) pkmn::analysis::get_base_damage;
-%rename(getDamageRange) pkmn::analysis::get_damage_range;
-
-/*
- * pkmn/analysis/stats.hpp
- */
-%rename(getMinPossibleStat) pkmn::analysis::get_min_possible_stat;
-%rename(getMaxPossibleStat) pkmn::analysis::get_max_possible_stat;
-%rename(isStatPossible) pkmn::analysis::is_stat_possible;
-%rename(getStatRange) pkmn::analysis::get_stat_range;
 
 /*
  * pkmn/database/lists.hpp

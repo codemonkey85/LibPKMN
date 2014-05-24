@@ -67,7 +67,7 @@ namespace pkmn
 
             import_items_from_rpokesav_gen1(libpkmn_trainer->get_bag(), sav);
 
-            rpokesav::vla<rpokesav::gen1_pokemon> rpokesav_gen1_team = sav->get_team();
+            std::array<rpokesav::gen1_pokemon,6> rpokesav_gen1_team = sav->get_team();
             for(size_t i = 0; i < sav->get_team_size(); i++)
             {
                 team_pokemon::sptr t_pkmn = rpokesav_gen1_pokemon_to_team_pokemon(rpokesav_gen1_team[i],

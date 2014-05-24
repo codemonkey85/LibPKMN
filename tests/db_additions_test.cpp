@@ -13,7 +13,7 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/types/dict.hpp>
 
-#include "../lib/SQLiteCpp/src/SQLiteC++.h"
+#include "../lib/SQLiteCpp/SQLiteC++.h"
 
 SQLite::Database db(pkmn::get_database_path().c_str());
 
@@ -28,17 +28,17 @@ BOOST_AUTO_TEST_CASE(has_database_additions_test)
     BOOST_CHECK(query1.executeStep());
     BOOST_CHECK(std::string((const char*)query1.getColumn(0)) == "gs-ball");
 
-    std::string query2_string("SELECT name FROM stat_names WHERE id=9");
+    std::string query2_string("SELECT name FROM stat_names WHERE stat_id=9");
     SQLite::Statement query2(db, query2_string.c_str());
     BOOST_CHECK(query2.executeStep());
     BOOST_CHECK(std::string((const char*)query2.getColumn(0)) == "Special");
     
-    std::string query3_string("SELECT flavor_text FROM item_flavor_text WHERE item=1020");
+    std::string query3_string("SELECT flavor_text FROM item_flavor_text WHERE item_id=1020");
     SQLite::Statement query3(db, query3_string.c_str());
     BOOST_CHECK(query3.executeStep());
     BOOST_CHECK(std::string((const char*)query3.getColumn(0)) == "Heart-print MAIL.");
     
-    std::string query4_string("SELECT game_index FROM item_id=48 AND generation_id=2");
+    std::string query4_string("SELECT game_index FROM item_game_indices WHERE item_id=48 AND generation_id=2");
     SQLite::Statement query4(db, query4_string.c_str());
     BOOST_CHECK(query4.executeStep());
     BOOST_CHECK(int(query4.getColumn(0)) == 29);

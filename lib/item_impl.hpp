@@ -9,7 +9,7 @@
 
 #include <pkmn/item.hpp>
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
 {

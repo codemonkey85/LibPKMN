@@ -17,7 +17,7 @@
 
 #include "team_pokemon_modernimpl.hpp"
 
-#include "SQLiteCpp/src/SQLiteC++.h"
+#include "SQLiteCpp/SQLiteC++.h"
 
 using namespace std;
 
