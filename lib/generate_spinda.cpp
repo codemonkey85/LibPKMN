@@ -104,7 +104,7 @@ namespace pkmn
         if(fs::exists(tmp_image_path)) return tmp_image_path.string();
 
         //Since it doesn't exist, create it, then return it
-        QImage spinda_image;;
+        QImage spinda_image;
         QString input_path = QString::fromStdString(original);
         QString output_path = QString::fromStdString(tmp_image_path.string());
 
