@@ -34,7 +34,7 @@ namespace pkmn
             TOP_RIGHT,
             BOTTOM_LEFT,
             BOTTOM_RIGHT
-        }
+        };
     }
 
     namespace Spinda_Gen3
