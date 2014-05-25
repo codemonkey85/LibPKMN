@@ -5,6 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <iostream>
 #include <stdexcept>
 
 #include <boost/filesystem.hpp>
@@ -83,8 +84,8 @@ namespace pkmn
          * All Generation III games share a Spinda sprites, as do all Generation IV-V
          * games. Therefore, these two options are sufficient.
          */
-        std::string generation_str = (gen3) ? "generation-3/ruby"
-                                            : "generation-4/diamond";
+        std::string generation_str = (gen3) ? "generation-3/ruby-sapphire"
+                                            : "generation-4/diamond-pearl";
 
         //Construct path of original Spinda sprite
         fs::path original_path = fs::path(get_images_dir()) / generation_str;
@@ -93,18 +94,28 @@ namespace pkmn
         std::string original = original_path.string();
 
         //Create path of temporary image location, return if already exists
-        std::string image_filename = (shiny) ? str(boost::format("spinda_%ds.png") % personality)
-                                             : str(boost::format("spinda_%d.png") % personality);
+        std::string image_filename = (shiny) ? str(boost::format("spinda%d_%ds.png")
+                                                   % (gen3 ? 3 : 4)
+                                                   % personality)
+                                             : str(boost::format("spinda%d_%d.png")
+                                                   % (gen3 ? 3 : 4)
+                                                   % personality);
         fs::path tmp_image_path = fs::path(get_tmp_dir()) / image_filename;
         if(fs::exists(tmp_image_path)) return tmp_image_path.string();
 
         //Since it doesn't exist, create it, then return it
-        QImage spinda_input, spinda_output;
+        QImage spinda_image;;
         QString input_path = QString::fromStdString(original);
         QString output_path = QString::fromStdString(tmp_image_path.string());
 
         //If for some reason we can't create something in the tmp directory, return the original
-        if(not spinda_input.load(input_path)) return original;
+        if(not spinda_image.load(input_path, "PNG")) return original;
+
+        /*
+         * After image manipulation, save to temporary location and return path.
+         * If saving fails, return original.
+         */
+        if(not spinda_image.save(output_path, "PNG")) return original;
 
         return tmp_image_path.string();
     }

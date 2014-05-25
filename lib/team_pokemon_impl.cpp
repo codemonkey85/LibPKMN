@@ -20,6 +20,7 @@
 #include <pkmn/types/prng.hpp>
 
 #include "copy_sptrs.hpp"
+#include "generate_spinda.hpp"
 
 #include "item_impl.hpp"
 #include "item_berryimpl.hpp"
@@ -383,7 +384,11 @@ namespace pkmn
     std::string team_pokemon_impl::get_sprite_path() const
     {
         _check();
-        return _base_pkmn->get_sprite_path((_gender == "Male"), is_shiny());
+        if(get_species_id() == Species::SPINDA and _generation < 6)
+        {
+            return generate_spinda_image(_personality, (_generation == 3), is_shiny());
+        }
+        else return _base_pkmn->get_sprite_path((_gender == "Male"), is_shiny());
     }
 
     void team_pokemon_impl::set_form(std::string form)
