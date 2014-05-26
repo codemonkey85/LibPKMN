@@ -43,15 +43,16 @@
 
 <p>LibPKMN is a C++ library that allows users to read and edit game saves of any Pokémon game from the main series (22 games released 1996-2013). With LibPKMN, users can generate Pokémon teams on their PC and import them into their saves, allowing their creations to be used in-game. Even without a save present, users can use the library for team study and strategy formation.</p>
 
-<p>This library is designed to be as portable as possible. Using the <a href="http://www.cmake.org/">CMake</a> build system for platform-independence. LibPKMN can be compiled with any modern version of GCC, Clang, or Microsoft Visual Studio C++. Portability is further extended through the use of <a href="http://www.swig.org/">SWIG</a>, which generates Python, C#, and Java API's to allow further development.</p>
+<p>This library is designed to be as portable as possible. Using the <a href="http://www.cmake.org/">CMake</a> build system for platform-independence. LibPKMN can be compiled with any modern version of GCC, Clang, or Microsoft Visual Studio C++. Portability is further extended through the use of <a href="http://www.swig.org/">SWIG</a>, which generates Python and C# API's to allow further development.</p>
 
 <h3>
-<a name="submodules" class="anchor" href="#submodules"><span class="octicon octicon-link"></span></a>Submodules</h3>
+<a name="submodules" class="anchor" href="#other_code"><span class="octicon octicon-link"></span></a></h3>
 
-<p>LibPKMN would not exist without the inclusion of other open-source libraries, included as Git submodules.</p>
+<p>LibPKMN would not exist without the inclusion of other open-source libraries, included as either Git submodules or directly part of LibPKMN's source.</p>
 
 <ul>
 <li><a href="https://github.com/SRombauts/SQLiteCpp">SQLiteCpp</a> - SQLite3 C++ wrapper</li>
+<li><a href="https://github.com/ncorgan/rpokesav">Retro Pokésav</a> - Generation I save editing library</li>
 <li><a href="https://github.com/Grazfather/pokehack">Pokehack</a> - Generation III save editing library</li>
 <li><a href="https://github.com/ncorgan/PokeLib-NC">PokeLib-NC</a> - Generation IV save editing library, a fork of Robert Maupin's <a href="https://github.com/Chase-san/PokeLib">PokeLib</a></li>
 <li><a href="https://github.com/codemonkey85/PKMDS">PKMDS</a> - Generation V-VI save editing library</li>
@@ -70,6 +71,8 @@
 <p>LibPKMN is constantly evolving (no pun intended), with many features in development.</p>
 
 <ul>
+<li><a href="https://github.com/ncorgan/LibPKMN/tree/libspec_integration">Integrating LibSPEC into game_save implementations</a></li>
+<li><a href="https://github.com/ncorgan/LibPKMN/tree/java">Java SWIG wrapper</a></li>
 <li><a href="https://github.com/ncorgan/LibPKMN/tree/flexible_qt">Qt5 compatibility</a></li>
 </ul>
 
@@ -77,10 +80,9 @@
 <a name="long-term-goals" class="anchor" href="#long-term-goals"><span class="octicon octicon-link"></span></a>Long Term Goals</h3>
 
 <ul>
-<li>Multi-language support</li>
-<li>Trading to lower generations</li>
-<li>Ability to generate fully legal Pokémon</li>
-<li>Expose interactions with other libraries</li>
+<li>Other SWIG wrappers</li>
+<li>Trading utility</li>
+<li>Ability to replicate event Pokémon that pass legality checks</li>
 </ul>
 
 <h3>
