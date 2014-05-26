@@ -62,7 +62,7 @@ namespace pkmn
             //Fail if move's generation_id > specified generation
             std::ostringstream query_stream;
             query_stream << "SELECT generation_id FROM moves WHERE id=" << _move_id;
-            unsigned int gen_id = int(_db.execAndGet(query_stream.str().c_str()));
+            unsigned int gen_id = _db.execAndGet(query_stream.str().c_str());
 
             if(gen_id > _generation)
             {
@@ -77,16 +77,16 @@ namespace pkmn
             moves_query.executeStep();
 
             //Get available values from queries
-            _type_id = int(moves_query.getColumn(3)); //type_id
-            _base_power = int(moves_query.getColumn(4)); //power
-            _base_pp = int(moves_query.getColumn(5)); //pp
-            _base_accuracy = int(moves_query.getColumn(6)); //accuracy
+            _type_id = moves_query.getColumn(3); //type_id
+            _base_power = moves_query.getColumn(4); //power
+            _base_pp = moves_query.getColumn(5); //pp
+            _base_accuracy = moves_query.getColumn(6); //accuracy
             _base_accuracy /= 100.0; //Stored as 0 < int < 100
             _base_priority = moves_query.getColumn(7); //priority
-            _target_id = int(moves_query.getColumn(8)); //target_id
-            _move_damage_class_id = int(moves_query.getColumn(9)); //damage_class_id
-            _effect_id = int(moves_query.getColumn(10)); //effect_id
-            _effect_chance = int(moves_query.getColumn(11)); //effect_chance
+            _target_id = moves_query.getColumn(8); //target_id
+            _move_damage_class_id = moves_query.getColumn(9); //damage_class_id
+            _effect_id = moves_query.getColumn(10); //effect_id
+            _effect_chance = moves_query.getColumn(11); //effect_chance
         }
     }
 
