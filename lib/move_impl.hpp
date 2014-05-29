@@ -47,6 +47,8 @@ namespace pkmn
 
         protected:
 
+            void _set_old_values();
+
             //Database values
             unsigned int _game_id, _generation, _move_id, _type_id, _target_id;
             unsigned int _move_damage_class_id, _effect_id;
@@ -55,7 +57,7 @@ namespace pkmn
             int _base_priority;
             double _base_accuracy, _effect_chance;
             unsigned int _move_damage_class;
-            std::string _effect;
+            std::string _move_name, _effect;
 
             static SQLite::Database _db;
     };

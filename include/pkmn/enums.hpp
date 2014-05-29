@@ -2292,7 +2292,25 @@ namespace pkmn
             LANDS_WRATH = 616,
             /*CELEBRATE,
             HAPPY_HOUR,*/
-            INVALID = 1000
+            INVALID = 1000,
+            SHADOW_RUSH = 10001,
+            SHADOW_BLAST,
+            SHADOW_BLITZ,
+            SHADOW_BOLT,
+            SHADOW_BREAK,
+            SHADOW_CHILL,
+            SHADOW_END,
+            SHADOW_FIRE,
+            SHADOW_RAVE,
+            SHADOW_STORM,
+            SHADOW_WAVE,
+            SHADOW_DOWN,
+            SHADOW_HALF,
+            SHADOW_HOLD,
+            SHADOW_MIST,
+            SHADOW_PANIC,
+            SHADOW_SHED,
+            SHADOW_SKY
         };
     }
 

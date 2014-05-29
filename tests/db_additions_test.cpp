@@ -10,6 +10,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <pkmn/base_pokemon.hpp>
+#include <pkmn/move.hpp>
 #include <pkmn/paths.hpp>
 #include <pkmn/types/dict.hpp>
 
@@ -65,10 +66,10 @@ BOOST_AUTO_TEST_CASE(has_database_additions_test)
 BOOST_AUTO_TEST_CASE(base_pokemon_test)
 {
     //Base stat changes
-    pkmn::base_pokemon::sptr b_pkmn1 = pkmn::base_pokemon::make("Raichu","Red");
-    pkmn::base_pokemon::sptr b_pkmn2 = pkmn::base_pokemon::make("Raichu","Gold");
-    pkmn::base_pokemon::sptr b_pkmn3 = pkmn::base_pokemon::make("Raichu","Diamond");
-    pkmn::base_pokemon::sptr b_pkmn4 = pkmn::base_pokemon::make("Raichu","X");
+    pkmn::base_pokemon::sptr b_pkmn1 = pkmn::base_pokemon::make("Raichu", "Red");
+    pkmn::base_pokemon::sptr b_pkmn2 = pkmn::base_pokemon::make("Raichu", "Gold");
+    pkmn::base_pokemon::sptr b_pkmn3 = pkmn::base_pokemon::make("Raichu", "Diamond");
+    pkmn::base_pokemon::sptr b_pkmn4 = pkmn::base_pokemon::make("Raichu", "X");
     
     BOOST_CHECK_EQUAL(b_pkmn1->get_base_stats()["Speed"], 100);
     BOOST_CHECK_EQUAL(b_pkmn2->get_base_stats()["Speed"], 100);
@@ -76,15 +77,47 @@ BOOST_AUTO_TEST_CASE(base_pokemon_test)
     BOOST_CHECK_EQUAL(b_pkmn4->get_base_stats()["Speed"], 110);
 
     //Experience yield changes
-    pkmn::base_pokemon::sptr b_pkmn5 = pkmn::base_pokemon::make("Abra","Red");
-    pkmn::base_pokemon::sptr b_pkmn6 = pkmn::base_pokemon::make("Abra","Gold");
-    pkmn::base_pokemon::sptr b_pkmn7 = pkmn::base_pokemon::make("Abra","Ruby");
-    pkmn::base_pokemon::sptr b_pkmn8 = pkmn::base_pokemon::make("Abra","Diamond");
-    pkmn::base_pokemon::sptr b_pkmn9 = pkmn::base_pokemon::make("Abra","White");
+    pkmn::base_pokemon::sptr b_pkmn5 = pkmn::base_pokemon::make("Abra", "Red");
+    pkmn::base_pokemon::sptr b_pkmn6 = pkmn::base_pokemon::make("Abra", "Gold");
+    pkmn::base_pokemon::sptr b_pkmn7 = pkmn::base_pokemon::make("Abra", "Ruby");
+    pkmn::base_pokemon::sptr b_pkmn8 = pkmn::base_pokemon::make("Abra", "Diamond");
+    pkmn::base_pokemon::sptr b_pkmn9 = pkmn::base_pokemon::make("Abra", "White");
 
     BOOST_CHECK_EQUAL(b_pkmn5->get_exp_yield(), 73);
     BOOST_CHECK_EQUAL(b_pkmn6->get_exp_yield(), 73);
     BOOST_CHECK_EQUAL(b_pkmn7->get_exp_yield(), 73);
     BOOST_CHECK_EQUAL(b_pkmn8->get_exp_yield(), 75);
     BOOST_CHECK_EQUAL(b_pkmn9->get_exp_yield(), 62);
+}
+
+/*
+ * This test makes sure these changes apply to the move class.
+ */
+BOOST_AUTO_TEST_CASE(move_test)
+{
+    //Accuracy changes
+    pkmn::move::sptr move1 = pkmn::move::make("Low Kick", "Red");
+    pkmn::move::sptr move2 = pkmn::move::make("Low Kick", "Gold");
+    pkmn::move::sptr move3 = pkmn::move::make("Low Kick", "White");
+    pkmn::move::sptr move4 = pkmn::move::make("Glare", "Diamond");
+    pkmn::move::sptr move5 = pkmn::move::make("Glare", "White");
+    pkmn::move::sptr move6 = pkmn::move::make("Glare", "X");
+
+    BOOST_CHECK_EQUAL(move1->get_base_accuracy(), 0.9);
+    BOOST_CHECK_EQUAL(move2->get_base_accuracy(), 1.0);
+    BOOST_CHECK_EQUAL(move3->get_base_accuracy(), 1.0);
+    BOOST_CHECK_EQUAL(move4->get_base_accuracy(), 0.75);
+    BOOST_CHECK_EQUAL(move5->get_base_accuracy(), 0.9);
+    BOOST_CHECK_EQUAL(move6->get_base_accuracy(), 1.0);
+
+    //Power changes
+    pkmn::move::sptr move7 = pkmn::move::make("Dig", "Red");
+    pkmn::move::sptr move8 = pkmn::move::make("Dig", "Gold");
+    pkmn::move::sptr move9 = pkmn::move::make("Dig", "Diamond");
+    std::cout << move8->get_generation() << std::endl;
+    std::cout << move8->get_move_id() << std::endl;
+
+    BOOST_CHECK_EQUAL(move7->get_base_power(), 100);
+    BOOST_CHECK_EQUAL(move8->get_base_power(), 60);
+    BOOST_CHECK_EQUAL(move9->get_base_power(), 80);
 }

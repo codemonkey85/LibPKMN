@@ -87,6 +87,13 @@ namespace pkmn
             _move_damage_class_id = moves_query.getColumn(9); //damage_class_id
             _effect_id = moves_query.getColumn(10); //effect_id
             _effect_chance = moves_query.getColumn(11); //effect_chance
+
+            query_stream.str("");
+            query_stream << "SELECT name FROM move_names WHERE move_id" << _move_id;
+            _move_name = (const char*)_db.execAndGet(query_stream.str().c_str());
+
+            std::cout << "generation = " << _generation << std::endl;
+            if(_generation < 6) _set_old_values();
         }
     }
 
@@ -166,4 +173,58 @@ namespace pkmn
     unsigned int move_impl::get_move_damage_class_id() const {return _move_damage_class_id;}
 
     unsigned int move_impl::get_effect_id() const {return _effect_id;}
+
+    void move_impl::_set_old_values()
+
+    {
+        std::ostringstream query_stream;
+        query_stream << "SELECT gen" << _generation << "_accuracy FROM old_move_accuracies WHERE move_id=" << _move_id;
+        SQLite::Statement accuracy_query(_db, query_stream.str().c_str());
+        if(accuracy_query.executeStep()) _base_accuracy = int(accuracy_query.getColumn(0)) / 100.0;
+        
+        //Hypnosis varies in accuracy between games
+        if(_move_id == Moves::HYPNOSIS and (_game_id == Games::DIAMOND or _game_id == Games::PEARL)) _base_accuracy = 0.7;
+
+        query_stream.str("");
+        query_stream << "SELECT gen" << _generation << "_power FROM old_move_powers WHERE move_id=" << _move_id;
+        std::cout << query_stream.str() << std::endl;
+        SQLite::Statement power_query(_db, query_stream.str().c_str());
+        if(power_query.executeStep()) _base_power = power_query.getColumn(0);
+
+        //Shadow Rush varies in power between Gamecube games
+        if(_move_id == Moves::SHADOW_RUSH and _game_id == Games::COLOSSEUM) _base_power = 90;
+
+        query_stream.str("");
+        query_stream << "SELECT gen" << _generation << "_pp FROM old_move_pps WHERE move_id=" << _move_id;
+        SQLite::Statement pp_query(_db, query_stream.str().c_str());
+        if(pp_query.executeStep()) _base_pp = pp_query.getColumn(0);
+
+        //Not enough type changes to warrant a database table
+        if(_generation == 1)
+        {
+            if(_move_id == Moves::BITE or _move_id == Moves::GUST or
+               _move_id == Moves::KARATE_CHOP or _move_id == Moves::SAND_ATTACK) _type_id = Types::NORMAL;
+        }
+        else if(_move_id == Moves::CURSE) _type_id = Types::UNKNOWN; // ???
+        else if(_move_id == Moves::CHARM or _move_id == Moves::MOONLIGHT or
+                _move_id == Moves::SWEET_KISS) _type_id = Types::NORMAL;
+
+        //Only one move changes categories before Generation IV
+        if(_generation == 1 and _move_id == Moves::BITE) _move_damage_class_id = Move_Classes::PHYSICAL;
+        
+        //TODO: targeting changes, making contact
+
+        query_stream.str("");
+        query_stream << "SELECT gen" << _generation << "_priority FROM old_move_priorities WHERE move_id=" << _move_id;
+        SQLite::Statement priority_query(_db, query_stream.str().c_str());
+        if(priority_query.executeStep()) _base_priority = priority_query.getColumn(0);
+
+        //Only one move changed name between Generation II-III
+        if(_move_id == Moves::CONVERSION_2 and _generation < 3) _move_name = "Conversion2";
+
+        query_stream.str("");
+        query_stream << "SELECT name FROM old_move_names WHERE move_id=" << _move_id;
+        SQLite::Statement name_query(_db, query_stream.str().c_str());
+        if(name_query.executeStep()) _move_name = (const char*)(name_query.getColumn(0));
+    }
 } /* namespace pkmn */

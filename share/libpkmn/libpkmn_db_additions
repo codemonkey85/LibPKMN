@@ -1095,4 +1095,218 @@ INSERT INTO "old_exp_yields" VALUES(490,215);
 INSERT INTO "old_exp_yields" VALUES(491,210);
 INSERT INTO "old_exp_yields" VALUES(492,64);
 INSERT INTO "old_exp_yields" VALUES(493,255);
+/*
+ * The following tables ignore which generation moves where introduced.
+ * If the user attempts to use a move in an invalid generation,
+ * it will throw an error before it gets to this point anyway.
+ */
+CREATE TABLE old_move_accuracies (
+    move_id INTEGER NOT NULL,
+    gen1_accuracy INTEGER NOT NULL,
+    gen2_accuracy INTEGER NOT NULL,
+    gen3_accuracy INTEGER NOT NULL,
+    gen4_accuracy INTEGER NOT NULL,
+    gen5_accuracy INTEGER NOT NULL,
+    PRIMARY KEY (move_id)
+);
+INSERT INTO "old_move_accuracies" VALUES(13,75,75,100,100,100);
+INSERT INTO "old_move_accuracies" VALUES(137,75,75,75,75,90);
+INSERT INTO "old_move_accuracies" VALUES(139,55,55,55,55,80);
+INSERT INTO "old_move_accuracies" VALUES(148,70,70,70,100,100);
+INSERT INTO "old_move_accuracies" VALUES(149,80,80,80,80,80);
+INSERT INTO "old_move_accuracies" VALUES(152,85,85,85,85,90);
+INSERT INTO "old_move_accuracies" VALUES(178,85,85,85,85,100);
+INSERT INTO "old_move_accuracies" VALUES(18,100,100,100,100,100);
+INSERT INTO "old_move_accuracies" VALUES(184,90,90,90,90,100);
+INSERT INTO "old_move_accuracies" VALUES(193,55,55,55,80,80);
+INSERT INTO "old_move_accuracies" VALUES(198,80,80,80,80,90);
+INSERT INTO "old_move_accuracies" VALUES(20,75,75,75,75,85);
+INSERT INTO "old_move_accuracies" VALUES(248,90,90,90,90,100);
+INSERT INTO "old_move_accuracies" VALUES(252,70,70,70,70,85);
+INSERT INTO "old_move_accuracies" VALUES(261,75,75,75,75,75);
+INSERT INTO "old_move_accuracies" VALUES(309,85,85,85,85,85);
+INSERT INTO "old_move_accuracies" VALUES(316,100,100,100,0,0);
+INSERT INTO "old_move_accuracies" VALUES(317,80,80,80,80,80);
+INSERT INTO "old_move_accuracies" VALUES(328,70,70,70,70,85);
+INSERT INTO "old_move_accuracies" VALUES(33,95,95,95,95,100);
+INSERT INTO "old_move_accuracies" VALUES(35,85,85,85,85,90);
+INSERT INTO "old_move_accuracies" VALUES(350,80,80,80,80,90);
+INSERT INTO "old_move_accuracies" VALUES(353,85,85,85,85,100);
+INSERT INTO "old_move_accuracies" VALUES(375,90,90,90,90,90);
+INSERT INTO "old_move_accuracies" VALUES(42,85,85,85,85,85);
+INSERT INTO "old_move_accuracies" VALUES(441,70,70,70,70,70);
+INSERT INTO "old_move_accuracies" VALUES(46,100,100,100,100,100);
+INSERT INTO "old_move_accuracies" VALUES(463,70,70,70,70,75);
+INSERT INTO "old_move_accuracies" VALUES(50,55,55,55,80,100);
+INSERT INTO "old_move_accuracies" VALUES(67,90,100,100,100,100);
+INSERT INTO "old_move_accuracies" VALUES(83,70,70,70,70,85);
+INSERT INTO "old_move_accuracies" VALUES(88,65,90,90,90,90);
+INSERT INTO "old_move_accuracies" VALUES(92,85,85,85,85,90);
+CREATE TABLE old_move_powers (
+    move_id INTEGER NOT NULL,
+    gen1_power INTEGER NOT NULL,
+    gen2_power INTEGER NOT NULL,
+    gen3_power INTEGER NOT NULL,
+    gen4_power INTEGER NOT NULL,
+    gen5_power INTEGER NOT NULL,
+    PRIMARY KEY (move_id)
+);
+INSERT INTO "old_move_powers" VALUES(120,130,200,200,200,200);
+INSERT INTO "old_move_powers" VALUES(122,20,20,20,20,20);
+INSERT INTO "old_move_powers" VALUES(123,20,20,20,20,20);
+INSERT INTO "old_move_powers" VALUES(126,120,120,120,120,120);
+INSERT INTO "old_move_powers" VALUES(130,100,100,100,100,100);
+INSERT INTO "old_move_powers" VALUES(136,85,85,85,100,100);
+INSERT INTO "old_move_powers" VALUES(145,20,20,20,20,20);
+INSERT INTO "old_move_powers" VALUES(152,90,90,90,90,90);
+INSERT INTO "old_move_powers" VALUES(153,170,250,250,250,250);
+INSERT INTO "old_move_powers" VALUES(168,40,40,40,40,40);
+INSERT INTO "old_move_powers" VALUES(17,35,60,60,60,60);
+INSERT INTO "old_move_powers" VALUES(173,40,40,40,40,40);
+INSERT INTO "old_move_powers" VALUES(19,70,70,70,90,90);
+INSERT INTO "old_move_powers" VALUES(192,100,100,100,120,120);
+INSERT INTO "old_move_powers" VALUES(200,90,90,90,120,120);
+INSERT INTO "old_move_powers" VALUES(202,60,60,60,60,75);
+INSERT INTO "old_move_powers" VALUES(210,10,10,10,10,20);
+INSERT INTO "old_move_powers" VALUES(22,35,35,35,35,35);
+INSERT INTO "old_move_powers" VALUES(237,0,0,0,0,0);
+INSERT INTO "old_move_powers" VALUES(248,80,80,80,80,100);
+INSERT INTO "old_move_powers" VALUES(249,20,20,20,40,40);
+INSERT INTO "old_move_powers" VALUES(250,15,15,15,15,35);
+INSERT INTO "old_move_powers" VALUES(251,10,10,10,10,0);
+INSERT INTO "old_move_powers" VALUES(253,50,50,50,50,90);
+INSERT INTO "old_move_powers" VALUES(257,100,100,100,100,100);
+INSERT INTO "old_move_powers" VALUES(26,70,70,70,85,85);
+INSERT INTO "old_move_powers" VALUES(265,60,60,60,60,60);
+INSERT INTO "old_move_powers" VALUES(282,20,20,20,20,20);
+INSERT INTO "old_move_powers" VALUES(291,60,60,60,80,80);
+INSERT INTO "old_move_powers" VALUES(314,55,55,55,55,55);
+INSERT INTO "old_move_powers" VALUES(315,140,140,140,140,140);
+INSERT INTO "old_move_powers" VALUES(317,50,50,50,50,50);
+INSERT INTO "old_move_powers" VALUES(328,15,15,15,15,35);
+INSERT INTO "old_move_powers" VALUES(330,95,95,95,95,95);
+INSERT INTO "old_move_powers" VALUES(331,10,10,10,10,25);
+INSERT INTO "old_move_powers" VALUES(333,10,10,10,10,25);
+INSERT INTO "old_move_powers" VALUES(343,40,40,40,40,60);
+INSERT INTO "old_move_powers" VALUES(348,70,70,70,90,90);
+INSERT INTO "old_move_powers" VALUES(353,120,120,120,120,140);
+INSERT INTO "old_move_powers" VALUES(358,60,60,60,60,60);
+INSERT INTO "old_move_powers" VALUES(364,50,50,50,50,30);
+INSERT INTO "old_move_powers" VALUES(37,90,90,90,90,120);
+INSERT INTO "old_move_powers" VALUES(372,50,50,50,50,50);
+INSERT INTO "old_move_powers" VALUES(38,100,120,120,120,120);
+INSERT INTO "old_move_powers" VALUES(387,130,130,130,130,140);
+INSERT INTO "old_move_powers" VALUES(396,90,90,90,90,90);
+INSERT INTO "old_move_powers" VALUES(406,90,90,90,90,90);
+INSERT INTO "old_move_powers" VALUES(408,70,70,70,70,70);
+INSERT INTO "old_move_powers" VALUES(409,60,60,60,60,75);
+INSERT INTO "old_move_powers" VALUES(412,80,80,80,80,80);
+INSERT INTO "old_move_powers" VALUES(42,14,14,14,14,14);
+INSERT INTO "old_move_powers" VALUES(434,140,140,140,140,140);
+INSERT INTO "old_move_powers" VALUES(437,140,140,140,140,140);
+INSERT INTO "old_move_powers" VALUES(448,60,60,60,60,60);
+INSERT INTO "old_move_powers" VALUES(463,120,120,120,120,120);
+INSERT INTO "old_move_powers" VALUES(480,40,40,40,40,40);
+INSERT INTO "old_move_powers" VALUES(485,70,70,70,70,70);
+INSERT INTO "old_move_powers" VALUES(490,60,60,60,60,60);
+INSERT INTO "old_move_powers" VALUES(506,50,50,50,50,50);
+INSERT INTO "old_move_powers" VALUES(510,30,30,30,30,30);
+INSERT INTO "old_move_powers" VALUES(518,50,50,50,50,50);
+INSERT INTO "old_move_powers" VALUES(519,50,50,50,50,50);
+INSERT INTO "old_move_powers" VALUES(520,50,50,50,50,50);
+INSERT INTO "old_move_powers" VALUES(522,30,30,30,30,30);
+INSERT INTO "old_move_powers" VALUES(524,40,40,40,40,40);
+INSERT INTO "old_move_powers" VALUES(53,95,95,95,95,95);
+INSERT INTO "old_move_powers" VALUES(542,120,120,120,120,120);
+INSERT INTO "old_move_powers" VALUES(546,85,85,85,85,85);
+INSERT INTO "old_move_powers" VALUES(56,120,120,120,120,120);
+INSERT INTO "old_move_powers" VALUES(57,95,95,95,95,95);
+INSERT INTO "old_move_powers" VALUES(58,95,95,95,95,95);
+INSERT INTO "old_move_powers" VALUES(59,120,120,120,120,120);
+INSERT INTO "old_move_powers" VALUES(67,50,50,0,0,0);
+INSERT INTO "old_move_powers" VALUES(80,70,70,70,90,90);
+INSERT INTO "old_move_powers" VALUES(83,15,15,15,15,35);
+INSERT INTO "old_move_powers" VALUES(85,95,95,95,95,95);
+INSERT INTO "old_move_powers" VALUES(87,120,120,120,120,120);
+INSERT INTO "old_move_powers" VALUES(91,100,60,60,80,80);
+CREATE TABLE old_move_pps (
+    move_id INTEGER NOT NULL,
+    gen1_pp INTEGER NOT NULL,
+    gen2_pp INTEGER NOT NULL,
+    gen3_pp INTEGER NOT NULL,
+    gen4_pp INTEGER NOT NULL,
+    gen5_pp INTEGER NOT NULL,
+    PRIMARY KEY (move_id)
+);
+INSERT INTO "old_move_pps" VALUES(71,20,20,20,25,25);
+INSERT INTO "old_move_pps" VALUES(202,5,5,5,10,10);
+INSERT INTO "old_move_pps" VALUES(72,10,10,10,15,15);
+INSERT INTO "old_move_pps" VALUES(105,20,20,20,10,10);
+INSERT INTO "old_move_pps" VALUES(254,10,10,10,20,20);
+INSERT INTO "old_move_pps" VALUES(22,10,10,10,15,15);
+INSERT INTO "old_move_pps" VALUES(409,5,5,5,5,10);
+INSERT INTO "old_move_pps" VALUES(248,15,15,15,15,10);
+INSERT INTO "old_move_pps" VALUES(136,20,20,20,20,10);
+INSERT INTO "old_move_pps" VALUES(200,15,15,15,15,10);
+INSERT INTO "old_move_pps" VALUES(80,20,20,20,20,10);
+INSERT INTO "old_move_pps" VALUES(37,20,20,20,20,10);
+INSERT INTO "old_move_pps" VALUES(151,40,40,40,40,40);
+INSERT INTO "old_move_pps" VALUES(403,20,20,20,20,20);
+INSERT INTO "old_move_pps" VALUES(112,30,30,30,30,30);
+INSERT INTO "old_move_pps" VALUES(343,40,40,40,40,40);
+INSERT INTO "old_move_pps" VALUES(326,30,30,30,30,30);
+INSERT INTO "old_move_pps" VALUES(74,40,40,40,40,40);
+INSERT INTO "old_move_pps" VALUES(107,20,20,20,20,20);
+INSERT INTO "old_move_pps" VALUES(317,10,10,10,10,10);
+INSERT INTO "old_move_pps" VALUES(533,20,20,20,20,20);
+INSERT INTO "old_move_pps" VALUES(130,15,15,15,15,15);
+INSERT INTO "old_move_pps" VALUES(14,30,30,30,30,30);
+INSERT INTO "old_move_pps" VALUES(366,30,30,30,30,30);
+INSERT INTO "old_move_pps" VALUES(168,10,10,10,10,10);
+CREATE TABLE old_move_priorities (
+    move_id INTEGER NOT NULL,
+    gen1_priority INTEGER NOT NULL,
+    gen2_priority INTEGER NOT NULL,
+    gen3_priority INTEGER NOT NULL,
+    gen4_priority INTEGER NOT NULL,
+    gen5_priority INTEGER NOT NULL,
+    PRIMARY KEY (move_id)
+);
+INSERT INTO "old_move_priorities" VALUES(46,0,-1,-5,-1,-1);
+INSERT INTO "old_move_priorities" VALUES(18,0,-1,-5,-1,-1);
+INSERT INTO "old_move_priorities" VALUES(117,0,0,0,1,1);
+INSERT INTO "old_move_priorities" VALUES(245,1,1,1,1,2);
+INSERT INTO "old_move_priorities" VALUES(252,1,1,1,1,3);
+INSERT INTO "old_move_priorities" VALUES(182,3,3,3,3,4);
+INSERT INTO "old_move_priorities" VALUES(197,3,3,3,3,4);
+INSERT INTO "old_move_priorities" VALUES(266,3,3,3,3,3);
+INSERT INTO "old_move_priorities" VALUES(478,-7,-7,-7,-7,-7);
+INSERT INTO "old_move_priorities" VALUES(476,3,3,3,3,3);
+INSERT INTO "old_move_priorities" VALUES(472,-7,-7,-7,-7,-7);
+CREATE TABLE old_move_names (
+    move_id INTEGER NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    PRIMARY KEY (move_id)
+);
+INSERT INTO "old_move_names" VALUES(246,'AncientPower');
+INSERT INTO "old_move_names" VALUES(61,'BubbleBeam');
+INSERT INTO "old_move_names" VALUES(3,'DoubleSlap');
+INSERT INTO "old_move_names" VALUES(225,'DragonBreath');
+INSERT INTO "old_move_names" VALUES(223,'DynamicPunch');
+INSERT INTO "old_move_names" VALUES(245,'ExtremeSpeed');
+INSERT INTO "old_move_names" VALUES(185,'Faint Attack');
+INSERT INTO "old_move_names" VALUES(297,'FeatherDance');
+INSERT INTO "old_move_names" VALUES(320,'GrassWhistle');
+INSERT INTO "old_move_names" VALUES(136,'Hi Jump Kick');
+INSERT INTO "old_move_names" VALUES(77,'PoisonPowder');
+INSERT INTO "old_move_names" VALUES(28,'Sand-Attack');
+INSERT INTO "old_move_names" VALUES(120,'Selfdestruct');
+INSERT INTO "old_move_names" VALUES(265,'SmellingSalt');
+INSERT INTO "old_move_names" VALUES(108,'SmokeScreen');
+INSERT INTO "old_move_names" VALUES(135,'Softboiled');
+INSERT INTO "old_move_names" VALUES(76,'SolarBeam');
+INSERT INTO "old_move_names" VALUES(49,'SonicBoom');
+INSERT INTO "old_move_names" VALUES(9,'ThunderPunch');
+INSERT INTO "old_move_names" VALUES(84,'ThunderShock');
+INSERT INTO "old_move_names" VALUES(11,'ViceGrip');
 COMMIT;
