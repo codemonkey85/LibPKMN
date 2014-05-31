@@ -89,10 +89,9 @@ namespace pkmn
             _effect_chance = moves_query.getColumn(11); //effect_chance
 
             query_stream.str("");
-            query_stream << "SELECT name FROM move_names WHERE move_id" << _move_id;
+            query_stream << "SELECT name FROM move_names WHERE local_language_id=9 AND move_id=" << _move_id;
             _move_name = (const char*)_db.execAndGet(query_stream.str().c_str());
 
-            std::cout << "generation = " << _generation << std::endl;
             if(_generation < 6) _set_old_values();
         }
     }
@@ -101,7 +100,7 @@ namespace pkmn
 
     unsigned int move_impl::get_generation() const {return _generation;}
 
-    std::string move_impl::get_name() const {return database::get_move_name(_move_id);}
+    std::string move_impl::get_name() const {return _move_name;}
 
     std::string move_impl::get_description() const {return database::get_move_description(_move_id, _game_id);}
 
@@ -187,7 +186,6 @@ namespace pkmn
 
         query_stream.str("");
         query_stream << "SELECT gen" << _generation << "_power FROM old_move_powers WHERE move_id=" << _move_id;
-        std::cout << query_stream.str() << std::endl;
         SQLite::Statement power_query(_db, query_stream.str().c_str());
         if(power_query.executeStep()) _base_power = power_query.getColumn(0);
 

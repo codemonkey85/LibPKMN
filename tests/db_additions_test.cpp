@@ -10,6 +10,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <pkmn/base_pokemon.hpp>
+#include <pkmn/enums.hpp>
 #include <pkmn/move.hpp>
 #include <pkmn/paths.hpp>
 #include <pkmn/types/dict.hpp>
@@ -58,6 +59,31 @@ BOOST_AUTO_TEST_CASE(has_database_additions_test)
     SQLite::Statement query7(db, query7_string.c_str());
     BOOST_CHECK(query7.executeStep());
     BOOST_CHECK(int(query7.getColumn(0)) == 109);
+
+    std::string query8_string("SELECT gen4_accuracy FROM old_move_accuracies WHERE move_id=50");
+    SQLite::Statement query8(db, query8_string.c_str());
+    BOOST_CHECK(query8.executeStep());
+    BOOST_CHECK(int(query8.getColumn(0)) == 80);
+
+    std::string query9_string("SELECT gen2_power FROM old_move_powers WHERE move_id=91");
+    SQLite::Statement query9(db, query9_string.c_str());
+    BOOST_CHECK(query9.executeStep());
+    BOOST_CHECK(int(query9.getColumn(0)) == 60);
+
+    std::string query10_string("SELECT gen1_pp FROM old_move_pps WHERE move_id=202");
+    SQLite::Statement query10(db, query10_string.c_str());
+    BOOST_CHECK(query10.executeStep());
+    BOOST_CHECK(int(query10.getColumn(0)) == 5);
+
+    std::string query11_string("SELECT gen5_priority FROM old_move_priorities WHERE move_id=472");
+    SQLite::Statement query11(db, query11_string.c_str());
+    BOOST_CHECK(query11.executeStep());
+    BOOST_CHECK(int(query11.getColumn(0)) == -7);
+
+    std::string query12_string("SELECT name FROM old_move_names WHERE move_id=(SELECT move_id FROM move_names WHERE name='Feather Dance')");
+    SQLite::Statement query12(db, query12_string.c_str());
+    BOOST_CHECK(query12.executeStep());
+    BOOST_CHECK(std::string((const char*)(query12.getColumn(0))) == "FeatherDance");
 }
 
 /*
@@ -114,10 +140,46 @@ BOOST_AUTO_TEST_CASE(move_test)
     pkmn::move::sptr move7 = pkmn::move::make("Dig", "Red");
     pkmn::move::sptr move8 = pkmn::move::make("Dig", "Gold");
     pkmn::move::sptr move9 = pkmn::move::make("Dig", "Diamond");
-    std::cout << move8->get_generation() << std::endl;
-    std::cout << move8->get_move_id() << std::endl;
 
+    BOOST_CHECK_EQUAL(move1->get_base_power(), 50);
+    BOOST_CHECK_EQUAL(move2->get_base_power(), 50);
+    BOOST_CHECK_EQUAL(move3->get_base_power(), 0);
     BOOST_CHECK_EQUAL(move7->get_base_power(), 100);
     BOOST_CHECK_EQUAL(move8->get_base_power(), 60);
     BOOST_CHECK_EQUAL(move9->get_base_power(), 80);
+
+    //PP changes
+    pkmn::move::sptr move10 = pkmn::move::make("Giga Drain", "Ruby");
+    pkmn::move::sptr move11 = pkmn::move::make("Giga Drain", "X");
+    pkmn::move::sptr move12 = pkmn::move::make("Acid Armor", "Black 2");
+    pkmn::move::sptr move13 = pkmn::move::make("Acid Armor", "X");
+
+    BOOST_CHECK_EQUAL(move10->get_base_pp(), 5);
+    BOOST_CHECK_EQUAL(move11->get_base_pp(), 10);
+    BOOST_CHECK_EQUAL(move12->get_base_pp(), 40);
+    BOOST_CHECK_EQUAL(move13->get_base_pp(), 20);
+
+    //Priority changes
+    pkmn::move::sptr move14 = pkmn::move::make("Roar", "Yellow");
+    pkmn::move::sptr move15 = pkmn::move::make("Roar", "Silver");
+    pkmn::move::sptr move16 = pkmn::move::make("Roar", "Emerald");
+    pkmn::move::sptr move17 = pkmn::move::make("Roar", "White");
+    pkmn::move::sptr move18 = pkmn::move::make("Roar", "Y");
+
+    BOOST_CHECK_EQUAL(move14->get_priority(), 0);
+    BOOST_CHECK_EQUAL(move15->get_priority(), -1);
+    BOOST_CHECK_EQUAL(move16->get_priority(), -5);
+    BOOST_CHECK_EQUAL(move17->get_priority(), -1);
+    BOOST_CHECK_EQUAL(move18->get_priority(), -6);
+
+    //Name changes
+    pkmn::move::sptr move19 = pkmn::move::make(pkmn::Moves::ANCIENTPOWER, pkmn::Games::LEAF_GREEN);
+    pkmn::move::sptr move20 = pkmn::move::make(pkmn::Moves::ANCIENTPOWER, pkmn::Games::Y);
+    pkmn::move::sptr move21 = pkmn::move::make(pkmn::Moves::SAND_ATTACK, pkmn::Games::BLUE);
+    pkmn::move::sptr move22 = pkmn::move::make(pkmn::Moves::SAND_ATTACK, pkmn::Games::X);
+
+    BOOST_CHECK_EQUAL(move19->get_name(), "AncientPower");
+    BOOST_CHECK_EQUAL(move20->get_name(), "Ancient Power");
+    BOOST_CHECK_EQUAL(move21->get_name(), "Sand-Attack");
+    BOOST_CHECK_EQUAL(move22->get_name(), "Sand Attack");
 }
