@@ -19,6 +19,9 @@ namespace pkmn
             team_pokemon_gen2impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                   unsigned int move1, unsigned int move2,
                                   unsigned int move3, unsigned int move4);
+            team_pokemon_gen2impl(const team_pokemon_gen2impl &other);
+            team_pokemon_gen2impl& operator=(const team_pokemon_gen2impl &other);
+            ~team_pokemon_gen2impl() {};
 
             //Getting Individual Stat Info
             std::string get_gender() const;

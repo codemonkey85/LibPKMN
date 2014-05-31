@@ -18,11 +18,12 @@ namespace pkmn
         public:
 
             team_pokemon_impl() {};
-            team_pokemon_impl(const team_pokemon_impl& other);
-            team_pokemon_impl& operator=(const team_pokemon_impl& other);
             team_pokemon_impl(base_pokemon::sptr base_pkmn, unsigned int game, unsigned int level,
                               unsigned int move1, unsigned int move2,
                               unsigned int move3, unsigned int move4);
+            team_pokemon_impl(const team_pokemon_impl &other);
+            team_pokemon_impl& operator=(const team_pokemon_impl &other);
+            ~team_pokemon_impl() {};
 
             //Game-specific Info
             std::string get_game() const;

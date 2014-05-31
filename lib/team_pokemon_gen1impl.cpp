@@ -41,6 +41,23 @@ namespace pkmn
         _set_stats();
     }
 
+    team_pokemon_gen1impl::team_pokemon_gen1impl(const team_pokemon_gen1impl &other): team_pokemon_impl(other)
+    {
+        _SPCL = other._SPCL;
+        _evSPCL = other._evSPCL;
+        _ivSPCL = other._ivSPCL;
+    }
+
+    team_pokemon_gen1impl& team_pokemon_gen1impl::operator=(const team_pokemon_gen1impl &other)
+    {
+        team_pokemon_impl::operator=(other);
+        _SPCL = other._SPCL;
+        _evSPCL = other._evSPCL;
+        _ivSPCL = other._ivSPCL;
+
+        return (*this);
+    }
+
     std::string team_pokemon_gen1impl::get_gender() const {return "Male";}
 
     std::string team_pokemon_gen1impl::get_nature() const {return "None";}

@@ -66,6 +66,30 @@ namespace pkmn
         _set_stats();
     }
 
+    team_pokemon_modernimpl::team_pokemon_modernimpl(const team_pokemon_modernimpl &other): team_pokemon_impl(other)
+    {
+        _SATK = other._SATK;
+        _SDEF = other._SDEF;
+        _evSATK = other._evSATK;
+        _evSDEF = other._evSDEF;
+        _ivSATK = other._ivSATK;
+        _ivSDEF = other._ivSDEF;
+    }
+
+    team_pokemon_modernimpl& team_pokemon_modernimpl::operator=(const team_pokemon_modernimpl &other)
+    {
+        team_pokemon_impl::operator=(other);
+
+        _SATK = other._SATK;
+        _SDEF = other._SDEF;
+        _evSATK = other._evSATK;
+        _evSDEF = other._evSDEF;
+        _ivSATK = other._ivSATK;
+        _ivSDEF = other._ivSDEF;
+
+        return (*this);
+    }
+
     std::string team_pokemon_modernimpl::get_gender() const {return _gender;}
 
     std::string team_pokemon_modernimpl::get_nature() const {return _nature;}

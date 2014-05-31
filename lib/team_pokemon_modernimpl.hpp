@@ -19,6 +19,9 @@ namespace pkmn
             team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int lvl,
                                     unsigned int move1, unsigned int move2,
                                     unsigned int move3, unsigned int move4);
+            team_pokemon_modernimpl(const team_pokemon_modernimpl &other);
+            team_pokemon_modernimpl& operator=(const team_pokemon_modernimpl &other);
+            ~team_pokemon_modernimpl() {};
 
             //Getting Individual Stat Info
             std::string get_gender() const;
