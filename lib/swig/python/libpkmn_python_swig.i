@@ -46,6 +46,7 @@
     #include "pkmn/types/pokemon_text.hpp"
     #include "pkmn/types/prng.hpp"
 
+    #include "pkmn/nature.hpp"
     #include "pkmn/base_pokemon.hpp"
     #include "pkmn/item.hpp"
     #include "pkmn/pocket.hpp"
@@ -63,6 +64,7 @@
 %include "pkmn/types/pokemon_text.hpp"
 %include "pkmn/types/prng.hpp"
 
+%include "pkmn/nature.hpp"
 %include "pkmn/base_pokemon.hpp"
 %include "pkmn/item.hpp"
 %include "pkmn/pocket.hpp"

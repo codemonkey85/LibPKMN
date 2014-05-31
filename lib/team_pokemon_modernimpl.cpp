@@ -60,7 +60,7 @@ namespace pkmn
         }
 
         _gender = _determine_gender();
-        _nature = _determine_nature();
+        _nature = nature(_determine_nature());
         _ability = _determine_ability();
 
         _set_stats();
@@ -92,7 +92,7 @@ namespace pkmn
 
     std::string team_pokemon_modernimpl::get_gender() const {return _gender;}
 
-    std::string team_pokemon_modernimpl::get_nature() const {return _nature;}
+    nature team_pokemon_modernimpl::get_nature() const {return _nature;}
 
     std::string team_pokemon_modernimpl::get_ability() const {return _ability;}
 
@@ -158,27 +158,26 @@ namespace pkmn
         if(gender == "Male" or gender == "Female") _gender = gender;
     }
 
-    void team_pokemon_modernimpl::set_nature(std::string nature)
+    void team_pokemon_modernimpl::set_nature(std::string nature_name)
     {
         //Search for given nature in database
         std::string query_string = str(boost::format("SELECT nature_id FROM nature_names WHERE name='%s'")
-                                       % nature.c_str());
+                                       % nature_name.c_str());
         SQLite::Statement nature_names_query(_db, query_string.c_str());
         if(nature_names_query.executeStep())
         {
-            _nature = nature;
+            _nature = nature(nature_name);
             _set_stats();
             return;
         }
 
         //If not in nature_names, check in abilities
         query_string = str(boost::format("Select id FROM natures WHERE identifier='%s'")
-                           % nature);
+                           % nature_name.c_str());
         SQLite::Statement natures_query(_db, query_string.c_str());
         if(natures_query.executeStep())
         {
-            nature[0] = tolower(nature[0]);
-            _nature = nature;
+            _nature = nature(nature_name);
             _set_stats();
         }
     }
@@ -309,21 +308,11 @@ namespace pkmn
 
     unsigned int team_pokemon_modernimpl::_get_stat(std::string stat, unsigned int EV, unsigned int IV) const
     {
-        //TODO: better solution
-        pkmn::dict<std::string, unsigned int> stat_enums = boost::assign::map_list_of
-                                                     ("HP", Stats::HP)
-                                                     ("Attack", Stats::ATTACK)
-                                                     ("Defense", Stats::DEFENSE)
-                                                     ("Special Attack", Stats::SPECIAL_ATTACK)
-                                                     ("Special Defense", Stats::SPECIAL_DEFENSE)
-                                                     ("Speed", Stats::SPEED)
-        ;
-
         pkmn::dict<std::string, unsigned int> stats = _base_pkmn->get_base_stats();
-        double ability_mod = database::get_nature_stat_effect(_nature, stat_enums[stat]);
 
         unsigned int stat_val = int(ceil(((((double(IV) + 2.0*double(stats[stat]) + 0.25*double(EV))
-                              * double(_level))/100.0) + 5.0) * ability_mod));
+                              * double(_level))/100.0) + 5.0) * _nature[stat]));
+
         return stat_val;
     }
 
@@ -351,8 +340,8 @@ namespace pkmn
     std::string team_pokemon_modernimpl::_determine_gender() const
     {
         if(_base_pkmn->get_chance_male() + _base_pkmn->get_chance_female() == 0
-        or _base_pkmn->get_species_id() == Species::NONE
-        or _base_pkmn->get_species_id() == Species::INVALID) return "Genderless";
+           or _base_pkmn->get_species_id() == Species::NONE
+           or _base_pkmn->get_species_id() == Species::INVALID) return "Genderless";
         else if(_base_pkmn->get_chance_male() == 1.0) return "Male";
         else if(_base_pkmn->get_chance_female() == 1.0) return "Female";
         else

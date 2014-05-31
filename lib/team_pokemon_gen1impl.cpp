@@ -60,7 +60,7 @@ namespace pkmn
 
     std::string team_pokemon_gen1impl::get_gender() const {return "Male";}
 
-    std::string team_pokemon_gen1impl::get_nature() const {return "None";}
+    nature team_pokemon_gen1impl::get_nature() const {return nature();}
 
     std::string team_pokemon_gen1impl::get_ability() const {return "None";}
 
@@ -107,7 +107,7 @@ namespace pkmn
         _personality = personality;
     }
 
-    void team_pokemon_gen1impl::set_nature(std::string nature) {}
+    void team_pokemon_gen1impl::set_nature(std::string nature_name) {}
 
     void team_pokemon_gen1impl::set_ability(std::string ability) {}
 

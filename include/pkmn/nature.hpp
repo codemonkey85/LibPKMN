@@ -25,7 +25,7 @@ namespace pkmn
 
             std::string get_name();
 
-            double& operator[](const std::string &key);
+            const double& operator[](const std::string &key) const;
 
             unsigned int get_nature_id();
 

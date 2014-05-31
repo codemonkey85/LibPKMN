@@ -31,7 +31,7 @@ namespace pkmn
 
     std::string nature::get_name() {return _name;}
 
-    double& nature::operator[](const std::string &key)
+    const double& nature::operator[](const std::string &key) const
     {
         return _modifiers[key];
     }    

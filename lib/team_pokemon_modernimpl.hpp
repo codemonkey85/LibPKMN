@@ -25,7 +25,7 @@ namespace pkmn
 
             //Getting Individual Stat Info
             std::string get_gender() const;
-            std::string get_nature() const;
+            nature get_nature() const;
             std::string get_ability() const;
             bool is_shiny() const;
             pkmn::dict<std::string, unsigned int> get_stats() const;
@@ -35,7 +35,7 @@ namespace pkmn
             //Setting Individual Stat Info
             void set_personality(unsigned int personality);
             void set_gender(std::string gender);
-            void set_nature(std::string nature);
+            void set_nature(std::string nature_name);
             void set_ability(std::string ability);
             virtual void set_using_hidden_ability(bool value);
             void set_EV(std::string stat_name, unsigned int stat);
@@ -50,6 +50,7 @@ namespace pkmn
             unsigned int _SATK, _SDEF;
             unsigned int _evSATK, _evSDEF;
             unsigned int _ivSATK, _ivSDEF;
+            nature _nature;
 
             unsigned int _get_hp() const;
             unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const;

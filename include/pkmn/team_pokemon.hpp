@@ -14,6 +14,7 @@
 #include <pkmn/config.hpp>
 #include <pkmn/item.hpp>
 #include <pkmn/move.hpp>
+#include <pkmn/nature.hpp>
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/pokemon_text.hpp>
 #include <pkmn/types/shared_ptr.hpp>
@@ -69,7 +70,7 @@ namespace pkmn
             virtual unsigned int get_personality() const = 0;
             virtual unsigned int get_level() const = 0;
             virtual std::string get_gender() const = 0;
-            virtual std::string get_nature() const = 0;
+            virtual nature get_nature() const = 0;
             virtual std::string get_ability() const = 0;
             virtual bool using_hidden_ability() const = 0;
             virtual bool is_shiny() const = 0;
@@ -80,7 +81,7 @@ namespace pkmn
             //Setting Individual Stat Info
             virtual void set_personality(unsigned int personality) = 0;
             virtual void set_level(unsigned int level) = 0;
-            virtual void set_nature(std::string nature) = 0;
+            virtual void set_nature(std::string nature_name) = 0;
             virtual void set_ability(std::string ability) = 0;
             virtual void set_using_hidden_ability(bool value) = 0;
             virtual void set_EV(std::string stat_name, unsigned int stat) = 0;
