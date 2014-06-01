@@ -14,13 +14,13 @@ import python as LibPKMN
 #
 if __name__ == "__main__":
 
-    t_pkmn = LibPKMN.team_pokemon("Arceus", "X", 70, "None", "None", "None", "None")
+    t_pkmn = LibPKMN.team_pokemon("Darmanitan", "X", 70, "None", "None", "None", "None")
 
     b_pkmn1 = t_pkmn.get_base_pokemon(True)
     b_pkmn2 = t_pkmn.get_base_pokemon(False)
 
-    b_pkmn1.set_form("Grass")
-    b_pkmn2.set_form("Fire")
+    b_pkmn1.set_form("Standard")
+    b_pkmn2.set_form("Zen")
 
-    assert(t_pkmn.get_form_id() == b_pkmn2.get_form_id())
-    assert(t_pkmn.get_form_id() != b_pkmn1.get_form_id())
+    assert(t_pkmn.get_pokemon_id() == b_pkmn2.get_pokemon_id())
+    assert(t_pkmn.get_pokemon_id() != b_pkmn1.get_pokemon_id())

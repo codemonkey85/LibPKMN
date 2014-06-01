@@ -43,9 +43,29 @@ namespace pkmn
         _set_stats();
     }
 
+    team_pokemon_gen2impl::team_pokemon_gen2impl(const team_pokemon_gen2impl &other): team_pokemon_impl(other)
+    {
+        _SATK = other._SATK;
+        _SDEF = other._SDEF;
+        _evSPCL = other._evSPCL;
+        _ivSPCL = other._ivSPCL;
+    }
+
+    team_pokemon_gen2impl& team_pokemon_gen2impl::operator=(const team_pokemon_gen2impl &other)
+    {
+        team_pokemon_impl::operator=(other);
+
+        _SATK = other._SATK;
+        _SDEF = other._SDEF;
+        _evSPCL = other._evSPCL;
+        _ivSPCL = other._ivSPCL;
+
+        return (*this);
+    }
+
     std::string team_pokemon_gen2impl::get_gender() const {return _gender;}
 
-    std::string team_pokemon_gen2impl::get_nature() const {return "None";}
+    nature team_pokemon_gen2impl::get_nature() const {return nature();}
 
     std::string team_pokemon_gen2impl::get_ability() const {return "None";}
 
@@ -100,7 +120,7 @@ namespace pkmn
         _personality = personality;
     }
 
-    void team_pokemon_gen2impl::set_nature(std::string nature) {}
+    void team_pokemon_gen2impl::set_nature(std::string nature_name) {}
 
     void team_pokemon_gen2impl::set_ability(std::string ability) {}
 

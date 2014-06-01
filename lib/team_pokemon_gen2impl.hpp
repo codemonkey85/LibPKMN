@@ -19,10 +19,13 @@ namespace pkmn
             team_pokemon_gen2impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                   unsigned int move1, unsigned int move2,
                                   unsigned int move3, unsigned int move4);
+            team_pokemon_gen2impl(const team_pokemon_gen2impl &other);
+            team_pokemon_gen2impl& operator=(const team_pokemon_gen2impl &other);
+            ~team_pokemon_gen2impl() {};
 
             //Getting Individual Stat Info
             std::string get_gender() const;
-            std::string get_nature() const;
+            nature get_nature() const;
             std::string get_ability() const;
             bool is_shiny() const;
             pkmn::dict<std::string, unsigned int> get_stats() const;
@@ -31,7 +34,7 @@ namespace pkmn
 
             //Setting Individual Stat Info
             void set_personality(unsigned int personality);
-            void set_nature(std::string nature);
+            void set_nature(std::string nature_name);
             void set_ability(std::string ability);
             void set_EV(std::string stat_name, unsigned int stat);
             void set_IV(std::string stat_name, unsigned int stat);

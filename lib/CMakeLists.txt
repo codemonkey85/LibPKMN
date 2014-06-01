@@ -27,6 +27,7 @@ IF(ENABLE_LIBPKMN)
         library_bridge.cpp
         prng_impl.cpp
         pokemon_text.cpp
+        nature.cpp
         calculations.cpp
         base_pokemon_impl.cpp
         base_pokemon_gen1impl.cpp

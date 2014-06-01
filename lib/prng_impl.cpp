@@ -24,7 +24,7 @@ namespace pkmn
     uint64_t prng_impl::_gen56_lcrng_seed = rand();
     uint32_t prng_impl::_arng_seed = rand();
     unsigned int prng_impl::_mtrng_pos = 0;
-    uint32_t prng_impl::_mtrng_seeds[];
+    uint32_t prng_impl::_mtrng_nums[];
 
     prng::sptr prng::get(unsigned int gen)
     {
@@ -41,10 +41,10 @@ namespace pkmn
          * If first index of MTRNG seed array is zero, assume it hasn't been
          * initialized.
          */
-        if(_mtrng_seeds[0] == 0)
+        if(_mtrng_nums[0] == 0)
         {
             srand(time(NULL));
-            for(size_t i = 0; i < 624; i++) _mtrng_seeds[i] = rand();
+            for(size_t i = 0; i < 624; i++) _mtrng_nums[i] = rand();
         }
     }
 
@@ -70,11 +70,11 @@ namespace pkmn
 
     uint32_t prng_impl::mtrng()
     {
-        uint32_t result = _mtrng_seeds[_mtrng_pos];
+        uint32_t result = _mtrng_nums[_mtrng_pos];
 
         if(_mtrng_pos == 623)
         {
-            for(int i = 0; i < 624; i++) _mtrng_seeds[i] = rand();
+            for(int i = 0; i < 624; i++) _mtrng_nums[i] = rand();
             _mtrng_pos = 0;
         }
         else _mtrng_pos++;

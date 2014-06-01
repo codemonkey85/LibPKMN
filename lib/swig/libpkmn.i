@@ -66,6 +66,7 @@ namespace std
 %ignore pkmn::pokemon_text::set(std::string);
 %ignore pkmn::pokemon_text::set(const wchar_t*);
 %ignore pkmn::pokemon_text::set(std::wstring);
+%ignore pkmn::nature::operator[];
 
 %{
     #include "pkmn/config.hpp"

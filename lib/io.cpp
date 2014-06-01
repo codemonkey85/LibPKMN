@@ -149,7 +149,7 @@ namespace pkmn
                         % t_pkmn->get_level()
                         % t_pkmn->get_met_level()
                         % t_pkmn->get_ability()
-                        % t_pkmn->get_nature()
+                        % t_pkmn->get_nature().get_nature_id()
                         % t_pkmn->get_personality()
                         % t_pkmn->get_trainer_id()
                         % EVs["HP"]
