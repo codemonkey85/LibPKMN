@@ -16,19 +16,19 @@ public class JavaCopySPtrTest
 {
     public static void main(String[] args)
     {
-        TeamPokemonSPtr TeamPKMN = TeamPokemon.make("Arceus", "X", 70, "None", "None", "None", "None");
+        TeamPokemonSPtr TeamPKMN = TeamPokemon.make("Darmanitan", "X", 70, "None", "None", "None", "None");
 
         BasePokemonSPtr BasePKMN1 = TeamPKMN.getBasePokemon(true);
         BasePokemonSPtr BasePKMN2 = TeamPKMN.getBasePokemon(false);
 
-        BasePKMN1.setForm("Grass");
-        BasePKMN2.setForm("Fire");
+        BasePKMN1.setForm("Standard");
+        BasePKMN2.setForm("Zen");
 
-        if(TeamPKMN.getFormID() == BasePKMN1.getFormID())
+        if(TeamPKMN.getPokemonID() == BasePKMN1.getPokemonID())
         {
             throw new RuntimeException("Failed to copy BasePokemonSPtr from TeamPokemonSPtr!");
         }
-        if(TeamPKMN.getFormID() != BasePKMN2.getFormID())
+        if(TeamPKMN.getPokemonID() != BasePKMN2.getPokemonID())
         {
             throw new RuntimeException("Improper BasePokemonSPtr returned from TeamPokemonSPtr!");
         }

@@ -68,6 +68,65 @@
     double at(unsigned int key) {return (*self)[key];}
 };
 
+%extend pkmn::team_pokemon {
+    std::wstring getSpeciesname() const
+    {
+        pkmn::pokemon_text species_name = (*self).get_species_name();
+        return species_name.std_wstring();
+    }
+
+    std::wstring getNickname() const
+    {
+        pkmn::pokemon_text nickname = (*self).get_nickname();
+        return nickname.std_wstring();
+    }
+
+    std::wstring getTrainerName() const
+    {
+        pkmn::pokemon_text trainer_name = (*self).get_trainer_name();
+        return trainer_name.std_wstring();
+    }
+
+    std::wstring getTrainerGender() const
+    {
+        pkmn::pokemon_text trainer_gender = (*self).get_trainer_gender();
+        return trainer_gender.std_wstring();
+    }
+
+    std::wstring getBall() const
+    {
+        pkmn::pokemon_text ball = (*self).get_ball();
+        return ball.std_wstring();
+    }
+
+    void setTrainerName(std::wstring input)
+    {
+        pkmn::pokemon_text trainer_name(input);
+        (*self).set_trainer_name(trainer_name);
+    }
+
+    void setStatus(std::wstring input)
+    {
+        pkmn::pokemon_text status(input);
+        (*self).set_status(status);
+    }
+
+    void setBall(std::wstring input)
+    {
+        pkmn::pokemon_text ball(input);
+        (*self).set_ball(ball);
+    }
+};
+%ignore pkmn::team_pokemon::get_species_name;
+%ignore pkmn::team_pokemon::get_nickname;
+%ignore pkmn::team_pokemon::get_trainer_name;
+%ignore pkmn::team_pokemon::get_trainer_gender;
+%ignore pkmn::team_pokemon::get_ball;
+%ignore pkmn::team_pokemon::set_trainer_name;
+%ignore pkmn::team_pokemon::get_status;
+%ignore pkmn::team_pokemon::set_status;
+%ignore pkmn::team_pokemon::set_ball;
+
 %include "CamelCase.i"
 %include "stdint.i"
 %include "std_pair.i"
