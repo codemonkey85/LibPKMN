@@ -36,6 +36,8 @@ devenv.com LibPKMN.sln /build release /project install
 
 The generated MSVC solution file can also be built from the MSVC IDE. The ALL_BUILD project will compile the project, and the INSTALL project will install the files in the install prefix.
 
+If CMake does not automatically find the dependencies, this means they are not in the PATH. In this case, you can manually specify their locations from the CMake GUI.
+
 ## Git Submodules
 
  * LibPKMN Images (https://github.com/ncorgan/LibPKMN-images) - Pokemon sprites and icons
