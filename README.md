@@ -18,6 +18,24 @@ This library can be built with any modern C++ compiler, and its API can be acces
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
 
+## Build Instructions
+
+To build in a UNIX-like environment, run these commands:
+
+<pre>
+cmake -DCMAKE_INSTALL_PREFIX=(desired install prefix) (LibPKMN source dir)
+make install
+</pre>
+
+To build with MSVC, run:
+
+<pre>
+cmake -DCMAKE_INSTALL_PREFIX=(desired install prefix) (LibPKMN source dir)
+devenv.com LibPKMN.sln /build release /project install
+</pre>
+
+The generated MSVC solution file can also be built from the MSVC IDE. The ALL_BUILD project will compile the project, and the INSTALL project will install the files in the install prefix.
+
 ## Git Submodules
 
  * LibPKMN Images (https://github.com/ncorgan/LibPKMN-images) - Pokemon sprites and icons
@@ -55,4 +73,4 @@ SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
 
 Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
  
-README last updated: 2014-05-25
+README last updated: 2014-06-01
