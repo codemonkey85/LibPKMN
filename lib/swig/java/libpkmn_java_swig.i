@@ -68,8 +68,12 @@
     double at(unsigned int key) {return (*self)[key];}
 };
 
+/*
+ * In order to hide pkmn::pokemon_text from Java+SWIG, substitute
+ * functions must be introduced.
+ */
 %extend pkmn::team_pokemon {
-    std::wstring getSpeciesname() const
+    std::wstring getSpeciesName() const
     {
         pkmn::pokemon_text species_name = (*self).get_species_name();
         return species_name.std_wstring();
@@ -79,6 +83,12 @@
     {
         pkmn::pokemon_text nickname = (*self).get_nickname();
         return nickname.std_wstring();
+    }
+
+    void setNickname(std::wstring input)
+    {
+        pkmn::pokemon_text nickname(input);
+        (*self).set_nickname(nickname);
     }
 
     std::wstring getTrainerName() const
@@ -105,10 +115,10 @@
         (*self).set_trainer_name(trainer_name);
     }
 
-    void setStatus(std::wstring input)
+    void setTrainerGender(std::wstring input)
     {
-        pkmn::pokemon_text status(input);
-        (*self).set_status(status);
+        pkmn::pokemon_text trainer_gender(input);
+        (*self).set_trainer_gender(trainer_gender);
     }
 
     void setBall(std::wstring input)
@@ -116,16 +126,30 @@
         pkmn::pokemon_text ball(input);
         (*self).set_ball(ball);
     }
+
+    std::wstring getStatus() const
+    {
+        pkmn::pokemon_text status = (*self).get_status();
+        return status.std_wstring();
+    }
+
+    void setStatus(std::wstring input)
+    {
+        pkmn::pokemon_text status(input);
+        (*self).set_status(status);
+    }
 };
 %ignore pkmn::team_pokemon::get_species_name;
 %ignore pkmn::team_pokemon::get_nickname;
+%ignore pkmn::team_pokemon::set_nickname;
 %ignore pkmn::team_pokemon::get_trainer_name;
 %ignore pkmn::team_pokemon::get_trainer_gender;
 %ignore pkmn::team_pokemon::get_ball;
 %ignore pkmn::team_pokemon::set_trainer_name;
+%ignore pkmn::team_pokemon::set_trainer_gender;
+%ignore pkmn::team_pokemon::set_ball;
 %ignore pkmn::team_pokemon::get_status;
 %ignore pkmn::team_pokemon::set_status;
-%ignore pkmn::team_pokemon::set_ball;
 
 %include "CamelCase.i"
 %include "stdint.i"
