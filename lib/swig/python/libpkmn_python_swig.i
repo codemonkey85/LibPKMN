@@ -34,9 +34,14 @@
 %ignore pkmn::pokemon_text::const_char;
 %rename(__eq__) pkmn::operator==(const pkmn::pokemon_text&, const pkmn::pokemon_text&);
 %rename(__len__) pkmn::pokemon_text::length;
-%extend pkmn::pokemon_text{
+%extend pkmn::pokemon_text {
     char* __repr__() {return (char*)((*self).const_char());}
     char* __str__() {return (char*)((*self).const_char());}
+};
+
+%extend pkmn::nature {
+    double __getitem__(std::string key) {return (*self)[key];}
+    double __getitem__(unsigned int key) {return (*self)[key];}
 };
 
 %include "libpkmn.i"

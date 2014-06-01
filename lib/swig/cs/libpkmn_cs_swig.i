@@ -126,6 +126,24 @@
     %template(dict_name) pkmn::dict<ctype1, ctype2>;
 %enddef
 
+%extend pkmn::nature {
+    double at(std::string key) {return (*self)[key];}
+    double at(unsigned int key) {return (*self)[key];}
+};
+%typemap(cscode) pkmn::nature %{
+    public double this[string key] {
+        get {
+            return at(key);
+        }
+    }
+
+    public double this[uint key] {
+        get {
+            return at(key);
+        }
+    }
+%}
+
 %include "CamelCase.i"
 %include "libpkmn.i"
 

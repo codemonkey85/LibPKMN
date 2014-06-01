@@ -36,6 +36,11 @@ namespace pkmn
         return _modifiers[key];
     }    
 
+    const double& nature::operator[](const unsigned int &key) const
+    {
+        return _modifiers[database::get_nature_name(key)];
+    }    
+
     unsigned int nature::get_nature_id() {return _id;}
 
     void nature::_populate_dict()
