@@ -72,7 +72,7 @@ MACRO(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
 ENDMACRO(CSHARP_BUILD_MODULE)
 
 ####################################################################
-# Build SWIG modules for different parts of LibLibPKMN
+# Build SWIG modules for different parts of LibPKMN
 ####################################################################
 CSHARP_BUILD_MODULE(libpkmn_cs_swig libpkmn_cs_swig LibPKMN)
 CSHARP_BUILD_MODULE(calculations_cs_swig calculations_cs_swig Calculations)
