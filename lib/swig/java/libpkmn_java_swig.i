@@ -63,6 +63,11 @@
     %template(dict_name) pkmn::dict<ctype1, ctype2>;
 %enddef
 
+%extend pkmn::nature {
+    double at(std::string key) {return (*self)[key];}
+    double at(unsigned int key) {return (*self)[key];}
+};
+
 %include "CamelCase.i"
 %include "stdint.i"
 %include "std_pair.i"
@@ -77,6 +82,7 @@
     #include "pkmn/types/pokemon_text.hpp"
     #include "pkmn/types/prng.hpp"
 
+    #include "pkmn/nature.hpp"
     #include "pkmn/base_pokemon.hpp"
     #include "pkmn/item.hpp"
     #include "pkmn/pocket.hpp"
@@ -96,6 +102,7 @@
 %include "pkmn/types/pokemon_text.hpp"
 %include "pkmn/types/prng.hpp"
 
+%include "pkmn/nature.hpp"
 %include "pkmn/base_pokemon.hpp"
 %include "pkmn/item.hpp"
 %include "pkmn/pocket.hpp"
