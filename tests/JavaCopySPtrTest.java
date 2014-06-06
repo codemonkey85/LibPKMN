@@ -11,7 +11,6 @@ import org.nc.*;
  * This test's LibPKMN's internal functionality for copying shared pointers,
  * which comes into place in custom copy constructors and assignment operators.
  */
-
 public class JavaCopySPtrTest
 {
     public static void main(String[] args)

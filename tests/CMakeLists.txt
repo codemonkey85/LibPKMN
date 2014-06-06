@@ -183,6 +183,7 @@ IF(ENABLE_JAVA)
     SET(LIBPKMN_JAR ${LIBPKMN_JAR} CACHE FILEPATH "LibPKMN.jar location")
 
     SET(java_test_names
+        JavaBagPocketTest
         JavaCopySPtrTest
     )
 
