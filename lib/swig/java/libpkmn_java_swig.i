@@ -72,6 +72,8 @@
  * Add native String functions to classes to avoid the necessity of
  * PokemonText. The documentation will not show the functions with
  * PokemonText parameters.
+ *
+ * TODO: remove functions with PokemonText altogether, not just ignore
  */
 %extend pkmn::bag {
     void addItem(std::wstring input, unsigned int amount)
