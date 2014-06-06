@@ -27,6 +27,9 @@ namespace pkmn
         public:
 
             base_pokemon_modernimpl(unsigned int id, unsigned int game_id);
+            base_pokemon_modernimpl(const base_pokemon_modernimpl &other);
+            base_pokemon_modernimpl& operator=(const base_pokemon_modernimpl &other);
+            ~base_pokemon_modernimpl() {};
 
             //Non-Battle Attributes            
             void get_egg_groups(std::vector<std::string>& egg_group_vec) const;

@@ -106,6 +106,22 @@ namespace pkmn
         }
     }
 
+    base_pokemon_modernimpl::base_pokemon_modernimpl(const base_pokemon_modernimpl &other): base_pokemon_impl(other)
+    {
+        //Disconnect any signals that point at old base_pokemon_modernimpl's slots
+        form_signal1.Clear();
+        form_signal2.Clear();
+    }
+
+    base_pokemon_modernimpl& base_pokemon_modernimpl::operator=(const base_pokemon_modernimpl &other)
+    {
+        base_pokemon_modernimpl::operator=(other);
+
+        //Disconnect any signals that point at old base_pokemon_modernimpl's slots
+        form_signal1.Clear();
+        form_signal2.Clear();
+    }
+
     void base_pokemon_modernimpl::get_egg_groups(std::vector<std::string>& egg_group_vec) const
     {
         std::vector<unsigned int> egg_group_ids;

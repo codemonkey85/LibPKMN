@@ -86,6 +86,10 @@ namespace pkmn
         _evSDEF = other._evSDEF;
         _ivSATK = other._ivSATK;
         _ivSDEF = other._ivSDEF;
+
+        base_pokemon_modernimpl* raw = reinterpret_cast<base_pokemon_modernimpl*>(_base_pkmn.get());
+        raw->form_signal1.Connect(this, &team_pokemon_modernimpl::_set_stats);
+        raw->form_signal2.Connect(this, &team_pokemon_modernimpl::_determine_ability);
     }
 
     team_pokemon_modernimpl& team_pokemon_modernimpl::operator=(const team_pokemon_modernimpl &other)
@@ -98,6 +102,10 @@ namespace pkmn
         _evSDEF = other._evSDEF;
         _ivSATK = other._ivSATK;
         _ivSDEF = other._ivSDEF;
+
+        base_pokemon_modernimpl* raw = reinterpret_cast<base_pokemon_modernimpl*>(_base_pkmn.get());
+        raw->form_signal1.Connect(this, &team_pokemon_modernimpl::_set_stats);
+        raw->form_signal2.Connect(this, &team_pokemon_modernimpl::_determine_ability);
 
         return (*this);
     }
