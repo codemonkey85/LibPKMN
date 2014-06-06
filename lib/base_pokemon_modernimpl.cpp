@@ -867,6 +867,9 @@ namespace pkmn
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
         if(_generation < 6) _use_old_stats();
+
+        form_signal1();
+        form_signal2();
     }
 
     void base_pokemon_modernimpl::set_form(string form)
@@ -1046,6 +1049,9 @@ namespace pkmn
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
         if(_generation < 6) _use_old_stats();
+
+        form_signal1();
+        form_signal2();
     }
 
     void base_pokemon_modernimpl::repair(unsigned int id)
