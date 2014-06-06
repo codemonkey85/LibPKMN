@@ -15,6 +15,7 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/prng.hpp>
 
+#include "base_pokemon_modernimpl.hpp"
 #include "team_pokemon_modernimpl.hpp"
 
 #include "SQLiteCpp/SQLiteC++.h"
@@ -61,9 +62,20 @@ namespace pkmn
 
         _gender = _determine_gender();
         _nature = nature(_determine_nature());
-        _ability = _determine_ability();
+        _determine_ability();
 
         _set_stats();
+
+        /*
+         * This removes the race condition where directly setting the base_pokemon::sptr's form won't
+         * update the team_pokemon::sptr's stats and ability. Setting this up will make the base_pokemon's
+         * set_form() function emit a signal to automatically run these functions.
+         *
+         * Ugly, but necessary.
+         */
+        base_pokemon_modernimpl* raw = reinterpret_cast<base_pokemon_modernimpl*>(_base_pkmn.get());
+        raw->form_signal1.Connect(this, &team_pokemon_modernimpl::_set_stats);
+        raw->form_signal2.Connect(this, &team_pokemon_modernimpl::_determine_ability);
     }
 
     team_pokemon_modernimpl::team_pokemon_modernimpl(const team_pokemon_modernimpl &other): team_pokemon_impl(other)
@@ -74,6 +86,10 @@ namespace pkmn
         _evSDEF = other._evSDEF;
         _ivSATK = other._ivSATK;
         _ivSDEF = other._ivSDEF;
+
+        base_pokemon_modernimpl* raw = reinterpret_cast<base_pokemon_modernimpl*>(_base_pkmn.get());
+        raw->form_signal1.Connect(this, &team_pokemon_modernimpl::_set_stats);
+        raw->form_signal2.Connect(this, &team_pokemon_modernimpl::_determine_ability);
     }
 
     team_pokemon_modernimpl& team_pokemon_modernimpl::operator=(const team_pokemon_modernimpl &other)
@@ -86,6 +102,10 @@ namespace pkmn
         _evSDEF = other._evSDEF;
         _ivSATK = other._ivSATK;
         _ivSDEF = other._ivSDEF;
+
+        base_pokemon_modernimpl* raw = reinterpret_cast<base_pokemon_modernimpl*>(_base_pkmn.get());
+        raw->form_signal1.Connect(this, &team_pokemon_modernimpl::_set_stats);
+        raw->form_signal2.Connect(this, &team_pokemon_modernimpl::_determine_ability);
 
         return (*this);
     }
@@ -148,7 +168,7 @@ namespace pkmn
     void team_pokemon_modernimpl::set_personality(unsigned int personality)
     {
         _personality = personality;
-        _ability = _determine_ability();
+        _determine_ability();
         _gender = _determine_gender();
         _nature = _determine_nature();
     }
@@ -208,7 +228,7 @@ namespace pkmn
     void team_pokemon_modernimpl::set_using_hidden_ability(bool val)
     {
         _has_hidden_ability = val;
-        _ability = _determine_ability();
+        _determine_ability();
     }
 
     void team_pokemon_modernimpl::set_EV(std::string EV, unsigned int val)
@@ -286,15 +306,11 @@ namespace pkmn
     void team_pokemon_modernimpl::set_form(unsigned int form)
     {
         _base_pkmn->set_form(form);
-        _set_stats();
-        _ability = _determine_ability();
     }
 
     void team_pokemon_modernimpl::set_form(std::string form)
     {
         _base_pkmn->set_form(form);
-        _set_stats();
-        _ability = _determine_ability();
     }
 
     unsigned int team_pokemon_modernimpl::_get_hp() const
@@ -327,14 +343,16 @@ namespace pkmn
         _SDEF = _get_stat("Special Defense", _evSDEF, _ivSDEF);
     }
 
-    std::string team_pokemon_modernimpl::_determine_ability() const
+    void team_pokemon_modernimpl::_determine_ability()
     {
         string_pair_t abilities = _base_pkmn->get_abilities();
         std::string hidden_ability = _base_pkmn->get_hidden_ability();
 
-        if(_base_pkmn->get_species_id() == Species::NONE or _base_pkmn->get_species_id() == Species::INVALID) return "None";
-        else if(_has_hidden_ability and _generation >= 5) return hidden_ability;
-        else return ((_personality % 2) == 0) ? abilities.first : abilities.second;
+        if(_base_pkmn->get_species_id() == Species::NONE or _base_pkmn->get_species_id() == Species::INVALID){
+            _ability = "None";
+        }
+        else if(_has_hidden_ability and _generation >= 5) _ability = hidden_ability;
+        else _ability = ((_personality % 2) == 0) ? abilities.first : abilities.second;
     }
 
     std::string team_pokemon_modernimpl::_determine_gender() const

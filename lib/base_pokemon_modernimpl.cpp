@@ -106,6 +106,24 @@ namespace pkmn
         }
     }
 
+    base_pokemon_modernimpl::base_pokemon_modernimpl(const base_pokemon_modernimpl &other): base_pokemon_impl(other)
+    {
+        //Disconnect any signals that point at old base_pokemon_modernimpl's slots
+        form_signal1.Clear();
+        form_signal2.Clear();
+    }
+
+    base_pokemon_modernimpl& base_pokemon_modernimpl::operator=(const base_pokemon_modernimpl &other)
+    {
+        base_pokemon_impl::operator=(other);
+
+        //Disconnect any signals that point at old base_pokemon_modernimpl's slots
+        form_signal1.Clear();
+        form_signal2.Clear();
+
+        return (*this);
+    }
+
     void base_pokemon_modernimpl::get_egg_groups(std::vector<std::string>& egg_group_vec) const
     {
         std::vector<unsigned int> egg_group_ids;
@@ -562,71 +580,71 @@ namespace pkmn
                 {
                     case Forms::Arceus::NORMAL:
                         set_form("Normal");
-                        break;
+                        return;
 
                     case Forms::Arceus::FIRE:
                         set_form("Fire");
-                        break;
+                        return;
 
                     case Forms::Arceus::WATER:
                         set_form("Water");
-                        break;
+                        return;
 
                     case Forms::Arceus::ELECTRIC:
                         set_form("Electric");
-                        break;
+                        return;
 
                     case Forms::Arceus::GRASS:
                         set_form("Grass");
-                        break;
+                        return;
 
                     case Forms::Arceus::ICE:
                         set_form("Ice");
-                        break;
+                        return;
 
                     case Forms::Arceus::FIGHTING:
                         set_form("Fighting");
-                        break;
+                        return;
 
                     case Forms::Arceus::POISON:
                         set_form("Poison");
-                        break;
+                        return;
 
                     case Forms::Arceus::GROUND:
                         set_form("Ground");
-                        break;
+                        return;
 
                     case Forms::Arceus::FLYING:
                         set_form("Flying");
-                        break;
+                        return;
 
                     case Forms::Arceus::PSYCHIC:
                         set_form("Psychic");
-                        break;
+                        return;
 
                     case Forms::Arceus::BUG:
                         set_form("Bug");
-                        break;
+                        return;
 
                     case Forms::Arceus::ROCK:
                         set_form("Rock");
-                        break;
+                        return;
 
                     case Forms::Arceus::GHOST:
                         set_form("Ghost");
-                        break;
+                        return;
 
                     case Forms::Arceus::DRAGON:
                         set_form("Dragon");
-                        break;
+                        return;
 
                     case Forms::Arceus::DARK:
                         set_form("Dark");
-                        break;
+                        return;
 
                     case Forms::Arceus::STEEL:
                         set_form("Steel");
-                        break;
+                        return;
                 }
                 break;
 
@@ -673,40 +691,40 @@ namespace pkmn
                 {
                     case Forms::Deerling::SPRING:
                         set_form("Spring");
-                        break;
+                        return;
 
                     case Forms::Deerling::SUMMER:
                         set_form("Summer");
-                        break;
+                        return;
 
                     case Forms::Deerling::AUTUMN:
                         set_form("Autumn");
-                        break;
+                        return;
 
                     case Forms::Deerling::WINTER:
                         set_form("Winter");
-                        break;
+                        return;
                 }
-                break;
+                return;
 
             case Species::SAWSBUCK:
                 switch(form)
                 {
                     case Forms::Sawsbuck::SPRING:
                         set_form("Spring");
-                        break;
+                        return;
 
                     case Forms::Sawsbuck::SUMMER:
                         set_form("Summer");
-                        break;
+                        return;
 
                     case Forms::Sawsbuck::AUTUMN:
                         set_form("Autumn");
-                        break;
+                        return;
 
                     case Forms::Sawsbuck::WINTER:
                         set_form("Winter");
-                        break;
+                        return;
                 }
 
             case Species::TORNADUS:
@@ -867,6 +885,9 @@ namespace pkmn
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
         if(_generation < 6) _use_old_stats();
+
+        form_signal1();
+        form_signal2();
     }
 
     void base_pokemon_modernimpl::set_form(string form)
@@ -881,7 +902,7 @@ namespace pkmn
         switch(_species_id)
         {
             case Species::UNOWN:
-                if(form.size() != 1) break;
+                if(form.size() != 1) return;
                 else
                 {
                     char letter = form.c_str()[0];
@@ -889,48 +910,48 @@ namespace pkmn
                     else if(letter == '?') set_form(Forms::Unown::QUESTION);
                     else if(letter == '!') set_form(Forms::Unown::EXCLAMATION);
                 }
-                break;
+                return;
 
             case Species::CASTFORM:
                 if(form == "Normal") set_form(Forms::Castform::NORMAL);
                 else if(form == "Sunny") set_form(Forms::Castform::SUNNY);
                 else if(form == "Rainy") set_form(Forms::Castform::RAINY);
                 else if(form == "Snowy") set_form(Forms::Castform::SNOWY);
-                break;
+                return;
 
             case Species::DEOXYS:
                 if(form == "Normal") set_form(Forms::Deoxys::NORMAL);
                 else if(form == "Attack") set_form(Forms::Deoxys::ATTACK);
                 else if(form == "Defense") set_form(Forms::Deoxys::DEFENSE);
                 else if(form == "Speed") set_form(Forms::Deoxys::SPEED);
-                break;
+                return;
 
             case Species::BURMY:
                 if(form == "Plant Cloak") set_form(Forms::Burmy::PLANT_CLOAK);
                 else if(form == "Sandy Cloak") set_form(Forms::Burmy::SANDY_CLOAK);
                 else if(form == "Trash Cloak") set_form(Forms::Burmy::TRASH_CLOAK);
-                break;
+                return;
 
             case Species::WORMADAM:
                 if(form == "Plant Cloak") set_form(Forms::Wormadam::PLANT_CLOAK);
                 else if(form == "Sandy Cloak") set_form(Forms::Wormadam::SANDY_CLOAK);
                 else if(form == "Trash Cloak") set_form(Forms::Wormadam::TRASH_CLOAK);
-                break;
+                return;
 
             case Species::CHERRIM:
                 if(form == "Overcast") set_form(Forms::Cherrim::OVERCAST);
                 else if(form == "Sunshine") set_form(Forms::Cherrim::SUNSHINE);
-                break;
+                return;
 
             case Species::SHELLOS:
                 if(form == "West Sea") set_form(Forms::Shellos::WEST_SEA);
                 else if(form == "East Sea") set_form(Forms::Shellos::EAST_SEA);
-                break;
+                return;
 
             case Species::GASTRODON:
                 if(form == "West Sea") set_form(Forms::Gastrodon::WEST_SEA);
                 else if(form == "East Sea") set_form(Forms::Gastrodon::EAST_SEA);
-                break;
+                return;
 
             case Species::ROTOM:
                 if(form == "Normal") set_form(Forms::Rotom::NORMAL);
@@ -939,17 +960,17 @@ namespace pkmn
                 else if(form == "Wash") set_form(Forms::Rotom::WASH);
                 else if(form == "Fan") set_form(Forms::Rotom::FAN);
                 else if(form == "Mow") set_form(Forms::Rotom::MOW);
-                break;
+                return;
 
             case Species::GIRATINA:
                 if(form == "Altered") set_form(Forms::Giratina::ALTERED);
                 else if(form == "Origin") set_form(Forms::Giratina::ORIGIN);
-                break;
+                return;
 
             case Species::SHAYMIN:
                 if(form == "Land") set_form(Forms::Shaymin::LAND);
                 else if(form == "Sky") set_form(Forms::Shaymin::SKY);
-                break;
+                return;
 
             case Species::ARCEUS:
             {
@@ -971,12 +992,12 @@ namespace pkmn
             case Species::BASCULIN:
                 if(form == "Red-Striped") set_form(Forms::Basculin::RED_STRIPED);
                 if(form == "Blue-Striped") set_form(Forms::Basculin::BLUE_STRIPED);
-                break;
+                return;
 
             case Species::DARMANITAN:
                 if(form == "Standard") set_form(Forms::Darmanitan::STANDARD);
                 if(form == "Zen") set_form(Forms::Darmanitan::ZEN);
-                break;            
+                return; 
 
             case Species::DEERLING:
             case Species::SAWSBUCK:
@@ -992,33 +1013,33 @@ namespace pkmn
             case Species::TORNADUS:
                 if(form == "Incarnate") set_form(Forms::Tornadus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Tornadus::THERIAN);
-                break;
+                return;
 
             case Species::THUNDURUS:
                 if(form == "Incarnate") set_form(Forms::Thundurus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Thundurus::THERIAN);
-                break;
+                return;
 
             case Species::LANDORUS:
                 if(form == "Incarnate") set_form(Forms::Landorus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Landorus::THERIAN);
-                break;
+                return;
 
             case Species::KYUREM:
                 if(form == "Normal") set_form(Forms::Kyurem::NORMAL);
                 else if(form == "Black") set_form(Forms::Kyurem::BLACK);
                 else if(form == "White") set_form(Forms::Kyurem::WHITE);
-                break;
+                return;
 
             case Species::KELDEO:
                 if(form == "Ordinary") set_form(Forms::Keldeo::ORDINARY);
                 else if(form == "Resolute") set_form(Forms::Keldeo::RESOLUTE);
-                break;
+                return;
 
             case Species::MELOETTA:
                 if(form == "Aria") set_form(Forms::Meloetta::ARIA);
                 else if(form == "Pirouette") set_form(Forms::Meloetta::PIROUETTE);
-                break;
+                return;
 
             case Species::GENESECT:
                 if(form == "Normal") set_form(Forms::Genesect::NORMAL);
@@ -1026,7 +1047,7 @@ namespace pkmn
                 if(form == "Burn Drive") set_form(Forms::Genesect::BURN_DRIVE);
                 if(form == "Chill Drive") set_form(Forms::Genesect::CHILL_DRIVE);
                 if(form == "Douse Drive") set_form(Forms::Genesect::DOUSE_DRIVE);
-                break;
+                return;
         }
 
         string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
@@ -1046,6 +1067,9 @@ namespace pkmn
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
         if(_generation < 6) _use_old_stats();
+
+        form_signal1();
+        form_signal2();
     }
 
     void base_pokemon_modernimpl::repair(unsigned int id)
