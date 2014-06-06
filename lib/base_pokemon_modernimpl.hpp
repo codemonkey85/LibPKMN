@@ -10,6 +10,7 @@
 #include <string>
 
 #include "base_pokemon_impl.hpp"
+#include "Signal.h"
 
 //For code cleanliness in source file
 #define HAS_DIFFERENT_FEMALE_ICON _species_id == Species::UNFEZANT \
