@@ -8,6 +8,7 @@
 #define INCLUDED_TEAM_POKEMON_MODERNIMPL_HPP
 
 #include "team_pokemon_impl.hpp"
+#include "Signal.h"
 
 namespace pkmn
 {
@@ -56,7 +57,7 @@ namespace pkmn
             unsigned int _get_stat(std::string stat, unsigned int EV, unsigned int IV) const;
             void _set_stats();
 
-            std::string _determine_ability() const;
+            void _determine_ability();
             std::string _determine_gender() const;
             std::string _determine_nature() const;
     };
