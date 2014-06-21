@@ -5,6 +5,7 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <cmath>
 #include <cstdio>
 
 #include <boost/assign.hpp>
