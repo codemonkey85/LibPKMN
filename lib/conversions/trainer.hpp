@@ -39,6 +39,8 @@ namespace pkmn
 {
     namespace conversions
     {
+        trainer::sptr import_gen1_trainer(rpokesav_gen1_sptr sav);
+
         trainer::sptr import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav);
 
         trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data);
