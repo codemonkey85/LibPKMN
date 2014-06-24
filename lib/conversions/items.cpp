@@ -27,6 +27,41 @@ namespace pkmn
 {
     namespace conversions
     {
+        bag::sptr import_gen1_bag(std::array<rpokesav::gen1_item_t,20> &rpokesav_bag,
+                                  uint8_t item_count)
+        {
+            /*
+             * Generation I has no way to distinguish between games, so just
+             * use Yellow. There aren't enough differences to make a difference.
+             */
+            bag::sptr libpkmn_bag = bag::make(Games::YELLOW);
+            pocket::sptr item_pocket = libpkmn_bag->get_pocket("Items");
+
+            for(size_t i = 0; i < item_count; i++)
+            {
+                libpkmn_pocket->add_item(database::get_item_id(rpokesav_bag[i].index, Games::YELLOW),
+                                         rpokesav_bag[i].count);
+            }
+
+            return libpkmn_bag;
+        }
+
+        uint8_t export_gen1_bag(bag::sptr libpkmn_bag,
+                                std::array<rpokesav_gen1_item_t,20> &rpokesav_bag)
+        {
+            rpokesav_bag = std::array<rpokesav_gen1_item_t,20>;
+            pkmn::item_list_t items;
+            libpkmn_bag->get_pocket("Items")->get_item_list(items);
+
+            for(size_t i = 0; i < items.size(); i++)
+            {
+                rpokesav_bag[i] = std::make_pair(items[i].first->get_move_id(),
+                                                 items[i].second);
+            }
+
+            return items.size();
+        }
+
         void import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav)
         {
             pocket::sptr libpkmn_pocket = item_bag->get_pocket("Items");
