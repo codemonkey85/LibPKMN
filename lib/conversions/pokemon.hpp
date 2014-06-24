@@ -22,10 +22,7 @@ namespace pkmn
     namespace conversions
     {
         team_pokemon::sptr import_gen1_pokemon(const rpokesav::gen1_pokemon &pkmn);
-        void export_gen1_pokemon(team_pokemon::sptr t_pkmn, rpokesav:gen1_pokemon &pkmn);
-
-        team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
-                                                                             pokemon_text trainer_name);
+        void export_gen1_pokemon(team_pokemon::sptr t_pkmn, rpokesav::gen1_pokemon &pkmn);
 
         team_pokemon::sptr pokehack_pokemon_to_team_pokemon(belt_pokemon_t* b_pkmn_t,
                                                                         pokemon_attacks_t* pkmn_a_t,

@@ -23,6 +23,8 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/pokemon_text.hpp>
 
+#include <rpokesav/data.hpp>
+#include <rpokesav/utils.hpp>
 #include <pkmds/pkmds_g5_sqlite.h>
 
 #include "pokemon.hpp"
@@ -36,7 +38,7 @@ namespace pkmn
     {
         team_pokemon::sptr import_gen1_pokemon(const rpokesav::gen1_pokemon &pkmn)
         {
-            uint8_t species_id;
+            unsigned int species_id;
             uint16_t move1, move2, move3, move4;
             uint8_t rpokesav_species = pkmn.raw.pc.species_index;
 
@@ -59,6 +61,7 @@ namespace pkmn
                 move2 = pkmn.raw.pc.moves[1];
                 move3 = pkmn.raw.pc.moves[2];
                 move4 = pkmn.raw.pc.moves[3];
+            }
 
                 uint8_t level = pkmn.raw.level;
 
@@ -91,15 +94,14 @@ namespace pkmn
                 t_pkmn->set_move_PP(pkmn.raw.pc.move_pps[3], 4);
 
                 return t_pkmn;
-            }
         }
 
         void export_gen1_pokemon(team_pokemon::sptr t_pkmn, rpokesav::gen1_pokemon pkmn)
         {
             //Necessary values
-            pkmn::dict<std::string, unsigned int> stats = pkmn->get_stats();
-            pkmn::dict<std::string, unsigned int> EVs = pkmn->get_EVs();
-            pkmn::dict<std::string, unsigned int> IVs = pkmn->get_IVs();
+            pkmn::dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+            pkmn::dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            pkmn::dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
             string_pair_t types = t_pkmn->get_types();
             pkmn::moveset_t moves;
             std::vector<unsigned int> move_PPs;
@@ -113,7 +115,7 @@ namespace pkmn
 
             pkmn.raw.pc.current_hp = stats["HP"]; //TODO: actual current HP
             pkmn.raw.pc.level = t_pkmn->get_level();
-            pkmn.raw.status_ailment = rpokesav::statuses::OK; //TODO: link between LibPKMN and rpokesav
+            pkmn.raw.pc.status_ailment = rpokesav::statuses::OK; //TODO: link between LibPKMN and rpokesav
             pkmn.raw.pc.types[0] = database::get_type_id(types.first);
             pkmn.raw.pc.types[1] = database::get_type_id(types.second);
             pkmn.raw.pc.catch_rate = rpokesav::gen1_catch_rates[pkmn.raw.pc.species_index];
@@ -125,10 +127,10 @@ namespace pkmn
             pkmn.raw.pc.ev_spd = EVs["Speed"];
             pkmn.raw.pc.ev_spcl = EVs["Special"];
             pkmn.set_iv_hp(IVs["HP"]);
-            pkmn.set_iv_atk(IVs["Attack"]);
-            pkmn.set_iv_def(IVs["Defense"]);
-            pkmn.set_iv_spd(IVs["Speed"]);
-            pkmn.set_iv_spcl(IVs["Special"]);
+            pkmn.set_iv_attack(IVs["Attack"]);
+            pkmn.set_iv_defense(IVs["Defense"]);
+            pkmn.set_iv_speed(IVs["Speed"]);
+            pkmn.set_iv_special(IVs["Special"]);
             for(size_t i = 0; i < 4; i++) pkmn.raw.pc.move_pps[i] = move_PPs[i];
 
             rpokesav::gen1_pc_to_party(pkmn.raw, pkmn.raw.pc);
