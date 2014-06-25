@@ -35,7 +35,6 @@ namespace pkmn
              * Generation I has no way to distinguish between games, so just
              * use Yellow. There aren't enough differences to make a difference.
              */
-            libpkmn_bag = bag::make(Games::YELLOW);
             pocket::sptr item_pocket = libpkmn_bag->get_pocket("Items");
 
             for(size_t i = 0; i < item_count; i++)
