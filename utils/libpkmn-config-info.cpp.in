@@ -11,23 +11,23 @@
 #include <string>
 #include <vector>
 
-using namespace std;
+#include <pkmn/build_info.hpp>
 
 int main()
 {
-    cout << endl << "LibPKMN - Configuration Info" << endl << endl;
+    std::cout << std::endl << "LibPKMN - Configuration Info" << std::endl << std::endl;
 
-    cout << "Git commits:" << endl;
-    cout << " - LibPKMN:        @LIBPKMN_GIT_DESCRIBE@" << endl;
-    cout << " - LibPKMN Images: @LIBPKMN_IMAGES_GIT_DESCRIBE@" << endl;
-    cout << " - Retro Pokesav:  @RPOKESAV_GIT_DESCRIBE@" << endl;
-    cout << " - Pokehack:       @POKEHACK_GIT_DESCRIBE@" << endl;
-    cout << " - PokeLib-NC:     @POKELIB_GIT_DESCRIBE@" << endl;
-    cout << " - PKMDS:          @PKMDS_GIT_DESCRIBE@" << endl;
+    std::cout << "Git commits:" << std::endl;
+    std::cout << " - LibPKMN:        " << pkmn::get_libpkmn_commit() << std::endl;
+    std::cout << " - LibPKMN Images: @LIBPKMN_IMAGES_GIT_DESCRIBE@" << std::endl;
+    std::cout << " - Retro Pokesav:  " << pkmn::get_rpokesav_commit() << std::endl;
+    std::cout << " - Pokehack:       " << pkmn::get_pokehack_commit() << std::endl;
+    std::cout << " - PokeLib-NC:     " << pkmn::get_pokelib_nc_commit() << std::endl;
+    std::cout << " - PKMDS:          " << pkmn::get_pkmds_commit() << std::endl;
 
-    cout << "Dependency versions:" << endl;
-    cout << " - Boost @Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@" << endl;
-    cout << " - Qt @QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@" << endl;
+    std::cout << "Dependency versions:" << std::endl;
+    std::cout << " - Boost " << pkmn::get_boost_version() << std::endl;
+    std::cout << " - Qt " << pkmn::get_qt4_version() << std::endl;
 
     return EXIT_SUCCESS;
 }

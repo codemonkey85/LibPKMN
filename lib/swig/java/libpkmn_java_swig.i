@@ -212,8 +212,6 @@
 %include "libpkmn.i"
 
 %{
-    #include "pkmn/config.hpp"
-
     #include "pkmn/build_info.hpp"
     #include "pkmn/paths.hpp"
 

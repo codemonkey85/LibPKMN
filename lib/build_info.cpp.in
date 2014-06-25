@@ -6,9 +6,8 @@
  */
 
 #include <boost/algorithm/string.hpp>
-#include <boost/version.hpp>
 
-#include <qt4/QtCore/qglobal.h>
+#include <pkmn/build_info.hpp>
 
 #include "SQLiteCpp/sqlite3.h"
 #include "SQLiteCpp/SQLiteC++.h"
@@ -27,12 +26,12 @@ namespace pkmn
 
     std::string get_boost_version()
     {
-        return boost::algorithm::replace_all_copy(std::string(BOOST_LIB_VERSION), "_", ".");
+        return "@Boost_MAJOR_VERSION@.@Boost_MINOR_VERSION@.@Boost_SUBMINOR_VERSION@";
     }
 
     std::string get_qt4_version()
     {
-        return std::string(QT_VERSION_STR);
+        return "@QT_VERSION_MAJOR@.@QT_VERSION_MINOR@.@QT_VERSION_PATCH@";
     }
 
     std::string get_libpkmn_commit()
