@@ -59,6 +59,19 @@
 %rename(getEggGroupIDs) pkmn::base_pokemon::get_egg_group_ids;
 
 /*
+ * pkmn/build_info.hpp
+ */
+%rename(getSQLiteVersion) pkmn::get_sqlite_version;
+%rename(getSQLiteCppVersion) pkmn::get_sqlitecpp_version;
+%rename(getBoostVersion) pkmn::get_boost_version;
+%rename(getQt4Version) pkmn::get_qt4_version;
+%rename(getLibPKMNCommit) pkmn::get_libpkmn_commit;
+%rename(getRPokesavCommit) pkmn::get_rpokesav_commit;
+%rename(getPokehackCommit) pkmn::get_pokehack_commit;
+%rename(getPokeLibNCCommit) pkmn::get_pokelib_nc_commit;
+%rename(getPKMDSCommit) pkmn::get_pkmds_commit;
+
+/*
  * pkmn/calculations.hpp
  */
 %rename(getAbilityNum) pkmn::calculations::get_ability_num;

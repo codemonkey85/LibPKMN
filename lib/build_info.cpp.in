@@ -1,0 +1,62 @@
+/*
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
+ *
+ * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+ * or copy at http://opensource.org/licenses/MIT)
+ */
+
+#include <boost/algorithm/string.hpp>
+#include <boost/version.hpp>
+
+#include <qt4/QtCore/qglobal.h>
+
+#include "SQLiteCpp/sqlite3.h"
+#include "SQLiteCpp/SQLiteC++.h"
+
+namespace pkmn
+{
+    std::string get_sqlite3_version()
+    {
+        return std::string(SQLITE_VERSION);
+    }
+
+    std::string get_sqlitecpp_version()
+    {
+        return std::string(SQLITECPP_VERSION);
+    }
+
+    std::string get_boost_version()
+    {
+        return boost::algorithm::replace_all_copy(std::string(BOOST_LIB_VERSION), "_", ".");
+    }
+
+    std::string get_qt4_version()
+    {
+        return std::string(QT_VERSION_STR);
+    }
+
+    std::string get_libpkmn_commit()
+    {
+        return "@LIBPKMN_GIT_DESCRIBE@";
+    }
+
+    std::string get_rpokesav_commit()
+    {
+        return "@RPOKESAV_GIT_DESCRIBE@";
+    }
+
+    std::string get_pokehack_commit()
+    {
+        return "@POKEHACK_GIT_DESCRIBE@";
+    }
+
+    std::string get_pokelib_nc_commit()
+    {
+        return "@POKELIB_GIT_DESCRIBE@";
+    }
+
+    std::string get_pkmds_commit()
+    {
+        return "@PKMDS_GIT_DESCRIBE@";
+    }
+} /* namespace pkmn */

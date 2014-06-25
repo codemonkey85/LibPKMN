@@ -148,6 +148,7 @@
 %include "libpkmn.i"
 
 %{
+    #include "pkmn/build_info.hpp"
     #include "pkmn/paths.hpp"
 
     #include "pkmn/types/dict.hpp"
@@ -168,6 +169,7 @@
 
 %}
 
+%include "pkmn/build_info.hpp"
 %include "pkmn/paths.hpp"
 
 %include "pkmn/types/dict.hpp"

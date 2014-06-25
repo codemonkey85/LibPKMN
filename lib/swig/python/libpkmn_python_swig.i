@@ -47,6 +47,8 @@
 %include "libpkmn.i"
 
 %{
+    #include "pkmn/build_info.hpp"
+
     #include "pkmn/types/dict.hpp"
     #include "pkmn/types/pokemon_text.hpp"
     #include "pkmn/types/prng.hpp"
@@ -64,6 +66,8 @@
     #include "pkmn/lists.hpp"
     #include "pkmn/paths.hpp"
 %}
+
+%include "pkmn/build_info.hpp"
 
 %include "pkmn/types/dict.hpp"
 %include "pkmn/types/pokemon_text.hpp"

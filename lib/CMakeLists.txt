@@ -13,9 +13,13 @@ IF(ENABLE_LIBPKMN)
 
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
     
-    #Configure database info for relevant library files
+    #Build-time info
     CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/paths.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/build_info.cpp.in
+        ${CMAKE_CURRENT_BINARY_DIR}/build_info.cpp
+    @ONLY)
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/paths.cpp.in
         ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
     @ONLY)
 
@@ -24,6 +28,8 @@ IF(ENABLE_LIBPKMN)
     LIST(APPEND libpkmn_libs ${Boost_LIBRARIES} rpokesav pokehack pokelib-nc pkmds SQLiteCpp)
 
     LIST(APPEND libpkmn_sources
+        ${CMAKE_CURRENT_BINARY_DIR}/build_info.cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         library_bridge.cpp
         prng_impl.cpp
         pokemon_text.cpp
@@ -55,7 +61,6 @@ IF(ENABLE_LIBPKMN)
         conversions/items.cpp
         conversions/pokemon.cpp
         conversions/trainer.cpp
-        ${CMAKE_CURRENT_BINARY_DIR}/paths.cpp
         ${analysis_sources}
         ${conversions_sources}
         ${database_sources}
