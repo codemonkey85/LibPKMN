@@ -23,6 +23,8 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/pokemon_text.hpp>
 
+#include <rpokesav/data.hpp>
+#include <rpokesav/utils.hpp>
 #include <pkmds/pkmds_g5_sqlite.h>
 
 #include "pokemon.hpp"
@@ -34,12 +36,12 @@ namespace pkmn
 {
     namespace conversions
     {
-        team_pokemon::sptr rpokesav_gen1_pokemon_to_team_pokemon(rpokesav::gen1_pokemon pkmn,
-                                                                 pokemon_text trainer_name)
+        team_pokemon::sptr import_gen1_pokemon(const rpokesav::gen1_pokemon &pkmn)
         {
-            unsigned int species_id, move1, move2, move3, move4;
+            unsigned int species_id;
+            uint16_t move1, move2, move3, move4;
+            uint8_t rpokesav_species = pkmn.raw.pc.species_index;
 
-            uint8_t rpokesav_species = pkmn.get_species_index();
             if(rpokesav_species == 0 or rpokesav_species > 190)
             {
                 species_id = Species::INVALID;
@@ -50,43 +52,88 @@ namespace pkmn
             }
             else
             {
-                //In Gen 1, species_id always matches pokemon_id
+                /*
+                 * Generation I has no way to distinguish between games, so just
+                 * use Yellow. There aren't enough differences to make a difference.
+                 */
                 species_id = database::get_pokemon_id(rpokesav_species, Games::YELLOW);
-
-                std::array<uint8_t,4> moves = pkmn.get_moves();
-                move1 = moves[0];
-                move2 = moves[1];
-                move3 = moves[2];
-                move4 = moves[3];
+                move1 = pkmn.raw.pc.moves[0];
+                move2 = pkmn.raw.pc.moves[1];
+                move3 = pkmn.raw.pc.moves[2];
+                move4 = pkmn.raw.pc.moves[3];
             }
 
-            unsigned int level = pkmn.get_level();
+                uint8_t level = pkmn.raw.level;
 
-            //No way to determine specific game in Generation 1 games
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::YELLOW, level,
-                                                           move1, move2, move3, move4);
+                team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::YELLOW, level,
+                                                               move1, move2, move3, move4);
 
-            t_pkmn->set_nickname(pkmn.get_nickname());
+                t_pkmn->set_nickname(pkmn.get_nickname());
+                t_pkmn->set_trainer_name(pkmn.get_ot_name());
+                t_pkmn->set_trainer_id(pkmn.get_ot_id());
+                t_pkmn->set_trainer_gender("Male");
 
-            //rpokesav::gen1_pokemon doesn't have a trainer name stored, so it must be passed in
-            t_pkmn->set_trainer_name(trainer_name);
+                //Effort values
+                t_pkmn->set_EV("HP", pkmn.raw.pc.ev_hp);
+                t_pkmn->set_EV("Attack", pkmn.raw.pc.ev_atk);
+                t_pkmn->set_EV("Defense", pkmn.raw.pc.ev_def);
+                t_pkmn->set_EV("Speed", pkmn.raw.pc.ev_spd);
+                t_pkmn->set_EV("Special", pkmn.raw.pc.ev_spcl);
 
-            t_pkmn->set_EV("HP", pkmn.get_ev_hp());
-            t_pkmn->set_EV("Attack", pkmn.get_ev_attack());
-            t_pkmn->set_EV("Defense", pkmn.get_ev_defense());
-            t_pkmn->set_EV("Speed", pkmn.get_ev_speed());
-            t_pkmn->set_EV("Special", pkmn.get_ev_special());
+                //Individual values
+                t_pkmn->set_EV("HP", pkmn.get_iv_hp());
+                t_pkmn->set_EV("Attack", pkmn.get_iv_attack());
+                t_pkmn->set_EV("Defense", pkmn.get_iv_defense());
+                t_pkmn->set_EV("Speed", pkmn.get_iv_speed());
+                t_pkmn->set_EV("Special", pkmn.get_iv_special());
 
-            t_pkmn->set_IV("HP", pkmn.get_iv_hp());
-            t_pkmn->set_IV("Attack", pkmn.get_iv_attack());
-            t_pkmn->set_IV("Defense", pkmn.get_iv_defense());
-            t_pkmn->set_IV("Speed", pkmn.get_iv_speed());
-            t_pkmn->set_IV("Special", pkmn.get_iv_special());
+                //Move PP's
+                t_pkmn->set_move_PP(pkmn.raw.pc.move_pps[0], 1);
+                t_pkmn->set_move_PP(pkmn.raw.pc.move_pps[1], 2);
+                t_pkmn->set_move_PP(pkmn.raw.pc.move_pps[2], 3);
+                t_pkmn->set_move_PP(pkmn.raw.pc.move_pps[3], 4);
 
-            //Generation 1 didn't have separate genders
-            t_pkmn->set_trainer_gender("Male");
+                return t_pkmn;
+        }
 
-            return t_pkmn;
+        void export_gen1_pokemon(team_pokemon::sptr t_pkmn, rpokesav::gen1_pokemon pkmn)
+        {
+            //Necessary values
+            pkmn::dict<std::string, unsigned int> stats = t_pkmn->get_stats();
+            pkmn::dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
+            pkmn::dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
+            string_pair_t types = t_pkmn->get_types();
+            pkmn::moveset_t moves;
+            std::vector<unsigned int> move_PPs;
+            t_pkmn->get_moves(moves);
+            t_pkmn->get_move_PPs(move_PPs);
+
+            uint8_t rpokesav_species = database::get_species_index(t_pkmn->get_pokemon_id(),
+                                                                   Games::YELLOW);
+
+            pkmn = rpokesav::gen1_pokemon(rpokesav_species);
+
+            pkmn.raw.pc.current_hp = stats["HP"]; //TODO: actual current HP
+            pkmn.raw.pc.level = t_pkmn->get_level();
+            pkmn.raw.pc.status_ailment = rpokesav::statuses::OK; //TODO: link between LibPKMN and rpokesav
+            pkmn.raw.pc.types[0] = database::get_type_id(types.first);
+            pkmn.raw.pc.types[1] = database::get_type_id(types.second);
+            pkmn.raw.pc.catch_rate = rpokesav::gen1_catch_rates[pkmn.raw.pc.species_index];
+            for(size_t i = 0; i < 4; i++) pkmn.raw.pc.moves[i] = moves[i]->get_move_id();
+            //TODO: experience
+            pkmn.raw.pc.ev_hp = EVs["HP"];
+            pkmn.raw.pc.ev_atk = EVs["Attack"];
+            pkmn.raw.pc.ev_def = EVs["Defense"];
+            pkmn.raw.pc.ev_spd = EVs["Speed"];
+            pkmn.raw.pc.ev_spcl = EVs["Special"];
+            pkmn.set_iv_hp(IVs["HP"]);
+            pkmn.set_iv_attack(IVs["Attack"]);
+            pkmn.set_iv_defense(IVs["Defense"]);
+            pkmn.set_iv_speed(IVs["Speed"]);
+            pkmn.set_iv_special(IVs["Special"]);
+            for(size_t i = 0; i < 4; i++) pkmn.raw.pc.move_pps[i] = move_PPs[i];
+
+            rpokesav::gen1_pc_to_party(pkmn.raw, pkmn.raw.pc);
         }
 
         team_pokemon::sptr pokehack_pokemon_to_team_pokemon(belt_pokemon_t* b_pkmn_t,

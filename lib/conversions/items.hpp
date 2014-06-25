@@ -52,19 +52,27 @@ namespace pkmn
             uint16_t quantity;
         };
 
-        void PKMN_API import_items_from_rpokesav_gen1(bag::sptr item_bag, rpokesav_gen1_sptr sav);
+        void import_gen1_bag(std::array<rpokesav::gen1_item_t,20> &rpokesav_bag,
+                             bag::sptr libpkmn_bag,
+                             uint8_t bag_item_count);
+        /*
+         * TODO: Don't return bag item amount, pass in rpokesav::gen1_save and use
+         * that to set item count once that function is there
+         */
+        uint8_t export_gen1_bag(bag::sptr libpkmn_bag,
+                                std::array<rpokesav::gen1_item_t,20> &rpokesav_bag);
 
-        void PKMN_API import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
+        void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
 
-        void PKMN_API export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
+        void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
 
-        void PKMN_API import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
+        void import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
 
-        void PKMN_API export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
+        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
 
-        void PKMN_API import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
 
-        void PKMN_API export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
     }
 }
 

@@ -56,23 +56,28 @@ namespace pkmn
 {
     namespace conversions
     {
-        trainer::sptr import_trainer_from_rpokesav_gen1(rpokesav_gen1_sptr sav)
+        trainer::sptr import_gen1_trainer(rpokesav_gen1_sptr sav)
         {
             pokemon_text trainer_name = sav->get_trainer_name();
 
-            //No way to tell which specific game
-            trainer::sptr libpkmn_trainer = trainer::make(Games::YELLOW, trainer_name, Genders::MALE);
+            /*
+             * Generation I has no way to distinguish between games, so just
+             * use Yellow. There aren't enough differences to make a difference.
+             */
+            trainer::sptr libpkmn_trainer = trainer::make(Games::YELLOW,
+                                                          sav->get_trainer_name(),
+                                                          Genders::MALE);
 
             libpkmn_trainer->set_money(sav->get_money());
+            std::array<rpokesav::gen1_item_t,20> rpokesav_bag = sav->get_bag_items();
 
-            import_items_from_rpokesav_gen1(libpkmn_trainer->get_bag(), sav);
+            import_gen1_bag(rpokesav_bag, libpkmn_trainer->get_bag(),
+                            sav->get_bag_item_count());
 
-            std::array<rpokesav::gen1_pokemon,6> rpokesav_gen1_team = sav->get_team();
+            std::array<rpokesav::gen1_pokemon,6> rpokesav_team = sav->get_team();
             for(size_t i = 0; i < sav->get_team_size(); i++)
             {
-                team_pokemon::sptr t_pkmn = rpokesav_gen1_pokemon_to_team_pokemon(rpokesav_gen1_team[i],
-                                                                                  trainer_name);
-                libpkmn_trainer->set_pokemon(i+1, t_pkmn);
+                libpkmn_trainer->set_pokemon(i+1, import_gen1_pokemon(rpokesav_team[i]));
             }
 
             return libpkmn_trainer;
