@@ -874,9 +874,7 @@ namespace pkmn
             BLACK2,
             WHITE2,
             X,
-            Y,
-            STADIUM,
-            STADIUM2,
+            Y
         };
     }
     
