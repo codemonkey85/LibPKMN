@@ -367,6 +367,7 @@ namespace pkmn
                                         pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
                                         pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
+            t_pkmn->set_original_game(hometown_to_libpkmn_game(pokelib_pkmn.pkm->pkm.hometown));
             t_pkmn->set_nickname(pokelib_pkmn.getNickname());
             t_pkmn->set_trainer_name(pokelib_pkmn.getTrainerName());
 
@@ -572,7 +573,7 @@ namespace pkmn
 
             pokelib_pkmn.updateBattleStats();
 
-            pokelib_pkmn.pkm->pkm.hometown = libpkmn_game_to_hometown(t_pkmn->get_game_id());
+            pokelib_pkmn.pkm->pkm.hometown = libpkmn_game_to_hometown(t_pkmn->get_original_game_id());
 
             //Attributes
             dict<std::string, int> attributes = t_pkmn->get_attributes();
@@ -700,13 +701,13 @@ namespace pkmn
             unsigned int level, from_game, species_id;
 
             level = ::getpkmlevel(p_pkm->pkm_data);
-            from_game = hometown_to_libpkmn_game(p_pkm->pkm_data.hometown);
             species_id = database::get_species_id(p_pkm->pkm_data.species, from_game);
 
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::BLACK, level,
                                         p_pkm->pkm_data.moves[0], p_pkm->pkm_data.moves[1],
                                         p_pkm->pkm_data.moves[2], p_pkm->pkm_data.moves[3]);
 
+            t_pkmn->set_original_game(hometown_to_libpkmn_game(p_pkm->pkm_data.hometown));
             #ifdef _MSC_VER
                 t_pkmn->set_nickname(getpkmnickname(p_pkm->pkm_data));
                 t_pkmn->set_trainer_name(getpkmotname(p_pkm->pkm_data));
@@ -731,7 +732,7 @@ namespace pkmn
             if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender("Female");
             else t_pkmn->set_trainer_gender("Male");
 
-            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, from_game), from_game));
+            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, Games::BLACK), Games::BLACK));
             t_pkmn->set_personality(p_pkm->pkm_data.pid);
             t_pkmn->set_trainer_public_id(p_pkm->pkm_data.tid);
             t_pkmn->set_trainer_secret_id(p_pkm->pkm_data.sid);
@@ -935,7 +936,7 @@ namespace pkmn
             p_pkm->pkm_data.evs.spdef = EVs["Special Defense"];
             p_pkm->pkm_data.evs.speed = EVs["Speed"];
 
-            p_pkm->pkm_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_game_id()));
+            p_pkm->pkm_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_original_game_id()));
 
             //Attributes
             dict<std::string, int> attributes = t_pkmn->get_attributes();
