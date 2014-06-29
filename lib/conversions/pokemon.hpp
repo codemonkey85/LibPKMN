@@ -37,7 +37,7 @@ namespace pkmn
                                                           pokemon_misc_t* pkmn_m_t,
                                                           pokemon_growth_t* pkmn_g_t);
 
-        team_pokemon::sptr pokelib_pokemon_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn);
+        team_pokemon::sptr pokelib_pokemon_to_team_pokemon(const PokeLib::Pokemon &pokelib_pkmn);
 
         PokeLib::Pokemon team_pokemon_to_pokelib_pokemon(team_pokemon::sptr t_pkmn);
 

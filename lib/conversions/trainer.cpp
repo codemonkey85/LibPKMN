@@ -197,8 +197,8 @@ namespace pkmn
              * use the save type.
              */
             PokeLib::Party* pokelib_party = pokelib_save->getParty();
-            uint16_t pokelib_public_id = *(uint16_t*)&pokelib_save->BlockA[tOffset[offsetTID][save_type]];
-            uint16_t pokelib_secret_id = *(uint16_t*)&pokelib_save->BlockA[tOffset[offsetSID][save_type]];
+            uint16_t pokelib_public_id = pokelib_trainer->getPID();
+            uint16_t pokelib_secret_id = pokelib_trainer->getSID();
             bool found = false;
 
             for(size_t i = 1; i <= (pokelib_party->count()); i++)
@@ -237,7 +237,7 @@ namespace pkmn
 
             libpkmn_trainer->set_public_id(pokelib_public_id);
             libpkmn_trainer->set_secret_id(pokelib_secret_id);
-            libpkmn_trainer->set_money(*(reinterpret_cast<uint32_t*>(&(pokelib_save->BlockA[tOffset[offsetMoney][save_type]]))));
+            libpkmn_trainer->set_money(pokelib_trainer->getMoney());
 
             import_items_from_pokelib(libpkmn_trainer->get_bag(), *pokelib_trainer);
 

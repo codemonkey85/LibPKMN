@@ -356,7 +356,7 @@ namespace pkmn
             set_ribbon(ribbonint, Ribbons::Hoenn::WORLD, attributes.at("hoenn_world_ribbon",false));
         }
 
-        team_pokemon::sptr pokelib_pokemon_to_team_pokemon(PokeLib::Pokemon pokelib_pkmn)
+        team_pokemon::sptr pokelib_pokemon_to_team_pokemon(const PokeLib::Pokemon &pokelib_pkmn)
         {
             unsigned int level, from_game, species_id;
 
