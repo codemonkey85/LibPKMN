@@ -298,7 +298,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemGeneral, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else item_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                            pokelib_bagitem.count);
             }
@@ -306,7 +306,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemMedicine, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else medicine_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                                pokelib_bagitem.count);
             }
@@ -314,7 +314,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemBall, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else ball_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                            pokelib_bagitem.count);
             }
@@ -322,7 +322,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemTM, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else tm_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                          pokelib_bagitem.count);
             }
@@ -330,7 +330,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemBerry, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else berry_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                             pokelib_bagitem.count);
             }
@@ -338,7 +338,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemMail, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else mail_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                            pokelib_bagitem.count);
             }
@@ -346,7 +346,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemBattle, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else battle_item_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                                   pokelib_bagitem.count);
             }
@@ -354,7 +354,7 @@ namespace pkmn
             {
                 PokeLib::BagItem pokelib_bagitem = pokelib_trainer.getItem(PokeLib::ItemKey, i+1);
 
-                if(pokelib_bagitem.item == 0) break;
+                if(pokelib_bagitem.item == 0 or pokelib_bagitem.item > 536) break;
                 else key_item_pocket->add_item(database::get_item_id(pokelib_bagitem.item, game_id),
                                                pokelib_bagitem.count);
             }
