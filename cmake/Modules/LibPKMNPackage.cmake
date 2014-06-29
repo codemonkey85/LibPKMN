@@ -55,12 +55,12 @@ SET(CPACK_NSIS_MODIFY_PATH ON)
 SET(HLKM_ENV "\\\"SYSTEM\\\\CurrentControlSet\\\\Control\\\\Session Manager\\\\Environment\\\"")
 
 SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
-    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_DIR\\\" \\\"$INSTDIR\\\\share\\\\libpkmn\\\"
+    WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_PATH\\\" \\\"$INSTDIR\\\\share\\\\libpkmn\\\\libpkmn.db\\\"
     WriteRegStr HKLM ${HLKM_ENV} \\\"LIBPKMN_IMAGES_DIR\\\" \\\"$INSTDIR\\\\share\\\\libpkmn\\\\images\\\"
 ")
 
 SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
-    DeleteRegValue HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_DIR\\\"
+    DeleteRegValue HKLM ${HLKM_ENV} \\\"LIBPKMN_DATABASE_PATH\\\"
     DeleteRegValue HKLM ${HLKM_ENV} \\\"LIBPKMN_IMAGES_DIR\\\"
 ")
 
