@@ -200,7 +200,7 @@ namespace pkmn
             uint16_t pokelib_secret_id = pokelib_save->BlockA[tOffset[offsetSID][save_type]];
             bool found = false;
 
-            for(size_t i = 1; i < (pokelib_party->count()); i++)
+            for(size_t i = 1; i <= (pokelib_party->count()); i++)
             {
                 PokeLib::Pokemon pokelib_pokemon = pokelib_party->getPokemon(i);
 
