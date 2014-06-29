@@ -32,12 +32,13 @@ namespace pkmn
             //Non-battle Stats
             base_pokemon::sptr get_base_pokemon(bool copy = false) const;
             pokemon_text get_species_name() const;
+            std::string get_original_game() const;
             pokemon_text get_nickname() const;
             string_pair_t get_types() const;
             pkmn::dict<std::string, unsigned int> get_base_stats() const;
-            void set_nickname(pokemon_text nickname);
 
             //Getting Trainer Info
+            void set_nickname(pokemon_text nickname);
             pokemon_text get_trainer_name() const;
             pokemon_text get_trainer_gender() const;
             unsigned int get_trainer_id() const;
@@ -47,6 +48,8 @@ namespace pkmn
             unsigned int get_met_level() const;
 
             //Setting Trainer Info
+            void set_original_game(unsigned int game);
+            void set_original_game(std::string game);
             void set_trainer_name(pokemon_text trainer_name);
             void set_trainer_gender(pokemon_text gender);
             void set_trainer_id(unsigned int id);
@@ -96,6 +99,7 @@ namespace pkmn
             //Database Info
             unsigned int get_form_id() const;
             unsigned int get_game_id() const;
+            unsigned int get_original_game_id() const;
             unsigned int get_pokemon_id() const;
             unsigned int get_species_id() const;
             unsigned int get_ability_id() const;
@@ -109,7 +113,7 @@ namespace pkmn
             pokemon_text _nickname, _trainer_name, _ball;
             std::string _trainer_gender;
             unsigned int _held_item;
-            unsigned int _game_id, _generation;
+            unsigned int _game_id, _original_game_id, _generation;
             unsigned int _level, _met_level;
             unsigned int _personality;
 

@@ -85,6 +85,7 @@ namespace pkmn
         _trainer_gender = "Male";
         _level = level;
         _game_id = game;
+        _original_game_id = game;
         _generation = _base_pkmn->get_generation();
         _held_item = Items::NONE;
         _ball = database::get_item_name(Items::POKE_BALL);
@@ -125,6 +126,7 @@ namespace pkmn
         _trainer_gender(other._trainer_gender),
         _held_item(other._held_item),
         _game_id(other._game_id),
+        _original_game_id(other._original_game_id),
         _generation(other._generation),
         _level(other._level),
         _met_level(other._met_level),
@@ -168,6 +170,7 @@ namespace pkmn
         _trainer_gender = other._trainer_gender;
         _held_item = other._held_item;
         _game_id = other._game_id;
+        _original_game_id = other._original_game_id;
         _generation = other._generation;
         _level = other._level;
         _met_level = other._met_level;
@@ -214,18 +217,13 @@ namespace pkmn
 
     pokemon_text team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
 
+    std::string team_pokemon_impl::get_original_game() const {return database::get_game_name(_original_game_id);}
+
     pokemon_text team_pokemon_impl::get_nickname() const {return _nickname;}
 
     string_pair_t team_pokemon_impl::get_types() const {return _base_pkmn->get_types();}
 
     pkmn::dict<std::string, unsigned int> team_pokemon_impl::get_base_stats() const {return _base_pkmn->get_base_stats();}
-
-    void team_pokemon_impl::set_nickname(pokemon_text nickname)
-    {
-        unsigned int max_len = (_generation == 6) ? 12 : 10;
-
-        if(nickname.std_string().length() > 0 and nickname.std_string().length() <= max_len) _nickname = nickname;
-    }
 
     pokemon_text team_pokemon_impl::get_trainer_name() const {return _trainer_name;}
 
@@ -240,6 +238,29 @@ namespace pkmn
     pokemon_text team_pokemon_impl::get_ball() const {return _ball;}
 
     unsigned int team_pokemon_impl::get_met_level() const {return _met_level;}
+
+    void team_pokemon_impl::set_original_game(unsigned int game)
+    {
+        //Simple test to see if game ID is valid
+        try
+        {
+            std::string game_name = database::get_game_name(game);
+            _original_game_id = game;
+        }
+        catch(const std::exception &e)
+        {
+            throw std::runtime_error("Invalid game.");
+        }
+    }
+
+    void team_pokemon_impl::set_original_game(std::string game) {_original_game_id = database::get_game_id(game);}
+
+    void team_pokemon_impl::set_nickname(pokemon_text nickname)
+    {
+        unsigned int max_len = (_generation == 6) ? 12 : 10;
+
+        if(nickname.std_string().length() > 0 and nickname.std_string().length() <= max_len) _nickname = nickname;
+    }
 
     void team_pokemon_impl::set_trainer_name(pokemon_text trainer_name)
     {
@@ -403,6 +424,8 @@ namespace pkmn
     unsigned int team_pokemon_impl::get_form_id() const {return _base_pkmn->get_form_id();}
 
     unsigned int team_pokemon_impl::get_game_id() const {return _game_id;}
+
+    unsigned int team_pokemon_impl::get_original_game_id() const {return _original_game_id;}
 
     unsigned int team_pokemon_impl::get_pokemon_id() const {return _base_pkmn->get_pokemon_id();}
 
