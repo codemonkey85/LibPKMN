@@ -47,7 +47,6 @@ IF(ENABLE_LIBPKMN)
         pocket_impl.cpp
         bag_impl.cpp
         item_impl.cpp
-        item_berryimpl.cpp
         item_machineimpl.cpp
         trainer_impl.cpp
         move_impl.cpp

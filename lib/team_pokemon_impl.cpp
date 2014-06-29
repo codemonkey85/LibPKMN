@@ -21,10 +21,6 @@
 
 #include "copy_sptrs.hpp"
 
-#include "item_impl.hpp"
-#include "item_berryimpl.hpp"
-#include "item_machineimpl.hpp"
-
 #include "team_pokemon_impl.hpp"
 #include "team_pokemon_gen1impl.hpp"
 #include "team_pokemon_gen2impl.hpp"

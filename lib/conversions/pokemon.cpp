@@ -358,13 +358,12 @@ namespace pkmn
 
         team_pokemon::sptr pokelib_pokemon_to_team_pokemon(const PokeLib::Pokemon &pokelib_pkmn)
         {
-            unsigned int level, from_game, species_id;
+            unsigned int level, species_id;
 
             level = pokelib_pkmn.getLevel();
-            from_game = hometown_to_libpkmn_game(pokelib_pkmn.pkm->pkm.hometown);
-            species_id = database::get_species_id(pokelib_pkmn.pkm->pkm.species, from_game);
+            species_id = database::get_species_id(pokelib_pkmn.pkm->pkm.species, Games::DIAMOND);
 
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::DIAMOND, level,
                                         pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
                                         pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
@@ -383,7 +382,7 @@ namespace pkmn
             else t_pkmn->set_trainer_gender("Male");
 
             t_pkmn->set_held_item(database::get_item_name(
-                                  database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, from_game)
+                                  database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, Games::DIAMOND)
                                  ));
             t_pkmn->set_personality(pokelib_pkmn.pkm->pkm.pid);
             t_pkmn->set_trainer_public_id(pokelib_pkmn.pkm->pkm.ot_id);

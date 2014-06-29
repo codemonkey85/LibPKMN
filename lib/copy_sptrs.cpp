@@ -17,7 +17,6 @@
 #include "base_pokemon_modernimpl.hpp"
 #include "game_save_gen1impl.hpp"
 #include "item_impl.hpp"
-#include "item_berryimpl.hpp"
 #include "item_machineimpl.hpp"
 #include "move_impl.hpp"
 #include "pocket_impl.hpp"
@@ -67,12 +66,6 @@ namespace pkmn
         {
             item_machineimpl actual_machine = *pkmn::dynamic_pointer_cast<item_machineimpl>(in);
             return pkmn::make_shared<item_machineimpl>(actual_machine);
-        }
-        else if((id >= Items::CHERI_BERRY and id <= Items::ROWAP_BERRY)
-                or (id >= Items::BERRY and id <= Items::MYSTERYBERRY))
-        {
-            item_berryimpl actual_berry = *pkmn::dynamic_pointer_cast<item_berryimpl>(in);
-            return pkmn::make_shared<item_berryimpl>(actual_berry);
         }
         else
         {

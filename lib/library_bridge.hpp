@@ -217,7 +217,7 @@ namespace pkmn
     {
         enum hometowns
         {
-            NONE,
+            COLOSSEUM_BONUS,
             SAPPHIRE,
             RUBY,
             EMERALD,

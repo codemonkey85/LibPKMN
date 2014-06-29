@@ -442,6 +442,9 @@ namespace pkmn
     {
         switch(hometown)
         {
+            case Hometowns::COLOSSEUM_BONUS:
+                return Games::COLOSSEUM;
+
             case Hometowns::RUBY:
                 return Games::RUBY;
 

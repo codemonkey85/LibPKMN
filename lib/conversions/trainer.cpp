@@ -241,7 +241,7 @@ namespace pkmn
 
             import_items_from_pokelib(libpkmn_trainer->get_bag(), *pokelib_trainer);
 
-            for(size_t i = 1; i < (unsigned int)(pokelib_party->count()); i++)
+            for(size_t i = 1; i <= (unsigned int)(pokelib_party->count()); i++)
             {
                 PokeLib::Pokemon pokelib_pokemon = pokelib_party->getPokemon(i);
 

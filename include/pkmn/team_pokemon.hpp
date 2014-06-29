@@ -19,6 +19,8 @@
 #include <pkmn/types/pokemon_text.hpp>
 #include <pkmn/types/shared_ptr.hpp>
 
+//TODO: set originating game
+
 namespace pkmn
 {
     class PKMN_API team_pokemon
