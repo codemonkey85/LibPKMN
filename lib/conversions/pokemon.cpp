@@ -700,51 +700,51 @@ namespace pkmn
 
             unsigned int level, from_game, species_id;
 
-            level = ::getpkmlevel(p_pkm->pkm_data);
-            species_id = database::get_species_id(p_pkm->pkm_data.species, from_game);
+            level = ::getpkmlevel(p_pkm);
+            species_id = database::get_species_id(p_pkm->species, from_game);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::BLACK, level,
-                                        p_pkm->pkm_data.moves[0], p_pkm->pkm_data.moves[1],
-                                        p_pkm->pkm_data.moves[2], p_pkm->pkm_data.moves[3]);
+                                        p_pkm->moves[0], p_pkm->moves[1],
+                                        p_pkm->moves[2], p_pkm->moves[3]);
 
-            t_pkmn->set_original_game(hometown_to_libpkmn_game(p_pkm->pkm_data.hometown));
+            t_pkmn->set_original_game(hometown_to_libpkmn_game(p_pkm->hometown));
             #ifdef _MSC_VER
-                t_pkmn->set_nickname(getpkmnickname(p_pkm->pkm_data));
-                t_pkmn->set_trainer_name(getpkmotname(p_pkm->pkm_data));
+                t_pkmn->set_nickname(getpkmnickname(p_pkm->);
+                t_pkmn->set_trainer_name(getpkmotname(p_pkm->);
             #else
                 //Testing new pokemon_text class, need to get around PKMDS's use of chars for Linux
                 wchar_t nickname[11];
                 wchar_t otname[8];
-                memcpy(nickname, p_pkm->pkm_data.nickname, 22);
-                memcpy(otname, p_pkm->pkm_data.otname, 16);
+                memcpy(nickname, p_pkm->nickname, 22);
+                memcpy(otname, p_pkm->otname, 16);
                 t_pkmn->set_nickname(nickname);
                 t_pkmn->set_trainer_name(otname);
             #endif
 
-            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[0], 1);
-            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[1], 2);
-            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[2], 3);
-            t_pkmn->set_move_PP(p_pkm->pkm_data.pp[3], 4);
+            t_pkmn->set_move_PP(p_pkm->pp[0], 1);
+            t_pkmn->set_move_PP(p_pkm->pp[1], 2);
+            t_pkmn->set_move_PP(p_pkm->pp[2], 3);
+            t_pkmn->set_move_PP(p_pkm->pp[3], 4);
 
-            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
+            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
-            t_pkmn->set_ball(ball_dict.at(game_ball_to_libpkmn_ball(p_pkm->pkm_data.ball), "Poke Ball"));
+            t_pkmn->set_ball(ball_dict.at(game_ball_to_libpkmn_ball(p_pkm->ball), "Poke Ball"));
             if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender("Female");
             else t_pkmn->set_trainer_gender("Male");
 
-            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, Games::BLACK), Games::BLACK));
-            t_pkmn->set_personality(p_pkm->pkm_data.pid);
-            t_pkmn->set_trainer_public_id(p_pkm->pkm_data.tid);
-            t_pkmn->set_trainer_secret_id(p_pkm->pkm_data.sid);
+            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->item, Games::BLACK), Games::BLACK));
+            t_pkmn->set_personality(p_pkm->pid);
+            t_pkmn->set_trainer_public_id(p_pkm->tid);
+            t_pkmn->set_trainer_secret_id(p_pkm->sid);
 
-            t_pkmn->set_EV("HP", p_pkm->pkm_data.evs.hp);
-            t_pkmn->set_EV("Attack", p_pkm->pkm_data.evs.attack);
-            t_pkmn->set_EV("Defense", p_pkm->pkm_data.evs.defense);
-            t_pkmn->set_EV("Special Attack", p_pkm->pkm_data.evs.spatk);
-            t_pkmn->set_EV("Special Defense", p_pkm->pkm_data.evs.spdef);
-            t_pkmn->set_EV("Speed", p_pkm->pkm_data.evs.speed);
+            t_pkmn->set_EV("HP", p_pkm->evs.hp);
+            t_pkmn->set_EV("Attack", p_pkm->evs.attack);
+            t_pkmn->set_EV("Defense", p_pkm->evs.defense);
+            t_pkmn->set_EV("Special Attack", p_pkm->evs.spatk);
+            t_pkmn->set_EV("Special Defense", p_pkm->evs.spdef);
+            t_pkmn->set_EV("Speed", p_pkm->evs.speed);
 
-            uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ivs));
+            uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkm->ivs));
             t_pkmn->set_IV("HP", modern_get_IV(ivs, Stats::HP));
             t_pkmn->set_IV("Attack", modern_get_IV(ivs, Stats::ATTACK));
             t_pkmn->set_IV("Defense", modern_get_IV(ivs, Stats::DEFENSE));
@@ -753,7 +753,7 @@ namespace pkmn
             t_pkmn->set_IV("Speed", modern_get_IV(ivs, Stats::SPEED));
 
             //Attributes
-            uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.markings));
+            uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->markings));
             t_pkmn->set_attribute("circle", get_marking(markings, Markings::CIRCLE));
             t_pkmn->set_attribute("triangle", get_marking(markings, Markings::TRIANGLE));
             t_pkmn->set_attribute("square", get_marking(markings, Markings::SQUARE));
@@ -761,15 +761,15 @@ namespace pkmn
             t_pkmn->set_attribute("star", get_marking(markings, Markings::STAR));
             t_pkmn->set_attribute("diamond", get_marking(markings, Markings::DIAMOND));
 
-            t_pkmn->set_attribute("country", p_pkm->pkm_data.country);
-            t_pkmn->set_attribute("cool", p_pkm->pkm_data.contest.cool);
-            t_pkmn->set_attribute("beauty", p_pkm->pkm_data.contest.beauty);
-            t_pkmn->set_attribute("cute", p_pkm->pkm_data.contest.cute);
-            t_pkmn->set_attribute("smart", p_pkm->pkm_data.contest.smart);
-            t_pkmn->set_attribute("tough", p_pkm->pkm_data.contest.tough);
-            t_pkmn->set_attribute("sheen", p_pkm->pkm_data.contest.sheen);
+            t_pkmn->set_attribute("country", p_pkm->country);
+            t_pkmn->set_attribute("cool", p_pkm->contest.cool);
+            t_pkmn->set_attribute("beauty", p_pkm->contest.beauty);
+            t_pkmn->set_attribute("cute", p_pkm->contest.cute);
+            t_pkmn->set_attribute("smart", p_pkm->contest.smart);
+            t_pkmn->set_attribute("tough", p_pkm->contest.tough);
+            t_pkmn->set_attribute("sheen", p_pkm->contest.sheen);
 
-            uint32_t* hribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1));
+            uint32_t* hribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->hribbon1));
             t_pkmn->set_attribute("hoenn_cool_ribbon", get_ribbon(hribbon1, Ribbons::Hoenn::COOL));
             t_pkmn->set_attribute("hoenn_cool_super_ribbon", get_ribbon(hribbon1, Ribbons::Hoenn::COOL_SUPER));
             t_pkmn->set_attribute("hoenn_cool_hyper_ribbon", get_ribbon(hribbon1, Ribbons::Hoenn::COOL_HYPER));
@@ -803,7 +803,7 @@ namespace pkmn
             t_pkmn->set_attribute("hoenn_earth_ribbon", get_ribbon(hribbon1, Ribbons::Hoenn::EARTH));
             t_pkmn->set_attribute("hoenn_world_ribbon", get_ribbon(hribbon1, Ribbons::Hoenn::WORLD));
 
-            uint32_t* sribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1));
+            uint32_t* sribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->sribbon1));
             t_pkmn->set_attribute("sinnoh_champion_ribbon", get_ribbon(sribbon1, Ribbons::Sinnoh::CHAMPION));
             t_pkmn->set_attribute("sinnoh_ability_ribbon", get_ribbon(sribbon1, Ribbons::Sinnoh::ABILITY));
             t_pkmn->set_attribute("sinnoh_great_ability_ribbon", get_ribbon(sribbon1, Ribbons::Sinnoh::GREAT_ABILITY));
@@ -833,7 +833,7 @@ namespace pkmn
             t_pkmn->set_attribute("sinnoh_classic_ribbon", get_ribbon(sribbon1, Ribbons::Sinnoh::CLASSIC));
             t_pkmn->set_attribute("sinnoh_premier_ribbon", get_ribbon(sribbon1, Ribbons::Sinnoh::PREMIER));
 
-            uint32_t* sribbon3 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3));
+            uint32_t* sribbon3 = reinterpret_cast<uint32_t*>(&(p_pkm->sribbon3));
             t_pkmn->set_attribute("sinnoh_cool_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL-23));
             t_pkmn->set_attribute("sinnoh_cool_great_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23));
             t_pkmn->set_attribute("sinnoh_cool_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23));
@@ -855,12 +855,12 @@ namespace pkmn
             t_pkmn->set_attribute("sinnoh_tough_ultra_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_GREAT-23));
             t_pkmn->set_attribute("sinnoh_tough_master_ribbon", get_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_MASTER-23));
 
-            t_pkmn->set_attribute("eggmet_year", p_pkm->pkm_data.metdate.year);
-            t_pkmn->set_attribute("eggmet_month", p_pkm->pkm_data.metdate.month);
-            t_pkmn->set_attribute("eggmet_day", p_pkm->pkm_data.metdate.day);
-            t_pkmn->set_attribute("met_year", p_pkm->pkm_data.metdate.year);
-            t_pkmn->set_attribute("met_month", p_pkm->pkm_data.metdate.month);
-            t_pkmn->set_attribute("met_day", p_pkm->pkm_data.metdate.day);
+            t_pkmn->set_attribute("eggmet_year", p_pkm->metdate.year);
+            t_pkmn->set_attribute("eggmet_month", p_pkm->metdate.month);
+            t_pkmn->set_attribute("eggmet_day", p_pkm->metdate.day);
+            t_pkmn->set_attribute("met_year", p_pkm->metdate.year);
+            t_pkmn->set_attribute("met_month", p_pkm->metdate.month);
+            t_pkmn->set_attribute("met_day", p_pkm->metdate.day);
 
             closedb();
 
@@ -869,47 +869,47 @@ namespace pkmn
 
         void team_pokemon_to_pkmds_g5_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm)
         {
-            p_pkm->pkm_data.species = ::Species::pkmspecies(
-                                        database::get_species_index(t_pkmn->get_pokemon_id(),
-                                        t_pkmn->get_game_id()));
+            p_pkm->species = ::Species::species(
+                                 database::get_species_index(t_pkmn->get_pokemon_id(),
+                                 t_pkmn->get_game_id()));
 
             moveset_t moves;
             t_pkmn->get_moves(moves);
-            p_pkm->pkm_data.moves[0] = ::Moves::moves(moves[0]->get_move_id());
-            p_pkm->pkm_data.moves[1] = ::Moves::moves(moves[1]->get_move_id());
-            p_pkm->pkm_data.moves[2] = ::Moves::moves(moves[2]->get_move_id());
-            p_pkm->pkm_data.moves[3] = ::Moves::moves(moves[3]->get_move_id());
+            p_pkm->moves[0] = ::Moves::moves(moves[0]->get_move_id());
+            p_pkm->moves[1] = ::Moves::moves(moves[1]->get_move_id());
+            p_pkm->moves[2] = ::Moves::moves(moves[2]->get_move_id());
+            p_pkm->moves[3] = ::Moves::moves(moves[3]->get_move_id());
 
             std::vector<unsigned int> move_PPs;
             t_pkmn->get_move_PPs(move_PPs);
-            p_pkm->pkm_data.pp[0] = move_PPs[0];
-            p_pkm->pkm_data.pp[1] = move_PPs[1];
-            p_pkm->pkm_data.pp[2] = move_PPs[2];
-            p_pkm->pkm_data.pp[3] = move_PPs[3];
+            p_pkm->pp[0] = move_PPs[0];
+            p_pkm->pp[1] = move_PPs[1];
+            p_pkm->pp[2] = move_PPs[2];
+            p_pkm->pp[3] = move_PPs[3];
 
-            ::setlevel(p_pkm->pkm_data, t_pkmn->get_level());
+            ::setlevel(p_pkm, t_pkmn->get_level());
 
             wstring nickname_wide = t_pkmn->get_nickname();
             wstring trainer_name_wide = t_pkmn->get_trainer_name();
             #ifdef LIBPKMN_PLATFORM_LINUX
-                ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(nickname_wide.c_str()), nickname_wide.size());
-                ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(trainer_name_wide.c_str()), trainer_name_wide.size());
+                ::setpkmnickname(p_pkm, (wchar_t*)(nickname_wide.c_str()), nickname_wide.size());
+                ::setpkmotname(p_pkm, (wchar_t*)(trainer_name_wide.c_str()), trainer_name_wide.size());
             #else
                 //TODO: clean up when using Windows
-                ::setpkmnickname(p_pkm->pkm_data, (wchar_t*)(nickname_wide.c_str()), nickname_wide.size());
-                ::setpkmotname(p_pkm->pkm_data, (wchar_t*)(trainer_name_wide.c_str()), trainer_name_wide.size());
+                ::setpkmnickname(p_pkm, (wchar_t*)(nickname_wide.c_str()), nickname_wide.size());
+                ::setpkmotname(p_pkm, (wchar_t*)(trainer_name_wide.c_str()), trainer_name_wide.size());
             #endif
 
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
-            p_pkm->pkm_data.item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
+            p_pkm->item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
 
-            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ball)+1);
+            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->ball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
-            p_pkm->pkm_data.ball = ::Balls::balls(libpkmn_ball_to_game_ball(reverse_ball_dict.at(t_pkmn->get_ball(), PokeBalls::POKE_BALL)));
+            p_pkm->ball = ::Balls::balls(libpkmn_ball_to_game_ball(reverse_ball_dict.at(t_pkmn->get_ball(), PokeBalls::POKE_BALL)));
             set_gen_456_otgender(metlevel_int, (t_pkmn->get_trainer_gender().std_string() == "Female"));
-            p_pkm->pkm_data.pid = t_pkmn->get_personality();
-            p_pkm->pkm_data.tid = t_pkmn->get_trainer_public_id();
-            p_pkm->pkm_data.sid = t_pkmn->get_trainer_secret_id();
+            p_pkm->pid = t_pkmn->get_personality();
+            p_pkm->tid = t_pkmn->get_trainer_public_id();
+            p_pkm->sid = t_pkmn->get_trainer_secret_id();
 
             dict<std::string, unsigned int> stats = t_pkmn->get_stats();
             p_pkm->party_data.maxhp = stats["HP"];
@@ -920,7 +920,7 @@ namespace pkmn
             p_pkm->party_data.speed = stats["Speed"];
 
             dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
-            uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.ppup[3])+1);
+            uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkm->ppup[3])+1);
             modern_set_IV(IVint, Stats::HP, IVs["HP"]);
             modern_set_IV(IVint, Stats::ATTACK, IVs["Attack"]);
             modern_set_IV(IVint, Stats::DEFENSE, IVs["Defense"]);
@@ -929,20 +929,20 @@ namespace pkmn
             modern_set_IV(IVint, Stats::SPEED, IVs["Speed"]);
 
             dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
-            p_pkm->pkm_data.evs.hp = EVs["HP"];
-            p_pkm->pkm_data.evs.attack = EVs["Attack"];
-            p_pkm->pkm_data.evs.defense = EVs["Defense"];
-            p_pkm->pkm_data.evs.spatk = EVs["Special Attack"];
-            p_pkm->pkm_data.evs.spdef = EVs["Special Defense"];
-            p_pkm->pkm_data.evs.speed = EVs["Speed"];
+            p_pkm->evs.hp = EVs["HP"];
+            p_pkm->evs.attack = EVs["Attack"];
+            p_pkm->evs.defense = EVs["Defense"];
+            p_pkm->evs.spatk = EVs["Special Attack"];
+            p_pkm->evs.spdef = EVs["Special Defense"];
+            p_pkm->evs.speed = EVs["Speed"];
 
-            p_pkm->pkm_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_original_game_id()));
+            p_pkm->hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_original_game_id()));
 
             //Attributes
             dict<std::string, int> attributes = t_pkmn->get_attributes();
 
-            uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->pkm_data.ability)+1);
-            p_pkm->pkm_data.tameness = attributes.at("friendship",0);
+            uint8_t* markings = reinterpret_cast<uint8_t*>(&(p_pkm->ability)+1);
+            p_pkm->tameness = attributes.at("friendship",0);
             set_marking(markings, Markings::CIRCLE, attributes.at("circle",false));
             set_marking(markings, Markings::TRIANGLE, attributes.at("triangle",false));
             set_marking(markings, Markings::SQUARE, attributes.at("square",false));
@@ -950,15 +950,15 @@ namespace pkmn
             set_marking(markings, Markings::STAR, attributes.at("star",false));
             set_marking(markings, Markings::DIAMOND, attributes.at("diamond",false));
 
-            p_pkm->pkm_data.country = Countries::countries(attributes.at("country",2)); //Default to English
-            p_pkm->pkm_data.contest.cool = attributes.at("cool",false);
-            p_pkm->pkm_data.contest.beauty = attributes.at("beauty",false);
-            p_pkm->pkm_data.contest.cute = attributes.at("cute",false);
-            p_pkm->pkm_data.contest.smart = attributes.at("smart",false);
-            p_pkm->pkm_data.contest.tough = attributes.at("tough",false);
-            p_pkm->pkm_data.contest.sheen = attributes.at("sheen",false);
+            p_pkm->country = Countries::countries(attributes.at("country",2)); //Default to English
+            p_pkm->contest.cool = attributes.at("cool",false);
+            p_pkm->contest.beauty = attributes.at("beauty",false);
+            p_pkm->contest.cute = attributes.at("cute",false);
+            p_pkm->contest.smart = attributes.at("smart",false);
+            p_pkm->contest.tough = attributes.at("tough",false);
+            p_pkm->contest.sheen = attributes.at("sheen",false);
 
-            uint32_t* hribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.hribbon1));
+            uint32_t* hribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->hribbon1));
             set_ribbon(hribbon1, Ribbons::Hoenn::COOL, attributes.at("hoenn_cool_ribbon",false));
             set_ribbon(hribbon1, Ribbons::Hoenn::COOL_SUPER, attributes.at("hoenn_cool_super_ribbon",false));
             set_ribbon(hribbon1, Ribbons::Hoenn::COOL_HYPER, attributes.at("hoenn_cool_hyper_ribbon",false));
@@ -992,7 +992,7 @@ namespace pkmn
             set_ribbon(hribbon1, Ribbons::Hoenn::EARTH, attributes.at("hoenn_earth_ribbon",false));
             set_ribbon(hribbon1, Ribbons::Hoenn::WORLD, attributes.at("hoenn_world_ribbon",false));
 
-            uint32_t* sribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon1));
+            uint32_t* sribbon1 = reinterpret_cast<uint32_t*>(&(p_pkm->sribbon1));
             set_ribbon(sribbon1, Ribbons::Sinnoh::CHAMPION, attributes.at("sinnoh_champion_ribbon",false));
             set_ribbon(sribbon1, Ribbons::Sinnoh::ABILITY, attributes.at("sinnoh_ability_ribbon",false));
             set_ribbon(sribbon1, Ribbons::Sinnoh::GREAT_ABILITY, attributes.at("sinnoh_great_ability_ribbon",false));
@@ -1021,7 +1021,7 @@ namespace pkmn
             set_ribbon(sribbon1, Ribbons::Sinnoh::CLASSIC, attributes.at("sinnoh_classic_ribbon",false));
             set_ribbon(sribbon1, Ribbons::Sinnoh::PREMIER, attributes.at("sinnoh_premier_ribbon",false));
 
-            uint32_t* sribbon3 = reinterpret_cast<uint32_t*>(&(p_pkm->pkm_data.sribbon3));
+            uint32_t* sribbon3 = reinterpret_cast<uint32_t*>(&(p_pkm->sribbon3));
             set_ribbon(sribbon3, Ribbons::Sinnoh::COOL-23, attributes.at("sinnoh_cool_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::COOL_GREAT-23, attributes.at("sinnoh_cool_great_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::COOL_ULTRA-23, attributes.at("sinnoh_cool_ultra_ribbon",false));
@@ -1043,53 +1043,53 @@ namespace pkmn
             set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_ULTRA-23, attributes.at("sinnoh_tough_ultra_ribbon",false));
             set_ribbon(sribbon3, Ribbons::Sinnoh::TOUGH_MASTER-23, attributes.at("sinnoh_tough_master_ribbon",false));
 
-            p_pkm->pkm_data.eggdate.year = attributes.at("eggmet_year",0);
-            p_pkm->pkm_data.eggdate.month = attributes.at("eggmet_month",0);
-            p_pkm->pkm_data.eggdate.day = attributes.at("eggmet_day",0);
-            p_pkm->pkm_data.metdate.year = attributes.at("met_year",0);
-            p_pkm->pkm_data.metdate.month = attributes.at("met_month",0);
-            p_pkm->pkm_data.metdate.day = attributes.at("met_day",0);
+            p_pkm->eggdate.year = attributes.at("eggmet_year",0);
+            p_pkm->eggdate.month = attributes.at("eggmet_month",0);
+            p_pkm->eggdate.day = attributes.at("eggmet_day",0);
+            p_pkm->metdate.year = attributes.at("met_year",0);
+            p_pkm->metdate.month = attributes.at("met_month",0);
+            p_pkm->metdate.day = attributes.at("met_day",0);
         }
 
         team_pokemon::sptr pkmds_g6_pokemon_to_team_pokemon(party_pkx* p_pkx)
         {
             unsigned int level, from_game, species_id;
 
-            level = p_pkx->partyx_data.level;
-            from_game = hometown_to_libpkmn_game(p_pkx->pkx_data.hometown);
-            species_id = database::get_species_id(p_pkx->pkx_data.species, from_game);
+            level = p_pkx->party_data.level;
+            from_game = hometown_to_libpkmn_game(p_pkx->hometown);
+            species_id = database::get_species_id(p_pkx->species, from_game);
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
-                                        p_pkx->pkx_data.moves[0], p_pkx->pkx_data.moves[1],
-                                        p_pkx->pkx_data.moves[2], p_pkx->pkx_data.moves[3]);
+                                        p_pkx->moves[0], p_pkx->moves[1],
+                                        p_pkx->moves[2], p_pkx->moves[3]);
 
-            t_pkmn->set_nickname(p_pkx->pkx_data.nickname);
-            t_pkmn->set_trainer_name(p_pkx->pkx_data.otname);
+            t_pkmn->set_nickname(p_pkx->nickname);
+            t_pkmn->set_trainer_name(p_pkx->otname);
 
-            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[0], 1);
-            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[1], 2);
-            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[2], 3);
-            t_pkmn->set_move_PP(p_pkx->pkx_data.pp[3], 4);
+            t_pkmn->set_move_PP(p_pkx->pp[0], 1);
+            t_pkmn->set_move_PP(p_pkx->pp[1], 2);
+            t_pkmn->set_move_PP(p_pkx->pp[2], 3);
+            t_pkmn->set_move_PP(p_pkx->pp[3], 4);
 
-            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
+            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->ball)+1);
             t_pkmn->set_met_level(get_gen_456_met_level(metlevel_int));
-            t_pkmn->set_ball(ball_dict.at(game_ball_to_libpkmn_ball(p_pkx->pkx_data.ball), "Poke Ball"));
+            t_pkmn->set_ball(ball_dict.at(game_ball_to_libpkmn_ball(p_pkx->ball), "Poke Ball"));
             if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender("Female");
             else t_pkmn->set_trainer_gender("Male");
 
-            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkx->pkx_data.item, from_game), from_game));
-            t_pkmn->set_personality(p_pkx->pkx_data.pid);
-            t_pkmn->set_trainer_public_id(p_pkx->pkx_data.tid);
-            t_pkmn->set_trainer_secret_id(p_pkx->pkx_data.sid);
+            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkx->item, from_game), from_game));
+            t_pkmn->set_personality(p_pkx->pid);
+            t_pkmn->set_trainer_public_id(p_pkx->tid);
+            t_pkmn->set_trainer_secret_id(p_pkx->sid);
 
-            t_pkmn->set_EV("HP", p_pkx->pkx_data.evs.hp);
-            t_pkmn->set_EV("Attack", p_pkx->pkx_data.evs.attack);
-            t_pkmn->set_EV("Defense", p_pkx->pkx_data.evs.defense);
-            t_pkmn->set_EV("Special Attack", p_pkx->pkx_data.evs.spatk);
-            t_pkmn->set_EV("Special Defense", p_pkx->pkx_data.evs.spdef);
-            t_pkmn->set_EV("Speed", p_pkx->pkx_data.evs.speed);
+            t_pkmn->set_EV("HP", p_pkx->evs.hp);
+            t_pkmn->set_EV("Attack", p_pkx->evs.attack);
+            t_pkmn->set_EV("Defense", p_pkx->evs.defense);
+            t_pkmn->set_EV("Special Attack", p_pkx->evs.spatk);
+            t_pkmn->set_EV("Special Defense", p_pkx->evs.spdef);
+            t_pkmn->set_EV("Speed", p_pkx->evs.speed);
 
-            uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkx->pkx_data.ivs));
+            uint32_t* ivs = reinterpret_cast<uint32_t*>(&(p_pkx->ivs));
             t_pkmn->set_IV("HP", modern_get_IV(ivs, Stats::HP));
             t_pkmn->set_IV("Attack", modern_get_IV(ivs, Stats::ATTACK));
             t_pkmn->set_IV("Defense", modern_get_IV(ivs, Stats::DEFENSE));
@@ -1102,49 +1102,49 @@ namespace pkmn
 
         void team_pokemon_to_pkmds_g6_pokemon(team_pokemon::sptr t_pkmn, party_pkx* p_pkx)
         {
-            p_pkx->pkx_data.species = ::Species_g6::pkxspecies(
-                                        database::get_species_index(t_pkmn->get_pokemon_id(),
-                                        t_pkmn->get_game_id()));
+            p_pkx->species = ::Species_g6::species(
+                                 database::get_species_index(t_pkmn->get_pokemon_id(),
+                                 t_pkmn->get_game_id()));
 
             moveset_t moves;
             t_pkmn->get_moves(moves);
-            p_pkx->pkx_data.moves[0] = ::Moves::moves(moves[0]->get_move_id());
-            p_pkx->pkx_data.moves[1] = ::Moves::moves(moves[1]->get_move_id());
-            p_pkx->pkx_data.moves[2] = ::Moves::moves(moves[2]->get_move_id());
-            p_pkx->pkx_data.moves[3] = ::Moves::moves(moves[3]->get_move_id());
+            p_pkx->moves[0] = ::Moves_g6::moves(moves[0]->get_move_id());
+            p_pkx->moves[1] = ::Moves_g6::moves(moves[1]->get_move_id());
+            p_pkx->moves[2] = ::Moves_g6::moves(moves[2]->get_move_id());
+            p_pkx->moves[3] = ::Moves_g6::moves(moves[3]->get_move_id());
 
             std::vector<unsigned int> move_PPs;
             t_pkmn->get_move_PPs(move_PPs);
-            p_pkx->pkx_data.pp[0] = move_PPs[0];
-            p_pkx->pkx_data.pp[1] = move_PPs[1];
-            p_pkx->pkx_data.pp[2] = move_PPs[2];
-            p_pkx->pkx_data.pp[3] = move_PPs[3];
+            p_pkx->pp[0] = move_PPs[0];
+            p_pkx->pp[1] = move_PPs[1];
+            p_pkx->pp[2] = move_PPs[2];
+            p_pkx->pp[3] = move_PPs[3];
 
-            p_pkx->partyx_data.level = t_pkmn->get_level();
+            p_pkx->party_data.level = t_pkmn->get_level();
 
             //TODO: setting nicknames and trainer names
 
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
-            p_pkx->pkx_data.item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
+            p_pkx->item = ::Items_g6::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
 
-            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->pkx_data.ball)+1);
+            uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->ball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
-            p_pkx->pkx_data.ball = Balls::balls(libpkmn_ball_to_game_ball(reverse_ball_dict[t_pkmn->get_ball()]));
+            p_pkx->ball = Balls::balls(libpkmn_ball_to_game_ball(reverse_ball_dict[t_pkmn->get_ball()]));
             set_gen_456_otgender(metlevel_int, (t_pkmn->get_trainer_gender().std_string() == "Female"));
-            p_pkx->pkx_data.pid = t_pkmn->get_personality();
-            p_pkx->pkx_data.tid = t_pkmn->get_trainer_public_id();
-            p_pkx->pkx_data.sid = t_pkmn->get_trainer_secret_id();
+            p_pkx->pid = t_pkmn->get_personality();
+            p_pkx->tid = t_pkmn->get_trainer_public_id();
+            p_pkx->sid = t_pkmn->get_trainer_secret_id();
 
             dict<std::string, unsigned int> stats = t_pkmn->get_stats();
-            p_pkx->partyx_data.maxhp = stats["HP"];
-            p_pkx->partyx_data.attack = stats["Attack"];
-            p_pkx->partyx_data.defense = stats["Defense"];
-            p_pkx->partyx_data.spatk = stats["Special Attack"];
-            p_pkx->partyx_data.spdef = stats["Special Defense"];
-            p_pkx->partyx_data.speed = stats["Speed"];
+            p_pkx->party_data.maxhp = stats["HP"];
+            p_pkx->party_data.attack = stats["Attack"];
+            p_pkx->party_data.defense = stats["Defense"];
+            p_pkx->party_data.spatk = stats["Special Attack"];
+            p_pkx->party_data.spdef = stats["Special Defense"];
+            p_pkx->party_data.speed = stats["Speed"];
 
             dict<std::string, unsigned int> IVs = t_pkmn->get_IVs();
-            uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkx->pkx_data.ppups[3])+1);
+            uint32_t* IVint = reinterpret_cast<uint32_t*>(&(p_pkx->ppup[3])+1);
             modern_set_IV(IVint, Stats::HP, IVs["HP"]);
             modern_set_IV(IVint, Stats::ATTACK, IVs["Attack"]);
             modern_set_IV(IVint, Stats::DEFENSE, IVs["Defense"]);
@@ -1153,14 +1153,14 @@ namespace pkmn
             modern_set_IV(IVint, Stats::SPEED, IVs["Speed"]);
 
             dict<std::string, unsigned int> EVs = t_pkmn->get_EVs();
-            p_pkx->pkx_data.evs.hp = EVs["HP"];
-            p_pkx->pkx_data.evs.attack = EVs["Attack"];
-            p_pkx->pkx_data.evs.defense = EVs["Defense"];
-            p_pkx->pkx_data.evs.spatk = EVs["Special Attack"];
-            p_pkx->pkx_data.evs.spdef = EVs["Special Defense"];
-            p_pkx->pkx_data.evs.speed = EVs["Speed"];
+            p_pkx->evs.hp = EVs["HP"];
+            p_pkx->evs.attack = EVs["Attack"];
+            p_pkx->evs.defense = EVs["Defense"];
+            p_pkx->evs.spatk = EVs["Special Attack"];
+            p_pkx->evs.spdef = EVs["Special Defense"];
+            p_pkx->evs.speed = EVs["Speed"];
 
-            p_pkx->pkx_data.hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_game_id()));
+            p_pkx->hometown = ::Hometowns::hometowns(libpkmn_game_to_hometown(t_pkmn->get_game_id()));
         }
 
         PokeLib::Pokemon pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,
@@ -1194,8 +1194,8 @@ namespace pkmn
             team_pokemon_to_pkmds_g5_pokemon(pokehack_pokemon_to_team_pokemon(b_pkmn_t, pkmn_a_t, pkmn_e_t, pkmn_m_t, pkmn_g_t), p_pkm);
 
             //Manually set egg met and met locations to Faraway Place
-            p_pkm->pkm_data.eggmet = Locations::unovafarawayplace;
-            p_pkm->pkm_data.met = Locations::unovafarawayplace;
+            p_pkm->eggmet = Locations::unovafarawayplace;
+            p_pkm->met = Locations::unovafarawayplace;
         }
 
         void pokelib_pokemon_to_pokehack_pokemon(PokeLib::Pokemon pokelib_pkmn,
@@ -1219,8 +1219,8 @@ namespace pkmn
             team_pokemon_to_pkmds_g5_pokemon(pokelib_pokemon_to_team_pokemon(pokelib_pkmn), p_pkm);
 
             //Manually set egg met location to Faraway place and met location to Poke Transfer
-            p_pkm->pkm_data.eggmet = Locations::unovafarawayplace;
-            p_pkm->pkm_data.met = Locations::poketransfer;
+            p_pkm->eggmet = Locations::unovafarawayplace;
+            p_pkm->met = Locations::poketransfer;
         }
 
         void pkmds_g5_pokemon_to_pokehack_pokemon(party_pkm* p_pkm,

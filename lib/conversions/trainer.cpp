@@ -291,7 +291,7 @@ namespace pkmn
 
             for(size_t i = 0; i < pkmds_party->size; i++)
             {
-                pokemon_obj* pkmds_pokemon = &(pkmds_party->pokemon[i].pkm_data);
+                pokemon_obj* pkmds_pokemon = &(pkmds_party->pokemon[i]);
 
                 if((pkmds_pokemon->tid == pkmds_public_id) and (pkmds_pokemon->sid == pkmds_secret_id))
                 {

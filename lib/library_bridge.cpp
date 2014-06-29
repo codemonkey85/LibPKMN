@@ -250,7 +250,7 @@ namespace pkmn
 
     void libpkmn_pctoparty(party_pkm* p_pkm, pokemon_obj* pkm)
     {
-        p_pkm->pkm_data = *pkm;
+        memcpy(p_pkm, pkm, sizeof(*pkm));
         p_pkm->party_data.maxhp = libpkmn_getpkmstat(pkm, Stats::HP);
         p_pkm->party_data.hp = p_pkm->party_data.maxhp;
         p_pkm->party_data.attack = libpkmn_getpkmstat(pkm, Stats::ATTACK);
@@ -282,7 +282,7 @@ namespace pkmn
           << "WHERE  ( pokemon_form_names.local_language_id = 9 ) "
           << "       AND ( pokemon_species_names.local_language_id = 9 ) "
           << "       AND ( pokemon.species_id = " << (uint16)(pkx->species) << " ) "
-          << "       AND ( pokemon_forms.form_order = " << (int)(pkx->forms.form) << " + 1 ) ";
+          << "       AND ( pokemon_forms.form_order = " << (int)(pkx->form_int) << " + 1 ) ";
         return o.str();
     }
 
@@ -311,7 +311,7 @@ namespace pkmn
           << "       AND ( pokemon_species_names.pokemon_species_id = " << (uint16)pkx->species << " ) ";
         if(libpkmn_getpkxformnamesql(pkx) != "")
         {
-            o << "       AND ( pokemon_forms.form_order = " << (int)(pkx->forms.form) << " + 1 ) ";
+            o << "       AND ( pokemon_forms.form_order = " << (int)(pkx->form_int) << " + 1 ) ";
         }
         o << "       AND ( stat_names.stat_id = " << (int)stat_id << " ) ";
         return o.str();
@@ -329,7 +329,7 @@ namespace pkmn
         unsigned int ev = 0;
         unsigned int iv = 0;
 
-        uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pkx->ppups[3])+1);
+        uint32_t* IVint = reinterpret_cast<uint32_t*>(&(pkx->ppup[3])+1);
         switch(stat_id)
         {
             case Stats::HP:
@@ -367,20 +367,19 @@ namespace pkmn
 
     void libpkmn_pctopartyx(party_pkx* p_pkx, pokemonx_obj* pkx)
     {
-
-        p_pkx->pkx_data = *pkx;
-        p_pkx->partyx_data.maxhp = libpkmn_getpkxstat(pkx, Stats::HP);
-        p_pkx->partyx_data.hp = p_pkx->partyx_data.maxhp;
-        p_pkx->partyx_data.attack = libpkmn_getpkxstat(pkx, Stats::ATTACK);
-        p_pkx->partyx_data.defense = libpkmn_getpkxstat(pkx, Stats::DEFENSE);
-        p_pkx->partyx_data.spatk = libpkmn_getpkxstat(pkx, Stats::SPECIAL_ATTACK);
-        p_pkx->partyx_data.spdef = libpkmn_getpkxstat(pkx, Stats::SPECIAL_DEFENSE);
-        p_pkx->partyx_data.speed = libpkmn_getpkxstat(pkx, Stats::SPEED);
+        memcpy(p_pkx, pkx, sizeof(*pkx));
+        p_pkx->party_data.maxhp = libpkmn_getpkxstat(pkx, Stats::HP);
+        p_pkx->party_data.hp = p_pkx->party_data.maxhp;
+        p_pkx->party_data.attack = libpkmn_getpkxstat(pkx, Stats::ATTACK);
+        p_pkx->party_data.defense = libpkmn_getpkxstat(pkx, Stats::DEFENSE);
+        p_pkx->party_data.spatk = libpkmn_getpkxstat(pkx, Stats::SPECIAL_ATTACK);
+        p_pkx->party_data.spdef = libpkmn_getpkxstat(pkx, Stats::SPECIAL_DEFENSE);
+        p_pkx->party_data.speed = libpkmn_getpkxstat(pkx, Stats::SPEED);
 
         SQLite::Database db(get_database_path().c_str());
         std::string pkxlevelsql = getpkmlevelsql(int(pkx->species),
                                                  int(pkx->exp));
-        p_pkx->partyx_data.level = int(db.execAndGet(pkxlevelsql.c_str()));
+        p_pkx->party_data.level = int(db.execAndGet(pkxlevelsql.c_str()));
     }
 
     uint8_t libpkmn_game_to_hometown(uint8_t game)

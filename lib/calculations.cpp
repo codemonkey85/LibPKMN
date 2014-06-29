@@ -29,7 +29,7 @@ namespace pkmn
         {
             //PKMDS has function to get gender rate
             opendb(get_database_path().c_str());
-            int gender_rate = getpkmgenderrate(::Species::pkmspecies(species_id));
+            int gender_rate = getpkmgenderrate(::Species::species(species_id));
             closedb();
 
             dict<uint32_t, uint32_t> thresholds = boost::assign::map_list_of
@@ -62,7 +62,7 @@ namespace pkmn
 
             //PKMDS has function to get gender rate
             opendb(get_database_path().c_str());
-            int gender_rate = getpkmgenderrate(::Species::pkmspecies(species_id));
+            int gender_rate = getpkmgenderrate(::Species::species(species_id));
             closedb();
 
             dict<uint32_t, uint32_t> ratios = boost::assign::map_list_of
