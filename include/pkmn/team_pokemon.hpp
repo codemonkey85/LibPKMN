@@ -45,10 +45,10 @@ namespace pkmn
             //Non-battle Stats
             virtual base_pokemon::sptr get_base_pokemon(bool copy = false) const = 0;
             virtual pokemon_text get_species_name() const = 0;
+            virtual std::string get_original_game() const = 0;
             virtual pokemon_text get_nickname() const = 0;
             virtual string_pair_t get_types() const = 0;
             virtual pkmn::dict<std::string, unsigned int> get_base_stats() const = 0;
-            virtual void set_nickname(pokemon_text nickname) = 0;
 
             //Getting Trainer Info
             virtual pokemon_text get_trainer_name() const = 0;
@@ -60,6 +60,9 @@ namespace pkmn
             virtual unsigned int get_met_level() const = 0;
 
             //Setting Trainer Info
+            virtual void set_original_game(unsigned int game) = 0;
+            virtual void set_original_game(std::string game) = 0;
+            virtual void set_nickname(pokemon_text nickname) = 0;
             virtual void set_trainer_name(pokemon_text trainer_name) = 0;
             virtual void set_trainer_gender(pokemon_text gender) = 0;
             virtual void set_trainer_id(unsigned int id) = 0;
@@ -121,6 +124,7 @@ namespace pkmn
             //Database Info
             virtual unsigned int get_form_id() const = 0;
             virtual unsigned int get_game_id() const = 0;
+            virtual unsigned int get_original_game_id() const = 0;
             virtual unsigned int get_pokemon_id() const = 0;
             virtual unsigned int get_species_id() const = 0;
             virtual unsigned int get_ability_id() const = 0;
