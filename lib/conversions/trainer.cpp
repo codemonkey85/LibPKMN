@@ -68,6 +68,7 @@ namespace pkmn
                                                           sav->get_trainer_name(),
                                                           Genders::MALE);
 
+            libpkmn_trainer->set_id(sav->get_trainer_id());
             libpkmn_trainer->set_money(sav->get_money());
             std::array<rpokesav::gen1_item_t,20> rpokesav_bag = sav->get_bag_items();
 
