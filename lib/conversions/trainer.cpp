@@ -317,6 +317,7 @@ namespace pkmn
 
             import_items_from_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
 
+            std::cout << "party size: " << int(pkmds_party->size) << std::endl;
             for(size_t i = 0; i < pkmds_party->size; i++)
             {
                 libpkmn_trainer->set_pokemon(i+1, pkmds_g5_pokemon_to_team_pokemon(&(pkmds_party->pokemon[i])));

@@ -564,7 +564,10 @@ namespace pkmn
             {
                 ::item_obj pkmds_item = pkmds_bag->keyitems_pocket[i];
 
-                if(pkmds_item.id == ::Items::NOTHING) break;
+                //Get around "Dropped Item" issue
+                if(pkmds_item.id == ::Items::droppeditem2) pkmds_item.id = ::Items::droppeditem;
+
+                if(pkmds_item.id == 0) break;
                 else key_item_pocket->add_item(database::get_item_id(pkmds_item.id, game_id),
                                                1);
             }
@@ -644,6 +647,8 @@ namespace pkmn
             key_item_pocket->get_item_list(key_item_list);
             for(size_t i = 0; i < key_item_pocket->size(); i++)
             {
+                //TODO: manually set dropped item based on gender
+
                 unsigned int item_id = key_item_list[i].first->get_game_index();
                 unsigned int amount = key_item_list[i].second;
 

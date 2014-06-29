@@ -696,6 +696,7 @@ namespace pkmn
 
         team_pokemon::sptr pkmds_g5_pokemon_to_team_pokemon(party_pkm* p_pkm)
         {
+            std::cout << "pkmds_g5_pokemon_to_team_pokemon" << std::endl;
             ::opendb(get_database_path().c_str());
 
             unsigned int level, from_game, species_id;
@@ -720,6 +721,7 @@ namespace pkmn
                 t_pkmn->set_nickname(nickname);
                 t_pkmn->set_trainer_name(otname);
             #endif
+            std::cout << t_pkmn->get_species_name() << std::endl;
 
             t_pkmn->set_move_PP(p_pkm->pp[0], 1);
             t_pkmn->set_move_PP(p_pkm->pp[1], 2);
@@ -863,6 +865,7 @@ namespace pkmn
             t_pkmn->set_attribute("met_day", p_pkm->metdate.day);
 
             closedb();
+            std::cout << "end pkmds_g5_pokemon_to_team_pokemon" << std::endl;
 
             return t_pkmn;
         }
