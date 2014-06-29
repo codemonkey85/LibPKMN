@@ -8,7 +8,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <stdexcept>
-#include <cstdlib>
 #include <string>
 
 #include <boost/filesystem.hpp>
@@ -46,12 +45,13 @@ namespace pkmn
     std::string get_appdata_path()
     {
         #ifdef PKMN_PLATFORM_WIN32
-        std::string appdata = _getenv("APPDATA");
-        if(appdata != "" and fs::exists(fs::path(appdata))) return appdata;
+        const char* env_var = "APPDATA";
         #else
-        std::string home = _getenv("HOME");
-        if(home != "" and fs::exists(fs::path(home))) return home;
+        const char* env_var = "HOME";
         #endif
+
+        std::string value = _getenv(env_var);
+        if(value != "" and fs::exists(fs::path(value))) return value;
 
         //It should never get to this point, this is a last resort
         return get_tmp_dir();
@@ -78,8 +78,21 @@ namespace pkmn
         if(images_dir == "") images_dir = "@LIBPKMN_IMAGES_DIR@";
 
         //At this point, we should have an images directory, so throw an error otherwise
-        if(images_dir == "" or not fs::exists(fs::path(images_dir)))
+        fs::path images_dir_path(images_dir);
+        if(images_dir == "" or not fs::exists(images_dir_path))
             throw std::runtime_error("Could not find images directory!");
+
+        //Now that we have a directory, search for necessary top-level directories
+        if(not fs::exists(fs::path(images_dir_path / "generation-1")) or
+           not fs::exists(fs::path(images_dir_path / "generation-2")) or
+           not fs::exists(fs::path(images_dir_path / "generation-3")) or
+           not fs::exists(fs::path(images_dir_path / "generation-4")) or
+           not fs::exists(fs::path(images_dir_path / "generation-5")) or
+           not fs::exists(fs::path(images_dir_path / "misc")) or
+           not fs::exists(fs::path(images_dir_path / "pokemon-icons")))
+        {
+            throw std::runtime_error("Could not find images directory!");
+        }
         else return images_dir;
     }
 
