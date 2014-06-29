@@ -17,7 +17,7 @@
 #include <pkmn/database/queries.hpp>
 
 #include <pokehack/pokestructs.h>
-#include <pokelib/data_tables.h>
+#include <PokeLib/data_tables.h>
 
 #include "SQLiteCpp/SQLiteC++.h"
 

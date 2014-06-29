@@ -14,7 +14,7 @@
 
 #include <rpokesav/gen1_save.hpp>
 #include <pokehack/pokestructs.h>
-#include <pokelib/pokelib.h>
+#include <PokeLib/PokeLib.h>
 #include <pkmds/pkmds_g5.h>
 
 #include "trainer.hpp"
