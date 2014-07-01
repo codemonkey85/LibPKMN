@@ -38,7 +38,7 @@ namespace pkmn
         fclose(save_file);
 
         //Once size is determined, determine whether or not save is valid
-        if(size > 0x80000)
+        if(size >= 0x80000)
         {
             //Check to see if PokeLib accepts it as a proper Gen 4 save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
@@ -56,7 +56,7 @@ namespace pkmn
                 if(savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
             }
         }
-        else if(size > 0x40000)
+        else if(size >= 0x40000)
         {
             //Check to see if PokeLib accepts it as a proper Gen 4 save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
