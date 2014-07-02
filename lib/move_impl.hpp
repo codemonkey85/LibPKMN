@@ -59,7 +59,7 @@ namespace pkmn
             unsigned int _move_damage_class;
             std::string _move_name, _effect;
 
-            static SQLite::Database _db;
+            static pkmn::shared_ptr<SQLite::Database> _db;
     };
 }
 

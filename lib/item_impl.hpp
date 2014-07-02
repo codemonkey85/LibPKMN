@@ -39,7 +39,7 @@ namespace pkmn
             unsigned int _item_id, _game_id, _category_id, _game_index, _generation;
             std::string _category_name, _description, _item_name;
 
-            static SQLite::Database _db;
+            static pkmn::shared_ptr<SQLite::Database> _db;
     };
 }
 

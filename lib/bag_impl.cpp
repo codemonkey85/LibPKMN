@@ -34,127 +34,7 @@ namespace pkmn
         return make(database::get_game_id(game));
     }
 
-    bag_impl::bag_impl(unsigned int game): bag()
-    {
-        _game_id = game;
-        _generation = database::get_generation(_game_id);
-        _pockets = pkmn::dict<std::string, pocket::sptr>();
-
-        switch(game)
-        {
-            case Games::RED:
-            case Games::BLUE:
-            case Games::YELLOW:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
-                break;
-
-            case Games::GOLD:
-            case Games::SILVER:
-            case Games::CRYSTAL:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
-                _pockets["Balls"] = pocket::make(_game_id, "Balls", 12);
-                _pockets["KeyItems"] = pocket::make(_game_id, "KeyItems", 26);
-                _pockets["TM/HM"] = pocket::make(_game_id, "TM/HM", 99);
-                break;
-
-            case Games::RUBY:
-            case Games::SAPPHIRE:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
-                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 16);
-                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 64);
-                _pockets["Berries"] = pocket::make(_game_id, "Berries", 46);
-                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 20);
-                break;
-
-            case Games::EMERALD:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
-                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 16);
-                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 64);
-                _pockets["Berries"] = pocket::make(_game_id, "Berries", 46);
-                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 30);
-                break;
-
-            case Games::FIRE_RED:
-            case Games::LEAF_GREEN:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 42);
-                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 30);
-                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 13);
-                _pockets["TM Case"] = pocket::make(_game_id, "TM Case", 58);
-                _pockets["Berry Pouch"] = pocket::make(_game_id, "Berry Pouch", 43);
-                break;
-
-            case Games::DIAMOND:
-            case Games::PEARL:
-            case Games::PLATINUM:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 165);
-                _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 40);
-                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 15);
-                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 100);
-                _pockets["Berries"] = pocket::make(_game_id, "Berries", 64);
-                _pockets["Mail"] = pocket::make(_game_id, "Mail", 12);
-                _pockets["Battle Items"] = pocket::make(_game_id, "Battle Items", 30);
-                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 50);
-                break;
-
-            case Games::HEART_GOLD:
-            case Games::SOUL_SILVER:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 165);
-                _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 40);
-                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 24);
-                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 100);
-                _pockets["Berries"] = pocket::make(_game_id, "Berries", 64);
-                _pockets["Mail"] = pocket::make(_game_id, "Mail", 12);
-                _pockets["Battle Items"] = pocket::make(_game_id, "Battle Items", 30);
-                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 43);
-                break;
-
-            case Games::BLACK:
-            case Games::WHITE:
-            case Games::BLACK2:
-            case Games::WHITE2:
-            case Games::X:
-            case Games::Y:
-                _pockets["Items"] = pocket::make(_game_id, "Items", 310);
-                _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 48);
-                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 109);
-                _pockets["Berries"] = pocket::make(_game_id, "Berries", 64);
-                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 83);
-
-            default:
-                break;
-        }
-    }
-
-    bag_impl::bag_impl(const bag_impl& other) :
-        _game_id(other._game_id),
-        _generation(other._generation)
-    {
-        std::vector<std::string> pocket_names = other._pockets.keys();
-        std::vector<pocket::sptr> pockets = other._pockets.vals();
-
-        for(size_t i = 0; i < pocket_names.size(); i++)
-        {
-            _pockets[pocket_names[i]] = copy_pocket(pockets[i]);
-        }
-    }
-
-    bag_impl& bag_impl::operator=(const bag_impl& other)
-    {
-        _game_id = other._game_id;
-        _generation = other._generation;
-
-        std::vector<std::string> pocket_names = other._pockets.keys();
-        std::vector<pocket::sptr> pockets = other._pockets.vals();
-
-        for(size_t i = 0; i < pocket_names.size(); i++)
-        {
-            _pockets[pocket_names[i]] = copy_pocket(pockets[i]);
-        }
-
-        return *this;
-    }
-
-    SQLite::Database bag_impl::_db(get_database_path().c_str());
+    pkmn::shared_ptr<SQLite::Database> bag_impl::_db = NULL;
 
     /*
      * The underlying SQLite database can return item categories, which correspond to bag
@@ -361,6 +241,128 @@ namespace pkmn
         )
     ;
 
+    bag_impl::bag_impl(unsigned int game): bag()
+    {
+        if(!_db) _db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+
+        _game_id = game;
+        _generation = database::get_generation(_game_id);
+        _pockets = pkmn::dict<std::string, pocket::sptr>();
+
+        switch(game)
+        {
+            case Games::RED:
+            case Games::BLUE:
+            case Games::YELLOW:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
+                break;
+
+            case Games::GOLD:
+            case Games::SILVER:
+            case Games::CRYSTAL:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
+                _pockets["Balls"] = pocket::make(_game_id, "Balls", 12);
+                _pockets["KeyItems"] = pocket::make(_game_id, "KeyItems", 26);
+                _pockets["TM/HM"] = pocket::make(_game_id, "TM/HM", 99);
+                break;
+
+            case Games::RUBY:
+            case Games::SAPPHIRE:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
+                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 16);
+                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 64);
+                _pockets["Berries"] = pocket::make(_game_id, "Berries", 46);
+                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 20);
+                break;
+
+            case Games::EMERALD:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 20);
+                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 16);
+                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 64);
+                _pockets["Berries"] = pocket::make(_game_id, "Berries", 46);
+                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 30);
+                break;
+
+            case Games::FIRE_RED:
+            case Games::LEAF_GREEN:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 42);
+                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 30);
+                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 13);
+                _pockets["TM Case"] = pocket::make(_game_id, "TM Case", 58);
+                _pockets["Berry Pouch"] = pocket::make(_game_id, "Berry Pouch", 43);
+                break;
+
+            case Games::DIAMOND:
+            case Games::PEARL:
+            case Games::PLATINUM:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 165);
+                _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 40);
+                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 15);
+                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 100);
+                _pockets["Berries"] = pocket::make(_game_id, "Berries", 64);
+                _pockets["Mail"] = pocket::make(_game_id, "Mail", 12);
+                _pockets["Battle Items"] = pocket::make(_game_id, "Battle Items", 30);
+                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 50);
+                break;
+
+            case Games::HEART_GOLD:
+            case Games::SOUL_SILVER:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 165);
+                _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 40);
+                _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 24);
+                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 100);
+                _pockets["Berries"] = pocket::make(_game_id, "Berries", 64);
+                _pockets["Mail"] = pocket::make(_game_id, "Mail", 12);
+                _pockets["Battle Items"] = pocket::make(_game_id, "Battle Items", 30);
+                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 43);
+                break;
+
+            case Games::BLACK:
+            case Games::WHITE:
+            case Games::BLACK2:
+            case Games::WHITE2:
+            case Games::X:
+            case Games::Y:
+                _pockets["Items"] = pocket::make(_game_id, "Items", 310);
+                _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 48);
+                _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 109);
+                _pockets["Berries"] = pocket::make(_game_id, "Berries", 64);
+                _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 83);
+
+            default:
+                break;
+        }
+    }
+
+    bag_impl::bag_impl(const bag_impl& other) :
+        _game_id(other._game_id),
+        _generation(other._generation)
+    {
+        std::vector<std::string> pocket_names = other._pockets.keys();
+        std::vector<pocket::sptr> pockets = other._pockets.vals();
+
+        for(size_t i = 0; i < pocket_names.size(); i++)
+        {
+            _pockets[pocket_names[i]] = copy_pocket(pockets[i]);
+        }
+    }
+
+    bag_impl& bag_impl::operator=(const bag_impl& other)
+    {
+        _game_id = other._game_id;
+        _generation = other._generation;
+
+        std::vector<std::string> pocket_names = other._pockets.keys();
+        std::vector<pocket::sptr> pockets = other._pockets.vals();
+
+        for(size_t i = 0; i < pocket_names.size(); i++)
+        {
+            _pockets[pocket_names[i]] = copy_pocket(pockets[i]);
+        }
+
+        return *this;
+    }
+
     std::string bag_impl::get_game() const {return database::get_game_name(_game_id);}
 
     unsigned int bag_impl::get_generation() const {return _generation;}
@@ -423,7 +425,7 @@ namespace pkmn
 
         std::string query_string(str(boost::format("SELECT pocket_id FROM item_categories WHERE id=%d")
                                      % database::get_item_category(item_id)));
-        SQLite::Statement pocket_id_query(_db, query_string.c_str());
+        SQLite::Statement pocket_id_query(*_db, query_string.c_str());
         unsigned int pocket_id = (pocket_id_query.executeStep()) ? int(pocket_id_query.getColumn(0)) : 0;
 
         return _category_pockets[version_group][pocket_id];

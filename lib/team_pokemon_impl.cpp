@@ -26,8 +26,6 @@
 #include "team_pokemon_gen2impl.hpp"
 #include "team_pokemon_modernimpl.hpp"
 
-using namespace std;
-
 namespace pkmn
 {
     team_pokemon::sptr team_pokemon::make(unsigned int id, unsigned int game, unsigned int level,
@@ -36,7 +34,7 @@ namespace pkmn
     {
         base_pokemon::sptr base = base_pokemon::make(id, game);
 
-        if(base->get_generation() < 1 or base->get_generation() > 6) throw runtime_error("Gen must be 1-6.");
+        if(base->get_generation() < 1 or base->get_generation() > 6) throw std::runtime_error("Gen must be 1-6.");
 
         switch(base->get_generation())
         {
@@ -67,12 +65,14 @@ namespace pkmn
                     database::get_move_id(move4));
     }
 
-    SQLite::Database team_pokemon_impl::_db(get_database_path().c_str());
+    pkmn::shared_ptr<SQLite::Database> team_pokemon_impl::_db = NULL;
 
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,
                                          unsigned int move3, unsigned int move4): team_pokemon()
     {    
+        if(!_db) _db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+
         _base_pkmn = base;
         _pokemon_id = _base_pkmn->get_pokemon_id();
         _form_id = _base_pkmn->get_form_id();
@@ -91,7 +91,7 @@ namespace pkmn
         _personality = _rand_gen->lcrng();
         _trainer_id = _rand_gen->lcrng();
 
-		_attributes = pkmn::dict<string, int>();
+		_attributes = pkmn::dict<std::string, int>();
         _moves = moveset_t(4);
         _move_PPs = std::vector<unsigned int>(4);
 
@@ -317,7 +317,7 @@ namespace pkmn
         unsigned int item_id = database::get_item_id(item_name);
         std::string query_string(str(boost::format("SELECT generation_id FROM item_game_indices WHERE item_id=%d")
                                      % item_id));
-        SQLite::Statement query(_db, query_string.c_str());
+        SQLite::Statement query(*_db, query_string.c_str());
         unsigned int gen = query.executeStep() ? int(query.getColumn(0)) : 7;
 
         if(_generation <= gen) _held_item = item_id;
@@ -352,7 +352,7 @@ namespace pkmn
     {
         std::string query_string(str(boost::format("SELECT generation_id FROM moves WHERE id=%d")
                                      % move_id));
-        SQLite::Statement query(_db, query_string.c_str());
+        SQLite::Statement query(*_db, query_string.c_str());
         unsigned int generation = (query.executeStep()) ? int(query.getColumn(0)) : 7; //Invalid if invalid move ID is given
         if(generation <= _generation and (pos >= 1 and pos <= 4)) //Position must be valid
         {

@@ -19,10 +19,6 @@
 #include "base_pokemon_modernimpl.hpp"
 #include "team_pokemon_modernimpl.hpp"
 
-#include "SQLiteCpp/SQLiteC++.h"
-
-using namespace std;
-
 namespace pkmn
 {
     team_pokemon_modernimpl::team_pokemon_modernimpl(base_pokemon::sptr base, unsigned int game, unsigned int level,
@@ -184,7 +180,7 @@ namespace pkmn
         //Search for given nature in database
         std::string query_string = str(boost::format("SELECT nature_id FROM nature_names WHERE name='%s'")
                                        % nature_name.c_str());
-        SQLite::Statement nature_names_query(_db, query_string.c_str());
+        SQLite::Statement nature_names_query(*_db, query_string.c_str());
         if(nature_names_query.executeStep())
         {
             _nature = nature(nature_name);
@@ -195,7 +191,7 @@ namespace pkmn
         //If not in nature_names, check in abilities
         query_string = str(boost::format("Select id FROM natures WHERE identifier='%s'")
                            % nature_name.c_str());
-        SQLite::Statement natures_query(_db, query_string.c_str());
+        SQLite::Statement natures_query(*_db, query_string.c_str());
         if(natures_query.executeStep())
         {
             _nature = nature(nature_name);
@@ -208,7 +204,7 @@ namespace pkmn
         //Search for given ability in database
         std::string query_string = str(boost::format("SELECT ability_id FROM ability_names WHERE name='%s'")
                                        % ability.c_str());
-        SQLite::Statement ability_names_query(_db, query_string.c_str());
+        SQLite::Statement ability_names_query(*_db, query_string.c_str());
         if(ability_names_query.executeStep())
         {
             _ability = ability;
@@ -218,7 +214,7 @@ namespace pkmn
         //If not in ability_names, check in abilities
         query_string = str(boost::format("Select id FROM abilities WHERE identifier='%s'")
                            % ability);
-        SQLite::Statement abilities_query(_db, query_string.c_str());
+        SQLite::Statement abilities_query(*_db, query_string.c_str());
         if(abilities_query.executeStep())
         {
             ability[0] = tolower(ability[0]);

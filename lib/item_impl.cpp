@@ -19,8 +19,6 @@
 #include "item_impl.hpp"
 #include "item_machineimpl.hpp"
 
-using namespace std;
-
 namespace pkmn
 {
     item::sptr item::make(unsigned int id, unsigned int game)
@@ -40,10 +38,12 @@ namespace pkmn
         return make(database::get_item_id(name), database::get_game_id(game));
     }
 
-    SQLite::Database item_impl::_db(get_database_path().c_str());
+    pkmn::shared_ptr<SQLite::Database> item_impl::_db = NULL;
 
     item_impl::item_impl(unsigned int id, unsigned int game): item()
     {
+        if(!_db) _db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+
         _item_id = id;
         _game_id = game;
         _generation = database::get_generation(_game_id);
@@ -61,12 +61,12 @@ namespace pkmn
 
     std::string item_impl::get_description() const {return _description;}
 
-    string item_impl::get_category() const
+    std::string item_impl::get_category() const
     {
-        string query_string = "SELECT name FROM item_category_prose "
-                               "WHERE local_language_id=9 AND item_category_id="
-                               + to_string(_category_id);
-        return string((const char*)_db.execAndGet(query_string.c_str()));
+        std::string query_string = "SELECT name FROM item_category_prose "
+                                   "WHERE local_language_id=9 AND item_category_id="
+                                 + to_string(_category_id);
+        return (const char*)(_db->execAndGet(query_string.c_str()));
     }
 
     unsigned int item_impl::get_game_index() const {return _game_index;}

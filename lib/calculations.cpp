@@ -21,8 +21,6 @@ namespace pkmn
 {
     namespace calculations
     {
-        static SQLite::Database db(get_database_path().c_str());
-
         uint8_t get_ability_num(uint32_t personality) {return personality % 2;}
 
         uint8_t get_gen2_gender(uint16_t species_id, uint8_t ivATK)
@@ -249,6 +247,8 @@ namespace pkmn
         //TODO: Account for Gen V-VI differences
         double get_type_damage_mod(std::string type1, std::string type2, unsigned int gen)
         {
+            SQLite::Database db(get_database_path().c_str());
+
             unsigned int type1_id = database::get_type_id(type1);
             unsigned int type2_id = database::get_type_id(type2);
 

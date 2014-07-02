@@ -13,8 +13,6 @@
 
 #include "team_pokemon_gen1impl.hpp"
 
-using namespace std;
-
 namespace pkmn
 {
     team_pokemon_gen1impl::team_pokemon_gen1impl(base_pokemon::sptr base, unsigned int game, unsigned int level,

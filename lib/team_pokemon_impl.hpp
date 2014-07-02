@@ -143,7 +143,7 @@ namespace pkmn
             std::string _ability, _gender, _nature, _otgender;
             bool _has_hidden_ability;
 
-            static SQLite::Database _db;
+            static pkmn::shared_ptr<SQLite::Database> _db;
 
             void _check() const;
     };

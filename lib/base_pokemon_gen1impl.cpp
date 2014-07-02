@@ -14,12 +14,9 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
 
-#include "SQLiteCpp/SQLiteC++.h"
-
 #include "base_pokemon_gen1impl.hpp"
 
 namespace fs = boost::filesystem;
-using namespace std;
 
 namespace pkmn
 {
@@ -61,9 +58,9 @@ namespace pkmn
                  * Special is exclusive to Generation 1, so query it separately
                  * from the rest.
                  */
-                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id="
-                                    + to_string(_pokemon_id) + " AND stat_id=9";
-                _special = int(_db.execAndGet(query_string.c_str()));
+                std::string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id="
+                                         + to_string(_pokemon_id) + " AND stat_id=9";
+                _special = int(_db->execAndGet(query_string.c_str()));
                 _use_old_stats();
                 break;
         }
@@ -119,13 +116,13 @@ namespace pkmn
     void base_pokemon_gen1impl::repair(unsigned int id) {};
 
     //No genders in Generation 1
-    string base_pokemon_gen1impl::get_icon_path(bool is_male) const
+    std::string base_pokemon_gen1impl::get_icon_path(bool is_male) const
     {
         return _male_icon_path.string();
     }
 
     //No genders or shininess in Generation 1
-    string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny) const
+    std::string base_pokemon_gen1impl::get_sprite_path(bool is_male, bool is_shiny) const
     {
         return _male_sprite_path.string();
     }

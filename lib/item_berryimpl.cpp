@@ -16,8 +16,6 @@
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
 
-using namespace std;
-
 namespace pkmn
 {
     item_berryimpl::item_berryimpl(unsigned int id, unsigned int game): item_impl(id, game)

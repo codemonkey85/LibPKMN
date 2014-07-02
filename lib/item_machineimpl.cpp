@@ -17,8 +17,6 @@
 
 #include "item_machineimpl.hpp"
 
-using namespace std;
-
 namespace pkmn
 {
     item_machineimpl::item_machineimpl(unsigned int id, unsigned int game): item_impl(id, game)
@@ -26,9 +24,9 @@ namespace pkmn
         if(_item_id >= Items::TM01 and _item_id <= Items::TM92) _machine_id = _item_id - 304;
         else _machine_id = 101 + (_item_id - Items::HM01);
 
-        string query_string(str(boost::format("SELECT move_id FROM machines WHERE machine_number=%d AND version_group_id=%d")
-                                % _machine_id % database::get_version_group(_game_id)));
-        _move_id = int(_db.execAndGet(query_string.c_str()));
+        std::string query_string(str(boost::format("SELECT move_id FROM machines WHERE machine_number=%d AND version_group_id=%d")
+                                     % _machine_id % database::get_version_group(_game_id)));
+        _move_id = _db->execAndGet(query_string.c_str());
 
         _item_name = str(boost::format("%s (%s)") % database::get_item_name(_item_id)
                                                   % database::get_move_name(_move_id));

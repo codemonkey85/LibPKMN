@@ -79,7 +79,7 @@ namespace pkmn
 
         protected:
 
-            void _get_evolution_ids(std::vector<unsigned int>& id_vec) const;
+            void _get_evolution_ids(std::vector<unsigned int> &id_vec) const;
             void _use_old_stats();
 
             unsigned int _generation, _form_id, _pokemon_id, _species_id, _type1_id, _type2_id;
@@ -87,13 +87,13 @@ namespace pkmn
 
             unsigned int _game_id;
             std::string _images_default_basename, _images_game_string, _images_gen_string;
+            boost::filesystem::path _images_dir, _icon_dir;
             boost::filesystem::path _sprite_dir, _shiny_sprite_dir;
             boost::filesystem::path _male_icon_path, _female_icon_path;
             boost::filesystem::path _male_sprite_path, _female_sprite_path;
             boost::filesystem::path _male_shiny_sprite_path, _female_shiny_sprite_path;
 
-            static SQLite::Database _db;
-            static boost::filesystem::path _images_dir, _icon_dir;
+            static pkmn::shared_ptr<SQLite::Database> _db;
     };
 }
 

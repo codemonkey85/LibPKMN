@@ -28,10 +28,12 @@ namespace pkmn
         return make(database::get_move_id(name), database::get_game_id(game));
     }
 
-    SQLite::Database move_impl::_db(get_database_path().c_str());
+    pkmn::shared_ptr<SQLite::Database> move_impl::_db = NULL;
 
     move_impl::move_impl(unsigned int id, unsigned int game): move()
     {
+        if(!_db) _db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+
         _game_id = game;
         _generation = database::get_generation(_game_id);
 
@@ -62,7 +64,7 @@ namespace pkmn
             //Fail if move's generation_id > specified generation
             std::ostringstream query_stream;
             query_stream << "SELECT generation_id FROM moves WHERE id=" << _move_id;
-            unsigned int gen_id = _db.execAndGet(query_stream.str().c_str());
+            unsigned int gen_id = _db->execAndGet(query_stream.str().c_str());
 
             if(gen_id > _generation)
             {
@@ -73,7 +75,7 @@ namespace pkmn
 
             query_stream.str("");
             query_stream << "SELECT * FROM moves WHERE id=" << _move_id;
-            SQLite::Statement moves_query(_db, query_stream.str().c_str());
+            SQLite::Statement moves_query(*_db, query_stream.str().c_str());
             moves_query.executeStep();
 
             //Get available values from queries
@@ -90,7 +92,7 @@ namespace pkmn
 
             query_stream.str("");
             query_stream << "SELECT name FROM move_names WHERE local_language_id=9 AND move_id=" << _move_id;
-            _move_name = (const char*)_db.execAndGet(query_stream.str().c_str());
+            _move_name = (const char*)(_db->execAndGet(query_stream.str().c_str()));
 
             if(_generation < 6) _set_old_values();
         }
@@ -119,7 +121,7 @@ namespace pkmn
             query_stream << "SELECT name FROM move_damage_class_prose WHERE local_language_id=9 AND move_damage_class_id="
                          << _move_damage_class_id;
 
-            std::string move_damage_class = (const char*)(_db.execAndGet(query_stream.str().c_str()));
+            std::string move_damage_class = (const char*)(_db->execAndGet(query_stream.str().c_str()));
             move_damage_class[0] = toupper(move_damage_class[0]); //"name" field is all-lowercase
 
             return move_damage_class;
@@ -135,7 +137,7 @@ namespace pkmn
         {
             std::ostringstream query_stream;
             query_stream << "SELECT short_effect FROM move_effect_prose WHERE local_language_id=9 AND move_effect_id=" << _effect_id;
-            SQLite::Statement query(_db, query_stream.str().c_str());
+            SQLite::Statement query(*_db, query_stream.str().c_str());
 
             std::string entry = (query.executeStep()) ? ((const char*)(query.getColumn(0))) : "None";
 
@@ -160,7 +162,7 @@ namespace pkmn
     {
         std::ostringstream query_stream;
         query_stream << "SELECT name FROM move_target_prose WHERE local_language_id=9 AND move_target_id=" << _target_id;
-        return (const char*)(_db.execAndGet(query_stream.str().c_str()));
+        return (const char*)(_db->execAndGet(query_stream.str().c_str()));
     }
 
     unsigned int move_impl::get_move_id() const {return _move_id;}
@@ -178,7 +180,7 @@ namespace pkmn
     {
         std::ostringstream query_stream;
         query_stream << "SELECT gen" << _generation << "_accuracy FROM old_move_accuracies WHERE move_id=" << _move_id;
-        SQLite::Statement accuracy_query(_db, query_stream.str().c_str());
+        SQLite::Statement accuracy_query(*_db, query_stream.str().c_str());
         if(accuracy_query.executeStep()) _base_accuracy = int(accuracy_query.getColumn(0)) / 100.0;
         
         //Hypnosis varies in accuracy between games
@@ -186,7 +188,7 @@ namespace pkmn
 
         query_stream.str("");
         query_stream << "SELECT gen" << _generation << "_power FROM old_move_powers WHERE move_id=" << _move_id;
-        SQLite::Statement power_query(_db, query_stream.str().c_str());
+        SQLite::Statement power_query(*_db, query_stream.str().c_str());
         if(power_query.executeStep()) _base_power = power_query.getColumn(0);
 
         //Shadow Rush varies in power between Gamecube games
@@ -194,7 +196,7 @@ namespace pkmn
 
         query_stream.str("");
         query_stream << "SELECT gen" << _generation << "_pp FROM old_move_pps WHERE move_id=" << _move_id;
-        SQLite::Statement pp_query(_db, query_stream.str().c_str());
+        SQLite::Statement pp_query(*_db, query_stream.str().c_str());
         if(pp_query.executeStep()) _base_pp = pp_query.getColumn(0);
 
         //Not enough type changes to warrant a database table
@@ -214,7 +216,7 @@ namespace pkmn
 
         query_stream.str("");
         query_stream << "SELECT gen" << _generation << "_priority FROM old_move_priorities WHERE move_id=" << _move_id;
-        SQLite::Statement priority_query(_db, query_stream.str().c_str());
+        SQLite::Statement priority_query(*_db, query_stream.str().c_str());
         if(priority_query.executeStep()) _base_priority = priority_query.getColumn(0);
 
         //Only one move changed name between Generation II-III
@@ -222,7 +224,7 @@ namespace pkmn
 
         query_stream.str("");
         query_stream << "SELECT name FROM old_move_names WHERE move_id=" << _move_id;
-        SQLite::Statement name_query(_db, query_stream.str().c_str());
+        SQLite::Statement name_query(*_db, query_stream.str().c_str());
         if(name_query.executeStep()) _move_name = (const char*)(name_query.getColumn(0));
     }
 } /* namespace pkmn */
