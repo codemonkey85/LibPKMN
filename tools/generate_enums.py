@@ -14,6 +14,7 @@ from unidecode import unidecode
 
 abilities = []
 egg_groups = []
+forms = []
 items = []
 markings = []
 moves = []
@@ -46,6 +47,28 @@ def get_egg_groups(c):
     for i in range(len(from_db)):
         egg_group_name = str(from_db[i][1]).replace("-","_").replace(" ","_").upper()
         egg_groups += [(from_db[i][0], egg_group_name)]
+
+def get_forms(c):
+    global forms
+
+    c.execute("SELECT DISTINCT species_id FROM pokemon WHERE id IN (SELECT pokemon_id FROM pokemon_forms WHERE form_identifier != 'NULL' ORDER BY pokemon_id) ORDER BY species_id")
+    species_ids = c.fetchall()
+
+    for i in range(len(species_ids)):
+        c.execute("SELECT name FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9" % species_ids[i][0])
+        species_name = str(unidecode(c.fetchone()[0])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
+
+        c.execute("SELECT pokemon_form_id,form_name FROM pokemon_form_names WHERE pokemon_form_id IN (SELECT id FROM pokemon_forms WHERE pokemon_id IN (SELECT id FROM pokemon WHERE species_id=%s)) AND local_language_id=9" % species_ids[i][0])
+        species_forms = c.fetchall()
+
+        form_index = []
+        form_index += [species_name]
+        for j in range(len(species_forms)):
+            form_name = "STANDARD" if species_forms[j][1] == None else [(species_forms[j][0], str(unidecode(species_forms[j][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper())]
+            form_index += [(species_forms[j][0], form_name)]
+
+        forms += [form_index]
+    print forms
 
 def get_items(c):
     global items
@@ -345,7 +368,7 @@ def generate_cpp_file(top_level_dir, header):
     }
 }"""
 
-    print output
+    #print output
 
 if __name__ == "__main__":
 
@@ -365,7 +388,7 @@ if __name__ == "__main__":
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  *
- * This file was last generated: %s
+ * This file was generated: %s
  */""" % time
 
     python_header = """#
@@ -379,6 +402,7 @@ if __name__ == "__main__":
 
     get_abilities(c)
     get_egg_groups(c)
+    get_forms(c)
     get_items(c)
     get_markings()
     get_moves(c)
