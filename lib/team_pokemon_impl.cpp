@@ -65,7 +65,7 @@ namespace pkmn
                     database::get_move_id(move4));
     }
 
-    pkmn::shared_ptr<SQLite::Database> team_pokemon_impl::_db = NULL;
+    pkmn::shared_ptr<SQLite::Database> team_pokemon_impl::_db;
 
     team_pokemon_impl::team_pokemon_impl(base_pokemon::sptr base, unsigned int game, unsigned int level,
                                          unsigned int move1, unsigned int move2,

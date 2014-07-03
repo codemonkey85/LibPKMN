@@ -34,7 +34,7 @@ namespace pkmn
         return make(database::get_game_id(game));
     }
 
-    pkmn::shared_ptr<SQLite::Database> bag_impl::_db = NULL;
+    pkmn::shared_ptr<SQLite::Database> bag_impl::_db;
 
     /*
      * The underlying SQLite database can return item categories, which correspond to bag

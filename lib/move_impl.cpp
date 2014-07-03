@@ -28,7 +28,7 @@ namespace pkmn
         return make(database::get_move_id(name), database::get_game_id(game));
     }
 
-    pkmn::shared_ptr<SQLite::Database> move_impl::_db = NULL;
+    pkmn::shared_ptr<SQLite::Database> move_impl::_db;
 
     move_impl::move_impl(unsigned int id, unsigned int game): move()
     {

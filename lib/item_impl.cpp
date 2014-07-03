@@ -38,7 +38,7 @@ namespace pkmn
         return make(database::get_item_id(name), database::get_game_id(game));
     }
 
-    pkmn::shared_ptr<SQLite::Database> item_impl::_db = NULL;
+    pkmn::shared_ptr<SQLite::Database> item_impl::_db;
 
     item_impl::item_impl(unsigned int id, unsigned int game): item()
     {

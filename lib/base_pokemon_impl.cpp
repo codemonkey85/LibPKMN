@@ -50,7 +50,7 @@ namespace pkmn
         return make(database::get_species_id(species), database::get_game_id(game));
     }
 
-    pkmn::shared_ptr<SQLite::Database> base_pokemon_impl::_db = NULL;
+    pkmn::shared_ptr<SQLite::Database> base_pokemon_impl::_db;
 
     base_pokemon_impl::base_pokemon_impl(unsigned int id, unsigned int game_id): base_pokemon()
     {

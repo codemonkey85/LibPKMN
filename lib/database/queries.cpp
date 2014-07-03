@@ -45,7 +45,7 @@ namespace pkmn
 {
     namespace database
     {
-        static pkmn::shared_ptr<SQLite::Database> db = NULL;
+        static pkmn::shared_ptr<SQLite::Database> db;
 
         //Transform identifier strings into proper format for database
         std::string to_database_format(std::string identifier)
