@@ -56,7 +56,7 @@ def get_forms(c):
 
     for i in range(len(species_ids)):
         c.execute("SELECT name FROM pokemon_species_names WHERE pokemon_species_id=%d AND local_language_id=9" % species_ids[i][0])
-        species_name = str(unidecode(c.fetchone()[0])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
+        species_name = str(unidecode(c.fetchone()[0])).replace("-","_").replace(" ","_").replace(".","").replace("'","")
 
         c.execute("SELECT pokemon_form_id,form_name FROM pokemon_form_names WHERE pokemon_form_id IN (SELECT id FROM pokemon_forms WHERE pokemon_id IN (SELECT id FROM pokemon WHERE species_id=%s)) AND local_language_id=9" % species_ids[i][0])
         species_forms = c.fetchall()
@@ -68,7 +68,6 @@ def get_forms(c):
             form_index += [(species_forms[j][0], form_name)]
 
         forms += [form_index]
-    print forms
 
 def get_items(c):
     global items
@@ -225,6 +224,24 @@ def generate_cpp_file(top_level_dir, header):
         }
     }
 
+    namespace Forms
+    {
+"""
+    for i in range(len(forms)):
+        output += """        namespace %s
+        {
+            enum forms
+            {""" % forms[i][0]
+
+        for j in range(len(forms[i][1])):
+            output += "\n                %s = %s," % (forms[i][j][1], forms[i][j][0])
+        output += """
+            }
+        }
+"""
+
+    output += """    }
+
     namespace Items
     {
         enum items
@@ -368,7 +385,7 @@ def generate_cpp_file(top_level_dir, header):
     }
 }"""
 
-    #print output
+    print output
 
 if __name__ == "__main__":
 
