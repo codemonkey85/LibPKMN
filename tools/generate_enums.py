@@ -8,10 +8,26 @@
 
 import datetime
 from optparse import OptionParser
+import os.path
 import sqlite3
 from unidecode import unidecode
 
+abilities = []
+egg_groups = []
+items = []
+markings = []
+moves = []
+move_damage_classes = []
+natures = []
+species = []
+stats = []
+types = []
+versions = []
+version_groups = []
+
 def get_abilities(c):
+    global abilities
+
     c.execute("SELECT ability_id,name FROM ability_names WHERE local_language_id=9 AND ability_id<10000")
     from_db = c.fetchall()
     abilities = [(0,"NONE")]
@@ -20,9 +36,9 @@ def get_abilities(c):
         ability_name = str(from_db[i][1]).replace("-","_").replace(" ","_").upper()
         abilities += [(from_db[i][0], ability_name)]
 
-    return abilities
-
 def get_egg_groups(c):
+    global egg_groups
+
     c.execute("SELECT * FROM egg_groups")
     from_db = c.fetchall()
     egg_groups = [(0,"NONE")]
@@ -31,35 +47,36 @@ def get_egg_groups(c):
         egg_group_name = str(from_db[i][1]).replace("-","_").replace(" ","_").upper()
         egg_groups += [(from_db[i][0], egg_group_name)]
 
-    return egg_groups
-
 def get_items(c):
+    global items
+
     c.execute("SELECT item_id,name FROM item_names WHERE local_language_id=9")
     from_db = c.fetchall()
     items = [(0,"NONE")]
 
     for i in range(len(from_db)):
-        item_name = str(unidecode(from_db[i][1])).replace("-","_").replace(" ","_").upper()
+        item_name = str(unidecode(from_db[i][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
         items += [(from_db[i][0], item_name)]
 
-    return items
-
 def get_markings():
+    global markings
+
     markings = [(0,"CIRCLE"),(1,"TRIANGLE"),(2,"SQUARE"),(3,"HEART"),(4,"STAR"),(5,"DIAMOND")]
-    return markings
 
 def get_moves(c):
+    global moves
+
     c.execute("SELECT move_id,name FROM move_names WHERE local_language_id=9")
     from_db = c.fetchall()
     moves = [(0,"NONE")]
 
     for i in range(len(from_db)):
-        move_name = str(from_db[i][1]).replace("-","_").replace(" ","_").upper().replace("SING","__SING")
+        move_name = str(from_db[i][1]).replace("-","_").replace(" ","_").replace("'","").upper().replace("SING","__SING")
         moves += [(from_db[i][0], move_name)]
 
-    return moves
-
 def get_move_damage_classes(c):
+    global move_damage_classes
+
     c.execute("SELECT * FROM move_damage_classes")
     from_db = c.fetchall()
     move_damage_classes = [(0,"NONE")]
@@ -68,9 +85,9 @@ def get_move_damage_classes(c):
         move_damage_class_name = str(from_db[i][1]).upper()
         move_damage_classes += [(from_db[i][0], move_damage_class_name)]
 
-    return move_damage_classes
-
 def get_natures(c):
+    global natures
+
     c.execute("SELECT nature_id,name FROM nature_names WHERE local_language_id=9")
     from_db = c.fetchall()
     natures = [(0,"NONE")]
@@ -79,9 +96,20 @@ def get_natures(c):
         nature_name = str(from_db[i][1]).upper()
         natures += [(from_db[i][0], nature_name)]
 
-    return natures
+def get_species(c):
+    global species
+
+    c.execute("SELECT pokemon_species_id,name FROM pokemon_species_names WHERE local_language_id=9")
+    from_db = c.fetchall()
+    species = [(0,"NONE")]
+
+    for i in range(len(from_db)):
+        species_name = str(unidecode(from_db[i][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
+        species += [(from_db[i][0], species_name)]
 
 def get_stats(c):
+    global stats
+
     c.execute("SELECT stat_id,name FROM stat_names WHERE local_language_id=9")
     from_db = c.fetchall()
     stats = [(0,"NONE")]
@@ -90,9 +118,9 @@ def get_stats(c):
         stat_name = str(from_db[i][1]).replace(" ","_").upper()
         stats += [(from_db[i][0], stat_name)]
 
-    return stats
-
 def get_types(c):
+    global types
+
     c.execute("SELECT type_id,name FROM type_names WHERE local_language_id=9")
     from_db = c.fetchall()
     types = [(0,"NONE")]
@@ -101,9 +129,9 @@ def get_types(c):
         type_name = str(from_db[i][1]).replace("-","_").replace(" ","_").replace("???","QUESTION_MARK").upper()
         types += [(from_db[i][0], type_name)]
 
-    return types
-
 def get_versions(c):
+    global versions
+
     c.execute("SELECT version_id,name FROM version_names WHERE local_language_id=9")
     from_db = c.fetchall()
     versions = [(0,"NONE")]
@@ -112,9 +140,9 @@ def get_versions(c):
         version_name = str(from_db[i][1]).replace("-","_").replace(" ","_").replace("???","QUESTION_MARK").upper()
         versions += [(from_db[i][0], version_name)]
 
-    return versions
-
 def get_version_groups(c):
+    global version_groups
+
     c.execute("SELECT id,identifier FROM version_groups")
     from_db = c.fetchall()
     version_groups = [(0,"NONE")]
@@ -123,7 +151,201 @@ def get_version_groups(c):
         version_group_name = str(from_db[i][1]).replace("-","_").replace(" ","_").upper()
         version_groups += [(from_db[i][0], version_group_name)]
 
-    return version_groups
+def generate_cpp_file(top_level_dir, header):
+    global abilities
+    global egg_groups
+    global items
+    global markings
+    global moves
+    global move_damage_classes
+    global natures
+    global stats
+    global types
+    global versions
+    global version_groups
+
+    output = header + "\n\n"
+
+    output += """namespace pkmn
+{
+    namespace Abilities
+    {
+        enum abilities
+        {"""
+
+    for i in range(len(abilities)):
+        if i > 0 and abilities[i][0] > (abilities[i-1][0]+1):
+            output += """
+            %s = %d,""" % (abilities[i][1], abilities[i][0])
+        else:
+            output += """
+            %s,""" % abilities[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Egg_Groups
+    {
+        enum egg_groups
+        {"""
+
+    for i in range(len(egg_groups)):
+        if i > 0 and egg_groups[i][0] > (egg_groups[i-1][0]+1):
+            output += """
+            %s = %d,""" % (egg_groups[i][1], egg_groups[i][0])
+        else:
+            output += """
+            %s,""" % egg_groups[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Items
+    {
+        enum items
+        {"""
+
+    for i in range(len(items)):
+        if i > 0 and items[i][0] > (items[i-1][0]+1):
+            output += """
+            %s = %d,""" % (items[i][1], items[i][0])
+        else:
+            output += """
+            %s,""" % items[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Markings
+    {
+        enum markings
+        {"""
+
+    for i in range(len(markings)):
+        output += """
+            %s,""" % markings[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Moves
+    {
+        enum moves
+        {"""
+
+    for i in range(len(moves)):
+        if i > 0 and moves[i][0] > (moves[i-1][0]+1):
+            output += """
+            %s = %d,""" % (moves[i][1], moves[i][0])
+        else:
+            output += """
+            %s,""" % moves[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Move_Classes
+    {
+        enum move_classes
+        {"""
+
+    for i in range(len(move_damage_classes)):
+        output += """
+            %s,""" % move_damage_classes[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Natures
+    {
+        enum natures
+        {"""
+
+    for i in range(len(natures)):
+        output += """
+            %s,""" % natures[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Species
+    {
+        enum species
+        {"""
+
+    for i in range(len(species)):
+        output += """
+            %s,""" % species[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Stats
+    {
+        enum stats
+        {"""
+
+    for i in range(len(stats)):
+        output += """
+            %s,""" % stats[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Types
+    {
+        enum types
+        {"""
+
+    for i in range(len(types)):
+        if i > 0 and types[i][0] > (types[i-1][0]+1):
+            output += """
+            %s = %d,""" % (types[i][1], types[i][0])
+        else:
+            output += """
+            %s,""" % types[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Versions
+    {
+        enum versions
+        {"""
+
+    for i in range(len(versions)):
+        output += """
+            %s,""" % versions[i][1]
+
+    output += """
+        }
+    }
+
+    namespace Version_Groups
+    {
+        enum version_groups
+        {"""
+
+    for i in range(len(version_groups)):
+        output += """
+            %s,""" % version_groups[i][1]
+
+    output += """
+        }
+    }
+}"""
+
+    print output
 
 if __name__ == "__main__":
 
@@ -155,14 +377,17 @@ if __name__ == "__main__":
 # This file was generated: %s
 #""" % time
 
-    abilities = get_abilities(c)
-    egg_groups = get_egg_groups(c)
-    items = get_items(c)
-    markings = get_markings()
-    moves = get_moves(c)
-    move_damage_classes = get_move_damage_classes(c)
-    natures = get_natures(c)
-    stats = get_stats(c)
-    types = get_types(c)
-    versions = get_versions(c)
-    version_groups = get_version_groups(c)
+    get_abilities(c)
+    get_egg_groups(c)
+    get_items(c)
+    get_markings()
+    get_moves(c)
+    get_move_damage_classes(c)
+    get_natures(c)
+    get_species(c)
+    get_stats(c)
+    get_types(c)
+    get_versions(c)
+    get_version_groups(c)
+
+    generate_cpp_file(options.top_level_dir, cpp_cs_header)
