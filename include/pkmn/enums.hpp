@@ -4,8 +4,11 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  *
- * This file was generated: 2014-07-06 22:35:29.244446
+ * This file was generated: 2014-07-06 22:50:02.915735
  */
+
+#ifndef INCLUDED_PKMN_ENUMS_HPP
+#define INCLUDED_PKMN_ENUMS_HPP
 
 namespace pkmn
 {
@@ -202,7 +205,7 @@ namespace pkmn
             DARK_AURA,
             FAIRY_AURA,
             AURA_BREAK,
-        }
+        };
     }
 
     namespace Egg_Groups
@@ -225,7 +228,7 @@ namespace pkmn
             DITTO,
             DRAGON,
             NO_EGGS,
-        }
+        };
     }
 
     namespace Forms
@@ -236,7 +239,7 @@ namespace pkmn
             {
                 STANDARD = 3,
                 MEGA = 10133,
-            }
+            };
         }
         namespace Charizard
         {
@@ -245,7 +248,7 @@ namespace pkmn
                 STANDARD = 6,
                 MEGA_X = 10134,
                 MEGA_Y = 10135,
-            }
+            };
         }
         namespace Blastoise
         {
@@ -253,7 +256,7 @@ namespace pkmn
             {
                 STANDARD = 9,
                 MEGA = 10136,
-            }
+            };
         }
         namespace Alakazam
         {
@@ -261,7 +264,7 @@ namespace pkmn
             {
                 STANDARD = 65,
                 MEGA = 10137,
-            }
+            };
         }
         namespace Gengar
         {
@@ -269,7 +272,7 @@ namespace pkmn
             {
                 STANDARD = 94,
                 MEGA = 10138,
-            }
+            };
         }
         namespace Kangaskhan
         {
@@ -277,7 +280,7 @@ namespace pkmn
             {
                 STANDARD = 115,
                 MEGA = 10139,
-            }
+            };
         }
         namespace Pinsir
         {
@@ -285,7 +288,7 @@ namespace pkmn
             {
                 STANDARD = 127,
                 MEGA = 10140,
-            }
+            };
         }
         namespace Gyarados
         {
@@ -293,7 +296,7 @@ namespace pkmn
             {
                 STANDARD = 130,
                 MEGA = 10141,
-            }
+            };
         }
         namespace Aerodactyl
         {
@@ -301,7 +304,7 @@ namespace pkmn
             {
                 STANDARD = 142,
                 MEGA = 10142,
-            }
+            };
         }
         namespace Mewtwo
         {
@@ -310,7 +313,7 @@ namespace pkmn
                 STANDARD = 150,
                 MEGA_X = 10143,
                 MEGA_Y = 10144,
-            }
+            };
         }
         namespace Pichu
         {
@@ -318,7 +321,7 @@ namespace pkmn
             {
                 STANDARD = 172,
                 SPIKY_EARED = 10065,
-            }
+            };
         }
         namespace Ampharos
         {
@@ -326,7 +329,7 @@ namespace pkmn
             {
                 STANDARD = 181,
                 MEGA = 10145,
-            }
+            };
         }
         namespace Unown
         {
@@ -360,7 +363,7 @@ namespace pkmn
                 Z = 10025,
                 EXCLAMATION_MARK = 10026,
                 QUESTION_MARK = 10027,
-            }
+            };
         }
         namespace Scizor
         {
@@ -368,7 +371,7 @@ namespace pkmn
             {
                 STANDARD = 212,
                 MEGA = 10146,
-            }
+            };
         }
         namespace Heracross
         {
@@ -376,7 +379,7 @@ namespace pkmn
             {
                 STANDARD = 214,
                 MEGA = 10147,
-            }
+            };
         }
         namespace Houndoom
         {
@@ -384,7 +387,7 @@ namespace pkmn
             {
                 STANDARD = 229,
                 MEGA = 10148,
-            }
+            };
         }
         namespace Tyranitar
         {
@@ -392,7 +395,7 @@ namespace pkmn
             {
                 STANDARD = 248,
                 MEGA = 10149,
-            }
+            };
         }
         namespace Blaziken
         {
@@ -400,7 +403,7 @@ namespace pkmn
             {
                 STANDARD = 257,
                 MEGA = 10150,
-            }
+            };
         }
         namespace Gardevoir
         {
@@ -408,7 +411,7 @@ namespace pkmn
             {
                 STANDARD = 282,
                 MEGA = 10151,
-            }
+            };
         }
         namespace Mawile
         {
@@ -416,7 +419,7 @@ namespace pkmn
             {
                 STANDARD = 303,
                 MEGA = 10152,
-            }
+            };
         }
         namespace Aggron
         {
@@ -424,7 +427,7 @@ namespace pkmn
             {
                 STANDARD = 306,
                 MEGA = 10153,
-            }
+            };
         }
         namespace Medicham
         {
@@ -432,7 +435,7 @@ namespace pkmn
             {
                 STANDARD = 308,
                 MEGA = 10154,
-            }
+            };
         }
         namespace Manectric
         {
@@ -440,7 +443,7 @@ namespace pkmn
             {
                 STANDARD = 310,
                 MEGA = 10155,
-            }
+            };
         }
         namespace Castform
         {
@@ -450,7 +453,7 @@ namespace pkmn
                 SUNNY = 10028,
                 RAINY = 10029,
                 SNOWY = 10030,
-            }
+            };
         }
         namespace Banette
         {
@@ -458,7 +461,7 @@ namespace pkmn
             {
                 STANDARD = 354,
                 MEGA = 10156,
-            }
+            };
         }
         namespace Absol
         {
@@ -466,7 +469,7 @@ namespace pkmn
             {
                 STANDARD = 359,
                 MEGA = 10157,
-            }
+            };
         }
         namespace Deoxys
         {
@@ -476,7 +479,7 @@ namespace pkmn
                 ATTACK = 10031,
                 DEFENSE = 10032,
                 SPEED = 10033,
-            }
+            };
         }
         namespace Burmy
         {
@@ -485,7 +488,7 @@ namespace pkmn
                 PLANT_CLOAK = 412,
                 SANDY_CLOAK = 10034,
                 TRASH_CLOAK = 10035,
-            }
+            };
         }
         namespace Wormadam
         {
@@ -494,7 +497,7 @@ namespace pkmn
                 PLANT_CLOAK = 413,
                 SANDY_CLOAK = 10036,
                 TRASH_CLOAK = 10037,
-            }
+            };
         }
         namespace Cherrim
         {
@@ -502,7 +505,7 @@ namespace pkmn
             {
                 OVERCAST = 421,
                 SUNSHINE = 10038,
-            }
+            };
         }
         namespace Shellos
         {
@@ -510,7 +513,7 @@ namespace pkmn
             {
                 WEST_SEA = 422,
                 EAST_SEA = 10039,
-            }
+            };
         }
         namespace Gastrodon
         {
@@ -518,7 +521,7 @@ namespace pkmn
             {
                 WEST_SEA = 423,
                 EAST_SEA = 10040,
-            }
+            };
         }
         namespace Garchomp
         {
@@ -526,7 +529,7 @@ namespace pkmn
             {
                 STANDARD = 445,
                 MEGA = 10158,
-            }
+            };
         }
         namespace Lucario
         {
@@ -534,7 +537,7 @@ namespace pkmn
             {
                 STANDARD = 448,
                 MEGA = 10159,
-            }
+            };
         }
         namespace Abomasnow
         {
@@ -542,7 +545,7 @@ namespace pkmn
             {
                 STANDARD = 460,
                 MEGA = 10160,
-            }
+            };
         }
         namespace Rotom
         {
@@ -554,7 +557,7 @@ namespace pkmn
                 FROST = 10060,
                 FAN = 10061,
                 MOW = 10062,
-            }
+            };
         }
         namespace Giratina
         {
@@ -562,7 +565,7 @@ namespace pkmn
             {
                 ALTERED = 487,
                 ORIGIN = 10063,
-            }
+            };
         }
         namespace Shaymin
         {
@@ -570,7 +573,7 @@ namespace pkmn
             {
                 LAND = 492,
                 SKY = 10064,
-            }
+            };
         }
         namespace Arceus
         {
@@ -595,7 +598,7 @@ namespace pkmn
                 WATER = 10056,
                 QUESTION_MARK = 10057,
                 FAIRY = 10085,
-            }
+            };
         }
         namespace Basculin
         {
@@ -603,7 +606,7 @@ namespace pkmn
             {
                 RED_STRIPED = 550,
                 BLUE_STRIPED = 10066,
-            }
+            };
         }
         namespace Darmanitan
         {
@@ -611,7 +614,7 @@ namespace pkmn
             {
                 STANDARD_MODE = 555,
                 ZEN_MODE = 10067,
-            }
+            };
         }
         namespace Deerling
         {
@@ -621,7 +624,7 @@ namespace pkmn
                 SUMMER = 10068,
                 AUTUMN = 10069,
                 WINTER = 10070,
-            }
+            };
         }
         namespace Sawsbuck
         {
@@ -631,7 +634,7 @@ namespace pkmn
                 SUMMER = 10071,
                 AUTUMN = 10072,
                 WINTER = 10073,
-            }
+            };
         }
         namespace Tornadus
         {
@@ -639,7 +642,7 @@ namespace pkmn
             {
                 INCARNATE = 641,
                 THERIAN = 10079,
-            }
+            };
         }
         namespace Thundurus
         {
@@ -647,7 +650,7 @@ namespace pkmn
             {
                 INCARNATE = 642,
                 THERIAN = 10080,
-            }
+            };
         }
         namespace Landorus
         {
@@ -655,7 +658,7 @@ namespace pkmn
             {
                 INCARNATE = 645,
                 THERIAN = 10081,
-            }
+            };
         }
         namespace Kyurem
         {
@@ -664,7 +667,7 @@ namespace pkmn
                 STANDARD = 646,
                 BLACK = 10082,
                 WHITE = 10083,
-            }
+            };
         }
         namespace Keldeo
         {
@@ -672,7 +675,7 @@ namespace pkmn
             {
                 ORDINARY = 647,
                 RESOLUTE = 10084,
-            }
+            };
         }
         namespace Meloetta
         {
@@ -680,7 +683,7 @@ namespace pkmn
             {
                 ARIA = 648,
                 PIROUETTE = 10074,
-            }
+            };
         }
         namespace Genesect
         {
@@ -691,7 +694,7 @@ namespace pkmn
                 SHOCK_DRIVE = 10076,
                 BURN_DRIVE = 10077,
                 CHILL_DRIVE = 10078,
-            }
+            };
         }
         namespace Vivillon
         {
@@ -715,7 +718,7 @@ namespace pkmn
                 SUN = 10100,
                 OCEAN = 10101,
                 JUNGLE = 10102,
-            }
+            };
         }
         namespace Flabebe
         {
@@ -726,7 +729,7 @@ namespace pkmn
                 ORANGE_FLOWER = 10104,
                 BLUE_FLOWER = 10105,
                 WHITE_FLOWER = 10106,
-            }
+            };
         }
         namespace Floette
         {
@@ -737,7 +740,7 @@ namespace pkmn
                 ORANGE_FLOWER = 10108,
                 BLUE_FLOWER = 10109,
                 WHITE_FLOWER = 10110,
-            }
+            };
         }
         namespace Florges
         {
@@ -748,7 +751,7 @@ namespace pkmn
                 ORANGE_FLOWER = 10112,
                 BLUE_FLOWER = 10113,
                 WHITE_FLOWER = 10114,
-            }
+            };
         }
         namespace Furfrou
         {
@@ -764,7 +767,7 @@ namespace pkmn
                 LA_REINE_TRIM = 10121,
                 KABUKI_TRIM = 10122,
                 PHARAOH_TRIM = 10123,
-            }
+            };
         }
         namespace Meowstic
         {
@@ -772,7 +775,7 @@ namespace pkmn
             {
                 MALE = 678,
                 FEMALE = 10124,
-            }
+            };
         }
         namespace Aegislash
         {
@@ -780,7 +783,7 @@ namespace pkmn
             {
                 SHIELD = 681,
                 BLADE = 10125,
-            }
+            };
         }
         namespace Pumpkaboo
         {
@@ -790,7 +793,7 @@ namespace pkmn
                 SMALL_SIZE = 10126,
                 LARGE_SIZE = 10127,
                 SUPER_SIZE = 10128,
-            }
+            };
         }
         namespace Gourgeist
         {
@@ -800,7 +803,7 @@ namespace pkmn
                 SMALL_SIZE = 10129,
                 LARGE_SIZE = 10130,
                 SUPER_SIZE = 10131,
-            }
+            };
         }
         namespace Xerneas
         {
@@ -808,7 +811,7 @@ namespace pkmn
             {
                 ACTIVE_MODE = 716,
                 NEUTRAL_MODE = 10132,
-            }
+            };
         }
     }
 
@@ -1589,7 +1592,7 @@ namespace pkmn
             BLUESKY_MAIL,
             MUSIC_MAIL,
             MIRAGE_MAIL,
-        }
+        };
     }
 
     namespace Markings
@@ -1602,7 +1605,7 @@ namespace pkmn
             HEART,
             STAR,
             DIAMOND,
-        }
+        };
     }
 
     namespace Moves
@@ -2239,7 +2242,7 @@ namespace pkmn
             SHADOW_PANIC,
             SHADOW_SHED,
             SHADOW_SKY,
-        }
+        };
     }
 
     namespace Move_Classes
@@ -2250,7 +2253,7 @@ namespace pkmn
             STATUS,
             PHYSICAL,
             SPECIAL,
-        }
+        };
     }
 
     namespace Natures
@@ -2283,7 +2286,7 @@ namespace pkmn
             QUIET,
             SASSY,
             SERIOUS,
-        }
+        };
     }
 
     namespace Species
@@ -2319,10 +2322,10 @@ namespace pkmn
             RAICHU,
             SANDSHREW,
             SANDSLASH,
-            NIDORAN,
+            NIDORAN_F,
             NIDORINA,
             NIDOQUEEN,
-            NIDORAN,
+            NIDORAN_M,
             NIDORINO,
             NIDOKING,
             CLEFAIRY,
@@ -3010,7 +3013,7 @@ namespace pkmn
             YVELTAL,
             ZYGARDE,
             DIANCIE,
-        }
+        };
     }
 
     namespace Stats
@@ -3027,7 +3030,7 @@ namespace pkmn
             ACCURACY,
             EVASION,
             SPECIAL,
-        }
+        };
     }
 
     namespace Types
@@ -3055,7 +3058,7 @@ namespace pkmn
             FAIRY,
             QUESTION_MARK = 10001,
             SHADOW,
-        }
+        };
     }
 
     namespace Versions
@@ -3087,7 +3090,7 @@ namespace pkmn
             WHITE_2,
             X,
             Y,
-        }
+        };
     }
 
     namespace Version_Groups
@@ -3110,6 +3113,8 @@ namespace pkmn
             XD,
             BLACK_2_WHITE_2,
             X_Y,
-        }
+        };
     }
 }
+
+#endif /* INCLUDED_PKMN_ENUMS_HPP */

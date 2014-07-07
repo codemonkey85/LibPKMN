@@ -28,26 +28,26 @@ namespace pkmn
         //Get final part of images path
         switch(_generation)
         {
-            case Games::RUBY:
-            case Games::SAPPHIRE:
+            case Versions::RUBY:
+            case Versions::SAPPHIRE:
                 _images_game_string = "ruby-sapphire";
                 break;
-            case Games::EMERALD:
+            case Versions::EMERALD:
                 _images_game_string = "emerald";
                 break;
-            case Games::FIRE_RED:
-            case Games::LEAF_GREEN:
+            case Versions::FIRERED:
+            case Versions::LEAFGREEN:
                 _images_game_string = "firered-leafgreen";
                 break;
-            case Games::DIAMOND:
-            case Games::PEARL:
+            case Versions::DIAMOND:
+            case Versions::PEARL:
                 _images_game_string = "diamond-pearl";
                 break;
-            case Games::PLATINUM:
+            case Versions::PLATINUM:
                 _images_game_string = "platinum";
                 break;
-            case Games::HEART_GOLD:
-            case Games::SOUL_SILVER:
+            case Versions::HEARTGOLD:
+            case Versions::SOULSILVER:
                 _images_game_string = "heartgold-soulsilver";
                 break;
             default: //Gen 5 all uses black-white

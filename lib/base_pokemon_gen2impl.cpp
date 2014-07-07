@@ -27,13 +27,13 @@ namespace pkmn
         //Get final part of images path
         switch(_game_id)
         {
-            case Games::GOLD:
+            case Versions::GOLD:
                 _images_game_string = "gold";
                 break;
-            case Games::SILVER:
+            case Versions::SILVER:
                 _images_game_string = "silver";
                 break;
-            case Games::CRYSTAL:
+            case Versions::CRYSTAL:
                 _images_game_string = "crystal";
                 break;
             default: //It should never get here

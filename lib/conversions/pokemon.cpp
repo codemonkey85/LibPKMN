@@ -56,7 +56,7 @@ namespace pkmn
                  * Generation I has no way to distinguish between games, so just
                  * use Yellow. There aren't enough differences to make a difference.
                  */
-                species_id = database::get_pokemon_id(rpokesav_species, Games::YELLOW);
+                species_id = database::get_pokemon_id(rpokesav_species, Versions::YELLOW);
                 move1 = pkmn.raw.pc.moves[0];
                 move2 = pkmn.raw.pc.moves[1];
                 move3 = pkmn.raw.pc.moves[2];
@@ -65,7 +65,7 @@ namespace pkmn
 
                 uint8_t level = pkmn.raw.level;
 
-                team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::YELLOW, level,
+                team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Versions::YELLOW, level,
                                                                move1, move2, move3, move4);
 
                 t_pkmn->set_nickname(pkmn.get_nickname());
@@ -109,7 +109,7 @@ namespace pkmn
             t_pkmn->get_move_PPs(move_PPs);
 
             uint8_t rpokesav_species = database::get_species_index(t_pkmn->get_pokemon_id(),
-                                                                   Games::YELLOW);
+                                                                   Versions::YELLOW);
 
             pkmn = rpokesav::gen1_pokemon(rpokesav_species);
 
@@ -361,9 +361,9 @@ namespace pkmn
             unsigned int level, species_id;
 
             level = pokelib_pkmn.getLevel();
-            species_id = database::get_species_id(pokelib_pkmn.pkm->pkm.species, Games::DIAMOND);
+            species_id = database::get_species_id(pokelib_pkmn.pkm->pkm.species, Versions::DIAMOND);
 
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::DIAMOND, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Versions::DIAMOND, level,
                                         pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
                                         pokelib_pkmn.pkm->pkm.move[2], pokelib_pkmn.pkm->pkm.move[3]);
 
@@ -383,7 +383,7 @@ namespace pkmn
             else t_pkmn->set_trainer_gender("Male");
 
             t_pkmn->set_held_item(database::get_item_name(
-                                  database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, Games::DIAMOND)
+                                  database::get_item_id(pokelib_pkmn.pkm->pkm.held_item, Versions::DIAMOND)
                                  ));
             t_pkmn->set_personality(pokelib_pkmn.pkm->pkm.pid);
             t_pkmn->set_trainer_public_id(pokelib_pkmn.pkm->pkm.ot_id);
@@ -703,7 +703,7 @@ namespace pkmn
             level = ::getpkmlevel(p_pkm->pkm_data);
             species_id = database::get_species_id(p_pkm->pkm_data.species, from_game);
 
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::BLACK, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Versions::BLACK, level,
                                         p_pkm->pkm_data.moves[0], p_pkm->pkm_data.moves[1],
                                         p_pkm->pkm_data.moves[2], p_pkm->pkm_data.moves[3]);
 
@@ -732,7 +732,7 @@ namespace pkmn
             if(get_gen_456_otgender(metlevel_int)) t_pkmn->set_trainer_gender("Female");
             else t_pkmn->set_trainer_gender("Male");
 
-            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, Games::BLACK), Games::BLACK));
+            t_pkmn->set_held_item(item::make(database::get_item_id(p_pkm->pkm_data.item, Versions::BLACK), Versions::BLACK));
             t_pkmn->set_personality(p_pkm->pkm_data.pid);
             t_pkmn->set_trainer_public_id(p_pkm->pkm_data.tid);
             t_pkmn->set_trainer_secret_id(p_pkm->pkm_data.sid);

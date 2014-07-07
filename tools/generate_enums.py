@@ -136,7 +136,13 @@ def get_species(c):
     species = [(0,"NONE")]
 
     for i in range(len(from_db)):
-        species_name = str(unidecode(from_db[i][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
+        if from_db[i][0] == 29:
+            species_name = "NIDORAN_F"
+        elif from_db[i][0] == 32:
+            species_name = "NIDORAN_M"
+        else:
+            species_name = str(unidecode(from_db[i][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
+
         species += [(from_db[i][0], species_name)]
 
 def get_stats(c):
@@ -196,7 +202,12 @@ def generate_cpp_file(top_level_dir, header):
     global versions
     global version_groups
 
-    output = header + "\n\n"
+    output = header + """
+
+#ifndef INCLUDED_PKMN_ENUMS_HPP
+#define INCLUDED_PKMN_ENUMS_HPP
+
+"""
 
     output += """namespace pkmn
 {
@@ -214,7 +225,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % abilities[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Egg_Groups
@@ -231,7 +242,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % egg_groups[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Forms
@@ -246,7 +257,7 @@ def generate_cpp_file(top_level_dir, header):
         for j in range(1,len(forms[i])):
             output += "\n                %s = %s," % (forms[i][j][1], forms[i][j][0])
         output += """
-            }
+            };
         }
 """
 
@@ -266,7 +277,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % items[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Markings
@@ -279,7 +290,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % markings[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Moves
@@ -296,7 +307,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % moves[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Move_Classes
@@ -309,7 +320,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % move_damage_classes[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Natures
@@ -322,7 +333,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % natures[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Species
@@ -335,7 +346,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % species[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Stats
@@ -348,7 +359,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % stats[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Types
@@ -365,7 +376,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % types[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Versions
@@ -378,7 +389,7 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % versions[i][1]
 
     output += """
-        }
+        };
     }
 
     namespace Version_Groups
@@ -391,9 +402,11 @@ def generate_cpp_file(top_level_dir, header):
             %s,""" % version_groups[i][1]
 
     output += """
-        }
+        };
     }
-}"""
+}
+
+#endif /* INCLUDED_PKMN_ENUMS_HPP */"""
 
     os.chdir(os.path.join(top_level_dir, "include", "pkmn"))
     f = open("enums.hpp",'w')
