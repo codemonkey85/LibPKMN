@@ -8,7 +8,7 @@
 
 import datetime
 from optparse import OptionParser
-import os.path
+import os
 import sqlite3
 from unidecode import unidecode
 
@@ -395,7 +395,12 @@ def generate_cpp_file(top_level_dir, header):
     }
 }"""
 
-    print output
+    os.chdir(os.path.join(top_level_dir, "include", "pkmn"))
+    f = open("enums.hpp",'w')
+    f.write(output)
+    f.close()
+
+    #print output
 
 if __name__ == "__main__":
 
