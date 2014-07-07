@@ -64,7 +64,7 @@ def get_forms(c):
         form_index = []
         form_index += [species_name]
         for j in range(len(species_forms)):
-            form_name = "STANDARD" if species_forms[j][1] == None else [(species_forms[j][0], str(unidecode(species_forms[j][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper())]
+            form_name = "STANDARD" if species_forms[j][1] == None else str(unidecode(species_forms[j][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
             form_index += [(species_forms[j][0], form_name)]
 
         forms += [form_index]
@@ -233,7 +233,7 @@ def generate_cpp_file(top_level_dir, header):
             enum forms
             {""" % forms[i][0]
 
-        for j in range(len(forms[i][1])):
+        for j in range(1,len(forms[i])):
             output += "\n                %s = %s," % (forms[i][j][1], forms[i][j][0])
         output += """
             }
