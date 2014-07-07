@@ -65,6 +65,16 @@ def get_forms(c):
         form_index += [species_name]
         for j in range(len(species_forms)):
             form_name = "STANDARD" if species_forms[j][1] == None else str(unidecode(species_forms[j][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
+            form_name = form_name.replace("_FORME","").replace("_FORM","").replace("_TYPE","").replace("_ROTOM","").replace("???","QUESTION_MARK").replace("!","EXCLAMATION_MARK")
+            form_name = form_name.replace("?","QUESTION_MARK").replace("_PATTERN","").replace("_KYUREM","")
+
+            if "MEGA" in form_name and "_X" in form_name:
+                form_name = "MEGA_X"
+            elif "MEGA" in form_name and "_Y" in form_name:
+                form_name = "MEGA_Y"
+            elif "MEGA" in form_name:
+                form_name = "MEGA"
+
             form_index += [(species_forms[j][0], form_name)]
 
         forms += [form_index]
