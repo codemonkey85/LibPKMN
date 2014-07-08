@@ -20,12 +20,12 @@ namespace pkmn
 
     void game_save_gen3impl::load()
     {
-        _trainer = conversions::import_trainer_from_pokehack(_parser, _data);
+        _trainer = conversions::import_gen3_trainer(_parser, _data);
         _game_id = _trainer->get_game_id();
     }
 
     void game_save_gen3impl::save()
     {
-        conversions::export_trainer_to_pokehack(_trainer, _parser, _data);
+        conversions::export_gen3_trainer(_trainer, _parser, _data);
     }
 } /* namespace pkmn */

@@ -60,7 +60,7 @@ namespace pkmn
             return items.size();
         }
 
-        void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data)
+        void import_gen3_items(bag::sptr item_bag, unsigned char* data)
         {
             /*
              * Find out which game this is
@@ -162,7 +162,7 @@ namespace pkmn
             }
         }
 
-        void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data)
+        void export_gen3_items(bag::sptr item_bag, unsigned char* data)
         {
             unsigned int game, item_offset, key_item_offset, ball_offset, tm_offset, berry_offset;
             game = item_bag->get_game_id();
@@ -281,7 +281,7 @@ namespace pkmn
             }
         }
 
-        void import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer)
+        void import_gen4_items(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer)
         {
             unsigned int game_id = item_bag->get_game_id();
 
@@ -360,7 +360,7 @@ namespace pkmn
             }
         }
 
-        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer)
+        void export_gen4_items(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer)
         {
             unsigned int game_id = item_bag->get_game_id();
 
@@ -518,7 +518,7 @@ namespace pkmn
             }
         }
 
-        void import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag)
+        void import_gen5_items(bag::sptr item_bag, ::bag_obj* pkmds_bag)
         {
             unsigned int game_id = item_bag->get_game_id();
 
@@ -573,7 +573,7 @@ namespace pkmn
             }
         }
 
-        void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag)
+        void export_gen5_items(bag::sptr item_bag, ::bag_obj* pkmds_bag)
         {
             unsigned int game_id = item_bag->get_game_id();
 

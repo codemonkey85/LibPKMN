@@ -21,12 +21,12 @@ namespace pkmn
 
     void game_save_gen5impl::load()
     {
-        _trainer = conversions::import_trainer_from_pkmds_g5(_sav);
+        _trainer = conversions::import_gen5_trainer(_sav);
         _game_id = _trainer->get_game_id();
     }
 
     void game_save_gen5impl::save()
     {
-        conversions::export_trainer_to_pkmds_g5(_trainer, _sav);
+        conversions::export_gen5_trainer(_trainer, _sav);
     }
 } /* namespace pkmn */

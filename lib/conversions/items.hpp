@@ -62,17 +62,17 @@ namespace pkmn
         uint8_t export_gen1_bag(bag::sptr libpkmn_bag,
                                 std::array<rpokesav::gen1_item_t,20> &rpokesav_bag);
 
-        void import_items_from_pokehack(bag::sptr item_bag, unsigned char* data);
+        void import_gen3_items(bag::sptr item_bag, unsigned char* data);
 
-        void export_items_to_pokehack(bag::sptr item_bag, unsigned char* data);
+        void export_gen3_items(bag::sptr item_bag, unsigned char* data);
 
-        void import_items_from_pokelib(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
+        void import_gen4_items(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
 
-        void export_items_to_pokelib(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
+        void export_gen4_items(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
 
-        void import_items_from_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void import_gen5_items(bag::sptr item_bag, ::bag_obj* pkmds_bag);
 
-        void export_items_to_pkmds_g5(bag::sptr item_bag, ::bag_obj* pkmds_bag);
+        void export_gen5_items(bag::sptr item_bag, ::bag_obj* pkmds_bag);
     }
 }
 

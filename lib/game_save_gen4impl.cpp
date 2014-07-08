@@ -21,12 +21,12 @@ namespace pkmn
 
     void game_save_gen4impl::load()
     {
-        _trainer = conversions::import_trainer_from_pokelib(_pokelib_save);
+        _trainer = conversions::import_gen4_trainer(_pokelib_save);
         _game_id = _trainer->get_game_id();
     }
 
     void game_save_gen4impl::save()
     {
-        conversions::export_trainer_to_pokelib(_trainer, _pokelib_save);
+        conversions::export_gen4_trainer(_trainer, _pokelib_save);
     }
 } /* namespace pkmn */

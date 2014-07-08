@@ -29,7 +29,7 @@ namespace pkmn
         void export_to_pkm(team_pokemon::sptr t_pkmn, std::string filename)
         {
             party_pkm* p_pkm = new party_pkm;
-            conversions::team_pokemon_to_pkmds_g5_pokemon(t_pkmn, p_pkm);
+            conversions::export_gen5_pokemon(t_pkmn, p_pkm);
 
             uint8_t pkm_contents[sizeof(pokemon_obj)];
             memcpy(&pkm_contents, p_pkm, sizeof(pokemon_obj));
@@ -55,13 +55,13 @@ namespace pkmn
             memcpy(pkmn_obj, pkm_contents, sizeof(pokemon_obj));
 
             libpkmn_pctoparty(p_pkm, pkmn_obj);
-            return conversions::pkmds_g5_pokemon_to_team_pokemon(p_pkm);
+            return conversions::import_gen5_pokemon(p_pkm);
         }
 
         void export_to_pkx(team_pokemon::sptr t_pkmn, std::string filename)
         {
             party_pkx* p_pkx = new party_pkx;
-            conversions::team_pokemon_to_pkmds_g6_pokemon(t_pkmn, p_pkx);
+            conversions::export_gen6_pokemon(t_pkmn, p_pkx);
 
             uint8_t pkx_contents[sizeof(pokemonx_obj)];
             memcpy(&pkx_contents, p_pkx, sizeof(pokemonx_obj));
@@ -87,7 +87,7 @@ namespace pkmn
             memcpy(pkmn_obj, pkx_contents, sizeof(pokemonx_obj));
 
             libpkmn_pctopartyx(p_pkm, pkmn_obj);
-            return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
+            return conversions::import_gen6_pokemon(p_pkm);
         }
 
         void export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename, std::string title)

@@ -84,7 +84,7 @@ namespace pkmn
             return libpkmn_trainer;
         }
 
-        trainer::sptr import_trainer_from_pokehack(pokehack_sptr parser, char* game_data)
+        trainer::sptr import_gen3_trainer(pokehack_sptr parser, char* game_data)
         {
             unsigned int game_code = game_data[POKEHACK_GAME_CODE];
             unsigned int libpkmn_game_id = 0;
@@ -116,18 +116,18 @@ namespace pkmn
             libpkmn_trainer->set_id(*(reinterpret_cast<uint32_t*>(&game_data[POKEHACK_TRAINER_ID])));
             libpkmn_trainer->set_money(0); //Currently unimplemented in Pokehack
 
-            import_items_from_pokehack(libpkmn_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
+            import_gen3_items(libpkmn_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
             for(size_t i = 0; i < 6; i++)
             {
                 if(parser->pokemon_growth[i]->species == 0) break;
                 else
                 {
-                    team_pokemon::sptr t_pkmn = pokehack_pokemon_to_team_pokemon(parser->pokemon[i],
-                                                                                 parser->pokemon_attacks[i],
-                                                                                 parser->pokemon_effort[i],
-                                                                                 parser->pokemon_misc[i],
-                                                                                 parser->pokemon_growth[i]);
+                    team_pokemon::sptr t_pkmn = import_gen3_pokemon(parser->pokemon[i],
+                                                                    parser->pokemon_attacks[i],
+                                                                    parser->pokemon_effort[i],
+                                                                    parser->pokemon_misc[i],
+                                                                    parser->pokemon_growth[i]);
                     libpkmn_trainer->set_pokemon(i+1, t_pkmn);
                 }
             }
@@ -135,7 +135,7 @@ namespace pkmn
             return libpkmn_trainer;
         }
 
-        void export_trainer_to_pokehack(trainer::sptr libpkmn_trainer, pokehack_sptr parser, char* game_data)
+        void export_gen3_trainer(trainer::sptr libpkmn_trainer, pokehack_sptr parser, char* game_data)
         {
             string trainer_name = libpkmn_trainer->get_name();
             for(int i = 0; i < 7; i++)
@@ -163,7 +163,7 @@ namespace pkmn
             uint32_t* pokehack_id = reinterpret_cast<uint32_t*>(game_data[POKEHACK_TRAINER_ID]);
             *pokehack_id = libpkmn_trainer->get_id();
 
-            export_items_to_pokehack(libpkmn_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
+            export_gen3_items(libpkmn_trainer->get_bag(), reinterpret_cast<unsigned char*>(game_data));
 
             pokemon_team_t party;
             libpkmn_trainer->get_party(party);
@@ -172,17 +172,17 @@ namespace pkmn
                 if(party[i]->get_species_id()== Species::NONE) break;
                 else
                 {
-                    team_pokemon_to_pokehack_pokemon(party[i],
-                                                     parser->pokemon[i],
-                                                     parser->pokemon_attacks[i],
-                                                     parser->pokemon_effort[i],
-                                                     parser->pokemon_misc[i],
-                                                     parser->pokemon_growth[i]);
+                    export_gen3_pokemon(party[i],
+                                        parser->pokemon[i],
+                                        parser->pokemon_attacks[i],
+                                        parser->pokemon_effort[i],
+                                        parser->pokemon_misc[i],
+                                        parser->pokemon_growth[i]);
                 }
             }
         }
 
-        trainer::sptr import_trainer_from_pokelib(pokelib_sptr pokelib_save)
+        trainer::sptr import_gen4_trainer(pokelib_sptr pokelib_save)
         {
             PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
@@ -239,27 +239,27 @@ namespace pkmn
             libpkmn_trainer->set_secret_id(pokelib_secret_id);
             libpkmn_trainer->set_money(pokelib_trainer->getMoney());
 
-            import_items_from_pokelib(libpkmn_trainer->get_bag(), *pokelib_trainer);
+            import_gen4_items(libpkmn_trainer->get_bag(), *pokelib_trainer);
 
             for(size_t i = 1; i <= (unsigned int)(pokelib_party->count()); i++)
             {
                 PokeLib::Pokemon pokelib_pokemon = pokelib_party->getPokemon(i);
 
                 if(pokelib_pokemon.pkm->pkm.species == 0) break;
-                else libpkmn_trainer->set_pokemon(i, pokelib_pokemon_to_team_pokemon(pokelib_pokemon));
+                else libpkmn_trainer->set_pokemon(i, import_gen4_pokemon(pokelib_pokemon));
             }
 
             return libpkmn_trainer;
         }
 
-        void export_trainer_to_pokelib(trainer::sptr libpkmn_trainer, pokelib_sptr pokelib_save)
+        void export_gen4_trainer(trainer::sptr libpkmn_trainer, pokelib_sptr pokelib_save)
         {
             PokeLib::Trainer* pokelib_trainer = pokelib_save->getTrainer();
 
             pokelib_trainer->setName(libpkmn_trainer->get_name());
             pokelib_trainer->setFemale(libpkmn_trainer->get_gender().std_string() == "Female");
 
-            export_items_to_pokelib(libpkmn_trainer->get_bag(), pokelib_trainer);
+            export_gen4_items(libpkmn_trainer->get_bag(), pokelib_trainer);
 
             //PokeLib::Save::getTrainer returns new trainer
             pokelib_save->setTrainer(pokelib_trainer);
@@ -270,11 +270,11 @@ namespace pkmn
             {
                 team_pokemon::sptr t_pkmn = libpkmn_trainer->get_pokemon(i);
                 if(t_pkmn->get_species_id() == Species::NONE) break;
-                else pokelib_party->setPokemon(i, team_pokemon_to_pokelib_pokemon(t_pkmn));
+                else pokelib_party->setPokemon(i, export_gen4_pokemon(t_pkmn));
             }
         }
 
-        trainer::sptr import_trainer_from_pkmds_g5(pkmds_g5_sptr pkmds_save)
+        trainer::sptr import_gen5_trainer(pkmds_g5_sptr pkmds_save)
         {
             /*
              * PKMDS has no way of distinguishing between the different Gen 5
@@ -315,19 +315,19 @@ namespace pkmn
             libpkmn_trainer->set_secret_id(pkmds_secret_id);
             libpkmn_trainer->set_money(0);
 
-            import_items_from_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
+            import_gen5_items(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
 
             for(size_t i = 0; i < pkmds_party.size(); i++)
             {
                 ::decryptpkm(&pkmds_party[i]);
-                libpkmn_trainer->set_pokemon(i+1, pkmds_g5_pokemon_to_team_pokemon(&(pkmds_party[i])));
+                libpkmn_trainer->set_pokemon(i+1, import_gen5_pokemon(&(pkmds_party[i])));
                 ::encryptpkm(&pkmds_party[i]);
             }
 
             return libpkmn_trainer;
         }
 
-        void export_trainer_to_pkmds_g5(trainer::sptr libpkmn_trainer, pkmds_g5_sptr pkmds_save)
+        void export_gen5_trainer(trainer::sptr libpkmn_trainer, pkmds_g5_sptr pkmds_save)
         {
             std::wstring trainer_name = libpkmn_trainer->get_name();
 
@@ -336,14 +336,14 @@ namespace pkmn
                 pkmds_save->cur.trainername[i] = trainer_name[i];
             }
 
-            export_items_to_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
+            export_gen5_items(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
 
             for(size_t i = 1; i <= 6; i++)
             {
                 team_pokemon::sptr t_pkmn = libpkmn_trainer->get_pokemon(i);
 
                 if(t_pkmn->get_species_id() == Species::NONE) break;
-                else team_pokemon_to_pkmds_g5_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));
+                else export_gen5_pokemon(t_pkmn, &(pkmds_save->cur.party.pokemon[i-1]));
             }
         }
     } /* namespace conversions */
