@@ -123,11 +123,14 @@ namespace pkmn
                 if(parser->pokemon_growth[i]->species == 0) break;
                 else
                 {
-                    team_pokemon::sptr t_pkmn = import_gen3_pokemon(parser->pokemon[i],
-                                                                    parser->pokemon_attacks[i],
-                                                                    parser->pokemon_effort[i],
-                                                                    parser->pokemon_misc[i],
-                                                                    parser->pokemon_growth[i]);
+                    pokehack_args_t args;
+                    args.b_pkmn_t = parser->pokemon[i];
+                    args.pkmn_a_t = parser->pokemon_attacks[i];
+                    args.pkmn_e_t = parser->pokemon_effort[i];
+                    args.pkmn_m_t = parser->pokemon_misc[i];
+                    args.pkmn_g_t = parser->pokemon_growth[i];
+
+                    team_pokemon::sptr t_pkmn = import_gen3_pokemon(args);
                     libpkmn_trainer->set_pokemon(i+1, t_pkmn);
                 }
             }
@@ -172,12 +175,14 @@ namespace pkmn
                 if(party[i]->get_species_id()== Species::NONE) break;
                 else
                 {
-                    export_gen3_pokemon(party[i],
-                                        parser->pokemon[i],
-                                        parser->pokemon_attacks[i],
-                                        parser->pokemon_effort[i],
-                                        parser->pokemon_misc[i],
-                                        parser->pokemon_growth[i]);
+                    pokehack_args_t args;
+                    args.b_pkmn_t = parser->pokemon[i];
+                    args.pkmn_a_t = parser->pokemon_attacks[i];
+                    args.pkmn_e_t = parser->pokemon_effort[i];
+                    args.pkmn_m_t = parser->pokemon_misc[i];
+                    args.pkmn_g_t = parser->pokemon_growth[i];
+
+                    export_gen3_pokemon(party[i], args);
                 }
             }
         }
