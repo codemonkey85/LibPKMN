@@ -283,15 +283,15 @@ namespace pkmn
              * information from Pokemon with matching ID's. If none are found,
              * use defaults.
              */
-            party_obj* pkmds_party = &(pkmds_save->cur.party);
+            std::array<party_pkm, 6> pkmds_party = pkmds_save->cur.party.pokemon;
             uint16_t pkmds_public_id = pkmds_save->cur.tid;
             uint16_t pkmds_secret_id = pkmds_save->cur.sid;
             unsigned int game_id, gender;
             bool found = false;
 
-            for(size_t i = 0; i < pkmds_party->size; i++)
+            for(size_t i = 0; i < pkmds_party.size(); i++)
             {
-                pokemon_obj* pkmds_pokemon = &(pkmds_party->pokemon[i]);
+                pokemon_obj* pkmds_pokemon = &(pkmds_party[i]);
 
                 if((pkmds_pokemon->tid == pkmds_public_id) and (pkmds_pokemon->sid == pkmds_secret_id))
                 {
@@ -317,10 +317,11 @@ namespace pkmn
 
             import_items_from_pkmds_g5(libpkmn_trainer->get_bag(), &(pkmds_save->cur.bag));
 
-            std::cout << "party size: " << int(pkmds_party->size) << std::endl;
-            for(size_t i = 0; i < pkmds_party->size; i++)
+            for(size_t i = 0; i < pkmds_party.size(); i++)
             {
-                libpkmn_trainer->set_pokemon(i+1, pkmds_g5_pokemon_to_team_pokemon(&(pkmds_party->pokemon[i])));
+                ::decryptpkm(&pkmds_party[i]);
+                libpkmn_trainer->set_pokemon(i+1, pkmds_g5_pokemon_to_team_pokemon(&(pkmds_party[i])));
+                ::encryptpkm(&pkmds_party[i]);
             }
 
             return libpkmn_trainer;

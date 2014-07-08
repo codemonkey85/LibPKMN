@@ -696,22 +696,18 @@ namespace pkmn
 
         team_pokemon::sptr pkmds_g5_pokemon_to_team_pokemon(party_pkm* p_pkm)
         {
-            std::cout << "pkmds_g5_pokemon_to_team_pokemon" << std::endl;
             ::opendb(get_database_path().c_str());
 
-            unsigned int level, from_game, species_id;
+            unsigned int species_id = database::get_species_id(p_pkm->species_int, Games::BLACK);
 
-            level = ::getpkmlevel(p_pkm);
-            species_id = database::get_species_id(p_pkm->species, from_game);
-
-            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::BLACK, level,
+            team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Games::BLACK, p_pkm->party_data.level,
                                         p_pkm->moves[0], p_pkm->moves[1],
                                         p_pkm->moves[2], p_pkm->moves[3]);
 
             t_pkmn->set_original_game(hometown_to_libpkmn_game(p_pkm->hometown));
             #ifdef _MSC_VER
-                t_pkmn->set_nickname(getpkmnickname(p_pkm->);
-                t_pkmn->set_trainer_name(getpkmotname(p_pkm->);
+                t_pkmn->set_nickname(getpkmnickname(p_pkm->nickname);
+                t_pkmn->set_trainer_name(getpkmotname(p_pkm->otname);
             #else
                 //Testing new pokemon_text class, need to get around PKMDS's use of chars for Linux
                 wchar_t nickname[11];
@@ -721,7 +717,6 @@ namespace pkmn
                 t_pkmn->set_nickname(nickname);
                 t_pkmn->set_trainer_name(otname);
             #endif
-            std::cout << t_pkmn->get_species_name() << std::endl;
 
             t_pkmn->set_move_PP(p_pkm->pp[0], 1);
             t_pkmn->set_move_PP(p_pkm->pp[1], 2);
@@ -865,7 +860,6 @@ namespace pkmn
             t_pkmn->set_attribute("met_day", p_pkm->metdate.day);
 
             closedb();
-            std::cout << "end pkmds_g5_pokemon_to_team_pokemon" << std::endl;
 
             return t_pkmn;
         }

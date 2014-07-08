@@ -33,7 +33,6 @@ namespace pkmn
 
         if(size >= 0x80000)
         {
-            std::cout << "size >= 0x80000" << std::endl;
             //Check to see if PokeLib accepts it as a proper Gen 4 save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
@@ -45,7 +44,6 @@ namespace pkmn
                 pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
                 ::read(filename.c_str(), sav.get());
                 if(::savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
-                else std::cout << "savisbw2 failed" << std::endl;
             }
         }
         else if(size >= 0x40000)
