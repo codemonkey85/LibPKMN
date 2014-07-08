@@ -9,6 +9,8 @@
 #include <iostream>
 #include <string>
 
+#include <boost/filesystem.hpp>
+
 #include <pkmn/enums.hpp>
 #include <pkmn/game_save.hpp>
 #include <pkmn/paths.hpp>
@@ -21,39 +23,27 @@
 #include "library_bridge.hpp"
 #include "conversions/trainer.hpp"
 
-using namespace std;
+namespace fs = boost::filesystem;
 
 namespace pkmn
 {
-    game_save::sptr game_save::make(string filename)
+    game_save::sptr game_save::make(std::string filename)
     {
-        //Read save file and get size
-        FILE* save_file;
-        save_file = fopen(filename.c_str(), "rb");
-        fseek(save_file, 0, SEEK_END);
-        int size = ftell(save_file);
-        rewind(save_file);
-        char* buffer = (char*)malloc(size);
-        int result = fread(buffer, 1, size, save_file);
-        fclose(save_file);
+        uint32_t size = fs::file_size(fs::path(filename));
 
-        //Once size is determined, determine whether or not save is valid
         if(size >= 0x80000)
         {
             //Check to see if PokeLib accepts it as a proper Gen 4 save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
-                free(buffer);
                 return sptr(new game_save_gen4impl(pokelib_save));
             }
             else
             {
-                //Check to see if PKMDS accepts it as a proper Gen 5 save
-                free(buffer);
                 pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
-                read(filename.c_str(), sav.get());
-                if(savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
+                ::read(filename.c_str(), sav.get());
+                if(::savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
             }
         }
         else if(size >= 0x40000)
@@ -62,17 +52,23 @@ namespace pkmn
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
-                free(buffer);
                 return sptr(new game_save_gen4impl(pokelib_save));
             }
         }
         else if(size >= 0x20000)
         {
             //Check validity by manually using Pokehack checksum function on binary
+            std::ifstream ifile(filename.c_str(), std::ios::binary);
+            char* buffer = (char*)malloc(size);
+            ifile.read(buffer, size);
+
             block binary_block;
             memcpy(&binary_block, buffer, 4096);
             unsigned short checksum_from_pokehack = pokehack_get_block_checksum(&binary_block);
             unsigned short checksum_from_binary = binary_block.footer.checksum;
+
+            ifile.close();
+            free(buffer);
 
             if(checksum_from_pokehack == checksum_from_binary)
             {
