@@ -12,7 +12,6 @@
 #include <pkmn/types/shared_ptr.hpp>
 
 #include <rpokesav/gen1_save.hpp>
-#include <pokehack/SaveParser.h>
 #include <PokeLib/PokeLib.h>
 #include <pkmds/pkmds_g5.h>
 

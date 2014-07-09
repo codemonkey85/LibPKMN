@@ -16,9 +16,6 @@
 #include <pkmn/types/dict.hpp>
 #include <pkmn/types/pokemon_text.hpp>
 
-#include <pokehack/pokestructs.h>
-#include <pokehack/SaveParser.h>
-
 #include <pkmds/pkmds_g5.h>
 #include <pkmds/pkmds_g6.h>
 
@@ -157,11 +154,7 @@ namespace pkmn
         ("Dream Ball", PokeBalls::DREAM_BALL)
     ;
 
-    char* pokehack_get_text(unsigned char* raw, bool is_nickname);
-
-    unsigned short pokehack_get_block_checksum(block* b);
-
-    uint8_t PKMN_API modern_get_IV(uint32_t* IVint, uint8_t IV);
+    uint8_t modern_get_IV(uint32_t* IVint, uint8_t IV);
 
     void modern_set_IV(uint32_t* IVint, uint8_t IV, uint8_t val);
 

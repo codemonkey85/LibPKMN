@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 
 #include <boost/algorithm/string.hpp>
@@ -15,6 +16,7 @@
 #include <pkmn/lists.hpp>
 #include <pkmn/paths.hpp>
 #include <pkmn/database/queries.hpp>
+#include <pkmn/types/shared_ptr.hpp>
 
 #include <pokehack/pokestructs.h>
 #include <PokeLib/data_tables.h>
@@ -23,14 +25,15 @@
 
 namespace pkmn
 {
-    SQLite::Database db(get_database_path().c_str());
+    pkmn::shared_ptr<SQLite::Database> db;
 
     void get_game_list(std::vector<std::string> &game_vec)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         game_vec.clear();
 
         std::string query_str = "SELECT name FROM version_names";
-        SQLite::Statement query(db, query_str.c_str());
+        SQLite::Statement query(*db, query_str.c_str());
 
         while(query.executeStep())
         {
@@ -59,94 +62,109 @@ namespace pkmn
 
     void get_item_list(std::vector<std::string> &item_vec, unsigned int game)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         item_vec.clear();
         std::vector<std::string> temp_vec;
 
-        switch(game)
+        unsigned int gen = database::get_generation(game);
+        std::ostringstream query_stream;
+        query_stream << "SELECT name FROM item_names WHERE local_language_id=9 AND item_id IN "
+                     << "(SELECT item_id FROM item_game_indices WHERE generation_id=" << gen;
+
+        /*
+         * The database only shows which generation items come from, but it doesn't take
+         * into account differences between games within a generation.
+         */
+        switch(gen)
         {
-            case Games::XD:
-            case Games::EMERALD:
-                //Gen 3 items appearing only in Emerald
-                item_vec.push_back(items[374]);
-                item_vec.push_back(items[373]);
-            case Games::FIRE_RED:
-            case Games::LEAF_GREEN:
-                //Gen 3 items appearing only  in Fire Red, Leaf Green, and Emerald
-                temp_vec.clear();
-                for(int i = 348; i < 374; i++) temp_vec.push_back(items[i]);
-                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
-            case Games::COLOSSEUM:
-            case Games::RUBY:
-            case Games::SAPPHIRE:
-                //Gen 3 items appearing in all Gen 3 games
-                temp_vec.clear();
-                for(int i = 0; i < 348; i++)
-                    if(not (strncmp(items[i], "Nothing", 7) or strncmp(items[i], "???", 3)))
-                        temp_vec.push_back(items[i]);
-                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
-                break;
-
-            case Games::HEART_GOLD:
-            case Games::SOUL_SILVER:
-                //Gen 4 items appearing only in Heart Gold and Soul Silver
-                for(int i = 468; i < 536; i++) item_vec.push_back(PokeLib::items[i]);
-            case Games::PLATINUM:
-                //Gen 4 items appearing only in Platinum, Heart Gold, and Soul Silver
-                temp_vec.clear();
-                temp_vec.push_back(PokeLib::items[111]);
-                temp_vec.push_back(PokeLib::items[464]);
-                temp_vec.push_back(PokeLib::items[465]);
-                temp_vec.push_back(PokeLib::items[466]);
-                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
-            case Games::DIAMOND:
-            case Games::PEARL:
-                //Gen 4 items appearing in all Gen 4 games
-                temp_vec.clear();
-                for(int i = 0; i < 464; i++)
-                    if(i != 111 and not (strncmp(PokeLib::items[i], "???", 3) or strncmp(PokeLib::items[i], "----", 4)))
-                        temp_vec.push_back(PokeLib::items[i]);
-                item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
-                break;
-
-            case Games::BLACK:
-            case Games::WHITE:
+            case 1:
             {
-                std::string query_string = "SELECT name FROM item_names WHERE item_id<670 AND local_language_id=9";
-                SQLite::Statement query(db, query_string.c_str());
-                while(query.executeStep())
-                {
-                    std::string result = query.getColumn(0); //Cannot do straight SQLite::Column to std::std::string conversion in push_back
-                    item_vec.push_back(result);
-                }
+                query_stream << ")";
                 break;
             }
 
-            default: //For Black 2 and White 2, show all items, as well as for any invalid entry
+            case 2:
             {
-                std::string query_string = "SELECT name FROM item_names WHERE item_id AND local_language_id=9";
-                SQLite::Statement query(db, query_string.c_str());
-                while(query.executeStep())
-                {
-                    std::string result = query.getColumn(0); //Cannot do straight SQLite::Column to std::std::string conversion in push_back
-                    item_vec.push_back(result);
-                }
+                std::string end = (game == Games::CRYSTAL) ? ")"
+                                                           : " AND game_index NOT IN (70,115,116,129))";
+                query_stream << end;
                 break;
             }
+
+            case 3:
+            {
+                std::string end;
+                switch(game)
+                {
+                    case Games::EMERALD:
+                        end = ")";
+                        break;
+
+                    case Games::FIRE_RED:
+                    case Games::LEAF_GREEN:
+                        end = " AND game_index<=374)";
+                        break;
+
+                    default:
+                        end = " AND game_index<=348)";
+                        break;
+                }
+                query_stream << end;
+                break;
+            }
+
+            case 4:
+            {
+                std::string end;
+                switch(game)
+                {
+                    case Games::HEART_GOLD:
+                    case Games::SOUL_SILVER:
+                        end = ")";
+                        break;
+
+                    case Games::PLATINUM:
+                        end = " AND game_index<=467)";
+                        break;
+
+                    default:
+                        end = " AND game_index<=464 AND game_index!=112)";
+                        break;
+                }
+                query_stream << end;
+                break;
+            }
+
+            case 5:
+            {
+                std::string end = (game < Games::BLACK2) ? " AND game_index<=626)"
+                                                         : ")";
+                query_stream << end;
+                break;
+            }
+
+            default:
+                query_stream << ")";
+                break;
         }
+        SQLite::Statement query(*db, query_stream.str().c_str());
+        while(query.executeStep()) item_vec.push_back(query.getColumn(0));
     }
 
-    void PKMN_API get_pokedex_order(std::vector<std::pair<unsigned int, unsigned int> >& entry_list, unsigned int pokedex_id)
+    void get_pokedex_order(std::vector<std::pair<unsigned int, unsigned int> >& entry_list, unsigned int pokedex_id)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         entry_list.clear();
         std::string query_string(str(boost::format("SELECT species_id,pokedex_number FROM pokemon_dex_numbers WHERE pokedex_id=%d")
                                      % pokedex_id));
-        SQLite::Statement query(db, query_string.c_str());
+        SQLite::Statement query(*db, query_string.c_str());
 
         while(query.executeStep()) entry_list.push_back(std::make_pair(int(query.getColumn(0)), int(query.getColumn(1))));
     }
 
     void get_pokemon_list(std::vector<std::string> &pokemon_vec, unsigned int game)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         pokemon_vec.clear();
 
         //Amount of Pokemon in generation correponding to game enum specified
@@ -155,7 +173,7 @@ namespace pkmn
         bool multiple = false;
 
         std::string query_string = "SELECT id,species_id FROM pokemon WHERE id <= " + to_string(bounds[game]);
-        SQLite::Statement query(db, query_string.c_str());
+        SQLite::Statement query(*db, query_string.c_str());
 
         boost::format form_format("%s (%s)");
         while(query.executeStep())
@@ -172,11 +190,11 @@ namespace pkmn
             else
             {
                 query_string = "SELECT name FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id=" + to_string(species_id);
-                normal_name = std::string((const char*)db.execAndGet(query_string.c_str()));
+                normal_name = std::string((const char*)db->execAndGet(query_string.c_str()));
             }
 
             query_string = "SELECT id,form_identifier FROM pokemon_forms WHERE form_identifier!='NULL' AND pokemon_id=" + to_string(pokemon_id);
-            SQLite::Statement inner_query(db, query_string.c_str());
+            SQLite::Statement inner_query(*db, query_string.c_str());
 
             while(inner_query.executeStep())
             {
@@ -186,7 +204,7 @@ namespace pkmn
                 std::string form_identifier = inner_query.getColumn(1);
 
                 query_string = "SELECT form_name FROM pokemon_form_names WHERE local_language_id=9 AND pokemon_form_id=" + to_string(form_id);
-                std::string form_name = std::string((const char*)db.execAndGet(query_string.c_str()));
+                std::string form_name = std::string((const char*)db->execAndGet(query_string.c_str()));
                 std::vector<std::string> form_halves;
                 boost::split(form_halves, form_name, boost::is_any_of(" "));
                 std::string full_form_name = (form_format % normal_name % form_halves[0]).str();
@@ -329,11 +347,12 @@ namespace pkmn
 
     void get_type_list(std::vector<std::string> &type_vec, unsigned int gen)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         type_vec.clear();
 
         std::string query_string = "SELECT name FROM type_names WHERE local_language_id=9";
 
-        SQLite::Statement type_names_query(db, query_string.c_str());
+        SQLite::Statement type_names_query(*db, query_string.c_str());
         while(type_names_query.executeStep())
         {
             std::string type = std::string((const char*)type_names_query.getColumn(0));
@@ -346,24 +365,26 @@ namespace pkmn
 
     void get_ability_list(std::vector<std::string> &ability_vec, unsigned int gen)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         ability_vec.clear();
 
         std::string query_string = "SELECT id FROM abilities WHERE generation_id<=" + to_string(gen);
 
-        SQLite::Statement query(db, query_string.c_str());
+        SQLite::Statement query(*db, query_string.c_str());
         while(query.executeStep())
         {
             query_string = "SELECT name FROM ability_names WHERE local_language_id=9 ability_id=" + to_string(query.getColumn(0));
-            ability_vec.push_back(std::string((const char*)db.execAndGet(query_string.c_str())));
+            ability_vec.push_back(std::string((const char*)db->execAndGet(query_string.c_str())));
         }
     }
 
     void get_nature_list(std::vector<std::string> &nature_vec)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         nature_vec.clear();
 
         std::string query_str = "SELECT name FROM nature_names";
-        SQLite::Statement query(db, query_str.c_str());
+        SQLite::Statement query(*db, query_str.c_str());
 
         while(query.executeStep())
         {
@@ -374,6 +395,7 @@ namespace pkmn
 
     void get_pokemon_of_type(base_pokemon_vector &pkmn_vector, std::string type1, std::string type2, unsigned int gen, bool lax)
     {
+        if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         pkmn_vector.clear();
 
         std::string query_string;
@@ -382,18 +404,18 @@ namespace pkmn
 
         //Get type IDs
         query_string = "SELECT type_id FROM type_names WHERE name='" + type1 + "'";
-        type1_id = int(db.execAndGet(query_string.c_str()));
+        type1_id = int(db->execAndGet(query_string.c_str()));
         if(type2 != "None" and type2 != "Any")
         {
             query_string = "SELECT type_id FROM type_names WHERE name='" + type2 + "'";
-            type2_id = int(db.execAndGet(query_string.c_str()));
+            type2_id = int(db->execAndGet(query_string.c_str()));
         }
 
         if((type2 == "None" or type2 == "Any") and lax)
         {
             //Get IDs of Pokémon
             query_string = "SELECT pokemon_id FROM pokemon_types WHERE type_id=" + to_string(type1_id);
-            SQLite::Statement pokemon_types_query(db, query_string.c_str());
+            SQLite::Statement pokemon_types_query(*db, query_string.c_str());
 
             //Get any Pokémon of specified type (by itself or paired with any other)
             while(pokemon_types_query.executeStep())
@@ -401,11 +423,11 @@ namespace pkmn
                 pkmn_id = pokemon_types_query.getColumn(0); //pokemon_id
 
                 query_string = "SELECT species_id FROM pokemon WHERE id=" + to_string(pkmn_id);
-                int species_id = db.execAndGet(query_string.c_str());
+                int species_id = db->execAndGet(query_string.c_str());
 
                 //Get generation ID to restrict list
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
-                int generation_id = db.execAndGet(query_string.c_str());
+                int generation_id = db->execAndGet(query_string.c_str());
                 if(generation_id <= gen)
                 {
                     applicable_ids.push_back(pkmn_id);
@@ -418,7 +440,7 @@ namespace pkmn
             //Get IDs of Pokémon matching first type
             std::vector<int> pkmn_ids;
             query_string = "SELECT pokemon_id FROM pokemon_types WHERE type_id=" + to_string(type1_id);
-            SQLite::Statement pokemon_types_id_query(db, query_string.c_str());
+            SQLite::Statement pokemon_types_id_query(*db, query_string.c_str());
 
             while(pokemon_types_id_query.executeStep()) pkmn_ids.push_back(pokemon_types_id_query.getColumn(0));
 
@@ -430,7 +452,7 @@ namespace pkmn
                 {
                     int pkmn_count = 0; //Number of types Pokémon appears in pokemon_moves
                     query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_ids[i]);
-                    SQLite::Statement inner_query(db, query_string.c_str());
+                    SQLite::Statement inner_query(*db, query_string.c_str());
                     while(inner_query.executeStep()) pkmn_count++;
 
                     if(pkmn_count > 1) to_erase.push_back(i);
@@ -443,7 +465,7 @@ namespace pkmn
                 {
                     query_string = "SELECT type_id FROM pokemon_types WHERE pokemon_id=" + to_string(pkmn_ids[i])
                                  + " AND type_id=" + to_string(type2_id);
-                    SQLite::Statement inner_query(db, query_string.c_str());
+                    SQLite::Statement inner_query(*db, query_string.c_str());
                     if(not inner_query.executeStep()) to_erase.push_back(i);
                 }
             }
@@ -456,14 +478,14 @@ namespace pkmn
             for(unsigned int i = 0; i < pkmn_ids.size(); i++)
             {
                 query_string = "SELECT species_id FROM pokemon WHERE id=" + to_string(pkmn_ids[i]);
-                int species_id = db.execAndGet(query_string.c_str());
+                int species_id = db->execAndGet(query_string.c_str());
 
                 query_string = "SELECT identifier FROM pokemon_species WHERE id=" + to_string(species_id);
-                std::string pkmn_name = db.execAndGet(query_string.c_str());
+                std::string pkmn_name = db->execAndGet(query_string.c_str());
 
                 //Get generation ID to restrict list
                 query_string = "SELECT generation_id FROM pokemon_species WHERE id=" + to_string(species_id);
-                int generation_id = db.execAndGet(query_string.c_str());
+                int generation_id = db->execAndGet(query_string.c_str());
                 if(generation_id <= gen) applicable_ids.push_back(pkmn_ids[i]); //ID's that apply to final Pokemon
             }
         }
