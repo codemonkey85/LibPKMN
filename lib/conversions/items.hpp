@@ -19,39 +19,10 @@
 
 #include "trainer.hpp"
 
-/*
- * Items aren't currently implemented in Pokehack, so
- * they will need to be done here for now.
- */
-
-#define RS_ITEM_POCKET_OFFSET 0x560+3968
-#define RS_KEY_ITEM_POCKET_OFFSET 0x5B0+3968
-#define RS_BALL_POCKET_OFFSET 0x600+3968
-#define RS_TM_POCKET_OFFSET 0x640+3968
-#define RS_BERRY_POCKET_OFFSET 0x740+3968
-
-#define E_ITEM_POCKET_OFFSET 0x560+3968
-#define E_KEY_ITEM_POCKET_OFFSET 0x5D8+3968
-#define E_BALL_POCKET_OFFSET 0x650+3968
-#define E_TM_POCKET_OFFSET 0x690+3968
-#define E_BERRY_POCKET_OFFSET 0x790+3968
-
-#define FRLG_ITEM_POCKET_OFFSET 0x310+3968
-#define FRLG_KEY_ITEM_POCKET_OFFSET 0x3B8+3968
-#define FRLG_BALL_POCKET_OFFSET 0x430+3968
-#define FRLG_TM_POCKET_OFFSET 0x464+3968
-#define FRLG_BERRY_POCKET_OFFSET 0x54C+3968
-
 namespace pkmn
 {
     namespace conversions
     {
-        struct pokehack_item
-        {
-            uint16_t index;
-            uint16_t quantity;
-        };
-
         void import_gen1_bag(std::array<rpokesav::gen1_item_t,20> &rpokesav_bag,
                              bag::sptr libpkmn_bag,
                              uint8_t bag_item_count);

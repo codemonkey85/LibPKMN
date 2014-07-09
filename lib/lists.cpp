@@ -18,9 +18,6 @@
 #include <pkmn/database/queries.hpp>
 #include <pkmn/types/shared_ptr.hpp>
 
-#include <pokehack/pokestructs.h>
-#include <PokeLib/data_tables.h>
-
 #include "SQLiteCpp/SQLiteC++.h"
 
 namespace pkmn
@@ -151,7 +148,7 @@ namespace pkmn
         while(query.executeStep()) item_vec.push_back(query.getColumn(0));
     }
 
-    void get_pokedex_order(std::vector<std::pair<unsigned int, unsigned int> >& entry_list, unsigned int pokedex_id)
+    void get_pokedex_order(std::vector<std::pair<unsigned int, unsigned int> > &entry_list, unsigned int pokedex_id)
     {
         if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         entry_list.clear();
@@ -167,182 +164,13 @@ namespace pkmn
         if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         pokemon_vec.clear();
 
-        //Amount of Pokemon in generation correponding to game enum specified
-        int bounds[] = {151,151,151,151,251,251,251,386,386,386,386,386,493,493,493,493,493,
-                        649,649,386,386,649,649,151,251};
-        bool multiple = false;
+        unsigned int bounds[] = {0,151,251,386,493,649,719};
+        unsigned int bound = bounds[database::get_generation(game)];
+        std::ostringstream query_stream;
+        query_stream << "SELECT name FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id<=" << bound << std::endl;
+        SQLite::Statement query(*db, query_stream.str().c_str());
 
-        std::string query_string = "SELECT id,species_id FROM pokemon WHERE id <= " + to_string(bounds[game]);
-        SQLite::Statement query(*db, query_string.c_str());
-
-        boost::format form_format("%s (%s)");
-        while(query.executeStep())
-        {
-
-            int pokemon_id = query.getColumn(0);
-            int species_id = query.getColumn(1);
-
-            std::string normal_name;
-
-            //For the Nidorans, eliminate the multi-byte character
-            if(species_id == 29) normal_name = "Nidoran (F)";
-            else if(species_id == 32) normal_name = "Nidoran (M)";
-            else
-            {
-                query_string = "SELECT name FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id=" + to_string(species_id);
-                normal_name = std::string((const char*)db->execAndGet(query_string.c_str()));
-            }
-
-            query_string = "SELECT id,form_identifier FROM pokemon_forms WHERE form_identifier!='NULL' AND pokemon_id=" + to_string(pokemon_id);
-            SQLite::Statement inner_query(*db, query_string.c_str());
-
-            while(inner_query.executeStep())
-            {
-                multiple = true;
-
-                int form_id = inner_query.getColumn(0);
-                std::string form_identifier = inner_query.getColumn(1);
-
-                query_string = "SELECT form_name FROM pokemon_form_names WHERE local_language_id=9 AND pokemon_form_id=" + to_string(form_id);
-                std::string form_name = std::string((const char*)db->execAndGet(query_string.c_str()));
-                std::vector<std::string> form_halves;
-                boost::split(form_halves, form_name, boost::is_any_of(" "));
-                std::string full_form_name = (form_format % normal_name % form_halves[0]).str();
-
-                //Manaual additions/removals
-                switch(pokemon_id)
-                {
-                    case 172:
-                        //Pichu appears in all Gen 2+ games, but Spiky-eared Pichu only appears in HG/SS
-                        pokemon_vec.push_back("Pichu");
-                        if(game == Games::HEART_GOLD or game == Games::SOUL_SILVER) pokemon_vec.push_back(full_form_name);
-                        break;
-
-                    case 201:
-                        //Unown (?) and Unown (!) were introduced in Gen 3
-                        if(form_id == 675 or form_id == 676)
-                        {
-                            if(game > Games::CRYSTAL) pokemon_vec.push_back(full_form_name);
-                        }
-                        else pokemon_vec.push_back(full_form_name);
-                        break;
-
-                    case 386:
-                        //In Gen 3, different Deoxys forms only appear in certain games
-                        if(game != Games::FIRE_RED and game != Games::LEAF_GREEN and game != Games::EMERALD)
-                            pokemon_vec.push_back(full_form_name);
-                        if(game != Games::RUBY and game != Games::SAPPHIRE and game != Games::LEAF_GREEN and game != Games::EMERALD)
-                            pokemon_vec.push_back("Deoxys (Attack)");
-                        if(game != Games::RUBY and game != Games::SAPPHIRE and game != Games::FIRE_RED and game != Games::EMERALD)
-                            pokemon_vec.push_back("Deoxys (Defense)");
-                        if(game != Games::RUBY and game != Games::SAPPHIRE and game != Games::FIRE_RED and game != Games::LEAF_GREEN)
-                            pokemon_vec.push_back("Deoxys (Speed)");
-                        break;
-
-                    case 413:
-                        pokemon_vec.push_back(full_form_name);
-                        pokemon_vec.push_back("Wormadam (Sandy)");
-                        pokemon_vec.push_back("Wormadam (Trash)");
-                        break;
-
-                    case 487:
-                        //Giratina's Origin Forme first appeared in Platinum
-                        pokemon_vec.push_back(full_form_name);
-                        if(game > Games::PEARL) pokemon_vec.push_back("Giratina (Origin)");
-                        break;
-
-                    case 492:
-                        //Shaymin's Sky Forme first appeared in Platinum
-                        pokemon_vec.push_back(full_form_name);
-                        if(game > Games::PEARL) pokemon_vec.push_back("Shaymin (Sky)");
-                        break;
-
-                    case 493:
-                        //Arceus (???) only appears in Gen 4
-                        if(form_halves[0] == "???")
-                        {
-                            if(game < Games::BLACK) pokemon_vec.push_back(full_form_name);
-                        }
-                        else pokemon_vec.push_back(full_form_name);
-                        break;
-
-                    case 550:
-                        pokemon_vec.push_back(full_form_name);
-                        pokemon_vec.push_back("Basculin (Blue-Striped)");
-                        break;
-
-                    case 555:
-                        pokemon_vec.push_back(full_form_name);
-                        pokemon_vec.push_back("Darmanitan (Zen)");
-                        break;
-
-                    case 641:
-                    case 642:
-                    case 645:
-                        //Tornadus, Thunderus, and Landorus all have both Incarnate and Therian forms
-                        pokemon_vec.push_back(full_form_name);
-                        pokemon_vec.push_back((form_format % normal_name % "Therian").str());
-                        break;
-
-                    case 647:
-                        //Keldeo's Resolute Forme first appeared in Black 2/White 2
-                        pokemon_vec.push_back(full_form_name);
-                        if(game > Games::WHITE) pokemon_vec.push_back("Keldeo (Resolute)");
-                        break;
-
-                    case 648:
-                        pokemon_vec.push_back(full_form_name);
-                        pokemon_vec.push_back("Meloetta (Pirouette)");
-                        break;
-
-                    case 649:
-                        //Place standard Genesect first
-                        if(form_halves[0] == "Douse")
-                        {
-                            pokemon_vec.push_back("Genesect");
-                            pokemon_vec.push_back(full_form_name);
-                        }
-                        else pokemon_vec.push_back(full_form_name);
-                        break;
-
-                    default:
-                        pokemon_vec.push_back(full_form_name);
-                        break;
-                }
-            }
-            if(multiple) multiple = false;
-            else
-            {
-                //Rotom and Kyrem aren't listed listed as having multiple forms, so it must be manually done here
-                switch(int(query.getColumn(1)))
-                {
-                    case 479:
-                        pokemon_vec.push_back(normal_name);
-                        if(game > Games::PEARL)
-                        {
-                            pokemon_vec.push_back("Rotom (Heat)");
-                            pokemon_vec.push_back("Rotom (Wash)");
-                            pokemon_vec.push_back("Rotom (Frost)");
-                            pokemon_vec.push_back("Rotom (Fan)");
-                            pokemon_vec.push_back("Rotom (Mow)");
-                        }
-                        break;
-
-                    case 646:
-                        pokemon_vec.push_back(normal_name);
-                        if(game > Games::WHITE)
-                        {
-                            pokemon_vec.push_back("Kyurem (Black)");
-                            pokemon_vec.push_back("Kyurem (White)");
-                        }
-                        break;
-
-                    default:
-                        pokemon_vec.push_back(normal_name);
-                        break;
-                }
-            }
-        }
+        while(query.executeStep()) pokemon_vec.push_back((const char*)(query.getColumn(0)));
     }
 
     void get_type_list(std::vector<std::string> &type_vec, unsigned int gen)

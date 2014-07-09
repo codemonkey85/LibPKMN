@@ -33,7 +33,7 @@ namespace pkmn
 
         if(size >= 0x80000)
         {
-            //Check to see if PokeLib accepts it as a proper Gen 4 save
+            //Check to see if PokeLib-NC accepts this as a proper Gen V save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
@@ -41,6 +41,7 @@ namespace pkmn
             }
             else
             {
+                //Check to see if PKMDS accepts this as a proper Gen V save
                 pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
                 ::read(filename.c_str(), sav.get());
                 if(::savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
@@ -48,7 +49,7 @@ namespace pkmn
         }
         else if(size >= 0x40000)
         {
-            //Check to see if PokeLib accepts it as a proper Gen 4 save
+            //Check to see if PokeLib-NC accepts this as a proper Gen IV save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
@@ -57,7 +58,7 @@ namespace pkmn
         }
         else if(size >= 0x20000)
         {
-            //Check validity by manually using Pokehack checksum function on binary
+            //Check to see if LibSPEC accepts this as a proper Gen III save
             std::ifstream ifile(filename.c_str(), std::ios::binary);
             uint8_t* buffer = (uint8_t*)malloc(size);
             ifile.read((char*)buffer, size);
@@ -66,6 +67,7 @@ namespace pkmn
         }
         else if(size >= (2 << 14))
         {
+            //Check to see if Retro Pokesav accepts this as a proper Gen I save
             rpokesav_gen1_sptr g1_sav(new rpokesav::gen1_save(filename));
             if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav));
         }
