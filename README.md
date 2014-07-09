@@ -73,6 +73,6 @@ Pokémon © 2002-2014 Pokémon. © 1995-2014 Nintendo/Creatures Inc./GAME FREAK 
 Pokémon info, algorithms, etc., all taken from Bulbapedia (http://bulbapedia.bulbagarden.net/wiki/Main_Page)
 SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
 
-Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
+Special thanks to Michael Bond (http://github.com/codemonkey85) for C# testing and consulting on game mechanics.
  
-README last updated: 2014-06-01
+README last updated: 2014-07-09
