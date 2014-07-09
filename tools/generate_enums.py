@@ -98,6 +98,8 @@ def get_items(c):
         item_name = str(unidecode(from_db[i][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
         items += [(from_db[i][0], item_name)]
 
+    items += [(100000, "INVALID")]
+
 def get_markings():
     global markings
 
@@ -114,7 +116,7 @@ def get_moves(c):
         move_name = str(from_db[i][1]).replace("-","_").replace(" ","_").replace("'","").upper().replace("SING","__SING")
         moves += [(from_db[i][0], move_name)]
 
-    moves += [(10000, "INVALID")]
+    moves += [(100000, "INVALID")]
 
 def get_move_damage_classes(c):
     global move_damage_classes
@@ -320,7 +322,7 @@ def generate_cpp_file(top_level_dir, header):
             {""" % forms[i][0]
 
         for j in range(1,len(forms[i])):
-            output += "\n                %s = %s," % (forms[i][j][1], forms[i][j][0])
+            output += "\n                %s = %d," % (forms[i][j][1], forms[i][j][0])
         output += """
             };
         }
@@ -562,7 +564,162 @@ def generate_cpp_file(top_level_dir, header):
     f.write(output)
     f.close()
 
-    #print output
+def generate_python_files(top_level_dir, python_license):
+
+    os.chdir(os.path.join(top_level_dir, "lib", "swig", "python"))
+
+    f = open("Abiliies.py",'w')
+    f.write(python_license + "\n\n")
+
+    for ability in abilities:
+        f.write("%s = %d\n" % (ability[1],ability[0]))
+
+    f.close()
+
+    f = open("Egg_Groups.py",'w')
+    f.write(python_license + "\n\n")
+
+    for egg_group in egg_groups:
+        f.write("%s = %d\n" % (egg_group[1],egg_group[0]))
+
+    f.close()
+
+    f = open("Forms.py",'w')
+    f.write(python_license + "\n")
+
+    for i in range(len(forms)):
+        f.write("\nclass %s:" % forms[i][0])
+
+        for j in range(1,len(forms[i])):
+            f.write("\n    %s = %d" % (forms[i][j][1], forms[i][j][0]))
+
+        f.write("\n")
+
+    f.close()
+
+    f = open("Genders.py",'w')
+    f.write(python_license + "\n\n")
+
+    for gender in genders:
+        f.write("%s = %d\n" % (gender[1],gender[0]))
+
+    f.close()
+
+    f = open("Items.py",'w')
+    f.write(python_license + "\n\n")
+
+    for item in items:
+        f.write("%s = %d\n" % (item[1],item[0]))
+
+    f.close()
+
+    f = open("Markings.py",'w')
+    f.write(python_license + "\n\n")
+
+    for marking in markings:
+        f.write("%s = %d\n" % (marking[1],marking[0]))
+
+    f.close()
+
+    f = open("Moves.py",'w')
+    f.write(python_license + "\n\n")
+
+    for move in moves:
+        f.write("%s = %d\n" % (move[1],move[0]))
+
+    f.close()
+
+    f = open("Move_Classes.py",'w')
+    f.write(python_license + "\n\n")
+
+    for move_damage_class in move_damage_classes:
+        f.write("%s = %d\n" % (move_damage_class[1],move_damage_class[0]))
+
+    f.close()
+
+    f = open("Natures.py",'w')
+    f.write(python_license + "\n\n")
+
+    for nature in natures:
+        f.write("%s = %d\n" % (nature[1],nature[0]))
+
+    f.close()
+
+    f = open("Ribbons.py",'w')
+    f.write(python_license + "\n")
+
+    f.write("\nclass Hoenn:")
+    for i in range(len(ribbons[0])):
+        if ribbons[0][i] != "":
+            f.write("\n    %s = %d" % (ribbons[0][i], i))
+    f.write("\n")
+
+    f.write("\nclass Sinnoh:")
+    for i in range(len(ribbons[1])):
+        if ribbons[1][i] != "":
+            f.write("\n    %s = %d" % (ribbons[1][i], i))
+    f.write("\n")
+
+    f.write("\nclass Unova:")
+    for i in range(len(ribbons[2])):
+        if ribbons[2][i] != "":
+            f.write("\n    %s = %d" % (ribbons[2][i], i))
+    f.write("\n")
+
+    f.write("\nclass Kalos:")
+    for i in range(len(ribbons[3])):
+        if ribbons[3][i] != "":
+            f.write("\n    %s = %d" % (ribbons[3][i], i))
+
+    f.close()
+
+    f = open("Species.py",'w')
+    f.write(python_license + "\n\n")
+
+    for pokemon in species:
+        f.write("%s = %d\n" % (pokemon[1],pokemon[0]))
+
+    f.close()
+
+    f = open("Stats.py",'w')
+    f.write(python_license + "\n\n")
+
+    for stat in stats:
+        f.write("%s = %d\n" % (stat[1],stat[0]))
+
+    f.close()
+
+    f = open("PokeBalls.py",'w')
+    f.write(python_license + "\n\n")
+
+    for pokeball in pokeballs:
+        f.write("%s = %d\n" % (pokeball[1],pokeball[0]))
+
+    f.close()
+
+    f = open("Types.py",'w')
+    f.write(python_license + "\n\n")
+
+    for _type in types:
+        f.write("%s = %d\n" % (_type[1],_type[0]))
+
+    f.close()
+
+    f = open("Versions.py",'w')
+    f.write(python_license + "\n\n")
+
+    for version in versions:
+        f.write("%s = %d\n" % (version[1],version[0]))
+
+    f.close()
+
+    f = open("Version_Groups.py",'w')
+    f.write(python_license + "\n\n")
+
+    for version_group in version_groups:
+        f.write("%s = %d\n" % (version_group[1],version_group[0]))
+
+    f.close()
 
 if __name__ == "__main__":
 
@@ -576,8 +733,8 @@ if __name__ == "__main__":
 
     time = datetime.datetime.now()
 
-    cpp_cs_header = """/*
- * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
+    license = """/*
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -585,8 +742,9 @@ if __name__ == "__main__":
  * This file was generated: %s
  */""" % time
 
-    python_header = """#
-# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
+    python_license = """#/usr/bin/env python
+#
+# Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
@@ -611,4 +769,5 @@ if __name__ == "__main__":
     get_versions(c)
     get_version_groups(c)
 
-    generate_cpp_file(options.top_level_dir, cpp_cs_header)
+    generate_cpp_file(options.top_level_dir, license)
+    generate_python_files(options.top_level_dir, python_license)

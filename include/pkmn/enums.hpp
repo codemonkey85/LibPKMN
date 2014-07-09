@@ -1,10 +1,10 @@
 /*
- * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  *
- * This file was generated: 2014-07-08 20:54:01.142133
+ * This file was generated: 2014-07-08 21:45:11.176957
  */
 
 #ifndef INCLUDED_PKMN_ENUMS_HPP
@@ -1602,6 +1602,7 @@ namespace pkmn
             BLUESKY_MAIL,
             MUSIC_MAIL,
             MIRAGE_MAIL,
+            INVALID = 100000,
         };
     }
 
@@ -2252,7 +2253,7 @@ namespace pkmn
             SHADOW_PANIC,
             SHADOW_SHED,
             SHADOW_SKY,
-            INVALID,
+            INVALID = 100000,
         };
     }
 
