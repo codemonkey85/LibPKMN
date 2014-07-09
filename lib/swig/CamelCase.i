@@ -106,6 +106,8 @@
 /*
  * pkmn/io.hpp
  */
+%rename(exportTo3GPKM) pkmn::io::export_to_3gpkm;
+%rename(importFrom3GPKM) pkmn::io::import_from_3gpkm;
 %rename(exportToPKM) pkmn::io::export_to_pkm;
 %rename(importFromPKM) pkmn::io::import_from_pkm;
 %rename(exportToPKX) pkmn::io::export_to_pkx;
