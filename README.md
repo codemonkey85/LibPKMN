@@ -42,7 +42,6 @@ If CMake does not automatically find the dependencies, this means they are not i
 
  * LibPKMN Images (https://github.com/ncorgan/LibPKMN-images) - Pokemon sprites and icons
  * Retro Pokesav (https://github.com/ncorgan/rpokesav) - Gen 1 save editing library
- * Pokehack (https://github.com/Grazfather/pokehack) - Gen 3 save editing library
  * PokeLib-NC (https://github.com/ncorgan/PokeLib-NC) - Gen 4 save editing library
  * PKMDS (https://github.com/codemonkey85/PKMDS) - Gen 5-6 save editing library
 
@@ -75,4 +74,4 @@ SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
 
 Special thanks to Michael Bond (http://github.com/codemonkey85) for consulting on game mechanics.
  
-README last updated: 2014-06-01
+README last updated: 2014-07-08
