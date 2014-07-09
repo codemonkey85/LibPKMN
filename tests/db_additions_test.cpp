@@ -173,10 +173,10 @@ BOOST_AUTO_TEST_CASE(move_test)
     BOOST_CHECK_EQUAL(move18->get_priority(), -6);
 
     //Name changes
-    pkmn::move::sptr move19 = pkmn::move::make(pkmn::Moves::ANCIENTPOWER, pkmn::Games::LEAF_GREEN);
-    pkmn::move::sptr move20 = pkmn::move::make(pkmn::Moves::ANCIENTPOWER, pkmn::Games::Y);
-    pkmn::move::sptr move21 = pkmn::move::make(pkmn::Moves::SAND_ATTACK, pkmn::Games::BLUE);
-    pkmn::move::sptr move22 = pkmn::move::make(pkmn::Moves::SAND_ATTACK, pkmn::Games::X);
+    pkmn::move::sptr move19 = pkmn::move::make(pkmn::Moves::ANCIENT_POWER, pkmn::Versions::LEAFGREEN);
+    pkmn::move::sptr move20 = pkmn::move::make(pkmn::Moves::ANCIENT_POWER, pkmn::Versions::Y);
+    pkmn::move::sptr move21 = pkmn::move::make(pkmn::Moves::SAND_ATTACK, pkmn::Versions::BLUE);
+    pkmn::move::sptr move22 = pkmn::move::make(pkmn::Moves::SAND_ATTACK, pkmn::Versions::X);
 
     BOOST_CHECK_EQUAL(move19->get_name(), "AncientPower");
     BOOST_CHECK_EQUAL(move20->get_name(), "Ancient Power");

@@ -205,7 +205,7 @@ namespace pkmn
             if(_move_id == Moves::BITE or _move_id == Moves::GUST or
                _move_id == Moves::KARATE_CHOP or _move_id == Moves::SAND_ATTACK) _type_id = Types::NORMAL;
         }
-        else if(_move_id == Moves::CURSE) _type_id = Types::UNKNOWN; // ???
+        else if(_move_id == Moves::CURSE) _type_id = Types::QUESTION_MARK; // ???
         else if(_move_id == Moves::CHARM or _move_id == Moves::MOONLIGHT or
                 _move_id == Moves::SWEET_KISS) _type_id = Types::NORMAL;
 

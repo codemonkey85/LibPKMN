@@ -15,11 +15,14 @@ from unidecode import unidecode
 abilities = []
 egg_groups = []
 forms = []
+genders = []
 items = []
 markings = []
 moves = []
 move_damage_classes = []
 natures = []
+pokeballs = []
+ribbons = []
 species = []
 stats = []
 types = []
@@ -66,7 +69,7 @@ def get_forms(c):
         for j in range(len(species_forms)):
             form_name = "STANDARD" if species_forms[j][1] == None else str(unidecode(species_forms[j][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
             form_name = form_name.replace("_FORME","").replace("_FORM","").replace("_TYPE","").replace("_ROTOM","").replace("???","QUESTION_MARK").replace("!","EXCLAMATION_MARK")
-            form_name = form_name.replace("?","QUESTION_MARK").replace("_PATTERN","").replace("_KYUREM","")
+            form_name = form_name.replace("?","QUESTION_MARK").replace("_PATTERN","").replace("_KYUREM","").replace("_MODE","")
 
             if "MEGA" in form_name and "_X" in form_name:
                 form_name = "MEGA_X"
@@ -78,6 +81,11 @@ def get_forms(c):
             form_index += [(species_forms[j][0], form_name)]
 
         forms += [form_index]
+
+def get_genders():
+    global genders
+
+    genders = [(0,"FEMALE"),(1,"MALE"),(2,"GENDERLESS")]
 
 def get_items(c):
     global items
@@ -106,6 +114,8 @@ def get_moves(c):
         move_name = str(from_db[i][1]).replace("-","_").replace(" ","_").replace("'","").upper().replace("SING","__SING")
         moves += [(from_db[i][0], move_name)]
 
+    moves += [(10000, "INVALID")]
+
 def get_move_damage_classes(c):
     global move_damage_classes
 
@@ -128,6 +138,59 @@ def get_natures(c):
         nature_name = str(from_db[i][1]).upper()
         natures += [(from_db[i][0], nature_name)]
 
+def get_pokeballs():
+    global pokeballs
+
+    pokeballs = [(0,"UNKNOWN"),(1,"POKE_BALL"),(2,"GREAT_BALL"),(3,"ULTRA_BALL"),(4,"MASTER_BALL"),(5,"SAFARI_BALL"),
+                 (6,"LEVEL_BALL"),(7,"LURE_BALL"),(8,"MOON_BALL"),(8,"FRIEND_BALL"),(9,"LOVE_BALL"),(10,"HEAVY_BALL"),
+                 (11,"FAST_BALL"),(12,"SPORT_BALL"),(13,"PREMIER_BALL"),(14,"REPEAT_BALL"),(15,"TIMER_BALL"),
+                 (16,"NEST_BALL"),(17,"NET_BALL"),(18,"DIVE_BALL"),(19,"LUXURY_BALL"),(20,"HEAL_BALL"),
+                 (21,"QUICK_BALL"),(22,"DUSK_BALL"),(23,"CHERISH_BALL"),(24,"PARK_BALL"),(25,"DREAM_BALL")]
+
+def get_ribbons():
+    global ribbons
+
+    hoenn_ribbons = ["WORLD","EARTH","NATIONAL","COUNTRY","SKY","LAND","MARINE","EFFORT","ARTIST","VICTORY","WINNING","CHAMPION",
+                     "TOUGH_MASTER","TOUGH_HYPER","TOUGH_SUPER","TOUGH",
+                     "SMART_MASTER","SMART_HYPER","SMART_SUPER","SMART",
+                     "CUTE_MASTER","CUTE_HYPER","CUTE_SUPER","CUTE",
+                     "BEAUTY_MASTER","BEAUTY_HYPER","BEAUTY_SUPER","BEAUTY",
+                     "COOL_MASTER","COOL_HYPER","COOL_SUPER","COOL"]
+
+    sinnoh_ribbons = ["","","","",
+                      "TOUGH_MASTER","TOUGH_HYPER","TOUGH_SUPER","TOUGH",
+                      "SMART_MASTER","SMART_HYPER","SMART_SUPER","SMART",
+                      "CUTE_MASTER","CUTE_HYPER","CUTE_SUPER","CUTE",
+                      "BEAUTY_MASTER","BEAUTY_HYPER","BEAUTY_SUPER","BEAUTY",
+                      "COOL_MASTER","COOL_HYPER","COOL_SUPER","COOL",
+                      "","","","",
+                      "PREMIER","CLASSIC","CARNIVAL","FESTIVAL","BLUE","GREEN","RED","LEGEND","HISTORY","RECORD",
+                      "FOOTPRINT","GORGEOUS_ROYAL","ROYAL","GORGEOUS","SMILE","SNOOZE","RELAX","CARELESS",
+                      "DOWNCAST","SHOCK","ALERT","WORLD_ABILITY","PAIR_ABILITY","MULTI_ABILITY","DOUBLE_ABILITY",
+                      "GREAT_ABILITY","ABILITY","CHAMPION"]
+
+
+    unova_ribbons = ["","","","",
+                     "TOUGH_MASTER","TOUGH_HYPER","TOUGH_SUPER","TOUGH",
+                     "SMART_MASTER","SMART_HYPER","SMART_SUPER","SMART",
+                     "CUTE_MASTER","CUTE_HYPER","CUTE_SUPER","CUTE",
+                     "BEAUTY_MASTER","BEAUTY_HYPER","BEAUTY_SUPER","BEAUTY",
+                     "COOL_MASTER","COOL_HYPER","COOL_SUPER","COOL",
+                     "","","","",
+                     "PREMIER","CLASSIC","WISHING","SOUVENIR","SPECIAL","BIRTHDAY","WORLD_CHAMPION","LEGEND",
+                     "EVENT","RECORD","FOOTPRINT","GORGEOUS_ROYAL","ROYAL","GORGEOUS","SMILE","SNOOZE","RELAX","CARELESS",
+                     "DOWNCAST","SHOCK","ALERT","WORLD_ABILITY","PAIR_ABILITY","MULTI_ABILITY","DOUBLE_ABILITY",
+                     "GREAT_ABILITY","ABILITY","CHAMPION"]
+
+    kalos_ribbons = ["","","","WORLD_CHAMPION","NATIONAL_CHAMPION","REGIONAL_CHAMPION","BATTLE_CHAMPION",
+                     "WISHING","FESTIVAL","SPECIAL","BIRTHDAY","EVENT","PREMIER","CLASSIC","WORLD",
+                     "EARTH","NATIONAL","COUNTRY","LEGEND","RECORD","FOOTPRINT","ARTIST","GORGEOUS_ROYAL",
+                     "ROYAL","GORGEOUS","SMILE","SNOOZE","RELAX","CARELESS","DOWNCAST","SHOCK","ALERT",
+                     "EFFORT","","SKILLFUL_BATTLER","TRAINING","BEST_FRIENDS","SINNOH_CHAMPION","CHAMPION",
+                     "KALOS_CHAMPION"]
+
+    ribbons = [hoenn_ribbons, sinnoh_ribbons, unova_ribbons, kalos_ribbons]
+
 def get_species(c):
     global species
 
@@ -144,6 +207,8 @@ def get_species(c):
             species_name = str(unidecode(from_db[i][1])).replace("-","_").replace(" ","_").replace(".","").replace("'","").upper()
 
         species += [(from_db[i][0], species_name)]
+
+    species += [(10000, "INVALID")]
 
 def get_stats(c):
     global stats
@@ -263,6 +328,19 @@ def generate_cpp_file(top_level_dir, header):
 
     output += """    }
 
+    namespace Genders
+    {
+        enum genders
+        {"""
+
+    for i in range(len(genders)):
+        output += """
+            %s,""" % genders[i][1]
+
+    output += """
+        };
+    }
+
     namespace Items
     {
         enum items
@@ -334,6 +412,77 @@ def generate_cpp_file(top_level_dir, header):
 
     output += """
         };
+    }
+
+    namespace PokeBalls
+    {
+        enum pokeballs
+        {"""
+
+    for i in range(len(pokeballs)):
+        output += """
+            %s,""" % pokeballs[i][1]
+
+    output += """
+        };
+    }
+
+    namespace Ribbons
+    {"""
+
+    output += """
+        namespace Hoenn
+        {
+            enum hoenn_ribbons
+            {"""
+
+    for i in range(len(ribbons[0])):
+        if ribbons[0][i] != "":
+            output += """
+                %s = %d,""" % (ribbons[0][i], i)
+
+    output += """
+            };
+        }
+        namespace Sinnoh
+        {
+            enum sinnoh_ribbons
+            {"""
+
+    for i in range(len(ribbons[1])):
+        if ribbons[1][i] != "":
+            output += """
+                %s = %d,""" % (ribbons[1][i], i)
+
+    output += """
+            };
+        }
+        namespace Unova
+        {
+            enum unova_ribbons
+            {"""
+
+    for i in range(len(ribbons[2])):
+        if ribbons[2][i] != "":
+            output += """
+                %s = %d,""" % (ribbons[2][i], i)
+
+    output += """
+            };
+        }
+        namespace Kalos
+        {
+            enum kalos_ribbons
+            {"""
+
+    for i in range(len(ribbons[3])):
+        if ribbons[3][i] != "":
+            output += """
+                %s = %d,""" % (ribbons[3][i], i)
+
+    output += """
+            };
+        }
     }
 
     namespace Species
@@ -448,13 +597,16 @@ if __name__ == "__main__":
     get_abilities(c)
     get_egg_groups(c)
     get_forms(c)
+    get_genders()
     get_items(c)
     get_markings()
     get_moves(c)
     get_move_damage_classes(c)
     get_natures(c)
+    get_ribbons()
     get_species(c)
     get_stats(c)
+    get_pokeballs()
     get_types(c)
     get_versions(c)
     get_version_groups(c)

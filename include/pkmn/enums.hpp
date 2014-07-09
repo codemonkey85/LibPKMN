@@ -4,7 +4,7 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  *
- * This file was generated: 2014-07-06 22:50:02.915735
+ * This file was generated: 2014-07-08 20:54:01.142133
  */
 
 #ifndef INCLUDED_PKMN_ENUMS_HPP
@@ -612,8 +612,8 @@ namespace pkmn
         {
             enum forms
             {
-                STANDARD_MODE = 555,
-                ZEN_MODE = 10067,
+                STANDARD = 555,
+                ZEN = 10067,
             };
         }
         namespace Deerling
@@ -809,10 +809,20 @@ namespace pkmn
         {
             enum forms
             {
-                ACTIVE_MODE = 716,
-                NEUTRAL_MODE = 10132,
+                ACTIVE = 716,
+                NEUTRAL = 10132,
             };
         }
+    }
+
+    namespace Genders
+    {
+        enum genders
+        {
+            FEMALE,
+            MALE,
+            GENDERLESS,
+        };
     }
 
     namespace Items
@@ -2242,6 +2252,7 @@ namespace pkmn
             SHADOW_PANIC,
             SHADOW_SHED,
             SHADOW_SKY,
+            INVALID,
         };
     }
 
@@ -2287,6 +2298,232 @@ namespace pkmn
             SASSY,
             SERIOUS,
         };
+    }
+
+    namespace PokeBalls
+    {
+        enum pokeballs
+        {
+            UNKNOWN,
+            POKE_BALL,
+            GREAT_BALL,
+            ULTRA_BALL,
+            MASTER_BALL,
+            SAFARI_BALL,
+            LEVEL_BALL,
+            LURE_BALL,
+            MOON_BALL,
+            FRIEND_BALL,
+            LOVE_BALL,
+            HEAVY_BALL,
+            FAST_BALL,
+            SPORT_BALL,
+            PREMIER_BALL,
+            REPEAT_BALL,
+            TIMER_BALL,
+            NEST_BALL,
+            NET_BALL,
+            DIVE_BALL,
+            LUXURY_BALL,
+            HEAL_BALL,
+            QUICK_BALL,
+            DUSK_BALL,
+            CHERISH_BALL,
+            PARK_BALL,
+            DREAM_BALL,
+        };
+    }
+
+    namespace Ribbons
+    {
+        namespace Hoenn
+        {
+            enum hoenn_ribbons
+            {
+                WORLD = 0,
+                EARTH = 1,
+                NATIONAL = 2,
+                COUNTRY = 3,
+                SKY = 4,
+                LAND = 5,
+                MARINE = 6,
+                EFFORT = 7,
+                ARTIST = 8,
+                VICTORY = 9,
+                WINNING = 10,
+                CHAMPION = 11,
+                TOUGH_MASTER = 12,
+                TOUGH_HYPER = 13,
+                TOUGH_SUPER = 14,
+                TOUGH = 15,
+                SMART_MASTER = 16,
+                SMART_HYPER = 17,
+                SMART_SUPER = 18,
+                SMART = 19,
+                CUTE_MASTER = 20,
+                CUTE_HYPER = 21,
+                CUTE_SUPER = 22,
+                CUTE = 23,
+                BEAUTY_MASTER = 24,
+                BEAUTY_HYPER = 25,
+                BEAUTY_SUPER = 26,
+                BEAUTY = 27,
+                COOL_MASTER = 28,
+                COOL_HYPER = 29,
+                COOL_SUPER = 30,
+                COOL = 31,
+            };
+        }
+        namespace Sinnoh
+        {
+            enum sinnoh_ribbons
+            {
+                TOUGH_MASTER = 4,
+                TOUGH_HYPER = 5,
+                TOUGH_SUPER = 6,
+                TOUGH = 7,
+                SMART_MASTER = 8,
+                SMART_HYPER = 9,
+                SMART_SUPER = 10,
+                SMART = 11,
+                CUTE_MASTER = 12,
+                CUTE_HYPER = 13,
+                CUTE_SUPER = 14,
+                CUTE = 15,
+                BEAUTY_MASTER = 16,
+                BEAUTY_HYPER = 17,
+                BEAUTY_SUPER = 18,
+                BEAUTY = 19,
+                COOL_MASTER = 20,
+                COOL_HYPER = 21,
+                COOL_SUPER = 22,
+                COOL = 23,
+                PREMIER = 28,
+                CLASSIC = 29,
+                CARNIVAL = 30,
+                FESTIVAL = 31,
+                BLUE = 32,
+                GREEN = 33,
+                RED = 34,
+                LEGEND = 35,
+                HISTORY = 36,
+                RECORD = 37,
+                FOOTPRINT = 38,
+                GORGEOUS_ROYAL = 39,
+                ROYAL = 40,
+                GORGEOUS = 41,
+                SMILE = 42,
+                SNOOZE = 43,
+                RELAX = 44,
+                CARELESS = 45,
+                DOWNCAST = 46,
+                SHOCK = 47,
+                ALERT = 48,
+                WORLD_ABILITY = 49,
+                PAIR_ABILITY = 50,
+                MULTI_ABILITY = 51,
+                DOUBLE_ABILITY = 52,
+                GREAT_ABILITY = 53,
+                ABILITY = 54,
+                CHAMPION = 55,
+            };
+        }
+        namespace Unova
+        {
+            enum unova_ribbons
+            {
+                TOUGH_MASTER = 4,
+                TOUGH_HYPER = 5,
+                TOUGH_SUPER = 6,
+                TOUGH = 7,
+                SMART_MASTER = 8,
+                SMART_HYPER = 9,
+                SMART_SUPER = 10,
+                SMART = 11,
+                CUTE_MASTER = 12,
+                CUTE_HYPER = 13,
+                CUTE_SUPER = 14,
+                CUTE = 15,
+                BEAUTY_MASTER = 16,
+                BEAUTY_HYPER = 17,
+                BEAUTY_SUPER = 18,
+                BEAUTY = 19,
+                COOL_MASTER = 20,
+                COOL_HYPER = 21,
+                COOL_SUPER = 22,
+                COOL = 23,
+                PREMIER = 28,
+                CLASSIC = 29,
+                WISHING = 30,
+                SOUVENIR = 31,
+                SPECIAL = 32,
+                BIRTHDAY = 33,
+                WORLD_CHAMPION = 34,
+                LEGEND = 35,
+                EVENT = 36,
+                RECORD = 37,
+                FOOTPRINT = 38,
+                GORGEOUS_ROYAL = 39,
+                ROYAL = 40,
+                GORGEOUS = 41,
+                SMILE = 42,
+                SNOOZE = 43,
+                RELAX = 44,
+                CARELESS = 45,
+                DOWNCAST = 46,
+                SHOCK = 47,
+                ALERT = 48,
+                WORLD_ABILITY = 49,
+                PAIR_ABILITY = 50,
+                MULTI_ABILITY = 51,
+                DOUBLE_ABILITY = 52,
+                GREAT_ABILITY = 53,
+                ABILITY = 54,
+                CHAMPION = 55,
+            };
+        }
+        namespace Kalos
+        {
+            enum kalos_ribbons
+            {
+                WORLD_CHAMPION = 3,
+                NATIONAL_CHAMPION = 4,
+                REGIONAL_CHAMPION = 5,
+                BATTLE_CHAMPION = 6,
+                WISHING = 7,
+                FESTIVAL = 8,
+                SPECIAL = 9,
+                BIRTHDAY = 10,
+                EVENT = 11,
+                PREMIER = 12,
+                CLASSIC = 13,
+                WORLD = 14,
+                EARTH = 15,
+                NATIONAL = 16,
+                COUNTRY = 17,
+                LEGEND = 18,
+                RECORD = 19,
+                FOOTPRINT = 20,
+                ARTIST = 21,
+                GORGEOUS_ROYAL = 22,
+                ROYAL = 23,
+                GORGEOUS = 24,
+                SMILE = 25,
+                SNOOZE = 26,
+                RELAX = 27,
+                CARELESS = 28,
+                DOWNCAST = 29,
+                SHOCK = 30,
+                ALERT = 31,
+                EFFORT = 32,
+                SKILLFUL_BATTLER = 34,
+                TRAINING = 35,
+                BEST_FRIENDS = 36,
+                SINNOH_CHAMPION = 37,
+                CHAMPION = 38,
+                KALOS_CHAMPION = 39,
+            };
+        }
     }
 
     namespace Species
@@ -3013,6 +3250,7 @@ namespace pkmn
             YVELTAL,
             ZYGARDE,
             DIANCIE,
+            INVALID,
         };
     }
 

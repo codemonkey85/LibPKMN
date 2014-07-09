@@ -309,8 +309,8 @@ namespace pkmn
             {
                 string basename;
                 if(form >= 1 and form <= 26) basename = str(boost::format("201-%c.png") % (form + 96));
-                else if(form == Forms::Unown::QUESTION) basename = "201-question.png";
-                else if(form == Forms::Unown::EXCLAMATION) basename = "201-exclamation.png";
+                else if(form == Forms::Unown::QUESTION_MARK) basename = "201-question.png";
+                else if(form == Forms::Unown::EXCLAMATION_MARK) basename = "201-exclamation.png";
 
                 SET_IMAGES_PATHS(basename);
                 break;
@@ -319,7 +319,7 @@ namespace pkmn
             case Species::CASTFORM:
                 switch(form)
                 {
-                    case Forms::Castform::NORMAL:
+                    case Forms::Castform::STANDARD:
                         _type1_id = Types::NORMAL;
                         _type2_id = Types::NONE;
                         _pokemon_id = 351;
@@ -485,7 +485,7 @@ namespace pkmn
             case Species::ROTOM:
                 switch(form)
                 {
-                    case Forms::Rotom::NORMAL:
+                    case Forms::Rotom::STANDARD:
                         _type1_id = Types::ELECTRIC;
                         _type2_id = Types::GHOST;
                         _pokemon_id = 479;
@@ -779,7 +779,7 @@ namespace pkmn
             case Species::KYUREM:
                 switch(form)
                 {
-                    case Forms::Kyurem::NORMAL:
+                    case Forms::Kyurem::STANDARD:
                         _pokemon_id = 646;
 
                         SET_IMAGES_PATHS("646.png");
@@ -840,7 +840,7 @@ namespace pkmn
             case Species::GENESECT:
                 switch(form)
                 {
-                    case Forms::Genesect::NORMAL:
+                    case Forms::Genesect::STANDARD:
                         SET_IMAGES_PATHS("649.png");
                         break;
 
@@ -905,13 +905,13 @@ namespace pkmn
                 {
                     char letter = form.c_str()[0];
                     if(tolower(letter) >= 'a' and tolower(letter) <= 'z') set_form(int(letter)-96);
-                    else if(letter == '?') set_form(Forms::Unown::QUESTION);
-                    else if(letter == '!') set_form(Forms::Unown::EXCLAMATION);
+                    else if(letter == '?') set_form(Forms::Unown::QUESTION_MARK);
+                    else if(letter == '!') set_form(Forms::Unown::EXCLAMATION_MARK);
                 }
                 return;
 
             case Species::CASTFORM:
-                if(form == "Normal") set_form(Forms::Castform::NORMAL);
+                if(form == "Normal") set_form(Forms::Castform::STANDARD);
                 else if(form == "Sunny") set_form(Forms::Castform::SUNNY);
                 else if(form == "Rainy") set_form(Forms::Castform::RAINY);
                 else if(form == "Snowy") set_form(Forms::Castform::SNOWY);
@@ -952,7 +952,7 @@ namespace pkmn
                 return;
 
             case Species::ROTOM:
-                if(form == "Normal") set_form(Forms::Rotom::NORMAL);
+                if(form == "Normal") set_form(Forms::Rotom::STANDARD);
                 else if(form == "Heat") set_form(Forms::Rotom::HEAT);
                 else if(form == "Frost") set_form(Forms::Rotom::FROST);
                 else if(form == "Wash") set_form(Forms::Rotom::WASH);
@@ -1024,7 +1024,7 @@ namespace pkmn
                 return;
 
             case Species::KYUREM:
-                if(form == "Normal") set_form(Forms::Kyurem::NORMAL);
+                if(form == "Normal") set_form(Forms::Kyurem::STANDARD);
                 else if(form == "Black") set_form(Forms::Kyurem::BLACK);
                 else if(form == "White") set_form(Forms::Kyurem::WHITE);
                 return;
@@ -1040,7 +1040,7 @@ namespace pkmn
                 return;
 
             case Species::GENESECT:
-                if(form == "Normal") set_form(Forms::Genesect::NORMAL);
+                if(form == "Normal") set_form(Forms::Genesect::STANDARD);
                 if(form == "Shock Drive") set_form(Forms::Genesect::SHOCK_DRIVE);
                 if(form == "Burn Drive") set_form(Forms::Genesect::BURN_DRIVE);
                 if(form == "Chill Drive") set_form(Forms::Genesect::CHILL_DRIVE);
