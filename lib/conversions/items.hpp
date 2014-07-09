@@ -13,7 +13,7 @@
 #include <pkmn/config.hpp>
 
 #include <rpokesav/gen1_save.hpp>
-#include <pokehack/pokestructs.h>
+#include "../libspec/game_gba.h"
 #include <PokeLib/PokeLib.h>
 #include <pkmds/pkmds_g5.h>
 
@@ -62,16 +62,12 @@ namespace pkmn
         uint8_t export_gen1_bag(bag::sptr libpkmn_bag,
                                 std::array<rpokesav::gen1_item_t,20> &rpokesav_bag);
 
-        void import_gen3_items(bag::sptr item_bag, unsigned char* data);
-
-        void export_gen3_items(bag::sptr item_bag, unsigned char* data);
+        void import_gen3_items(bag::sptr item_bag, gba_save_t *save, gba_savetype_t save_type);
 
         void import_gen4_items(bag::sptr item_bag, PokeLib::Trainer pokelib_trainer);
-
         void export_gen4_items(bag::sptr item_bag, PokeLib::Trainer* pokelib_trainer);
 
         void import_gen5_items(bag::sptr item_bag, ::bag_obj* pkmds_bag);
-
         void export_gen5_items(bag::sptr item_bag, ::bag_obj* pkmds_bag);
     }
 }

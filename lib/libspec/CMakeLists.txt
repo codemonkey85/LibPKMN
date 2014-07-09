@@ -8,6 +8,7 @@
 SET(libspec_sources
     game_gba.c
     checksum.c
+    stat.c
 )
 
 ADD_LIBRARY(spec STATIC ${libspec_sources})

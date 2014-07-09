@@ -59,28 +59,10 @@ namespace pkmn
         {
             //Check validity by manually using Pokehack checksum function on binary
             std::ifstream ifile(filename.c_str(), std::ios::binary);
-            char* buffer = (char*)malloc(size);
-            ifile.read(buffer, size);
+            uint8_t* buffer = (uint8_t*)malloc(size);
+            ifile.read((char*)buffer, size);
 
-            block binary_block;
-            memcpy(&binary_block, buffer, 4096);
-            unsigned short checksum_from_pokehack = pokehack_get_block_checksum(&binary_block);
-            unsigned short checksum_from_binary = binary_block.footer.checksum;
-
-            ifile.close();
-            free(buffer);
-
-            if(checksum_from_pokehack == checksum_from_binary)
-            {
-                //Check for Gen 3 game by searching for game code
-                int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
-
-                pokehack_sptr parser(new SaveParser);
-                if(!parser->load(filename.c_str(), game_type))
-                {
-                    return sptr(new game_save_gen3impl(parser, buffer));
-                }
-            }
+            if(gba_is_gba_save(buffer)) return sptr(new game_save_gen3impl(buffer, filename));
         }
         else if(size >= (2 << 14))
         {

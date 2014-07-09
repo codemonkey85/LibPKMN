@@ -12,7 +12,7 @@
 #include <pkmn/types/dict.hpp>
 
 #include <rpokesav/gen1_pokemon.hpp>
-#include <pokehack/pokestructs.h>
+#include "../libspec/game_gba.h"
 #include <PokeLib/PokeLib.h>
 #include <pkmds/pkmds_g5.h>
 #include <pkmds/pkmds_g6.h>
@@ -21,19 +21,13 @@ namespace pkmn
 {
     namespace conversions
     {
-        typedef struct {
-            ::belt_pokemon_t *b_pkmn_t;
-            ::pokemon_attacks_t *pkmn_a_t;
-            ::pokemon_effort_t *pkmn_e_t;
-            ::pokemon_misc_t *pkmn_m_t;
-            ::pokemon_growth_t *pkmn_g_t;
-        } pokehack_args_t;
-
         team_pokemon::sptr import_gen1_pokemon(const rpokesav::gen1_pokemon &pkmn);
         void export_gen1_pokemon(team_pokemon::sptr t_pkmn, rpokesav::gen1_pokemon &pkmn);
 
-        team_pokemon::sptr import_gen3_pokemon(const pokehack_args_t &args);
-        void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pokehack_args_t &args);
+        team_pokemon::sptr import_gen3_pokemon(pk3_box_t* pkmn, gba_savetype_t save_type);
+        team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type);
+        void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_box_t* pkmn, gba_savetype_t save_type);
+        void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_t* pkmn, gba_savetype_t save_type);
 
         team_pokemon::sptr import_gen4_pokemon(const PokeLib::Pokemon &pokelib_pkmn);
         PokeLib::Pokemon export_gen4_pokemon(team_pokemon::sptr t_pkmn);

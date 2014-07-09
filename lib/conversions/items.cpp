@@ -60,224 +60,54 @@ namespace pkmn
             return items.size();
         }
 
-        void import_gen3_items(bag::sptr item_bag, unsigned char* data)
+        void import_gen3_items(bag::sptr item_bag, gba_save_t *save, gba_savetype_t save_type)
         {
-            /*
-             * Find out which game this is
-             * NOTE: This only narrows it down to RS, FRLG, or E
-             */
-            unsigned int game = item_bag->get_game_id();
-            unsigned int item_offset, key_item_offset, ball_offset, tm_offset, berry_offset;
-
-            switch(game)
-            {
-                case Games::RUBY:
-                case Games::SAPPHIRE:
-                    item_offset = RS_ITEM_POCKET_OFFSET;
-                    key_item_offset = RS_KEY_ITEM_POCKET_OFFSET;
-                    ball_offset = RS_BALL_POCKET_OFFSET;
-                    tm_offset = RS_TM_POCKET_OFFSET;
-                    berry_offset = RS_BERRY_POCKET_OFFSET;
-                    break;
-
-                case Games::FIRE_RED:
-                case Games::LEAF_GREEN:
-                    item_offset = FRLG_ITEM_POCKET_OFFSET;
-                    key_item_offset = FRLG_KEY_ITEM_POCKET_OFFSET;
-                    ball_offset = FRLG_BALL_POCKET_OFFSET;
-                    tm_offset = FRLG_TM_POCKET_OFFSET;
-                    berry_offset = FRLG_BERRY_POCKET_OFFSET;
-                    break;
-
-                default:
-                    item_offset = E_ITEM_POCKET_OFFSET;
-                    key_item_offset = E_KEY_ITEM_POCKET_OFFSET;
-                    ball_offset = E_BALL_POCKET_OFFSET;
-                    tm_offset = E_TM_POCKET_OFFSET;
-                    berry_offset = E_BERRY_POCKET_OFFSET;
-            }
+            //Get pocket names and pointers for appropriate storage structures
+            bool is_frlg = (item_bag->get_game_id() == Games::FIRE_RED or item_bag->get_game_id() == Games::LEAF_GREEN);
 
             pocket::sptr item_pocket = item_bag->get_pocket("Items");
-            pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
+            pocket::sptr keyitem_pocket = item_bag->get_pocket("Key Items");
             pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
+            pocket::sptr tmhm_pocket = is_frlg ? item_bag->get_pocket("TM Case")
+                                               : item_bag->get_pocket("TMs and HMs");
+            pocket::sptr berry_pocket = is_frlg ? item_bag->get_pocket("Berry Pouch")
+                                                : item_bag->get_pocket("Berries");
 
-            pocket::sptr tm_pocket;
-            if(game == Games::FIRE_RED or game == Games::LEAF_GREEN) tm_pocket = item_bag->get_pocket("TM Case");
-            else tm_pocket = item_bag->get_pocket("TMs and HMs");
-
-            pocket::sptr berry_pocket;
-            if(game == Games::FIRE_RED or game == Games::LEAF_GREEN) berry_pocket = item_bag->get_pocket("Berry Pouch");
-            else berry_pocket = item_bag->get_pocket("Berries");
-
-            for(size_t i = item_offset; i < item_pocket->size(); i+= 4)
+            gba_item_slot_t* gba_item;
+            for(size_t i = 0; i < item_pocket->size(); i++)
             {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
-                if(raw_item->index == 0) break;
-                else
-                {
-                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
-                    item_pocket->add_item(libpkmn_item_id, raw_item->quantity);
-                }
+                gba_item = gba_get_pocket_item(save, GBA_ITEM_POCKET_ITEM, i);
+
+                item_pocket->add_item(database::get_item_id(gba_item->index, item_bag->get_game_id()),
+                                      gba_item->amount);
             }
-            for(size_t i = key_item_offset; i < key_item_pocket->size(); i+= 4)
+            for(size_t i = 0; i < keyitem_pocket->size(); i++)
             {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
-                if(raw_item->index == 0) break;
-                else
-                {
-                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
-                    key_item_pocket->add_item(libpkmn_item_id, raw_item->quantity);
-                }
+                gba_item = gba_get_pocket_item(save, GBA_ITEM_POCKET_KEYITEM, i);
+
+                keyitem_pocket->add_item(database::get_item_id(gba_item->index, item_bag->get_game_id()),
+                                         gba_item->amount);
             }
-            for(size_t i = ball_offset; i < ball_pocket->size(); i+= 4)
+            for(size_t i = 0; i < ball_pocket->size(); i++)
             {
-                pokehack_item* raw_item = (pokehack_item*)(&data[i]);
-                if(raw_item->index == 0) break;
-                if(raw_item->index == 0) break;
-                else
-                {
-                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
-                    ball_pocket->add_item(libpkmn_item_id, raw_item->quantity);
-                }
+                gba_item = gba_get_pocket_item(save, GBA_ITEM_POCKET_BALL, i);
+
+                ball_pocket->add_item(database::get_item_id(gba_item->index, item_bag->get_game_id()),
+                                      gba_item->amount);
             }
-            for(size_t i = tm_offset; i < tm_pocket->size(); i+= 4)
+            for(size_t i = 0; i < tmhm_pocket->size(); i++)
             {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
-                if(raw_item->index == 0) break;
-                else
-                {
-                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
-                    tm_pocket->add_item(libpkmn_item_id, raw_item->quantity);
-                }
+                gba_item = gba_get_pocket_item(save, GBA_ITEM_POCKET_HMTM, i);
+
+                tmhm_pocket->add_item(database::get_item_id(gba_item->index, item_bag->get_game_id()),
+                                      gba_item->amount);
             }
-            for(size_t i = berry_offset; i < berry_pocket->size(); i+= 4)
-            {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[i]);
-                if(raw_item->index == 0) break;
-                else
-                {
-                    unsigned int libpkmn_item_id = database::get_item_id(raw_item->index, game);
-                    berry_pocket->add_item(libpkmn_item_id, raw_item->quantity);
-                }
-            }
-        }
-
-        void export_gen3_items(bag::sptr item_bag, unsigned char* data)
-        {
-            unsigned int game, item_offset, key_item_offset, ball_offset, tm_offset, berry_offset;
-            game = item_bag->get_game_id();
-
-            switch(game)
-            {
-                case Games::RUBY:
-                case Games::SAPPHIRE:
-                    item_offset = RS_ITEM_POCKET_OFFSET;
-                    key_item_offset = RS_KEY_ITEM_POCKET_OFFSET;
-                    ball_offset = RS_BALL_POCKET_OFFSET;
-                    tm_offset = RS_TM_POCKET_OFFSET;
-                    berry_offset = RS_BERRY_POCKET_OFFSET;
-                    break;
-
-                case Games::FIRE_RED:
-                case Games::LEAF_GREEN:
-                    item_offset = FRLG_ITEM_POCKET_OFFSET;
-                    key_item_offset = FRLG_KEY_ITEM_POCKET_OFFSET;
-                    ball_offset = FRLG_BALL_POCKET_OFFSET;
-                    tm_offset = FRLG_TM_POCKET_OFFSET;
-                    berry_offset = FRLG_BERRY_POCKET_OFFSET;
-                    break;
-
-                default:
-                    item_offset = E_ITEM_POCKET_OFFSET;
-                    key_item_offset = E_KEY_ITEM_POCKET_OFFSET;
-                    ball_offset = E_BALL_POCKET_OFFSET;
-                    tm_offset = E_TM_POCKET_OFFSET;
-                    berry_offset = E_BERRY_POCKET_OFFSET;
-            }
-
-            pocket::sptr item_pocket = item_bag->get_pocket("Items");
-            pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
-            pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
-
-            pocket::sptr tm_pocket = (game == Games::FIRE_RED) ? item_bag->get_pocket("TM Case")
-                                                               : item_bag->get_pocket("TMs and HMs");
-
-            pocket::sptr berry_pocket = (game == Games::FIRE_RED) ? item_bag->get_pocket("Berry Pouch")
-                                                                  : item_bag->get_pocket("Berries");
-
-            item_list_t item_list;
-            item_pocket->get_item_list(item_list);
-            for(size_t i = 0; i < item_list.size(); i++)
-            {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[item_offset+(i*4)]);
-                unsigned int item_id = item_list[i].first->get_item_id();
-
-                if(item_id == Items::NONE) break;
-                else
-                {
-                    raw_item->index = database::get_item_index(item_id, game);
-                    raw_item->quantity = item_list[i].second;
-                }
-            }
-
-            item_list_t key_item_list;
-            key_item_pocket->get_item_list(key_item_list);
-            for(size_t i = 0; i < key_item_list.size(); i++)
-            {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[key_item_offset+(i*4)]);
-                unsigned int item_id = key_item_list[i].first->get_item_id();
-
-                if(item_id == Items::NONE) break;
-                else
-                {
-                    raw_item->index = database::get_item_index(item_id, game);
-                    raw_item->quantity = item_list[i].second;
-                }
-            }
-
-            item_list_t ball_list;
-            ball_pocket->get_item_list(ball_list);
-            for(size_t i = 0; i < ball_list.size(); i++)
-            {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[ball_offset+(i*4)]);
-                unsigned int item_id = ball_list[i].first->get_item_id();
-
-                if(item_id == Items::NONE) break;
-                else
-                {
-                    raw_item->index = database::get_item_index(item_id, game);
-                    raw_item->quantity = ball_list[i].second;
-                }
-            }
-
-            item_list_t tm_list;
-            tm_pocket->get_item_list(tm_list);
-            for(size_t i = 0; i < tm_pocket->size(); i++)
-            {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[tm_offset+(i*4)]);
-                unsigned int item_id = tm_list[i].first->get_item_id();
-
-                if(item_id == Items::NONE) break;
-                else
-                {
-                    raw_item->index = database::get_item_index(item_id, game);
-                    raw_item->quantity = tm_list[i].second;
-                }
-            }
-
-            item_list_t berry_list;
-            berry_pocket->get_item_list(berry_list);
             for(size_t i = 0; i < berry_pocket->size(); i++)
             {
-                pokehack_item* raw_item = reinterpret_cast<pokehack_item*>(&data[berry_offset+(i*4)]);
-                unsigned int item_id = berry_list[i].first->get_item_id();
+                gba_item = gba_get_pocket_item(save, GBA_ITEM_POCKET_BERRY, i);
 
-                if(item_id == Items::NONE) break;
-                else
-                {
-                    raw_item->index = database::get_item_index(item_id, game);
-                    raw_item->quantity = berry_list[i].second;
-                }
+                berry_pocket->add_item(database::get_item_id(gba_item->index, item_bag->get_game_id()),
+                                       gba_item->amount);
             }
         }
 
