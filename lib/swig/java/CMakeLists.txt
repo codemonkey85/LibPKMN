@@ -29,19 +29,83 @@ FILE(MAKE_DIRECTORY ${JAVA_BUILD_DIRECTORY})
 
 SET(java_sources
     Abilities.java
+    Abomasnow_Forms.java
+    Absol_Forms.java
+    Aegislash_Forms.java
+    Aerodactyl_Forms.java
+    Aggron_Forms.java
+    Alakazam_Forms.java
+    Ampharos_Forms.java
+    Arceus_Forms.java
+    Banette_Forms.java
+    Basculin_Forms.java
+    Blastoise_Forms.java
+    Blaziken_Forms.java
+    Burmy_Forms.java
+    Castform_Forms.java
+    Charizard_Forms.java
+    Cherrim_Forms.java
+    Darmanitan_Forms.java
+    Deerling_Forms.java
+    Deoxys_Forms.java
     Egg_Groups.java
+    Flabebe_Forms.java
+    Floette_Forms.java
+    Florges_Forms.java
+    Furfrou_Forms.java
+    Garchomp_Forms.java
+    Gardevoir_Forms.java
+    Gastrodon_Forms.java
     Genders.java
+    Genesect_Forms.java
+    Gengar_Forms.java
+    Giratina_Forms.java
+    Gourgeist_Forms.java
+    Gyarados_Forms.java
+    Heracross_Forms.java
+    Hoenn_Ribbons.java
+    Houndoom_Forms.java
     Items.java
+    Kalos_Ribbons.java
+    Kangaskhan_Forms.java
+    Keldeo_Forms.java
+    Kyurem_Forms.java
+    Landorus_Forms.java
+    Lucario_Forms.java
+    Manectric_Forms.java
     Markings.java
+    Mawile_Forms.java
+    Medicham_Forms.java
+    Meloetta_Forms.java
+    Meowstic_Forms.java
+    Mewtwo_Forms.java
     Move_Classes.java
     Moves.java
     Natures.java
+    Pichu_Forms.java
+    Pinsir_Forms.java
     PokeBalls.java
+    Pumpkaboo_Forms.java
+    Rotom_Forms.java
+    Sawsbuck_Forms.java
+    Scizor_Forms.java
+    Shaymin_Forms.java
+    Shellos_Forms.java
+    Sinnoh_Ribbons.java
     Species.java
     Stats.java
+    Thundurus_Forms.java
+    Tornadus_Forms.java
     Types.java
+    Tyranitar_Forms.java
+    Unova_Ribbons.java
+    Unown_Forms.java
+    Venusaur_Forms.java
     Version_Groups.java
     Versions.java
+    Vivillon_Forms.java
+    Wormadam_Forms.java
+    Xerneas_Forms.java
 )
 FOREACH(src ${java_sources})
     CONFIGURE_FILE(

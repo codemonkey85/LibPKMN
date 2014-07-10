@@ -859,12 +859,101 @@ def generate_java_files(top_level_dir, license):
 
         for i in range(len(enums[key])):
             f.write("""
-    public static final int %s = %d;""" % (enums[key][i][1],enums[key][i][0]))
+    public static final long %s = %d;""" % (enums[key][i][1],enums[key][i][0]))
 
         f.write("""
 }""")
 
         f.close()
+
+    for i in range(len(forms)):
+        f = open("%s_Forms.java" % forms[i][0],'w')
+        f.write(license + "\n\n")
+
+        f.write("package org.nc;\n\n");
+
+        f.write("""public class %s_Forms
+{""" % forms[i][0])
+
+        for j in range(1,len(forms[i])):
+            f.write("""
+    public static final long %s = %d;""" % (forms[i][j][1],forms[i][j][0]))
+
+        f.write("""
+}""")
+
+        f.close()
+
+    f = open("Hoenn_Ribbons.java",'w')
+    f.write(license + "\n\n")
+
+    f.write("package org.nc;\n\n")
+
+    f.write("""public class Hoenn_Ribbons
+{""")
+
+    for i in range(len(ribbons[0])):
+        f.write("""
+    public static final long %s = %d;""" % (ribbons[0][i],i))
+
+    f.write("""
+}""")
+
+    f.close()
+
+    f = open("Sinnoh_Ribbons.java",'w')
+    f.write(license + "\n\n")
+
+    f.write("package org.nc;\n\n")
+
+    f.write("""public class Sinnoh_Ribbons
+{""")
+
+    for i in range(len(ribbons[1])):
+        if ribbons[1][i] != "":
+            f.write("""
+    public static final long %s = %d;""" % (ribbons[1][i],i))
+
+    f.write("""
+}""")
+
+    f.close()
+
+    f = open("Unova_Ribbons.java",'w')
+    f.write(license + "\n\n")
+
+    f.write("package org.nc;\n\n")
+
+    f.write("""public class Unova_Ribbons
+{""")
+
+    for i in range(len(ribbons[2])):
+        if ribbons[2][i] != "":
+            f.write("""
+    public static final long %s = %d;""" % (ribbons[2][i],i))
+
+    f.write("""
+}""")
+
+    f.close()
+
+    f = open("Kalos_Ribbons.java",'w')
+    f.write(license + "\n\n")
+
+    f.write("package org.nc;\n\n")
+
+    f.write("""public class Kalos_Ribbons
+{""")
+
+    for i in range(len(ribbons[3])):
+        if ribbons[3][i] != "":
+            f.write("""
+    public static final long %s = %d;""" % (ribbons[3][i],i))
+
+    f.write("""
+}""")
+
+    f.close()
 
 if __name__ == "__main__":
 
@@ -914,7 +1003,7 @@ if __name__ == "__main__":
     get_versions(c)
     get_version_groups(c)
 
-    #generate_cpp_file(options.top_level_dir, license)
-    #generate_python_files(options.top_level_dir, python_license)
-    #generate_cs_files(options.top_level_dir, license)
+    generate_cpp_file(options.top_level_dir, license)
+    generate_python_files(options.top_level_dir, python_license)
+    generate_cs_files(options.top_level_dir, license)
     generate_java_files(options.top_level_dir, license)
