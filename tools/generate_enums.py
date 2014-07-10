@@ -256,20 +256,8 @@ def get_version_groups(c):
         version_group_name = str(from_db[i][1]).replace("-","_").replace(" ","_").upper()
         version_groups += [(from_db[i][0], version_group_name)]
 
-def generate_cpp_file(top_level_dir, header):
-    global abilities
-    global egg_groups
-    global items
-    global markings
-    global moves
-    global move_damage_classes
-    global natures
-    global stats
-    global types
-    global versions
-    global version_groups
-
-    output = header + """
+def generate_cpp_file(top_level_dir, license):
+    output = license + """
 
 #ifndef INCLUDED_PKMN_ENUMS_HPP
 #define INCLUDED_PKMN_ENUMS_HPP
@@ -565,7 +553,6 @@ def generate_cpp_file(top_level_dir, header):
     f.close()
 
 def generate_python_files(top_level_dir, python_license):
-
     os.chdir(os.path.join(top_level_dir, "lib", "swig", "python"))
 
     f = open("Abilities.py",'w')
@@ -721,6 +708,44 @@ def generate_python_files(top_level_dir, python_license):
 
     f.close()
 
+def generate_cs_files(top_level_dir, license):
+    os.chdir(os.path.join(top_level_dir, "lib", "swig", "cs"))
+
+    #Non-nested enums can be done in a loop
+    enums = dict()
+    enums["Abilities"] = abilities
+    enums["Egg_Groups"] = egg_groups
+    enums["Genders"] = genders
+    enums["Items"] = items
+    enums["Markings"] = markings
+    enums["Moves"] = moves
+    enums["Move_Classes"] = move_damage_classes
+    enums["Natures"] = natures
+    enums["Species"] = species
+    enums["Stats"] = stats
+    enums["PokeBalls"] = pokeballs
+    enums["Types"] = types
+    enums["Versions"] = versions
+    enums["Version_Groups"] = version_groups
+
+    for key in enums:
+        f = open("%s.cs" % key,'w')
+        f.write(license + "\n\n")
+
+        f.write("""namespace LibPKMN
+{
+    public static class %s
+    {""" % key)
+
+        for i in range(len(enums[key])):
+            f.write("\n        public const uint %s = %d;" % (enums[key][i][1],enums[key][i][0]))
+
+        f.write("""
+    }
+}""")
+
+        f.close()
+
 if __name__ == "__main__":
 
     parser = OptionParser()
@@ -769,5 +794,6 @@ if __name__ == "__main__":
     get_versions(c)
     get_version_groups(c)
 
-    generate_cpp_file(options.top_level_dir, license)
-    generate_python_files(options.top_level_dir, python_license)
+    #generate_cpp_file(options.top_level_dir, license)
+    #generate_python_files(options.top_level_dir, python_license)
+    generate_cs_files(options.top_level_dir, license)
