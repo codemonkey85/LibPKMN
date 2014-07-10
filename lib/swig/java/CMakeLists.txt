@@ -27,6 +27,29 @@ SET(JAVA_INSTALL_DIRECTORY share/java)
 FILE(MAKE_DIRECTORY ${JAVA_BUILD_DIRECTORY})
 FILE(MAKE_DIRECTORY ${JAVA_BUILD_DIRECTORY})
 
+SET(java_sources
+    Abilities.java
+    Egg_Groups.java
+    Genders.java
+    Items.java
+    Markings.java
+    Move_Classes.java
+    Moves.java
+    Natures.java
+    PokeBalls.java
+    Species.java
+    Stats.java
+    Types.java
+    Version_Groups.java
+    Versions.java
+)
+FOREACH(src ${java_sources})
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/${src}
+        ${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN/${src}
+    COPYONLY)
+ENDFOREACH(src ${java_sources})
+
 INCLUDE(UseSWIG)
 MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_build)
     FOREACH(dir ${LIBPKMN_JAVA_INCLUDE_DIRS})

@@ -828,6 +828,44 @@ def generate_cs_files(top_level_dir, license):
 
     f.close()
 
+def generate_java_files(top_level_dir, license):
+    os.chdir(os.path.join(top_level_dir, "lib", "swig", "java"))
+
+    #Non-nested enums can be done in a loop
+    enums = dict()
+    enums["Abilities"] = abilities
+    enums["Egg_Groups"] = egg_groups
+    enums["Genders"] = genders
+    enums["Items"] = items
+    enums["Markings"] = markings
+    enums["Moves"] = moves
+    enums["Move_Classes"] = move_damage_classes
+    enums["Natures"] = natures
+    enums["Species"] = species
+    enums["Stats"] = stats
+    enums["PokeBalls"] = pokeballs
+    enums["Types"] = types
+    enums["Versions"] = versions
+    enums["Version_Groups"] = version_groups
+
+    for key in enums:
+        f = open("%s.java" % key,'w')
+        f.write(license + "\n\n")
+
+        f.write("package org.nc;\n\n");
+
+        f.write("""public class %s
+{""" % key)
+
+        for i in range(len(enums[key])):
+            f.write("""
+    public static final int %s = %d;""" % (enums[key][i][1],enums[key][i][0]))
+
+        f.write("""
+}""")
+
+        f.close()
+
 if __name__ == "__main__":
 
     parser = OptionParser()
@@ -878,4 +916,5 @@ if __name__ == "__main__":
 
     #generate_cpp_file(options.top_level_dir, license)
     #generate_python_files(options.top_level_dir, python_license)
-    generate_cs_files(options.top_level_dir, license)
+    #generate_cs_files(options.top_level_dir, license)
+    generate_java_files(options.top_level_dir, license)
