@@ -568,7 +568,7 @@ def generate_python_files(top_level_dir, python_license):
 
     os.chdir(os.path.join(top_level_dir, "lib", "swig", "python"))
 
-    f = open("Abiliies.py",'w')
+    f = open("Abilities.py",'w')
     f.write(python_license + "\n\n")
 
     for ability in abilities:
@@ -742,7 +742,7 @@ if __name__ == "__main__":
  * This file was generated: %s
  */""" % time
 
-    python_license = """#/usr/bin/env python
+    python_license = """#!/usr/bin/env python
 #
 # Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
 #
