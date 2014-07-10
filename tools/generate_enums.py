@@ -746,6 +746,88 @@ def generate_cs_files(top_level_dir, license):
 
         f.close()
 
+    f = open("Forms.cs",'w')
+    f.write(license + "\n\n")
+
+    f.write("""namespace LibPKMN
+{
+    namespace Forms
+    {""")
+
+    for i in range(len(forms)):
+        f.write("""
+        public static class %s
+        {""" % forms[i][0])
+
+        for j in range(1,len(forms[i])):
+            f.write("""
+            public const uint %s = %d;""" % (forms[i][j][1],forms[i][j][0]))
+
+        f.write("""
+        }
+""")
+
+    f.write("""
+    }
+}""")
+
+    f.close()
+
+    f = open("Ribbons.cs",'w')
+    f.write(license + "\n\n")
+
+    f.write("""namespace LibPKMN
+{
+    namespace Ribbons
+    {
+        public static class Hoenn
+        {""")
+
+    for i in range(len(ribbons[0])):
+        if ribbons[0][i] != "":
+            f.write("""
+                public const uint %s = %d;""" % (ribbons[0][i],i))
+
+    f.write("""
+        }
+
+        public static class Sinnoh
+        {""")
+
+    for i in range(len(ribbons[1])):
+        if ribbons[1][i] != "":
+            f.write("""
+                public const uint %s = %d;""" % (ribbons[1][i],i))
+
+    f.write("""
+        }
+
+        public static class Unova
+        {""")
+
+    for i in range(len(ribbons[2])):
+        if ribbons[2][i] != "":
+            f.write("""
+                public const uint %s = %d;""" % (ribbons[2][i],i))
+
+    f.write("""
+        }
+
+        public static class Kalos
+        {""")
+
+    for i in range(len(ribbons[3])):
+        if ribbons[3][i] != "":
+            f.write("""
+                public const uint %s = %d;""" % (ribbons[3][i],i))
+
+    f.write("""
+        }
+    }
+}""")
+
+    f.close()
+
 if __name__ == "__main__":
 
     parser = OptionParser()

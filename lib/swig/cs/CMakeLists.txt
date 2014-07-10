@@ -81,6 +81,7 @@ SET(cs_sources
     AssemblyInfo.cs
     Abilities.cs
     Egg_Groups.cs
+    Forms.cs
     Genders.cs
     Items.cs
     Markings.cs
@@ -88,6 +89,7 @@ SET(cs_sources
     Moves.cs
     Natures.cs
     PokeBalls.cs
+    Ribbons.cs
     Species.cs
     Stats.cs
     Types.cs
