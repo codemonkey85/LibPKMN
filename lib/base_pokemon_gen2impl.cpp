@@ -9,6 +9,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <pkmn/enums.hpp>
 #include <pkmn/paths.hpp>
@@ -193,8 +194,41 @@ namespace pkmn
     }
 
     //No forms in Generation 2 
-    void base_pokemon_gen2impl::set_form(unsigned int form) {};
-    void base_pokemon_gen2impl::set_form(std::string form) {};
+    void base_pokemon_gen2impl::set_form(unsigned int form)
+    {
+        if(_species_id == Species::UNOWN)
+        {
+            if(form == Forms::Unown::A)
+            {
+                _form_id = form;
+                set_form("A");
+            }
+            else if(form >= Forms::Unown::B and form <= Forms::Unown::Z)
+            {
+                _form_id = form;
+                std::string letter;
+                letter += (form - 9935); //Will become ASCII value for letter
+                set_form(letter);
+            }
+            else throw std::runtime_error("Invalid form.");
+        }
+        else if(form != _species_id) throw std::runtime_error("Invalid form.");
+    }
+
+    void base_pokemon_gen2impl::set_form(std::string form)
+    {
+        if(_species_id == Species::UNOWN)
+        {
+            char letter = boost::algorithm::to_lower_copy(form)[0];
+            if(letter >= 'a' and letter <= 'z')
+            {
+                SET_IMAGES_PATHS(str(boost::format("201-%c.png") % letter))
+            }
+            else throw std::runtime_error("Invalid form.");
+        }
+        else throw std::runtime_error("Invalid form.");
+    }
+
     void base_pokemon_gen2impl::repair(unsigned int id) {};
 
     //Gender doesn't matter for icons in Generation 2
