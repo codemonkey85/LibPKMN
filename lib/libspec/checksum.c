@@ -46,8 +46,9 @@ static const uint16_t t_crc16[256] = {
  */
 uint16_t nds_crc16(const uint8_t *ptr, size_t size) {
 	uint8_t tmp;
+    size_t b;
 	uint16_t sum = 0xFFFF;
-	for(size_t b = 0; b < size; ++b) {
+	for(b = 0; b < size; ++b) {
 		tmp = ptr[b] ^ (sum >> 8);
 		sum = t_crc16[tmp] ^ (sum << 8);
 	}
@@ -63,7 +64,8 @@ uint16_t nds_crc16(const uint8_t *ptr, size_t size) {
  */
 uint16_t pkm_checksum(const uint8_t *ptr, size_t size) {
 	uint16_t sum = 0x0;
-	for(size_t i = 0; i < size; i += 2) {
+    size_t i;
+	for(i = 0; i < size; i += 2) {
 		sum += *(uint16_t *)(ptr + i);
 	}
 	return sum;
@@ -78,7 +80,8 @@ uint16_t pkm_checksum(const uint8_t *ptr, size_t size) {
  */
 uint16_t gba_block_checksum(const uint8_t *ptr, size_t size) {
 	uint32_t sum = 0;
-	for(size_t i = 0; i < size; i += 4) {
+    size_t i;
+	for(i = 0; i < size; i += 4) {
 		sum += *(uint32_t *)(ptr + i);
 	}
 	return sum + (sum >> 16);
@@ -93,7 +96,8 @@ uint16_t gba_block_checksum(const uint8_t *ptr, size_t size) {
  */
 uint8_t gb_rby_checksum(const uint8_t *ptr, size_t size) {
 	uint8_t sum = 0xFF;
-	for(size_t i = 0; i < size; ++i) {
+    size_t i;
+	for(i = 0; i < size; ++i) {
 		sum -= *(ptr + i);
 	}
 	return sum;
@@ -108,7 +112,8 @@ uint8_t gb_rby_checksum(const uint8_t *ptr, size_t size) {
  */
 uint16_t gb_gsc_checksum(const uint8_t *ptr, size_t size) {
 	uint16_t sum = 0x0;
-	for(size_t i = 0; i < size; ++i) {
+    size_t i;
+	for(i = 0; i < size; ++i) {
 		sum += ptr[i];
 	}
 	return sum;

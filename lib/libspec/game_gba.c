@@ -66,7 +66,8 @@ enum gba_checksum {
  * @param size Number of bytes to convert.
  */
 void gba_text_to_ucs2(char16_t *dst, char8_t *src, size_t size) {
-	for(int i = 0; i < size; ++i) {
+    size_t i;
+	for(i = 0; i < size; ++i) {
 		dst[i] = GBA_TO_CODEPAGE[src[i]];
 	}
 }
@@ -80,9 +81,10 @@ void gba_text_to_ucs2(char16_t *dst, char8_t *src, size_t size) {
  * @param size Number of bytes to convert.
  */
 void ucs2_to_gba_text(char8_t *dst, char16_t *src, size_t size) {
-	for(int i = 0; i < size; ++i) {
+    size_t i,j;
+	for(i = 0; i < size; ++i) {
 		dst[i] = 0xAC; //question mark
-		for(int j = 0; j < GBA_CODEPAGE_SIZE; ++j) {
+		for(j = 0; j < GBA_CODEPAGE_SIZE; ++j) {
 			if(GBA_TO_CODEPAGE[j] == src[i]) {
 				dst[i] = j;
 				break;
@@ -106,11 +108,11 @@ typedef struct {
 	uint32_t save_index;
 } gba_internal_save_t;
 
-static inline gba_footer_t *get_block_footer(const uint8_t *ptr) {
+static gba_footer_t *get_block_footer(const uint8_t *ptr) {
 	return (gba_footer_t *)(ptr + GBA_BLOCK_LENGTH - GBA_BLOCK_FOOTER_LENGTH);
 }
 
-static inline uint16_t get_block_checksum(const uint8_t *ptr) {
+static uint16_t get_block_checksum(const uint8_t *ptr) {
 	return gba_block_checksum(ptr, GBA_BLOCK_DATA_LENGTH);
 }
 
@@ -123,8 +125,10 @@ uint8_t gba_is_gba_save(const uint8_t *ptr) {
 }
 
 size_t gba_get_save_offset(const uint8_t *ptr) {
-	gba_footer_t *a = get_block_footer(ptr);
-	gba_footer_t *b = get_block_footer(ptr + GBA_SAVE_SECTION);
+	gba_footer_t *a;
+    gba_footer_t *b;
+    a = get_block_footer(ptr);
+	b = get_block_footer(ptr + GBA_SAVE_SECTION);
 	//TODO check that the mark is correct for the backup save, block 3
 	//as otherwise we only have one save!
 	if(b->save_index > a->save_index) {
@@ -193,19 +197,26 @@ gba_savetype_t gba_detect_save_type(gba_save_t *save) {
  * @return the save
  */
 gba_save_t *gba_read_save_internal(const uint8_t *ptr) {
+    gba_save_t *save;
+    gba_internal_save_t *internal;
+    gba_footer_t *footer;
+    size_t i;
+    uint8_t *block_ptr;
+    uint8_t *unpack_ptr;
+
 	//check first footer ID
-	gba_save_t *save = malloc(sizeof(gba_save_t));
-	gba_internal_save_t *internal = save->internal = malloc(sizeof(gba_internal_save_t));
+	save = malloc(sizeof(gba_save_t));
+	internal = save->internal = malloc(sizeof(gba_internal_save_t));
 	save->data = malloc(GBA_UNPACKED_SIZE);
 	internal->save_index = get_block_footer(ptr)->save_index;
 	memset(save->data, 0, GBA_UNPACKED_SIZE); //not sure if it is 0 or 0xFF
-	for(size_t i = 0; i < GBA_SAVE_BLOCK_COUNT; ++i) {
-		const uint8_t *block_ptr = ptr + i * GBA_BLOCK_LENGTH;
+	for(i = 0; i < GBA_SAVE_BLOCK_COUNT; ++i) {
+		block_ptr = ptr + i * GBA_BLOCK_LENGTH;
 		//get footer
-		gba_footer_t *footer = get_block_footer(block_ptr);
+		footer = get_block_footer(block_ptr);
 		internal->order[i] = footer->section_id;
 		//get ptr to unpack too
-		uint8_t *unpack_ptr = save->data + footer->section_id * GBA_BLOCK_DATA_LENGTH;
+		unpack_ptr = save->data + footer->section_id * GBA_BLOCK_DATA_LENGTH;
 		memcpy(unpack_ptr, block_ptr, GBA_BLOCK_DATA_LENGTH);
 	}
 	save->type = gba_detect_save_type(save);
@@ -249,18 +260,24 @@ void gba_free_save(gba_save_t *save) {
 }
 
 void gba_write_save_internal(uint8_t *ptr, const gba_save_t *save) {
+    gba_internal_save_t *internal;
+    size_t i;
+    uint8_t *dest_ptr;
+    uint8_t *src_ptr;
+    gba_footer_t *footer;
+
 	//wipe whatever is there now
 	memset(ptr, 0, GBA_SAVE_SECTION);
-	gba_internal_save_t *internal = save->internal;
+	internal = save->internal;
 	//Encrypt data that needs to be
 	gba_crypt_secure((gba_save_t *)save);
-	for(size_t i = 0; i < GBA_SAVE_BLOCK_COUNT; ++i) {
+	for(i = 0; i < GBA_SAVE_BLOCK_COUNT; ++i) {
 		//write data
-		uint8_t *dest_ptr = ptr + i * GBA_BLOCK_LENGTH;
-		uint8_t *src_ptr = save->data + internal->order[i] * GBA_BLOCK_DATA_LENGTH;
+		dest_ptr = ptr + i * GBA_BLOCK_LENGTH;
+		src_ptr = save->data + internal->order[i] * GBA_BLOCK_DATA_LENGTH;
 		memcpy(dest_ptr, src_ptr, GBA_BLOCK_DATA_LENGTH);
 		//write footer
-		gba_footer_t *footer = get_block_footer(dest_ptr);
+		footer = get_block_footer(dest_ptr);
 		footer->section_id = internal->order[i];
 		footer->mark = GBA_BLOCK_FOOTER_MARK;
 		footer->save_index = internal->save_index;
@@ -296,9 +313,10 @@ void gba_write_backup_save(uint8_t *dst, const gba_save_t *save) {
  * @param save save to save to data
  */
 void gba_save_game(uint8_t *dst, gba_save_t *save) {
+size_t i;
 	gba_internal_save_t *internal = save->internal;
 	internal->save_index += 1;
-	for(int i = 0; i < GBA_SAVE_BLOCK_COUNT; ++i) {
+	for(i = 0; i < GBA_SAVE_BLOCK_COUNT; ++i) {
 		internal->order[i] += 1;
 		if(internal->order[i] >= GBA_SAVE_BLOCK_COUNT) {
 			internal->order[i] = 0;
@@ -338,15 +356,18 @@ static const uint8_t t_shuffle[] = {
 };
 
 /* You may be thinking, hey that isn't the shuffle mode, and you would be half right. */
-static inline const uint8_t *pk3_get_shuffle(pk3_box_t *pkm) {
+static const uint8_t *pk3_get_shuffle(pk3_box_t *pkm) {
 	return &t_shuffle[(pkm->pid % PK3_SHUFFLE_MOD) << PK3_SHUFFLE_SHIFT];
 }
 
 void pk3_shuffle(pk3_box_t *pkm) {
 	//0,12,24,36 to shuffle[0 .. 3]
-	const uint8_t *shuffle = pk3_get_shuffle(pkm);
-	uint8_t *bptr = (uint8_t *)pkm->block;
-	uint8_t *tmp = malloc(PK3_DATA_SIZE);
+    uint8_t *shuffle;
+    uint8_t *bptr;
+    uint8_t *tmp;
+	shuffle = pk3_get_shuffle(pkm);
+	bptr = (uint8_t *)pkm->block;
+	tmp = malloc(PK3_DATA_SIZE);
 	memcpy(tmp, bptr, PK3_DATA_SIZE);
 	memcpy(&bptr[PK3_BLOCK0_START], &tmp[shuffle[0]], PK3_BLOCK_SIZE);
 	memcpy(&bptr[PK3_BLOCK1_START], &tmp[shuffle[1]], PK3_BLOCK_SIZE);
@@ -357,9 +378,12 @@ void pk3_shuffle(pk3_box_t *pkm) {
 
 void pk3_unshuffle(pk3_box_t *pkm) {
 	//shuffle[0 .. 3] to 0,12,24,36
-	const uint8_t *shuffle = pk3_get_shuffle(pkm);
-	uint8_t *bptr = (uint8_t *)pkm->block;
-	uint8_t *tmp = malloc(PK3_DATA_SIZE);
+    uint8_t *shuffle;
+    uint8_t *bptr;
+    uint8_t *tmp;
+	shuffle = pk3_get_shuffle(pkm);
+	bptr = (uint8_t *)pkm->block;
+	tmp = malloc(PK3_DATA_SIZE);
 	memcpy(tmp, bptr, PK3_DATA_SIZE);
 	memcpy(&bptr[shuffle[0]], &tmp[PK3_BLOCK0_START], PK3_BLOCK_SIZE);
 	memcpy(&bptr[shuffle[1]], &tmp[PK3_BLOCK1_START], PK3_BLOCK_SIZE);
@@ -369,9 +393,12 @@ void pk3_unshuffle(pk3_box_t *pkm) {
 }
 
 void pk3_crypt(pk3_box_t *pkm) {
-	uint32_t key = pkm->ot_fid ^ pkm->pid;
-	uint32_t *data = (uint32_t *)pkm->block;
-	for(size_t i = 0; i < PK3_DATA_SIZE / 4; ++i) {
+    uint32_t key;
+    uint32_t *data;
+    size_t i;
+	key = pkm->ot_fid ^ pkm->pid;
+	data = (uint32_t *)pkm->block;
+	for(i = 0; i < PK3_DATA_SIZE / 4; ++i) {
 		data[i] ^= key;
 	}
 }
@@ -508,27 +535,30 @@ size_t gba_get_pocket_size(gba_save_t *save, gba_item_pocket_t pocket) {
 
 
 void gba_crypt_secure(gba_save_t *save) {
+    gba_security_key_t key;
+    uint8_t *ptr;
+    size_t i;
+    gba_item_slot_t *slot;
 	if(save->type == GBA_TYPE_RS) {
 		return;
 	}
-	gba_security_key_t key;
 	key.key = 0;
 
-	uint8_t *ptr = save->data;
+	ptr = save->data;
 	if(save->type == GBA_TYPE_E) {
 		key = gba_get_security_key(save->data + GBA_RSE_SECURITY_KEY_OFFSET);
 		ptr += GBA_RSE_STORAGE_OFFSET;
 		//crypt item data, skip the PC data (not encrypted)
-		for(size_t i = 50; i < GBA_E_ITEM_COUNT; ++i) {
-			gba_item_slot_t *slot = gba_get_item(save, i);
+		for(i = 50; i < GBA_E_ITEM_COUNT; ++i) {
+			slot = gba_get_item(save, i);
 			slot->amount ^= key.lower;
 		}
 	} else if(save->type == GBA_TYPE_FRLG) {
 		key = gba_get_security_key(save->data + GBA_FRLG_SECURITY_KEY_OFFSET);
 		ptr += GBA_FRLG_STORAGE_OFFSET;
 		//crypt item data, skip the PC data (not encrypted)
-		for(size_t i = 30; i < GBA_FRLG_ITEM_COUNT; ++i) {
-			gba_item_slot_t *slot = gba_get_item(save, i);
+		for(i = 30; i < GBA_FRLG_ITEM_COUNT; ++i) {
+			slot = gba_get_item(save, i);
 			slot->amount ^= key.lower;
 		}
 	}
@@ -647,7 +677,7 @@ uint8_t gba_pokedex_get_owned(gba_save_t *save, size_t index) {
 	return ((save->data + GBA_POKEDEX_OWNED)[index >> 3] >> (index & 7)) & 1;
 }
 
-static inline void gba_dex_set(uint8_t *ptr, size_t index, uint8_t set) {
+static void gba_dex_set(uint8_t *ptr, size_t index, uint8_t set) {
 	if(set) { //set
 		ptr[index >> 3] |= 1 << (index & 7);
 	} else {

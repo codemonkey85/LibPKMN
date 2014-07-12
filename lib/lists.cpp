@@ -145,7 +145,7 @@ namespace pkmn
                 break;
         }
         SQLite::Statement query(*db, query_stream.str().c_str());
-        while(query.executeStep()) item_vec.push_back(query.getColumn(0));
+        while(query.executeStep()) item_vec.push_back((const char*)(query.getColumn(0)));
     }
 
     void get_pokedex_order(std::vector<std::pair<unsigned int, unsigned int> > &entry_list, unsigned int pokedex_id)
