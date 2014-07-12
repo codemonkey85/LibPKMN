@@ -837,6 +837,14 @@ namespace pkmn
                         set_form("Steel");
                         return;
 
+                    case Forms::Arceus::QUESTION_MARK:
+                        set_form("???");
+                        return;
+
+                    case Forms::Arceus::FAIRY:
+                        set_form("Fairy");
+                        return;
+
                     default:
                         throw std::runtime_error("Invalid form.");
                 }
@@ -1069,6 +1077,105 @@ namespace pkmn
                     default:
                         throw std::runtime_error("Invalid form.");
                 }
+                break;
+
+            //TODO: Change to real pictures once they're in the images repo
+            case Species::VIVILLON:
+                if(form == Forms::Vivillon::MEADOW or (form >= Forms::Vivillon::ICY_SNOW and
+                                                       form <= Forms::Vivillon::JUNGLE))
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
+            case Species::FLOETTE:
+                if(form == Forms::Floette::RED_FLOWER or (form >= Forms::Floette::YELLOW_FLOWER and
+                                                          form <= Forms::Floette::WHITE_FLOWER))
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
+            case Species::FLORGES:
+                if(form == Forms::Florges::RED_FLOWER or (form >= Forms::Florges::YELLOW_FLOWER and
+                                                          form <= Forms::Florges::WHITE_FLOWER))
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
+            case Species::FURFROU:
+                if(form == Forms::Furfrou::STANDARD or (form >= Forms::Furfrou::HEART_TRIM and
+                                                        form <= Forms::Furfrou::PHARAOH_TRIM))
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
+            case Species::MEOWSTIC:
+                switch(form)
+                {
+                    case Forms::Meowstic::MALE:
+                        //TODO: force male
+                        _form_id = form;
+                        SET_POKEBALL_IMAGE();
+                        break;
+
+                    case Forms::Meowstic::FEMALE:
+                        //TODO: force female
+                        _form_id = form;
+                        SET_POKEBALL_IMAGE();
+                        break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
+                }
+                break;
+
+            case Species::AEGISLASH:
+                if(form == Forms::Aegislash::SHIELD or form == Forms::Aegislash::BLADE)
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
+            case Species::PUMPKABOO:
+                if(form == Forms::Pumpkaboo::AVERAGE_SIZE or (form >= Forms::Pumpkaboo::SMALL_SIZE and
+                                                              form <= Forms::Pumpkaboo::SUPER_SIZE))
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
+            case Species::GOURGEIST:
+                if(form == Forms::Gourgeist::AVERAGE_SIZE or (form >= Forms::Gourgeist::SMALL_SIZE and
+                                                              form <= Forms::Gourgeist::SUPER_SIZE))
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
+            case Species::XERNEAS:
+                if(form == Forms::Xerneas::ACTIVE or form == Forms::Xerneas::NEUTRAL)
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
                 break;
 
             default:
