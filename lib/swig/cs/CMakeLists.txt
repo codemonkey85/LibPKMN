@@ -24,9 +24,7 @@ SET(LIBPKMN_CSHARP_LIBRARIES
 INCLUDE_DIRECTORIES(${LIBPKMN_CSHARP_INCLUDE_DIRS})
 SET(CSHARP_SOURCE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources CACHE INTERNAL "")
 SET(CMAKE_SWIG_OUTDIR ${CSHARP_SOURCE_DIRECTORY})
-SET(CSHARP_BINARY_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CSharpBinaries CACHE INTERNAL "")
 FILE(MAKE_DIRECTORY ${CSHARP_SOURCE_DIRECTORY})
-FILE(MAKE_DIRECTORY ${CSHARP_BINARY_DIRECTORY})
 
 INCLUDE(UseSWIG)
 MACRO(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
@@ -79,10 +77,31 @@ CSHARP_BUILD_MODULE(calculations_cs_swig calculations_cs_swig Calculations)
 CSHARP_BUILD_MODULE(database_cs_swig database_cs_swig Database)
 CSHARP_BUILD_MODULE(io_cs_swig io_cs_swig IO)
 
-CONFIGURE_FILE(
-    ${CMAKE_CURRENT_SOURCE_DIR}/AssemblyInfo.cs.in
-    ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/AssemblyInfo.cs
-COPYONLY)
+SET(cs_sources
+    AssemblyInfo.cs
+    Abilities.cs
+    Egg_Groups.cs
+    Forms.cs
+    Genders.cs
+    Items.cs
+    Markings.cs
+    Move_Classes.cs
+    Moves.cs
+    Natures.cs
+    PokeBalls.cs
+    Ribbons.cs
+    Species.cs
+    Stats.cs
+    Types.cs
+    Version_Groups.cs
+    Versions.cs
+)
+FOREACH(src ${cs_sources})
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/${src}
+        ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/${src}
+    COPYONLY)
+ENDFOREACH(src ${cs_sources})
 
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll

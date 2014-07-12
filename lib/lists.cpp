@@ -41,7 +41,7 @@ namespace pkmn
 
     void get_game_group_list(std::vector<std::string> &game_group_vec)
     {
-        //Must be done manually, only really used for GamesComboBox
+        //Must be done manually, only really used for VersionsComboBox
         game_group_vec.clear();
 
         game_group_vec.push_back("Red/Blue/Green");
@@ -64,20 +64,20 @@ namespace pkmn
 
         switch(game)
         {
-            case Games::XD:
-            case Games::EMERALD:
+            case Versions::XD:
+            case Versions::EMERALD:
                 //Gen 3 items appearing only in Emerald
                 item_vec.push_back(items[374]);
                 item_vec.push_back(items[373]);
-            case Games::FIRE_RED:
-            case Games::LEAF_GREEN:
+            case Versions::FIRERED:
+            case Versions::LEAFGREEN:
                 //Gen 3 items appearing only  in Fire Red, Leaf Green, and Emerald
                 temp_vec.clear();
                 for(int i = 348; i < 374; i++) temp_vec.push_back(items[i]);
                 item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
-            case Games::COLOSSEUM:
-            case Games::RUBY:
-            case Games::SAPPHIRE:
+            case Versions::COLOSSEUM:
+            case Versions::RUBY:
+            case Versions::SAPPHIRE:
                 //Gen 3 items appearing in all Gen 3 games
                 temp_vec.clear();
                 for(int i = 0; i < 348; i++)
@@ -86,11 +86,11 @@ namespace pkmn
                 item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
                 break;
 
-            case Games::HEART_GOLD:
-            case Games::SOUL_SILVER:
+            case Versions::HEARTGOLD:
+            case Versions::SOULSILVER:
                 //Gen 4 items appearing only in Heart Gold and Soul Silver
                 for(int i = 468; i < 536; i++) item_vec.push_back(PokeLib::items[i]);
-            case Games::PLATINUM:
+            case Versions::PLATINUM:
                 //Gen 4 items appearing only in Platinum, Heart Gold, and Soul Silver
                 temp_vec.clear();
                 temp_vec.push_back(PokeLib::items[111]);
@@ -98,8 +98,8 @@ namespace pkmn
                 temp_vec.push_back(PokeLib::items[465]);
                 temp_vec.push_back(PokeLib::items[466]);
                 item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
-            case Games::DIAMOND:
-            case Games::PEARL:
+            case Versions::DIAMOND:
+            case Versions::PEARL:
                 //Gen 4 items appearing in all Gen 4 games
                 temp_vec.clear();
                 for(int i = 0; i < 464; i++)
@@ -108,8 +108,8 @@ namespace pkmn
                 item_vec.insert(item_vec.begin(), temp_vec.begin(), temp_vec.end());
                 break;
 
-            case Games::BLACK:
-            case Games::WHITE:
+            case Versions::BLACK:
+            case Versions::WHITE:
             {
                 std::string query_string = "SELECT name FROM item_names WHERE item_id<670 AND local_language_id=9";
                 SQLite::Statement query(db, query_string.c_str());
@@ -197,27 +197,27 @@ namespace pkmn
                     case 172:
                         //Pichu appears in all Gen 2+ games, but Spiky-eared Pichu only appears in HG/SS
                         pokemon_vec.push_back("Pichu");
-                        if(game == Games::HEART_GOLD or game == Games::SOUL_SILVER) pokemon_vec.push_back(full_form_name);
+                        if(game == Versions::HEARTGOLD or game == Versions::SOULSILVER) pokemon_vec.push_back(full_form_name);
                         break;
 
                     case 201:
                         //Unown (?) and Unown (!) were introduced in Gen 3
                         if(form_id == 675 or form_id == 676)
                         {
-                            if(game > Games::CRYSTAL) pokemon_vec.push_back(full_form_name);
+                            if(game > Versions::CRYSTAL) pokemon_vec.push_back(full_form_name);
                         }
                         else pokemon_vec.push_back(full_form_name);
                         break;
 
                     case 386:
                         //In Gen 3, different Deoxys forms only appear in certain games
-                        if(game != Games::FIRE_RED and game != Games::LEAF_GREEN and game != Games::EMERALD)
+                        if(game != Versions::FIRERED and game != Versions::LEAFGREEN and game != Versions::EMERALD)
                             pokemon_vec.push_back(full_form_name);
-                        if(game != Games::RUBY and game != Games::SAPPHIRE and game != Games::LEAF_GREEN and game != Games::EMERALD)
+                        if(game != Versions::RUBY and game != Versions::SAPPHIRE and game != Versions::LEAFGREEN and game != Versions::EMERALD)
                             pokemon_vec.push_back("Deoxys (Attack)");
-                        if(game != Games::RUBY and game != Games::SAPPHIRE and game != Games::FIRE_RED and game != Games::EMERALD)
+                        if(game != Versions::RUBY and game != Versions::SAPPHIRE and game != Versions::FIRERED and game != Versions::EMERALD)
                             pokemon_vec.push_back("Deoxys (Defense)");
-                        if(game != Games::RUBY and game != Games::SAPPHIRE and game != Games::FIRE_RED and game != Games::LEAF_GREEN)
+                        if(game != Versions::RUBY and game != Versions::SAPPHIRE and game != Versions::FIRERED and game != Versions::LEAFGREEN)
                             pokemon_vec.push_back("Deoxys (Speed)");
                         break;
 
@@ -230,20 +230,20 @@ namespace pkmn
                     case 487:
                         //Giratina's Origin Forme first appeared in Platinum
                         pokemon_vec.push_back(full_form_name);
-                        if(game > Games::PEARL) pokemon_vec.push_back("Giratina (Origin)");
+                        if(game > Versions::PEARL) pokemon_vec.push_back("Giratina (Origin)");
                         break;
 
                     case 492:
                         //Shaymin's Sky Forme first appeared in Platinum
                         pokemon_vec.push_back(full_form_name);
-                        if(game > Games::PEARL) pokemon_vec.push_back("Shaymin (Sky)");
+                        if(game > Versions::PEARL) pokemon_vec.push_back("Shaymin (Sky)");
                         break;
 
                     case 493:
                         //Arceus (???) only appears in Gen 4
                         if(form_halves[0] == "???")
                         {
-                            if(game < Games::BLACK) pokemon_vec.push_back(full_form_name);
+                            if(game < Versions::BLACK) pokemon_vec.push_back(full_form_name);
                         }
                         else pokemon_vec.push_back(full_form_name);
                         break;
@@ -269,7 +269,7 @@ namespace pkmn
                     case 647:
                         //Keldeo's Resolute Forme first appeared in Black 2/White 2
                         pokemon_vec.push_back(full_form_name);
-                        if(game > Games::WHITE) pokemon_vec.push_back("Keldeo (Resolute)");
+                        if(game > Versions::WHITE) pokemon_vec.push_back("Keldeo (Resolute)");
                         break;
 
                     case 648:
@@ -300,7 +300,7 @@ namespace pkmn
                 {
                     case 479:
                         pokemon_vec.push_back(normal_name);
-                        if(game > Games::PEARL)
+                        if(game > Versions::PEARL)
                         {
                             pokemon_vec.push_back("Rotom (Heat)");
                             pokemon_vec.push_back("Rotom (Wash)");
@@ -312,7 +312,7 @@ namespace pkmn
 
                     case 646:
                         pokemon_vec.push_back(normal_name);
-                        if(game > Games::WHITE)
+                        if(game > Versions::WHITE)
                         {
                             pokemon_vec.push_back("Kyurem (Black)");
                             pokemon_vec.push_back("Kyurem (White)");

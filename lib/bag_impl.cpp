@@ -251,23 +251,23 @@ namespace pkmn
 
         switch(game)
         {
-            case Games::RED:
-            case Games::BLUE:
-            case Games::YELLOW:
+            case Versions::RED:
+            case Versions::BLUE:
+            case Versions::YELLOW:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 20);
                 break;
 
-            case Games::GOLD:
-            case Games::SILVER:
-            case Games::CRYSTAL:
+            case Versions::GOLD:
+            case Versions::SILVER:
+            case Versions::CRYSTAL:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 20);
                 _pockets["Balls"] = pocket::make(_game_id, "Balls", 12);
                 _pockets["KeyItems"] = pocket::make(_game_id, "KeyItems", 26);
                 _pockets["TM/HM"] = pocket::make(_game_id, "TM/HM", 99);
                 break;
 
-            case Games::RUBY:
-            case Games::SAPPHIRE:
+            case Versions::RUBY:
+            case Versions::SAPPHIRE:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 20);
                 _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 16);
                 _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 64);
@@ -275,7 +275,7 @@ namespace pkmn
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 20);
                 break;
 
-            case Games::EMERALD:
+            case Versions::EMERALD:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 20);
                 _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 16);
                 _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 64);
@@ -283,8 +283,8 @@ namespace pkmn
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 30);
                 break;
 
-            case Games::FIRE_RED:
-            case Games::LEAF_GREEN:
+            case Versions::FIRERED:
+            case Versions::LEAFGREEN:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 42);
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 30);
                 _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 13);
@@ -292,9 +292,9 @@ namespace pkmn
                 _pockets["Berry Pouch"] = pocket::make(_game_id, "Berry Pouch", 43);
                 break;
 
-            case Games::DIAMOND:
-            case Games::PEARL:
-            case Games::PLATINUM:
+            case Versions::DIAMOND:
+            case Versions::PEARL:
+            case Versions::PLATINUM:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 165);
                 _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 40);
                 _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 15);
@@ -305,8 +305,8 @@ namespace pkmn
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 50);
                 break;
 
-            case Games::HEART_GOLD:
-            case Games::SOUL_SILVER:
+            case Versions::HEARTGOLD:
+            case Versions::SOULSILVER:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 165);
                 _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 40);
                 _pockets["Poke Balls"] = pocket::make(_game_id, "Poke Balls", 24);
@@ -317,12 +317,12 @@ namespace pkmn
                 _pockets["Key Items"] = pocket::make(_game_id, "Key Items", 43);
                 break;
 
-            case Games::BLACK:
-            case Games::WHITE:
-            case Games::BLACK2:
-            case Games::WHITE2:
-            case Games::X:
-            case Games::Y:
+            case Versions::BLACK:
+            case Versions::WHITE:
+            case Versions::BLACK_2:
+            case Versions::WHITE_2:
+            case Versions::X:
+            case Versions::Y:
                 _pockets["Items"] = pocket::make(_game_id, "Items", 310);
                 _pockets["Medicine"] = pocket::make(_game_id, "Medicine", 48);
                 _pockets["TMs and HMs"] = pocket::make(_game_id, "TMs and HMs", 109);

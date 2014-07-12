@@ -39,7 +39,7 @@ namespace pkmn
 
             for(size_t i = 0; i < item_count; i++)
             {
-                item_pocket->add_item(database::get_item_id(rpokesav_bag[i].index, Games::YELLOW),
+                item_pocket->add_item(database::get_item_id(rpokesav_bag[i].index, Versions::YELLOW),
                                       rpokesav_bag[i].count);
             }
         }
@@ -71,8 +71,8 @@ namespace pkmn
 
             switch(game)
             {
-                case Games::RUBY:
-                case Games::SAPPHIRE:
+                case Versions::RUBY:
+                case Versions::SAPPHIRE:
                     item_offset = RS_ITEM_POCKET_OFFSET;
                     key_item_offset = RS_KEY_ITEM_POCKET_OFFSET;
                     ball_offset = RS_BALL_POCKET_OFFSET;
@@ -80,8 +80,8 @@ namespace pkmn
                     berry_offset = RS_BERRY_POCKET_OFFSET;
                     break;
 
-                case Games::FIRE_RED:
-                case Games::LEAF_GREEN:
+                case Versions::FIRERED:
+                case Versions::LEAFGREEN:
                     item_offset = FRLG_ITEM_POCKET_OFFSET;
                     key_item_offset = FRLG_KEY_ITEM_POCKET_OFFSET;
                     ball_offset = FRLG_BALL_POCKET_OFFSET;
@@ -102,11 +102,11 @@ namespace pkmn
             pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
 
             pocket::sptr tm_pocket;
-            if(game == Games::FIRE_RED or game == Games::LEAF_GREEN) tm_pocket = item_bag->get_pocket("TM Case");
+            if(game == Versions::FIRERED or game == Versions::LEAFGREEN) tm_pocket = item_bag->get_pocket("TM Case");
             else tm_pocket = item_bag->get_pocket("TMs and HMs");
 
             pocket::sptr berry_pocket;
-            if(game == Games::FIRE_RED or game == Games::LEAF_GREEN) berry_pocket = item_bag->get_pocket("Berry Pouch");
+            if(game == Versions::FIRERED or game == Versions::LEAFGREEN) berry_pocket = item_bag->get_pocket("Berry Pouch");
             else berry_pocket = item_bag->get_pocket("Berries");
 
             for(size_t i = item_offset; i < item_pocket->size(); i+= 4)
@@ -169,8 +169,8 @@ namespace pkmn
 
             switch(game)
             {
-                case Games::RUBY:
-                case Games::SAPPHIRE:
+                case Versions::RUBY:
+                case Versions::SAPPHIRE:
                     item_offset = RS_ITEM_POCKET_OFFSET;
                     key_item_offset = RS_KEY_ITEM_POCKET_OFFSET;
                     ball_offset = RS_BALL_POCKET_OFFSET;
@@ -178,8 +178,8 @@ namespace pkmn
                     berry_offset = RS_BERRY_POCKET_OFFSET;
                     break;
 
-                case Games::FIRE_RED:
-                case Games::LEAF_GREEN:
+                case Versions::FIRERED:
+                case Versions::LEAFGREEN:
                     item_offset = FRLG_ITEM_POCKET_OFFSET;
                     key_item_offset = FRLG_KEY_ITEM_POCKET_OFFSET;
                     ball_offset = FRLG_BALL_POCKET_OFFSET;
@@ -199,10 +199,10 @@ namespace pkmn
             pocket::sptr key_item_pocket = item_bag->get_pocket("Key Items");
             pocket::sptr ball_pocket = item_bag->get_pocket("Poke Balls");
 
-            pocket::sptr tm_pocket = (game == Games::FIRE_RED) ? item_bag->get_pocket("TM Case")
+            pocket::sptr tm_pocket = (game == Versions::FIRERED) ? item_bag->get_pocket("TM Case")
                                                                : item_bag->get_pocket("TMs and HMs");
 
-            pocket::sptr berry_pocket = (game == Games::FIRE_RED) ? item_bag->get_pocket("Berry Pouch")
+            pocket::sptr berry_pocket = (game == Versions::FIRERED) ? item_bag->get_pocket("Berry Pouch")
                                                                   : item_bag->get_pocket("Berries");
 
             item_list_t item_list;

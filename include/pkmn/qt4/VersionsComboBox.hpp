@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_GAMESCOMBOBOX_HPP
-#define INCLUDED_GAMESCOMBOBOX_HPP
+#ifndef INCLUDED_VERSIONSCOMBOBOX_HPP
+#define INCLUDED_VERSIONSCOMBOBOX_HPP
 
 #include <pkmn/config.hpp>
 
@@ -15,12 +15,12 @@ namespace pkmn
 {
     namespace qt4
     {
-        class PKMN_API GamesComboBox: public QComboBox
+        class PKMN_API VersionsComboBox: public QComboBox
         {
             Q_OBJECT
 
             public:
-                GamesComboBox(QWidget* parent = 0, int gen = 5);
+                VersionsComboBox(QWidget* parent = 0, int gen = 5);
 
             /*signals:
 
@@ -31,4 +31,4 @@ namespace pkmn
     }
 }
 
-#endif /* INCLUDED_GAMESCOMBOBOX_HPP */
+#endif /* INCLUDED_VERSIONSCOMBOBOX_HPP */

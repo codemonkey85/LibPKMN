@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
 #
 # Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
+#
+# This file was generated: 2014-07-09 20:44:30.941573
 #
 
 class Hoenn:
@@ -42,24 +44,24 @@ class Hoenn:
 
 class Sinnoh:
     TOUGH_MASTER = 4
-    TOUGH_ULTRA = 5
-    TOUGH_GREAT = 6
+    TOUGH_HYPER = 5
+    TOUGH_SUPER = 6
     TOUGH = 7
     SMART_MASTER = 8
-    SMART_ULTRA = 9
-    SMART_GREAT = 10
+    SMART_HYPER = 9
+    SMART_SUPER = 10
     SMART = 11
     CUTE_MASTER = 12
-    CUTE_ULTRA = 13
-    CUTE_GREAT = 14
+    CUTE_HYPER = 13
+    CUTE_SUPER = 14
     CUTE = 15
     BEAUTY_MASTER = 16
-    BEAUTY_ULTRA = 17
-    BEAUTY_GREAT = 18
+    BEAUTY_HYPER = 17
+    BEAUTY_SUPER = 18
     BEAUTY = 19
     COOL_MASTER = 20
-    COOL_ULTRA = 21
-    COOL_GREAT = 22
+    COOL_HYPER = 21
+    COOL_SUPER = 22
     COOL = 23
     PREMIER = 28
     CLASSIC = 29
@@ -90,18 +92,90 @@ class Sinnoh:
     ABILITY = 54
     CHAMPION = 55
 
+class Unova:
+    TOUGH_MASTER = 4
+    TOUGH_HYPER = 5
+    TOUGH_SUPER = 6
+    TOUGH = 7
+    SMART_MASTER = 8
+    SMART_HYPER = 9
+    SMART_SUPER = 10
+    SMART = 11
+    CUTE_MASTER = 12
+    CUTE_HYPER = 13
+    CUTE_SUPER = 14
+    CUTE = 15
+    BEAUTY_MASTER = 16
+    BEAUTY_HYPER = 17
+    BEAUTY_SUPER = 18
+    BEAUTY = 19
+    COOL_MASTER = 20
+    COOL_HYPER = 21
+    COOL_SUPER = 22
+    COOL = 23
+    PREMIER = 28
+    CLASSIC = 29
+    WISHING = 30
+    SOUVENIR = 31
+    SPECIAL = 32
+    BIRTHDAY = 33
+    WORLD_CHAMPION = 34
+    LEGEND = 35
+    EVENT = 36
+    RECORD = 37
+    FOOTPRINT = 38
+    GORGEOUS_ROYAL = 39
+    ROYAL = 40
+    GORGEOUS = 41
+    SMILE = 42
+    SNOOZE = 43
+    RELAX = 44
+    CARELESS = 45
+    DOWNCAST = 46
+    SHOCK = 47
+    ALERT = 48
+    WORLD_ABILITY = 49
+    PAIR_ABILITY = 50
+    MULTI_ABILITY = 51
+    DOUBLE_ABILITY = 52
+    GREAT_ABILITY = 53
+    ABILITY = 54
+    CHAMPION = 55
+
 class Kalos:
-    CHAMPION = 0
-    TRAINING = 1
-    SKILLFUL_BATTLER = 2
-    EXPERT_BATTLER = 3
-    BEST_FRIENDS = 4
-    EFFORT = 5
-    FOOTPRINT = 6
-    ALERT = 7
-    SHOCK = 8
-    DOWNCAST = 9
-    CARELESS = 10
-    RELAX = 11
-    SNOOZE = 12
-    SMILE = 13
+    WORLD_CHAMPION = 3
+    NATIONAL_CHAMPION = 4
+    REGIONAL_CHAMPION = 5
+    BATTLE_CHAMPION = 6
+    WISHING = 7
+    FESTIVAL = 8
+    SPECIAL = 9
+    BIRTHDAY = 10
+    EVENT = 11
+    PREMIER = 12
+    CLASSIC = 13
+    WORLD = 14
+    EARTH = 15
+    NATIONAL = 16
+    COUNTRY = 17
+    LEGEND = 18
+    RECORD = 19
+    FOOTPRINT = 20
+    ARTIST = 21
+    GORGEOUS_ROYAL = 22
+    ROYAL = 23
+    GORGEOUS = 24
+    SMILE = 25
+    SNOOZE = 26
+    RELAX = 27
+    CARELESS = 28
+    DOWNCAST = 29
+    SHOCK = 30
+    ALERT = 31
+    EFFORT = 32
+    SKILLFUL_BATTLER = 34
+    TRAINING = 35
+    BEST_FRIENDS = 36
+    SINNOH_CHAMPION = 37
+    CHAMPION = 38
+    KALOS_CHAMPION = 39

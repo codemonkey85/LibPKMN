@@ -64,7 +64,7 @@ namespace pkmn
              * Generation I has no way to distinguish between games, so just
              * use Yellow. There aren't enough differences to make a difference.
              */
-            trainer::sptr libpkmn_trainer = trainer::make(Games::YELLOW,
+            trainer::sptr libpkmn_trainer = trainer::make(Versions::YELLOW,
                                                           sav->get_trainer_name(),
                                                           Genders::MALE);
 
@@ -92,15 +92,15 @@ namespace pkmn
             switch(game_code)
             {
                 case 0:
-                    libpkmn_game_id = Games::RUBY; //TODO: distinguish between Ruby/Sapphire
+                    libpkmn_game_id = Versions::RUBY; //TODO: distinguish between Ruby/Sapphire
                     break;
 
                 case 1:
-                    libpkmn_game_id = Games::FIRE_RED; //TODO: distinguish between FR/LG
+                    libpkmn_game_id = Versions::FIRERED; //TODO: distinguish between FR/LG
                     break;
 
                 default:
-                    libpkmn_game_id = Games::EMERALD;
+                    libpkmn_game_id = Versions::EMERALD;
                     break;
             }
 
@@ -146,13 +146,13 @@ namespace pkmn
 
             switch(libpkmn_trainer->get_game_id())
             {
-                case Games::RUBY:
-                case Games::SAPPHIRE:
+                case Versions::RUBY:
+                case Versions::SAPPHIRE:
                     game_data[POKEHACK_GAME_CODE] = 0;
                     break;
 
-                case Games::FIRE_RED:
-                case Games::LEAF_GREEN:
+                case Versions::FIRERED:
+                case Versions::LEAFGREEN:
                     game_data[POKEHACK_GAME_CODE] = 1;
                     break;
 
@@ -218,15 +218,15 @@ namespace pkmn
                 switch(save_type)
                 {
                     case PokeLib::DP:
-                        game_id = Games::DIAMOND;
+                        game_id = Versions::DIAMOND;
                         break;
 
                     case PokeLib::PLAT:
-                        game_id = Games::PLATINUM;
+                        game_id = Versions::PLATINUM;
                         break;
 
                     default:
-                        game_id = Games::HEART_GOLD;
+                        game_id = Versions::HEARTGOLD;
                         break;
                 }
             }
@@ -304,7 +304,7 @@ namespace pkmn
             }
             if(not found)
             {
-                game_id = Games::BLACK2;
+                game_id = Versions::BLACK_2;
                 gender = Genders::MALE;
             }
 

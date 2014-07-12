@@ -258,8 +258,8 @@ namespace pkmn
             double damage_mod;
             string query_string;
 
-            if(type1_id != Types::NONE and type1_id != Types::UNKNOWN and type1_id != Types::SHADOW
-            and type2_id != Types::NONE and type2_id != Types::UNKNOWN and type2_id != Types::SHADOW)
+            if(type1_id != Types::NONE and type1_id != Types::QUESTION_MARK and type1_id != Types::SHADOW
+            and type2_id != Types::NONE and type2_id != Types::QUESTION_MARK and type2_id != Types::SHADOW)
             {
                 //Get damage mod from database
                 query_string = str(boost::format("SELECT damage_factor FROM type_efficacy WHERE damage_type_id=%d AND target_type_id=%d")
@@ -406,7 +406,7 @@ namespace pkmn
                     damage_pair.second = 40;
                     return damage_pair;
                 }
-                else if(attack->get_move_id() == Moves::SONICBOOM)
+                else if(attack->get_move_id() == Moves::SONIC_BOOM)
                 {
                     //Sonicboom always deals 20 damage
                     damage_pair.first = 20;
