@@ -162,6 +162,7 @@ namespace pkmn
         return IVs;
     }
 
+    //TODO: adjust Meowstic's stats if gender changes
     void team_pokemon_modernimpl::set_personality(unsigned int personality)
     {
         _personality = personality;

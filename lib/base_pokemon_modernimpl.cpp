@@ -770,80 +770,107 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Arceus::NORMAL:
+                        _form_id = form;
                         set_form("Normal");
                         return;
 
                     case Forms::Arceus::FIRE:
+                        _form_id = form;
                         set_form("Fire");
                         return;
 
                     case Forms::Arceus::WATER:
+                        _form_id = form;
                         set_form("Water");
                         return;
 
                     case Forms::Arceus::ELECTRIC:
+                        _form_id = form;
                         set_form("Electric");
                         return;
 
                     case Forms::Arceus::GRASS:
+                        _form_id = form;
                         set_form("Grass");
                         return;
 
                     case Forms::Arceus::ICE:
+                        _form_id = form;
                         set_form("Ice");
                         return;
 
                     case Forms::Arceus::FIGHTING:
+                        _form_id = form;
                         set_form("Fighting");
                         return;
 
                     case Forms::Arceus::POISON:
+                        _form_id = form;
                         set_form("Poison");
                         return;
 
                     case Forms::Arceus::GROUND:
+                        _form_id = form;
                         set_form("Ground");
                         return;
 
                     case Forms::Arceus::FLYING:
+                        _form_id = form;
                         set_form("Flying");
                         return;
 
                     case Forms::Arceus::PSYCHIC:
+                        _form_id = form;
                         set_form("Psychic");
                         return;
 
                     case Forms::Arceus::BUG:
+                        _form_id = form;
                         set_form("Bug");
                         return;
 
                     case Forms::Arceus::ROCK:
+                        _form_id = form;
                         set_form("Rock");
                         return;
 
                     case Forms::Arceus::GHOST:
+                        _form_id = form;
                         set_form("Ghost");
                         return;
 
                     case Forms::Arceus::DRAGON:
+                        _form_id = form;
                         set_form("Dragon");
                         return;
 
                     case Forms::Arceus::DARK:
+                        _form_id = form;
                         set_form("Dark");
                         return;
 
                     case Forms::Arceus::STEEL:
+                        _form_id = form;
                         set_form("Steel");
                         return;
 
                     case Forms::Arceus::QUESTION_MARK:
-                        set_form("???");
-                        return;
+                        if(_generation == 4)
+                        {
+                            _form_id = form;
+                            set_form("???");
+                            return;
+                        }
+                        else throw std::runtime_error("Invalid form.");
 
                     case Forms::Arceus::FAIRY:
-                        set_form("Fairy");
-                        return;
+                        if(_generation == 6)
+                        {
+                            _form_id = form;
+                            set_form("Fairy");
+                            return;
+                        }
+                        else throw std::runtime_error("Invalid form.");
 
                     default:
                         throw std::runtime_error("Invalid form.");
@@ -890,18 +917,22 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Deerling::SPRING:
+                        _form_id = form;
                         set_form("Spring");
                         return;
 
                     case Forms::Deerling::SUMMER:
+                        _form_id = form;
                         set_form("Summer");
                         return;
 
                     case Forms::Deerling::AUTUMN:
+                        _form_id = form;
                         set_form("Autumn");
                         return;
 
                     case Forms::Deerling::WINTER:
+                        _form_id = form;
                         set_form("Winter");
                         return;
 
@@ -914,18 +945,22 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Sawsbuck::SPRING:
+                        _form_id = form;
                         set_form("Spring");
                         return;
 
                     case Forms::Sawsbuck::SUMMER:
+                        _form_id = form;
                         set_form("Summer");
                         return;
 
                     case Forms::Sawsbuck::AUTUMN:
+                        _form_id = form;
                         set_form("Autumn");
                         return;
 
                     case Forms::Sawsbuck::WINTER:
+                        _form_id = form;
                         set_form("Winter");
                         return;
 
@@ -1090,6 +1125,16 @@ namespace pkmn
                 else throw std::runtime_error("Invalid form.");
                 break;
 
+            case Species::FLABEBE:
+                if(form == Forms::Flabebe::RED_FLOWER or (form >= Forms::Flabebe::YELLOW_FLOWER and
+                                                          form <= Forms::Flabebe::WHITE_FLOWER))
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE();
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+
             case Species::FLOETTE:
                 if(form == Forms::Floette::RED_FLOWER or (form >= Forms::Floette::YELLOW_FLOWER and
                                                           form <= Forms::Floette::WHITE_FLOWER))
@@ -1184,14 +1229,12 @@ namespace pkmn
 
         std::ostringstream query_stream;
         query_stream << "SELECT pokemon_id FROM pokemon_forms WHERE id=" << _form_id;
-        std::cout << query_stream.str() << std::endl;
         SQLite::Statement pokemon_id_query(*_db, query_stream.str().c_str());
         _pokemon_id = _db->execAndGet(query_stream.str().c_str());
 
         query_stream.str("");
         query_stream << "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" << _pokemon_id
                      << " AND stat_id IN (1,2,3,4,5,6)";
-        std::cout << query_stream.str() << std::endl;
         SQLite::Statement stats_query(*_db, query_stream.str().c_str());
 
         stats_query.executeStep();
@@ -1215,10 +1258,14 @@ namespace pkmn
         form_signal2();
     }
 
-    void base_pokemon_modernimpl::set_form(string form)
+    #define SET_STANDARD_MEGA_FORMS_FROM_STR(name) if(form == "Standard") set_form(Forms::name::STANDARD); \
+                                                   else if(form == "Mega") set_form(Forms::name::MEGA); \
+                                                   else throw std::runtime_error("Invalid form.");
+
+    void base_pokemon_modernimpl::set_form(std::string form)
     {
         boost::format png_format("%d.png");
-        string gen_string = "generation-" + to_string(_generation);
+        std::string gen_string = "generation-" + to_string(_generation);
         std::string icons = fs::path(fs::path(get_images_dir()) / "pokemon-icons").string();
         std::string sprites = fs::path(fs::path(get_images_dir()) / gen_string
                                      / _images_game_string.c_str()).string();
@@ -1226,6 +1273,59 @@ namespace pkmn
 
         switch(_species_id)
         {
+            case Species::VENUSAUR:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Venusaur);
+                return;
+
+            case Species::CHARIZARD:
+                if(form == "Standard") set_form(Forms::Charizard::STANDARD);
+                if(form == "Mega X") set_form(Forms::Charizard::MEGA_X);
+                if(form == "Mega Y") set_form(Forms::Charizard::MEGA_Y);
+                return;
+
+            case Species::BLASTOISE:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Blastoise);
+                return;
+
+            case Species::ALAKAZAM:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Alakazam);
+                return;
+
+            case Species::GENGAR:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Gengar);
+                return;
+
+            case Species::KANGASKHAN:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Kangaskhan);
+                return;
+
+            case Species::PINSIR:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Pinsir);
+                return;
+
+            case Species::GYARADOS:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Gyarados);
+                return;
+
+            case Species::AERODACTYL:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Aerodactyl);
+                return;
+
+            case Species::MEWTWO:
+                if(form == "Standard") set_form(Forms::Mewtwo::STANDARD);
+                if(form == "Mega X") set_form(Forms::Mewtwo::MEGA_X);
+                if(form == "Mega Y") set_form(Forms::Mewtwo::MEGA_Y);
+                return;
+
+            case Species::PICHU:
+                if(form == "Standard") set_form(Forms::Pichu::STANDARD);
+                else if(form == "Spiky-eared") set_form(Forms::Pichu::SPIKY_EARED);
+                return;
+
+            case Species::AMPHAROS:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Ampharos);
+                return;
+
             case Species::UNOWN:
             {
                 char letter = boost::algorithm::to_lower_copy(form)[0];
@@ -1245,11 +1345,60 @@ namespace pkmn
                 break;
             }
 
+            case Species::SCIZOR:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Scizor);
+                return;
+
+            case Species::HERACROSS:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Heracross);
+                return;
+
+            case Species::HOUNDOOM:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Houndoom);
+                return;
+
+            case Species::TYRANITAR:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Tyranitar);
+                return;
+
+            case Species::BLAZIKEN:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Blaziken);
+                return;
+
+            case Species::GARDEVOIR:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Gardevoir);
+                return;
+
+            case Species::MAWILE:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Mawile);
+                return;
+
+            case Species::AGGRON:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Aggron);
+                return;
+
+            case Species::MEDICHAM:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Medicham);
+                return;
+
+            case Species::MANECTRIC:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Manectric);
+                return;
+
             case Species::CASTFORM:
                 if(form == "Normal") set_form(Forms::Castform::STANDARD);
                 else if(form == "Sunny") set_form(Forms::Castform::SUNNY);
                 else if(form == "Rainy") set_form(Forms::Castform::RAINY);
                 else if(form == "Snowy") set_form(Forms::Castform::SNOWY);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::BANETTE:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Banette);
+                return;
+
+            case Species::ABSOL:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Absol);
                 return;
 
             case Species::DEOXYS:
@@ -1257,33 +1406,51 @@ namespace pkmn
                 else if(form == "Attack") set_form(Forms::Deoxys::ATTACK);
                 else if(form == "Defense") set_form(Forms::Deoxys::DEFENSE);
                 else if(form == "Speed") set_form(Forms::Deoxys::SPEED);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::BURMY:
                 if(form == "Plant Cloak") set_form(Forms::Burmy::PLANT_CLOAK);
                 else if(form == "Sandy Cloak") set_form(Forms::Burmy::SANDY_CLOAK);
                 else if(form == "Trash Cloak") set_form(Forms::Burmy::TRASH_CLOAK);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::WORMADAM:
                 if(form == "Plant Cloak") set_form(Forms::Wormadam::PLANT_CLOAK);
                 else if(form == "Sandy Cloak") set_form(Forms::Wormadam::SANDY_CLOAK);
                 else if(form == "Trash Cloak") set_form(Forms::Wormadam::TRASH_CLOAK);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::CHERRIM:
                 if(form == "Overcast") set_form(Forms::Cherrim::OVERCAST);
                 else if(form == "Sunshine") set_form(Forms::Cherrim::SUNSHINE);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::SHELLOS:
                 if(form == "West Sea") set_form(Forms::Shellos::WEST_SEA);
                 else if(form == "East Sea") set_form(Forms::Shellos::EAST_SEA);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::GASTRODON:
                 if(form == "West Sea") set_form(Forms::Gastrodon::WEST_SEA);
                 else if(form == "East Sea") set_form(Forms::Gastrodon::EAST_SEA);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::GARCHOMP:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Garchomp);
+                return;
+
+            case Species::LUCARIO:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Lucario);
+                return;
+
+            case Species::ABOMASNOW:
+                SET_STANDARD_MEGA_FORMS_FROM_STR(Abomasnow);
                 return;
 
             case Species::ROTOM:
@@ -1293,21 +1460,24 @@ namespace pkmn
                 else if(form == "Wash") set_form(Forms::Rotom::WASH);
                 else if(form == "Fan") set_form(Forms::Rotom::FAN);
                 else if(form == "Mow") set_form(Forms::Rotom::MOW);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::GIRATINA:
                 if(form == "Altered") set_form(Forms::Giratina::ALTERED);
                 else if(form == "Origin") set_form(Forms::Giratina::ORIGIN);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::SHAYMIN:
                 if(form == "Land") set_form(Forms::Shaymin::LAND);
                 else if(form == "Sky") set_form(Forms::Shaymin::SKY);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::ARCEUS:
             {
-                vector<string> type_vec;
+                std::vector<std::string> type_vec;
                 get_type_list(type_vec, 4);
 
                 if(find(type_vec.begin(), type_vec.end(), form) != type_vec.end())
@@ -1319,59 +1489,69 @@ namespace pkmn
 
                     SET_IMAGES_PATHS(basename);
                 }
+                else throw std::runtime_error("Invalid form.");
                 break;
             }
 
             case Species::BASCULIN:
                 if(form == "Red-Striped") set_form(Forms::Basculin::RED_STRIPED);
                 if(form == "Blue-Striped") set_form(Forms::Basculin::BLUE_STRIPED);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::DARMANITAN:
                 if(form == "Standard") set_form(Forms::Darmanitan::STANDARD);
                 if(form == "Zen") set_form(Forms::Darmanitan::ZEN);
+                else throw std::runtime_error("Invalid form.");
                 return; 
 
             case Species::DEERLING:
             case Species::SAWSBUCK:
                 if(form == "Spring" or form == "Summer" or form == "Autumn" or form == "Winter")
                 {
-                    transform(form.begin(), form.end(), form.begin(), ::tolower);
-                    string basename = (boost::format("%d-%s.png") % _species_id % form).str();
+                    std::transform(form.begin(), form.end(), form.begin(), ::tolower);
+                    std::string basename = (boost::format("%d-%s.png") % _species_id % form).str();
 
                     SET_IMAGES_PATHS(basename);
                 }
+                else throw std::runtime_error("Invalid form.");
                 break;
 
             case Species::TORNADUS:
                 if(form == "Incarnate") set_form(Forms::Tornadus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Tornadus::THERIAN);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::THUNDURUS:
                 if(form == "Incarnate") set_form(Forms::Thundurus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Thundurus::THERIAN);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::LANDORUS:
                 if(form == "Incarnate") set_form(Forms::Landorus::INCARNATE);
                 if(form == "Therian") set_form(Forms::Landorus::THERIAN);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::KYUREM:
                 if(form == "Normal") set_form(Forms::Kyurem::STANDARD);
                 else if(form == "Black") set_form(Forms::Kyurem::BLACK);
                 else if(form == "White") set_form(Forms::Kyurem::WHITE);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::KELDEO:
                 if(form == "Ordinary") set_form(Forms::Keldeo::ORDINARY);
                 else if(form == "Resolute") set_form(Forms::Keldeo::RESOLUTE);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::MELOETTA:
                 if(form == "Aria") set_form(Forms::Meloetta::ARIA);
                 else if(form == "Pirouette") set_form(Forms::Meloetta::PIROUETTE);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::GENESECT:
@@ -1380,7 +1560,107 @@ namespace pkmn
                 if(form == "Burn Drive") set_form(Forms::Genesect::BURN_DRIVE);
                 if(form == "Chill Drive") set_form(Forms::Genesect::CHILL_DRIVE);
                 if(form == "Douse Drive") set_form(Forms::Genesect::DOUSE_DRIVE);
+                else throw std::runtime_error("Invalid form.");
                 return;
+
+            case Species::VIVILLON:
+                if(form == "Meadow") set_form(Forms::Vivillon::MEADOW);
+                if(form == "Icy Snow") set_form(Forms::Vivillon::ICY_SNOW);
+                if(form == "Polar") set_form(Forms::Vivillon::POLAR);
+                if(form == "Tundra") set_form(Forms::Vivillon::TUNDRA);
+                if(form == "Continental") set_form(Forms::Vivillon::CONTINENTAL);
+                if(form == "Garden") set_form(Forms::Vivillon::GARDEN);
+                if(form == "Elegant") set_form(Forms::Vivillon::ELEGANT);
+                if(form == "Modern") set_form(Forms::Vivillon::MODERN);
+                if(form == "Marine") set_form(Forms::Vivillon::MARINE);
+                if(form == "Archipelago") set_form(Forms::Vivillon::ARCHIPELAGO);
+                if(form == "High Plains") set_form(Forms::Vivillon::HIGH_PLAINS);
+                if(form == "Sandstorm") set_form(Forms::Vivillon::SANDSTORM);
+                if(form == "River") set_form(Forms::Vivillon::RIVER);
+                if(form == "Monsoon") set_form(Forms::Vivillon::MONSOON);
+                if(form == "Savanna") set_form(Forms::Vivillon::SAVANNA);
+                if(form == "Sun") set_form(Forms::Vivillon::SUN);
+                if(form == "Ocean") set_form(Forms::Vivillon::OCEAN);
+                if(form == "Jungle") set_form(Forms::Vivillon::JUNGLE);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+                //TODO: Setting Flabebe, Floette, and Florges images will likely be done here in same case statement
+            case Species::FLABEBE:
+                if(form == "Red Flower") set_form(Forms::Flabebe::RED_FLOWER);
+                else if(form == "Yellow Flower") set_form(Forms::Flabebe::YELLOW_FLOWER);
+                else if(form == "Orange Flower") set_form(Forms::Flabebe::ORANGE_FLOWER);
+                else if(form == "Blue Flower") set_form(Forms::Flabebe::BLUE_FLOWER);
+                else if(form == "White Flower") set_form(Forms::Flabebe::WHITE_FLOWER);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::FLOETTE:
+                if(form == "Red Flower") set_form(Forms::Floette::RED_FLOWER);
+                else if(form == "Yellow Flower") set_form(Forms::Floette::YELLOW_FLOWER);
+                else if(form == "Orange Flower") set_form(Forms::Floette::ORANGE_FLOWER);
+                else if(form == "Blue Flower") set_form(Forms::Floette::BLUE_FLOWER);
+                else if(form == "White Flower") set_form(Forms::Floette::WHITE_FLOWER);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::FLORGES:
+                if(form == "Red Flower") set_form(Forms::Florges::RED_FLOWER);
+                else if(form == "Yellow Flower") set_form(Forms::Florges::YELLOW_FLOWER);
+                else if(form == "Orange Flower") set_form(Forms::Florges::ORANGE_FLOWER);
+                else if(form == "Blue Flower") set_form(Forms::Florges::BLUE_FLOWER);
+                else if(form == "White Flower") set_form(Forms::Florges::WHITE_FLOWER);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::FURFROU:
+                if(form == "Standard") set_form(Forms::Furfrou::STANDARD);
+                if(form == "Heart Trim") set_form(Forms::Furfrou::HEART_TRIM);
+                if(form == "Star Trim") set_form(Forms::Furfrou::STAR_TRIM);
+                if(form == "Diamond Trim") set_form(Forms::Furfrou::DIAMOND_TRIM);
+                if(form == "Debutante Trim") set_form(Forms::Furfrou::DEBUTANTE_TRIM);
+                if(form == "Matron Trim") set_form(Forms::Furfrou::MATRON_TRIM);
+                if(form == "Dandy Trim") set_form(Forms::Furfrou::DANDY_TRIM);
+                if(form == "La Reine Trim") set_form(Forms::Furfrou::LA_REINE_TRIM);
+                if(form == "Kabuki Trim") set_form(Forms::Furfrou::KABUKI_TRIM);
+                if(form == "Pharaoh Trim") set_form(Forms::Furfrou::PHARAOH_TRIM);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::MEOWSTIC:
+                if(form == "Male") set_form(Forms::Meowstic::MALE);
+                else if(form == "Female") set_form(Forms::Meowstic::FEMALE);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::AEGISLASH:
+                if(form == "Shield") set_form(Forms::Aegislash::SHIELD);
+                else if(form == "Blade") set_form(Forms::Aegislash::BLADE);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            case Species::PUMPKABOO:
+                if(form == "Average Size") set_form(Forms::Pumpkaboo::AVERAGE_SIZE);
+                if(form == "Small Size") set_form(Forms::Pumpkaboo::SMALL_SIZE);
+                if(form == "Large Size") set_form(Forms::Pumpkaboo::LARGE_SIZE);
+                if(form == "Super Size") set_form(Forms::Pumpkaboo::SUPER_SIZE);
+                return;
+
+            case Species::GOURGEIST:
+                if(form == "Average Size") set_form(Forms::Gourgeist::AVERAGE_SIZE);
+                if(form == "Small Size") set_form(Forms::Gourgeist::SMALL_SIZE);
+                if(form == "Large Size") set_form(Forms::Gourgeist::LARGE_SIZE);
+                if(form == "Super Size") set_form(Forms::Gourgeist::SUPER_SIZE);
+                return;
+
+            case Species::XERNEAS:
+                if(form == "Active") set_form(Forms::Xerneas::ACTIVE);
+                else if(form == "Neutral") set_form(Forms::Xerneas::NEUTRAL);
+                else throw std::runtime_error("Invalid form.");
+                return;
+
+            default:
+                if(form != "Standard") throw std::runtime_error("Invalid form.");
         }
 
         std::ostringstream query_stream;
