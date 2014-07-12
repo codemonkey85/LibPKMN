@@ -9,6 +9,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <pkmn/enums.hpp>
 #include <pkmn/lists.hpp>
@@ -50,8 +51,13 @@ namespace pkmn
             case Versions::SOULSILVER:
                 _images_game_string = "heartgold-soulsilver";
                 break;
-            default: //Gen 5 all uses black-white
+            case Versions::BLACK:
+            case Versions::WHITE:
+            case Versions::BLACK_2:
+            case Versions::WHITE_2:
                 _images_game_string = "black-white";
+            default:
+                _images_game_string = "x-y";
                 break;
         }
 
@@ -69,29 +75,36 @@ namespace pkmn
                 break;
 
             default:
-                _male_icon_path = ICON_PATH(_images_default_basename);
-
-                //Unfezant, Frillish and Jellicent have different icons for each gender
-                if(HAS_DIFFERENT_FEMALE_ICON) _female_icon_path = FEMALE_ICON_PATH(_images_default_basename);
-                else _female_icon_path = _male_icon_path;
-
-                _male_sprite_path = SPRITE_PATH(_images_default_basename);
-                _male_shiny_sprite_path = SHINY_SPRITE_PATH(_images_default_basename);
-                if(_generation > 3 and has_gender_differences())
+                if(_generation == 6)
                 {
-                    _female_sprite_path = FEMALE_SPRITE_PATH(_images_default_basename);
-                    _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH(_images_default_basename);
+                    SET_POKEBALL_IMAGE();
                 }
                 else
                 {
-                    _female_sprite_path = _male_sprite_path;
-                    _female_shiny_sprite_path = _male_shiny_sprite_path;
+                    _male_icon_path = ICON_PATH(_images_default_basename);
+
+                    //Unfezant, Frillish and Jellicent have different icons for each gender
+                    if(HAS_DIFFERENT_FEMALE_ICON) _female_icon_path = FEMALE_ICON_PATH(_images_default_basename);
+                    else _female_icon_path = _male_icon_path;
+
+                    _male_sprite_path = SPRITE_PATH(_images_default_basename);
+                    _male_shiny_sprite_path = SHINY_SPRITE_PATH(_images_default_basename);
+                    if(_generation > 3 and has_gender_differences())
+                    {
+                        _female_sprite_path = FEMALE_SPRITE_PATH(_images_default_basename);
+                        _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH(_images_default_basename);
+                    }
+                    else
+                    {
+                        _female_sprite_path = _male_sprite_path;
+                        _female_shiny_sprite_path = _male_shiny_sprite_path;
+                    }
                 }
 
                 //Even though most attributes are queried from the database when called, stats take a long time when
                 //doing a lot at once, so grab these upon instantiation
-                string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
-                                    + " AND stat_id IN (3,5)";
+                std::string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id)
+                                         + " AND stat_id IN (3,5)";
                 SQLite::Statement query(*_db, query_string.c_str());
                 query.executeStep();
                 _special_attack = int(query.getColumn(0));
@@ -300,85 +313,254 @@ namespace pkmn
         }
     }
 
+    //TODO: switch to actual Mega images when Gen VI images are in images repo
+    #define SET_STANDARD_MEGA_FORMS(num, name) if(form == Forms::name::STANDARD) \
+                                               { \
+                                                   _form_id = form; \
+                                                   SET_IMAGES_PATHS(str(_png_format % num)); \
+                                               } \
+                                               else if(form == Forms::name::MEGA and _generation == 6) \
+                                               { \
+                                                   _form_id = form; \
+                                                   SET_POKEBALL_IMAGE(); \
+                                               } \
+                                               else throw std::runtime_error("Invalid form.");
+
     //Manually set Pokemon form
     void base_pokemon_modernimpl::set_form(unsigned int form)
     {
+        unsigned int old_form_id = _form_id;
+
         switch(_species_id)
         {
-            case Species::UNOWN:
-            {
-                string basename;
-                if(form >= 1 and form <= 26) basename = str(boost::format("201-%c.png") % (form + 96));
-                else if(form == Forms::Unown::QUESTION_MARK) basename = "201-question.png";
-                else if(form == Forms::Unown::EXCLAMATION_MARK) basename = "201-exclamation.png";
+            case Species::VENUSAUR:
+                SET_STANDARD_MEGA_FORMS(3, Venusaur);
+                break;
 
-                SET_IMAGES_PATHS(basename);
+            case Species::CHARIZARD:
+            {
+                if(form == Forms::Charizard::STANDARD)
+                {
+                    _form_id = form;
+                    SET_IMAGES_PATHS("6.png");
+                }
+                else if(form == Forms::Charizard::MEGA_X or
+                        form == Forms::Charizard::MEGA_Y and
+                        _generation == 6)
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE(); //TODO: fix when Gen VI images are in images repo
+                }
+                else throw std::runtime_error("Invalid form.");
+
                 break;
             }
+
+            case Species::BLASTOISE:
+                SET_STANDARD_MEGA_FORMS(9, Blastoise);
+                break;
+
+            case Species::ALAKAZAM:
+                SET_STANDARD_MEGA_FORMS(65, Alakazam);
+                break;
+
+            case Species::GENGAR:
+                SET_STANDARD_MEGA_FORMS(94, Gengar);
+                break;
+
+            case Species::KANGASKHAN:
+                SET_STANDARD_MEGA_FORMS(115, Kangaskhan);
+                break;
+
+            case Species::PINSIR:
+                SET_STANDARD_MEGA_FORMS(127, Pinsir);
+                break;
+
+            case Species::GYARADOS:
+                SET_STANDARD_MEGA_FORMS(130, Gyarados);
+                break;
+
+            case Species::AERODACTYL:
+                SET_STANDARD_MEGA_FORMS(115, Aerodactyl);
+                break;
+
+            case Species::MEWTWO:
+            {
+                if(form == Forms::Mewtwo::STANDARD)
+                {
+                    _form_id = form;
+                    SET_IMAGES_PATHS("150.png");
+                }
+                else if(form == Forms::Mewtwo::MEGA_X or
+                        form == Forms::Mewtwo::MEGA_Y and
+                        _generation == 6)
+                {
+                    _form_id = form;
+                    SET_POKEBALL_IMAGE(); //TODO: fix when Gen VI images are in images repo
+                }
+                else throw std::runtime_error("Invalid form.");
+
+                break;
+            }
+
+            case Species::PICHU:
+            {
+                if(form == Forms::Pichu::STANDARD)
+                {
+                    _form_id = form;
+                    SET_IMAGES_PATHS("172.png");
+                }
+                else if(form == Forms::Pichu::SPIKY_EARED and
+                        (_game_id == Versions::HEARTGOLD or _game_id == Versions::SOULSILVER))
+                {
+                    //TODO: force Spiky-eared Pichu to be female
+                    _form_id = form;
+                    _male_icon_path = ICON_PATH("172.png");
+                    _female_icon_path = ICON_PATH("172.png");
+                    _male_sprite_path = FEMALE_SPRITE_PATH("172-spiky.png");
+                    _female_sprite_path = FEMALE_SPRITE_PATH("172-spiky.png");
+                    _male_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH("172-spiky.png");
+                    _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH("172-spiky.png");
+                }
+                else throw std::runtime_error("Invalid form.");
+
+                break;
+            }
+
+            case Species::AMPHAROS:
+                SET_STANDARD_MEGA_FORMS(181, Ampharos);
+                break;
+
+            case Species::UNOWN:
+            {
+                if(form == Forms::Unown::A)
+                {
+                    _form_id = form;
+                    set_form("A");
+                }
+                else if(form >= Forms::Unown::B and form <= Forms::Unown::Z)
+                {
+                    _form_id = form;
+                    std::string letter;
+                    letter += (form - 9935); //Will become ASCII value for letter
+                    set_form(letter);
+                }
+                else if(form == Forms::Unown::QUESTION_MARK)
+                {
+                    _form_id = form;
+                    set_form("?");
+                }
+                else if(form == Forms::Unown::EXCLAMATION_MARK)
+                {
+                    _form_id = form;
+                    set_form("!");
+                }
+                else throw std::runtime_error("Invalid form.");
+
+                return;
+            }
+
+            case Species::SCIZOR:
+                SET_STANDARD_MEGA_FORMS(212, Scizor);
+                break;
+
+            case Species::HERACROSS:
+                SET_STANDARD_MEGA_FORMS(214, Heracross);
+                break;
+
+            case Species::HOUNDOOM:
+                SET_STANDARD_MEGA_FORMS(229, Houndoom);
+                break;
+
+            case Species::TYRANITAR:
+                SET_STANDARD_MEGA_FORMS(248, Tyranitar);
+                break;
+
+            case Species::BLAZIKEN:
+                SET_STANDARD_MEGA_FORMS(357, Blaziken);
+                break;
+
+            case Species::GARDEVOIR:
+                SET_STANDARD_MEGA_FORMS(282, Gardevoir);
+                break;
+
+            case Species::MAWILE:
+                SET_STANDARD_MEGA_FORMS(303, Mawile);
+                break;
+
+            case Species::AGGRON:
+                SET_STANDARD_MEGA_FORMS(306, Aggron);
+                break;
+
+            case Species::MEDICHAM:
+                SET_STANDARD_MEGA_FORMS(308, Medicham);
+                break;
+
+            case Species::MANECTRIC:
+                SET_STANDARD_MEGA_FORMS(310, Manectric);
+                break;
 
             case Species::CASTFORM:
                 switch(form)
                 {
                     case Forms::Castform::STANDARD:
-                        _type1_id = Types::NORMAL;
-                        _type2_id = Types::NONE;
-                        _pokemon_id = 351;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("351.png");
                         break;
 
                     case Forms::Castform::SUNNY:
-                        _type1_id = Types::FIRE;
-                        _type2_id = Types::NONE;
-                        _pokemon_id = 10013;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("351-sunny.png");
                         break;
 
                     case Forms::Castform::RAINY:
-                        _type1_id = Types::WATER;
-                        _type2_id = Types::NONE;
-                        _pokemon_id = 10014;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("351-rainy.png");
                         break;
 
                     case Forms::Castform::SNOWY:
-                        _type1_id = Types::ICE;
-                        _type2_id = Types::NONE;
-                        _pokemon_id = 10015;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("351-snowy.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
+                break;
+
+            case Species::BANETTE:
+                SET_STANDARD_MEGA_FORMS(354, Banette);
+                break;
+
+            case Species::ABSOL:
+                SET_STANDARD_MEGA_FORMS(359, Absol);
                 break;
 
             case Species::DEOXYS:
                 switch(form)
                 {
                     case Forms::Deoxys::NORMAL:
-                        _pokemon_id = 386;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("386.png");
                         break;
 
                     case Forms::Deoxys::ATTACK:
-                        _pokemon_id = 10001;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("386-attack.png");
                         break;
 
                     case Forms::Deoxys::DEFENSE:
-                        _pokemon_id = 10002;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("386-defense.png");
                         break;
 
                     case Forms::Deoxys::SPEED:
-                        _pokemon_id = 10003;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("386-speed.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -386,27 +568,31 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Burmy::PLANT_CLOAK:
+                        _form_id = form;
                         SET_IMAGES_PATHS("412-plant.png");
                         break;
 
                     case Forms::Burmy::SANDY_CLOAK:
+                        _form_id = form;
                         SET_IMAGES_PATHS("412-sandy.png");
                         break;
 
                     case Forms::Burmy::TRASH_CLOAK:
+                        _form_id = form;
                         SET_IMAGES_PATHS("412-trash.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
+            //Wormadam are only female, so manually set everything to female paths
             case Species::WORMADAM:
                 switch(form)
                 {
                     case Forms::Wormadam::PLANT_CLOAK:
-                        _type1_id = Types::BUG;
-                        _type2_id = Types::GRASS;
-                        _pokemon_id = 413;
-
+                        _form_id = form;
                         _male_icon_path = ICON_PATH("413-plant.png");
                         _female_icon_path = _male_icon_path;
                         _female_sprite_path = FEMALE_SPRITE_PATH("413-plant.png");
@@ -416,10 +602,7 @@ namespace pkmn
                         break;
 
                     case Forms::Wormadam::SANDY_CLOAK:
-                        _type1_id = Types::BUG;
-                        _type2_id = Types::GROUND;
-                        _pokemon_id = 10004;
-
+                        _form_id = form;
                         _male_icon_path = ICON_PATH("413-sandy.png");
                         _female_icon_path = _male_icon_path;
                         _female_sprite_path = FEMALE_SPRITE_PATH("413-sandy.png");
@@ -429,10 +612,7 @@ namespace pkmn
                         break;
 
                     case Forms::Wormadam::TRASH_CLOAK:
-                        _type1_id = Types::BUG;
-                        _type2_id = Types::STEEL;
-                        _pokemon_id = 10005;
-
+                        _form_id = form;
                         _male_icon_path = ICON_PATH("413-trash.png");
                         _female_icon_path = _male_icon_path;
                         _female_sprite_path = FEMALE_SPRITE_PATH("413-trash.png");
@@ -440,6 +620,9 @@ namespace pkmn
                         _female_shiny_sprite_path = FEMALE_SHINY_SPRITE_PATH("413-trash.png");
                         _male_shiny_sprite_path = _female_shiny_sprite_path; //Will never be used
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -447,12 +630,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Cherrim::OVERCAST:
+                        _form_id = form;
                         SET_IMAGES_PATHS("421-overcast.png");
                         break;
 
                     case Forms::Cherrim::SUNSHINE:
+                        _form_id = form;
                         SET_IMAGES_PATHS("421-sunshine.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -460,12 +648,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Shellos::WEST_SEA:
+                        _form_id = form;
                         SET_IMAGES_PATHS("422-west.png");
                         break;
 
                     case Forms::Shellos::EAST_SEA:
+                        _form_id = form;
                         SET_IMAGES_PATHS("422-east.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -473,65 +666,67 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Gastrodon::WEST_SEA:
+                        _form_id = form;
                         SET_IMAGES_PATHS("423-west.png");
                         break;
 
                     case Forms::Gastrodon::EAST_SEA:
+                        _form_id = form;
                         SET_IMAGES_PATHS("423-east.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
+                break;
+
+            case Species::GARCHOMP:
+                SET_STANDARD_MEGA_FORMS(445, Garchomp);
+                break;
+
+            case Species::LUCARIO:
+                SET_STANDARD_MEGA_FORMS(448, Lucario);
+                break;
+
+            case Species::ABOMASNOW:
+                SET_STANDARD_MEGA_FORMS(460, Abomasnow);
                 break;
 
             case Species::ROTOM:
                 switch(form)
                 {
                     case Forms::Rotom::STANDARD:
-                        _type1_id = Types::ELECTRIC;
-                        _type2_id = Types::GHOST;
-                        _pokemon_id = 479;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("479.png");
                         break;
 
                     case Forms::Rotom::HEAT:
-                        _type1_id = Types::ELECTRIC;
-                        _type2_id = Types::FIRE;
-                        _pokemon_id = 10008;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("479-heat.png");
                         break;
 
                     case Forms::Rotom::WASH:
-                        _type1_id = Types::ELECTRIC;
-                        _type2_id = Types::WATER;
-                        _pokemon_id = 10009;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("479-wash.png");
                         break;
 
                     case Forms::Rotom::FROST:
-                        _type1_id = Types::ELECTRIC;
-                        _type2_id = Types::ICE;
-                        _pokemon_id = 10010;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("479-frost.png");
                         break;
 
                     case Forms::Rotom::FAN:
-                        _type1_id = Types::ELECTRIC;
-                        _type2_id = Types::FLYING;
-                        _pokemon_id = 10011;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("479-fan.png");
                         break;
 
                     case Forms::Rotom::MOW:
-                        _type1_id = Types::ELECTRIC;
-                        _type2_id = Types::GRASS;
-                        _pokemon_id = 10012;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("479-mow.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -539,16 +734,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Giratina::ALTERED:
-                        _pokemon_id = 487;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("487-altered.png");
                         break;
 
                     case Forms::Giratina::ORIGIN:
-                        _pokemon_id = 10007;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("487-origin.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -556,20 +752,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Shaymin::LAND:
-                        _type1_id = Types::GRASS;
-                        _type2_id = Types::NONE;
-                        _pokemon_id = 492;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("492-land.png");
                         break;
 
                     case Forms::Shaymin::SKY:
-                        _type1_id = Types::GRASS;
-                        _type2_id = Types::FLYING;
-                        _pokemon_id = 10006;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("492-sky.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -643,6 +836,9 @@ namespace pkmn
                     case Forms::Arceus::STEEL:
                         set_form("Steel");
                         return;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -650,16 +846,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Basculin::RED_STRIPED:
-                        _pokemon_id = 550;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("500-red-striped.png");
                         break;
 
                     case Forms::Basculin::BLUE_STRIPED:
-                        _pokemon_id = 10016;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("550-blue-striped.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
             }
             break;
 
@@ -667,20 +864,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Darmanitan::STANDARD:
-                        _type1_id = Types::FIRE;
-                        _type2_id = Types::NONE;
-                        _pokemon_id = 555;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("555-standard.png");
                         break;
 
                     case Forms::Darmanitan::ZEN:
-                        _type1_id = Types::FIRE;
-                        _type2_id = Types::PSYCHIC;
-                        _pokemon_id = 10017;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("555-zen.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -702,6 +896,9 @@ namespace pkmn
                     case Forms::Deerling::WINTER:
                         set_form("Winter");
                         return;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 return;
 
@@ -723,22 +920,26 @@ namespace pkmn
                     case Forms::Sawsbuck::WINTER:
                         set_form("Winter");
                         return;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
 
             case Species::TORNADUS:
                 switch(form)
                 {
                     case Forms::Tornadus::INCARNATE:
-                        _pokemon_id = 641;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("641-incarnate.png");
                         break;
 
                     case Forms::Tornadus::THERIAN:
-                        _pokemon_id = 10019;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("641-therian.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -746,16 +947,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Thundurus::INCARNATE:
-                        _pokemon_id = 642;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("642-incarnate.png");
                         break;
 
                     case Forms::Thundurus::THERIAN:
-                        _pokemon_id = 10020;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("642-therian.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -763,16 +965,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Landorus::INCARNATE:
-                        _pokemon_id = 645;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("645-incarnate.png");
                         break;
 
                     case Forms::Landorus::THERIAN:
-                        _pokemon_id = 10021;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("645-therian.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -780,22 +983,22 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Kyurem::STANDARD:
-                        _pokemon_id = 646;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("646.png");
                         break;
 
                     case Forms::Kyurem::BLACK:
-                        _pokemon_id = 10022;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("646-black.png");
                         break;
 
                     case Forms::Kyurem::WHITE:
-                        _pokemon_id = 10023;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("646-white.png");
-                    break;
+                        break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -803,16 +1006,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Keldeo::ORDINARY:
-                        _pokemon_id = 647;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("647-ordinary.png");
                         break;
 
                     case Forms::Keldeo::RESOLUTE:
-                        _pokemon_id = 10024;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("647-resolute.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -820,20 +1024,17 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Meloetta::ARIA:
-                        _type1_id = Types::NORMAL;
-                        _type2_id = Types::PSYCHIC;
-                        _pokemon_id = 648;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("648-aria.png");
                         break;
 
                     case Forms::Meloetta::PIROUETTE:
-                        _type1_id = Types::NORMAL;
-                        _type2_id = Types::FIGHTING;
-                        _pokemon_id = 10018;
-
+                        _form_id = form;
                         SET_IMAGES_PATHS("648-pirouette.png");
                         break;
+
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
@@ -841,34 +1042,50 @@ namespace pkmn
                 switch(form)
                 {
                     case Forms::Genesect::STANDARD:
+                        _form_id = form;
                         SET_IMAGES_PATHS("649.png");
                         break;
 
+                    case Forms::Genesect::DOUSE_DRIVE:
+                        _form_id = form;
+                        SET_IMAGES_PATHS("649-douse.png");
+                        break;
+
                     case Forms::Genesect::SHOCK_DRIVE:
+                        _form_id = form;
                         SET_IMAGES_PATHS("649-shock.png");
                         break;
 
                     case Forms::Genesect::BURN_DRIVE:
+                        _form_id = form;
                         SET_IMAGES_PATHS("649-burn.png");
                         break;
 
                     case Forms::Genesect::CHILL_DRIVE:
+                        _form_id = form;
                         SET_IMAGES_PATHS("649-chill.png");
                         break;
 
-                    case Forms::Genesect::DOUSE_DRIVE:
-                        SET_IMAGES_PATHS("649-douse.png");
-                        break;
+                    default:
+                        throw std::runtime_error("Invalid form.");
                 }
                 break;
 
             default:
-                break;
+                if(form != _species_id) throw std::runtime_error("Invalid form.");
         }
 
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
-                              " AND stat_id IN (1,2,3,4,5,6)";
-        SQLite::Statement stats_query(*_db, query_string.c_str());
+        std::ostringstream query_stream;
+        query_stream << "SELECT pokemon_id FROM pokemon_forms WHERE id=" << _form_id;
+        std::cout << query_stream.str() << std::endl;
+        SQLite::Statement pokemon_id_query(*_db, query_stream.str().c_str());
+        _pokemon_id = _db->execAndGet(query_stream.str().c_str());
+
+        query_stream.str("");
+        query_stream << "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" << _pokemon_id
+                     << " AND stat_id IN (1,2,3,4,5,6)";
+        std::cout << query_stream.str() << std::endl;
+        SQLite::Statement stats_query(*_db, query_stream.str().c_str());
 
         stats_query.executeStep();
         _hp = int(stats_query.getColumn(0));
@@ -883,6 +1100,9 @@ namespace pkmn
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
         if(_generation < 6) _use_old_stats();
+
+        _type1_id = stats_query.getColumn(0);
+        if(stats_query.executeStep()) _type2_id = stats_query.getColumn(0);
 
         form_signal1();
         form_signal2();
@@ -900,15 +1120,23 @@ namespace pkmn
         switch(_species_id)
         {
             case Species::UNOWN:
-                if(form.size() != 1) return;
-                else
+            {
+                char letter = boost::algorithm::to_lower_copy(form)[0];
+                if(letter >= 'a' and letter <= 'z')
                 {
-                    char letter = form.c_str()[0];
-                    if(tolower(letter) >= 'a' and tolower(letter) <= 'z') set_form(int(letter)-96);
-                    else if(letter == '?') set_form(Forms::Unown::QUESTION_MARK);
-                    else if(letter == '!') set_form(Forms::Unown::EXCLAMATION_MARK);
+                    SET_IMAGES_PATHS(str(boost::format("201-%c.png") % letter))
                 }
-                return;
+                else if(letter == '?')
+                {
+                    SET_IMAGES_PATHS("201-question.png")
+                }
+                else if(letter == '!')
+                {
+                    SET_IMAGES_PATHS("201-exclamation.png")
+                }
+                else throw std::runtime_error("Invalid form.");
+                break;
+            }
 
             case Species::CASTFORM:
                 if(form == "Normal") set_form(Forms::Castform::STANDARD);
@@ -1048,9 +1276,14 @@ namespace pkmn
                 return;
         }
 
-        string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" + to_string(_pokemon_id) +
-                              " AND stat_id IN (1,2,3,4,5,6)";
-        SQLite::Statement stats_query(*_db, query_string.c_str());
+        std::ostringstream query_stream;
+        query_stream << "SELECT pokemon_id FROM pokemon_forms WHERE id=" << _form_id;
+        _pokemon_id = _db->execAndGet(query_stream.str().c_str());
+
+        query_stream.str("");
+        query_stream << "SELECT base_stat FROM pokemon_stats WHERE pokemon_id=" << _pokemon_id
+                     << " AND stat_id IN (1,2,3,4,5,6)";
+        SQLite::Statement stats_query(*_db, query_stream.str().c_str());
 
         stats_query.executeStep();
         _hp = int(stats_query.getColumn(0));
