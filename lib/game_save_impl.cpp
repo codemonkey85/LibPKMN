@@ -27,24 +27,24 @@ namespace fs = boost::filesystem;
 
 namespace pkmn
 {
-    game_save::sptr game_save::make(std::string filename)
+    game_save::sptr game_save::make(const std::string &filename)
     {
         uint32_t size = fs::file_size(fs::path(filename));
 
         if(size >= 0x80000)
         {
-            //Check to see if PokeLib-NC accepts this as a proper Gen V save
+            //Check to see if PokeLib-NC accepts this as a proper Gen IV save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
-                return sptr(new game_save_gen4impl(pokelib_save));
+                return sptr(new game_save_gen4impl(pokelib_save, filename));
             }
             else
             {
                 //Check to see if PKMDS accepts this as a proper Gen V save
                 pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
                 ::read(filename.c_str(), sav.get());
-                if(::savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
+                if(::savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav, filename));
             }
         }
         else if(size >= 0x40000)
@@ -53,7 +53,7 @@ namespace pkmn
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
-                return sptr(new game_save_gen4impl(pokelib_save));
+                return sptr(new game_save_gen4impl(pokelib_save, filename));
             }
         }
         else if(size >= 0x20000)
@@ -69,10 +69,20 @@ namespace pkmn
         {
             //Check to see if Retro Pokesav accepts this as a proper Gen I save
             rpokesav_gen1_sptr g1_sav(new rpokesav::gen1_save(filename));
-            if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav));
+            if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav, filename));
         }
 
         throw std::runtime_error("This is not a valid save file.");
+    }
+
+    game_save_impl::game_save_impl(const std::string &filename)
+    {
+        _filepath = fs::path(filename);
+    }
+
+    void game_save_impl::save()
+    {
+        save_as(_filepath.string());
     }
 
     unsigned int game_save_impl::get_game_id() const {return _game_id;}

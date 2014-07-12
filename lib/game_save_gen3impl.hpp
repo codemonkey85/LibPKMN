@@ -18,11 +18,11 @@ namespace pkmn
         public:
 
             game_save_gen3impl();
-            game_save_gen3impl(uint8_t* buffer, std::string orig_filename);
+            game_save_gen3impl(uint8_t* buffer, const std::string &filename);
             ~game_save_gen3impl();
             
             void load();
-            void save();
+            void save_as(const std::string &filename);
             
         private:
 

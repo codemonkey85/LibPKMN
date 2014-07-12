@@ -21,6 +21,9 @@ namespace pkmn
         public:
 
             game_save_impl() {};
+            game_save_impl(const std::string &filename);
+
+            void save();
 
             unsigned int get_game_id() const;
 
@@ -36,7 +39,7 @@ namespace pkmn
 
         protected:
 
-            boost::filesystem::path filepath;
+            boost::filesystem::path _filepath;
 
             unsigned int _game_id;
             trainer::sptr _trainer;

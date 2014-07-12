@@ -5,15 +5,18 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <boost/filesystem.hpp>
+
 #include <pkmn/enums.hpp>
 
 #include "game_save_gen1impl.hpp"
 
-using namespace std;
+namespace fs = boost::filesystem;
 
 namespace pkmn
 {
-    game_save_gen1impl::game_save_gen1impl(rpokesav_gen1_sptr sav): game_save_impl()
+    game_save_gen1impl::game_save_gen1impl(rpokesav_gen1_sptr sav,
+                                           const std::string &filename): game_save_impl(filename)
     {
         _sav = sav;
         load();
@@ -25,5 +28,9 @@ namespace pkmn
         _game_id = Games::YELLOW;
     }
 
-    void game_save_gen1impl::save() {};
+    void game_save_gen1impl::save_as(const std::string &filename)
+    {
+        //TODO: actual saving stuff
+        _filepath = fs::path(filename);
+    };
 } /* namespace pkmn */

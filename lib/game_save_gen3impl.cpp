@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+#include <boost/filesystem.hpp>
 #include <boost/locale/encoding_utf.hpp>
 
 #include <pkmn/enums.hpp>
@@ -16,13 +17,15 @@
 #include "conversions/items.hpp"
 #include "conversions/pokemon.hpp"
  
+namespace fs = boost::filesystem;
+
 namespace pkmn
 {
     unsigned int _game_ids[] = {Games::NONE, Games::RUBY,
                                 Games::EMERALD, Games::FIRE_RED};
 
     game_save_gen3impl::game_save_gen3impl(uint8_t* buffer,
-                                           std::string orig_filename): game_save_impl()
+                                           const std::string &filename): game_save_impl(filename)
     {
         _data = buffer;
         _save = gba_read_main_save(_data);
@@ -56,7 +59,9 @@ namespace pkmn
         conversions::import_gen3_items(_trainer->get_bag(), _save, _save->type);
     }
 
-    void game_save_gen3impl::save()
+    void game_save_gen3impl::save_as(const std::string &filename)
     {
+        //TODO: actual saving stuff
+        _filepath = fs::path(filename);
     }
 } /* namespace pkmn */

@@ -5,15 +5,18 @@
  * or copy at http://opensource.org/licenses/MIT)
  */
 
+#include <boost/filesystem.hpp>
+
 #include "game_save_gen5impl.hpp"
 
 #include "conversions/trainer.hpp"
 
-using namespace std;
+namespace fs = boost::filesystem;
 
 namespace pkmn
 {
-    game_save_gen5impl::game_save_gen5impl(pkmds_g5_sptr ptr): game_save_impl()
+    game_save_gen5impl::game_save_gen5impl(pkmds_g5_sptr ptr,
+                                           const std::string &filename): game_save_impl(filename)
     {
         _sav = ptr;
         load();
@@ -25,8 +28,10 @@ namespace pkmn
         _game_id = _trainer->get_game_id();
     }
 
-    void game_save_gen5impl::save()
+    void game_save_gen5impl::save_as(const std::string &filename)
     {
         conversions::export_gen5_trainer(_trainer, _sav);
+        //TODO: actual saving stuff
+        _filepath = fs::path(filename);
     }
 } /* namespace pkmn */
