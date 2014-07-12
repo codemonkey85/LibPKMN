@@ -706,8 +706,8 @@ namespace pkmn
 
             t_pkmn->set_original_game(hometown_to_libpkmn_game(p_pkm->hometown));
             #ifdef _MSC_VER
-                t_pkmn->set_nickname(getpkmnickname(p_pkm->nickname);
-                t_pkmn->set_trainer_name(getpkmotname(p_pkm->otname);
+                t_pkmn->set_nickname(getpkmnickname(p_pkm));
+                t_pkmn->set_trainer_name(getpkmotname(p_pkm));
             #else
                 //Testing new pokemon_text class, need to get around PKMDS's use of chars for Linux
                 wchar_t nickname[11];
