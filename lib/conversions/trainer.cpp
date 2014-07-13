@@ -64,7 +64,7 @@ namespace pkmn
              * Generation I has no way to distinguish between games, so just
              * use Yellow. There aren't enough differences to make a difference.
              */
-            trainer::sptr libpkmn_trainer = trainer::make(Games::YELLOW,
+            trainer::sptr libpkmn_trainer = trainer::make(Versions::YELLOW,
                                                           sav->get_trainer_name(),
                                                           Genders::MALE);
 
@@ -120,15 +120,15 @@ namespace pkmn
                 switch(save_type)
                 {
                     case PokeLib::DP:
-                        game_id = Games::DIAMOND;
+                        game_id = Versions::DIAMOND;
                         break;
 
                     case PokeLib::PLAT:
-                        game_id = Games::PLATINUM;
+                        game_id = Versions::PLATINUM;
                         break;
 
                     default:
-                        game_id = Games::HEART_GOLD;
+                        game_id = Versions::HEARTGOLD;
                         break;
                 }
             }
@@ -206,7 +206,7 @@ namespace pkmn
             }
             if(not found)
             {
-                game_id = Games::BLACK2;
+                game_id = Versions::BLACK_2;
                 gender = Genders::MALE;
             }
 

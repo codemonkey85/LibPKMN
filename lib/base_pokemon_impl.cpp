@@ -51,6 +51,7 @@ namespace pkmn
     }
 
     pkmn::shared_ptr<SQLite::Database> base_pokemon_impl::_db;
+    boost::format base_pokemon_impl::_png_format = boost::format("%d.png");
 
     base_pokemon_impl::base_pokemon_impl(unsigned int id, unsigned int game_id): base_pokemon()
     {

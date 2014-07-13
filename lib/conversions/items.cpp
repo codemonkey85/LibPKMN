@@ -39,7 +39,7 @@ namespace pkmn
 
             for(size_t i = 0; i < item_count; i++)
             {
-                item_pocket->add_item(database::get_item_id(rpokesav_bag[i].index, Games::YELLOW),
+                item_pocket->add_item(database::get_item_id(rpokesav_bag[i].index, Versions::YELLOW),
                                       rpokesav_bag[i].count);
             }
         }
@@ -63,7 +63,7 @@ namespace pkmn
         void import_gen3_items(bag::sptr item_bag, gba_save_t *save, gba_savetype_t save_type)
         {
             //Get pocket names and pointers for appropriate storage structures
-            bool is_frlg = (item_bag->get_game_id() == Games::FIRE_RED or item_bag->get_game_id() == Games::LEAF_GREEN);
+            bool is_frlg = (item_bag->get_game_id() == Versions::FIRERED or item_bag->get_game_id() == Versions::LEAFGREEN);
 
             pocket::sptr item_pocket = item_bag->get_pocket("Items");
             pocket::sptr keyitem_pocket = item_bag->get_pocket("Key Items");

@@ -184,7 +184,7 @@ namespace pkmn
         if(accuracy_query.executeStep()) _base_accuracy = int(accuracy_query.getColumn(0)) / 100.0;
         
         //Hypnosis varies in accuracy between games
-        if(_move_id == Moves::HYPNOSIS and (_game_id == Games::DIAMOND or _game_id == Games::PEARL)) _base_accuracy = 0.7;
+        if(_move_id == Moves::HYPNOSIS and (_game_id == Versions::DIAMOND or _game_id == Versions::PEARL)) _base_accuracy = 0.7;
 
         query_stream.str("");
         query_stream << "SELECT gen" << _generation << "_power FROM old_move_powers WHERE move_id=" << _move_id;
@@ -192,7 +192,7 @@ namespace pkmn
         if(power_query.executeStep()) _base_power = power_query.getColumn(0);
 
         //Shadow Rush varies in power between Gamecube games
-        if(_move_id == Moves::SHADOW_RUSH and _game_id == Games::COLOSSEUM) _base_power = 90;
+        if(_move_id == Moves::SHADOW_RUSH and _game_id == Versions::COLOSSEUM) _base_power = 90;
 
         query_stream.str("");
         query_stream << "SELECT gen" << _generation << "_pp FROM old_move_pps WHERE move_id=" << _move_id;
@@ -205,7 +205,7 @@ namespace pkmn
             if(_move_id == Moves::BITE or _move_id == Moves::GUST or
                _move_id == Moves::KARATE_CHOP or _move_id == Moves::SAND_ATTACK) _type_id = Types::NORMAL;
         }
-        else if(_move_id == Moves::CURSE) _type_id = Types::UNKNOWN; // ???
+        else if(_move_id == Moves::CURSE) _type_id = Types::QUESTION_MARK; // ???
         else if(_move_id == Moves::CHARM or _move_id == Moves::MOONLIGHT or
                 _move_id == Moves::SWEET_KISS) _type_id = Types::NORMAL;
 

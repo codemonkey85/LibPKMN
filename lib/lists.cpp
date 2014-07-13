@@ -82,7 +82,7 @@ namespace pkmn
 
             case 2:
             {
-                std::string end = (game == Games::CRYSTAL) ? ")"
+                std::string end = (game == Versions::CRYSTAL) ? ")"
                                                            : " AND game_index NOT IN (70,115,116,129))";
                 query_stream << end;
                 break;
@@ -93,12 +93,12 @@ namespace pkmn
                 std::string end;
                 switch(game)
                 {
-                    case Games::EMERALD:
+                    case Versions::EMERALD:
                         end = ")";
                         break;
 
-                    case Games::FIRE_RED:
-                    case Games::LEAF_GREEN:
+                    case Versions::FIRERED:
+                    case Versions::LEAFGREEN:
                         end = " AND game_index<=374)";
                         break;
 
@@ -115,12 +115,12 @@ namespace pkmn
                 std::string end;
                 switch(game)
                 {
-                    case Games::HEART_GOLD:
-                    case Games::SOUL_SILVER:
+                    case Versions::HEARTGOLD:
+                    case Versions::SOULSILVER:
                         end = ")";
                         break;
 
-                    case Games::PLATINUM:
+                    case Versions::PLATINUM:
                         end = " AND game_index<=467)";
                         break;
 
@@ -134,7 +134,7 @@ namespace pkmn
 
             case 5:
             {
-                std::string end = (game < Games::BLACK2) ? " AND game_index<=626)"
+                std::string end = (game < Versions::BLACK_2) ? " AND game_index<=626)"
                                                          : ")";
                 query_stream << end;
                 break;

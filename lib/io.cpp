@@ -31,17 +31,17 @@ namespace pkmn
         {
             switch(libpkmn_id)
             {
-                case Games::RUBY:
-                case Games::SAPPHIRE:
+                case Versions::RUBY:
+                case Versions::SAPPHIRE:
                     save_type = GBA_TYPE_RS;
                     break;
 
-                case Games::EMERALD:
+                case Versions::EMERALD:
                     save_type = GBA_TYPE_E;
                     break;
 
-                case Games::FIRE_RED:
-                case Games::LEAF_GREEN:
+                case Versions::FIRERED:
+                case Versions::LEAFGREEN:
                     save_type = GBA_TYPE_FRLG;
                     break;
 

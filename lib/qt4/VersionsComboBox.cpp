@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include <pkmn/qt4/GamesComboBox.hpp>
+#include <pkmn/qt4/VersionsComboBox.hpp>
 #include <pkmn/lists.hpp>
 
 using namespace std;
@@ -17,7 +17,7 @@ namespace pkmn
 {
     namespace qt4
     {
-        GamesComboBox::GamesComboBox(QWidget* parent, int gen): QComboBox(parent)
+        VersionsComboBox::VersionsComboBox(QWidget* parent, int gen): QComboBox(parent)
         {
             vector<string> games_vec;
             get_game_group_list(games_vec);

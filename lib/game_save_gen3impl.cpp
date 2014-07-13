@@ -21,8 +21,8 @@ namespace fs = boost::filesystem;
 
 namespace pkmn
 {
-    unsigned int _game_ids[] = {Games::NONE, Games::RUBY,
-                                Games::EMERALD, Games::FIRE_RED};
+    unsigned int _game_ids[] = {Versions::NONE, Versions::RUBY,
+                                Versions::EMERALD, Versions::FIRERED};
 
     game_save_gen3impl::game_save_gen3impl(uint8_t* buffer,
                                            const std::string &filename): game_save_impl(filename)

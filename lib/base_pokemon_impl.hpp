@@ -37,6 +37,7 @@
                                                  _female_shiny_sprite_path = _female_sprite_path;
 
 #include <boost/filesystem/path.hpp>
+#include <boost/format.hpp>
 
 #include <pkmn/base_pokemon.hpp>
 
@@ -94,6 +95,7 @@ namespace pkmn
             boost::filesystem::path _male_shiny_sprite_path, _female_shiny_sprite_path;
 
             static pkmn::shared_ptr<SQLite::Database> _db;
+            static boost::format _png_format;
     };
 }
 

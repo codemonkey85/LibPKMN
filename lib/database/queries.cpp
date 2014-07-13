@@ -120,7 +120,7 @@ namespace pkmn
         unsigned int get_game_id(std::string game_name)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(game_name == "None") return Games::NONE;
+            if(game_name == "None") return Versions::NONE;
 
             std::ostringstream query_stream;
             query_stream << "SELECT version_id FROM version_names WHERE name='" << game_name << "'";
@@ -131,7 +131,7 @@ namespace pkmn
         std::string get_game_name(unsigned int game_id)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(game_id == Games::NONE) return "None";
+            if(game_id == Versions::NONE) return "None";
 
             std::ostringstream query_stream;
             query_stream << "SELECT name FROM version_names WHERE local_language_id=9 AND version_id=" << game_id;
@@ -142,7 +142,7 @@ namespace pkmn
         unsigned int get_generation(unsigned int game_id)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(game_id == Games::NONE) return 0;
+            if(game_id == Versions::NONE) return 0;
 
             std::ostringstream query_stream;
             query_stream << "SELECT generation_id FROM version_groups WHERE id="
@@ -325,7 +325,7 @@ namespace pkmn
         std::string get_pokedex_entry(unsigned int species_id, unsigned int version)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(species_id == Species::NONE or version == Games::NONE) return "None";
+            if(species_id == Species::NONE or version == Versions::NONE) return "None";
 
             std::ostringstream query_stream;
             query_stream << "SELECT flavor_text FROM pokemon_species_flavor_text WHERE language_id=9 AND species_id="
@@ -337,7 +337,7 @@ namespace pkmn
         std::string get_pokedex_entry(std::string species_name, unsigned int version)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(species_name == "None" or version == Games::NONE) return "None";
+            if(species_name == "None" or version == Versions::NONE) return "None";
 
             std::ostringstream query_stream;
             query_stream << "SELECT pokemon_species_id FROM pokemon_species_names WHERE name='" << species_name << "'";
@@ -348,7 +348,7 @@ namespace pkmn
         unsigned int get_pokemon_id(unsigned int species_index, unsigned int version)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(species_index == Species::NONE or version == Games::NONE) return Species::NONE;
+            if(species_index == Species::NONE or version == Versions::NONE) return Species::NONE;
 
             std::ostringstream query_stream;
             query_stream << "SELECT pokemon_id FROM pokemon_game_indices WHERE version_id=" << version
@@ -398,7 +398,7 @@ namespace pkmn
         unsigned int get_species_index(unsigned int pokemon_id, unsigned int version)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(pokemon_id == Species::NONE or version == Games::NONE) return Species::NONE;
+            if(pokemon_id == Species::NONE or version == Versions::NONE) return Species::NONE;
 
             std::ostringstream query_stream;
             query_stream << "SELECT game_index FROM pokemon_game_indices WHERE pokemon_id=" << pokemon_id
@@ -443,7 +443,7 @@ namespace pkmn
         unsigned int get_version_group(unsigned int version_id)
         {
             if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
-            if(version_id == Games::NONE) return 0;
+            if(version_id == Versions::NONE) return 0;
 
             std::ostringstream query_stream;
             query_stream << "SELECT version_group_id FROM versions WHERE id=" << version_id;

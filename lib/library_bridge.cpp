@@ -346,51 +346,51 @@ namespace pkmn
     {
         switch(game)
         {
-            case Games::RUBY:
+            case Versions::RUBY:
                 return Hometowns::RUBY;
 
-            case Games::SAPPHIRE:
+            case Versions::SAPPHIRE:
                 return Hometowns::SAPPHIRE;
 
-            case Games::EMERALD:
+            case Versions::EMERALD:
                 return Hometowns::EMERALD;
 
-            case Games::FIRE_RED:
-                return Hometowns::FIRE_RED;
+            case Versions::FIRERED:
+                return Hometowns::FIRERED;
 
-            case Games::LEAF_GREEN:
-                return Hometowns::LEAF_GREEN;
+            case Versions::LEAFGREEN:
+                return Hometowns::LEAFGREEN;
 
-            case Games::COLOSSEUM:
-            case Games::XD:
+            case Versions::COLOSSEUM:
+            case Versions::XD:
                 return Hometowns::COLOSSEUM_XD;
 
-            case Games::DIAMOND:
+            case Versions::DIAMOND:
                 return Hometowns::DIAMOND;
 
-            case Games::PEARL:
+            case Versions::PEARL:
                 return Hometowns::PEARL;
 
-            case Games::PLATINUM:
+            case Versions::PLATINUM:
                 return Hometowns::PLATINUM;
 
-            case Games::HEART_GOLD:
-                return Hometowns::HEART_GOLD;
+            case Versions::HEARTGOLD:
+                return Hometowns::HEARTGOLD;
 
-            case Games::SOUL_SILVER:
-                return Hometowns::SOUL_SILVER;
+            case Versions::SOULSILVER:
+                return Hometowns::SOULSILVER;
 
-            case Games::BLACK:
+            case Versions::BLACK:
                 return Hometowns::BLACK;
 
-            case Games::WHITE:
+            case Versions::WHITE:
                 return Hometowns::WHITE;
 
-            case Games::BLACK2:
-                return Hometowns::BLACK2;
+            case Versions::BLACK_2:
+                return Hometowns::BLACK_2;
 
-            case Games::WHITE2:
-                return Hometowns::WHITE2;
+            case Versions::WHITE_2:
+                return Hometowns::WHITE_2;
 
             default:
                 return Hometowns::RUBY;
@@ -402,55 +402,55 @@ namespace pkmn
         switch(hometown)
         {
             case Hometowns::COLOSSEUM_BONUS:
-                return Games::COLOSSEUM;
+                return Versions::COLOSSEUM;
 
             case Hometowns::RUBY:
-                return Games::RUBY;
+                return Versions::RUBY;
 
             case Hometowns::SAPPHIRE:
-                return Games::SAPPHIRE;
+                return Versions::SAPPHIRE;
 
             case Hometowns::EMERALD:
-                return Games::EMERALD;
+                return Versions::EMERALD;
 
-            case Hometowns::FIRE_RED:
-                return Games::FIRE_RED;
+            case Hometowns::FIRERED:
+                return Versions::FIRERED;
 
-            case Hometowns::LEAF_GREEN:
-                return Games::LEAF_GREEN;
+            case Hometowns::LEAFGREEN:
+                return Versions::LEAFGREEN;
 
             case Hometowns::COLOSSEUM_XD:
-                return Games::XD;
+                return Versions::XD;
 
             case Hometowns::DIAMOND:
-                return Games::DIAMOND;
+                return Versions::DIAMOND;
 
             case Hometowns::PEARL:
-                return Games::PEARL;
+                return Versions::PEARL;
 
             case Hometowns::PLATINUM:
-                return Games::PLATINUM;
+                return Versions::PLATINUM;
 
-            case Hometowns::HEART_GOLD:
-                return Games::HEART_GOLD;
+            case Hometowns::HEARTGOLD:
+                return Versions::HEARTGOLD;
 
-            case Hometowns::SOUL_SILVER:
-                return Games::SOUL_SILVER;
+            case Hometowns::SOULSILVER:
+                return Versions::SOULSILVER;
 
             case Hometowns::BLACK:
-                return Games::BLACK;
+                return Versions::BLACK;
 
             case Hometowns::WHITE:
-                return Games::WHITE;
+                return Versions::WHITE;
 
-            case Hometowns::BLACK2:
-                return Games::BLACK2;
+            case Hometowns::BLACK_2:
+                return Versions::BLACK_2;
 
-            case Hometowns::WHITE2:
-                return Games::WHITE2;
+            case Hometowns::WHITE_2:
+                return Versions::WHITE_2;
 
             default:
-                return Games::RUBY;
+                return Versions::RUBY;
         }
     }
 

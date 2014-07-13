@@ -26,11 +26,11 @@ namespace pkmn
         //Get final part of images path
         switch(_game_id)
         {
-            case Games::RED:
-            case Games::BLUE:
+            case Versions::RED:
+            case Versions::BLUE:
                 _images_game_string = "red-blue";
                 break;
-            case Games::YELLOW:
+            case Versions::YELLOW:
                 _images_game_string = "yellow";
                 break;
             default: //It should never get here

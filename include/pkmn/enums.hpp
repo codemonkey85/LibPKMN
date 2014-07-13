@@ -1,23 +1,17 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
  *
- * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt,
+ * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
+ *
+ * This file was generated: 2014-07-09 20:44:30.941573
  */
+
 #ifndef INCLUDED_PKMN_ENUMS_HPP
 #define INCLUDED_PKMN_ENUMS_HPP
 
-#include <string>
-#include <vector>
-
-#include <pkmn/config.hpp>
-
 namespace pkmn
 {
-    /*,
-     * Globally used enums
-     */
-
     namespace Abilities
     {
         enum abilities
@@ -36,7 +30,7 @@ namespace pkmn
             WATER_ABSORB,
             OBLIVIOUS,
             CLOUD_NINE,
-            COMPOUNDEYES,
+            COMPOUND_EYES,
             INSOMNIA,
             COLOR_CHANGE,
             IMMUNITY,
@@ -53,7 +47,7 @@ namespace pkmn
             SYNCHRONIZE,
             CLEAR_BODY,
             NATURAL_CURE,
-            LIGHTNINGROD,
+            LIGHTNING_ROD,
             SERENE_GRACE,
             SWIFT_SWIM,
             CHLOROPHYLL,
@@ -206,11 +200,11 @@ namespace pkmn
             TOUGH_CLAWS,
             PIXILATE,
             GOOEY,
-            PARENTAL_BOND,
             AERILATE,
+            PARENTAL_BOND,
             DARK_AURA,
             FAIRY_AURA,
-            AURA_BREAK
+            AURA_BREAK,
         };
     }
 
@@ -223,668 +217,611 @@ namespace pkmn
             WATER1,
             BUG,
             FLYING,
-            FIELD,
+            GROUND,
             FAIRY,
-            GRASS,
-            HUMAN_LIKE,
+            PLANT,
+            HUMANSHAPE,
             WATER3,
             MINERAL,
-            AMORPHOUS,
+            INDETERMINATE,
             WATER2,
             DITTO,
             DRAGON,
-            UNDISCOVERED
+            NO_EGGS,
         };
     }
-    
+
     namespace Forms
     {
         namespace Venusaur
         {
             enum forms
             {
-                NORMAL = 3,
-                MEGA = 10133
+                STANDARD = 3,
+                MEGA = 10133,
             };
         }
-
         namespace Charizard
         {
             enum forms
             {
-                NORMAL = 6,
+                STANDARD = 6,
                 MEGA_X = 10134,
-                MEGA_Y
+                MEGA_Y = 10135,
             };
         }
-
         namespace Blastoise
         {
             enum forms
             {
-                NORMAL = 9,
-                MEGA = 10136
+                STANDARD = 9,
+                MEGA = 10136,
             };
         }
-
         namespace Alakazam
         {
             enum forms
             {
-                NORMAL = 65,
-                MEGA = 10137
+                STANDARD = 65,
+                MEGA = 10137,
             };
         }
-
         namespace Gengar
         {
             enum forms
             {
-                NORMAL = 94,
-                MEGA = 10138
+                STANDARD = 94,
+                MEGA = 10138,
             };
         }
-
         namespace Kangaskhan
         {
             enum forms
             {
-                NORMAL = 115,
-                MEGA = 10139
+                STANDARD = 115,
+                MEGA = 10139,
             };
         }
-
         namespace Pinsir
         {
             enum forms
             {
-                NORMAL = 127,
-                MEGA = 10140
+                STANDARD = 127,
+                MEGA = 10140,
             };
         }
-
         namespace Gyarados
         {
             enum forms
             {
-                NORMAL = 130,
-                MEGA = 10141
+                STANDARD = 130,
+                MEGA = 10141,
             };
         }
-
         namespace Aerodactyl
         {
             enum forms
             {
-                NORMAL = 142,
-                MEGA = 10142
+                STANDARD = 142,
+                MEGA = 10142,
             };
         }
-
         namespace Mewtwo
         {
             enum forms
             {
-                NORMAL = 150,
+                STANDARD = 150,
                 MEGA_X = 10143,
-                MEGA_Y
+                MEGA_Y = 10144,
             };
         }
-
         namespace Pichu
         {
             enum forms
             {
-                NORMAL = 172,
-                SPIKY_EARED = 10065
+                STANDARD = 172,
+                SPIKY_EARED = 10065,
             };
         }
-
         namespace Ampharos
         {
             enum forms
             {
-                NORMAL = 181,
-                MEGA = 10145
+                STANDARD = 181,
+                MEGA = 10145,
             };
         }
-
         namespace Unown
         {
             enum forms
             {
                 A = 201,
-                B = 10001,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,
-                EXCLAMATION,QUESTION
+                B = 10001,
+                C = 10002,
+                D = 10003,
+                E = 10004,
+                F = 10005,
+                G = 10006,
+                H = 10007,
+                I = 10008,
+                J = 10009,
+                K = 10010,
+                L = 10011,
+                M = 10012,
+                N = 10013,
+                O = 10014,
+                P = 10015,
+                Q = 10016,
+                R = 10017,
+                S = 10018,
+                T = 10019,
+                U = 10020,
+                V = 10021,
+                W = 10022,
+                X = 10023,
+                Y = 10024,
+                Z = 10025,
+                EXCLAMATION_MARK = 10026,
+                QUESTION_MARK = 10027,
             };
         }
-
         namespace Scizor
         {
             enum forms
             {
-                NORMAL = 212,
-                MEGA = 10146
+                STANDARD = 212,
+                MEGA = 10146,
             };
         }
-
         namespace Heracross
         {
             enum forms
             {
-                NORMAL = 214,
-                MEGA = 10147
+                STANDARD = 214,
+                MEGA = 10147,
             };
         }
-
         namespace Houndoom
         {
             enum forms
             {
-                NORMAL = 229,
-                MEGA = 10148
+                STANDARD = 229,
+                MEGA = 10148,
             };
         }
-
         namespace Tyranitar
         {
             enum forms
             {
-                NORMAL = 248,
-                MEGA = 10149
+                STANDARD = 248,
+                MEGA = 10149,
             };
         }
-
         namespace Blaziken
         {
             enum forms
             {
-                NORMAL = 257,
-                MEGA = 10150
+                STANDARD = 257,
+                MEGA = 10150,
             };
         }
-
         namespace Gardevoir
         {
             enum forms
             {
-                NORMAL = 282,
-                MEGA = 10151
+                STANDARD = 282,
+                MEGA = 10151,
             };
         }
-
         namespace Mawile
         {
             enum forms
             {
-                NORMAL = 303,
-                MEGA = 10152
+                STANDARD = 303,
+                MEGA = 10152,
             };
         }
-
         namespace Aggron
         {
             enum forms
             {
-                NORMAL = 306,
-                MEGA = 10153
+                STANDARD = 306,
+                MEGA = 10153,
             };
         }
-
         namespace Medicham
         {
             enum forms
             {
-                NORMAL = 308,
-                MEGA = 10154
+                STANDARD = 308,
+                MEGA = 10154,
             };
         }
-
         namespace Manectric
         {
             enum forms
             {
-                NORMAL = 310,
-                MEGA = 10155
+                STANDARD = 310,
+                MEGA = 10155,
             };
         }
-
         namespace Castform
         {
             enum forms
             {
-                NORMAL = 351,
+                STANDARD = 351,
                 SUNNY = 10028,
-                RAINY,
-                SNOWY
+                RAINY = 10029,
+                SNOWY = 10030,
             };
         }
-
         namespace Banette
         {
             enum forms
             {
-                NORMAL = 354,
-                MEGA = 10156
+                STANDARD = 354,
+                MEGA = 10156,
             };
         }
-
         namespace Absol
         {
             enum forms
             {
-                NORMAL = 359,
-                MEGA = 10157
+                STANDARD = 359,
+                MEGA = 10157,
             };
         }
-
         namespace Deoxys
         {
             enum forms
             {
                 NORMAL = 386,
                 ATTACK = 10031,
-                DEFENSE,
-                SPEED
+                DEFENSE = 10032,
+                SPEED = 10033,
             };
         }
-
         namespace Burmy
         {
             enum forms
             {
                 PLANT_CLOAK = 412,
                 SANDY_CLOAK = 10034,
-                TRASH_CLOAK
+                TRASH_CLOAK = 10035,
             };
         }
-
         namespace Wormadam
         {
             enum forms
             {
                 PLANT_CLOAK = 413,
                 SANDY_CLOAK = 10036,
-                TRASH_CLOAK
+                TRASH_CLOAK = 10037,
             };
         }
-
         namespace Cherrim
         {
             enum forms
             {
                 OVERCAST = 421,
-                SUNSHINE = 10038
+                SUNSHINE = 10038,
             };
         }
-
         namespace Shellos
         {
             enum forms
             {
                 WEST_SEA = 422,
-                EAST_SEA = 10039
+                EAST_SEA = 10039,
             };
         }
-
         namespace Gastrodon
         {
             enum forms
             {
                 WEST_SEA = 423,
-                EAST_SEA = 10040
+                EAST_SEA = 10040,
             };
         }
-
         namespace Garchomp
         {
             enum forms
             {
-                NORMAL = 445,
-                MEGA = 10145
+                STANDARD = 445,
+                MEGA = 10158,
             };
         }
-
         namespace Lucario
         {
             enum forms
             {
-                NORMAL = 448,
+                STANDARD = 448,
                 MEGA = 10159,
             };
         }
-
         namespace Abomasnow
         {
             enum forms
             {
-                NORMAL = 460,
-                MEGA = 10160
+                STANDARD = 460,
+                MEGA = 10160,
             };
         }
-
         namespace Rotom
         {
             enum forms
             {
-                NORMAL = 479,
+                STANDARD = 479,
                 HEAT = 10058,
-                WASH,
-                FROST,
-                FAN,
-                MOW
+                WASH = 10059,
+                FROST = 10060,
+                FAN = 10061,
+                MOW = 10062,
             };
         }
-
         namespace Giratina
         {
             enum forms
             {
                 ALTERED = 487,
-                ORIGIN = 10063
+                ORIGIN = 10063,
             };
         }
-
         namespace Shaymin
         {
             enum forms
             {
                 LAND = 492,
-                SKY = 10064
+                SKY = 10064,
             };
         }
-
         namespace Arceus
         {
             enum forms
             {
                 NORMAL = 493,
                 BUG = 10041,
-                DARK,
-                DRAGON,
-                ELECTRIC,
-                FIGHTING,
-                FIRE,
-                FLYING,
-                GHOST,
-                GRASS,
-                GROUND,
-                ICE,
-                POISON,
-                PSYCHIC,
-                ROCK,
-                STEEL,
-                WATER,
-                UNKNOWN,
-                FAIRY = 10085
+                DARK = 10042,
+                DRAGON = 10043,
+                ELECTRIC = 10044,
+                FIGHTING = 10045,
+                FIRE = 10046,
+                FLYING = 10047,
+                GHOST = 10048,
+                GRASS = 10049,
+                GROUND = 10050,
+                ICE = 10051,
+                POISON = 10052,
+                PSYCHIC = 10053,
+                ROCK = 10054,
+                STEEL = 10055,
+                WATER = 10056,
+                QUESTION_MARK = 10057,
+                FAIRY = 10085,
             };
         }
-
         namespace Basculin
         {
             enum forms
             {
                 RED_STRIPED = 550,
-                BLUE_STRIPED = 10066
+                BLUE_STRIPED = 10066,
             };
         }
-
         namespace Darmanitan
         {
             enum forms
             {
                 STANDARD = 555,
-                ZEN = 10017
+                ZEN = 10067,
             };
         }
-
         namespace Deerling
         {
             enum forms
             {
                 SPRING = 585,
                 SUMMER = 10068,
-                AUTUMN,
-                WINTER
+                AUTUMN = 10069,
+                WINTER = 10070,
             };
         }
-
         namespace Sawsbuck
         {
             enum forms
             {
                 SPRING = 586,
                 SUMMER = 10071,
-                AUTUMN,
-                WINTER
+                AUTUMN = 10072,
+                WINTER = 10073,
             };
         }
-
         namespace Tornadus
         {
             enum forms
             {
                 INCARNATE = 641,
-                THERIAN = 10079
+                THERIAN = 10079,
             };
         }
-
         namespace Thundurus
         {
             enum forms
             {
                 INCARNATE = 642,
-                THERIAN = 10080
+                THERIAN = 10080,
             };
         }
-
         namespace Landorus
         {
             enum forms
             {
                 INCARNATE = 645,
-                THERIAN = 10081
+                THERIAN = 10081,
             };
         }
-
         namespace Kyurem
         {
             enum forms
             {
-                NORMAL = 646,
+                STANDARD = 646,
                 BLACK = 10082,
-                WHITE
+                WHITE = 10083,
             };
         }
-
         namespace Keldeo
         {
             enum forms
             {
                 ORDINARY = 647,
-                RESOLUTE = 10084
+                RESOLUTE = 10084,
             };
         }
-
         namespace Meloetta
         {
             enum forms
             {
                 ARIA = 648,
-                PIROUETTE = 10074
+                PIROUETTE = 10074,
             };
         }
-
         namespace Genesect
         {
             enum forms
             {
-                NORMAL = 649,
+                STANDARD = 649,
                 DOUSE_DRIVE = 10075,
-                SHOCK_DRIVE,
-                BURN_DRIVE,
-                CHILL_DRIVE
+                SHOCK_DRIVE = 10076,
+                BURN_DRIVE = 10077,
+                CHILL_DRIVE = 10078,
             };
         }
-
         namespace Vivillon
         {
             enum forms
             {
                 MEADOW = 666,
                 ICY_SNOW = 10086,
-                POLAR,
-                TUNDRA,
-                CONTINENTAL,
-                GARDEN,
-                ELEGANT,
-                MODERN,
-                MARINE,
-                ARCHIPELAGO,
-                HIGH_PLAINS,
-                SANDSTORM,
-                RIVER,
-                MONSOON,
-                SAVANNAH,
-                SUN,
-                OCEAN,
-                JUNGLE
+                POLAR = 10087,
+                TUNDRA = 10088,
+                CONTINENTAL = 10089,
+                GARDEN = 10090,
+                ELEGANT = 10091,
+                MODERN = 10092,
+                MARINE = 10093,
+                ARCHIPELAGO = 10094,
+                HIGH_PLAINS = 10095,
+                SANDSTORM = 10096,
+                RIVER = 10097,
+                MONSOON = 10098,
+                SAVANNA = 10099,
+                SUN = 10100,
+                OCEAN = 10101,
+                JUNGLE = 10102,
             };
         }
-
         namespace Flabebe
         {
             enum forms
             {
-                RED = 669,
-                YELLOW = 10103,
-                ORANGE,
-                BLUE,
-                WHITE
+                RED_FLOWER = 669,
+                YELLOW_FLOWER = 10103,
+                ORANGE_FLOWER = 10104,
+                BLUE_FLOWER = 10105,
+                WHITE_FLOWER = 10106,
             };
         }
-
         namespace Floette
         {
             enum forms
             {
-                RED = 670,
-                YELLOW = 10107,
-                ORANGE,
-                BLUE,
-                WHITE
+                RED_FLOWER = 670,
+                YELLOW_FLOWER = 10107,
+                ORANGE_FLOWER = 10108,
+                BLUE_FLOWER = 10109,
+                WHITE_FLOWER = 10110,
             };
         }
-
         namespace Florges
         {
             enum forms
             {
-                RED = 671,
-                YELLOW = 10111,
-                ORANGE,
-                BLUE,
-                WHITE
+                RED_FLOWER = 671,
+                YELLOW_FLOWER = 10111,
+                ORANGE_FLOWER = 10112,
+                BLUE_FLOWER = 10113,
+                WHITE_FLOWER = 10114,
             };
         }
-
         namespace Furfrou
         {
             enum forms
             {
-                UNTRIMMED = 676,
-                HEART = 10015,
-                STAR,
-                DIAMOND,
-                DEBUTANTE,
-                MATRON,
-                DANDY,
-                LA_REINE,
-                KABUKI,
-                PHARAOH
+                STANDARD = 676,
+                HEART_TRIM = 10115,
+                STAR_TRIM = 10116,
+                DIAMOND_TRIM = 10117,
+                DEBUTANTE_TRIM = 10118,
+                MATRON_TRIM = 10119,
+                DANDY_TRIM = 10120,
+                LA_REINE_TRIM = 10121,
+                KABUKI_TRIM = 10122,
+                PHARAOH_TRIM = 10123,
             };
         }
-
+        namespace Meowstic
+        {
+            enum forms
+            {
+                MALE = 678,
+                FEMALE = 10124,
+            };
+        }
         namespace Aegislash
         {
             enum forms
             {
                 SHIELD = 681,
-                BLADE = 10125
+                BLADE = 10125,
             };
         }
-
         namespace Pumpkaboo
         {
             enum forms
             {
-                AVERAGE = 710,
-                SMALL = 10126,
-                LARGE,
-                SUPER
+                AVERAGE_SIZE = 710,
+                SMALL_SIZE = 10126,
+                LARGE_SIZE = 10127,
+                SUPER_SIZE = 10128,
             };
         }
-
         namespace Gourgeist
         {
             enum forms
             {
-                AVERAGE = 711,
-                SMALL = 10129,
-                LARGE,
-                SUPER
+                AVERAGE_SIZE = 711,
+                SMALL_SIZE = 10129,
+                LARGE_SIZE = 10130,
+                SUPER_SIZE = 10131,
             };
         }
-
         namespace Xerneas
         {
             enum forms
             {
                 ACTIVE = 716,
-                NEUTRAL = 10132
+                NEUTRAL = 10132,
             };
         }
     }
-    
-    namespace Games
-    {
-        enum games
-        {
-            NONE,
-            RED,
-            BLUE,
-            YELLOW,
-            GOLD,
-            SILVER,
-            CRYSTAL,
-            RUBY,
-            SAPPHIRE,
-            EMERALD,
-            FIRE_RED,
-            LEAF_GREEN,
-            DIAMOND,
-            PEARL,
-            PLATINUM,
-            HEART_GOLD,
-            SOUL_SILVER,
-            BLACK,
-            WHITE,
-            COLOSSEUM,
-            XD,
-            BLACK2,
-            WHITE2,
-            X,
-            Y
-        };
-    }
-    
+
     namespace Genders
     {
         enum genders
         {
-            MALE = 0,
-            FEMALE = 1,
-            GENDERLESS = 2
+            FEMALE,
+            MALE,
+            GENDERLESS,
         };
     }
 
@@ -914,7 +851,7 @@ namespace pkmn
             BURN_HEAL,
             ICE_HEAL,
             AWAKENING,
-            PARLYZ_HEAL,
+            PARALYZE_HEAL,
             FULL_RESTORE,
             MAX_POTION,
             HYPER_POTION,
@@ -926,7 +863,7 @@ namespace pkmn
             SODA_POP,
             LEMONADE,
             MOOMOO_MILK,
-            ENERGYPOWDER,
+            ENERGY_POWDER,
             ENERGY_ROOT,
             HEAL_POWDER,
             REVIVAL_HERB,
@@ -950,10 +887,10 @@ namespace pkmn
             GUARD_SPEC,
             DIRE_HIT,
             X_ATTACK,
-            X_DEFEND,
+            X_DEFENSE,
             X_SPEED,
             X_ACCURACY,
-            X_SPECIAL,
+            X_SP_ATK,
             X_SP_DEF,
             POKE_DOLL,
             FLUFFY_TAIL,
@@ -975,10 +912,10 @@ namespace pkmn
             SUN_STONE,
             MOON_STONE,
             FIRE_STONE,
-            THUNDERSTONE,
+            THUNDER_STONE,
             WATER_STONE,
             LEAF_STONE,
-            TINYMUSHROOM,
+            TINY_MUSHROOM,
             BIG_MUSHROOM,
             PEARL,
             BIG_PEARL,
@@ -1082,7 +1019,7 @@ namespace pkmn
             CUSTAP_BERRY,
             JABOCA_BERRY,
             ROWAP_BERRY,
-            BRIGHTPOWDER,
+            BRIGHT_POWDER,
             WHITE_HERB,
             MACHO_BRACE,
             EXP_SHARE,
@@ -1091,12 +1028,12 @@ namespace pkmn
             MENTAL_HERB,
             CHOICE_BAND,
             KINGS_ROCK,
-            SILVERPOWDER,
+            SILVER_POWDER,
             AMULET_COIN,
             CLEANSE_TAG,
             SOUL_DEW,
-            DEEPSEATOOTH,
-            DEEPSEASCALE,
+            DEEP_SEA_TOOTH,
+            DEEP_SEA_SCALE,
             SMOKE_BALL,
             EVERSTONE,
             FOCUS_BAND,
@@ -1109,15 +1046,15 @@ namespace pkmn
             SOFT_SAND,
             HARD_STONE,
             MIRACLE_SEED,
-            BLACKGLASSES,
+            BLACK_GLASSES,
             BLACK_BELT,
             MAGNET,
             MYSTIC_WATER,
             SHARP_BEAK,
             POISON_BARB,
-            NEVERMELTICE,
+            NEVER_MELT_ICE,
             SPELL_TAG,
-            TWISTEDSPOON,
+            TWISTED_SPOON,
             CHARCOAL,
             DRAGON_FANG,
             SILK_SCARF,
@@ -1329,18 +1266,18 @@ namespace pkmn
             CONTEST_PASS,
             MAGMA_STONE,
             PARCEL,
-            COUPON1,
-            COUPON2,
-            COUPON3,
+            COUPON_1,
+            COUPON_2,
+            COUPON_3,
             STORAGE_KEY,
-            SECRETPOTION,
+            SECRET_POTION,
             GRISEOUS_ORB,
             VS_RECORDER,
             GRACIDEA,
             SECRET_KEY,
             APRICORN_BOX,
             BERRY_POTS,
-            SQUIRTBOTTLE,
+            SQUIRT_BOTTLE,
             LURE_BALL,
             LEVEL_BALL,
             MOON_BALL,
@@ -1351,21 +1288,21 @@ namespace pkmn
             PARK_BALL,
             SPORT_BALL,
             RED_APRICORN,
-            BLU_APRICORN,
-            YLW_APRICORN,
-            GRN_APRICORN,
-            PNK_APRICORN,
-            WHT_APRICORN,
-            BLK_APRICORN,
-            DOWSING_MCHN,
-            RAGECANDYBAR,
+            BLUE_APRICORN,
+            YELLOW_APRICORN,
+            GREEN_APRICORN,
+            PINK_APRICORN,
+            WHITE_APRICORN,
+            BLACK_APRICORN,
+            DOWSING_MACHINE,
+            RAGE_CANDY_BAR,
             RED_ORB,
             BLUE_ORB,
             JADE_ORB,
             ENIGMA_STONE,
             UNOWN_REPORT,
             BLUE_CARD,
-            SLOWPOKETAIL,
+            SLOWPOKE_TAIL,
             CLEAR_BELL,
             CARD_KEY,
             BASEMENT_KEY,
@@ -1378,33 +1315,33 @@ namespace pkmn
             MYSTERY_EGG,
             GB_SOUNDS,
             TIDAL_BELL,
-            DATA_CARD01,
-            DATA_CARD02,
-            DATA_CARD03,
-            DATA_CARD04,
-            DATA_CARD05,
-            DATA_CARD06,
-            DATA_CARD07,
-            DATA_CARD08,
-            DATA_CARD09,
-            DATA_CARD10,
-            DATA_CARD11,
-            DATA_CARD12,
-            DATA_CARD13,
-            DATA_CARD14,
-            DATA_CARD15,
-            DATA_CARD16,
-            DATA_CARD17,
-            DATA_CARD18,
-            DATA_CARD19,
-            DATA_CARD20,
-            DATA_CARD21,
-            DATA_CARD22,
-            DATA_CARD23,
-            DATA_CARD24,
-            DATA_CARD25,
-            DATA_CARD26,
-            DATA_CARD27,
+            DATA_CARD_01,
+            DATA_CARD_02,
+            DATA_CARD_03,
+            DATA_CARD_04,
+            DATA_CARD_05,
+            DATA_CARD_06,
+            DATA_CARD_07,
+            DATA_CARD_08,
+            DATA_CARD_09,
+            DATA_CARD_10,
+            DATA_CARD_11,
+            DATA_CARD_12,
+            DATA_CARD_13,
+            DATA_CARD_14,
+            DATA_CARD_15,
+            DATA_CARD_16,
+            DATA_CARD_17,
+            DATA_CARD_18,
+            DATA_CARD_19,
+            DATA_CARD_20,
+            DATA_CARD_21,
+            DATA_CARD_22,
+            DATA_CARD_23,
+            DATA_CARD_24,
+            DATA_CARD_25,
+            DATA_CARD_26,
+            DATA_CARD_27,
             LOCK_CAPSULE,
             PHOTO_ALBUM,
             ORANGE_MAIL,
@@ -1430,10 +1367,10 @@ namespace pkmn
             SCANNER,
             GO_GOGGLES,
             METEORITE,
-            RM1_KEY,
-            RM2_KEY,
-            RM4_KEY,
-            RM6_KEY,
+            RM_1_KEY,
+            RM_2_KEY,
+            RM_4_KEY,
+            RM_6_KEY,
             DEVON_SCOPE,
             OAKS_PARCEL,
             POKE_FLUTE,
@@ -1467,11 +1404,11 @@ namespace pkmn
             INQUIRY_MAIL,
             LIKE_MAIL,
             REPLY_MAIL,
-            BRIDGEMAIL_S,
-            BRIDGEMAIL_D,
-            BRIDGEMAIL_T,
-            BRIDGEMAIL_V,
-            BRIDGEMAIL_M,
+            BRIDGE_MAIL_S,
+            BRIDGE_MAIL_D,
+            BRIDGE_MAIL_T,
+            BRIDGE_MAIL_V,
+            BRIDGE_MAIL_M,
             PRISM_SCALE,
             EVIOLITE,
             FLOAT_STONE,
@@ -1513,7 +1450,7 @@ namespace pkmn
             POKE_TOY,
             PROP_CASE,
             DRAGON_SKULL,
-            BALMMUSHROOM,
+            BALM_MUSHROOM,
             BIG_NUGGET,
             PEARL_STRING,
             COMET_SHARD,
@@ -1525,30 +1462,30 @@ namespace pkmn
             RELIC_STATUE,
             RELIC_CROWN,
             CASTELIACONE,
-            DIRE_HIT2,
-            X_SPEED2,
-            X_SPECIAL2,
-            X_SP_DEF2,
-            X_DEFEND2,
-            X_ATTACK2,
-            X_ACCURACY2,
-            X_SPEED3,
-            X_SPECIAL3,
-            X_SP_DEF3,
-            X_DEFEND3,
-            X_ATTACK3,
-            X_ACCURACY3,
-            X_SPEED6,
-            X_SPECIAL6,
-            X_SP_DEF6,
-            X_DEFEND6,
-            X_ATTACK6,
-            X_ACCURACY6,
+            DIRE_HIT_2,
+            X_SPEED_2,
+            X_SP_ATK_2,
+            X_SP_DEF_2,
+            X_DEFENSE_2,
+            X_ATTACK_2,
+            X_ACCURACY_2,
+            X_SPEED_3,
+            X_SP_ATK_3,
+            X_SP_DEF_3,
+            X_DEFENSE_3,
+            X_ATTACK_3,
+            X_ACCURACY_3,
+            X_SPEED_6,
+            X_SP_ATK_6,
+            X_SP_DEF_6,
+            X_DEFENSE_6,
+            X_ATTACK_6,
+            X_ACCURACY_6,
             ABILITY_URGE,
             ITEM_DROP,
             ITEM_URGE,
             RESET_URGE,
-            DIRE_HIT3,
+            DIRE_HIT_3,
             LIGHT_STONE,
             DARK_STONE,
             TM93,
@@ -1556,9 +1493,9 @@ namespace pkmn
             TM95,
             XTRANSCEIVER,
             GOD_STONE,
-            GRAM1,
-            GRAM2,
-            GRAM3,
+            GRAM_1,
+            GRAM_2,
+            GRAM_3,
             DRAGON_GEM = 668,
             NORMAL_GEM,
             MEDAL_BOX,
@@ -1568,7 +1505,7 @@ namespace pkmn
             SHINY_CHARM,
             PLASMA_CARD,
             GRUBBY_HANKY,
-            COLRESS_MCHN,
+            COLRESS_MACHINE,
             DROPPED_ITEM,
             REVEAL_GLASS = 681,
             WEAKNESS_POLICY,
@@ -1615,7 +1552,7 @@ namespace pkmn
             ROSELI_BERRY,
             KEE_BERRY,
             MARANGA_BERRY,
-            BARGAIN_TICKET,
+            DISCOUNT_COUPON,
             STRANGE_SOUVENIR,
             LUMIOSE_GALETTE,
             JAW_FOSSIL,
@@ -1649,10 +1586,26 @@ namespace pkmn
             MINT_BERRY,
             MIRACLEBERRY,
             MYSTERYBERRY,
-            INVALID = 1100
+            SILVER_LEAF,
+            GOLD_LEAF,
+            PINK_BOW,
+            GS_BALL,
+            EGG_TICKET,
+            BERSERK_GENE,
+            FLOWER_MAIL,
+            SURF_MAIL,
+            LITEBLUEMAIL,
+            PORTRAITMAIL,
+            LOVELY_MAIL,
+            EON_MAIL,
+            MORPH_MAIL,
+            BLUESKY_MAIL,
+            MUSIC_MAIL,
+            MIRAGE_MAIL,
+            INVALID = 100000,
         };
     }
-    
+
     namespace Markings
     {
         enum markings
@@ -1662,20 +1615,10 @@ namespace pkmn
             SQUARE,
             HEART,
             STAR,
-            DIAMOND
+            DIAMOND,
         };
     }
-    
-    namespace Move_Classes
-    {
-        enum move_classes
-        {
-            NON_DAMAGING = 1,
-            PHYSICAL = 2,
-            SPECIAL = 3
-        };
-    }
-  
+
     namespace Moves
     {
         enum moves
@@ -1683,15 +1626,15 @@ namespace pkmn
             NONE,
             POUND,
             KARATE_CHOP,
-            DOUBLESLAP,
+            DOUBLE_SLAP,
             COMET_PUNCH,
             MEGA_PUNCH,
             PAY_DAY,
             FIRE_PUNCH,
             ICE_PUNCH,
-            THUNDERPUNCH,
+            THUNDER_PUNCH,
             SCRATCH,
-            VICEGRIP,
+            VICE_GRIP,
             GUILLOTINE,
             RAZOR_WIND,
             SWORDS_DANCE,
@@ -1729,7 +1672,7 @@ namespace pkmn
             ROAR,
             __SING,
             SUPERSONIC,
-            SONICBOOM,
+            SONIC_BOOM,
             DISABLE,
             ACID,
             EMBER,
@@ -1741,7 +1684,7 @@ namespace pkmn
             ICE_BEAM,
             BLIZZARD,
             PSYBEAM,
-            BUBBLEBEAM,
+            BUBBLE_BEAM,
             AURORA_BEAM,
             HYPER_BEAM,
             PECK,
@@ -1756,15 +1699,15 @@ namespace pkmn
             LEECH_SEED,
             GROWTH,
             RAZOR_LEAF,
-            SOLARBEAM,
-            POISONPOWDER,
+            SOLAR_BEAM,
+            POISON_POWDER,
             STUN_SPORE,
             SLEEP_POWDER,
             PETAL_DANCE,
             STRING_SHOT,
             DRAGON_RAGE,
             FIRE_SPIN,
-            THUNDERSHOCK,
+            THUNDER_SHOCK,
             THUNDERBOLT,
             THUNDER_WAVE,
             THUNDER,
@@ -1800,7 +1743,7 @@ namespace pkmn
             BIDE,
             METRONOME,
             MIRROR_MOVE,
-            SELFDESTRUCT,
+            SELF_DESTRUCT,
             EGG_BOMB,
             LICK,
             SMOG,
@@ -1815,8 +1758,8 @@ namespace pkmn
             CONSTRICT,
             AMNESIA,
             KINESIS,
-            SOFTBOILED,
-            HI_JUMP_KICK,
+            SOFT_BOILED,
+            HIGH_JUMP_KICK,
             GLARE,
             DREAM_EATER,
             POISON_GAS,
@@ -1865,7 +1808,7 @@ namespace pkmn
             PROTECT,
             MACH_PUNCH,
             SCARY_FACE,
-            FAINT_ATTACK,
+            FEINT_ATTACK,
             SWEET_KISS,
             BELLY_DRUM,
             SLUDGE_BOMB,
@@ -1903,9 +1846,9 @@ namespace pkmn
             PAIN_SPLIT,
             SACRED_FIRE,
             MAGNITUDE,
-            DYNAMICPUNCH,
+            DYNAMIC_PUNCH,
             MEGAHORN,
-            DRAGONBREATH,
+            DRAGON_BREATH,
             BATON_PASS,
             ENCORE,
             PURSUIT,
@@ -1925,8 +1868,8 @@ namespace pkmn
             CRUNCH,
             MIRROR_COAT,
             PSYCH_UP,
-            EXTREMESPEED,
-            ANCIENTPOWER,
+            EXTREME_SPEED,
+            ANCIENT_POWER,
             SHADOW_BALL,
             FUTURE_SIGHT,
             ROCK_SMASH,
@@ -1945,7 +1888,7 @@ namespace pkmn
             MEMENTO,
             FACADE,
             FOCUS_PUNCH,
-            SMELLINGSALT,
+            SMELLING_SALTS,
             FOLLOW_ME,
             NATURE_POWER,
             CHARGE,
@@ -1977,7 +1920,7 @@ namespace pkmn
             TAIL_GLOW,
             LUSTER_PURGE,
             MIST_BALL,
-            FEATHERDANCE,
+            FEATHER_DANCE,
             TEETER_DANCE,
             BLAZE_KICK,
             MUD_SPORT,
@@ -2000,7 +1943,7 @@ namespace pkmn
             ROCK_TOMB,
             SILVER_WIND,
             METAL_SOUND,
-            GRASSWHISTLE,
+            GRASS_WHISTLE,
             TICKLE,
             COSMIC_POWER,
             WATER_SPOUT,
@@ -2271,6 +2214,7 @@ namespace pkmn
             KINGS_SHIELD,
             PLAY_NICE,
             CONFIDE,
+            DIAMOND_STORM,
             WATER_SHURIKEN = 594,
             MYSTICAL_FIRE,
             SPIKY_SHIELD,
@@ -2280,17 +2224,17 @@ namespace pkmn
             POWDER,
             GEOMANCY,
             MAGNETIC_FLUX,
-            ELECTRIC_TERRAIN = 604,
+            HAPPY_HOUR,
+            ELECTRIC_TERRAIN,
             DAZZLING_GLEAM,
+            CELEBRATE,
             BABY_DOLL_EYES = 608,
             NUZZLE,
-            INFESTATION = 611,
+            HOLD_BACK,
+            INFESTATION,
             POWER_UP_PUNCH,
             OBLIVION_WING,
             LANDS_WRATH = 616,
-            /*CELEBRATE,
-            HAPPY_HOUR,*/
-            INVALID = 1000,
             SHADOW_RUSH = 10001,
             SHADOW_BLAST,
             SHADOW_BLITZ,
@@ -2308,7 +2252,19 @@ namespace pkmn
             SHADOW_MIST,
             SHADOW_PANIC,
             SHADOW_SHED,
-            SHADOW_SKY
+            SHADOW_SKY,
+            INVALID = 100000,
+        };
+    }
+
+    namespace Move_Classes
+    {
+        enum move_classes
+        {
+            NONE,
+            STATUS,
+            PHYSICAL,
+            SPECIAL,
         };
     }
 
@@ -2341,7 +2297,7 @@ namespace pkmn
             RELAXED,
             QUIET,
             SASSY,
-            SERIOUS
+            SERIOUS,
         };
     }
 
@@ -2375,7 +2331,7 @@ namespace pkmn
             DUSK_BALL,
             CHERISH_BALL,
             PARK_BALL,
-            DREAM_BALL
+            DREAM_BALL,
         };
     }
 
@@ -2383,120 +2339,194 @@ namespace pkmn
     {
         namespace Hoenn
         {
-            enum ribbons
+            enum hoenn_ribbons
             {
-                WORLD,
-                EARTH,
-                NATIONAL,
-                COUNTRY,
-                SKY,
-                LAND,
-                MARINE,
-                EFFORT,
-                ARTIST,
-                VICTORY,
-                WINNING,
-                CHAMPION,
-                TOUGH_MASTER,
-                TOUGH_HYPER,
-                TOUGH_SUPER,
-                TOUGH,
-                SMART_MASTER,
-                SMART_HYPER,
-                SMART_SUPER,
-                SMART,
-                CUTE_MASTER,
-                CUTE_HYPER,
-                CUTE_SUPER,
-                CUTE,
-                BEAUTY_MASTER,
-                BEAUTY_HYPER,
-                BEAUTY_SUPER,
-                BEAUTY,
-                COOL_MASTER,
-                COOL_HYPER,
-                COOL_SUPER,
-                COOL
+                WORLD = 0,
+                EARTH = 1,
+                NATIONAL = 2,
+                COUNTRY = 3,
+                SKY = 4,
+                LAND = 5,
+                MARINE = 6,
+                EFFORT = 7,
+                ARTIST = 8,
+                VICTORY = 9,
+                WINNING = 10,
+                CHAMPION = 11,
+                TOUGH_MASTER = 12,
+                TOUGH_HYPER = 13,
+                TOUGH_SUPER = 14,
+                TOUGH = 15,
+                SMART_MASTER = 16,
+                SMART_HYPER = 17,
+                SMART_SUPER = 18,
+                SMART = 19,
+                CUTE_MASTER = 20,
+                CUTE_HYPER = 21,
+                CUTE_SUPER = 22,
+                CUTE = 23,
+                BEAUTY_MASTER = 24,
+                BEAUTY_HYPER = 25,
+                BEAUTY_SUPER = 26,
+                BEAUTY = 27,
+                COOL_MASTER = 28,
+                COOL_HYPER = 29,
+                COOL_SUPER = 30,
+                COOL = 31,
             };
         }
-        
         namespace Sinnoh
         {
-            enum ribbons
+            enum sinnoh_ribbons
             {
                 TOUGH_MASTER = 4,
-                TOUGH_ULTRA,
-                TOUGH_GREAT,
-                TOUGH,
-                SMART_MASTER,
-                SMART_ULTRA,
-                SMART_GREAT,
-                SMART,
-                CUTE_MASTER,
-                CUTE_ULTRA,
-                CUTE_GREAT,
-                CUTE,
-                BEAUTY_MASTER,
-                BEAUTY_ULTRA,
-                BEAUTY_GREAT,
-                BEAUTY,
-                COOL_MASTER,
-                COOL_ULTRA,
-                COOL_GREAT,
-                COOL,
+                TOUGH_HYPER = 5,
+                TOUGH_SUPER = 6,
+                TOUGH = 7,
+                SMART_MASTER = 8,
+                SMART_HYPER = 9,
+                SMART_SUPER = 10,
+                SMART = 11,
+                CUTE_MASTER = 12,
+                CUTE_HYPER = 13,
+                CUTE_SUPER = 14,
+                CUTE = 15,
+                BEAUTY_MASTER = 16,
+                BEAUTY_HYPER = 17,
+                BEAUTY_SUPER = 18,
+                BEAUTY = 19,
+                COOL_MASTER = 20,
+                COOL_HYPER = 21,
+                COOL_SUPER = 22,
+                COOL = 23,
                 PREMIER = 28,
-                CLASSIC,
-                CARNIVAL,
-                FESTIVAL,
-                BLUE,
-                GREEN,
-                RED,
-                LEGEND,
-                HISTORY,
-                RECORD,
-                FOOTPRINT,
-                GORGEOUS_ROYAL,
-                ROYAL,
-                GORGEOUS,
-                SMILE,
-                SNOOZE,
-                RELAX,
-                CARELESS,
-                DOWNCAST,
-                SHOCK,
-                ALERT,
-                WORLD_ABILITY,
-                PAIR_ABILITY,
-                MULTI_ABILITY,
-                DOUBLE_ABILITY,
-                GREAT_ABILITY,
-                ABILITY,
-                CHAMPION
+                CLASSIC = 29,
+                CARNIVAL = 30,
+                FESTIVAL = 31,
+                BLUE = 32,
+                GREEN = 33,
+                RED = 34,
+                LEGEND = 35,
+                HISTORY = 36,
+                RECORD = 37,
+                FOOTPRINT = 38,
+                GORGEOUS_ROYAL = 39,
+                ROYAL = 40,
+                GORGEOUS = 41,
+                SMILE = 42,
+                SNOOZE = 43,
+                RELAX = 44,
+                CARELESS = 45,
+                DOWNCAST = 46,
+                SHOCK = 47,
+                ALERT = 48,
+                WORLD_ABILITY = 49,
+                PAIR_ABILITY = 50,
+                MULTI_ABILITY = 51,
+                DOUBLE_ABILITY = 52,
+                GREAT_ABILITY = 53,
+                ABILITY = 54,
+                CHAMPION = 55,
             };
         }
-        
+        namespace Unova
+        {
+            enum unova_ribbons
+            {
+                TOUGH_MASTER = 4,
+                TOUGH_HYPER = 5,
+                TOUGH_SUPER = 6,
+                TOUGH = 7,
+                SMART_MASTER = 8,
+                SMART_HYPER = 9,
+                SMART_SUPER = 10,
+                SMART = 11,
+                CUTE_MASTER = 12,
+                CUTE_HYPER = 13,
+                CUTE_SUPER = 14,
+                CUTE = 15,
+                BEAUTY_MASTER = 16,
+                BEAUTY_HYPER = 17,
+                BEAUTY_SUPER = 18,
+                BEAUTY = 19,
+                COOL_MASTER = 20,
+                COOL_HYPER = 21,
+                COOL_SUPER = 22,
+                COOL = 23,
+                PREMIER = 28,
+                CLASSIC = 29,
+                WISHING = 30,
+                SOUVENIR = 31,
+                SPECIAL = 32,
+                BIRTHDAY = 33,
+                WORLD_CHAMPION = 34,
+                LEGEND = 35,
+                EVENT = 36,
+                RECORD = 37,
+                FOOTPRINT = 38,
+                GORGEOUS_ROYAL = 39,
+                ROYAL = 40,
+                GORGEOUS = 41,
+                SMILE = 42,
+                SNOOZE = 43,
+                RELAX = 44,
+                CARELESS = 45,
+                DOWNCAST = 46,
+                SHOCK = 47,
+                ALERT = 48,
+                WORLD_ABILITY = 49,
+                PAIR_ABILITY = 50,
+                MULTI_ABILITY = 51,
+                DOUBLE_ABILITY = 52,
+                GREAT_ABILITY = 53,
+                ABILITY = 54,
+                CHAMPION = 55,
+            };
+        }
         namespace Kalos
         {
-            enum ribbons
+            enum kalos_ribbons
             {
-                CHAMPION,
-                TRAINING,
-                SKILLFUL_BATTLER,
-                EXPERT_BATTLER,
-                BEST_FRIENDS,
-                EFFORT,
-                FOOTPRINT,
-                ALERT,
-                SHOCK,
-                DOWNCAST,
-                CARELESS,
-                RELAX,
-                SNOOZE,
-                SMILE
+                WORLD_CHAMPION = 3,
+                NATIONAL_CHAMPION = 4,
+                REGIONAL_CHAMPION = 5,
+                BATTLE_CHAMPION = 6,
+                WISHING = 7,
+                FESTIVAL = 8,
+                SPECIAL = 9,
+                BIRTHDAY = 10,
+                EVENT = 11,
+                PREMIER = 12,
+                CLASSIC = 13,
+                WORLD = 14,
+                EARTH = 15,
+                NATIONAL = 16,
+                COUNTRY = 17,
+                LEGEND = 18,
+                RECORD = 19,
+                FOOTPRINT = 20,
+                ARTIST = 21,
+                GORGEOUS_ROYAL = 22,
+                ROYAL = 23,
+                GORGEOUS = 24,
+                SMILE = 25,
+                SNOOZE = 26,
+                RELAX = 27,
+                CARELESS = 28,
+                DOWNCAST = 29,
+                SHOCK = 30,
+                ALERT = 31,
+                EFFORT = 32,
+                SKILLFUL_BATTLER = 34,
+                TRAINING = 35,
+                BEST_FRIENDS = 36,
+                SINNOH_CHAMPION = 37,
+                CHAMPION = 38,
+                KALOS_CHAMPION = 39,
             };
         }
     }
-    
+
     namespace Species
     {
         enum species
@@ -3190,7 +3220,7 @@ namespace pkmn
             INKAY,
             MALAMAR,
             BINACLE,
-            BARBARCLE,
+            BARBARACLE,
             SKRELP,
             DRAGALGE,
             CLAUNCHER,
@@ -3217,13 +3247,11 @@ namespace pkmn
             AVALUGG,
             NOIBAT,
             NOIVERN,
-            XEMEAS,
+            XERNEAS,
             YVELTAL,
             ZYGARDE,
-            /*DIANCIE,
-            VOLCANION,
-            HOOPA,*/
-            INVALID = 1000
+            DIANCIE,
+            INVALID,
         };
     }
 
@@ -3231,30 +3259,19 @@ namespace pkmn
     {
         enum stats
         {
-            HP = 1,
+            NONE,
+            HP,
             ATTACK,
             DEFENSE,
             SPECIAL_ATTACK,
             SPECIAL_DEFENSE,
             SPEED,
-            SPECIAL = 9
+            ACCURACY,
+            EVASION,
+            SPECIAL,
         };
     }
 
-    namespace Statuses
-    {
-        enum statuses
-        {
-            OK = 0, //No nonvolatile status
-            BURN = 1, //Burn
-            FREEZE = 2, //Frozen
-            PARALYZE = 3, //Paralysis
-            POISON = 4, //Poison
-            BAD_POISON = 5, //Bad Poison
-            SLEEP = 6 //Asleep
-        };
-    }
-    
     namespace Types
     {
         enum types
@@ -3278,8 +3295,63 @@ namespace pkmn
             DRAGON,
             DARK,
             FAIRY,
-            UNKNOWN = 10001,
-            SHADOW
+            QUESTION_MARK = 10001,
+            SHADOW,
+        };
+    }
+
+    namespace Versions
+    {
+        enum versions
+        {
+            NONE,
+            RED,
+            BLUE,
+            YELLOW,
+            GOLD,
+            SILVER,
+            CRYSTAL,
+            RUBY,
+            SAPPHIRE,
+            EMERALD,
+            FIRERED,
+            LEAFGREEN,
+            DIAMOND,
+            PEARL,
+            PLATINUM,
+            HEARTGOLD,
+            SOULSILVER,
+            BLACK,
+            WHITE,
+            COLOSSEUM,
+            XD,
+            BLACK_2,
+            WHITE_2,
+            X,
+            Y,
+        };
+    }
+
+    namespace Version_Groups
+    {
+        enum version_groups
+        {
+            NONE,
+            RED_BLUE,
+            YELLOW,
+            GOLD_SILVER,
+            CRYSTAL,
+            RUBY_SAPPHIRE,
+            EMERALD,
+            FIRERED_LEAFGREEN,
+            DIAMOND_PEARL,
+            PLATINUM,
+            HEARTGOLD_SOULSILVER,
+            BLACK_WHITE,
+            COLOSSEUM,
+            XD,
+            BLACK_2_WHITE_2,
+            X_Y,
         };
     }
 }

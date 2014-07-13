@@ -25,7 +25,7 @@ namespace pkmn
     void game_save_gen1impl::load()
     {
         _trainer = conversions::import_gen1_trainer(_sav);
-        _game_id = Games::YELLOW;
+        _game_id = Versions::YELLOW;
     }
 
     void game_save_gen1impl::save_as(const std::string &filename)
