@@ -1493,13 +1493,13 @@ namespace pkmn
 
             case Species::BASCULIN:
                 if(form == "Red-Striped") set_form(Forms::Basculin::RED_STRIPED);
-                if(form == "Blue-Striped") set_form(Forms::Basculin::BLUE_STRIPED);
+                else if(form == "Blue-Striped") set_form(Forms::Basculin::BLUE_STRIPED);
                 else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::DARMANITAN:
                 if(form == "Standard") set_form(Forms::Darmanitan::STANDARD);
-                if(form == "Zen") set_form(Forms::Darmanitan::ZEN);
+                else if(form == "Zen") set_form(Forms::Darmanitan::ZEN);
                 else throw std::runtime_error("Invalid form.");
                 return; 
 
@@ -1517,19 +1517,19 @@ namespace pkmn
 
             case Species::TORNADUS:
                 if(form == "Incarnate") set_form(Forms::Tornadus::INCARNATE);
-                if(form == "Therian") set_form(Forms::Tornadus::THERIAN);
+                else if(form == "Therian") set_form(Forms::Tornadus::THERIAN);
                 else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::THUNDURUS:
                 if(form == "Incarnate") set_form(Forms::Thundurus::INCARNATE);
-                if(form == "Therian") set_form(Forms::Thundurus::THERIAN);
+                else if(form == "Therian") set_form(Forms::Thundurus::THERIAN);
                 else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::LANDORUS:
                 if(form == "Incarnate") set_form(Forms::Landorus::INCARNATE);
-                if(form == "Therian") set_form(Forms::Landorus::THERIAN);
+                else if(form == "Therian") set_form(Forms::Landorus::THERIAN);
                 else throw std::runtime_error("Invalid form.");
                 return;
 
@@ -1554,32 +1554,32 @@ namespace pkmn
 
             case Species::GENESECT:
                 if(form == "Normal") set_form(Forms::Genesect::STANDARD);
-                if(form == "Shock Drive") set_form(Forms::Genesect::SHOCK_DRIVE);
-                if(form == "Burn Drive") set_form(Forms::Genesect::BURN_DRIVE);
-                if(form == "Chill Drive") set_form(Forms::Genesect::CHILL_DRIVE);
-                if(form == "Douse Drive") set_form(Forms::Genesect::DOUSE_DRIVE);
+                else if(form == "Shock Drive") set_form(Forms::Genesect::SHOCK_DRIVE);
+                else if(form == "Burn Drive") set_form(Forms::Genesect::BURN_DRIVE);
+                else if(form == "Chill Drive") set_form(Forms::Genesect::CHILL_DRIVE);
+                else if(form == "Douse Drive") set_form(Forms::Genesect::DOUSE_DRIVE);
                 else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::VIVILLON:
                 if(form == "Meadow") set_form(Forms::Vivillon::MEADOW);
-                if(form == "Icy Snow") set_form(Forms::Vivillon::ICY_SNOW);
-                if(form == "Polar") set_form(Forms::Vivillon::POLAR);
-                if(form == "Tundra") set_form(Forms::Vivillon::TUNDRA);
-                if(form == "Continental") set_form(Forms::Vivillon::CONTINENTAL);
-                if(form == "Garden") set_form(Forms::Vivillon::GARDEN);
-                if(form == "Elegant") set_form(Forms::Vivillon::ELEGANT);
-                if(form == "Modern") set_form(Forms::Vivillon::MODERN);
-                if(form == "Marine") set_form(Forms::Vivillon::MARINE);
-                if(form == "Archipelago") set_form(Forms::Vivillon::ARCHIPELAGO);
-                if(form == "High Plains") set_form(Forms::Vivillon::HIGH_PLAINS);
-                if(form == "Sandstorm") set_form(Forms::Vivillon::SANDSTORM);
-                if(form == "River") set_form(Forms::Vivillon::RIVER);
-                if(form == "Monsoon") set_form(Forms::Vivillon::MONSOON);
-                if(form == "Savanna") set_form(Forms::Vivillon::SAVANNA);
-                if(form == "Sun") set_form(Forms::Vivillon::SUN);
-                if(form == "Ocean") set_form(Forms::Vivillon::OCEAN);
-                if(form == "Jungle") set_form(Forms::Vivillon::JUNGLE);
+                else if(form == "Icy Snow") set_form(Forms::Vivillon::ICY_SNOW);
+                else if(form == "Polar") set_form(Forms::Vivillon::POLAR);
+                else if(form == "Tundra") set_form(Forms::Vivillon::TUNDRA);
+                else if(form == "Continental") set_form(Forms::Vivillon::CONTINENTAL);
+                else if(form == "Garden") set_form(Forms::Vivillon::GARDEN);
+                else if(form == "Elegant") set_form(Forms::Vivillon::ELEGANT);
+                else if(form == "Modern") set_form(Forms::Vivillon::MODERN);
+                else if(form == "Marine") set_form(Forms::Vivillon::MARINE);
+                else if(form == "Archipelago") set_form(Forms::Vivillon::ARCHIPELAGO);
+                else if(form == "High Plains") set_form(Forms::Vivillon::HIGH_PLAINS);
+                else if(form == "Sandstorm") set_form(Forms::Vivillon::SANDSTORM);
+                else if(form == "River") set_form(Forms::Vivillon::RIVER);
+                else if(form == "Monsoon") set_form(Forms::Vivillon::MONSOON);
+                else if(form == "Savanna") set_form(Forms::Vivillon::SAVANNA);
+                else if(form == "Sun") set_form(Forms::Vivillon::SUN);
+                else if(form == "Ocean") set_form(Forms::Vivillon::OCEAN);
+                else if(form == "Jungle") set_form(Forms::Vivillon::JUNGLE);
                 else throw std::runtime_error("Invalid form.");
                 return;
 
@@ -1613,15 +1613,15 @@ namespace pkmn
 
             case Species::FURFROU:
                 if(form == "Standard") set_form(Forms::Furfrou::STANDARD);
-                if(form == "Heart Trim") set_form(Forms::Furfrou::HEART_TRIM);
-                if(form == "Star Trim") set_form(Forms::Furfrou::STAR_TRIM);
-                if(form == "Diamond Trim") set_form(Forms::Furfrou::DIAMOND_TRIM);
-                if(form == "Debutante Trim") set_form(Forms::Furfrou::DEBUTANTE_TRIM);
-                if(form == "Matron Trim") set_form(Forms::Furfrou::MATRON_TRIM);
-                if(form == "Dandy Trim") set_form(Forms::Furfrou::DANDY_TRIM);
-                if(form == "La Reine Trim") set_form(Forms::Furfrou::LA_REINE_TRIM);
-                if(form == "Kabuki Trim") set_form(Forms::Furfrou::KABUKI_TRIM);
-                if(form == "Pharaoh Trim") set_form(Forms::Furfrou::PHARAOH_TRIM);
+                else if(form == "Heart Trim") set_form(Forms::Furfrou::HEART_TRIM);
+                else if(form == "Star Trim") set_form(Forms::Furfrou::STAR_TRIM);
+                else if(form == "Diamond Trim") set_form(Forms::Furfrou::DIAMOND_TRIM);
+                else if(form == "Debutante Trim") set_form(Forms::Furfrou::DEBUTANTE_TRIM);
+                else if(form == "Matron Trim") set_form(Forms::Furfrou::MATRON_TRIM);
+                else if(form == "Dandy Trim") set_form(Forms::Furfrou::DANDY_TRIM);
+                else if(form == "La Reine Trim") set_form(Forms::Furfrou::LA_REINE_TRIM);
+                else if(form == "Kabuki Trim") set_form(Forms::Furfrou::KABUKI_TRIM);
+                else if(form == "Pharaoh Trim") set_form(Forms::Furfrou::PHARAOH_TRIM);
                 else throw std::runtime_error("Invalid form.");
                 return;
 
@@ -1639,16 +1639,18 @@ namespace pkmn
 
             case Species::PUMPKABOO:
                 if(form == "Average Size") set_form(Forms::Pumpkaboo::AVERAGE_SIZE);
-                if(form == "Small Size") set_form(Forms::Pumpkaboo::SMALL_SIZE);
-                if(form == "Large Size") set_form(Forms::Pumpkaboo::LARGE_SIZE);
-                if(form == "Super Size") set_form(Forms::Pumpkaboo::SUPER_SIZE);
+                else if(form == "Small Size") set_form(Forms::Pumpkaboo::SMALL_SIZE);
+                else if(form == "Large Size") set_form(Forms::Pumpkaboo::LARGE_SIZE);
+                else if(form == "Super Size") set_form(Forms::Pumpkaboo::SUPER_SIZE);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::GOURGEIST:
                 if(form == "Average Size") set_form(Forms::Gourgeist::AVERAGE_SIZE);
-                if(form == "Small Size") set_form(Forms::Gourgeist::SMALL_SIZE);
-                if(form == "Large Size") set_form(Forms::Gourgeist::LARGE_SIZE);
-                if(form == "Super Size") set_form(Forms::Gourgeist::SUPER_SIZE);
+                else if(form == "Small Size") set_form(Forms::Gourgeist::SMALL_SIZE);
+                else if(form == "Large Size") set_form(Forms::Gourgeist::LARGE_SIZE);
+                else if(form == "Super Size") set_form(Forms::Gourgeist::SUPER_SIZE);
+                else throw std::runtime_error("Invalid form.");
                 return;
 
             case Species::XERNEAS:
