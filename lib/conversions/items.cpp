@@ -567,7 +567,7 @@ namespace pkmn
                 //Get around "Dropped Item" issue
                 if(pkmds_item.id == ::Items::droppeditem2) pkmds_item.id = ::Items::droppeditem;
 
-                if(pkmds_item.id == 0) break;
+                if(pkmds_item.id == ::Items::NOTHING) break;
                 else key_item_pocket->add_item(database::get_item_id(pkmds_item.id, game_id),
                                                1);
             }

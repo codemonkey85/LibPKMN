@@ -344,8 +344,7 @@ namespace pkmn
                     _form_id = form;
                     SET_IMAGES_PATHS("6.png");
                 }
-                else if(form == Forms::Charizard::MEGA_X or
-                        form == Forms::Charizard::MEGA_Y and
+                else if((form == Forms::Charizard::MEGA_X or form == Forms::Charizard::MEGA_Y) and
                         _generation == 6)
                 {
                     _form_id = form;
@@ -391,8 +390,7 @@ namespace pkmn
                     _form_id = form;
                     SET_IMAGES_PATHS("150.png");
                 }
-                else if(form == Forms::Mewtwo::MEGA_X or
-                        form == Forms::Mewtwo::MEGA_Y and
+                else if((form == Forms::Mewtwo::MEGA_X or form == Forms::Mewtwo::MEGA_Y) and
                         _generation == 6)
                 {
                     _form_id = form;
