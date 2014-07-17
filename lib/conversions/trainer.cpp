@@ -100,6 +100,7 @@ namespace pkmn
             unsigned int gender_id = (libspec_trainer->gender == 0) ? Genders::MALE : Genders::FEMALE;
 
             trainer::sptr libpkmn_trainer = trainer::make(game_id, trainer_name, gender_id);
+            libpkmn_trainer->set_money(gba_get_money(libspec_save));
 
             for(size_t i = 0; i < libspec_party->size; i++)
             {
