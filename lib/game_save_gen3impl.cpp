@@ -62,6 +62,13 @@ namespace pkmn
     void game_save_gen3impl::save_as(const std::string &filename)
     {
         //TODO: actual saving stuff
+
+        //Use size of original filepath to determine new filesize
+        unsigned int size = fs::file_size(_filepath);
+        std::ofstream ofile(filename.c_str());
+        ofile.write((char*)_data, size);
+        ofile.close();
+
         _filepath = fs::path(filename);
     }
 } /* namespace pkmn */
