@@ -28,35 +28,21 @@ namespace pkmn
                                            const std::string &filename): game_save_impl(filename)
     {
         _data = buffer;
-        _save = gba_read_main_save(_data);
-        __trainer = gba_get_trainer(_save);
-        _party = gba_get_party(_save);
-        _pc = gba_get_pc(_save);
+        _libspec_save = gba_read_main_save(_data);
 
-        _game_id = _game_ids[_save->type];
+        _game_id = _game_ids[_libspec_save->type];
 
         load();
     }
 
     game_save_gen3impl::~game_save_gen3impl()
     {
-        gba_free_save(_save);
+        gba_free_save(_libspec_save);
     }
     
     void game_save_gen3impl::load()
     {
-        uint16_t name_arr[7];
-        gba_text_to_ucs2((char16_t*)name_arr, (char8_t*)__trainer->name, 7);
-        pokemon_text trainer_name(boost::locale::conv::utf_to_utf<wchar_t>(name_arr));
-
-        _trainer = trainer::make(_game_id, trainer_name, __trainer->gender);
-
-        for(size_t i = 0; i < 6; i++)
-        {
-            _trainer->set_pokemon(i+1, conversions::import_gen3_pokemon(&(_party->pokemon[i]),
-                                                                        _save->type));
-        }
-        conversions::import_gen3_items(_trainer->get_bag(), _save, _save->type);
+        _trainer = conversions::import_gen3_trainer(_libspec_save);
     }
 
     void game_save_gen3impl::save_as(const std::string &filename)

@@ -12,6 +12,7 @@
 #include <pkmn/types/shared_ptr.hpp>
 
 #include <rpokesav/gen1_save.hpp>
+#include "../libspec/game_gba.h"
 #include <PokeLib/PokeLib.h>
 #include <pkmds/pkmds_g5.h>
 
@@ -25,8 +26,10 @@ namespace pkmn
     {
         trainer::sptr import_gen1_trainer(rpokesav_gen1_sptr sav);
 
+        trainer::sptr import_gen3_trainer(gba_save_t* libspec_save);
+
         trainer::sptr import_gen4_trainer(pokelib_sptr pokelib_save);
-        void export_gen4_trainer(trainer::sptr libpkmn_trainer, pokelib_sptr pokelib_trainer);
+        void export_gen4_trainer(trainer::sptr libpkmn_trainer, pokelib_sptr pokelib_save);
 
         trainer::sptr import_gen5_trainer(pkmds_g5_sptr pkmds_save);
         void export_gen5_trainer(trainer::sptr libpkmn_trainer, pkmds_g5_sptr pkmds_save);

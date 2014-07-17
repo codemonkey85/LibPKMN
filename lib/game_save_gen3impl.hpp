@@ -27,10 +27,7 @@ namespace pkmn
         private:
 
             uint8_t* _data;        
-            gba_save_t* _save;
-            gba_trainer_t* __trainer;
-            gba_party_t* _party;
-            gba_pc_t* _pc;
+            gba_save_t* _libspec_save;
     };
 }
 
