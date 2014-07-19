@@ -60,7 +60,6 @@ namespace pkmn
             virtual std::string get_form() const = 0;
             virtual void set_form(unsigned int form) = 0;
             virtual void set_form(std::string form) = 0;
-            virtual void repair(unsigned int id) = 0;
 
             virtual std::string get_icon_path(bool is_male) const = 0;
             virtual std::string get_sprite_path(bool is_male, bool is_shiny) const = 0;

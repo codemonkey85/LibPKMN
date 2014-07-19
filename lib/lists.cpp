@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -481,7 +481,6 @@ namespace pkmn
                      database::get_species_name(final_species_id) == "Magneton") and gen == 1))
             {
                 base_pokemon::sptr b_pkmn = base_pokemon::make(database::get_species_id(applicable_ids[i]), game_id_from_gen[gen]);
-                b_pkmn->repair(applicable_ids[i]);
                 pkmn_vector.push_back(b_pkmn);
             }
         }

@@ -112,7 +112,6 @@ namespace pkmn
                 _special_defense = int(query.getColumn(0));
                 if(_generation < 6) _use_old_stats();
 
-                repair(_pokemon_id);
                 break;
         }
     }
@@ -1688,112 +1687,6 @@ namespace pkmn
 
         form_signal1();
         form_signal2();
-    }
-
-    void base_pokemon_modernimpl::repair(unsigned int id)
-    {
-        //TODO: standard forms
-        switch(id)
-        {
-            case 10001: //Deoxys - Attack Forme
-                set_form(Forms::Deoxys::ATTACK);
-                break;
-
-            case 10002: //Deoxys - Defense Forme
-                set_form(Forms::Deoxys::DEFENSE);
-                break;
-
-            case 10003: //Deoxys - Speed Forme
-                set_form(Forms::Deoxys::SPEED);
-                break;
-
-            case 10004: //Wormadam - Sandy Cloak
-                set_form(Forms::Wormadam::SANDY_CLOAK);
-                break;
-
-            case 10005: //Wormadam - Trash Cloak
-                set_form(Forms::Wormadam::TRASH_CLOAK);
-                break;
-
-            case 10006: //Shaymin - Sky Forme
-                set_form(Forms::Shaymin::SKY);
-                break;
-
-            case 10007: //Giratina - Origin Forme
-                set_form(Forms::Giratina::ORIGIN);
-                break;
-
-            case 10008: //Rotom - Heat
-                set_form(Forms::Rotom::HEAT);
-                break;
-
-            case 10009: //Rotom - Wash
-                set_form(Forms::Rotom::WASH);
-                break;
-
-            case 10010: //Rotom - Frost
-                set_form(Forms::Rotom::FROST);
-                break;
-
-            case 10011: //Rotom - Fan
-                set_form(Forms::Rotom::FAN);
-                break;
-
-            case 10012: //Rotom - Mow
-                set_form(Forms::Rotom::MOW);
-                break;
-
-            case 10013: //Castform - Sunny
-                set_form(Forms::Castform::SUNNY);
-                break;
-
-            case 10014: //Castform - Rainy
-                set_form(Forms::Castform::RAINY);
-                break;
-
-            case 10015: //Castform - Snowy
-                set_form(Forms::Castform::SNOWY);
-                break;
-
-            case 10016: //Basculin - Blue-Striped
-                set_form(Forms::Basculin::BLUE_STRIPED);
-                break;
-
-            case 10017: //Darmanitan - Zen
-                set_form(Forms::Darmanitan::ZEN);
-                break;
-
-            case 10018: //Meloetta - Pirouette
-                set_form(Forms::Meloetta::PIROUETTE);
-                break;
-
-            case 10019: //Tornadus - Therian
-                set_form(Forms::Tornadus::THERIAN);
-                break;
-
-            case 10020: //Thundurus - Therian
-                set_form(Forms::Thundurus::THERIAN);
-                break;
-
-            case 10021: //Landorus - Therian
-                set_form(Forms::Landorus::THERIAN);
-                break;
-
-            case 10022: //Kyurem - Black
-                set_form(Forms::Kyurem::BLACK);
-                break;
-
-            case 10023: //Kyurem - White
-                set_form(Forms::Kyurem::WHITE);
-                break;
-
-            case 10024: //Keldeo - Resolute
-                set_form(Forms::Keldeo::RESOLUTE);
-                break;
-
-            default: //Nothing to do
-                break;
-        }
     }
 
     string base_pokemon_modernimpl::get_icon_path(bool is_male) const

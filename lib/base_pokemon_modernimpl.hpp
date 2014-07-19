@@ -45,7 +45,6 @@ namespace pkmn
 
             void set_form(unsigned int form);
             void set_form(std::string form);
-            void repair(unsigned int id);
 
             std::string get_icon_path(bool is_male) const;
             std::string get_sprite_path(bool is_male, bool is_shiny) const;

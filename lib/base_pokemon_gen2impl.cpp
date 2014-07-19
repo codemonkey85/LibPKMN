@@ -69,7 +69,6 @@ namespace pkmn
                 _special_defense = int(query.getColumn(0));
                 _use_old_stats();
 
-                repair(_pokemon_id);
                 break;
         }
 
@@ -228,8 +227,6 @@ namespace pkmn
         }
         else throw std::runtime_error("Invalid form.");
     }
-
-    void base_pokemon_gen2impl::repair(unsigned int id) {};
 
     //Gender doesn't matter for icons in Generation 2
     string base_pokemon_gen2impl::get_icon_path(bool is_male) const

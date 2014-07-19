@@ -113,7 +113,6 @@ namespace pkmn
     //No forms in Generation 1    
     void base_pokemon_gen1impl::set_form(unsigned int form) {};
     void base_pokemon_gen1impl::set_form(std::string form) {};
-    void base_pokemon_gen1impl::repair(unsigned int id) {};
 
     //No genders in Generation 1
     std::string base_pokemon_gen1impl::get_icon_path(bool is_male) const
