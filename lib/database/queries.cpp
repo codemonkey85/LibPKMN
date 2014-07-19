@@ -20,6 +20,7 @@
 
 #include "../SQLiteCpp/SQLiteC++.h"
 
+#define CONNECT_TO_DB() if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
 #define THROW_QUERY_ERROR() throw std::runtime_error(str(boost::format("%s: Invalid query \"%s\"") \
                                                       % __FUNCTION__ % query_stream.str().c_str()));
 
@@ -64,7 +65,7 @@ namespace pkmn
 
         unsigned int get_ability_id(const std::string &ability_name)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(ability_name == "None") return Abilities::NONE;
 
             std::ostringstream query_stream;
@@ -75,7 +76,7 @@ namespace pkmn
 
         std::string get_ability_name(const unsigned int ability_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(ability_id == Abilities::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -86,7 +87,7 @@ namespace pkmn
 
         std::string get_ability_description(const unsigned int ability_id, const unsigned int version_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(ability_id == Abilities::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -102,7 +103,7 @@ namespace pkmn
 
         unsigned int get_egg_group_id(const std::string &egg_group_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(egg_group_id == Egg_Groups::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -113,7 +114,7 @@ namespace pkmn
 
         std::string get_egg_group_name(const unsigned int egg_group_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(egg_group_id == Egg_Groups::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -122,9 +123,26 @@ namespace pkmn
             GET_STRING(query);
         }
 
+        unsigned int get_generation(const unsigned int version_id)
+        {
+            CONNECT_TO_DB();
+            if(version_id == Versions::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT generation_id FROM version_groups WHERE version_group_id="
+                         << get_version_group_id(version_id);
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_generation(const std::string &version_name)
+        {
+            return get_generation(get_version_id(version_name));
+        }
+
         unsigned int get_item_id(const std::string &item_name)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(item_name == "None") return Items::NONE;
 
             std::ostringstream query_stream;
@@ -135,7 +153,7 @@ namespace pkmn
 
         std::string get_item_name(const unsigned int item_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(item_id == Items::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -146,7 +164,7 @@ namespace pkmn
 
         std::string get_item_description(const unsigned int item_id, const unsigned int version_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(item_id == Abilities::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -161,9 +179,26 @@ namespace pkmn
             return get_item_description(get_item_id(item_name), get_version_id(version_name));
         }
 
+        unsigned int get_item_game_index(const unsigned int item_id, const unsigned int version_id)
+        {
+            CONNECT_TO_DB();
+            item(item_id == Items::NONE or version_id == Versions::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT game_index FROM item_game_indices WHERE item_id=" << item_id <<
+                         << " AND generation_id=" << get_generation(version_id);
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_item_game_index(const std::string &item_name, const std::string &version_name)
+        {
+            return get_item_game_index(get_item_id(item_name), get_verson_id(version_name));
+        }
+
         unsigned int get_move_id(const std::string &move_name)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(move_name == "None") return Moves::NONE;
 
             std::ostringstream query_stream;
@@ -174,7 +209,7 @@ namespace pkmn
 
         std::string get_move_name(const unsigned int move_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(move_id == Moves::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -185,7 +220,7 @@ namespace pkmn
 
         std::string get_move_description(const unsigned int move_id, const unsigned int version_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(move_id == Abilities::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -202,7 +237,7 @@ namespace pkmn
 
         unsigned int get_nature_id(const std::string &nature_name)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(nature_name == "None") return Moves::NONE;
 
             std::ostringstream query_stream;
@@ -213,7 +248,7 @@ namespace pkmn
 
         std::string get_nature_name(const unsigned int nature_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(nature_id == Natures::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -224,7 +259,7 @@ namespace pkmn
 
         double get_nature_stat_mod(const unsigned int nature_id, const unsigned int stat_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(nature_id == Natures::NONE or stat_id == Stats::NONE) return 1.0;
 
             std::ostringstream query_stream;
@@ -242,21 +277,137 @@ namespace pkmn
             return get_nature_stat_mod(get_nature_id(nature_name), get_stat_id(stat_name));
         }
 
+        std::string get_pokedex_entry(const unsigned int species_id, const unsigned int version_id)
+        {
+            CONNECT_TO_DB();
+            if(species_id == Species::NONE or version_id == Versions::NONE) return "None";
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT flavor_text FROM pokemon_species_flavor_text WHERE language_id=9 AND species_id=" << species_id
+                         << " AND version_id=" << version_id;
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_STRING(query);
+        }
+
+        std::string get_pokedex_entry(const std::string &species_name, const std::string &version_name)
+        {
+            return get_pokedex_entry(get_species_id(species_name), get_version_id(version_name));
+        }
+
+        unsigned int get_pokemon_id(const unsigned int game_index, const unsigned int version_id)
+        {
+            CONNECT_TO_DB();
+            if(version_id == Versions::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT pokemon_id FROM pokemon_game_indices WHERE version_id=" << version_id
+                         << " AND game_index=" << game_index;
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_pokemon_id(const unsigned int game_index, const std::string &version_name)
+        {
+            return get_pokemon_id(game_index, get_version_id(version_name));
+        }
+
+        unsigned int get_pokemon_id(const unsigned int form_id)
+        {
+            CONNECT_TO_DB();
+            if(form_id == 0) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT pokemon_id FROM pokemon_forms WHERE id=" << form_id;
+            SQLite::Statement(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_pokemon_game_index(const unsigned int pokemon_id, const unsigned int version_id)
+        {
+            CONNECT_TO_DB();
+            if(version_id == Versions::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT game_index FROM pokemon_game_indices WHERE pokemon_id=" << pokemon_id
+                         << " AND version_id=" << version_id;
+            SQlite::Statement(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_pokemon_game_index(const unsigned int pokemon_id, const std::string &version_name)
+        {
+            return get_pokemon_game_index(pokemon_id, get_version_id(version_name));
+        }
+
+        unsigned int get_species_id(const std::string &species_name)
+        {
+            CONNECT_TO_DB();
+            if(species_name == "None") return Species::NONE;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT pokemon_species_id FROM pokemon_species_names WHERE name='" << species_name << "'";
+            SQLite::Statement(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_species_id(const unsigned int pokemon_id)
+        {
+            CONNECT_TO_DB();
+            if(pokemon_id == 0) return Species::NONE;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT species_id FROM pokemon WHERE id=" << pokemon_id;
+            SQLite::Statement(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        std::string get_species_name(const unsigned int species_id)
+        {
+            CONNECT_TO_DB();
+            if(species_id == Versions::NONE) return "None";
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT name FROM pokemon_species_names WHERE local_language_id=9 AND pokemon_species_id=" << species_id;
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_STRING(query);
+        }
+
+        unsigned int get_type_id(const std::string &type_name)
+        {
+            CONNECT_TO_DB();
+            if(type_name == "None") return Types::NONE;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT type_id FROM type_names WHERE local_language_id=9 AND name='" << type_name << "'";
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        std::string get_type_name(const unsigned int type_id)
+        {
+            CONNECT_TO_DB();
+            if(type_id == Versions::NONE) return "None";
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT name FROM type_names WHERE local_language_id=9 AND type_id=" << type_id;
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_STRING(query);
+        }
+
         unsigned int get_version_id(const std::string &version_name)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(version_name == "None") return Versions::NONE;
 
             std::ostringstream query_stream;
-            query_stream << "SELECT version_id FROM version_names WHERE name=" << version_name;
+            query_stream << "SELECT version_id FROM version_names WHERE name='" << version_name << "'";
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_NUM(query);
-
         }
 
         std::string get_version_name(const unsigned int version_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(version_id == Versions::NONE) return "None";
 
             std::ostringstream query_stream;
@@ -267,7 +418,7 @@ namespace pkmn
 
         unsigned int get_version_group_id(const unsigned int version_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(version_id == Versions::NONE) return Version_Groups::NONE;
 
             std::ostringstream query_stream;
@@ -283,7 +434,7 @@ namespace pkmn
 
         std::string get_version_group_name(const unsigned int version_group_id)
         {
-            if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
+            CONNECT_TO_DB();
             if(version_group_id == Version_Groups::NONE) return "None";
 
             std::ostringstream query_stream;
