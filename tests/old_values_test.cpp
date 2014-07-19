@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE(has_database_additions_test)
 }
 
 /*
- * This test makes sure these changes apply to the relevant base_pokemon implementations.
+ * This test makes sure Pokemon from different generations have the appropriate stats/types.
  */
 BOOST_AUTO_TEST_CASE(base_pokemon_test)
 {
@@ -114,10 +114,25 @@ BOOST_AUTO_TEST_CASE(base_pokemon_test)
     BOOST_CHECK_EQUAL(b_pkmn7->get_exp_yield(), 73);
     BOOST_CHECK_EQUAL(b_pkmn8->get_exp_yield(), 75);
     BOOST_CHECK_EQUAL(b_pkmn9->get_exp_yield(), 62);
+
+    //Type changes
+    pkmn::base_pokemon::sptr b_pkmn10 = pkmn::base_pokemon::make("Magnemite", "Red");
+    pkmn::base_pokemon::sptr b_pkmn11 = pkmn::base_pokemon::make("Magnemite", "Silver");
+    pkmn::base_pokemon::sptr b_pkmn12 = pkmn::base_pokemon::make("Magnemite", "Pearl");
+    pkmn::base_pokemon::sptr b_pkmn13 = pkmn::base_pokemon::make("Marill", "Gold");
+    pkmn::base_pokemon::sptr b_pkmn14 = pkmn::base_pokemon::make("Marill", "Black");
+    pkmn::base_pokemon::sptr b_pkmn15 = pkmn::base_pokemon::make("Marill", "Y");
+
+    BOOST_CHECK(b_pkmn10->get_types().second == "None");
+    BOOST_CHECK(b_pkmn11->get_types().second == "Steel");
+    BOOST_CHECK(b_pkmn12->get_types().second == "Steel");
+    BOOST_CHECK(b_pkmn13->get_types().second == "None");
+    BOOST_CHECK(b_pkmn14->get_types().second == "None");
+    BOOST_CHECK(b_pkmn15->get_types().second == "Fairy");
 }
 
 /*
- * This test makes sure these changes apply to the move class.
+ * This test makes sure moves from different generations have the appropriate stats.
  */
 BOOST_AUTO_TEST_CASE(move_test)
 {
@@ -182,4 +197,13 @@ BOOST_AUTO_TEST_CASE(move_test)
     BOOST_CHECK_EQUAL(move20->get_name(), "Ancient Power");
     BOOST_CHECK_EQUAL(move21->get_name(), "Sand-Attack");
     BOOST_CHECK_EQUAL(move22->get_name(), "Sand Attack");
+
+    //Type changes
+    pkmn::move::sptr move23 = pkmn::move::make("Curse", "Crystal");
+    pkmn::move::sptr move24 = pkmn::move::make("Curse", "FireRed");
+    pkmn::move::sptr move25 = pkmn::move::make("Curse", "HeartGold");
+
+    BOOST_CHECK_EQUAL(move23->get_type(), "???");
+    BOOST_CHECK_EQUAL(move24->get_type(), "???");
+    BOOST_CHECK_EQUAL(move25->get_type(), "Ghost");
 }
