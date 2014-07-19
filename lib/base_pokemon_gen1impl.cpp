@@ -61,7 +61,7 @@ namespace pkmn
                 std::string query_string = "SELECT base_stat FROM pokemon_stats WHERE pokemon_id="
                                          + to_string(_pokemon_id) + " AND stat_id=9";
                 _special = int(_db->execAndGet(query_string.c_str()));
-                _use_old_stats();
+                _set_old_values();
                 break;
         }
 
@@ -131,5 +131,16 @@ namespace pkmn
     {
         egg_group_id_vec.clear();
         egg_group_id_vec.push_back(pkmn::Egg_Groups::NONE);
+    }
+
+    void base_pokemon_gen1impl::_set_old_values()
+    {
+        base_pokemon_impl::_set_old_values();
+
+        //Magnemite and Magneton are the only Pokemon that change types between Gen I-II
+        if(_species_id == Species::MAGNEMITE or _species_id == Species::MAGNETON)
+        {
+            _type2_id = Types::NONE;
+        } 
     }
 } /* namespace pkmn */

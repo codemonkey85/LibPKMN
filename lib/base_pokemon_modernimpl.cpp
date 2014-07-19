@@ -110,7 +110,7 @@ namespace pkmn
                 _special_attack = int(query.getColumn(0));
                 query.executeStep();
                 _special_defense = int(query.getColumn(0));
-                if(_generation < 6) _use_old_stats();
+                if(_generation < 6) _set_old_values();
 
                 break;
         }
@@ -1246,7 +1246,7 @@ namespace pkmn
         _special_defense = int(stats_query.getColumn(0));
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
-        if(_generation < 6) _use_old_stats();
+        if(_generation < 6) _set_old_values();
 
         _type1_id = stats_query.getColumn(0);
         if(stats_query.executeStep()) _type2_id = stats_query.getColumn(0);
@@ -1683,7 +1683,7 @@ namespace pkmn
         _special_defense = int(stats_query.getColumn(0));
         stats_query.executeStep();
         _speed = int(stats_query.getColumn(0));
-        if(_generation < 6) _use_old_stats();
+        if(_generation < 6) _set_old_values();
 
         form_signal1();
         form_signal2();

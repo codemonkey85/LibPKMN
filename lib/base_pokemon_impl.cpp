@@ -325,41 +325,169 @@ namespace pkmn
      * There are several Pokémon whose stats changed in Generation VI. This function sets the old stats
      * if the Pokémon is from a prior generation.
      */
-    void base_pokemon_impl::_use_old_stats()
+    void base_pokemon_impl::_set_old_values()
     {
-        //TODO: better way without unnecessary database queries?
-        if(_species_id == Species::BUTTERFREE) _special_attack = 80;
-        else if(_species_id == Species::BEEDRILL) _attack = 80;
-        else if(_species_id == Species::PIDGEOT) _speed = 91;
-        else if(_species_id == Species::PIKACHU)
+        switch(_species_id)
         {
-            _defense = 30;
-            _special_defense = 40;
+            case Species::BUTTERFREE:
+                _special_attack = 80;
+                break;
+
+            case Species::BEEDRILL:
+                _attack = 80;
+                break;
+
+            case Species::PIDGEOT:
+                _speed = 91;
+                break;
+
+            case Species::PIKACHU:
+                _defense = 30;
+                _special_defense = 40;
+                break;
+
+            case Species::RAICHU:
+                _speed = 100;
+                break;
+
+            case Species::NIDOQUEEN:
+                _attack = 82;
+                break;
+
+            case Species::NIDOKING:
+                _attack = 92;
+                break;
+
+            case Species::CLEFAIRY:
+                _type1_id = Types::NORMAL;
+                break;
+
+            case Species::CLEFABLE:
+                _type1_id = Types::NORMAL;
+                _special_attack = 85;
+                break;
+
+            case Species::JIGGLYPUFF:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::WIGGLYTUFF:
+                _type2_id = Types::NONE;
+                _special_attack = 75;
+                break;
+
+            case Species::VILEPLUME:
+                _special_attack = 75;
+                break;
+
+            case Species::POLIWRATH:
+                _attack = 85;
+                break;
+
+            case Species::ALAKAZAM:
+                _special_defense = 85;
+                break;
+
+            case Species::VICTREEBEL:
+                _special_defense = 60;
+                break;
+
+            case Species::GOLEM:
+                _attack = 210;
+                break;
+
+            case Species::MR_MIME:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::IGGLYBUFF:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::AMPHAROS:
+                _defense = 75;
+                break;
+
+            case Species::BELLOSSOM:
+                _defense = 85;
+                break;
+
+            case Species::MARILL:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::AZUMARILL:
+                _type2_id = Types::NONE;
+                _defense = 85;
+                break;
+
+            case Species::JUMPLUFF:
+                _special_defense = 85;
+                break;
+
+            case Species::BEAUTIFLY:
+                _special_attack = 90;
+                break;
+
+            case Species::RALTS:
+            case Species::KIRLIA:
+            case Species::GARDEVOIR:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::EXPLOUD:
+                _special_defense = 63;
+                break;
+
+            case Species::AZURILL:
+            case Species::MAWILE:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::STARAPTOR:
+                _special_defense = 50;
+                break;
+
+            case Species::ROSERADE:
+                _defense = 55;
+                break;
+
+            case Species::MIME_JR:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::STOUTLAND:
+                _attack = 100;
+                break;
+
+            case Species::UNFEZANT:
+                _attack = 105;
+                break;
+
+            case Species::GIGALITH:
+                _special_defense = 70;
+                break;
+
+            case Species::SEISMITOAD:
+                _attack = 85;
+                break;
+
+            case Species::LEAVANNY:
+                _special_defense = 70;
+                break;
+
+            case Species::SCOLIPEDE:
+                _attack = 90;
+                break;
+
+            case Species::COTTONEE:
+            case Species::WHIMSICOTT:
+                _type2_id = Types::NONE;
+                break;
+
+            case Species::KROOKODILE:
+                _defense = 70;
+                break;
         }
-        else if(_species_id == Species::RAICHU) _speed = 100;
-        else if(_species_id == Species::NIDOQUEEN) _attack = 82;
-        else if(_species_id == Species::NIDOKING) _attack = 92;
-        else if(_species_id == Species::CLEFABLE) _special_attack = 85;
-        else if(_species_id == Species::WIGGLYTUFF) _special_attack = 75;
-        else if(_species_id == Species::VILEPLUME) _special_attack = 100;
-        else if(_species_id == Species::POLIWRATH) _attack = 85;
-        else if(_species_id == Species::ALAKAZAM) _special_defense = 85;
-        else if(_species_id == Species::VICTREEBEL) _special_defense = 60;
-        else if(_species_id == Species::GOLEM) _attack = 210;
-        else if(_species_id == Species::AMPHAROS) _defense = 75;
-        else if(_species_id == Species::BELLOSSOM) _defense = 85;
-        else if(_species_id == Species::AZUMARILL) _special_attack = 50;
-        else if(_species_id == Species::JUMPLUFF) _special_defense = 85;
-        else if(_species_id == Species::BEAUTIFLY) _special_attack = 90;
-        else if(_species_id == Species::EXPLOUD) _special_defense = 63;
-        else if(_species_id == Species::STARAPTOR) _special_defense = 50;
-        else if(_species_id == Species::ROSERADE) _defense = 55;
-        else if(_species_id == Species::STOUTLAND) _attack = 100;
-        else if(_species_id == Species::UNFEZANT) _attack = 105;
-        else if(_species_id == Species::GIGALITH) _special_defense = 70;
-        else if(_species_id == Species::SEISMITOAD) _attack = 85;
-        else if(_species_id == Species::LEAVANNY) _special_defense = 70;
-        else if(_species_id == Species::SCOLIPEDE) _attack = 90;
-        else if(_species_id == Species::KROOKODILE) _defense = 70;
     }
 } /* namespace pkmn */

@@ -38,6 +38,9 @@ namespace pkmn
 
             //Database Info
             void get_egg_group_ids(std::vector<unsigned int>& egg_group_id_vec) const;
+
+        private:
+            void _set_old_values();
     };
 }
 
