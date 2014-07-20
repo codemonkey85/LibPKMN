@@ -162,10 +162,43 @@ namespace pkmn
             GET_STRING(query);
         }
 
+        unsigned int get_item_category_id(const unsigned int item_id)
+        {
+            CONNECT_TO_DB();
+            if(item_id == Items::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT category_id FROM items WHERE id=" << item_id;
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_item_category_id(const std::string &item_name)
+        {
+            return get_item_category_id(get_item_id(item_name));
+        }
+
+        std::string get_item_category_name(const unsigned int item_id)
+        {
+            CONNECT_TO_DB();
+            if(item_id == Items::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT name FROM item_category_prose WHERE local_language_id=9 AND item_category_id="
+                         << get_item_category_id(item_id);
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_STRING(query);
+        }
+
+        std::string get_item_category_name(const std::string &item_name)
+        {
+            return get_item_category_name(get_item_id(item_name));
+        }
+
         std::string get_item_description(const unsigned int item_id, const unsigned int version_id)
         {
             CONNECT_TO_DB();
-            if(item_id == Abilities::NONE) return "None";
+            if(item_id == Items::NONE) return "None";
 
             std::ostringstream query_stream;
             query_stream << "SELECT flavor_text FROM item_flavor_text WHERE language=9 AND ability_id=" << item_id
@@ -218,10 +251,52 @@ namespace pkmn
             GET_STRING(query);
         }
 
+        unsigned int get_move_damage_class_id(const unsigned int move_id)
+        {
+            CONNECT_TO_DB();
+            if(move_id == Moves::NONE) = 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT damage_class_id FROM moves WHERE id=" << move_id;
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned int get_move_damage_class_id(const std::string &move_name)
+        {
+            return get_move_damage_class_id(get_move_id(move_name));
+        }
+
+        std::string get_move_damage_class_name(const unsigned int move_id)
+        {
+            CONNECT_TO_DB();
+            if(move_id == Moves::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT name FROM move_damage_class_prose WHERE local_language_id=9 AND move_damage_class_id="
+                         << get_move_damage_class_id(move_id);
+            SQLite::Statement query(*db, query_stream.str().c_str());
+
+            if(not query.executeStep()) THROW_QUERY_ERROR();
+            else
+            {
+                std::string full_name = (const char*)(query.getColumn(0));
+                std::string name;
+
+                full_name >> name; //Should only get first word
+                return name;
+            }
+        }
+
+        std::string get_move_damage_class_name(const std::string &move_name)
+        {
+            return get_move_damage_class_name(get_move_id(move_name));
+        }
+
         std::string get_move_description(const unsigned int move_id, const unsigned int version_id)
         {
             CONNECT_TO_DB();
-            if(move_id == Abilities::NONE) return "None";
+            if(move_id == Moves::NONE) return "None";
 
             std::ostringstream query_stream;
             query_stream << "SELECT flavor_text FROM move_flavor_text WHERE language=9 AND ability_id=" << move_id
@@ -233,6 +308,22 @@ namespace pkmn
         std::string get_move_description(const std::string &move_name, const std::string &version_name)
         {
             return get_move_description(get_move_id(move_name), get_version_id(version_name));
+        }
+
+        unsigned int get_move_pp(const unsigned int move_id)
+        {
+            CONNECT_TO_DB();
+            if(move_id == Moves::NONE) return 0;
+
+            std::ostringstream query_stream;
+            query_stream << "SELECT pp FROM moves WHERE id=" << move_id;
+            SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_NUM(query);
+        }
+
+        unsigned get_move_pp(const std::string &move_name)
+        {
+            return get_move_pp(get_move_id(move_name));
         }
 
         unsigned int get_nature_id(const std::string &nature_name)

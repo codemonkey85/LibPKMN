@@ -28,6 +28,10 @@ namespace pkmn
 
         unsigned int PKMN_API get_item_id(const std::string &item_name);
         std::string PKMN_API get_item_name(const unsigned int item_id);
+        unsigned int PKMN_API get_item_category_id(const unsigned int item_id);
+        unsigned int PKMN_API get_item_category_id(const std::string &item_name);
+        std::string PKMN_API get_item_category_name(const unsigned int item_id);
+        std::string PKMN_API get_item_category_name(const std::string &item_name);
         std::string PKMN_API get_item_description(const unsigned int item_id, const unsigned int version_id);
         std::string PKMN_API get_item_description(const std::string &item_name, const std::string &version_name);
         unsigned int PKMN_API get_item_game_index(const unsigned int item_id, const unsigned int version_id);
@@ -35,8 +39,14 @@ namespace pkmn
 
         unsigned int PKMN_API get_move_id(const std::string &move_name);
         std::string PKMN_API get_move_name(const unsigned int move_id);
+        unsigned int PKMN_API get_move_damage_class_id(const unsigned int move_id);
+        unsigned int PKMN_API get_move_damage_class_id(const std::string &move_name);
+        std::string PKMN_API get_move_damage_class_name(const unsigned int move_id);
+        std::string PKMN_API get_move_damage_class_name(const std::string &move_name);
         std::string PKMN_API get_move_description(const unsigned int move_id, const unsigned int version_id);
         std::string PKMN_API get_move_description(const std::string &move_name, const std::string &version_name);
+        unsigned int PKMN_API get_move_pp(const unsigned int move_id);
+        unsigned int PKMN_API get_move_pp(const std::string &move_name);
 
         unsigned int PKMN_API get_nature_id(const std::string &nature_name);
         std::string PKMN_API get_nature_name(const unsigned int nature_id);
@@ -65,21 +75,6 @@ namespace pkmn
         unsigned int PKMN_API get_version_group_id(const unsigned int version_id);
         unsigned int PKMN_API get_version_group_id(const std::string &version_name);
         std::string PKMN_API get_version_group_name(const unsigned int version_group_id);
-
-        /*
-        unsigned int PKMN_API get_damage_class(unsigned int type_id);
-
-        unsigned int PKMN_API get_item_category(unsigned int item_id);
-        unsigned int PKMN_API get_item_category(std::string item_name);
-
-        unsigned int PKMN_API get_move_pp(unsigned int move_id);
-
-        unsigned int PKMN_API get_species_id(unsigned int pokemon_id);
-        unsigned int PKMN_API get_species_id(std::string species_name);
-        unsigned int PKMN_API get_species_id(unsigned int species_index, unsigned int version);
-        unsigned int PKMN_API get_species_index(unsigned int pokemon_id, unsigned int version);
-        std::string PKMN_API get_species_name(unsigned int species_id);
-        */
     }
 }
 
