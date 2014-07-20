@@ -57,7 +57,7 @@ namespace pkmn
                                           std::string move3, std::string move4)
     {
         return make(database::get_species_id(name),
-                    database::get_game_id(game),
+                    database::get_version_id(game),
                     level,
                     database::get_move_id(move1),
                     database::get_move_id(move2),
@@ -201,7 +201,7 @@ namespace pkmn
         return (*this);
     }
 
-    std::string team_pokemon_impl::get_game() const {return database::get_game_name(_game_id);}
+    std::string team_pokemon_impl::get_game() const {return database::get_version_name(_game_id);}
 
     unsigned int team_pokemon_impl::get_generation() const {return _generation;}
 
@@ -213,7 +213,7 @@ namespace pkmn
 
     pokemon_text team_pokemon_impl::get_species_name() const {return _base_pkmn->get_name();}
 
-    std::string team_pokemon_impl::get_original_game() const {return database::get_game_name(_original_game_id);}
+    std::string team_pokemon_impl::get_original_game() const {return database::get_version_name(_original_game_id);}
 
     pokemon_text team_pokemon_impl::get_nickname() const {return _nickname;}
 
@@ -240,7 +240,7 @@ namespace pkmn
         //Simple test to see if game ID is valid
         try
         {
-            std::string game_name = database::get_game_name(game);
+            std::string game_name = database::get_version_name(game);
             _original_game_id = game;
         }
         catch(const std::exception &e)
@@ -249,7 +249,7 @@ namespace pkmn
         }
     }
 
-    void team_pokemon_impl::set_original_game(std::string game) {_original_game_id = database::get_game_id(game);}
+    void team_pokemon_impl::set_original_game(std::string game) {_original_game_id = database::get_version_id(game);}
 
     void team_pokemon_impl::set_nickname(pokemon_text nickname)
     {

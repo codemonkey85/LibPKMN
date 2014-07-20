@@ -109,8 +109,8 @@ namespace pkmn
             t_pkmn->get_moves(moves);
             t_pkmn->get_move_PPs(move_PPs);
 
-            uint8_t rpokesav_species = database::get_species_index(t_pkmn->get_pokemon_id(),
-                                                                   Versions::YELLOW);
+            uint8_t rpokesav_species = database::get_pokemon_game_index(t_pkmn->get_pokemon_id(),
+                                                                        Versions::YELLOW);
 
             pkmn = rpokesav::gen1_pokemon(rpokesav_species);
 
@@ -165,7 +165,7 @@ namespace pkmn
                                           Moves::NONE, Moves::NONE, Moves::NONE, Moves::NONE);
             }
 
-            uint16_t species_id = database::get_species_id(pkmn->species, game_id);
+            uint16_t species_id = database::get_species_id(database::get_pokemon_id(pkmn->species, game_id));
 
             //LibSPEC has no way to link Pokemon to growth rates, so use database
             SQLite::Database db(get_database_path().c_str());
@@ -319,8 +319,8 @@ namespace pkmn
             set_marking(marking_int, Markings::HEART, attributes.at("heart", 0));
 
             pkmn->species = t_pkmn->get_species_id();
-            pkmn->held_item = database::get_item_index(t_pkmn->get_held_item()->get_item_id(),
-                                                       t_pkmn->get_game_id());
+            pkmn->held_item = database::get_item_game_index(t_pkmn->get_held_item()->get_item_id(),
+                                                            t_pkmn->get_game_id());
             //TODO: store actual experience, currently set it to what level needs
             //LibSPEC has no way to link Pokemon to growth rates, so use database
             SQLite::Database db(get_database_path().c_str());
@@ -468,7 +468,7 @@ namespace pkmn
             unsigned int level, species_id;
 
             level = pokelib_pkmn.getLevel();
-            species_id = database::get_species_id(pokelib_pkmn.pkm->pkm.species, Versions::DIAMOND);
+            species_id = database::get_species_id(database::get_pokemon_id(pokelib_pkmn.pkm->pkm.species, Versions::DIAMOND));
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Versions::DIAMOND, level,
                                         pokelib_pkmn.pkm->pkm.move[0], pokelib_pkmn.pkm->pkm.move[1],
@@ -631,7 +631,7 @@ namespace pkmn
         {
             PokeLib::Pokemon pokelib_pkmn;
 
-            pokelib_pkmn.pkm->pkm.species = database::get_species_index(t_pkmn->get_pokemon_id(), t_pkmn->get_game_id());
+            pokelib_pkmn.pkm->pkm.species = database::get_pokemon_game_index(t_pkmn->get_pokemon_id(), t_pkmn->get_game_id());
             pokelib_pkmn.setLevel(uint8_t(t_pkmn->get_level()));
             pokelib_pkmn.setNickname(t_pkmn->get_nickname());
             pokelib_pkmn.setTrainerName(t_pkmn->get_trainer_name());
@@ -640,7 +640,7 @@ namespace pkmn
             pokelib_pkmn.pkm->pkm.ot_sid = t_pkmn->get_trainer_secret_id();
 
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
-            pokelib_pkmn.pkm->pkm.held_item = database::get_item_index(raw_held, t_pkmn->get_game_id());
+            pokelib_pkmn.pkm->pkm.held_item = database::get_item_game_index(raw_held, t_pkmn->get_game_id());
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(pokelib_pkmn.pkm->pkm.pokeball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
@@ -805,7 +805,8 @@ namespace pkmn
         {
             ::opendb(get_database_path().c_str());
 
-            unsigned int species_id = database::get_species_id(p_pkm->species_int, Versions::BLACK);
+            unsigned int species_id = database::get_species_id(database::get_pokemon_id(p_pkm->species_int,
+                                                                                        Versions::BLACK));
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, Versions::BLACK, p_pkm->party_data.level,
                                         p_pkm->moves[0], p_pkm->moves[1],
@@ -974,7 +975,7 @@ namespace pkmn
         void export_gen5_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm)
         {
             p_pkm->species = ::Species::species(
-                                 database::get_species_index(t_pkmn->get_pokemon_id(),
+                                 database::get_pokemon_game_index(t_pkmn->get_pokemon_id(),
                                  t_pkmn->get_game_id()));
 
             moveset_t moves;
@@ -1005,7 +1006,7 @@ namespace pkmn
             #endif
 
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
-            p_pkm->item = ::Items::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
+            p_pkm->item = ::Items::items(database::get_item_game_index(raw_held, t_pkmn->get_game_id()));
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkm->ball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());
@@ -1161,7 +1162,7 @@ namespace pkmn
 
             level = p_pkx->party_data.level;
             from_game = hometown_to_libpkmn_game(p_pkx->hometown);
-            species_id = database::get_species_id(p_pkx->species, from_game);
+            species_id = database::get_species_id(database::get_pokemon_id(p_pkx->species, from_game));
 
             team_pokemon::sptr t_pkmn = team_pokemon::make(species_id, from_game, level,
                                         p_pkx->moves[0], p_pkx->moves[1],
@@ -1207,7 +1208,7 @@ namespace pkmn
         void export_gen6_pokemon(team_pokemon::sptr t_pkmn, party_pkx* p_pkx)
         {
             p_pkx->species = ::Species_g6::species(
-                                 database::get_species_index(t_pkmn->get_pokemon_id(),
+                                 database::get_pokemon_game_index(t_pkmn->get_pokemon_id(),
                                  t_pkmn->get_game_id()));
 
             moveset_t moves;
@@ -1229,7 +1230,7 @@ namespace pkmn
             //TODO: setting nicknames and trainer names
 
             unsigned int raw_held = t_pkmn->get_held_item()->get_item_id();
-            p_pkx->item = ::Items_g6::items(database::get_item_index(raw_held, t_pkmn->get_game_id()));
+            p_pkx->item = ::Items_g6::items(database::get_item_game_index(raw_held, t_pkmn->get_game_id()));
 
             uint8_t* metlevel_int = reinterpret_cast<uint8_t*>(&(p_pkx->ball)+1);
             set_gen_456_met_level(metlevel_int, t_pkmn->get_met_level());

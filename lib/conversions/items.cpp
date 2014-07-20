@@ -214,7 +214,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemGeneral, (i+1), pokelib_bagitem);
@@ -232,7 +232,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemMedicine, (i+1), pokelib_bagitem);
@@ -250,7 +250,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemBall, (i+1), pokelib_bagitem);
@@ -268,7 +268,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemTM, (i+1), pokelib_bagitem);
@@ -286,7 +286,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemBerry, (i+1), pokelib_bagitem);
@@ -304,7 +304,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemMail, (i+1), pokelib_bagitem);
@@ -322,7 +322,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemBattle, (i+1), pokelib_bagitem);
@@ -340,7 +340,7 @@ namespace pkmn
                 else
                 {
                     PokeLib::BagItem pokelib_bagitem;
-                    pokelib_bagitem.item = database::get_item_index(item_id, game_id);
+                    pokelib_bagitem.item = database::get_item_game_index(item_id, game_id);
                     pokelib_bagitem.count = amount;
 
                     pokelib_trainer->setItem(PokeLib::ItemKey, (i+1), pokelib_bagitem);

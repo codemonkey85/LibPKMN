@@ -45,11 +45,11 @@ namespace pkmn
 
     void nature::_populate_dict()
     {
-        _modifiers["Attack"] = database::get_nature_stat_effect(_id, Stats::ATTACK);
-        _modifiers["Defense"] = database::get_nature_stat_effect(_id, Stats::DEFENSE);
-        _modifiers["Special Attack"] = database::get_nature_stat_effect(_id, Stats::SPECIAL_ATTACK);
-        _modifiers["Special Defense"] = database::get_nature_stat_effect(_id, Stats::SPECIAL_DEFENSE);
-        _modifiers["Speed"] = database::get_nature_stat_effect(_id, Stats::SPEED);
+        _modifiers["Attack"] = database::get_nature_stat_mod(_id, Stats::ATTACK);
+        _modifiers["Defense"] = database::get_nature_stat_mod(_id, Stats::DEFENSE);
+        _modifiers["Special Attack"] = database::get_nature_stat_mod(_id, Stats::SPECIAL_ATTACK);
+        _modifiers["Special Defense"] = database::get_nature_stat_mod(_id, Stats::SPECIAL_DEFENSE);
+        _modifiers["Speed"] = database::get_nature_stat_mod(_id, Stats::SPEED);
     }
 
 } /* namespace pkmn */

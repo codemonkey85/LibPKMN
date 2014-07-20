@@ -35,7 +35,7 @@ namespace pkmn
 
     item::sptr item::make(std::string name, std::string game)
     {
-        return make(database::get_item_id(name), database::get_game_id(game));
+        return make(database::get_item_id(name), database::get_version_id(game));
     }
 
     pkmn::shared_ptr<SQLite::Database> item_impl::_db;
@@ -48,12 +48,12 @@ namespace pkmn
         _game_id = game;
         _generation = database::get_generation(_game_id);
         _item_name = database::get_item_name(_item_id);
-        _category_id = database::get_item_category(_item_id);
-        _game_index = database::get_item_index(_item_id, _game_id);
+        _category_id = database::get_item_category_id(_item_id);
+        _game_index = database::get_item_game_index(_item_id, _game_id);
         _description = database::get_item_description(_item_id, _game_id);
     }
 
-    std::string item_impl::get_game() const {return database::get_game_name(_game_id);}
+    std::string item_impl::get_game() const {return database::get_version_name(_game_id);}
 
     unsigned int item_impl::get_generation() const {return _generation;}
 
