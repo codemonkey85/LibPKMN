@@ -31,7 +31,7 @@ namespace pkmn
     {
         //FRLG and HGSS are stored without spaces
         if(game != "Black 2" and game != "White 2") boost::erase_all(game, " ");
-        return make(database::get_game_id(game));
+        return make(database::get_version_id(game));
     }
 
     pkmn::shared_ptr<SQLite::Database> bag_impl::_db;
@@ -363,7 +363,7 @@ namespace pkmn
         return *this;
     }
 
-    std::string bag_impl::get_game() const {return database::get_game_name(_game_id);}
+    std::string bag_impl::get_game() const {return database::get_version_name(_game_id);}
 
     unsigned int bag_impl::get_generation() const {return _generation;}
 
@@ -421,10 +421,10 @@ namespace pkmn
     //Determine correct pocket for given item
     std::string bag_impl::_get_pocket_name(unsigned int item_id) const
     {
-        unsigned int version_group = database::get_version_group(_game_id);
+        unsigned int version_group = database::get_version_group_id(_game_id);
 
         std::string query_string(str(boost::format("SELECT pocket_id FROM item_categories WHERE id=%d")
-                                     % database::get_item_category(item_id)));
+                                     % database::get_item_category_id(item_id)));
         SQLite::Statement pocket_id_query(*_db, query_string.c_str());
         unsigned int pocket_id = (pocket_id_query.executeStep()) ? int(pocket_id_query.getColumn(0)) : 0;
 

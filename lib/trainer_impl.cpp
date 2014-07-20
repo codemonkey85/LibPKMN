@@ -33,7 +33,7 @@ namespace pkmn
 
     trainer::sptr trainer::make(std::string game, pokemon_text name, std::string gender)
     {
-        return make(database::get_game_id(game),
+        return make(database::get_version_id(game),
                     name,
                     ((gender == "Female") ? Genders::FEMALE : Genders::MALE));
     }
@@ -64,7 +64,7 @@ namespace pkmn
         _bag = bag::make(_game_id);
     }
 
-    pokemon_text trainer_impl::get_game() const {return database::get_game_name(_game_id);}
+    pokemon_text trainer_impl::get_game() const {return database::get_version_name(_game_id);}
 
     unsigned int trainer_impl::get_generation() const {return _generation;}
 
@@ -129,8 +129,8 @@ namespace pkmn
         if(pos >= 1 and pos <= 6)
         {
             //TODO: more through check (items, forms, etc)
-            if(database::get_version_group(_game_id) ==
-               database::get_version_group(t_pkmn->get_game_id())) _party[pos-1] = t_pkmn;
+            if(database::get_version_group_id(_game_id) ==
+               database::get_version_group_id(t_pkmn->get_game_id())) _party[pos-1] = t_pkmn;
         }
     }
 

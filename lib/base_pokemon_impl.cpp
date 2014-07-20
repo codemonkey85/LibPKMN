@@ -47,7 +47,7 @@ namespace pkmn
 
     base_pokemon::sptr base_pokemon::make(std::string species, std::string game)
     {
-        return make(database::get_species_id(species), database::get_game_id(game));
+        return make(database::get_species_id(species), database::get_version_id(game));
     }
 
     pkmn::shared_ptr<SQLite::Database> base_pokemon_impl::_db;

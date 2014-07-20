@@ -27,7 +27,11 @@ namespace pkmn
         unsigned int PKMN_API get_generation(const std::string &version_name);
 
         unsigned int PKMN_API get_item_id(const std::string &item_name);
+        unsigned int PKMN_API get_item_id(const unsigned int game_index, const unsigned int version_id);
+        unsigned int PKMN_API get_item_id(const unsigned int game_index, const std::string &version_name);
         std::string PKMN_API get_item_name(const unsigned int item_id);
+        std::string PKMN_API get_item_name(const unsigned int game_index, const unsigned int version_id);
+        std::string PKMN_API get_item_name(const unsigned int game_index, const std::string &version_name);
         unsigned int PKMN_API get_item_category_id(const unsigned int item_id);
         unsigned int PKMN_API get_item_category_id(const std::string &item_name);
         std::string PKMN_API get_item_category_name(const unsigned int item_id);
@@ -54,7 +58,7 @@ namespace pkmn
         double PKMN_API get_nature_stat_mod(const std::string &nature_name, const std::string &stat_name);
 
         std::string PKMN_API get_pokedex_entry(const unsigned int species_id, const unsigned int version_id);
-        std::string PKMN_API get_pokedex_entry(const std::string &species_name, unsigned std::string version_name);
+        std::string PKMN_API get_pokedex_entry(const std::string &species_name, const std::string &version_name);
 
         unsigned int PKMN_API get_pokemon_id(const unsigned int game_index, const unsigned int version_id);
         unsigned int PKMN_API get_pokemon_id(const unsigned int game_index, const std::string &version_name);
@@ -65,6 +69,9 @@ namespace pkmn
         unsigned int PKMN_API get_species_id(const std::string &species_name);
         unsigned int PKMN_API get_species_id(const unsigned int pokemon_id);
         std::string PKMN_API get_species_name(const unsigned int species_id);
+
+        unsigned int PKMN_API get_stat_id(const std::string &stat_name);
+        std::string PKMN_API get_stat_name(const unsigned int stat_id);
 
         unsigned int PKMN_API get_type_id(const std::string &type_name);
         std::string PKMN_API get_type_name(const unsigned int type_id);
