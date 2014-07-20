@@ -155,7 +155,7 @@ namespace pkmn
         unsigned int get_item_id(const unsigned int game_index, const unsigned int version_id)
         {
             CONNECT_TO_DB();
-            if(version_id == Versions::NONE) return Items::NONE;
+            if(game_index == 0 or version_id == Versions::NONE) return Items::NONE;
 
             std::ostringstream query_stream;
             query_stream << "SELECT item_id FROM item_game_indices WHERE game_index=" << game_index
@@ -420,7 +420,7 @@ namespace pkmn
         unsigned int get_pokemon_id(const unsigned int game_index, const unsigned int version_id)
         {
             CONNECT_TO_DB();
-            if(version_id == Versions::NONE) return 0;
+            if(game_index == 0 or version_id == Versions::NONE) return 0;
 
             std::ostringstream query_stream;
             query_stream << "SELECT pokemon_id FROM pokemon_game_indices WHERE version_id=" << version_id
