@@ -91,9 +91,10 @@ namespace pkmn
             if(ability_id == Abilities::NONE) return "None";
 
             std::ostringstream query_stream;
-            query_stream << "SELECT flavor_text FROM ability_flavor_text WHERE language=9 AND ability_id=" << ability_id
+            query_stream << "SELECT flavor_text FROM ability_flavor_text WHERE language_id=9 AND ability_id=" << ability_id
                          << " AND version_group_id=" << get_version_group_id(version_id);
             SQLite::Statement query(*db, query_stream.str().c_str());
+            GET_STRING(query);
         }
 
         std::string get_ability_description(const std::string &ability_name, const std::string &version_name)
@@ -118,7 +119,7 @@ namespace pkmn
             if(egg_group_id == Egg_Groups::NONE) return "None";
 
             std::ostringstream query_stream;
-            query_stream << "SELECT name FROM egg_group_prose WHERE egg_group_id=" << egg_group_id;
+            query_stream << "SELECT name FROM egg_group_prose WHERE local_language_id=9 AND egg_group_id=" << egg_group_id;
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_STRING(query);
         }
@@ -129,7 +130,7 @@ namespace pkmn
             if(version_id == Versions::NONE) return 0;
 
             std::ostringstream query_stream;
-            query_stream << "SELECT generation_id FROM version_groups WHERE version_group_id="
+            query_stream << "SELECT generation_id FROM version_groups WHERE id="
                          << get_version_group_id(version_id);
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_NUM(query);
@@ -228,7 +229,7 @@ namespace pkmn
             if(item_id == Items::NONE) return "None";
 
             std::ostringstream query_stream;
-            query_stream << "SELECT flavor_text FROM item_flavor_text WHERE language=9 AND ability_id=" << item_id
+            query_stream << "SELECT flavor_text FROM item_flavor_text WHERE language_id=9 AND item_id=" << item_id
                          << " AND version_group_id=" << get_version_group_id(version_id);
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_STRING(query);
@@ -314,6 +315,7 @@ namespace pkmn
                 std::string name;
 
                 full_name >> name; //Should only get first word
+                name[0] = ::toupper(name[0]);
                 return name;
             }
         }
@@ -329,7 +331,7 @@ namespace pkmn
             if(move_id == Moves::NONE) return "None";
 
             std::ostringstream query_stream;
-            query_stream << "SELECT flavor_text FROM move_flavor_text WHERE language=9 AND ability_id=" << move_id
+            query_stream << "SELECT flavor_text FROM move_flavor_text WHERE language_id=9 AND move_id=" << move_id
                          << " AND version_group_id=" << get_version_group_id(version_id);
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_STRING(query);
@@ -384,7 +386,7 @@ namespace pkmn
             if(nature_id == Natures::NONE or stat_id == Stats::NONE) return 1.0;
 
             std::ostringstream query_stream;
-            query_stream << "SELECT decreased_stat_id,increased_stat_id FROM natures WHERE nature_id=" << nature_id;
+            query_stream << "SELECT decreased_stat_id,increased_stat_id FROM natures WHERE id=" << nature_id;
             SQLite::Statement query(*db, query_stream.str().c_str());
             if(not query.executeStep()) THROW_QUERY_ERROR();
 
@@ -499,7 +501,7 @@ namespace pkmn
             if(stat_name == "None") return Stats::NONE;
 
             std::ostringstream query_stream;
-            query_stream << "SELECT stat_id FROM stat_names WHERE name=" << stat_name;
+            query_stream << "SELECT stat_id FROM stat_names WHERE name='" << stat_name << "'";
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_NUM(query);
         }
@@ -510,7 +512,7 @@ namespace pkmn
             if(stat_id == Stats::NONE) return "None";
 
             std::ostringstream query_stream;
-            query_stream << "SELECT name FROM stat_names WHERE stat_id=" << stat_id;
+            query_stream << "SELECT name FROM stat_names WHERE local_language_id=9 AND stat_id=" << stat_id;
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_STRING(query);
         }
@@ -565,7 +567,7 @@ namespace pkmn
             if(version_id == Versions::NONE) return Version_Groups::NONE;
 
             std::ostringstream query_stream;
-            query_stream << "SELECT version_group_id FROM versions WHERE version_id=" << version_id;
+            query_stream << "SELECT version_group_id FROM versions WHERE id=" << version_id;
             SQLite::Statement query(*db, query_stream.str().c_str());
             GET_NUM(query);
         }
