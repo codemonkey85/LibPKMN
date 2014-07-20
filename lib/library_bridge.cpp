@@ -242,7 +242,7 @@ namespace pkmn
                 ev = pkm->evs.speed;
         }
         iv = modern_get_IV(IVint, stat_id);
-        double naturemod = database::get_nature_stat_effect(
+        double naturemod = database::get_nature_stat_mod(
                            (unsigned int)(pkm->nature), stat_id);
         return (int)((floor((double)(floor((double)(((iv + (2 * basestat)
                + floor((double)(ev/4))) * level) / 100)) + 5)) * naturemod));
@@ -359,7 +359,7 @@ namespace pkmn
                 ev = pkx->evs.speed;
         }
         iv = modern_get_IV(IVint, stat_id);
-        double naturemod = database::get_nature_stat_effect(
+        double naturemod = database::get_nature_stat_mod(
                            (unsigned int)(pkx->nature), stat_id);
         return (int)((floor((double)(floor((double)(((iv + (2 * basestat)
                + floor((double)(ev/4))) * level) / 100)) + 5)) * naturemod));

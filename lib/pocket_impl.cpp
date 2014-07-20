@@ -26,7 +26,7 @@ namespace pkmn
 
     pocket::sptr pocket::make(std::string game, std::string name, unsigned int size)
     {
-        return make(database::get_game_id(game), name, size);
+        return make(database::get_version_id(game), name, size);
     }
 
     pocket_impl::pocket_impl(unsigned int game, string name, unsigned int size)
@@ -38,7 +38,7 @@ namespace pkmn
         _item_dict = pkmn::dict<uint16_t, uint8_t>();
     }
 
-    std::string pocket_impl::get_game() const {return database::get_game_name(_game_id);}
+    std::string pocket_impl::get_game() const {return database::get_version_name(_game_id);}
 
     unsigned int pocket_impl::get_generation() const {return _generation;}
 
@@ -53,7 +53,7 @@ namespace pkmn
 
     void pocket_impl::add_item(unsigned int item_id, unsigned int amount)
     {
-        if(database::get_item_index(item_id, _game_id) != 0)
+        if(database::get_item_game_index(item_id, _game_id) != 0)
         {
             if(_item_dict.has_key(item_id) or _item_dict.size() < _pocket_size)
                 _item_dict[item_id] = std::min(int(amount), 99);
