@@ -63,6 +63,13 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
         ${PYTHON_LIBRARIES}
     )
 
+    #TODO: better solution
+    IF(${module_name} STREQUAL "qt4_swig")
+        LIST(APPEND LIBPKMN_PYTHON_LIBRARIES
+            qt4proxy
+        )
+    ENDIF(${module_name} STREQUAL "qt4_swig")
+
     INCLUDE(UseSWIG)
     SET(CMAKE_SWIG_FLAGS -module ${module_name})
     FOREACH(dir ${LIBPKMN_PYTHON_INCLUDE_DIRS})
