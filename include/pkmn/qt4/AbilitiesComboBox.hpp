@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_GAMESCOMBOBOX_HPP
-#define INCLUDED_GAMESCOMBOBOX_HPP
+#ifndef INCLUDED_ABILITIESCOMBOBOX_HPP
+#define INCLUDED_ABILITIESCOMBOBOX_HPP
 
 #include <pkmn/config.hpp>
 
@@ -20,7 +20,7 @@ namespace pkmn
             Q_OBJECT
 
             public:
-                AbilitiesComboBox(QWidget* parent = 0, int gen = 5);
+                AbilitiesComboBox(unsigned int gen, QWidget* parent = NULL);
 
             /*signals:
 
@@ -31,4 +31,4 @@ namespace pkmn
     }
 }
 
-#endif /* INCLUDED_GAMESCOMBOBOX_HPP */
+#endif /* INCLUDED_ABILITIESCOMBOBOX_HPP */

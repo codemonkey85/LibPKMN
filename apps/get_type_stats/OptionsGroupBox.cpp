@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
@@ -28,8 +28,8 @@ OptionsGroupBox::OptionsGroupBox(QWidget* parent): QGroupBox(parent)
 
     //typesLayout
     QLabel* typesLabel = new QLabel(tr("Input type(s):"),this);
-    TypesComboBox* type1ComboBox = new TypesComboBox(this,5);
-    TypesComboBox* type2ComboBox = new TypesComboBox(this,5);
+    TypesComboBox* type1ComboBox = new TypesComboBox(5,this);
+    TypesComboBox* type2ComboBox = new TypesComboBox(5,this);
     type2ComboBox->insertItem(0,QString("Any"));
     type2ComboBox->insertItem(1,QString("None"));
     type2ComboBox->setCurrentIndex(0);

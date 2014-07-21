@@ -20,7 +20,7 @@ namespace pkmn
             Q_OBJECT
 
             public:
-                VersionsComboBox(QWidget* parent = 0, int gen = 5);
+                VersionsComboBox(unsigned int gen, QWidget* parent = NULL);
 
             /*signals:
 
