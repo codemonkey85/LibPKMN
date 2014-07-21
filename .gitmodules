@@ -1,6 +1,3 @@
-[submodule "pokehack"]
-	path = pokehack
-	url = https://github.com/ncorgan/pokehack.git
 [submodule "PokeLib-NC"]
 	path = PokeLib-NC
 	url = https://github.com/ncorgan/PokeLib-NC.git
