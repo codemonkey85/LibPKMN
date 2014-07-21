@@ -28,19 +28,6 @@ LIBPKMN_REGISTER_COMPONENT("LibPKMN - Java API" ENABLE_JAVA ON
 # Add subdirectories as appropriate based on enabled SWIG wrappers
 ####################################################################
 
-#Read enum contents
-FILE(STRINGS "${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp" ENUMS_HPP_CONTENTS)
-SET(ENUMS_HPP_CONTENTS "${ENUMS_HPP_CONTENTS}" CACHE STRING "enums.hpp contents")
-FOREACH(line ${ENUMS_HPP_CONTENTS})
-    STRING(REGEX MATCH "^    namespace [^FR]+" line ${line})
-    IF(line)
-        STRING(REGEX REPLACE "^    namespace " "" line ${line})
-        STRING(REGEX REPLACE "//.*$" "" line "${line}")
-        LIST(APPEND NAMESPACES ${line})
-    ENDIF(line)
-ENDFOREACH(line ${ENUMS_HPP_CONTENTS})
-SET(NAMESPACES "${NAMESPACES}" CACHE STRING "enums.hpp namespaces")
-
 IF(ENABLE_PYTHON)
     ADD_SUBDIRECTORY(python)
 ENDIF(ENABLE_PYTHON)
