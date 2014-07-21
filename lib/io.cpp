@@ -17,6 +17,7 @@
 #include <pkmds/pkmds_g5.h>
 #include <pkmds/pkmds_g5_sqlite.h>
 
+#include "libspec/game_gba.h"
 #include "library_bridge.hpp"
 #include "conversions/pokemon.hpp"
 
@@ -26,10 +27,94 @@ namespace pkmn
 {
     namespace io
     {
+        static void get_gen3_savetype(unsigned int libpkmn_id, gba_savetype_t &save_type)
+        {
+            switch(libpkmn_id)
+            {
+                case Versions::RUBY:
+                case Versions::SAPPHIRE:
+                    save_type = GBA_TYPE_RS;
+                    break;
+
+                case Versions::EMERALD:
+                    save_type = GBA_TYPE_E;
+                    break;
+
+                case Versions::FIRERED:
+                case Versions::LEAFGREEN:
+                    save_type = GBA_TYPE_FRLG;
+                    break;
+
+                default:
+                    save_type = GBA_TYPE_RS;
+                    break;
+            }
+        }
+
+        void export_to_3gpkm(team_pokemon::sptr t_pkmn, std::string filename)
+        {
+            //Check to see if t_pkmn is compatible with the .3gpkm format
+            unsigned int generation = t_pkmn->get_generation();
+            if(generation != 3)
+            {
+                throw std::runtime_error("Only Pokemon of generation III can be exported to .3gpkm!");
+            }
+
+            pk3_t pk3;
+            uint8_t pk3_raw[sizeof(pk3_t)];
+            gba_savetype_t save_type;
+            get_gen3_savetype(t_pkmn->get_game_id(), save_type);
+            conversions::export_gen3_pokemon(t_pkmn, &pk3, save_type);
+        }
+
+        team_pokemon::sptr import_from_3gpkm(std::string filename)
+        {
+            std::ifstream ifile;
+            ifile.open(filename.c_str(), std::ifstream::in | std::ifstream::binary);
+
+            //Check to see if this is a valid .3gpkm file
+            ifile.seekg(0, std::ios::end);
+            unsigned int file_size = ifile.tellg();
+            if(file_size == sizeof(pk3_t))
+            {
+                pk3_t pk3;
+
+                ifile.seekg(0, std::ios::beg);
+                ifile.read((char*)&pk3, sizeof(pk3_t));
+                ifile.close();
+
+                uint16_t* game_int = reinterpret_cast<uint16_t*>(&(pk3.box.met_loc)+1);
+                uint8_t libpkmn_id = hometown_to_libpkmn_game((*game_int & 0x1E) >> 1);
+                gba_savetype_t save_type;
+                get_gen3_savetype(libpkmn_id, save_type);
+                return conversions::import_gen3_pokemon(&pk3, save_type);
+            }
+            else if(file_size == sizeof(pk3_box_t))
+            {
+                pk3_box_t pk3;
+
+                ifile.seekg(0, std::ios::beg);
+                ifile.read((char*)&pk3, sizeof(pk3_box_t));
+                ifile.close();
+
+                uint16_t* game_int = reinterpret_cast<uint16_t*>(&(pk3.met_loc)+1);
+                uint8_t libpkmn_id = hometown_to_libpkmn_game((*game_int & 0x1E) >> 1);
+                gba_savetype_t save_type;
+                get_gen3_savetype(libpkmn_id, save_type);
+                return conversions::import_gen3_pokemon(&pk3, save_type);
+            }
+            else
+            {
+                ifile.close();
+                throw std::runtime_error("This is not a valid .3gpkm file!");
+            }
+
+        }
+
         void export_to_pkm(team_pokemon::sptr t_pkmn, std::string filename)
         {
             party_pkm* p_pkm = new party_pkm;
-            conversions::team_pokemon_to_pkmds_g5_pokemon(t_pkmn, p_pkm);
+            conversions::export_gen5_pokemon(t_pkmn, p_pkm);
 
             uint8_t pkm_contents[sizeof(pokemon_obj)];
             memcpy(&pkm_contents, p_pkm, sizeof(pokemon_obj));
@@ -55,13 +140,13 @@ namespace pkmn
             memcpy(pkmn_obj, pkm_contents, sizeof(pokemon_obj));
 
             libpkmn_pctoparty(p_pkm, pkmn_obj);
-            return conversions::pkmds_g5_pokemon_to_team_pokemon(p_pkm);
+            return conversions::import_gen5_pokemon(p_pkm);
         }
 
         void export_to_pkx(team_pokemon::sptr t_pkmn, std::string filename)
         {
             party_pkx* p_pkx = new party_pkx;
-            conversions::team_pokemon_to_pkmds_g6_pokemon(t_pkmn, p_pkx);
+            conversions::export_gen6_pokemon(t_pkmn, p_pkx);
 
             uint8_t pkx_contents[sizeof(pokemonx_obj)];
             memcpy(&pkx_contents, p_pkx, sizeof(pokemonx_obj));
@@ -87,7 +172,7 @@ namespace pkmn
             memcpy(pkmn_obj, pkx_contents, sizeof(pokemonx_obj));
 
             libpkmn_pctopartyx(p_pkm, pkmn_obj);
-            return conversions::pkmds_g6_pokemon_to_team_pokemon(p_pkm);
+            return conversions::import_gen6_pokemon(p_pkm);
         }
 
         void export_to_pksql(team_pokemon::sptr t_pkmn, std::string filename, std::string title)

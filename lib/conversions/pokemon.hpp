@@ -12,7 +12,7 @@
 #include <pkmn/types/dict.hpp>
 
 #include <rpokesav/gen1_pokemon.hpp>
-#include <pokehack/pokestructs.h>
+#include "../libspec/game_gba.h"
 #include <PokeLib/PokeLib.h>
 #include <pkmds/pkmds_g5.h>
 #include <pkmds/pkmds_g6.h>
@@ -24,61 +24,19 @@ namespace pkmn
         team_pokemon::sptr import_gen1_pokemon(const rpokesav::gen1_pokemon &pkmn);
         void export_gen1_pokemon(team_pokemon::sptr t_pkmn, rpokesav::gen1_pokemon &pkmn);
 
-        team_pokemon::sptr pokehack_pokemon_to_team_pokemon(belt_pokemon_t* b_pkmn_t,
-                                                                        pokemon_attacks_t* pkmn_a_t,
-                                                                        pokemon_effort_t* pkmn_e_t,
-                                                                        pokemon_misc_t* pkmn_m_t,
-                                                                        pokemon_growth_t* pkmn_g_t);
+        team_pokemon::sptr import_gen3_pokemon(pk3_box_t* pkmn, gba_savetype_t save_type);
+        team_pokemon::sptr import_gen3_pokemon(pk3_t* pkmn, gba_savetype_t save_type);
+        void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_box_t* pkmn, gba_savetype_t save_type);
+        void export_gen3_pokemon(team_pokemon::sptr t_pkmn, pk3_t* pkmn, gba_savetype_t save_type);
 
-        void team_pokemon_to_pokehack_pokemon(team_pokemon::sptr t_pkmn,
-                                                          belt_pokemon_t* b_pkmn_t,
-                                                          pokemon_attacks_t* pkmn_a_t,
-                                                          pokemon_effort_t* pkmn_e_t,
-                                                          pokemon_misc_t* pkmn_m_t,
-                                                          pokemon_growth_t* pkmn_g_t);
+        team_pokemon::sptr import_gen4_pokemon(const PokeLib::Pokemon &pokelib_pkmn);
+        PokeLib::Pokemon export_gen4_pokemon(team_pokemon::sptr t_pkmn);
 
-        team_pokemon::sptr pokelib_pokemon_to_team_pokemon(const PokeLib::Pokemon &pokelib_pkmn);
+        team_pokemon::sptr import_gen5_pokemon(party_pkm* p_pkm);
+        void export_gen5_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm);
 
-        PokeLib::Pokemon team_pokemon_to_pokelib_pokemon(team_pokemon::sptr t_pkmn);
-
-        team_pokemon::sptr pkmds_g5_pokemon_to_team_pokemon(party_pkm* p_pkm);
-
-        void team_pokemon_to_pkmds_g5_pokemon(team_pokemon::sptr t_pkmn, party_pkm* p_pkm);
-
-        team_pokemon::sptr pkmds_g6_pokemon_to_team_pokemon(party_pkx* p_pkx);
-
-        void team_pokemon_to_pkmds_g6_pokemon(team_pokemon::sptr t_pkmn, party_pkx* p_pkx);
-
-        PokeLib::Pokemon pokehack_pokemon_to_pokelib_pokemon(belt_pokemon_t* b_pkmn_t,
-                                                                         pokemon_attacks_t* pkmn_a_t,
-                                                                         pokemon_effort_t* pkmn_e_t,
-                                                                         pokemon_misc_t* pkmn_m_t,
-                                                                         pokemon_growth_t* pkmn_g_t);
-
-        void pokehack_pkmn_to_pkmds_g5_pokemon(belt_pokemon_t* b_pkmn_t,
-                                                           pokemon_attacks_t* pkmn_a_t,
-                                                           pokemon_effort_t* pkmn_e_t,
-                                                           pokemon_misc_t* pkmn_m_t,
-                                                           pokemon_growth_t* pkmn_g_t,
-                                                           party_pkm* p_pkm);
-
-        void pokelib_pokemon_to_pokehack_pokemon(PokeLib::Pokemon pokelib_pkmn,
-                                                             belt_pokemon_t* b_pkmn_t,
-                                                             pokemon_attacks_t* pkmn_a_t,
-                                                             pokemon_effort_t* pkmn_e_t,
-                                                             pokemon_misc_t* pkmn_m_t,
-                                                             pokemon_growth_t* pkmn_g_t);
-
-        void pokelib_pokemon_to_pkmds_g5_pokemon(PokeLib::Pokemon pokelib_pkmn, party_pkm* p_pkm);
-
-        void pkmds_g5_pokemon_to_pokehack_pokemon(party_pkm* p_pkm,
-                                                              belt_pokemon_t* b_pkmn_t,
-                                                              pokemon_attacks_t* pkmn_a_t,
-                                                              pokemon_effort_t* pkmn_e_t,
-                                                              pokemon_misc_t* pkmn_m_t,
-                                                              pokemon_growth_t* pkmn_g_t);
-
-        PokeLib::Pokemon pkmds_g5_pokemon_to_pokelib_pokemon(party_pkm* p_pkm);
+        team_pokemon::sptr import_gen6_pokemon(party_pkx* p_pkx);
+        void export_gen6_pokemon(team_pokemon::sptr t_pkmn, party_pkx* p_pkx);
     }
 }
 

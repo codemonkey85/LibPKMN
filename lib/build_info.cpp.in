@@ -44,11 +44,6 @@ namespace pkmn
         return "@RPOKESAV_GIT_DESCRIBE@";
     }
 
-    std::string get_pokehack_commit()
-    {
-        return "@POKEHACK_GIT_DESCRIBE@";
-    }
-
     std::string get_pokelib_nc_commit()
     {
         return "@POKELIB_GIT_DESCRIBE@";

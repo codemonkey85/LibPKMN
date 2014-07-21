@@ -10,6 +10,7 @@ FILE(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${PKG_DATA_DIR} LIBPKMN_PKG_DATA_PAT
 
 IF(ENABLE_LIBPKMN)
     ADD_SUBDIRECTORY(SQLiteCpp)
+    ADD_SUBDIRECTORY(libspec)
 
     FILE(GLOB database_sources RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "database/*.c*")
     
@@ -25,7 +26,7 @@ IF(ENABLE_LIBPKMN)
 
     INCLUDE(${QT_USE_FILE})
     LIST(APPEND libpkmn_libs ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY})
-    LIST(APPEND libpkmn_libs ${Boost_LIBRARIES} rpokesav pokehack pokelib-nc pkmds SQLiteCpp)
+    LIST(APPEND libpkmn_libs ${Boost_LIBRARIES} rpokesav pokelib-nc pkmds SQLiteCpp spec)
 
     LIST(APPEND libpkmn_sources
         ${CMAKE_CURRENT_BINARY_DIR}/build_info.cpp
@@ -93,7 +94,6 @@ IF(ENABLE_LIBPKMN)
 
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/rpokesav/include)
-    INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/pokehack/include)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PokeLib-NC/include)
     INCLUDE_DIRECTORIES(${LIBPKMN_SOURCE_DIR}/PKMDS/include)
     ADD_LIBRARY(pkmn SHARED ${libpkmn_sources})

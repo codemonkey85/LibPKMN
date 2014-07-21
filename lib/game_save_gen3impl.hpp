@@ -1,17 +1,15 @@
 /*
- * Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
+ * Copyright (c) 2014 Nicholas Corgan (n.corgan@gmail.com)
  *
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_GAME_SAVE_GEN3IMPL_HPP
-#define INCLUDED_GAME_SAVE_GEN3IMPL_HPP
+#ifndef INCLUDED_GAME_SAVE_LS3IMPL_HPP
+#define INCLUDED_GAME_SAVE_LS3IMPL_HPP
 
 #include "game_save_impl.hpp"
 
-#include <pokehack/SaveParser.h>
-
-#include "conversions/trainer.hpp"
+#include "libspec/game_gba.h"
 
 namespace pkmn
 {
@@ -20,16 +18,17 @@ namespace pkmn
         public:
 
             game_save_gen3impl();
-            game_save_gen3impl(pokehack_sptr ptr, char* buffer);
-
+            game_save_gen3impl(uint8_t* buffer, const std::string &filename);
+            ~game_save_gen3impl();
+            
             void load();
-            void save();
-
+            void save_as(const std::string &filename);
+            
         private:
 
-            pokehack_sptr _parser;
-            char* _data;
+            uint8_t* _data;        
+            gba_save_t* _libspec_save;
     };
 }
 
-#endif /* INCLUDED_GAME_SAVE_GEN3IMPL_HPP */
+#endif /* INCLUDED_GAME_SAVE_LS3IMPL_HPP */

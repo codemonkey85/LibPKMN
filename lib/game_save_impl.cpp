@@ -27,68 +27,62 @@ namespace fs = boost::filesystem;
 
 namespace pkmn
 {
-    game_save::sptr game_save::make(std::string filename)
+    game_save::sptr game_save::make(const std::string &filename)
     {
         uint32_t size = fs::file_size(fs::path(filename));
 
         if(size >= 0x80000)
         {
-            //Check to see if PokeLib accepts it as a proper Gen 4 save
+            //Check to see if PokeLib-NC accepts this as a proper Gen IV save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
-                return sptr(new game_save_gen4impl(pokelib_save));
+                return sptr(new game_save_gen4impl(pokelib_save, filename));
             }
             else
             {
+                //Check to see if PKMDS accepts this as a proper Gen V save
                 pkmds_g5_sptr sav = pkmds_g5_sptr(new bw2sav_obj);
                 ::read(filename.c_str(), sav.get());
-                if(::savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav));
+                if(::savisbw2(sav.get())) return sptr(new game_save_gen5impl(sav, filename));
             }
         }
         else if(size >= 0x40000)
         {
-            //Check to see if PokeLib accepts it as a proper Gen 4 save
+            //Check to see if PokeLib-NC accepts this as a proper Gen IV save
             pokelib_sptr pokelib_save(new PokeLib::Save(filename.c_str()));
             if(pokelib_save->parseRawSave())
             {
-                return sptr(new game_save_gen4impl(pokelib_save));
+                return sptr(new game_save_gen4impl(pokelib_save, filename));
             }
         }
         else if(size >= 0x20000)
         {
-            //Check validity by manually using Pokehack checksum function on binary
+            //Check to see if LibSPEC accepts this as a proper Gen III save
             std::ifstream ifile(filename.c_str(), std::ios::binary);
-            char* buffer = (char*)malloc(size);
-            ifile.read(buffer, size);
+            uint8_t* buffer = (uint8_t*)malloc(size);
+            ifile.read((char*)buffer, size);
 
-            block binary_block;
-            memcpy(&binary_block, buffer, 4096);
-            unsigned short checksum_from_pokehack = pokehack_get_block_checksum(&binary_block);
-            unsigned short checksum_from_binary = binary_block.footer.checksum;
-
-            ifile.close();
-            free(buffer);
-
-            if(checksum_from_pokehack == checksum_from_binary)
-            {
-                //Check for Gen 3 game by searching for game code
-                int game_type = (buffer[int(0xAC)] == 1) ? 1 : 0;
-
-                pokehack_sptr parser(new SaveParser);
-                if(!parser->load(filename.c_str(), game_type))
-                {
-                    return sptr(new game_save_gen3impl(parser, buffer));
-                }
-            }
+            if(gba_is_gba_save(buffer)) return sptr(new game_save_gen3impl(buffer, filename));
         }
         else if(size >= (2 << 14))
         {
+            //Check to see if Retro Pokesav accepts this as a proper Gen I save
             rpokesav_gen1_sptr g1_sav(new rpokesav::gen1_save(filename));
-            if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav));
+            if(g1_sav->check()) return sptr(new game_save_gen1impl(g1_sav, filename));
         }
 
         throw std::runtime_error("This is not a valid save file.");
+    }
+
+    game_save_impl::game_save_impl(const std::string &filename)
+    {
+        _filepath = fs::path(filename);
+    }
+
+    void game_save_impl::save()
+    {
+        save_as(_filepath.string());
     }
 
     unsigned int game_save_impl::get_game_id() const {return _game_id;}
