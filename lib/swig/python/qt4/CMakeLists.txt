@@ -17,6 +17,11 @@ SET(qt4proxy_libraries
 
 SET(qt4proxy_sources
     AbilitiesComboBoxProxy.cpp
+    AboutMessageBoxProxy.cpp
+    NaturesComboBoxProxy.cpp
+    PokemonListComboBoxProxy.cpp
+    TypesComboBoxProxy.cpp
+    VersionsComboBoxProxy.cpp
 )
 
 ADD_LIBRARY(qt4proxy STATIC ${qt4proxy_sources})

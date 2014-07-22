@@ -12,6 +12,16 @@
 
 %{
     #include "AbilitiesComboBoxProxy.hpp"
+    #include "AboutMessageBoxProxy.hpp"
+    #include "NaturesComboBoxProxy.hpp"
+    #include "PokemonListComboBoxProxy.hpp"
+    #include "TypesComboBoxProxy.hpp"
+    #include "VersionsComboBoxProxy.hpp"
 %}
 
 %include "AbilitiesComboBoxProxy.hpp"
+%include "AboutMessageBoxProxy.hpp"
+%include "NaturesComboBoxProxy.hpp"
+%include "PokemonListComboBoxProxy.hpp"
+%include "TypesComboBoxProxy.hpp"
+%include "VersionsComboBoxProxy.hpp"

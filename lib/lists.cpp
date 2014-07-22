@@ -196,14 +196,9 @@ namespace pkmn
         if(!db) db = pkmn::shared_ptr<SQLite::Database>(new SQLite::Database(get_database_path().c_str()));
         ability_vec.clear();
 
-        std::string query_string = "SELECT id FROM abilities WHERE generation_id<=" + to_string(gen);
-
+        std::string query_string = "SELECT name FROM ability_names WHERE local_language_id=9";
         SQLite::Statement query(*db, query_string.c_str());
-        while(query.executeStep())
-        {
-            query_string = "SELECT name FROM ability_names WHERE local_language_id=9 ability_id=" + to_string(query.getColumn(0));
-            ability_vec.push_back(std::string((const char*)db->execAndGet(query_string.c_str())));
-        }
+        while(query.executeStep()) ability_vec.push_back((const char*)(db->execAndGet(query_string.c_str())));
     }
 
     void get_nature_list(std::vector<std::string> &nature_vec)

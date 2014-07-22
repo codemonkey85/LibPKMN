@@ -4,8 +4,8 @@
  * Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
  * or copy at http://opensource.org/licenses/MIT)
  */
-#ifndef INCLUDED_TYPESCOMBOBOX_HPP
-#define INCLUDED_TYPESCOMBOBOX_HPP
+#ifndef INCLUDED_NATURESCOMBOBOX_HPP
+#define INCLUDED_NATURESCOMBOBOX_HPP
 
 #include <pkmn/config.hpp>
 
@@ -31,4 +31,4 @@ namespace pkmn
     }
 }
 
-#endif /* INCLUDED_TYPESCOMBOBOX_HPP */
+#endif /* INCLUDED_NATURESCOMBOBOX_HPP */

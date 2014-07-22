@@ -27,3 +27,4 @@ from libpkmn_python_swig import *
 import calculations
 import database
 import io
+import qt4
