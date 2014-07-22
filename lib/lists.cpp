@@ -198,7 +198,7 @@ namespace pkmn
 
         std::string query_string = "SELECT name FROM ability_names WHERE local_language_id=9";
         SQLite::Statement query(*db, query_string.c_str());
-        while(query.executeStep()) ability_vec.push_back((const char*)(db->execAndGet(query_string.c_str())));
+        while(query.executeStep()) ability_vec.push_back((const char*)(query.getColumn(0)));
     }
 
     void get_nature_list(std::vector<std::string> &nature_vec)
