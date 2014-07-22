@@ -16,7 +16,7 @@ namespace pkmn
 {
     namespace qt4
     {
-        PokemonListComboBox::PokemonListComboBox(unsigned int version_id, QWidget* parent): QComboBox(parent)
+        PokemonListComboBox::PokemonListComboBox(const unsigned int version_id, QWidget* parent): QComboBox(parent)
         {
             std::vector<std::string> pokemon_vec;
             get_pokemon_list(pokemon_vec, version_id);
@@ -26,11 +26,5 @@ namespace pkmn
                 addItem(tr(pokemon_vec[i].c_str()), QVariant(i));
             }
         }
-
-        PokemonListComboBox::PokemonListComboBox(std::string &version_name, QWidget* parent): QComboBox(parent)
-        {
-            PokemonListComboBox(database::get_version_id(version_name), parent);
-        }
-
     } /* namespace qt4 */
 } /* namespace pkmn */

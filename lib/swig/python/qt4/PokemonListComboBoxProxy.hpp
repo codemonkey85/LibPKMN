@@ -17,7 +17,6 @@ namespace pkmn
     {
         public:
             PokemonListComboBoxProxy(unsigned int version_id, QWidget* parent = NULL);
-            PokemonListComboBoxProxy(std::string &version_name, QWidget* parent = NULL);
 
             PyObject* get();
 

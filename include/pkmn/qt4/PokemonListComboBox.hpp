@@ -21,8 +21,7 @@ namespace pkmn
             Q_OBJECT
 
             public:
-                PokemonListComboBox(unsigned int version_id, QWidget* parent = NULL);
-                PokemonListComboBox(std::string &version_name, QWidget* parent = NULL);
+                PokemonListComboBox(const unsigned int version_id, QWidget* parent = NULL);
 
             /*signals:
 

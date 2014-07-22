@@ -7,3 +7,8 @@
 #
 
 from AbilitiesComboBox import AbilitiesComboBox
+from AboutMessageBox import AboutMessageBox
+from NaturesComboBox import NaturesComboBox
+from PokemonListComboBox import PokemonListComboBox
+from TypesComboBox import TypesComboBox
+from VersionsComboBox import VersionsComboBox
