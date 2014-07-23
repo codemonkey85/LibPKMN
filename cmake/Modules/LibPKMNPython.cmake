@@ -71,6 +71,7 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
     SET_SOURCE_FILES_PROPERTIES(${module_name}.i PROPERTIES CPLUSPLUS ON)
 
     SWIG_ADD_MODULE(${module_name} python ${module_name}.i)
+    ADD_DEPENDENCIES(${SWIG_MODULE_${module_name}_REAL_NAME} python_enums)
     IF(CMAKE_COMPILER_IS_GNUCXX)
         IF(UNIX)
             SET_TARGET_PROPERTIES(${SWIG_MODULE_${module_name}_REAL_NAME} PROPERTIES COMPILE_FLAGS "-std=c++0x -fPIC")
