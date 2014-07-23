@@ -256,7 +256,7 @@ def get_version_groups(c):
         version_group_name = str(from_db[i][1]).replace("-","_").replace(" ","_").upper()
         version_groups += [(from_db[i][0], version_group_name)]
 
-def generate_cpp_file(top_level_dir, license):
+def generate_cpp_file(output_dir, license):
     output = license + """
 
 #ifndef INCLUDED_PKMN_ENUMS_HPP
@@ -547,13 +547,13 @@ def generate_cpp_file(top_level_dir, license):
 
 #endif /* INCLUDED_PKMN_ENUMS_HPP */"""
 
-    os.chdir(os.path.join(top_level_dir, "include", "pkmn"))
+    os.chdir(output_dir)
     f = open("enums.hpp",'w')
     f.write(output)
     f.close()
 
-def generate_python_files(top_level_dir, python_license):
-    os.chdir(os.path.join(top_level_dir, "lib", "swig", "python"))
+def generate_python_files(output_dir, python_license):
+    os.chdir(output_dir)
 
     f = open("Abilities.py",'w')
     f.write(python_license + "\n\n")
@@ -708,8 +708,8 @@ def generate_python_files(top_level_dir, python_license):
 
     f.close()
 
-def generate_cs_files(top_level_dir, license):
-    os.chdir(os.path.join(top_level_dir, "lib", "swig", "cs"))
+def generate_cs_files(output_dir, license):
+    os.chdir(output_dir)
 
     #Non-nested enums can be done in a loop
     enums = dict()
@@ -828,8 +828,8 @@ def generate_cs_files(top_level_dir, license):
 
     f.close()
 
-def generate_java_files(top_level_dir, license):
-    os.chdir(os.path.join(top_level_dir, "lib", "swig", "java"))
+def generate_java_files(output_dir, license):
+    os.chdir(output_dir)
 
     #Non-nested enums can be done in a loop
     enums = dict()
@@ -959,7 +959,8 @@ if __name__ == "__main__":
 
     parser = OptionParser()
     parser.add_option("--database-path", type="string", help="LibPKMN database location")
-    parser.add_option("--top-level-dir", type="string", help="Top-level LibPKMN source directory")
+    parser.add_option("--output-dir", type="string", help="Output directory")
+    parser.add_option("--language", type="string", help="cpp, python, cs, or java")
     (options,args) = parser.parse_args()
 
     conn = sqlite3.connect(options.database_path)
@@ -1003,7 +1004,11 @@ if __name__ == "__main__":
     get_versions(c)
     get_version_groups(c)
 
-    generate_cpp_file(options.top_level_dir, license)
-    generate_python_files(options.top_level_dir, python_license)
-    generate_cs_files(options.top_level_dir, license)
-    generate_java_files(options.top_level_dir, license)
+    if options.language == "cpp":
+        generate_cpp_file(options.output_dir, license)
+    elif options.language == "python":
+        generate_python_files(options.output_dir, python_license)
+    elif options.language == "cs":
+        generate_cs_files(options.output_dir, license)
+    elif options.language == "java":
+        generate_java_files(options.output_dir, license)

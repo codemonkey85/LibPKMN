@@ -26,6 +26,19 @@ SET(CSHARP_SOURCE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources CACHE INTE
 SET(CMAKE_SWIG_OUTDIR ${CSHARP_SOURCE_DIRECTORY})
 FILE(MAKE_DIRECTORY ${CSHARP_SOURCE_DIRECTORY})
 
+#Generate enums
+ADD_CUSTOM_COMMAND(
+    OUTPUT ${CSHARP_SOURCE_DIRECTORY}/Forms.cs
+    COMMAND ${PYTHON_EXECUTABLE} ${LIBPKMN_SOURCE_DIR}/tools/generate_enums.py --language=cs --database-path=${LIBPKMN_BINARY_DIR}/share/libpkmn/libpkmn.db --output-dir=${CSHARP_SOURCE_DIRECTORY}
+    WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}/tools
+    COMMENT "Generating C# enums"
+)
+ADD_CUSTOM_TARGET(
+    cs_enums ALL
+    DEPENDS ${CSHARP_SOURCE_DIRECTORY}/Forms.cs
+    DEPENDS libpkmn.db
+)
+
 INCLUDE(UseSWIG)
 MACRO(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
     FOREACH(CMAKE_CONFIGURATION_TYPE ${CMAKE_CONFIGURATION_TYPES})
@@ -44,6 +57,7 @@ MACRO(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
     ENDIF(UNIX)
 
     SWIG_ADD_MODULE(${swig_module_name} csharp ${swig_module_name}.i)
+    ADD_DEPENDENCIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} cs_enums)
     IF(UNIX)
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES PREFIX "lib")
         SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES SUFFIX ".so")
@@ -79,22 +93,6 @@ CSHARP_BUILD_MODULE(io_cs_swig io_cs_swig IO)
 
 SET(cs_sources
     AssemblyInfo.cs
-    Abilities.cs
-    Egg_Groups.cs
-    Forms.cs
-    Genders.cs
-    Items.cs
-    Markings.cs
-    Move_Classes.cs
-    Moves.cs
-    Natures.cs
-    PokeBalls.cs
-    Ribbons.cs
-    Species.cs
-    Stats.cs
-    Types.cs
-    Version_Groups.cs
-    Versions.cs
 )
 FOREACH(src ${cs_sources})
     CONFIGURE_FILE(
