@@ -55,3 +55,9 @@ ENDIF(UNIX)
 
 INCLUDE(LibPKMNPython)
 PYTHON_BUILD_MODULE(qt4_swig LibPKMN/qt4)
+
+INSTALL(
+    FILES ${qt4wrapper_sources}
+    DESTINATION ${LIBPKMN_PYTHON_DIR}/LibPKMN/qt4
+    COMPONENT "LibPKMN_Python"
+)

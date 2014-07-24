@@ -22,21 +22,20 @@ SET(LIBPKMN_JAVA_LIBRARIES
 )
 
 INCLUDE_DIRECTORIES(${LIBPKMN_JAVA_INCLUDE_DIRS})
-SET(JAVA_BUILD_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 SET(JAVA_INSTALL_DIRECTORY share/java)
-FILE(MAKE_DIRECTORY ${JAVA_BUILD_DIRECTORY})
-FILE(MAKE_DIRECTORY ${JAVA_BUILD_DIRECTORY})
+FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN)
 
 #Generate enums
 ADD_CUSTOM_COMMAND(
-    OUTPUT ${JAVA_BUILD_DIRECTORY}/Abilities.java
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Abilities.java
     COMMAND ${PYTHON_EXECUTABLE} ${LIBPKMN_SOURCE_DIR}/tools/generate_enums.py --language=java --database-path=${LIBPKMN_BINARY_DIR}/share/libpkmn/libpkmn.db --output-dir=${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN
     WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}/tools
     COMMENT "Generating Java enums"
 )
 ADD_CUSTOM_TARGET(
     java_enums ALL
-    DEPENDS ${JAVA_BUILD_DIRECTORY}/Abilities.java
+    DEPENDS ${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Abilities.java
     DEPENDS libpkmn.db
 )
 
@@ -47,7 +46,7 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_bui
     ENDFOREACH(dir ${LIBPKMN_JAVA_INCLUDE_DIRS})
     SET_SOURCE_FILES_PROPERTIES(${swig_source}.i PROPERTIES CPLUSPLUS ON)
 
-    SET(CMAKE_SWIG_OUTDIR ${JAVA_BUILD_DIRECTORY}/org/nc/LibPKMN)
+    SET(CMAKE_SWIG_OUTDIR ${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN)
     SET(CMAKE_SWIG_FLAGS -module ${java_module_name} -package "org.nc" ${CMAKE_GLOBAL_SWIG_FLAGS})
     SWIG_ADD_MODULE(${swig_source} java ${swig_source}.i)
     IF(NOT ${depend_module_name} STREQUAL "none")
@@ -79,19 +78,19 @@ MACRO(JAVA_GENERATE_FILES swig_source java_module_name depend_module_name do_bui
 
     IF(${do_build} STREQUAL "true")
         ADD_CUSTOM_COMMAND(
-            OUTPUT ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
+            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/LibPKMN.jar
             COMMENT "Creating LibPKMN.jar"
-            COMMAND ${Java_JAVAC_EXECUTABLE} -d ${JAVA_BUILD_DIRECTORY} ${JAVA_BUILD_DIRECTORY}/org/nc/LibPKMN/*.java
-            COMMAND ${Java_JAR_EXECUTABLE} cf ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar -C ${JAVA_BUILD_DIRECTORY} org
+            COMMAND ${Java_JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN/*.java
+            COMMAND ${Java_JAR_EXECUTABLE} cf ${CMAKE_CURRENT_BINARY_DIR}/LibPKMN.jar -C ${CMAKE_CURRENT_BINARY_DIR} org
             DEPENDS ${SWIG_MODULE_${swig_source}_REAL_NAME}
         )
         ADD_CUSTOM_TARGET(
             LibPKMN_jar ALL
-            DEPENDS ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
+            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/LibPKMN.jar
             DEPENDS java_enums
         )
         INSTALL(
-            FILES ${JAVA_BUILD_DIRECTORY}/LibPKMN.jar
+            FILES ${CMAKE_CURRENT_BINARY_DIR}/LibPKMN.jar
             DESTINATION ${JAVA_INSTALL_DIRECTORY}
             COMPONENT "LibPKMN_Java"
         )

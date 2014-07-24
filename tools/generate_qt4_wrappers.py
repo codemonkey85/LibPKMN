@@ -117,7 +117,10 @@ class %s(object):
             f.write(", ")
         f.write(parameter["name"])
 
-    f.write(""", sip.unwrapinstance(parent))
+    if len(header.classes[class_name]["methods"]["public"][0]["parameters"]) > 1:
+        f.write(", ")
+
+    f.write("""sip.unwrapinstance(parent))
         else:
             widget_proxy = qt4_swig.%sProxy(""" % class_name)
 
