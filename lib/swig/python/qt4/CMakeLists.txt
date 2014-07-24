@@ -15,56 +15,35 @@ SET(qt4proxy_libraries
     ${PYTHON_LIBRARIES}
 )
 
+MACRO(GENERATE_QT4_WRAPPER_FILES subclass)
+    LIST(APPEND qt4subclass_headers ${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4/${subclass}.hpp)
+    LIST(APPEND qt4proxy_sources ${CMAKE_CURRENT_BINARY_DIR}/${subclass}Proxy.cpp)
+    LIST(APPEND qt4proxy_headers ${CMAKE_CURRENT_BINARY_DIR}/${subclass}Proxy.hpp)
+    LIST(APPEND qt4wrapper_sources ${CMAKE_CURRENT_BINARY_DIR}/${subclass}.py)
+ENDMACRO(GENERATE_QT4_WRAPPER_FILES)
+
+GENERATE_QT4_WRAPPER_FILES("AbilitiesComboBox")
+GENERATE_QT4_WRAPPER_FILES("AboutMessageBox")
+GENERATE_QT4_WRAPPER_FILES("NaturesComboBox")
+GENERATE_QT4_WRAPPER_FILES("PokemonListComboBox")
+GENERATE_QT4_WRAPPER_FILES("TypesComboBox")
+GENERATE_QT4_WRAPPER_FILES("VersionsComboBox")
+
 #Generate Qt4 subclass wrappers
 ADD_CUSTOM_COMMAND(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/AbilitiesComboBoxProxy.cpp
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/AboutMessageBoxProxy.cpp
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/NaturesComboBoxProxy.cpp
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/PokemonListComboBoxProxy.cpp
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/TypesComboBoxProxy.cpp
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/VersionsComboBoxProxy.cpp
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/AbilitiesComboBox.py
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/AboutMessageBox.py
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/NaturesComboBox.py
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/PokemonListComboBox.py
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/TypesComboBox.py
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/VersionsComboBox.py
+    OUTPUT ${qt4proxy_sources}
+    OUTPUT ${qt4proxy_headers}
+    OUTPUT ${qt4wrapper_sources}
     COMMAND ${PYTHON_EXECUTABLE} ${LIBPKMN_SOURCE_DIR}/tools/generate_qt4_wrappers.py --qt4-include-dir=${LIBPKMN_SOURCE_DIR}/include/pkmn/qt4 --output-dir=${CMAKE_CURRENT_BINARY_DIR}
     WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}/tools
     COMMENT "Generating Qt4 wrapper classes"
 )
 ADD_CUSTOM_TARGET(
     qt4_wrappers ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/AbilitiesComboBoxProxy.cpp
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/AboutMessageBoxProxy.cpp
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/NaturesComboBoxProxy.cpp
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/PokemonListComboBoxProxy.cpp
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/TypesComboBoxProxy.cpp
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/VersionsComboBoxProxy.cpp
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/AbilitiesComboBox.py
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/AboutMessageBox.py
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/NaturesComboBox.py
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/PokemonListComboBox.py
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/TypesComboBox.py
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/VersionsComboBox.py
-)
-
-SET(qt4proxy_sources
-    ${CMAKE_CURRENT_BINARY_DIR}/AbilitiesComboBoxProxy.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/AboutMessageBoxProxy.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/NaturesComboBoxProxy.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/PokemonListComboBoxProxy.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/TypesComboBoxProxy.cpp
-    ${CMAKE_CURRENT_BINARY_DIR}/VersionsComboBoxProxy.cpp
-)
-
-SET(qt4wrapper_sources
-    ${CMAKE_CURRENT_BINARY_DIR}/AbilitiesComboBox.py
-    ${CMAKE_CURRENT_BINARY_DIR}/AboutMessageBox.py
-    ${CMAKE_CURRENT_BINARY_DIR}/NaturesComboBox.py
-    ${CMAKE_CURRENT_BINARY_DIR}/PokemonListComboBox.py
-    ${CMAKE_CURRENT_BINARY_DIR}/TypesComboBox.py
-    ${CMAKE_CURRENT_BINARY_DIR}/VersionsComboBox.py
+    DEPENDS ${qt4subclass_headers}
+    DEPENDS ${qt4proxy_sources}
+    DEPENDS ${qt4proxy_headers}
+    DEPENDS ${qt4wrapper_sources}
 )
 
 ADD_LIBRARY(qt4proxy STATIC ${qt4proxy_sources})
