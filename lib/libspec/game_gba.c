@@ -201,7 +201,7 @@ gba_save_t *gba_read_save_internal(const uint8_t *ptr) {
     gba_internal_save_t *internal;
     gba_footer_t *footer;
     size_t i;
-    uint8_t *block_ptr;
+    const uint8_t *block_ptr;
     uint8_t *unpack_ptr;
 
 	//check first footer ID
@@ -362,7 +362,7 @@ static const uint8_t *pk3_get_shuffle(pk3_box_t *pkm) {
 
 void pk3_shuffle(pk3_box_t *pkm) {
 	//0,12,24,36 to shuffle[0 .. 3]
-    uint8_t *shuffle;
+    const uint8_t *shuffle;
     uint8_t *bptr;
     uint8_t *tmp;
 	shuffle = pk3_get_shuffle(pkm);
@@ -378,7 +378,7 @@ void pk3_shuffle(pk3_box_t *pkm) {
 
 void pk3_unshuffle(pk3_box_t *pkm) {
 	//shuffle[0 .. 3] to 0,12,24,36
-    uint8_t *shuffle;
+    const uint8_t *shuffle;
     uint8_t *bptr;
     uint8_t *tmp;
 	shuffle = pk3_get_shuffle(pkm);
