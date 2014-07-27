@@ -28,7 +28,7 @@ FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN)
 #Generate enums
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Abilities.java
-    COMMAND ${PYTHON_EXECUTABLE} ${LIBPKMN_SOURCE_DIR}/tools/generate_enums.py --language=java --database-path=${LIBPKMN_BINARY_DIR}/share/libpkmn/libpkmn.db --output-dir=${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN
+    COMMAND ${PYTHON_EXECUTABLE} ${LIBPKMN_SOURCE_DIR}/tools/generate_enums.py --language=java --include-path=${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp --output-dir=${CMAKE_CURRENT_BINARY_DIR}/org/nc/LibPKMN
     WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}/tools
     COMMENT "Generating Java enums"
 )

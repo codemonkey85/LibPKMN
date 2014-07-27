@@ -29,7 +29,7 @@ FILE(MAKE_DIRECTORY ${CSHARP_SOURCE_DIRECTORY})
 #Generate enums
 ADD_CUSTOM_COMMAND(
     OUTPUT ${CSHARP_SOURCE_DIRECTORY}/Forms.cs
-    COMMAND ${PYTHON_EXECUTABLE} ${LIBPKMN_SOURCE_DIR}/tools/generate_enums.py --language=cs --database-path=${LIBPKMN_BINARY_DIR}/share/libpkmn/libpkmn.db --output-dir=${CSHARP_SOURCE_DIRECTORY}
+    COMMAND ${PYTHON_EXECUTABLE} ${LIBPKMN_SOURCE_DIR}/tools/generate_enums.py --language=cs --include-path=${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp --output-dir=${CSHARP_SOURCE_DIRECTORY}
     WORKING_DIRECTORY ${LIBPKMN_SOURCE_DIR}/tools
     COMMENT "Generating C# enums"
 )
