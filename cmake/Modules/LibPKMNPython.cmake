@@ -94,7 +94,7 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
     CONFIGURE_FILE(
         ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py
         ${CMAKE_CURRENT_BINARY_DIR}/__init__.py
-    COPYONLY)
+    @ONLY)
 
     FILE(GLOB py_files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*.py")
     LIST(APPEND py_files ${CMAKE_CURRENT_BINARY_DIR}/${module_name}.py)
