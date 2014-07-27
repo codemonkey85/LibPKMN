@@ -1,7 +1,7 @@
 #
-# Copyright (c) 2013 Nicholas Corgan (n.corgan@gmail.com)
+# Copyright (c) 2013-2014 Nicholas Corgan (n.corgan@gmail.com)
 #
-# Distributed under the MIT License (MIT) (See accompanying file LICENSE.txt
+# Distributed under the MIT License (MIT) (See accompanying FILE LICENSE.txt
 # or copy at http://opensource.org/licenses/MIT)
 #
 
@@ -10,11 +10,11 @@
 # - desc a string description of the check
 # - mod the name of the module to import
 # - cmd an additional command to run
-# - have the result variable to set
+# - have the result variable to SET
 ########################################################################
-macro(PYTHON_CHECK_MODULE desc mod cmd have)
-    message(STATUS "")
-    execute_process(
+MACRO(PYTHON_CHECK_MODULE desc mod cmd have)
+    MESSAGE(STATUS "")
+    EXECUTE_PROCESS(
         COMMAND ${PYTHON_EXECUTABLE} -c "
 #########################################
 try:
@@ -25,26 +25,26 @@ except: pass
 #########################################"
         RESULT_VARIABLE ${have}
     )
-    if(${have} EQUAL 0)
-        message(STATUS "Checking for Python module ${desc} - found")
-        set(${have} TRUE)
-    else(${have} EQUAL 0)
-        message(STATUS "Checking for Python module ${desc} - not found")
-        set(${have} FALSE)
-    endif(${have} EQUAL 0)
-endmacro(PYTHON_CHECK_MODULE)
+    IF(${have} EQUAL 0)
+        MESSAGE(STATUS "Checking for Python module ${desc} - found")
+        SET(${have} TRUE)
+    ELSE(${have} EQUAL 0)
+        MESSAGE(STATUS "Checking for Python module ${desc} - not found")
+        SET(${have} FALSE)
+    ENDIF(${have} EQUAL 0)
+ENDMACRO(PYTHON_CHECK_MODULE)
 
 ########################################################################
 # Build and install Python SWIG modules
 # Assumes LIBPKMN_SWIG_SOURCE_DIR is set
 ########################################################################
-macro(PYTHON_BUILD_MODULE module_name install_dir)
-    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "
+MACRO(PYTHON_BUILD_SWIG_MODULE module_name install_dir)
+    EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "
 from distutils import sysconfig
 print sysconfig.get_python_lib(plat_specific=True, prefix='')
     " OUTPUT_VARIABLE LIBPKMN_PYTHON_DIR OUTPUT_STRIP_TRAILING_WHITESPACE
     )
-    file(TO_CMAKE_PATH ${LIBPKMN_PYTHON_DIR} LIBPKMN_PYTHON_DIR)
+    FILE(TO_CMAKE_PATH ${LIBPKMN_PYTHON_DIR} LIBPKMN_PYTHON_DIR)
     SET(LIBPKMN_PYTHON_DIR ${LIBPKMN_PYTHON_DIR} CACHE FILEPATH "Python install directory")
 
     INCLUDE(${SWIG_USE_FILE})
@@ -112,4 +112,4 @@ print sysconfig.get_python_lib(plat_specific=True, prefix='')
         COMPONENT "LibPKMN_Python"
     )
 
-endmacro(PYTHON_BUILD_MODULE)
+ENDMACRO(PYTHON_BUILD_SWIG_MODULE)

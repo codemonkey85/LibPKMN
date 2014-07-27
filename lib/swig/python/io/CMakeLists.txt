@@ -6,4 +6,4 @@
 #
 
 INCLUDE(LibPKMNPython)
-PYTHON_BUILD_MODULE(io_swig LibPKMN/io)
+PYTHON_BUILD_SWIG_MODULE(io_swig LibPKMN/io)

@@ -6,4 +6,4 @@
 #
 
 INCLUDE(LibPKMNPython)
-PYTHON_BUILD_MODULE(database_swig LibPKMN/database)
+PYTHON_BUILD_SWIG_MODULE(database_swig LibPKMN/database)

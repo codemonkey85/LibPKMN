@@ -39,57 +39,15 @@ ADD_CUSTOM_TARGET(
     DEPENDS ${CSHARP_SOURCE_DIRECTORY}/Forms.cs
 )
 
-INCLUDE(UseSWIG)
-MACRO(CSHARP_BUILD_MODULE swig_module_name dll_name cs_module_name)
-    FOREACH(CMAKE_CONFIGURATION_TYPE ${CMAKE_CONFIGURATION_TYPES})
-        STRING(TOUPPER ${CMAKE_CONFIGURATION_TYPE} CMAKE_CONFIGURATION_TYPE)
-        SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_TARGET_NAME}
-            PROPERTIES LIBRARY_OUTPUT_DIRECTORY_${CMAKE_CONFIGURATION_TYPE} "${CSHARP_BINARY_DIRECTORY}")
-        SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_TARGET_NAME}
-            PROPERTIES RUNTIME_OUTPUT_DIRECTORY_${CMAKE_CONFIGURATION_TYPE} "${CSHARP_BINARY_DIRECTORY}")
-    ENDFOREACH()
-
-    SET_SOURCE_FILES_PROPERTIES(${swig_module_name}.i PROPERTIES CPLUSPLUS ON)
-    IF(UNIX)
-        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"LibPKMN\" -dllimport \"lib${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
-    ELSEIF(WIN32)
-        SET(CMAKE_SWIG_FLAGS -module ${cs_module_name} -namespace \"LibPKMN\" -dllimport \"${dll_name}\" ${CMAKE_SWIG_GLOBAL_FLAGS} ${CMAKE_GLOBAL_FLAGS})
-    ENDIF(UNIX)
-
-    SWIG_ADD_MODULE(${swig_module_name} csharp ${swig_module_name}.i)
-    ADD_DEPENDENCIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} cs_enums)
-    IF(UNIX)
-        SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES PREFIX "lib")
-        SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES SUFFIX ".so")
-        SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES COMPILE_FLAGS "-std=c++0x")
-    ELSEIF(WIN32)
-        SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES PREFIX "")
-        SET_TARGET_PROPERTIES(${SWIG_MODULE_${swig_module_name}_REAL_NAME} PROPERTIES SUFFIX ".dll")
-    ENDIF(UNIX)
-    SWIG_LINK_LIBRARIES(${swig_module_name} ${LIBPKMN_CSHARP_LIBRARIES})
-
-    IF(WIN32)
-        INSTALL(
-            TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
-            DESTINATION ${RUNTIME_DIR}
-            COMPONENT "LibPKMN_CS"
-        )
-    ELSE(WIN32)
-        INSTALL(
-            TARGETS ${SWIG_MODULE_${swig_module_name}_REAL_NAME}
-            DESTINATION ${LIBRARY_DIR}
-            COMPONENT "LibPKMN_CS"
-        )
-    ENDIF(WIN32)
-ENDMACRO(CSHARP_BUILD_MODULE)
-
 ####################################################################
 # Build SWIG modules for different parts of LibPKMN
 ####################################################################
-CSHARP_BUILD_MODULE(libpkmn_cs_swig libpkmn_cs_swig LibPKMN)
-CSHARP_BUILD_MODULE(calculations_cs_swig calculations_cs_swig Calculations)
-CSHARP_BUILD_MODULE(database_cs_swig database_cs_swig Database)
-CSHARP_BUILD_MODULE(io_cs_swig io_cs_swig IO)
+INCLUDE(UseSWIG)
+INCLUDE(LibPKMNCSharp)
+CSHARP_BUILD_SWIG_MODULE(libpkmn_cs_swig libpkmn_cs_swig LibPKMN)
+CSHARP_BUILD_SWIG_MODULE(calculations_cs_swig calculations_cs_swig Calculations)
+CSHARP_BUILD_SWIG_MODULE(database_cs_swig database_cs_swig Database)
+CSHARP_BUILD_SWIG_MODULE(io_cs_swig io_cs_swig IO)
 
 SET(cs_sources
     AssemblyInfo.cs

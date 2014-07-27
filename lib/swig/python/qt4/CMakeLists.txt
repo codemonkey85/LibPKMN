@@ -54,7 +54,7 @@ IF(UNIX)
 ENDIF(UNIX)
 
 INCLUDE(LibPKMNPython)
-PYTHON_BUILD_MODULE(qt4_swig LibPKMN/qt4)
+PYTHON_BUILD_SWIG_MODULE(qt4_swig LibPKMN/qt4)
 
 INSTALL(
     FILES ${qt4wrapper_sources}
