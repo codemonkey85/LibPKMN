@@ -6,6 +6,13 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+###############################################################
+# This script is to be manually run when LibPKMN's database
+# is updated. This isn't called at build-time for two reasons:
+# a public header shouldn't be generated at build-time, and it
+# removes a build-time dependency on PySQLite3.
+###############################################################
+
 import datetime
 from optparse import OptionParser
 import os

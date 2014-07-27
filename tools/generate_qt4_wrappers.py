@@ -6,6 +6,16 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+###############################################################
+# This script is called at build-time to generate the files
+# necessary to pass LibPKMN's Qt4 subclasses into PyQt4. For
+# each header, three files are created:
+#
+# * A file that returns a PyObject pointer to the instance
+# * A corresponding header for SWIG to use
+# * The Python file that is actually installed to allow access
+###############################################################
+
 import datetime
 from optparse import OptionParser
 import os

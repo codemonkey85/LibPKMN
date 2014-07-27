@@ -6,6 +6,13 @@
 # or copy at http://opensource.org/licenses/MIT)
 #
 
+###############################################################
+# This script is called at build-time to generate the database
+# enums for the SWIG-wrapped libraries. Values are taken
+# directly from include/pkmn/enums.hpp so as to guarantee all
+# values match.
+###############################################################
+
 import CppHeaderParser
 import datetime
 from optparse import OptionParser
