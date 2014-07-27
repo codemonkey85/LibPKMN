@@ -12,6 +12,8 @@ SET(LIBPKMN_JAVA_INCLUDE_DIRS
     ${JNI_INCLUDE_DIRS}
 )
 
+INCLUDE_DIRECTORIES(${LIBPKMN_JAVA_INCLUDE_DIRS})
+
 ########################################################################
 # Build and install Java SWIG modules
 # Assumes LIBPKMN_SWIG_SOURCE_DIR is set
