@@ -35,6 +35,7 @@ ADD_CUSTOM_COMMAND(
 )
 ADD_CUSTOM_TARGET(
     cs_enums ALL
+    DEPENDS ${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp
     DEPENDS ${CSHARP_SOURCE_DIRECTORY}/Forms.cs
     DEPENDS libpkmn.db
 )
