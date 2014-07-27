@@ -36,7 +36,6 @@ ADD_CUSTOM_TARGET(
     java_enums ALL
     DEPENDS ${LIBPKMN_SOURCE_DIR}/include/pkmn/enums.hpp
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Abilities.java
-    DEPENDS libpkmn.db
 )
 
 INCLUDE(UseSWIG)
