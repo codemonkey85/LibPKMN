@@ -17,6 +17,8 @@ This library can be built with any modern C++ compiler, and its API can be acces
  * Boost 1.48 or above (http://www.boost.org)
  * SQLite3 (http://www.sqlite.org)
  * Qt4 (http://www.qt-project.org)
+ * Python (http://www.python.org)
+ * PLY (https://pypi.python.org/pypi/ply)
 
 ## Build Instructions
 
@@ -74,4 +76,4 @@ SQLite Database used courtesy of Alex Munroe (http://www.veekun.com).
 
 Special thanks to Michael Bond (http://github.com/codemonkey85) for C# testing and consulting on game mechanics.
 
-README last updated: 2014-07-12
+README last updated: 2014-07-27
