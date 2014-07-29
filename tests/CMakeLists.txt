@@ -157,19 +157,13 @@ IF(ENABLE_CSHARP)
         CSharpCopySPtrTest
     )
 
+    SET(CSHARP_PLATFORM "x86")
+    SET(CSHARP_BINARY_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     FOREACH(cs_test ${cs_test_names})
-        ADD_CUSTOM_COMMAND(
-            DEPENDS libpkmn-cs
-            DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs
-            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe
-            COMMAND ${CSHARP_COMPILER} ARGS "/r:${LIBPKMN_CS_DLL}" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe" "${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs"
-            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-            COMMENT "Building C# executable ${cs_test}"
+        CSHARP_ADD_EXECUTABLE(
+            ${cs_test} "${LIBPKMN_CS_DLL}" "${CMAKE_CURRENT_SOURCE_DIR}/${cs_test}.cs"
         )
-        ADD_CUSTOM_TARGET(
-            ${cs_test} ALL
-            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${cs_test}.exe
-        )
+        ADD_DEPENDENCIES(${cs_test} libpkmn-cs)
         LIBPKMN_ADD_CS_TEST(${cs_test})
     ENDFOREACH(cs_test ${cs_test_names})
 ENDIF(ENABLE_CSHARP)

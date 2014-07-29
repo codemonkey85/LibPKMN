@@ -53,8 +53,10 @@ macro( CSHARP_ADD_PROJECT type name )
   set( sources_dep )
 
   if( ${type} MATCHES "library" )
+    set( nice_name "library" )
     set( output "dll" )
   elseif( ${type} MATCHES "exe" )
+    set( nice_name "executable" )
     set( output "exe" )
   endif( ${type} MATCHES "library" )
 
@@ -96,7 +98,7 @@ macro( CSHARP_ADD_PROJECT type name )
 
   # Add custom target and command
   add_custom_command(
-    COMMENT "Compiling C# ${type} ${name}"
+    COMMENT "Building C# ${nice_name} ${name}.${output}"
     OUTPUT ${CSHARP_BINARY_DIRECTORY}/${name}.${output}
     COMMAND ${CSHARP_COMPILER}
     ARGS /t:${type} /out:${name}.${output} /platform:${CSHARP_PLATFORM} ${CSHARP_SDK} ${refs} ${sources}
