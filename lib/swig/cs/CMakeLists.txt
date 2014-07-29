@@ -59,19 +59,17 @@ FOREACH(src ${cs_sources})
     COPYONLY)
 ENDFOREACH(src ${cs_sources})
 
-ADD_CUSTOM_COMMAND(
-    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
-    COMMAND ${CSHARP_COMPILER} ARGS "/t:library" "/platform:x86" "/out:${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll" "*.cs"
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CSharpSources
-    DEPENDS ${SWIG_MODULE_libpkmn_cs_swig_REAL_NAME}
-    COMMENT "Building libpkmn-cs.dll"
+SET(CSHARP_PLATFORM "x86")
+SET(CSHARP_BINARY_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+CSHARP_ADD_LIBRARY(
+    libpkmn-cs "System.Windows.Forms.dll" "${CMAKE_CURRENT_BINARY_DIR}/CSharpSources/*cs"
 )
-
-ADD_CUSTOM_TARGET(
-    libpkmn-cs ALL
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
+ADD_DEPENDENCIES(libpkmn-cs
+    ${SWIG_MODULE_libpkmn_cs_swig_REAL_NAME}
+    ${SWIG_MODULE_calculations_cs_swig_REAL_NAME}
+    ${SWIG_MODULE_database_cs_swig_REAL_NAME}
+    ${SWIG_MODULE_io_cs_swig_REAL_NAME}
 )
-
 
 INSTALL(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/libpkmn-cs.dll
