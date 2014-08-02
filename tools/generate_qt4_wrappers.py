@@ -141,7 +141,7 @@ class %s(object):
 
     f.write(""")
 
-        return sip.wrapinstance(widget_proxy.get(), QtGui.QWidget)""")
+        return sip.wrapinstance(widget_proxy.get(), QtGui.%s)""" % header.classes[class_name]["inherits"][0]["class"])
 
     f.close()
 
