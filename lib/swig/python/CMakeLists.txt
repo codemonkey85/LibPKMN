@@ -41,6 +41,7 @@ ADD_CUSTOM_TARGET(
     DEPENDS ${py_enum_files}
 )
 
+INCLUDE(LibPKMNPython)
 INSTALL(
         FILES ${py_enum_files}
         DESTINATION ${LIBPKMN_PYTHON_DIR}/LibPKMN
